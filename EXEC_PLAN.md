@@ -68,15 +68,15 @@ Use a list with checkboxes to summarize granular steps. Every stopping point mus
 ## Forms
 - ✅ New Project
 
-- [ ] [Form - Prime Contract](https://us02.procore.com/webclients/host/companies/562949953443325/projects/562949954728542/tools/contracts/prime_contracts/create)
+- ✅ [Form - Prime Contract](https://us02.procore.com/webclients/host/companies/562949953443325/projects/562949954728542/tools/contracts/prime_contracts/create) (25-12-08 12:00Z) - Captured and implemented at `/contracts/new`
 
 ![Create Subcontract](scripts/procore-screenshot-capture/screenshots/form-contract.png)
 
-- [ ] [Form - Commitment - Subcontractor ](https://us02.procore.com/webclients/host/companies/562949953443325/projects/562949954728542/tools/contracts/commitments/work_order_contracts/create)
+- ✅ [Form - Commitment - Subcontractor ](https://us02.procore.com/webclients/host/companies/562949953443325/projects/562949954728542/tools/contracts/commitments/work_order_contracts/create) (25-12-08 12:15Z) - Captured
 
 ![Create Subcontract](scripts/procore-screenshot-capture/screenshots/form-subcontract.png)
 
-- [ ] [Form - Commitment - Purchase Order](https://us02.procore.com/webclients/host/companies/562949953443325/projects/562949954728542/tools/contracts/commitments/purchase_order_contracts/create)
+- ✅ [Form - Commitment - Purchase Order](https://us02.procore.com/webclients/host/companies/562949953443325/projects/562949954728542/tools/contracts/commitments/purchase_order_contracts/create) (25-12-08 12:20Z) - Captured
 
 ![Create Purchase Order](scripts/procore-screenshot-capture/screenshots/form-purchase-order.png)
 

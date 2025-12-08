@@ -19,11 +19,13 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from '@/components/ui/popover';
-import { CalendarIcon, ArrowLeft } from 'lucide-react';
+import { CalendarIcon, ArrowLeft, Info, Upload } from 'lucide-react';
 import { format } from 'date-fns';
 import { cn } from '@/lib/utils';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 
 export default function NewPrimeContractPage() {
   const router = useRouter();
@@ -31,10 +33,12 @@ export default function NewPrimeContractPage() {
   
   // Form state
   const [contractData, setContractData] = useState({
-    contractNumber: '',
+    contractNumber: '2',
     title: '',
     owner: '',
+    contractor: '',
     architect: '',
+    executed: false,
     contractDate: null as Date | null,
     startDate: null as Date | null,
     completionDate: null as Date | null,
@@ -42,9 +46,12 @@ export default function NewPrimeContractPage() {
     contractAmount: '',
     description: '',
     scopeOfWork: '',
-    retentionPercentage: '10',
+    retentionPercentage: '',
     paymentTerms: 'net30',
-    billingMethod: 'percentage',
+    billingMethod: 'amount-based',
+    attachments: [] as File[],
+    scheduleOfValues: '',
+    private: true,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -84,38 +91,62 @@ export default function NewPrimeContractPage() {
           </Button>
         </div>
         <h1 className="text-2xl font-bold">Create Prime Contract</h1>
-        <p className="text-gray-600">Set up a new contract with the project owner</p>
       </div>
 
       <form onSubmit={handleSubmit}>
         <Tabs defaultValue="general" className="space-y-4">
           <TabsList>
-            <TabsTrigger value="general">General Info</TabsTrigger>
-            <TabsTrigger value="schedule">Schedule</TabsTrigger>
-            <TabsTrigger value="financial">Financial</TabsTrigger>
-            <TabsTrigger value="scope">Scope of Work</TabsTrigger>
+            <TabsTrigger value="general">General Information</TabsTrigger>
+            <TabsTrigger value="schedule">Schedule of Values</TabsTrigger>
+            <TabsTrigger value="advanced">Advanced Settings</TabsTrigger>
           </TabsList>
 
           <TabsContent value="general">
             <Card>
               <CardHeader>
                 <CardTitle>General Information</CardTitle>
-                <CardDescription>Basic contract details and parties involved</CardDescription>
               </CardHeader>
               <CardContent className="grid gap-6">
-                <div className="grid gap-4 md:grid-cols-2">
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                   <div className="space-y-2">
-                    <Label htmlFor="contractNumber">Contract Number*</Label>
+                    <Label htmlFor="contractNumber">Contract #</Label>
                     <Input
                       id="contractNumber"
                       value={contractData.contractNumber}
                       onChange={(e) => setContractData({ ...contractData, contractNumber: e.target.value })}
-                      placeholder="PC-001"
-                      required
+                      placeholder="Enter contract number"
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="status">Status</Label>
+                    <Label htmlFor="owner">Owner/Client</Label>
+                    <Select
+                      value={contractData.owner}
+                      onValueChange={(value) => setContractData({ ...contractData, owner: value })}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select company" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="abc-development">ABC Development Corp</SelectItem>
+                        <SelectItem value="xyz-properties">XYZ Properties LLC</SelectItem>
+                        <SelectItem value="main-street-llc">Main Street Development LLC</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="title">Title</Label>
+                    <Input
+                      id="title"
+                      value={contractData.title}
+                      onChange={(e) => setContractData({ ...contractData, title: e.target.value })}
+                      placeholder="Enter title"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                  <div className="space-y-2">
+                    <Label htmlFor="status">Status *</Label>
                     <Select
                       value={contractData.status}
                       onValueChange={(value) => setContractData({ ...contractData, status: value })}
@@ -132,39 +163,64 @@ export default function NewPrimeContractPage() {
                       </SelectContent>
                     </Select>
                   </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="executed">Executed *</Label>
+                    <div className="flex items-center h-10">
+                      <Checkbox
+                        id="executed"
+                        checked={contractData.executed}
+                        onCheckedChange={(checked) => setContractData({ ...contractData, executed: checked as boolean })}
+                      />
+                    </div>
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="retainage">Default Retainage</Label>
+                    <div className="relative">
+                      <Input
+                        id="retainage"
+                        type="number"
+                        value={contractData.retentionPercentage}
+                        onChange={(e) => setContractData({ ...contractData, retentionPercentage: e.target.value })}
+                        placeholder="0"
+                        className="pr-8"
+                      />
+                      <span className="absolute right-3 top-2 text-muted-foreground">%</span>
+                    </div>
+                  </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="title">Contract Title*</Label>
-                  <Input
-                    id="title"
-                    value={contractData.title}
-                    onChange={(e) => setContractData({ ...contractData, title: e.target.value })}
-                    placeholder="Construction Services Agreement"
-                    required
-                  />
+                  <Label htmlFor="contractor">Contractor</Label>
+                  <Select
+                    value={contractData.contractor}
+                    onValueChange={(value) => setContractData({ ...contractData, contractor: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select contractor" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="general-contractor-1">ABC General Contractors</SelectItem>
+                      <SelectItem value="general-contractor-2">BuildRight Construction</SelectItem>
+                      <SelectItem value="general-contractor-3">Premier Builders Inc</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="owner">Owner/Client*</Label>
-                    <Input
-                      id="owner"
-                      value={contractData.owner}
-                      onChange={(e) => setContractData({ ...contractData, owner: e.target.value })}
-                      placeholder="ABC Development Corp"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="architect">Architect</Label>
-                    <Input
-                      id="architect"
-                      value={contractData.architect}
-                      onChange={(e) => setContractData({ ...contractData, architect: e.target.value })}
-                      placeholder="XYZ Architecture Firm"
-                    />
-                  </div>
+                <div className="space-y-2">
+                  <Label htmlFor="architect">Architect/Engineer</Label>
+                  <Select
+                    value={contractData.architect}
+                    onValueChange={(value) => setContractData({ ...contractData, architect: value })}
+                  >
+                    <SelectTrigger>
+                      <SelectValue placeholder="Select architect/engineer" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="arch-firm-1">Modern Architecture Studio</SelectItem>
+                      <SelectItem value="arch-firm-2">Design Build Partners</SelectItem>
+                      <SelectItem value="arch-firm-3">Structural Engineering Co</SelectItem>
+                    </SelectContent>
+                  </Select>
                 </div>
 
                 <div className="space-y-2">
@@ -173,10 +229,59 @@ export default function NewPrimeContractPage() {
                     id="description"
                     value={contractData.description}
                     onChange={(e) => setContractData({ ...contractData, description: e.target.value })}
-                    placeholder="Brief description of the contract..."
-                    rows={3}
+                    placeholder="Enter description..."
+                    rows={4}
+                    className="min-h-[120px]"
                   />
+                  {/* Rich text editor toolbar placeholder */}
+                  <div className="text-xs text-muted-foreground">Use the formatting toolbar above to style your text</div>
                 </div>
+
+                <div className="space-y-2">
+                  <Label>Attachments</Label>
+                  <div className="border-2 border-dashed rounded-lg p-8 text-center">
+                    <Upload className="mx-auto h-8 w-8 text-muted-foreground mb-2" />
+                    <p className="text-sm text-muted-foreground">
+                      <label htmlFor="file-upload" className="cursor-pointer text-primary hover:underline">
+                        Attach Files
+                      </label>
+                      {' '}or Drag & Drop
+                    </p>
+                    <input
+                      id="file-upload"
+                      type="file"
+                      multiple
+                      className="hidden"
+                      onChange={(e) => {
+                        const files = Array.from(e.target.files || []);
+                        setContractData({ ...contractData, attachments: [...contractData.attachments, ...files] });
+                      }}
+                    />
+                  </div>
+                  {contractData.attachments.length > 0 && (
+                    <div className="mt-2 space-y-1">
+                      {contractData.attachments.map((file, index) => (
+                        <div key={index} className="text-sm text-muted-foreground">
+                          • {file.name}
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
+
+                <Alert className="bg-blue-50 border-blue-200">
+                  <Info className="h-4 w-4 text-blue-600" />
+                  <AlertDescription className="text-sm">
+                    This contract's default accounting method is amount-based. To use budget codes with a unit of measure association, select{' '}
+                    <button
+                      type="button"
+                      onClick={() => setContractData({ ...contractData, billingMethod: 'unit-quantity' })}
+                      className="text-blue-600 hover:underline"
+                    >
+                      Change to Unit/Quantity
+                    </button>.
+                  </AlertDescription>
+                </Alert>
               </CardContent>
             </Card>
           </TabsContent>
@@ -184,13 +289,30 @@ export default function NewPrimeContractPage() {
           <TabsContent value="schedule">
             <Card>
               <CardHeader>
-                <CardTitle>Schedule Information</CardTitle>
-                <CardDescription>Contract timeline and key dates</CardDescription>
+                <CardTitle>Schedule of Values</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center py-8">
+                  <p className="text-muted-foreground mb-4">
+                    Define line items and values for this contract
+                  </p>
+                  <Button type="button" variant="outline">
+                    Add Schedule of Values Items
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </TabsContent>
+
+          <TabsContent value="advanced">
+            <Card>
+              <CardHeader>
+                <CardTitle>Advanced Settings</CardTitle>
               </CardHeader>
               <CardContent className="grid gap-6">
-                <div className="grid gap-4 md:grid-cols-3">
+                <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label>Contract Date</Label>
+                    <Label htmlFor="contractDate">Contract Date</Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
@@ -214,9 +336,8 @@ export default function NewPrimeContractPage() {
                       </PopoverContent>
                     </Popover>
                   </div>
-
                   <div className="space-y-2">
-                    <Label>Start Date*</Label>
+                    <Label htmlFor="startDate">Start Date</Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
@@ -240,9 +361,11 @@ export default function NewPrimeContractPage() {
                       </PopoverContent>
                     </Popover>
                   </div>
-
+                </div>
+                
+                <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label>Substantial Completion Date*</Label>
+                    <Label htmlFor="completionDate">Substantial Completion Date</Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
@@ -266,21 +389,8 @@ export default function NewPrimeContractPage() {
                       </PopoverContent>
                     </Popover>
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="financial">
-            <Card>
-              <CardHeader>
-                <CardTitle>Financial Details</CardTitle>
-                <CardDescription>Contract value and payment terms</CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-6">
-                <div className="grid gap-4 md:grid-cols-2">
                   <div className="space-y-2">
-                    <Label htmlFor="contractAmount">Contract Amount*</Label>
+                    <Label htmlFor="contractAmount">Contract Amount</Label>
                     <Input
                       id="contractAmount"
                       type="number"
@@ -288,20 +398,6 @@ export default function NewPrimeContractPage() {
                       value={contractData.contractAmount}
                       onChange={(e) => setContractData({ ...contractData, contractAmount: e.target.value })}
                       placeholder="0.00"
-                      required
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="retentionPercentage">Retention %</Label>
-                    <Input
-                      id="retentionPercentage"
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      max="100"
-                      value={contractData.retentionPercentage}
-                      onChange={(e) => setContractData({ ...contractData, retentionPercentage: e.target.value })}
-                      placeholder="10"
                     />
                   </div>
                 </div>
@@ -326,47 +422,37 @@ export default function NewPrimeContractPage() {
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="billingMethod">Billing Method</Label>
+                    <Label htmlFor="billingMethod">Accounting Method</Label>
                     <Select
                       value={contractData.billingMethod}
                       onValueChange={(value) => setContractData({ ...contractData, billingMethod: value })}
                     >
                       <SelectTrigger>
-                        <SelectValue placeholder="Select billing method" />
+                        <SelectValue placeholder="Select accounting method" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="percentage">Percentage of Completion</SelectItem>
-                        <SelectItem value="milestone">Milestone Based</SelectItem>
-                        <SelectItem value="time-materials">Time & Materials</SelectItem>
-                        <SelectItem value="unit-price">Unit Price</SelectItem>
+                        <SelectItem value="amount-based">Amount Based</SelectItem>
+                        <SelectItem value="unit-quantity">Unit/Quantity</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                 </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
 
-          <TabsContent value="scope">
-            <Card>
-              <CardHeader>
-                <CardTitle>Scope of Work</CardTitle>
-                <CardDescription>Define the work to be performed under this contract</CardDescription>
-              </CardHeader>
-              <CardContent>
                 <div className="space-y-2">
-                  <Label htmlFor="scopeOfWork">Scope of Work*</Label>
-                  <Textarea
-                    id="scopeOfWork"
-                    value={contractData.scopeOfWork}
-                    onChange={(e) => setContractData({ ...contractData, scopeOfWork: e.target.value })}
-                    placeholder="Detailed description of work to be performed..."
-                    rows={10}
-                    required
-                  />
-                  <p className="text-sm text-gray-500">
-                    Include all major work items, deliverables, and exclusions
-                  </p>
+                  <Label>Privacy Settings</Label>
+                  <div className="flex items-center space-x-2">
+                    <Checkbox
+                      id="private"
+                      checked={contractData.private}
+                      onCheckedChange={(checked) => setContractData({ ...contractData, private: checked as boolean })}
+                    />
+                    <label
+                      htmlFor="private"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+                    >
+                      Private - Only admins and users with explicit permissions can view
+                    </label>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -374,13 +460,16 @@ export default function NewPrimeContractPage() {
         </Tabs>
 
         {/* Action buttons */}
-        <div className="flex items-center justify-end gap-4 mt-6">
-          <Button type="button" variant="outline" onClick={handleCancel}>
-            Cancel
-          </Button>
-          <Button type="submit" disabled={loading}>
-            {loading ? 'Creating...' : 'Create Contract'}
-          </Button>
+        <div className="flex items-center justify-between mt-6">
+          <p className="text-sm text-muted-foreground">* Required fields</p>
+          <div className="flex items-center gap-4">
+            <Button type="button" variant="outline" onClick={handleCancel}>
+              Cancel
+            </Button>
+            <Button type="submit" disabled={loading} className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange-hover))] text-white">
+              {loading ? 'Creating...' : 'Create'}
+            </Button>
+          </div>
         </div>
       </form>
     </div>
