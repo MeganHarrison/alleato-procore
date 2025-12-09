@@ -1,20 +1,30 @@
-async generateInsights(
+import OpenAI from 'openai';
+
+import type {
+  DocumentMetadata,
+  InsightData,
+  ProjectAssignmentResult
+} from './insights';
+
+export class InsightGenerationService {
+  constructor(private readonly openai: OpenAI) {}
+
+  async generateInsights(
     meetingData: DocumentMetadata,
-    projectAssignment: ProjectAssignment
+    projectAssignment: ProjectAssignmentResult
   ): Promise<InsightData[]> {
-    
     const prompt = `
   GENERATE PROJECT INSIGHTS
-  
+
   Meeting: "${meetingData.title}"
   Project Focus: "${projectAssignment.reasoning}"
   Relevant Content: "${projectAssignment.relevantContent}"
-  
+
   Full Content Analysis:
   ${meetingData.content}
-  
+
   TASK: Extract specific, actionable insights for this project from the meeting content.
-  
+
   Focus on:
   1. ACTION ITEMS - Specific tasks mentioned
   2. DECISIONS - Choices made or needed
@@ -24,7 +34,7 @@ async generateInsights(
   6. DEPENDENCIES - Cross-team or external dependencies
   7. BUDGET_UPDATE - Cost changes or financial discussions
   8. TIMELINE_CHANGE - Schedule impacts
-  
+
   For each insight:
   - Extract exact quotes that support it
   - Identify any numbers, dates, or metrics
@@ -32,7 +42,7 @@ async generateInsights(
   - Determine severity (low/medium/high/critical)
   - Note stakeholders affected
   - Identify urgency indicators
-  
+
   Output as JSON array:
   [
     {
@@ -50,21 +60,23 @@ async generateInsights(
       "stakeholdersAffected": ["Team Lead", "Client"]
     }
   ]
-  
+
   Be specific and actionable. Only include insights with confidence > 0.7.
   `;
-  
+
     const response = await this.openai.chat.completions.create({
       model: 'gpt-4',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.1,
       max_tokens: 3000
     });
-  
+
     try {
-      return JSON.parse(response.choices[0]?.message?.content || '[]');
+      const content = response.choices[0]?.message?.content || '[]';
+      return JSON.parse(content) as InsightData[];
     } catch (error) {
       console.error('Failed to parse insights response:', error);
       return [];
     }
   }
+}
