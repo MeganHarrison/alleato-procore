@@ -1,13 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { AgentPanel } from "@/components/agent-panel";
-import { RagChatKitPanel } from "@/components/rag-chatkit-panel";
+import { AgentPanel } from "@/components/chat/agent-panel";
+import { RagChatKitPanel } from "@/components/chat/rag-chatkit-panel";
 import type { Agent, AgentEvent, GuardrailCheck } from "@/lib/types";
 
 async function fetchRagBootstrapState() {
   try {
-    const res = await fetch("/api/rag-chatkit/bootstrap");
+    const res = await fetch("/rag-chatkit/bootstrap");
     if (!res.ok) return null;
     return await res.json();
   } catch {
@@ -17,7 +17,7 @@ async function fetchRagBootstrapState() {
 
 async function fetchRagThreadState(threadId: string) {
   try {
-    const res = await fetch(`/api/rag-chatkit/state?thread_id=${threadId}`);
+    const res = await fetch(`/rag-chatkit/state?thread_id=${threadId}`);
     if (!res.ok) return null;
     return await res.json();
   } catch {
@@ -110,6 +110,7 @@ export default function RagHome() {
 
   return (
     <div className="flex h-[calc(100vh-theme(spacing.16))] gap-2 bg-gray-100 -m-6 p-2">
+      
       <AgentPanel
         agents={agents}
         currentAgent={currentAgent}

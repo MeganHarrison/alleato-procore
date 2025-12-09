@@ -3,8 +3,10 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Bot } from "lucide-react";
-import { PanelSection } from "./panel-section";
+import { PanelSection } from "../panel-section";
 import type { Agent } from "@/lib/types";
+import { BackendStatusIndicator } from "@/components/backend-status-indicator";
+
 
 interface AgentsListProps {
   agents: Agent[];
@@ -16,19 +18,20 @@ export function AgentsList({ agents, currentAgent }: AgentsListProps) {
   return (
     <PanelSection
       title="Available Agents"
-      icon={<Bot className="h-4 w-4 text-blue-600" />}
+      icon={<Bot className="h-4 w-4 text-orange-600" />}
     >
+      <BackendStatusIndicator />
       <div className="grid grid-cols-3 gap-3">
-        {agents.map((agent) => (
+        {agents.map((agent, idx) => (
           <Card
-            key={agent.name}
+            key={`${agent.name || "agent"}-${idx}`}
             className={`bg-white border-gray-200 transition-all ${
               agent.name === currentAgent ||
               activeAgent?.handoffs.includes(agent.name)
                 ? ""
                 : "opacity-50 filter grayscale cursor-not-allowed pointer-events-none"
             } ${
-              agent.name === currentAgent ? "ring-1 ring-blue-500 shadow-md" : ""
+              agent.name === currentAgent ? "ring-1 ring-orange-500 shadow-md" : ""
             }`}
           >
             <CardHeader className="p-3 pb-1">
@@ -41,7 +44,7 @@ export function AgentsList({ agents, currentAgent }: AgentsListProps) {
                 {agent.description}
               </p>
               {agent.name === currentAgent && (
-                <Badge className="mt-2 bg-blue-600 hover:bg-blue-700 text-white">
+                <Badge className="mt-2 bg-orange-600 hover:bg-orange-700 text-white">
                   Active
                 </Badge>
               )}

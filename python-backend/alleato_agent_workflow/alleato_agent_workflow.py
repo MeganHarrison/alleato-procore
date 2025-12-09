@@ -1,10 +1,13 @@
 import os
+import sys
 from pathlib import Path
-from dotenv import load_dotenv
+
+# Add parent directory to path for env_loader import
+sys.path.insert(0, str(Path(__file__).parent.parent))
+from env_loader import load_env
 
 # Load environment variables from root .env file
-env_path = Path(__file__).parent.parent.parent / '.env'
-load_dotenv(env_path)
+load_env()
 
 from agents import HostedMCPTool, WebSearchTool, Agent, ModelSettings, TResponseInputItem, Runner, RunConfig, trace
 from openai import AsyncOpenAI

@@ -9,17 +9,6 @@ import {
   WrenchIcon,
   RefreshCw,
   MessageSquareMore,
-  Search,
-  FileText,
-  Clock,
-  Shield,
-  ShieldCheck,
-  ShieldX,
-  Brain,
-  Play,
-  CheckCircle,
-  AlertCircle,
-  User,
 } from "lucide-react";
 import { PanelSection } from "./panel-section";
 
@@ -42,27 +31,6 @@ function EventIcon({ type }: { type: string }) {
       return <WrenchIcon className={className} />;
     case "context_update":
       return <RefreshCw className={className} />;
-    case "rag_query_start":
-      return <Search className={className} />;
-    case "rag_retrieval_complete":
-      return <FileText className={className} />;
-    case "guardrail_check":
-      return <Shield className="h-4 w-4 text-blue-600" />;
-    case "guardrail_passed":
-      return <ShieldCheck className="h-4 w-4 text-green-600" />;
-    case "guardrail_blocked":
-      return <ShieldX className="h-4 w-4 text-red-600" />;
-    case "classification_start":
-    case "classification_result":
-      return <Brain className="h-4 w-4 text-purple-600" />;
-    case "agent_start":
-      return <Play className="h-4 w-4 text-blue-600" />;
-    case "agent_complete":
-      return <CheckCircle className="h-4 w-4 text-green-600" />;
-    case "error":
-      return <AlertCircle className="h-4 w-4 text-red-600" />;
-    case "message":
-      return <User className="h-4 w-4 text-gray-600" />;
     default:
       return null;
   }
@@ -120,99 +88,6 @@ function EventDetails({ event }: { event: AgentEvent }) {
               </div>
             </div>
           ))}
-        </div>
-      );
-      break;
-    case "rag_query_start":
-      details = event.metadata && (
-        <div className={className}>
-          <div className="text-gray-600">
-            <span className="text-zinc-600 font-medium">Query:</span>{" "}
-            {event.metadata.query || "N/A"}
-          </div>
-        </div>
-      );
-      break;
-    case "rag_retrieval_complete":
-      details = event.metadata && (
-        <div className={className}>
-          <div className="text-gray-600">
-            <span className="text-zinc-600 font-medium">Chunks:</span>{" "}
-            {event.metadata.chunks_retrieved || 0}
-          </div>
-          <div className="text-gray-600">
-            <span className="text-zinc-600 font-medium">Avg Score:</span>{" "}
-            {event.metadata.avg_relevance_score
-              ? (event.metadata.avg_relevance_score * 100).toFixed(1) + "%"
-              : "N/A"}
-          </div>
-          <div className="text-gray-600">
-            <span className="text-zinc-600 font-medium">Time:</span>{" "}
-            {event.metadata.search_time_seconds
-              ? (event.metadata.search_time_seconds * 1000).toFixed(0) + "ms"
-              : "N/A"}
-          </div>
-          {event.metadata.source_files && (
-            <div className="text-gray-600">
-              <span className="text-zinc-600 font-medium">Sources:</span>{" "}
-              <div className="mt-1">
-                {event.metadata.source_files.slice(0, 3).map((file: string, idx: number) => (
-                  <div key={idx} className="text-xs truncate ml-2">
-                    • {file}
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-        </div>
-      );
-      break;
-    case "classification_result":
-      details = event.metadata && (
-        <div className={className}>
-          <div className="text-gray-600">
-            <span className="text-zinc-600 font-medium">Classification:</span>{" "}
-            <span className="font-semibold text-purple-700">{event.metadata.classification}</span>
-          </div>
-        </div>
-      );
-      break;
-    case "agent_complete":
-      details = event.metadata && (
-        <div className={className}>
-          <div className="text-gray-600">
-            <span className="text-zinc-600 font-medium">Duration:</span>{" "}
-            {event.metadata.duration_seconds?.toFixed(2)}s
-          </div>
-          <div className="text-gray-600">
-            <span className="text-zinc-600 font-medium">Response Length:</span>{" "}
-            {event.metadata.response_length} chars
-          </div>
-        </div>
-      );
-      break;
-    case "error":
-      details = event.metadata && (
-        <div className={`${className} bg-red-50 border-red-200`}>
-          <div className="text-red-700">
-            <span className="font-medium">Error Type:</span>{" "}
-            {event.metadata.error_type}
-          </div>
-          {event.metadata.traceback && (
-            <pre className="text-xs text-red-600 bg-red-100 p-2 rounded overflow-x-auto mt-2 max-h-40 overflow-y-auto">
-              {event.metadata.traceback}
-            </pre>
-          )}
-        </div>
-      );
-      break;
-    case "message":
-      details = event.metadata && (
-        <div className={className}>
-          <div className="text-gray-600">
-            <span className="text-zinc-600 font-medium">Type:</span>{" "}
-            {event.metadata.message_type}
-          </div>
         </div>
       );
       break;
