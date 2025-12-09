@@ -35,9 +35,8 @@ from typing import Any, AsyncIterator, Dict, List, Optional
 from uuid import uuid4
 
 # Load environment variables from root .env file
-from dotenv import load_dotenv
-env_path = Path(__file__).parent.parent / '.env'
-load_dotenv(env_path)
+from env_loader import load_env
+load_env()
 
 from fastapi import Depends, FastAPI, HTTPException, Query, Request
 from fastapi.middleware.cors import CORSMiddleware
@@ -555,8 +554,17 @@ async def chatkit_bootstrap(
 
 
 @app.get("/health")
-async def health_check() -> Dict[str, str]:
-    return {"status": "healthy"}
+async def health_check() -> Dict[str, Any]:
+    """Health check endpoint that verifies backend status and OpenAI configuration"""
+    openai_key = os.getenv("OPENAI_API_KEY")
+    openai_configured = bool(openai_key and len(openai_key) > 0)
+    
+    return {
+        "status": "healthy",
+        "openai_configured": openai_configured,
+        "rag_available": RAG_AVAILABLE,
+        "timestamp": datetime.now().isoformat()
+    }
 
 
 # ===== RAG ENDPOINTS =====
@@ -620,6 +628,22 @@ def get_rag_server() -> RagChatKitServer:
     return _rag_server
 
 
+def _camel_to_snake(name: str) -> str:
+    """Convert camelCase to snake_case"""
+    s1 = re.sub('(.)([A-Z][a-z]+)', r'\1_\2', name)
+    return re.sub('([a-z0-9])([A-Z])', r'\1_\2', s1).lower()
+
+
+def _transform_keys_to_snake_case(obj: Any) -> Any:
+    """Recursively transform all keys in a dict from camelCase to snake_case"""
+    if isinstance(obj, dict):
+        return {_camel_to_snake(k): _transform_keys_to_snake_case(v) for k, v in obj.items()}
+    elif isinstance(obj, list):
+        return [_transform_keys_to_snake_case(item) for item in obj]
+    else:
+        return obj
+
+
 @app.post("/rag-chatkit")
 async def rag_chatkit_endpoint(
     request: Request,
@@ -631,17 +655,44 @@ async def rag_chatkit_endpoint(
             status_code=503,
             media_type="application/json"
         )
-    
-    # Get the RAG server and handle the request
-    rag_server = get_rag_server()
-    payload = await request.body()
-    result = await rag_server.process(payload, {"request": request})
-    
-    if isinstance(result, StreamingResult):
-        return StreamingResponse(result, media_type="text/event-stream")
-    if hasattr(result, "json"):
-        return Response(content=result.json, media_type="application/json")
-    return Response(content=result)
+
+    try:
+        # Get the RAG server and handle the request
+        rag_server = get_rag_server()
+        payload = await request.body()
+
+        # Transform camelCase keys to snake_case for Python ChatKit compatibility
+        try:
+            payload_dict = json.loads(payload)
+            # Transform the request type from camelCase to snake_case (e.g., threads.addUserMessage -> threads.add_user_message)
+            if "type" in payload_dict:
+                parts = payload_dict["type"].split(".")
+                if len(parts) == 2:
+                    payload_dict["type"] = f"{parts[0]}.{_camel_to_snake(parts[1])}"
+            # Transform all keys in params
+            if "params" in payload_dict:
+                payload_dict["params"] = _transform_keys_to_snake_case(payload_dict["params"])
+            payload = json.dumps(payload_dict).encode()
+            logger.info(f"[RAG-ChatKit] Transformed payload: {payload[:500] if payload else 'empty'}")
+        except json.JSONDecodeError:
+            logger.warning("[RAG-ChatKit] Could not parse payload as JSON, using raw")
+
+        result = await rag_server.process(payload, {"request": request})
+
+        if isinstance(result, StreamingResult):
+            return StreamingResponse(result, media_type="text/event-stream")
+        if hasattr(result, "json"):
+            return Response(content=result.json, media_type="application/json")
+        return Response(content=result)
+    except Exception as e:
+        import traceback
+        error_details = traceback.format_exc()
+        logger.error(f"[RAG-ChatKit] Error: {e}\n{error_details}")
+        return Response(
+            content=json.dumps({"error": str(e), "details": error_details}),
+            status_code=500,
+            media_type="application/json"
+        )
 
 
 @app.get("/rag-chatkit/state")

@@ -508,3 +508,15 @@ class RagChatKitServerStreaming(ChatKitServer[dict[str, Any]]):
             "current_agent": state.current_agent,
             "last_classification": state.last_classification,
         }
+
+    async def action(
+        self,
+        thread: ThreadMetadata,
+        action: Action,
+        sender: WidgetItem | None,
+        context: dict[str, Any],
+    ) -> AsyncIterator[ThreadStreamEvent]:
+        """Handle custom actions - not used in this implementation"""
+        # No custom actions implemented
+        if False:
+            yield

@@ -4,7 +4,9 @@ import { NextRequest, NextResponse } from 'next/server';
 // NOTE: This is NOT a ChatKit-compatible API - it's a generic proxy to /rag-chatkit
 // For ChatKit integration, use the separate /api/chatkit route with getClientSecret
 
-const PYTHON_BACKEND_URL = process.env.PYTHON_BACKEND_URL || 'http://localhost:8051';
+const PYTHON_BACKEND_URL =
+  process.env.PYTHON_BACKEND_URL || 'http://127.0.0.1:8000';
+
 
 // Log the backend URL on startup for debugging
 if (process.env.NODE_ENV === 'development') {

@@ -192,13 +192,13 @@ python check_pipeline_status.py
 
 ### Vector Search Tools
 
-| Tool | Purpose |
-|------|---------|
-| `search_meetings` | Semantic search on meeting segments |
-| `search_decisions` | Semantic search on decisions |
-| `search_risks` | Semantic search on risks |
-| `search_opportunities` | Semantic search on opportunities |
-| `search_all_knowledge` | Combined search across all tables |
+| Tool | Purpose | Query |
+|------|---------|---------|
+| `search_meetings(query, limit, project_id)` | Semantic search on meeting segments |
+| `search_decisions(query, limit, project_id)` | Semantic search on decisions |
+| `search_risks(query, limit, project_id)` | Semantic search on risks |
+| `search_opportunities(query, limit, project_id)` | Semantic search on opportunities |
+| `search_all_knowledge(query, limit)` | Combined search across all tables |
 | `get_recent_meetings(limit, project_id)` | Fetch most recent meetings chronologically |
 | `get_tasks_and_decisions(status, project_id, limit)` | List tasks with optional filters |
 | `get_project_insights(project_id, limit)` | Get strategic insights |
@@ -211,11 +211,8 @@ python check_pipeline_status.py
 | `list_projects` | Lists all projects with activity summaries |
 
 
-#### Standard Retrieval Tools
+### Standard Retrieval Tools
 
-
-#### `search_meetings(query, limit, project_id)`
-Semantic search across meeting segments.
 
 ```python
 @function_tool
@@ -231,18 +228,6 @@ async def search_meetings(query: str, limit: int = 10, project_id: int = None) -
 
     # Format and return results with similarity scores
 ```
-
-#### `search_decisions(query, limit, project_id)`
-Semantic search for decisions.
-
-#### `search_risks(query, limit, project_id)`
-Semantic search for risks.
-
-#### `search_opportunities(query, limit, project_id)`
-Semantic search for opportunities.
-
-#### `search_all_knowledge(query, limit)`
-Combined search across all knowledge tables - returns blended results grouped by source.
 
 ```python
 @function_tool

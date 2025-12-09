@@ -116,11 +116,28 @@ if (!user) redirect('/auth/login')
 
 ## Environment Variables
 
-Required in `.env.local` for frontend:
+**IMPORTANT**: This project uses a **single, centralized `.env` file** in the root directory to avoid confusion.
+
+### File Locations
+- **Primary**: `/.env` (root directory) - Use this for all environment variables
+- **Fallback**: `/.env.local` (root directory) - Legacy, but still supported
+- **Python Helper**: `/python-backend/env_loader.py` - Centralized loader for all Python scripts
+
+### Python Usage
+All Python scripts use the centralized loader:
+```python
+from env_loader import load_env
+load_env()  # Automatically loads from root .env
+```
+
+### Required Variables (in root `.env`)
+Frontend (Next.js):
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-Required in `.env` for screenshot tools:
-- `OPENAI_API_KEY`
+Backend (Python/FastAPI):
+- `OPENAI_API_KEY` - Required for AI agents and embeddings
 - `SUPABASE_URL`
 - `SUPABASE_SERVICE_KEY`
+
+See `/python-backend/ENV_SETUP.md` for detailed documentation.

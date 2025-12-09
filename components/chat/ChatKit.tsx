@@ -1,6 +1,6 @@
 // react/ChatKit.tsx (in your lib)
 import * as React from "react";
-import type { ChatKitControl, ToEventHandlerKey } from "../hooks/useChatKit";
+import type { ChatKitControl, ToEventHandlerKey } from "../../hooks/useChatKit";
 import type { ChatKitElement, ChatKitElementEventMap } from "@openai/chatkit";
 
 export interface ChatKitProps extends React.HTMLAttributes<ChatKitElement> {
