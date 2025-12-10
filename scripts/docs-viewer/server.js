@@ -5,11 +5,15 @@
  * Automatically serves all markdown files in a directory as browseable web pages
  */
 
-const express = require('express');
-const fs = require('fs').promises;
-const path = require('path');
-const marked = require('marked');
-const hljs = require('highlight.js');
+import express from 'express';
+import fs from 'fs/promises';
+import path from 'path';
+import { marked } from 'marked';
+import hljs from 'highlight.js';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const PORT = process.env.PORT || 3333;

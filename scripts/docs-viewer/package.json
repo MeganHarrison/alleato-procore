@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "Markdown documentation viewer for Alleato project",
   "main": "server.js",
+  "type": "module",
   "scripts": {
     "start": "node server.js",
     "docs": "node server.js ../../",
