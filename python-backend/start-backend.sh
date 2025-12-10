@@ -17,10 +17,11 @@ if [ ! -f "api.py" ]; then
   exit 1
 fi
 
-# Check if virtual environment exists
+# Check if virtual environment exists (use Python 3.11+ for type hint compatibility)
+PYTHON_BIN=$(which python3.11 2>/dev/null || which python3.12 2>/dev/null || which python3.13 2>/dev/null || which python3)
 if [ ! -d "venv" ]; then
-  echo -e "${YELLOW}Virtual environment not found. Creating...${NC}"
-  python3 -m venv venv
+  echo -e "${YELLOW}Virtual environment not found. Creating with $PYTHON_BIN...${NC}"
+  $PYTHON_BIN -m venv venv
   echo -e "${GREEN}✓ Virtual environment created${NC}\n"
 fi
 
@@ -43,7 +44,7 @@ fi
 
 # Start the server with detailed logging
 echo -e "${GREEN}================================${NC}"
-echo -e "${GREEN}Starting FastAPI server on http://localhost:8051${NC}"
+echo -e "${GREEN}Starting FastAPI server on http://localhost:8000${NC}"
 echo -e "${GREEN}================================${NC}\n"
 echo -e "${YELLOW}Logging enabled - you'll see:${NC}"
 echo -e "  • Request/response details"
@@ -54,7 +55,7 @@ echo -e "\n${YELLOW}Press Ctrl+C to stop${NC}\n"
 # Run with uvicorn and detailed logging
 uvicorn api:app \
   --host 0.0.0.0 \
-  --port 8051 \
+  --port 8000 \
   --reload \
   --log-level debug \
   --access-log

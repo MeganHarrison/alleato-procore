@@ -54,8 +54,14 @@ from chatkit.types import (
     WidgetItem,
     Action,
     ProgressUpdateEvent,  # ← For "Doing X..." steps
+    WorkflowItem,
+    Workflow,
+    CustomTask,
+    ThoughtTask,
+    CustomSummary,
 )
-from chatkit.store import NotFoundError
+from chatkit.store import NotFoundError, AttachmentStore
+from chatkit.types import Attachment, AttachmentCreateParams, FileAttachment, ImageAttachment
 from fastapi import Request
 
 from memory_store import MemoryStore
@@ -142,12 +148,66 @@ class RagConversationState:
     last_error: Optional[str] = None
 
 
+class InMemoryAttachmentStore(AttachmentStore[dict[str, Any]]):
+    """Simple in-memory attachment store for file uploads"""
+
+    def __init__(self):
+        self._attachments: Dict[str, Attachment] = {}
+        self._upload_urls: Dict[str, str] = {}
+
+    def generate_attachment_id(self, mime_type: str, context: dict[str, Any]) -> str:
+        return f"attach_{uuid4().hex[:12]}"
+
+    async def create_attachment(
+        self, input: AttachmentCreateParams, context: dict[str, Any]
+    ) -> Attachment:
+        """Create an attachment with upload URL for two-phase upload"""
+        attachment_id = self.generate_attachment_id(input.mime_type, context)
+        # Generate a presigned-style URL (in production, use S3/GCS presigned URLs)
+        upload_url = f"/rag-chatkit/upload/{attachment_id}"
+        self._upload_urls[attachment_id] = upload_url
+
+        # Determine if it's an image or file based on mime type
+        is_image = input.mime_type.startswith("image/")
+
+        if is_image:
+            attachment = ImageAttachment(
+                id=attachment_id,
+                name=input.filename,
+                mime_type=input.mime_type,
+                preview_url=upload_url,  # Will be updated after upload
+                upload_url=upload_url,
+            )
+        else:
+            attachment = FileAttachment(
+                id=attachment_id,
+                name=input.filename,
+                mime_type=input.mime_type,
+                upload_url=upload_url,
+            )
+
+        self._attachments[attachment_id] = attachment
+        return attachment
+
+    async def delete_attachment(self, attachment_id: str, context: dict[str, Any]) -> None:
+        """Delete an attachment"""
+        if attachment_id in self._attachments:
+            del self._attachments[attachment_id]
+        if attachment_id in self._upload_urls:
+            del self._upload_urls[attachment_id]
+
+    async def get_attachment(self, attachment_id: str, context: dict[str, Any]) -> Attachment | None:
+        """Get an attachment by ID"""
+        return self._attachments.get(attachment_id)
+
+
 class RagChatKitServerStreaming(ChatKitServer[dict[str, Any]]):
     """ChatKit server with streaming, sources, and progress updates"""
 
     def __init__(self) -> None:
         self.store = MemoryStore()
-        super().__init__(self.store)
+        self.attachment_store_impl = InMemoryAttachmentStore()
+        super().__init__(self.store, attachment_store=self.attachment_store_impl)
         self._state: Dict[str, RagConversationState] = {}
 
     def _state_for_thread(self, thread_id: str) -> RagConversationState:
@@ -346,20 +406,34 @@ class RagChatKitServerStreaming(ChatKitServer[dict[str, Any]]):
                     progress_text = "Analyzing strategic patterns..."
                     progress_icon = "lightbulb"
 
-                yield ProgressUpdateEvent(
-                    icon=progress_icon,
-                    text=progress_text
-                )
-
                 state.current_agent = agent_name
                 conversation_history.extend([
                     item.to_input_item() for item in classification_result.new_items
                 ])
 
+                # Build workflow tasks list for collapsible thinking UI
+                workflow_tasks = [
+                    CustomTask(
+                        id=uuid4().hex,
+                        status_indicator="complete",
+                        title="Checking guardrails",
+                        icon="check-circle",
+                        content="Input validated - no issues detected"
+                    ),
+                    CustomTask(
+                        id=uuid4().hex,
+                        status_indicator="complete",
+                        title=f"Classifying query → {classification_type}",
+                        icon="compass",
+                        content=f"Routed to {agent_name} agent"
+                    ),
+                ]
+
                 # STREAMING: Run agent with streaming
                 agent_start_time = time.time()
                 collected_output = []
                 tool_outputs = []
+                tool_call_tasks = []  # Track tool calls for workflow
 
                 # Get streaming result (not awaitable, returns immediately)
                 result = Runner.run_streamed(
@@ -382,22 +456,27 @@ class RagChatKitServerStreaming(ChatKitServer[dict[str, Any]]):
                             if raw.type == "function_call":
                                 tool_name = raw.name
 
-                                # Emit progress for specific tools
-                                if "search_meetings" in tool_name:
-                                    yield ProgressUpdateEvent(
-                                        icon="calendar",
-                                        text="Searching meeting transcripts..."
-                                    )
-                                elif "search_decisions" in tool_name:
-                                    yield ProgressUpdateEvent(
-                                        icon="notebook",
-                                        text="Finding relevant decisions..."
-                                    )
-                                elif "search_risks" in tool_name:
-                                    yield ProgressUpdateEvent(
-                                        icon="bug",
-                                        text="Analyzing risks..."
-                                    )
+                                # Add tool call to workflow tasks
+                                tool_display_name = tool_name.replace("_", " ").title()
+                                icon_map = {
+                                    "search_meetings": "calendar",
+                                    "search_decisions": "notebook",
+                                    "search_risks": "bug",
+                                    "search_opportunities": "lightbulb",
+                                    "search_all_knowledge": "search",
+                                    "get_recent_meetings": "calendar",
+                                    "get_project_insights": "chart",
+                                    "list_all_projects": "document",
+                                    "get_project_details": "document",
+                                }
+                                tool_icon = icon_map.get(tool_name, "settings-slider")
+
+                                tool_call_tasks.append(CustomTask(
+                                    id=uuid4().hex,
+                                    status_indicator="loading",
+                                    title=tool_display_name,
+                                    icon=tool_icon,
+                                ))
 
                                 self._add_event(state, "tool_call", agent_name, tool_name,
                                                {"tool": tool_name})
@@ -409,17 +488,45 @@ class RagChatKitServerStreaming(ChatKitServer[dict[str, Any]]):
                             if hasattr(raw_event, 'delta') and hasattr(raw_event.delta, 'text'):
                                 collected_output.append(raw_event.delta.text)
 
+                # Mark tool tasks as completed
+                for task in tool_call_tasks:
+                    task.status_indicator = "complete"
+
                 # Extract sources from final output
                 if result.final_output:
                     output_str = str(result.final_output)
                     sources = self._extract_sources_from_tool_output(output_str)
                     state.sources.extend(sources)
 
-                # PROGRESS: Finalizing response
-                yield ProgressUpdateEvent(
+                # Add tool tasks to workflow
+                workflow_tasks.extend(tool_call_tasks)
+
+                # Add synthesis task
+                workflow_tasks.append(CustomTask(
+                    id=uuid4().hex,
+                    status_indicator="complete",
+                    title="Synthesizing response",
                     icon="check-circle",
-                    text="Finalizing answer..."
+                    content=f"Analyzed {len(tool_call_tasks)} data sources"
+                ))
+
+                # Emit the workflow item showing all thinking steps
+                agent_duration = time.time() - agent_start_time
+                workflow_item = WorkflowItem(
+                    id=self.store.generate_item_id("workflow", thread, context),
+                    thread_id=thread.id,
+                    created_at=datetime.now(),
+                    workflow=Workflow(
+                        type="reasoning",
+                        tasks=workflow_tasks,
+                        summary=CustomSummary(
+                            title=f"Analyzing your question",
+                            icon=progress_icon,
+                        ),
+                        expanded=False,  # Collapsed by default
+                    )
                 )
+                yield ThreadItemDoneEvent(item=workflow_item)
 
                 agent_duration = time.time() - agent_start_time
 
@@ -508,6 +615,25 @@ class RagChatKitServerStreaming(ChatKitServer[dict[str, Any]]):
             "current_agent": state.current_agent,
             "last_classification": state.last_classification,
         }
+
+    async def add_feedback(
+        self,
+        thread: ThreadMetadata,
+        item_id: str,
+        feedback: str,  # "positive" or "negative"
+        context: dict[str, Any],
+    ) -> None:
+        """Handle user feedback (thumbs up/down)"""
+        state = self._state_for_thread(thread.id)
+        self._add_event(
+            state,
+            "feedback",
+            "user",
+            f"User gave {feedback} feedback on message {item_id}",
+            {"item_id": item_id, "feedback": feedback}
+        )
+        # In production, you would store this feedback to improve the model
+        print(f"[RAG Feedback] Thread {thread.id}: {feedback} feedback on item {item_id}")
 
     async def action(
         self,

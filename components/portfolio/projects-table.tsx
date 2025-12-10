@@ -11,6 +11,8 @@ import {
   SortingState,
   getPaginationRowModel,
   PaginationState,
+  getFilteredRowModel,
+  ColumnFiltersState,
 } from '@tanstack/react-table';
 import { Flag, ArrowUpDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
 import {
@@ -23,6 +25,7 @@ import {
 } from '@/components/ui/table';
 import { Project } from '@/types/portfolio';
 import { cn } from '@/lib/utils';
+
 interface ProjectsTableProps {
   data: Project[];
   onProjectClick?: (project: Project) => void;
@@ -32,9 +35,14 @@ export function ProjectsTable({ data, onProjectClick }: ProjectsTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
-    pageSize: 50, // Default 50 rows per page
+    pageSize: 50,
   });
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([
+    // Default filter: phase = "current" (case insensitive)
+    { id: 'phase', value: 'current' }
+  ]);
 
+  // Column order: name, job number, client, start date, state, phase, est revenue, est profit, category
   const columns: ColumnDef<Project>[] = [
     {
       id: 'flag',
@@ -42,6 +50,7 @@ export function ProjectsTable({ data, onProjectClick }: ProjectsTableProps) {
       header: () => <span className="sr-only">Flag</span>,
       cell: ({ row }) => (
         <button
+          type="button"
           className={cn(
             'p-1 rounded transition-colors',
             row.original.isFlagged
@@ -59,6 +68,7 @@ export function ProjectsTable({ data, onProjectClick }: ProjectsTableProps) {
       meta: { sticky: true, left: 48 },
       header: ({ column }) => (
         <button
+          type="button"
           className="flex items-center gap-1 hover:text-gray-900"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
@@ -69,49 +79,68 @@ export function ProjectsTable({ data, onProjectClick }: ProjectsTableProps) {
       cell: ({ row }) => (
         <button
           type="button"
-          onClick={() => onProjectClick?.(row.original)}
+          onClick={(e) => {
+            e.stopPropagation();
+            onProjectClick?.(row.original);
+          }}
           className="font-medium text-[hsl(var(--procore-orange))] hover:underline text-left"
         >
           {row.getValue('name')}
         </button>
       ),
-      size: 280,
+      size: 250,
     },
     {
-      accessorKey: 'projectNumber',
+      accessorKey: 'jobNumber',
       header: ({ column }) => (
         <button
+          type="button"
           className="flex items-center gap-1 hover:text-gray-900"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Project Number
+          Job Number
           <ArrowUpDown className="w-3.5 h-3.5" />
         </button>
       ),
       size: 130,
     },
     {
-      accessorKey: 'address',
-      header: 'Address',
-      size: 180,
-    },
-    {
-      accessorKey: 'city',
+      accessorKey: 'client',
       header: ({ column }) => (
         <button
+          type="button"
           className="flex items-center gap-1 hover:text-gray-900"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          City
+          Client
           <ArrowUpDown className="w-3.5 h-3.5" />
         </button>
       ),
+      size: 180,
+    },
+    {
+      accessorKey: 'startDate',
+      header: ({ column }) => (
+        <button
+          type="button"
+          className="flex items-center gap-1 hover:text-gray-900"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Start Date
+          <ArrowUpDown className="w-3.5 h-3.5" />
+        </button>
+      ),
+      cell: ({ row }) => {
+        const date = row.getValue('startDate') as string | null;
+        return date ? new Date(date).toLocaleDateString() : '-';
+      },
       size: 120,
     },
     {
       accessorKey: 'state',
       header: ({ column }) => (
         <button
+          type="button"
           className="flex items-center gap-1 hover:text-gray-900"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
@@ -119,98 +148,89 @@ export function ProjectsTable({ data, onProjectClick }: ProjectsTableProps) {
           <ArrowUpDown className="w-3.5 h-3.5" />
         </button>
       ),
-      size: 80,
+      size: 100,
     },
     {
-      accessorKey: 'zip',
-      header: 'ZIP',
-      size: 80,
-    },
-    {
-      accessorKey: 'phone',
-      header: 'Phone',
-      size: 130,
-    },
-    {
-      accessorKey: 'status',
+      accessorKey: 'phase',
       header: ({ column }) => (
         <button
+          type="button"
           className="flex items-center gap-1 hover:text-gray-900"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Status
+          Phase
           <ArrowUpDown className="w-3.5 h-3.5" />
         </button>
       ),
-      cell: ({ row }) => {
-        const status = row.getValue('status') as string;
-        return (
-          <span
-            className={cn(
-              'px-2 py-1 text-xs font-medium rounded',
-              status === 'Active'
-                ? 'bg-green-100 text-green-700'
-                : 'bg-gray-100 text-gray-600'
-            )}
-          >
-            {status}
-          </span>
-        );
+      // Case-insensitive filter
+      filterFn: (row, id, value) => {
+        const cellValue = row.getValue(id) as string;
+        return cellValue?.toLowerCase().includes(value.toLowerCase());
       },
-      size: 90,
-    },
-    {
-      accessorKey: 'stage',
-      header: ({ column }) => (
-        <button
-          className="flex items-center gap-1 hover:text-gray-900"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Stage
-          <ArrowUpDown className="w-3.5 h-3.5" />
-        </button>
-      ),
       cell: ({ row }) => {
-        const stage = row.getValue('stage') as string;
-        const stageColors: Record<string, string> = {
-          'Bid': 'bg-purple-100 text-purple-700',
-          'Preconstruction': 'bg-blue-100 text-blue-700',
-          'In Progress': 'bg-yellow-100 text-yellow-700',
-          'Warranty': 'bg-orange-100 text-orange-700',
-          'Complete': 'bg-green-100 text-green-700',
+        const phase = row.getValue('phase') as string;
+        const phaseColors: Record<string, string> = {
+          'current': 'bg-blue-100 text-blue-700',
+          'bid': 'bg-purple-100 text-purple-700',
+          'preconstruction': 'bg-yellow-100 text-yellow-700',
+          'complete': 'bg-green-100 text-green-700',
         };
-        return (
-          <span className={cn('px-2 py-1 text-xs font-medium rounded', stageColors[stage] || 'bg-gray-100 text-gray-600')}>
-            {stage}
+        return phase ? (
+          <span className={cn('px-2 py-1 text-xs font-medium rounded', phaseColors[phase.toLowerCase()] || 'bg-gray-100 text-gray-600')}>
+            {phase}
           </span>
-        );
+        ) : '-';
       },
       size: 120,
     },
     {
-      accessorKey: 'type',
+      accessorKey: 'estRevenue',
       header: ({ column }) => (
         <button
+          type="button"
           className="flex items-center gap-1 hover:text-gray-900"
           onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
         >
-          Type
+          Est Revenue
           <ArrowUpDown className="w-3.5 h-3.5" />
         </button>
       ),
-      size: 100,
+      cell: ({ row }) => {
+        const revenue = row.getValue('estRevenue') as number | null;
+        return revenue != null ? `$${revenue.toLocaleString()}` : '-';
+      },
+      size: 130,
     },
     {
-      accessorKey: 'notes',
-      header: 'Notes',
+      accessorKey: 'estProfit',
+      header: ({ column }) => (
+        <button
+          type="button"
+          className="flex items-center gap-1 hover:text-gray-900"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Est Profit
+          <ArrowUpDown className="w-3.5 h-3.5" />
+        </button>
+      ),
       cell: ({ row }) => {
-        const notes = row.getValue('notes') as string;
-        return notes ? (
-          <span className="text-gray-600 truncate max-w-[200px] block">{notes}</span>
-        ) : (
-          <span className="text-gray-400">-</span>
-        );
+        const profit = row.getValue('estProfit') as number | null;
+        return profit != null ? `$${profit.toLocaleString()}` : '-';
       },
+      size: 130,
+    },
+    {
+      accessorKey: 'category',
+      header: ({ column }) => (
+        <button
+          type="button"
+          className="flex items-center gap-1 hover:text-gray-900"
+          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+        >
+          Category
+          <ArrowUpDown className="w-3.5 h-3.5" />
+        </button>
+      ),
       size: 150,
     },
   ];
@@ -221,12 +241,15 @@ export function ProjectsTable({ data, onProjectClick }: ProjectsTableProps) {
     state: {
       sorting,
       pagination,
+      columnFilters,
     },
     onSortingChange: setSorting,
     onPaginationChange: setPagination,
+    onColumnFiltersChange: setColumnFilters,
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
+    getFilteredRowModel: getFilteredRowModel(),
   });
 
   const getStickyStyles = (column: Column<Project, unknown>, fallbackBg: string) => {
@@ -326,6 +349,7 @@ export function ProjectsTable({ data, onProjectClick }: ProjectsTableProps) {
       
       <div className="flex items-center gap-2">
         <button
+          type="button"
           className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => table.setPageIndex(0)}
           disabled={!table.getCanPreviousPage()}
@@ -333,6 +357,7 @@ export function ProjectsTable({ data, onProjectClick }: ProjectsTableProps) {
           <ChevronsLeft className="w-4 h-4" />
         </button>
         <button
+          type="button"
           className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
@@ -344,6 +369,7 @@ export function ProjectsTable({ data, onProjectClick }: ProjectsTableProps) {
           {table.getPageCount()}
         </span>
         <button
+          type="button"
           className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
@@ -351,6 +377,7 @@ export function ProjectsTable({ data, onProjectClick }: ProjectsTableProps) {
           <ChevronRight className="w-4 h-4" />
         </button>
         <button
+          type="button"
           className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => table.setPageIndex(table.getPageCount() - 1)}
           disabled={!table.getCanNextPage()}

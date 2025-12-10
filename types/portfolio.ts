@@ -2,6 +2,8 @@ export interface Project {
   id: string;
   name: string;
   projectNumber: string;
+  jobNumber?: string;
+  client?: string;
   address: string;
   city: string;
   state: string;
@@ -10,6 +12,11 @@ export interface Project {
   status: 'Active' | 'Inactive';
   stage: string;
   type: string;
+  phase?: string;
+  category?: string;
+  startDate?: string | null;
+  estRevenue?: number | null;
+  estProfit?: number | null;
   notes: string;
   isFlagged?: boolean;
 }

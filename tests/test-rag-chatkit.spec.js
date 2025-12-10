@@ -1,12 +1,14 @@
 const { test, expect } = require('@playwright/test');
 
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3001';
+
 test.describe('RAG ChatKit Page', () => {
   test('should load the RAG ChatKit page successfully', async ({ page }) => {
     console.log('🎬 Starting RAG ChatKit test...');
 
     // Navigate to the RAG ChatKit page
     console.log('📍 Navigating to /chat-rag');
-    await page.goto('http://localhost:3000/chat-rag');
+    await page.goto(`${BASE_URL}/chat-rag`);
 
     // Wait for the page to load
     await page.waitForLoadState('networkidle');
@@ -55,7 +57,7 @@ test.describe('RAG ChatKit Page', () => {
     });
 
     // Navigate to the page
-    await page.goto('http://localhost:3000/chat-rag');
+    await page.goto(`${BASE_URL}/chat-rag`);
     await page.waitForLoadState('networkidle');
 
     // Wait a bit for bootstrap request
@@ -85,7 +87,7 @@ test.describe('RAG ChatKit Page', () => {
     console.log('🎬 Testing ChatKit configuration...');
 
     // Navigate to the page
-    await page.goto('http://localhost:3000/chat-rag');
+    await page.goto(`${BASE_URL}/chat-rag`);
     await page.waitForLoadState('networkidle');
 
     // Check that ChatKit panel is rendered
@@ -126,7 +128,7 @@ test.describe('RAG ChatKit Page', () => {
     });
 
     // Navigate to the page
-    await page.goto('http://localhost:3000/chat-rag');
+    await page.goto(`${BASE_URL}/chat-rag`);
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(3000);
 
