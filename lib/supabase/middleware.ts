@@ -1,4 +1,4 @@
-// import { createServerClient } from '@supabase/ssr'
+import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
 export async function updateSession(request: NextRequest) {
@@ -6,10 +6,12 @@ export async function updateSession(request: NextRequest) {
   const useMockAuth = request.cookies.get('use-mock-auth')?.value === 'true';
   const mockSession = request.cookies.get('mock-auth-session')?.value;
   
-  // Allow access to dev routes without authentication
-  if (request.nextUrl.pathname.startsWith('/dev') || 
-      request.nextUrl.pathname === '/dev-login' || 
-      request.nextUrl.pathname === '/mock-login') {
+  // Allow access to dev routes and public API routes without authentication
+  if (request.nextUrl.pathname.startsWith('/dev') ||
+      request.nextUrl.pathname === '/dev-login' ||
+      request.nextUrl.pathname === '/mock-login' ||
+      request.nextUrl.pathname.startsWith('/api/health') ||
+      request.nextUrl.pathname.startsWith('/rag-chatkit')) {
     return NextResponse.next({ request });
   }
   
@@ -18,14 +20,6 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.next({ request });
   }
   
-  // TEMPORARY: Auth disabled while Supabase is experiencing issues
-  // Just pass through all requests without authentication checks
-  return NextResponse.next({
-    request,
-  })
-
-  /* AUTH DISABLED - Uncomment when Supabase is back online
-  // Also uncomment the import above: import { createServerClient } from '@supabase/ssr'
   let supabaseResponse = NextResponse.next({
     request,
   })
@@ -51,8 +45,8 @@ export async function updateSession(request: NextRequest) {
     }
   )
 
-  const { data } = await supabase.auth.getClaims()
-  const user = data?.claims
+  const { data } = await supabase.auth.getUser()
+  const user = data?.user
 
   if (
     !user &&
@@ -65,5 +59,4 @@ export async function updateSession(request: NextRequest) {
   }
 
   return supabaseResponse
-  */
 }

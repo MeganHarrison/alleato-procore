@@ -76,12 +76,12 @@ Classification Guidelines:
 classification_agent = Agent(
     name="Classification agent",
     instructions=CLASSIFICATION_INSTRUCTIONS,
-    model="gpt-4.1-mini",
+    model="gpt-4o-mini",
     output_type=ClassificationAgentSchema,
     model_settings=ModelSettings(
-        temperature=1,
-        top_p=1,
-        max_tokens=2048,
+        temperature=0.3,
+        top_p=0.95,
+        max_tokens=256,
         store=True
     )
 )

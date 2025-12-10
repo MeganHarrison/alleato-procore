@@ -32,33 +32,31 @@ export default function ProjectHomePage({ params }: PageProps) {
   React.useEffect(() => {
     const fetchProject = async () => {
       try {
-        // Import mock data
-        const { mockProjects } = await import('@/data/mock-portfolio-data');
-        
-        // Find project by ID in mock data
-        const project = mockProjects.find(p => p.id === projectId);
-        
-        if (!project) {
-          throw new Error('Project not found');
+        // Fetch project from API
+        const response = await fetch(`/api/projects/${projectId}`);
+        const p = await response.json();
+
+        if (!response.ok || p.error) {
+          throw new Error(p.error || 'Project not found');
         }
-        
-        // Transform mock data to match ProjectInfo type
+
+        // Transform API data to match ProjectInfo type
         const projectInfo: ProjectInfo = {
-          id: project.id,
-          name: project.name,
-          projectNumber: project.projectNumber,
-          address: project.address,
-          city: project.city,
-          state: project.state,
-          zip: project.zip,
-          phone: project.phone,
-          status: project.status,
-          stage: project.stage,
-          projectType: project.type,
+          id: p.id.toString(),
+          name: p.name || 'Untitled Project',
+          projectNumber: p['job number'] || p.id.toString(),
+          address: p.address || '',
+          city: p.address ? p.address.split(',')[0] || '' : '',
+          state: p.state || '',
+          zip: '',
+          phone: '',
+          status: p.archived ? 'Inactive' : 'Active',
+          stage: p.phase || 'Unknown',
+          projectType: p.category || 'General',
         };
-        
+
         setProjectInfo(projectInfo);
-        
+
         // Update document title
         document.title = `${projectInfo.projectNumber} - ${projectInfo.name} | Alleato OS`;
       } catch (err) {

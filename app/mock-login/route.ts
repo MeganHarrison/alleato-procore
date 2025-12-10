@@ -57,5 +57,6 @@ export async function GET(request: Request) {
   });
 
   // Redirect to the specified page
-  return NextResponse.redirect(new URL(redirectTo, request.url));
+  const redirectUrl = new URL(redirectTo, request.url);
+  return NextResponse.redirect(redirectUrl);
 }

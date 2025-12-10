@@ -101,7 +101,7 @@ export function PortfolioHeader({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="h-9">
-                <FileText className="w-4 h-4 mr-2" />
+                <FileText className="w-4 h-4" />
                 Export
                 <ChevronDown className="w-4 h-4 ml-2" />
               </Button>
@@ -121,7 +121,7 @@ export function PortfolioHeader({
             onClick={onCreateProject}
             className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange-hover))] text-white h-9"
           >
-            <Plus className="w-4 h-4 mr-2" />
+            <Plus className="w-4 h-4" />
             Create Project
           </Button>
         </div>

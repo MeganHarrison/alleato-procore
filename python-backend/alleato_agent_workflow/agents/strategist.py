@@ -183,7 +183,7 @@ Your role is to produce executive-level strategic answers. Always reason first, 
 strategist_agent = Agent(
     name="Strategist",
     instructions=STRATEGIST_INSTRUCTIONS,
-    model="gpt-5.1-chat-latest",
+    model="gpt-5.1",
     tools=[
         web_search_preview,
         search_meetings,
@@ -196,9 +196,9 @@ strategist_agent = Agent(
         list_all_projects,
     ],
     model_settings=ModelSettings(
-        temperature=1,
-        top_p=1,
-        max_tokens=2048,
+        temperature=0.5,
+        top_p=0.95,
+        max_tokens=4096,
         store=True
     )
 )

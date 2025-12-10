@@ -18,14 +18,24 @@ export function RagChatKitPanel({
 }: RagChatKitPanelProps) {
   const chatkit = useChatKit({
     api: {
-      url: "/rag-chatkit",  // Direct proxy via next.config rewrites (like OpenAI demo)
+      url: "/rag-chatkit",
       domainKey: CHATKIT_DOMAIN_KEY,
     },
     composer: {
       placeholder: "Ask about meetings, decisions, or projects...",
     },
+    // Enable history panel
     history: {
       enabled: true,
+      showDelete: true,
+      showRename: true,
+    },
+    // Enable header
+    header: {
+      enabled: true,
+      title: {
+        enabled: true,
+      },
     },
     theme: {
       colorScheme: "light",
@@ -33,7 +43,7 @@ export function RagChatKitPanel({
       density: "normal",
       color: {
         accent: {
-          primary: "#2563eb",
+          primary: "#ea580c",
           level: 1,
         },
       },
@@ -44,7 +54,7 @@ export function RagChatKitPanel({
       prompts: [
         {
           label: "Recent decisions",
-          prompt: "What were the key decisions from last week's meetings?"
+          prompt: "What were the key decisions from last week's meetings?",
         },
         {
           label: "Project risks",
@@ -52,41 +62,37 @@ export function RagChatKitPanel({
         },
         {
           label: "Pending tasks",
-          prompt: "What tasks are pending for our current projects?"
+          prompt: "What tasks are pending for our current projects?",
         },
         {
           label: "Pattern analysis",
-          prompt: "What patterns do you see in our project delays?"
+          prompt: "What patterns do you see in our project delays?",
         },
       ],
     },
+    // Enable feedback and retry
     threadItemActions: {
-      feedback: false,
+      feedback: true,
+      retry: true,
     },
+    // Event handlers
     onThreadChange: ({ threadId }) => onThreadChange?.(threadId ?? null),
     onResponseEnd: () => onResponseEnd?.(),
     onError: ({ error }) => {
-      console.error("RAG ChatKit error", error);
+      console.error("[ChatKit] Error:", error);
     },
   });
 
   return (
     <div
-      className="flex flex-col h-full flex-1 bg-white shadow-sm border border-gray-200 border-t-0 rounded-xl"
+      className="flex flex-col h-full flex-1 bg-white shadow-sm border border-gray-200 rounded-xl overflow-hidden"
       data-testid="rag-chatkit-panel"
     >
-      <div className="bg-orange-600 text-white h-12 px-4 flex items-center rounded-t-xl">
-        <h2 className="font-semibold text-sm sm:text-base lg:text-lg">
-          Alleato Intelligence Chat
-        </h2>
-      </div>
-      <div className="flex-1 overflow-hidden pb-1.5">
-        <ChatKit
-          control={chatkit.control}
-          className="block h-full w-full"
-          style={{ height: "100%", width: "100%" }}
-        />
-      </div>
+      <ChatKit
+        control={chatkit.control}
+        className="block h-full w-full"
+        style={{ height: "100%", width: "100%" }}
+      />
     </div>
   );
 }

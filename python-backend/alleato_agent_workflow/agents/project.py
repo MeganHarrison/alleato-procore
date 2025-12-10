@@ -158,7 +158,7 @@ Example: "I encountered an issue retrieving recent meetings due to a database sc
 project_agent = Agent(
     name="Project",
     instructions=PROJECT_INSTRUCTIONS,
-    model="gpt-5.1-chat-latest",
+    model="gpt-5.1",
     tools=[
         search_meetings,
         search_decisions,
@@ -172,9 +172,9 @@ project_agent = Agent(
         get_project_details,
     ],
     model_settings=ModelSettings(
-        temperature=1,
-        top_p=1,
-        max_tokens=2048,
+        temperature=0.5,
+        top_p=0.95,
+        max_tokens=4096,
         store=True
     )
 )

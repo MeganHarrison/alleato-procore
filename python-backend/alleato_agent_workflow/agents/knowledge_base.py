@@ -106,16 +106,16 @@ Conduct thorough semantic retrieval before formulating your answer. Ground all r
 internal_knowledge_base_agent = Agent(
     name="Internal Knowledge Base",
     instructions=KNOWLEDGE_BASE_INSTRUCTIONS,
-    model="gpt-5.1-chat-latest",
+    model="gpt-5.1",
     tools=[
         search_meetings,
         search_decisions,
         search_all_knowledge,
     ],
     model_settings=ModelSettings(
-        temperature=1,
-        top_p=1,
-        max_tokens=2048,
+        temperature=0.5,
+        top_p=0.95,
+        max_tokens=4096,
         store=True
     )
 )
