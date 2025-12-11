@@ -25,6 +25,115 @@ After Phase 0 is complete, contributors will be able to:
 
 This plan assumes **Option A (UI First)**: build the component system first, then progressively layer on schema-driven functionality.
 
+---
+
+## Project Structure (Monorepo)
+
+The project is organized as a **monorepo** with independent frontend and backend deployments:
+
+```
+alleato-procore/
+├── frontend/                    # Next.js 15 application (independently deployable)
+│   ├── src/
+│   │   ├── app/                # Next.js App Router pages
+│   │   │   ├── (procore)/      # Authenticated routes
+│   │   │   │   ├── (financial)/ # Budget, Commitments, Contracts, etc.
+│   │   │   │   ├── [projectId]/ # Project-specific pages
+│   │   │   │   ├── daily-log/
+│   │   │   │   ├── directory/
+│   │   │   │   ├── drawings/
+│   │   │   │   ├── emails/
+│   │   │   │   ├── meetings/
+│   │   │   │   ├── photos/
+│   │   │   │   ├── punch-list/
+│   │   │   │   ├── rfis/
+│   │   │   │   ├── submittals/
+│   │   │   │   └── tasks/
+│   │   │   ├── api/            # API routes
+│   │   │   ├── auth/           # Authentication routes
+│   │   │   └── chat-rag/       # AI chat interface
+│   │   ├── components/
+│   │   │   ├── domain/         # Domain-specific components
+│   │   │   │   └── contracts/  # Contract forms and sections
+│   │   │   ├── forms/          # Form system components
+│   │   │   ├── layout/         # Layout components
+│   │   │   ├── tables/         # Table system components
+│   │   │   └── ui/             # ShadCN UI primitives
+│   │   ├── lib/
+│   │   │   ├── schemas/        # Zod validation schemas
+│   │   │   ├── stores/         # Zustand state management
+│   │   │   └── supabase/       # Supabase client & helpers
+│   │   ├── data/               # Mock data for development
+│   │   ├── hooks/              # Custom React hooks
+│   │   └── types/              # TypeScript type definitions
+│   ├── tests/                  # Playwright E2E tests
+│   ├── public/                 # Static assets
+│   ├── .vercel/                # Vercel deployment config
+│   ├── playwright.config*.ts   # Playwright test configs
+│   ├── next.config.ts          # Next.js configuration
+│   ├── tailwind.config.ts      # Tailwind CSS config
+│   ├── tsconfig.json           # TypeScript config
+│   └── package.json            # Frontend dependencies
+│
+├── backend/                     # Python FastAPI application (independently deployable)
+│   ├── src/
+│   │   ├── api/                # FastAPI routes
+│   │   │   └── main.py         # API entry point
+│   │   ├── services/           # Business logic
+│   │   │   ├── alleato_agent_workflow/  # Multi-agent AI system
+│   │   │   └── ingestion/      # Data ingestion pipelines
+│   │   ├── workers/            # Background workers
+│   │   ├── database/           # Database utilities
+│   │   └── types/              # Python type definitions
+│   ├── tests/                  # Backend tests
+│   ├── start.sh                # Backend startup script
+│   ├── requirements.txt        # Python dependencies
+│   └── README.md               # Backend documentation
+│
+├── scripts/                     # Shared utility scripts
+│   ├── dev-tools/              # Development utilities
+│   ├── ingestion/              # Data ingestion scripts
+│   └── utilities/              # Miscellaneous utilities
+│
+├── docs/                        # Documentation
+│   ├── GOOGLE_AUTH_SETUP.md
+│   ├── PAGE-DEVELOPMENT.md
+│   ├── START_BACKEND.md
+│   └── vermillian/             # Design system docs
+│
+├── supabase/                    # Supabase configuration
+│   ├── migrations/             # Database migrations
+│   └── config.toml             # Supabase config
+│
+├── planning/                    # Planning documents
+│   ├── entity-matrix.md
+│   ├── form-validation-inventory.md
+│   ├── permission-indicators.md
+│   ├── table-columns-by-page.md
+│   └── workflow-status-map.md
+│
+├── .github/                     # GitHub Actions CI/CD
+│   └── workflows/
+│
+├── package.json                 # Monorepo orchestrator
+├── package-lock.json           # Root dependencies lock
+├── node_modules/               # Shared dependencies (concurrently)
+├── EXEC_PLAN.md                # This file
+├── README.md                   # Project overview
+└── TEST_EXECUTION_REPORT.md    # Test status
+
+```
+
+### Key Principles
+
+1. **Independent Deployment**: Frontend and backend can be deployed separately
+2. **Path Aliases**: Frontend uses `@/*` to reference `src/*`
+3. **Monorepo Scripts**: Root `package.json` orchestrates both apps via workspaces
+4. **Git History**: All files moved with `git mv` to preserve history
+5. **Clean Separation**: No frontend code in backend/, no backend code in frontend/
+
+---
+
 <h2 style="margin-top: 2em;">Master Checklist</h2>
 
 **Phase 0 — Component System (Highest Priority)**
