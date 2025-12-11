@@ -127,10 +127,68 @@ alleato-procore/
 ### Key Principles
 
 1. **Independent Deployment**: Frontend and backend can be deployed separately
-2. **Path Aliases**: Frontend uses `@/*` to reference `src/*`
-3. **Monorepo Scripts**: Root `package.json` orchestrates both apps via workspaces
-4. **Git History**: All files moved with `git mv` to preserve history
-5. **Clean Separation**: No frontend code in backend/, no backend code in frontend/
+   - **Frontend (Vercel)**: Deploy `frontend/` directory with `npm run build` in frontend/
+   - **Backend (Render)**: Deploy `backend/` directory with `./start.sh` in backend/
+   - Each workspace has its own `package.json` and dependencies
+
+2. **npm Workspaces**: Root uses npm workspaces to manage both apps
+   - Root `package.json` declares `workspaces: ["frontend", "backend"]`
+   - Running `npm install` at root installs all dependencies for both workspaces
+   - Dependencies are **hoisted** to root `node_modules/` for deduplication
+   - Root `node_modules/` contains ~650 packages (all workspace deps + concurrently)
+   - This is **normal and expected** - saves disk space and speeds up installs
+   - Each workspace can still be deployed independently
+
+3. **Path Aliases**: Frontend uses `@/*` to reference `src/*`
+
+4. **Monorepo Scripts**: Root `package.json` orchestrates both apps
+   - `npm run dev` - Start both frontend and backend concurrently
+   - `npm run build` - Build frontend for production
+   - `npm start` - Start frontend in production mode
+
+5. **Git History**: All files moved with `git mv` to preserve history
+
+6. **Clean Separation**: No frontend code in backend/, no backend code in frontend/
+
+---
+
+## Deployment
+
+### Frontend Deployment (Vercel)
+
+**Configuration:**
+- **Root Directory**: `frontend`
+- **Build Command**: `npm run build`
+- **Output Directory**: `.next`
+- **Install Command**: `npm install`
+- **Node Version**: 22.x
+
+**Environment Variables Required:**
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
+
+**Notes:**
+- Vercel automatically detects Next.js and uses correct settings
+- All frontend dependencies are in `frontend/package.json`
+- No root dependencies needed for frontend deployment
+
+### Backend Deployment (Render)
+
+**Configuration:**
+- **Root Directory**: `backend`
+- **Build Command**: None (uses virtual environment)
+- **Start Command**: `./start.sh`
+- **Runtime**: Python 3.11+
+
+**Environment Variables Required:**
+- `OPENAI_API_KEY`
+- `SUPABASE_URL`
+- `SUPABASE_SERVICE_KEY`
+
+**Notes:**
+- `start.sh` automatically creates virtual environment and installs dependencies
+- All backend dependencies are in `backend/requirements.txt`
+- No root dependencies needed for backend deployment
 
 ---
 
