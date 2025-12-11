@@ -4,46 +4,58 @@ import { useEffect } from 'react'
 
 export default function ApiDocsPage() {
   useEffect(() => {
+    // Keep references for cleanup
+    let link: HTMLLinkElement | null = null
+    let script: HTMLScriptElement | null = null
+    let presetScript: HTMLScriptElement | null = null
+
     // Import Swagger UI CSS
-    const link = document.createElement('link')
+    link = document.createElement('link')
     link.rel = 'stylesheet'
     link.href = 'https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui.css'
     document.head.appendChild(link)
 
     // Import Swagger UI JS
-    const script = document.createElement('script')
+    script = document.createElement('script')
     script.src = 'https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-bundle.js'
     script.onload = () => {
       // Initialize Swagger UI after script loads
       if (window.SwaggerUIBundle) {
-        window.SwaggerUIBundle({
-          url: '/openapi.json',
-          dom_id: '#swagger-ui',
-          deepLinking: true,
-          presets: [
-            window.SwaggerUIBundle.presets.apis,
-            window.SwaggerUIBundle.SwaggerUIStandalonePreset
-          ],
-          plugins: [
-            window.SwaggerUIBundle.plugins.DownloadUrl
-          ],
-          layout: 'StandaloneLayout',
+        // Load standalone preset script first
+        presetScript = document.createElement('script')
+        presetScript.src = 'https://unpkg.com/swagger-ui-dist@5.11.0/swagger-ui-standalone-preset.js'
+        presetScript.onload = () => {
+          window.SwaggerUIBundle({
+            url: '/openapi.json',
+            dom_id: '#swagger-ui',
+            deepLinking: true,
+            presets: [
+              window.SwaggerUIBundle.presets.apis,
+              window.SwaggerUIStandalonePreset
+            ],
+            plugins: [
+              window.SwaggerUIBundle.plugins.DownloadUrl
+            ],
+            layout: 'StandaloneLayout',
           docExpansion: 'list',
           filter: true,
           tryItOutEnabled: true,
           supportedSubmitMethods: ['get', 'post', 'put', 'delete', 'patch'],
-          onComplete: () => {
-            console.log('Swagger UI loaded successfully')
-          }
-        })
+            onComplete: () => {
+              console.log('Swagger UI loaded successfully')
+            }
+          })
+        }
+        document.body.appendChild(presetScript)
       }
     }
     document.body.appendChild(script)
 
     // Cleanup
     return () => {
-      document.head.removeChild(link)
-      document.body.removeChild(script)
+      if (link && link.parentNode) document.head.removeChild(link)
+      if (script && script.parentNode) document.body.removeChild(script)
+      if (presetScript && presetScript.parentNode) document.body.removeChild(presetScript)
     }
   }, [])
 
