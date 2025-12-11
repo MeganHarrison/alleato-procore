@@ -35,3 +35,8 @@ next-env.d.ts
 .vercel
 .env*.local
 tests/.auth/
+backend/venv/
+backend/.venv/
+frontend/.next/
+frontend/tests/test-results/
+frontend/tests/playwright-report/
