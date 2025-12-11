@@ -16,5 +16,6 @@ export default {
   'form-validation-inventory': 'Form Validation',
   planning: 'Planning',
   financial: 'Financial Modules',
-  docs: 'Documentation'
+  docs: 'Documentation',
+  sitemap: 'Site Map'
 }
