@@ -4,12 +4,14 @@ import { format } from 'date-fns'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { MoreVertical } from 'lucide-react'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
+import { Card } from '@/components/ui/card'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { EditableCard } from './editable-card'
 import { EditableSummary } from './editable-summary'
+import { FinancialToggles } from './financial-toggles'
 import { Database } from '@/types/database.types'
 import { useRouter } from 'next/navigation'
+import Link from 'next/link'
 
 type Project = Database['public']['Tables']['projects']['Row']
 type Insight = Database['public']['Tables']['ai_insights']['Row']
@@ -18,6 +20,8 @@ type Meeting = Database['public']['Tables']['document_metadata']['Row']
 type ChangeOrder = Database['public']['Tables']['change_orders']['Row']
 type RFI = Database['public']['Tables']['rfis']['Row']
 type DailyLog = Database['public']['Tables']['daily_logs']['Row']
+type Commitment = Database['public']['Tables']['commitments']['Row']
+type Contract = Database['public']['Tables']['financial_contracts']['Row']
 
 interface ProjectHomeClientProps {
   project: Project
@@ -27,6 +31,8 @@ interface ProjectHomeClientProps {
   changeOrders: ChangeOrder[]
   rfis: RFI[]
   dailyLogs: DailyLog[]
+  commitments: Commitment[]
+  contracts: Contract[]
 }
 
 export function ProjectHomeClient({
@@ -36,7 +42,9 @@ export function ProjectHomeClient({
   meetings,
   changeOrders,
   rfis,
-  dailyLogs
+  dailyLogs,
+  commitments,
+  contracts
 }: ProjectHomeClientProps) {
   const router = useRouter()
 
@@ -67,10 +75,10 @@ export function ProjectHomeClient({
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-6">
+    <div className="min-h-screen p-6">
       {/* Project Title */}
-      <h1 className="text-2xl font-semibold text-orange-600 mb-6">
-        {project.name || project.code}
+      <h1 className="text-2xl font-semibold text-brand mb-6">
+        {project.name || project['job number']}
       </h1>
 
       {/* Three Info Cards */}
@@ -86,33 +94,33 @@ export function ProjectHomeClient({
             },
             {
               label: 'Status',
-              value: project.phase || project.status || 'Active',
+              value: project.phase || project.state || 'Active',
               key: 'phase'
             },
             {
               label: 'Start Date',
-              value: project.start_date ? format(new Date(project.start_date), 'yyyy-MM-dd') : '',
-              key: 'start_date'
+              value: project['start date'] ? format(new Date(project['start date']), 'yyyy-MM-dd') : '',
+              key: 'start date'
             },
             {
               label: 'Est Completion',
-              value: project.end_date ? format(new Date(project.end_date), 'yyyy-MM-dd') : '',
-              key: 'end_date'
+              value: project['est completion'] ? format(new Date(project['est completion']), 'yyyy-MM-dd') : '',
+              key: 'est completion'
             }
           ]}
           onSave={handleSaveProject}
         />
 
         {/* Project Team Card */}
-        <Card className="shadow-sm">
+        <Card>
           <div className="p-6">
-            <h3 className="text-sm font-medium text-gray-600 mb-4">PROJECT TEAM</h3>
-            <div className="space-y-3">
-              {project.team_members ? (
-                Object.entries(project.team_members as Record<string, string>).slice(0, 4).map(([role, name]) => (
-                  <div key={role}>
-                    <span className="text-sm font-medium">{role}:</span>
-                    <span className="text-sm text-gray-700 ml-1">{name}</span>
+            <h3 className="text-sm font-medium mb-4">PROJECT TEAM</h3>
+            <div>
+              {project.team_members && Array.isArray(project.team_members) && project.team_members.length > 0 ? (
+                project.team_members.slice(0, 4).map((member, index) => (
+                  <div key={index}>
+                    <span className="text-sm font-medium">Member {index + 1}:</span>
+                    <span className="text-sm text-gray-700 ml-1">{member}</span>
                   </div>
                 ))
               ) : (
@@ -145,13 +153,13 @@ export function ProjectHomeClient({
           fields={[
             {
               label: 'Est Revenue',
-              value: project.budget_total ? (project.budget_total / 1000000).toFixed(1) : '0',
-              key: 'budget_total'
+              value: project['est revenue'] ? (project['est revenue'] / 1000000).toFixed(1) : '0',
+              key: 'est revenue'
             },
             {
               label: 'Est Profit',
-              value: project.budget_total ? ((project.budget_total * 0.2) / 1000000).toFixed(1) : '0',
-              key: 'estimated_profit'
+              value: project['est profit'] ? (project['est profit'] / 1000000).toFixed(1) : '0',
+              key: 'est profit'
             },
             {
               label: 'Budget Used',
@@ -160,17 +168,20 @@ export function ProjectHomeClient({
             },
             {
               label: 'Balance',
-              value: project.budget_total && project.budget_used
-                ? ((project.budget_total - project.budget_used) / 1000000).toFixed(1)
+              value: project['est revenue'] && project.budget_used
+                ? ((project['est revenue'] - project.budget_used) / 1000000).toFixed(1)
                 : '0',
-              key: 'budget_balance'
+              key: 'balance'
             }
           ]}
           onSave={async (updates) => {
             // Convert million values back to actual values
             const converted: Record<string, string> = {}
-            if (updates.budget_total) {
-              converted.budget_total = (parseFloat(updates.budget_total) * 1000000).toString()
+            if (updates['est revenue']) {
+              converted['est revenue'] = (parseFloat(updates['est revenue']) * 1000000).toString()
+            }
+            if (updates['est profit']) {
+              converted['est profit'] = (parseFloat(updates['est profit']) * 1000000).toString()
             }
             if (updates.budget_used) {
               converted.budget_used = (parseFloat(updates.budget_used) * 1000000).toString()
@@ -186,13 +197,13 @@ export function ProjectHomeClient({
         <div className="space-y-6">
           {/* Summary - Collapsible and Editable */}
           <EditableSummary
-            summary={project.summary || project.description || 'No project summary available.'}
+            summary={project.summary || 'No project summary available.'}
             onSave={handleSaveSummary}
           />
 
           {/* Project Insights */}
           <div>
-            <h2 className="text-lg font-semibold text-orange-600 mb-3">Project Insights:</h2>
+            <h2 className="text-lg font-semibold text-brand mb-3">Project Insights:</h2>
             {insights.length > 0 ? (
               <div className="space-y-2">
                 {insights.map((insight) => (
@@ -215,7 +226,7 @@ export function ProjectHomeClient({
             {rfis.length > 0 ? (
               <div className="space-y-2">
                 {rfis.map((rfi) => (
-                  <div key={rfi.id} className="bg-white p-3 rounded-lg shadow-sm">
+                  <div key={rfi.id} className="bg-white p-3 rounded-lg">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
                         <p className="text-sm font-medium">#{rfi.number} - {rfi.subject}</p>
@@ -244,7 +255,7 @@ export function ProjectHomeClient({
           {tasks.length > 0 ? (
             <div className="space-y-3">
               {tasks.map((task) => (
-                <div key={task.id} className="flex items-center justify-between bg-white p-3 rounded-lg shadow-sm">
+                <div key={task.id} className="flex items-center justify-between bg-white p-3 rounded-lg">
                   <div className="flex-1">
                     <span className="text-sm">{task.task_description}</span>
                     {task.due_date && (
@@ -270,8 +281,6 @@ export function ProjectHomeClient({
       </div>
 
       {/* Tabbed Section */}
-      <Card className="shadow-sm">
-        <CardContent className="p-0">
           <Tabs defaultValue="meetings" className="w-full">
             <TabsList className="w-full justify-start rounded-none border-b h-auto p-0">
               <TabsTrigger value="meetings" className="rounded-none border-b-2 border-transparent data-[state=active]:border-orange-600 data-[state=active]:text-orange-600">Meetings</TabsTrigger>
@@ -298,26 +307,32 @@ export function ProjectHomeClient({
                   </thead>
                   <tbody>
                     {meetings.map((meeting) => (
-                      <tr key={meeting.id} className="border-b">
+                      <tr key={meeting.id} className="border-b hover:bg-gray-50 cursor-pointer transition-colors">
                         <td className="py-3">
-                          <div className="flex items-center">
-                            <input type="checkbox" className="mr-3" />
+                          <Link href={`/meetings/${meeting.id}`} className="flex items-center">
+                            <input type="checkbox" className="mr-3" onClick={(e) => e.stopPropagation()} />
                             <span className="text-sm">{meeting.title}</span>
-                          </div>
+                          </Link>
                         </td>
                         <td className="py-3 text-sm text-gray-600">
-                          {meeting.transcript_summary
-                            ? meeting.transcript_summary.substring(0, 100) + '...'
-                            : 'No summary available'}
+                          <Link href={`/meetings/${meeting.id}`} className="block">
+                            {meeting.summary
+                              ? meeting.summary.substring(0, 100) + '...'
+                              : 'No summary available'}
+                          </Link>
                         </td>
                         <td className="py-3 text-sm text-gray-600">
-                          {meeting.date ? format(new Date(meeting.date), 'MMM d, yyyy') : 'N/A'}
+                          <Link href={`/meetings/${meeting.id}`} className="block">
+                            {meeting.date ? format(new Date(meeting.date), 'MMM d, yyyy') : 'N/A'}
+                          </Link>
                         </td>
                         <td className="py-3 text-sm text-gray-600">
-                          {meeting.duration_minutes ? `${meeting.duration_minutes} min` : 'N/A'}
+                          <Link href={`/meetings/${meeting.id}`} className="block">
+                            {meeting.duration_minutes ? `${meeting.duration_minutes} min` : 'N/A'}
+                          </Link>
                         </td>
                         <td className="py-3">
-                          <Button variant="ghost" size="icon" className="h-8 w-8">
+                          <Button variant="ghost" size="icon" className="h-8 w-8" onClick={(e) => e.stopPropagation()}>
                             <MoreVertical className="h-4 w-4" />
                           </Button>
                         </td>
@@ -430,8 +445,16 @@ export function ProjectHomeClient({
               )}
             </TabsContent>
           </Tabs>
-        </CardContent>
-      </Card>
+
+      {/* Financial Toggles Section */}
+      <div className="mb-6">
+        <FinancialToggles 
+          project={project}
+          commitments={commitments}
+          contracts={contracts}
+        />
+      </div>
+
     </div>
   )
 }

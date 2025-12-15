@@ -26,7 +26,7 @@ import Link from "next/link"
 import { usePathname, useRouter } from "next/navigation"
 import { useHeader } from "@/components/layout/header-context"
 
-const coreTools = [
+const coreTools: Array<{ name: string; href: string; badge?: string }> = [
   { name: "Home", href: "/" },
   { name: "360 Reporting", href: "/reporting" },
   { name: "Documents", href: "/documents" },
@@ -36,7 +36,7 @@ const coreTools = [
   { name: "Admin", href: "/admin" },
 ]
 
-const projectManagementTools = [
+const projectManagementTools: Array<{ name: string; href: string; hasCreateAction?: boolean; isFavorite?: boolean }> = [
   { name: "Emails", href: "/emails" },
   { name: "RFIs", href: "/rfis", hasCreateAction: true },
   { name: "Submittals", href: "/submittals", hasCreateAction: true },
@@ -50,7 +50,7 @@ const projectManagementTools = [
   { name: "Specifications", href: "/specifications" }
 ]
 
-const financialManagementTools = [
+const financialManagementTools: Array<{ name: string; href: string; hasCreateAction?: boolean }> = [
   { name: "Prime Contracts", href: "/contracts" },
   { name: "Budget", href: "/budget" },
   { name: "Commitments", href: "/commitments" },

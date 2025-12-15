@@ -1,87 +1,68 @@
-import { NextRequest, NextResponse } from "next/server"
-import { createClient } from "@/lib/supabase/server"
+import { createClient } from '@/lib/supabase/server'
+import { NextRequest, NextResponse } from 'next/server'
 
-interface RouteParams {
-  params: Promise<{ id: string }>
-}
-
-export async function GET(request: NextRequest, { params }: RouteParams) {
-  try {
-    const { id } = await params
-    const supabase = await createClient()
-
-    const { data, error } = await supabase
-      .from("projects")
-      .select("*")
-      .eq("id", id)
-      .single()
-
-    if (error) {
-      if (error.code === "PGRST116") {
-        return NextResponse.json({ error: "Project not found" }, { status: 404 })
-      }
-      console.error("Error fetching project:", error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
-
-    return NextResponse.json(data)
-  } catch (error) {
-    console.error("Unexpected error:", error)
-    return NextResponse.json(
-      { error: "An unexpected error occurred" },
-      { status: 500 }
-    )
-  }
-}
-
-export async function PATCH(request: NextRequest, { params }: RouteParams) {
+export async function PATCH(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { id } = await params
     const supabase = await createClient()
     const body = await request.json()
 
+    // Update the project with the provided fields
     const { data, error } = await supabase
-      .from("projects")
+      .from('projects')
       .update(body)
-      .eq("id", id)
+      .eq('id', id)
       .select()
       .single()
 
     if (error) {
-      if (error.code === "PGRST116") {
-        return NextResponse.json({ error: "Project not found" }, { status: 404 })
-      }
-      console.error("Error updating project:", error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      console.error('Error updating project:', error)
+      return NextResponse.json(
+        { error: 'Failed to update project' },
+        { status: 500 }
+      )
     }
 
     return NextResponse.json(data)
   } catch (error) {
-    console.error("Unexpected error:", error)
+    console.error('Error in PATCH /api/projects/[id]:', error)
     return NextResponse.json(
-      { error: "An unexpected error occurred" },
+      { error: 'Internal server error' },
       { status: 500 }
     )
   }
 }
 
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
+) {
   try {
     const { id } = await params
     const supabase = await createClient()
 
-    const { error } = await supabase.from("projects").delete().eq("id", id)
+    const { data, error } = await supabase
+      .from('projects')
+      .select('*')
+      .eq('id', id)
+      .single()
 
     if (error) {
-      console.error("Error deleting project:", error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      console.error('Error fetching project:', error)
+      return NextResponse.json(
+        { error: 'Project not found' },
+        { status: 404 }
+      )
     }
 
-    return NextResponse.json({ success: true })
+    return NextResponse.json(data)
   } catch (error) {
-    console.error("Unexpected error:", error)
+    console.error('Error in GET /api/projects/[id]:', error)
     return NextResponse.json(
-      { error: "An unexpected error occurred" },
+      { error: 'Internal server error' },
       { status: 500 }
     )
   }

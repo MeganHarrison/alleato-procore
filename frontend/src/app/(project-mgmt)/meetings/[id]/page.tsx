@@ -16,7 +16,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
-import ReactMarkdown from 'react-markdown'
+import { FormattedTranscript } from './formatted-transcript'
 
 interface PageProps {
   params: Promise<{ id: string }>
@@ -44,30 +44,35 @@ export default async function MeetingDetailPage({ params }: PageProps) {
     .eq('metadata_id', id)
     .order('segment_index', { ascending: true })
 
-  // Fetch transcript from storage bucket if URL exists
+  // Fetch transcript content
   let transcriptContent = null
 
-  // Check both 'url' and 'source' columns for the storage URL
-  const storageUrl = meeting.url || meeting.source
-
-  if (storageUrl && storageUrl.includes('supabase.co/storage')) {
-    try {
-      const response = await fetch(storageUrl)
-      if (response.ok) {
-        transcriptContent = await response.text()
-      }
-    } catch (error) {
-      console.error('Error fetching transcript:', error)
-    }
+  // First, check if content is directly in document_metadata
+  if (meeting.content) {
+    transcriptContent = meeting.content
   } else {
-    // Fallback: Try to fetch from documents table
-    const { data: document } = await supabase
-      .from('documents')
-      .select('content')
-      .eq('metadata_id', id)
-      .single()
+    // Check both 'url' and 'source' columns for the storage URL
+    const storageUrl = meeting.url || meeting.source
 
-    transcriptContent = document?.content
+    if (storageUrl && storageUrl.includes('supabase.co/storage')) {
+      try {
+        const response = await fetch(storageUrl)
+        if (response.ok) {
+          transcriptContent = await response.text()
+        }
+      } catch (error) {
+        console.error('Error fetching transcript:', error)
+      }
+    } else {
+      // Fallback: Try to fetch from documents table
+      const { data: document } = await supabase
+        .from('documents')
+        .select('content')
+        .eq('metadata_id', id)
+        .single()
+
+      transcriptContent = document?.content
+    }
   }
 
   return (
@@ -173,10 +178,10 @@ export default async function MeetingDetailPage({ params }: PageProps) {
         )}
 
         {/* External Links */}
-        {(meeting.source || meeting.fireflies_link) && (
+        {(meeting.url || meeting.source || meeting.fireflies_link) && (
           <div className="flex gap-3">
-            {meeting.source && (
-              <a href={meeting.source} target="_blank" rel="noopener noreferrer">
+            {(meeting.url || meeting.source) && (
+              <a href={meeting.url || meeting.source} target="_blank" rel="noopener noreferrer">
                 <Button variant="outline">
                   <FileText className="h-4 w-4 mr-2" />
                   View Source
@@ -279,13 +284,7 @@ export default async function MeetingDetailPage({ params }: PageProps) {
         {transcriptContent && (
           <div className="space-y-4">
             <h2 className="text-2xl font-bold">Full Transcript</h2>
-            <Card>
-              <CardContent className="pt-6">
-                <div className="prose prose-base max-w-none dark:prose-invert">
-                  <ReactMarkdown>{transcriptContent}</ReactMarkdown>
-                </div>
-              </CardContent>
-            </Card>
+            <FormattedTranscript content={transcriptContent} />
           </div>
         )}
 
