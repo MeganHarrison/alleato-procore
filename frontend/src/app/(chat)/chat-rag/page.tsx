@@ -1,102 +1,99 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { AgentPanel } from "@/components/chat/agent-panel";
 import { RagChatKitPanel } from "@/components/chat/rag-chatkit-panel";
-import type { Agent, AgentEvent, GuardrailCheck } from "@/lib/types";
+import { SimpleRagChat } from "@/components/chat/simple-rag-chat";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
-async function fetchRagBootstrapState() {
+type RagStatePayload = {
+  thread_id?: string | null;
+  current_agent?: string;
+  context?: {
+    backend_status?: string;
+    notice?: string;
+    [key: string]: unknown;
+  };
+};
+
+type RagStateResult<T = RagStatePayload> = {
+  data: T | null;
+  offline: boolean;
+};
+
+async function fetchRagBootstrapState(): Promise<RagStateResult> {
   try {
-    const res = await fetch("/rag-chatkit/bootstrap");
-    if (!res.ok) return null;
-    return await res.json();
+    const res = await fetch("/api/rag-chatkit/bootstrap");
+    const offline = res.headers.get("x-rag-backend-status") === "offline";
+    if (!res.ok) {
+      return { data: null, offline };
+    }
+    const data = (await res.json()) as RagStatePayload;
+    return { data, offline };
   } catch {
-    return null;
+    return { data: null, offline: true };
   }
 }
 
-async function fetchRagThreadState(threadId: string) {
+async function fetchRagThreadState(threadId: string): Promise<RagStateResult> {
   try {
-    const res = await fetch(`/rag-chatkit/state?thread_id=${threadId}`);
-    if (!res.ok) return null;
-    return await res.json();
+    const res = await fetch(`/api/rag-chatkit/state?thread_id=${threadId}`);
+    const offline = res.headers.get("x-rag-backend-status") === "offline";
+    if (!res.ok) {
+      return { data: null, offline };
+    }
+    const data = (await res.json()) as RagStatePayload;
+    return { data, offline };
   } catch {
-    return null;
+    return { data: null, offline: true };
   }
 }
 
 export default function RagHome() {
-  const [agents, setAgents] = useState<Agent[]>([
-    { name: "classification", description: "Classifies user queries", handoffs: ["project", "internal_knowledge", "strategist"], tools: [], input_guardrails: [] },
-    { name: "project", description: "Handles project-related queries", handoffs: [], tools: [], input_guardrails: [] },
-    { name: "internal_knowledge", description: "Searches internal knowledge base", handoffs: [], tools: [], input_guardrails: [] },
-    { name: "strategist", description: "Provides strategic insights", handoffs: [], tools: [], input_guardrails: [] },
-  ]);
-  const [events, setEvents] = useState<AgentEvent[]>([]);
-  const [currentAgent, setCurrentAgent] = useState<string>("classification");
-  const [guardrails, setGuardrails] = useState<GuardrailCheck[]>([]);
-  const [context, setContext] = useState<Record<string, any>>({});
   const [threadId, setThreadId] = useState<string | null>(null);
   const [initialThreadId, setInitialThreadId] = useState<string | null>(null);
+  const [isOffline, setIsOffline] = useState(false);
+  const [offlineMessage, setOfflineMessage] = useState<string | null>(null);
+  const [bootstrapReady, setBootstrapReady] = useState(false);
 
   const hydrateState = useCallback(
     async (id: string | null) => {
-      if (!id) return;
-      const data = await fetchRagThreadState(id);
+      if (!id || isOffline) return;
+      const { data, offline } = await fetchRagThreadState(id);
+      if (offline) {
+        setIsOffline(true);
+        setOfflineMessage(
+          data?.context?.notice ||
+            "The realtime AI backend is offline. Showing demo mode instead."
+        );
+        return;
+      }
       if (!data) return;
-
-      setCurrentAgent(data.current_agent || "classification");
-      setContext(data.context || {});
-      if (Array.isArray(data.events)) {
-        setEvents(
-          data.events.map((e: any) => ({
-            ...e,
-            timestamp: new Date(e.timestamp ?? Date.now()),
-          }))
-        );
-      }
-      if (Array.isArray(data.guardrails)) {
-        setGuardrails(
-          data.guardrails.map((g: any) => ({
-            ...g,
-            timestamp: new Date(g.timestamp ?? Date.now()),
-          }))
-        );
-      }
     },
-    []
+    [isOffline]
   );
 
   useEffect(() => {
-    if (threadId) {
+    if (threadId && !isOffline) {
       void hydrateState(threadId);
     }
-  }, [threadId, hydrateState]);
+  }, [threadId, hydrateState, isOffline]);
 
   useEffect(() => {
     (async () => {
-      const bootstrap = await fetchRagBootstrapState();
-      if (!bootstrap) return;
+      const { data: bootstrap, offline } = await fetchRagBootstrapState();
+      if (!bootstrap || offline || bootstrap?.context?.backend_status === "offline") {
+        setIsOffline(true);
+        setOfflineMessage(
+          bootstrap?.context?.notice ||
+            "The Alleato AI backend is currently offline. You can continue in demo mode below."
+        );
+        setBootstrapReady(true);
+        return;
+      }
+
       setInitialThreadId(bootstrap.thread_id || null);
       setThreadId(bootstrap.thread_id || null);
-      if (bootstrap.current_agent) setCurrentAgent(bootstrap.current_agent);
-      if (bootstrap.context) setContext(bootstrap.context);
-      if (Array.isArray(bootstrap.events)) {
-        setEvents(
-          bootstrap.events.map((e: any) => ({
-            ...e,
-            timestamp: new Date(e.timestamp ?? Date.now()),
-          }))
-        );
-      }
-      if (Array.isArray(bootstrap.guardrails)) {
-        setGuardrails(
-          bootstrap.guardrails.map((g: any) => ({
-            ...g,
-            timestamp: new Date(g.timestamp ?? Date.now()),
-          }))
-        );
-      }
+      setBootstrapReady(true);
     })();
   }, []);
 
@@ -105,8 +102,37 @@ export default function RagHome() {
   }, []);
 
   const handleResponseEnd = useCallback(() => {
-    void hydrateState(threadId);
-  }, [hydrateState, threadId]);
+    if (!isOffline) {
+      void hydrateState(threadId);
+    }
+  }, [hydrateState, threadId, isOffline]);
+
+  if (isOffline) {
+    return (
+      <div className="flex w-full -mx-4 sm:-mx-6 lg:-mx-8 -my-6" style={{ height: "calc(100vh - 64px)" }}>
+        <div className="flex flex-col flex-1 w-full px-4 sm:px-6 lg:px-8 py-6 gap-4">
+          <Alert>
+            <AlertTitle>Alleato AI backend unavailable</AlertTitle>
+            <AlertDescription>
+              {offlineMessage ||
+                "Real-time ChatKit responses are paused while the backend restarts. Use the simplified RAG chat to continue exploring."}
+            </AlertDescription>
+          </Alert>
+          <div className="flex-1 overflow-hidden rounded-xl border bg-white">
+            <SimpleRagChat placeholder="Demo mode – ask about any project update" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (!bootstrapReady) {
+    return (
+      <div className="flex items-center justify-center w-full h-[calc(100vh-64px)] text-sm text-muted-foreground">
+        Connecting to Alleato AI…
+      </div>
+    );
+  }
 
   return (
     <div className="flex w-full -mx-4 sm:-mx-6 lg:-mx-8 -my-6" style={{ height: 'calc(100vh - 64px)' }}>

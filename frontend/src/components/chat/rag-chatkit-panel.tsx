@@ -18,7 +18,7 @@ export function RagChatKitPanel({
 }: RagChatKitPanelProps) {
   const chatkit = useChatKit({
     api: {
-      url: "/rag-chatkit",
+      url: "/api/rag-chatkit",
       domainKey: CHATKIT_DOMAIN_KEY,
     },
     composer: {

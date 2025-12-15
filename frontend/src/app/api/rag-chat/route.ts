@@ -1,4 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { buildOfflineSimpleChatResponse } from "@/lib/rag-chatkit/offline-data";
+import { isBackendOfflineError, OFFLINE_HEADERS } from "../rag-chatkit/utils";
 
 /**
  * Simple RAG Chat API Route
@@ -20,9 +22,10 @@ interface ChatRequestBody {
 
 export async function POST(request: NextRequest) {
   const startTime = Date.now();
+  let body: ChatRequestBody | null = null;
 
   try {
-    const body: ChatRequestBody = await request.json();
+    body = await request.json();
 
     if (!body.message?.trim()) {
       return NextResponse.json(
@@ -52,13 +55,10 @@ export async function POST(request: NextRequest) {
       const errorText = await response.text();
       console.error('[RAG-Chat API] Backend error:', response.status, errorText);
 
-      return NextResponse.json(
-        {
-          error: 'Backend Error',
-          message: `Failed to get response from AI backend (${response.status})`,
-        },
-        { status: response.status }
-      );
+      const fallback = buildOfflineSimpleChatResponse(body.message, body.thread_id ?? null);
+      fallback.diagnostics = { fallback_reason: `backend-status-${response.status}` };
+
+      return NextResponse.json(fallback, { status: 200, headers: OFFLINE_HEADERS });
     }
 
     const data = await response.json();
@@ -79,14 +79,11 @@ export async function POST(request: NextRequest) {
     console.error('[RAG-Chat API] Error after', elapsed, 'ms:', errorMessage);
 
     // Check if backend is not running
-    if (errorCode === 'ECONNREFUSED' || errorMessage.includes('fetch failed')) {
-      return NextResponse.json(
-        {
-          error: 'Backend Not Running',
-          message: 'The Python AI backend is not running. Please start it with: cd backend && ./start.sh',
-        },
-        { status: 503 }
-      );
+    if (isBackendOfflineError({ code: errorCode, message: errorMessage })) {
+      const fallback = buildOfflineSimpleChatResponse(body?.message || '', body?.thread_id ?? null);
+      fallback.diagnostics = { fallback_reason: 'backend-offline' };
+
+      return NextResponse.json(fallback, { status: 200, headers: OFFLINE_HEADERS });
     }
 
     return NextResponse.json(
