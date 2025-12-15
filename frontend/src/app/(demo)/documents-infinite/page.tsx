@@ -3,12 +3,12 @@
 import { useCallback, useState } from 'react'
 import { useInfiniteQuery, type SupabaseQueryHandler } from '@/hooks/use-infinite-query'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Skeleton } from '@/components/ui/skeleton'
 import { Badge } from '@/components/ui/badge'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { formatDistanceToNow, format } from 'date-fns'
-import { FileText, Clock, Tag, Users, Calendar, ExternalLink, Filter } from 'lucide-react'
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
+import { format } from 'date-fns'
+import { FileText, Clock, Users, Calendar, ExternalLink, Filter } from 'lucide-react'
 
 interface DocumentMetadata {
   id: string
@@ -182,132 +182,146 @@ export default function DocumentsInfiniteDemoPage() {
         </Select>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-        {isLoading && !data.length ? (
-          // Initial loading state
-          <>
-            {[...Array(6)].map((_, i) => (
-              <Card key={i}>
-                <CardHeader>
-                  <Skeleton className="h-6 w-48 mb-2" />
-                  <Skeleton className="h-4 w-32" />
-                </CardHeader>
-                <CardContent>
-                  <Skeleton className="h-4 w-full mb-2" />
-                  <Skeleton className="h-4 w-3/4 mb-4" />
-                  <div className="flex gap-2">
-                    <Skeleton className="h-6 w-16" />
-                    <Skeleton className="h-6 w-16" />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </>
-        ) : (
-          // Data display
-          <>
-            {data.map((doc: DocumentMetadata) => (
-              <Card key={doc.id} className="hover:shadow-md transition-shadow">
-                <CardHeader className="pb-3">
-                  <div className="flex items-start justify-between">
-                    <div className="flex-1">
-                      <CardTitle className="text-lg line-clamp-2">
-                        {doc.title || 'Untitled Document'}
-                      </CardTitle>
-                      <CardDescription className="mt-1">
-                        {doc.type && (
-                          <div className="flex items-center gap-1">
-                            {getTypeIcon(doc.type)}
-                            <span className="capitalize">{doc.type}</span>
-                          </div>
-                        )}
-                      </CardDescription>
-                    </div>
-                    {doc.url && (
-                      <a
-                        href={doc.url}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="ml-2 text-muted-foreground hover:text-primary"
-                      >
-                        <ExternalLink className="h-4 w-4" />
-                      </a>
-                    )}
-                  </div>
-                </CardHeader>
-                <CardContent>
-                  {/* Summary or Description */}
-                  {(doc.summary || doc.description) && (
-                    <p className="text-sm text-muted-foreground line-clamp-3 mb-3">
-                      {doc.summary || doc.description}
+      <div className="rounded-md border bg-white">
+        <Table>
+          <TableHeader>
+            <TableRow>
+              <TableHead className="w-[300px]">Title</TableHead>
+              <TableHead>Type</TableHead>
+              <TableHead>Date</TableHead>
+              <TableHead>Status</TableHead>
+              <TableHead>Category</TableHead>
+              <TableHead>Duration</TableHead>
+              <TableHead>Participants</TableHead>
+              <TableHead className="text-right">Actions</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {isLoading && !data.length ? (
+              // Initial loading state
+              Array.from({ length: 6 }).map((_, i) => (
+                <TableRow key={`skeleton-${i}`}>
+                  <TableCell><Skeleton className="h-4 w-48" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-24" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-28" /></TableCell>
+                  <TableCell><Skeleton className="h-6 w-16" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-20" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-16" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-32" /></TableCell>
+                  <TableCell><Skeleton className="h-4 w-8 ml-auto" /></TableCell>
+                </TableRow>
+              ))
+            ) : data.length === 0 ? (
+              <TableRow>
+                <TableCell colSpan={8} className="h-24 text-center">
+                  <div className="flex flex-col items-center justify-center py-8">
+                    <FileText className="h-12 w-12 text-muted-foreground mb-4" />
+                    <h3 className="text-lg font-semibold mb-2">No documents found</h3>
+                    <p className="text-muted-foreground">
+                      Try adjusting your filters or add some documents to the database.
                     </p>
-                  )}
-
-                  {/* Metadata Grid */}
-                  <div className="space-y-2 text-sm">
-                    {doc.date && (
-                      <div className="flex items-center gap-2">
-                        <Calendar className="h-3 w-3 text-muted-foreground" />
-                        <span>{format(new Date(doc.date), 'MMM d, yyyy')}</span>
-                      </div>
-                    )}
-                    
-                    {doc.duration_minutes && (
-                      <div className="flex items-center gap-2">
-                        <Clock className="h-3 w-3 text-muted-foreground" />
-                        <span>{doc.duration_minutes} minutes</span>
-                      </div>
-                    )}
-
-                    {doc.participants && (
-                      <div className="flex items-center gap-2">
-                        <Users className="h-3 w-3 text-muted-foreground" />
-                        <span className="line-clamp-1">{doc.participants}</span>
-                      </div>
-                    )}
                   </div>
-
-                  {/* Tags and Badges */}
-                  <div className="flex flex-wrap gap-2 mt-3">
+                </TableCell>
+              </TableRow>
+            ) : (
+              // Data display
+              data.map((doc: DocumentMetadata) => (
+                <TableRow key={doc.id} className="hover:bg-muted/50">
+                  <TableCell>
+                    <div className="flex flex-col">
+                      <span className="font-medium line-clamp-1">
+                        {doc.title || 'Untitled Document'}
+                      </span>
+                      {(doc.summary || doc.description) && (
+                        <span className="text-xs text-muted-foreground line-clamp-1 mt-1">
+                          {doc.summary || doc.description}
+                        </span>
+                      )}
+                    </div>
+                  </TableCell>
+                  <TableCell>
+                    {doc.type && (
+                      <div className="flex items-center gap-1.5">
+                        {getTypeIcon(doc.type)}
+                        <span className="capitalize text-sm">{doc.type}</span>
+                      </div>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {doc.date ? (
+                      <div className="flex items-center gap-1.5 text-sm">
+                        <Calendar className="h-3 w-3 text-muted-foreground" />
+                        {format(new Date(doc.date), 'MMM d, yyyy')}
+                      </div>
+                    ) : (
+                      <span className="text-muted-foreground">—</span>
+                    )}
+                  </TableCell>
+                  <TableCell>
                     {doc.status && (
                       <Badge variant="outline" className={getStatusColor(doc.status)}>
                         {doc.status}
                       </Badge>
                     )}
-                    {doc.category && (
-                      <Badge variant="secondary">{doc.category}</Badge>
-                    )}
-                    {doc.access_level && doc.access_level !== 'team' && (
-                      <Badge variant="outline">{doc.access_level}</Badge>
-                    )}
-                    {doc.project && (
-                      <Badge variant="outline">
-                        <span className="text-xs">Project: {doc.project}</span>
+                  </TableCell>
+                  <TableCell>
+                    {doc.category ? (
+                      <Badge variant="secondary" className="text-xs">
+                        {doc.category}
                       </Badge>
+                    ) : (
+                      <span className="text-muted-foreground">—</span>
                     )}
-                  </div>
-
-                  {/* Footer */}
-                  <div className="mt-3 pt-3 border-t text-xs text-muted-foreground">
-                    Created {formatDistanceToNow(new Date(doc.created_at))} ago
-                    {doc.employee && <span> • By {doc.employee}</span>}
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </>
-        )}
+                  </TableCell>
+                  <TableCell>
+                    {doc.duration_minutes ? (
+                      <div className="flex items-center gap-1.5 text-sm">
+                        <Clock className="h-3 w-3 text-muted-foreground" />
+                        {doc.duration_minutes} min
+                      </div>
+                    ) : (
+                      <span className="text-muted-foreground">—</span>
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    {doc.participants ? (
+                      <div className="flex items-center gap-1.5 text-sm max-w-[200px]">
+                        <Users className="h-3 w-3 text-muted-foreground flex-shrink-0" />
+                        <span className="line-clamp-1">{doc.participants}</span>
+                      </div>
+                    ) : (
+                      <span className="text-muted-foreground">—</span>
+                    )}
+                  </TableCell>
+                  <TableCell className="text-right">
+                    {doc.url && (
+                      <a
+                        href={doc.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center text-muted-foreground hover:text-primary"
+                        aria-label={`Open ${doc.title || 'document'}`}
+                      >
+                        <ExternalLink className="h-4 w-4" />
+                      </a>
+                    )}
+                  </TableCell>
+                </TableRow>
+              ))
+            )}
+          </TableBody>
+        </Table>
       </div>
 
       {/* Load more section */}
-      {isSuccess && (
+      {isSuccess && data.length > 0 && (
         <div className="mt-8 text-center">
           <div className="text-sm text-muted-foreground mb-4">
             Showing {data.length} of {count} documents
-            {(typeFilter !== 'all' || categoryFilter !== 'all' || statusFilter !== 'all') && 
+            {(typeFilter !== 'all' || categoryFilter !== 'all' || statusFilter !== 'all') &&
               ' (filtered)'}
           </div>
-          
+
           {hasMore && (
             <Button
               onClick={fetchNextPage}
@@ -318,20 +332,10 @@ export default function DocumentsInfiniteDemoPage() {
               {isFetching ? 'Loading...' : 'Load More Documents'}
             </Button>
           )}
-          
-          {!hasMore && data.length > 0 && (
+
+          {!hasMore && (
             <div className="text-sm text-muted-foreground">
               No more documents to load
-            </div>
-          )}
-
-          {!hasMore && data.length === 0 && (
-            <div className="text-center py-12">
-              <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No documents found</h3>
-              <p className="text-muted-foreground">
-                Try adjusting your filters or add some documents to the database.
-              </p>
             </div>
           )}
         </div>
