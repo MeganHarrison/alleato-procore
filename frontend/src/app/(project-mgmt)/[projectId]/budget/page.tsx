@@ -8,6 +8,8 @@ import {
   BudgetStatusBanner,
   BudgetFilters,
   BudgetTable,
+  BudgetLineItemModal,
+  BudgetModificationModal,
 } from '@/components/budget';
 import {
   budgetViews,
@@ -30,6 +32,8 @@ export default function ProjectBudgetPage() {
   const [grandTotals, setGrandTotals] = React.useState<any>(budgetGrandTotals);
   const [loading, setLoading] = React.useState(true);
   const [projectName, setProjectName] = React.useState<string>('');
+  const [showLineItemModal, setShowLineItemModal] = React.useState(false);
+  const [showModificationModal, setShowModificationModal] = React.useState(false);
 
   // Fetch project data and budget data
   React.useEffect(() => {
@@ -65,7 +69,7 @@ export default function ProjectBudgetPage() {
 
   const handleCreateClick = () => {
     console.log('Create clicked for project:', projectId);
-    window.location.href = `/${projectId}/budget/line-item/new`;
+    setShowLineItemModal(true);
   };
 
   const handleResendToERP = () => {
@@ -94,6 +98,28 @@ export default function ProjectBudgetPage() {
 
   const handleToggleFullscreen = () => {
     console.log('Toggle fullscreen clicked');
+  };
+
+  const handleLineItemSuccess = () => {
+    // Refresh budget data after creating line items
+    const fetchData = async () => {
+      try {
+        const budgetResponse = await fetch(`/api/projects/${projectId}/budget`);
+        if (budgetResponse.ok) {
+          const budgetDataResponse = await budgetResponse.json();
+          setBudgetData(budgetDataResponse.lineItems || []);
+          setGrandTotals(budgetDataResponse.grandTotals || budgetGrandTotals);
+        }
+      } catch (error) {
+        console.error('Error refreshing budget data:', error);
+      }
+    };
+    fetchData();
+  };
+
+  const handleModificationSuccess = () => {
+    // Refresh budget data after creating modification
+    handleLineItemSuccess();
   };
 
   return (
@@ -146,6 +172,20 @@ export default function ProjectBudgetPage() {
           )}
         </Suspense>
       </div>
+
+      {/* Modals */}
+      <BudgetLineItemModal
+        open={showLineItemModal}
+        onOpenChange={setShowLineItemModal}
+        projectId={projectId}
+        onSuccess={handleLineItemSuccess}
+      />
+      <BudgetModificationModal
+        open={showModificationModal}
+        onOpenChange={setShowModificationModal}
+        projectId={projectId}
+        onSuccess={handleModificationSuccess}
+      />
     </div>
   );
 }

@@ -29,6 +29,42 @@ This plan assumes **Option A (UI First)**: build the component system first, the
 
 ## Recent Updates
 
+### 2025-12-15: Budget Sidebar Forms Implementation
+- **Converted budget forms from separate pages to slide-in sidebars** for better UX
+- **Created BudgetLineItemModal** (`/frontend/src/components/budget/budget-line-item-modal.tsx`)
+  - **Sidebar layout**: Slides in from right, 85% page width max for wide form support
+  - Multi-row table input for creating multiple budget line items at once
+  - Budget code selection with search functionality
+  - Quantity, UOM, unit cost, and auto-calculated amount fields
+  - Add/remove row functionality for flexible data entry
+  - Nested modal for creating new budget codes on the fly
+  - Integrates with existing project-scoped budget API
+- **Created BudgetModificationModal** (`/frontend/src/components/budget/budget-modification-modal.tsx`)
+  - **Sidebar layout**: Slides in from right, max 600px width for form
+  - Simple form for budget modifications (change orders, transfers, adjustments, revisions)
+  - Type selection dropdown with common modification types
+  - Amount field with support for negative values (decreases)
+  - Reason and description text areas for documentation
+  - Approver selection dropdown
+- **Updated Budget page** (`/frontend/src/app/(project-mgmt)/[projectId]/budget/page.tsx`)
+  - Changed "Create" button behavior from navigation to sidebar opening
+  - Added state management for sidebar visibility
+  - Implemented success callbacks to refresh budget data after creation
+  - Removed navigation to separate `/line-item/new` page
+- **Exported sidebar components** from budget component index for easy importing
+- **Created comprehensive Playwright test suite** (`/frontend/tests/e2e/budget-modals.spec.ts`)
+  - Tests sidebar opening and closing behavior
+  - Validates add/remove row functionality
+  - Ensures forms validate required fields
+  - Verifies no navigation occurs when sidebars open
+  - Confirms URL remains on budget page (project-scoped context preserved)
+- **Key Benefits**:
+  - Users stay in context on budget page instead of navigating away
+  - Faster workflow for creating budget line items and modifications
+  - Better visual feedback with slide-in animation and overlay
+  - Consistent with modern UI patterns and Procore-style interfaces
+  - Responsive width constraints (85% max, never exceeds viewport)
+
 ### 2025-12-14: Project Scoping Implementation
 - **Implemented comprehensive project scoping system** for financial pages (budget, commitments)
 - **Created ProjectContext provider** (`/frontend/src/contexts/project-context.tsx`) for centralized project state management

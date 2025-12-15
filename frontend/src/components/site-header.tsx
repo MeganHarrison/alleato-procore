@@ -60,8 +60,6 @@ const financialManagementTools: Array<{ name: string; path: string; hasCreateAct
   { name: "Invoicing", path: "invoices", requiresProject: true }
 ]
 
-const defaultAvatar = "/favicon-light.png"
-
 interface Project {
   id: number
   name: string
@@ -70,10 +68,16 @@ interface Project {
 
 export function SiteHeader({
   userAvatar,
+  userName,
+  userInitials,
 }: {
   userAvatar?: string
+  userName?: string
+  userInitials?: string
 } = {}) {
-  const avatarSrc = userAvatar ?? defaultAvatar
+  const avatarSrc = userAvatar
+  // Generate initials from userName if userInitials not provided
+  const fallbackInitials = userInitials || userName?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'U'
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [projects, setProjects] = useState<Project[]>([])
   const [loadingProjects, setLoadingProjects] = useState(false)
@@ -219,7 +223,7 @@ export function SiteHeader({
 
   return (
     <header className="bg-gray-800 text-white flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
-      <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
+      <div className="flex w-full items-center gap-1 px-4 py-3 lg:gap-2 lg:px-6">
         <SidebarTrigger className="-ml-1" />
         <Separator
           orientation="vertical"
@@ -486,15 +490,17 @@ export function SiteHeader({
                 className="flex items-center rounded-full border border-white/10 bg-white/5 p-0.5 transition-colors hover:border-brand hover:bg-brand/10"
                 aria-label="Open user menu"
               >
-                <Avatar className="h-9 w-9">
-                  <AvatarImage src={avatarSrc} alt="User avatar" />
-                  <AvatarFallback>U</AvatarFallback>
+                <Avatar className="h-9 w-9 rounded-full">
+                  <AvatarImage src={avatarSrc} alt="User avatar" className="rounded-full" />
+                  <AvatarFallback className="rounded-full bg-brand/20 text-white font-medium text-sm">
+                    {fallbackInitials}
+                  </AvatarFallback>
                 </Avatar>
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" sideOffset={4} className="w-48">
               <DropdownMenuLabel className="text-sm font-semibold">
-                User
+                {userName || 'User'}
               </DropdownMenuLabel>
               <DropdownMenuSeparator />
               <DropdownMenuItem>

@@ -3,3 +3,5 @@ export { BudgetTabs } from './budget-tabs';
 export { BudgetStatusBanner } from './budget-status-banner';
 export { BudgetFilters } from './budget-filters';
 export { BudgetTable } from './budget-table';
+export { BudgetLineItemModal } from './budget-line-item-modal';
+export { BudgetModificationModal } from './budget-modification-modal';
