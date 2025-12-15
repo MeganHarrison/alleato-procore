@@ -23,7 +23,7 @@ import { Separator } from "@/components/ui/separator"
 import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname, useRouter, useSearchParams } from "next/navigation"
 import { useHeader } from "@/components/layout/header-context"
 
 const coreTools: Array<{ name: string; href: string; badge?: string }> = [
@@ -86,14 +86,25 @@ export function SiteHeader({
   } = header
   const pathname = usePathname()
   const router = useRouter()
+  const searchParams = useSearchParams()
 
-  // Extract project ID from URL
+  // Extract project ID from URL path or query parameters
   const projectId = useMemo(() => {
+    // First check URL path segments
     const segments = pathname?.split("/").filter(Boolean) ?? []
-    // Check if first segment is a number (project ID)
     const firstSegment = segments[0]
-    return firstSegment && /^\d+$/.test(firstSegment) ? parseInt(firstSegment) : null
-  }, [pathname])
+    if (firstSegment && /^\d+$/.test(firstSegment)) {
+      return parseInt(firstSegment)
+    }
+
+    // Then check query parameters
+    const projectParam = searchParams?.get('project')
+    if (projectParam && /^\d+$/.test(projectParam)) {
+      return parseInt(projectParam)
+    }
+
+    return null
+  }, [pathname, searchParams])
 
   // Fetch current project details when project ID changes
   useEffect(() => {
@@ -139,15 +150,26 @@ export function SiteHeader({
     const segments = pathname?.split("/").filter(Boolean) ?? []
     const crumbs = [{ label: "Home", href: "/" }]
     segments.forEach((segment, index) => {
-      const href = `/${segments.slice(0, index + 1).join("/")}`
-      const label = segment
-        .split("-")
-        .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-        .join(" ")
+      let href = `/${segments.slice(0, index + 1).join("/")}`
+
+      // Check if this segment is a project ID (numeric)
+      let label: string
+      if (index === 0 && /^\d+$/.test(segment)) {
+        // This is a project ID - use the project name if available and link to /home
+        label = currentProject?.name || "Project"
+        href = `/${segment}/home`
+      } else {
+        // Regular segment - format it nicely
+        label = segment
+          .split("-")
+          .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+          .join(" ")
+      }
+
       crumbs.push({ label, href })
     })
     return crumbs
-  }, [pathname])
+  }, [pathname, currentProject])
 
   return (
     <header className="bg-gray-800 text-white flex h-(--header-height) shrink-0 items-center gap-2 border-b transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
@@ -162,7 +184,7 @@ export function SiteHeader({
           className="flex items-center gap-2 text-sm font-medium tracking-wide text-white/90"
         >
           {breadcrumbs.map((crumb, index) => (
-            <span key={crumb.href} className="flex items-center gap-2">
+            <span key={`${crumb.href}-${index}`} className="flex items-center gap-2">
               {index === breadcrumbs.length - 1 ? (
                 <span className="text-white">{crumb.label}</span>
               ) : (
@@ -182,15 +204,20 @@ export function SiteHeader({
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="h-8 text-[hsl(var(--procore-header-text))] hover:bg-brand px-2"
+                className={`h-8 text-[hsl(var(--procore-header-text))] px-2 ${
+                  currentProject ? 'bg-brand/10' : ''
+                }`}
               >
-                <span className="text-xs text-gray-300">Project</span>
+                {currentProject && (
+                  <span className="mr-2 h-2 w-2 rounded-full bg-[hsl(var(--procore-orange))]" />
+                )}
+                <span className="text-xs text-gray-200">Project</span>
                 <span className="mx-1 text-gray-500">|</span>
                 <span className="text-sm font-medium">
-                  {currentProject 
+                  {currentProject
                     ? `${currentProject["job number"] ? currentProject["job number"] + " - " : ""}${currentProject.name}`
-                    : projectId 
-                    ? "Loading..." 
+                    : projectId
+                    ? "Loading..."
                     : "Select Project"
                   }
                 </span>
@@ -236,13 +263,14 @@ export function SiteHeader({
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
+
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="flex h-8 items-center gap-2 rounded px-2 text-[hsl(var(--procore-header-text))] hover:bg-brand transition-colors"
+                className="flex h-8 items-center gap-2 rounded px-2 text-[hsl(var(--procore-header-text))] transition-colors"
               >
-                <span className="text-xs text-gray-400">Project Tools</span>
+                <span className="text-xs text-gray-200">Project Tools</span>
                 <span className="ml-2 text-sm font-medium">{currentTool}</span>
                 <ChevronDown className="ml-1 h-3 w-3" />
               </Button>
@@ -320,6 +348,7 @@ export function SiteHeader({
               </div>
             </DropdownMenuContent>
           </DropdownMenu>
+
           <Button
             variant="ghost"
             size="icon"

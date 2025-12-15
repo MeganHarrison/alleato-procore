@@ -7,13 +7,14 @@ export async function GET(request: Request) {
   try {
     const supabase = await createClient();
     const { searchParams } = new URL(request.url);
-    
+
     const page = parseInt(searchParams.get('page') || '1');
     const limit = parseInt(searchParams.get('limit') || '10');
     const status = searchParams.get('status');
     const search = searchParams.get('search');
     const companyId = searchParams.get('companyId');
-    
+    const projectId = searchParams.get('projectId');
+
     let query = supabase
       .from('commitments')
       .select(`
@@ -22,15 +23,20 @@ export async function GET(request: Request) {
         assignee:users!assignee_id(*)
       `)
       .order('created_at', { ascending: false });
-    
+
+    // Filter by project if projectId is provided
+    if (projectId) {
+      query = query.eq('project_id', projectId);
+    }
+
     if (status) {
       query = query.eq('status', status);
     }
-    
+
     if (companyId) {
       query = query.eq('contract_company_id', companyId);
     }
-    
+
     if (search) {
       query = query.or(`number.ilike.%${search}%,title.ilike.%${search}%`);
     }

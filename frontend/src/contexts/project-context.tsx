@@ -1,0 +1,126 @@
+'use client'
+
+import React, { createContext, useContext, useEffect, useState, useCallback } from 'react'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
+
+interface Project {
+  id: number
+  name: string
+  number?: string
+  status?: string
+  client?: string
+  start_date?: string
+  end_date?: string
+}
+
+interface ProjectContextType {
+  selectedProject: Project | null
+  projectId: number | null
+  setSelectedProject: (project: Project | null) => void
+  isLoading: boolean
+  requireProject: () => boolean
+}
+
+const ProjectContext = createContext<ProjectContextType | undefined>(undefined)
+
+export function ProjectProvider({ children }: { children: React.ReactNode }) {
+  const [selectedProject, setSelectedProjectState] = useState<Project | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
+  const pathname = usePathname()
+  const router = useRouter()
+  const searchParams = useSearchParams()
+
+  // Extract project ID from URL path (e.g., /123/home -> 123) or query params (e.g., ?project=123)
+  const projectIdFromUrl = React.useMemo(() => {
+    // First check URL path segments
+    const segments = pathname.split('/').filter(Boolean)
+    if (segments.length > 0 && /^\d+$/.test(segments[0])) {
+      return parseInt(segments[0], 10)
+    }
+
+    // Then check query parameters
+    const projectParam = searchParams.get('project')
+    if (projectParam && /^\d+$/.test(projectParam)) {
+      return parseInt(projectParam, 10)
+    }
+
+    return null
+  }, [pathname, searchParams])
+
+  // Fetch project details when URL changes
+  useEffect(() => {
+    async function fetchProject() {
+      if (!projectIdFromUrl) {
+        setSelectedProjectState(null)
+        setIsLoading(false)
+        return
+      }
+
+      try {
+        setIsLoading(true)
+        const response = await fetch(`/api/projects/${projectIdFromUrl}`)
+        if (response.ok) {
+          const project = await response.json()
+          setSelectedProjectState(project)
+        } else {
+          console.error('Failed to fetch project:', response.statusText)
+          setSelectedProjectState(null)
+        }
+      } catch (error) {
+        console.error('Error fetching project:', error)
+        setSelectedProjectState(null)
+      } finally {
+        setIsLoading(false)
+      }
+    }
+
+    fetchProject()
+  }, [projectIdFromUrl])
+
+  // Manually set project (for programmatic updates)
+  const setSelectedProject = useCallback((project: Project | null) => {
+    setSelectedProjectState(project)
+  }, [])
+
+  // Check if project is required and redirect if not selected
+  const requireProject = useCallback(() => {
+    if (!selectedProject && !isLoading) {
+      // Redirect to projects list or show selection modal
+      router.push('/')
+      return false
+    }
+    return true
+  }, [selectedProject, isLoading, router])
+
+  const value: ProjectContextType = {
+    selectedProject,
+    projectId: selectedProject?.id || projectIdFromUrl,
+    setSelectedProject,
+    isLoading,
+    requireProject,
+  }
+
+  return <ProjectContext.Provider value={value}>{children}</ProjectContext.Provider>
+}
+
+export function useProject() {
+  const context = useContext(ProjectContext)
+  if (context === undefined) {
+    throw new Error('useProject must be used within a ProjectProvider')
+  }
+  return context
+}
+
+// Hook that requires a project to be selected
+export function useRequireProject() {
+  const context = useProject()
+
+  useEffect(() => {
+    if (!context.isLoading && !context.selectedProject) {
+      // Project is required but not selected
+      context.requireProject()
+    }
+  }, [context])
+
+  return context
+}

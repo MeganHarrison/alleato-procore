@@ -27,7 +27,28 @@ This plan assumes **Option A (UI First)**: build the component system first, the
 
 ---
 
-## Recent Updates (2025-12-13)
+## Recent Updates
+
+### 2025-12-14: Project Scoping Implementation
+- **Implemented comprehensive project scoping system** for financial pages (budget, commitments)
+- **Created ProjectContext provider** (`/frontend/src/contexts/project-context.tsx`) for centralized project state management
+  - Added support for extracting project ID from both URL paths and query parameters
+- **Built ProjectGuard component** (`/frontend/src/components/project-guard.tsx`) to enforce project selection
+- **Updated API routes** to support project filtering (commitments API now accepts `projectId` parameter)
+- **Enhanced Budget page** with project guard and project name display
+- **Enhanced Commitments page** with project guard and project-filtered data fetching
+- **Added visual indicators** in site header (orange dot and border highlight when project selected)
+- **Created comprehensive E2E tests** (`/frontend/tests/e2e/project-scoping.spec.ts`) covering all project scoping scenarios
+- **Updated breadcrumb display** to show project names instead of IDs (e.g., "Home > Alleato Finance > Budget")
+- **Created breadcrumb utilities** (`/frontend/src/lib/breadcrumbs.ts`) with reusable helper functions
+- **Implemented dynamic page titles** (`/frontend/src/hooks/useProjectTitle.ts`) showing project names in browser tabs
+  - Applied to Budget and Commitments pages
+  - Format: "Project Name - Page Title - Alleato OS"
+- **Documentation**: Created `PROJECT_SCOPING_IMPLEMENTATION.md`, `BREADCRUMB_UPDATE.md`, `QUERY_PARAM_PROJECT_SUPPORT.md`, and `PAGE_TITLE_UPDATE.md`
+- **Key Benefit**: Users must now select a project before accessing financial pages, ensuring data is always project-specific
+- **Next Steps**: Apply project scoping to remaining financial pages (change orders, invoices, contracts) and project management pages (tasks, meetings, RFIs)
+
+### 2025-12-13
 
 ### Procore Video Walkthrough Analysis and Implementation Plan
 - Analyzed video walkthrough demonstrating Procore's construction project management workflow
@@ -418,7 +439,7 @@ alleato-procore/
 ### Project Home
 - [x] Add section for meetings
 - [ ] Must be mobile responsive
-- [ ] Meetings must open to the individual meeting table when clicked. Display all meeting metadata beautifully along with the full transcript. Make sure dynamic fields are formatted in an aesthetically pleasing way.
+- [x] Meetings must open to the individual meeting table when clicked. Display all meeting metadata beautifully along with the full transcript. Make sure dynamic fields are formatted in an aesthetically pleasing way. (Fixed ChunkLoadError on 2025-12-15)
 - [ ] Must be mobile responsive
 
 ### Top Header
@@ -694,6 +715,9 @@ Based on the video walkthrough analysis, the following implementation phases are
   - Introduced a shared helper + offline datasets to keep ChatKit rendering even without the backend: [`frontend/src/app/api/rag-chatkit/utils.ts`](frontend/src/app/api/rag-chatkit/utils.ts), [`frontend/src/lib/rag-chatkit/offline-data.ts`](frontend/src/lib/rag-chatkit/offline-data.ts)
   - Updated the simple `/api/rag-chat` proxy to return a demo-friendly response whenever the backend is unreachable so the Playwright `chat-rag` spec can pass on CI: [`frontend/src/app/api/rag-chat/route.ts`](frontend/src/app/api/rag-chat/route.ts)
   - Added offline-aware UI fallback so `/chat-rag` swaps in `SimpleRagChat` with a status alert when the backend is down and updated the associated Playwright spec to verify both ChatKit and fallback flows: [`frontend/src/app/(chat)/chat-rag/page.tsx`](frontend/src/app/(chat)/chat-rag/page.tsx), [`frontend/tests/chat-rag-e2e.spec.ts`](frontend/tests/chat-rag-e2e.spec.ts)
+- [x] (Completed 2025-12-15) Hardened Docs explorer so deployments no longer fail when the `/docs` directory is excluded
+  - Added runtime detection of the docs content directory (env override + multiple fallbacks) and graceful degradation when it is absent so Next.js builds skip the section instead of throwing ENOENT: [`frontend/src/lib/docs.ts`](frontend/src/lib/docs.ts)
+  - Enhanced `loadDocContent` to return a placeholder message when the markdown file cannot be read, preventing runtime crashes on partially synced environments
 
 - [x] (Completed 2025-12-09) Phase 0 folder creation
 - [x] (Completed 2025-12-09) Implement AppShell + Layout components

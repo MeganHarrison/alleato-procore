@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { HeaderProvider } from "@/components/layout/header-context";
+import { ProjectProvider } from "@/contexts/project-context";
 import { SiteHeader } from "@/components/site-header"
 import { Toaster } from "@/components/ui/sonner"
 
@@ -37,17 +38,19 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <HeaderProvider>
-              <SidebarProvider defaultOpen={false}>
-                <AppSidebar />
-                <SidebarInset>
-                <SiteHeader />
-                <div className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6">
-                {children}
-              </div>
-                </SidebarInset>
-              </SidebarProvider>
-            </HeaderProvider>
+            <ProjectProvider>
+              <HeaderProvider>
+                <SidebarProvider defaultOpen={false}>
+                  <AppSidebar />
+                  <SidebarInset>
+                  <SiteHeader />
+                  <div className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6">
+                  {children}
+                </div>
+                  </SidebarInset>
+                </SidebarProvider>
+              </HeaderProvider>
+            </ProjectProvider>
           </ThemeProvider>
         </QueryProvider>
         <Toaster />

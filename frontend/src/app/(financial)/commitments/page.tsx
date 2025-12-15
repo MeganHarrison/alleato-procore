@@ -17,16 +17,22 @@ import { Commitment } from '@/types/financial';
 import { PageHeader, PageContainer, PageToolbar, PageTabs } from '@/components/layout';
 import { DataTableResponsive } from '@/components/tables';
 import { ColumnDef } from '@tanstack/react-table';
+import { ProjectGuard } from '@/components/project-guard';
+import { useProject } from '@/contexts/project-context';
+import { getFinancialBreadcrumbs } from '@/lib/breadcrumbs';
+import { useProjectTitle } from '@/hooks/useProjectTitle';
 
 export default function CommitmentsPage() {
   const router = useRouter();
-  const { 
-    commitments, 
-    setCommitments, 
-    isLoading, 
-    errors, 
-    setLoading, 
-    setError 
+  const { projectId, selectedProject } = useProject();
+  useProjectTitle('Commitments'); // Set page title with project name
+  const {
+    commitments,
+    setCommitments,
+    isLoading,
+    errors,
+    setLoading,
+    setError
   } = useFinancialStore();
 
   const [statusCounts, setStatusCounts] = useState<Record<string, number>>({
@@ -47,9 +53,11 @@ export default function CommitmentsPage() {
   });
 
   useEffect(() => {
-    fetchCommitments();
+    if (projectId) {
+      fetchCommitments();
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [projectId]);
 
   useEffect(() => {
     // Calculate status counts and totals
@@ -86,15 +94,19 @@ export default function CommitmentsPage() {
   }, [commitments]);
 
   const fetchCommitments = async () => {
+    if (!projectId) {
+      return;
+    }
+
     setLoading('commitments', true);
     setError('commitments', null);
 
     try {
-      const response = await fetch('/api/commitments');
+      const response = await fetch(`/api/commitments?projectId=${projectId}`);
       if (!response.ok) {
         throw new Error('Failed to fetch commitments');
       }
-      
+
       const data = await response.json();
       setCommitments(data.data || []);
     } catch (error) {
@@ -246,14 +258,11 @@ export default function CommitmentsPage() {
 
   if (errors.commitments) {
     return (
-      <>
+      <ProjectGuard message={`Please select a project to view commitments for ${selectedProject?.name || 'this project'}.`}>
         <PageHeader
           title="Commitments"
           description="Manage purchase orders and subcontracts"
-          breadcrumbs={[
-            { label: 'Financial', href: '/financial' },
-            { label: 'Commitments' },
-          ]}
+          breadcrumbs={getFinancialBreadcrumbs('Commitments', selectedProject)}
         />
         <PageContainer>
           <Card className="p-6">
@@ -264,19 +273,16 @@ export default function CommitmentsPage() {
             </Button>
           </Card>
         </PageContainer>
-      </>
+      </ProjectGuard>
     );
   }
 
   return (
-    <>
+    <ProjectGuard message={`Please select a project to view commitments for ${selectedProject?.name || 'this project'}.`}>
       <PageHeader
         title="Commitments"
         description="Manage purchase orders and subcontracts"
-        breadcrumbs={[
-          { label: 'Financial', href: '/financial' },
-          { label: 'Commitments' },
-        ]}
+        breadcrumbs={getFinancialBreadcrumbs('Commitments', selectedProject)}
         actions={
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
@@ -408,6 +414,6 @@ export default function CommitmentsPage() {
           />
         )}
       </PageContainer>
-    </>
+    </ProjectGuard>
   );
 }
