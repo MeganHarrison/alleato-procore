@@ -12,6 +12,9 @@ export interface BudgetLineItem {
   committedCosts: number;
   pendingCostChanges: number;
   projectedCosts: number;
+  forecastToComplete: number;
+  estimatedCostAtCompletion: number;
+  projectedOverUnder: number;
   children?: BudgetLineItem[];
   expanded?: boolean;
 }
@@ -61,4 +64,7 @@ export interface BudgetGrandTotals {
   committedCosts: number;
   pendingCostChanges: number;
   projectedCosts: number;
+  forecastToComplete: number;
+  estimatedCostAtCompletion: number;
+  projectedOverUnder: number;
 }

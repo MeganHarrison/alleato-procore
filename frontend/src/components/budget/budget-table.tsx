@@ -257,6 +257,54 @@ export function BudgetTable({ data, grandTotals }: BudgetTableProps) {
       ),
       size: 130,
     },
+    {
+      accessorKey: 'forecastToComplete',
+      header: () => (
+        <div className="text-right">
+          Forecast to
+          <br />
+          Complete
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div className="text-right">
+          <CurrencyCell value={row.getValue('forecastToComplete')} />
+        </div>
+      ),
+      size: 130,
+    },
+    {
+      accessorKey: 'estimatedCostAtCompletion',
+      header: () => (
+        <div className="text-right">
+          Estimated Cost at
+          <br />
+          Completion
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div className="text-right">
+          <CurrencyCell value={row.getValue('estimatedCostAtCompletion')} />
+        </div>
+      ),
+      size: 150,
+    },
+    {
+      accessorKey: 'projectedOverUnder',
+      header: () => (
+        <div className="text-right">
+          Projected
+          <br />
+          Over / Under
+        </div>
+      ),
+      cell: ({ row }) => (
+        <div className="text-right">
+          <CurrencyCell value={row.getValue('projectedOverUnder')} />
+        </div>
+      ),
+      size: 130,
+    },
   ];
 
   const table = useReactTable({
@@ -330,11 +378,12 @@ export function BudgetTable({ data, grandTotals }: BudgetTableProps) {
         </Table>
       </div>
 
-      {/* Grand Totals Row - Fixed at bottom */}
-      <div className="border-t-2 border-gray-300 bg-gray-50 sticky bottom-0">
-        <Table>
-          <TableBody>
-            <TableRow className="font-semibold bg-gray-50">
+      {/* Grand Totals Row - Fixed at bottom - Only show if there are rows */}
+      {table.getRowModel().rows?.length > 0 && (
+        <div className="border-t-2 border-gray-300 bg-gray-50 sticky bottom-0">
+          <Table>
+            <TableBody>
+              <TableRow className="font-semibold bg-gray-50">
               <TableCell className="py-3 px-4" style={{ width: 40 }} />
               <TableCell className="py-3 px-4 text-sm font-bold text-gray-900" style={{ width: 200 }}>
                 Grand Totals
@@ -372,10 +421,20 @@ export function BudgetTable({ data, grandTotals }: BudgetTableProps) {
               <TableCell className="py-3 px-4 text-sm text-right" style={{ width: 130 }}>
                 <CurrencyCell value={grandTotals.projectedCosts} />
               </TableCell>
+              <TableCell className="py-3 px-4 text-sm text-right" style={{ width: 130 }}>
+                <CurrencyCell value={grandTotals.forecastToComplete} />
+              </TableCell>
+              <TableCell className="py-3 px-4 text-sm text-right" style={{ width: 150 }}>
+                <CurrencyCell value={grandTotals.estimatedCostAtCompletion} />
+              </TableCell>
+              <TableCell className="py-3 px-4 text-sm text-right" style={{ width: 130 }}>
+                <CurrencyCell value={grandTotals.projectedOverUnder} />
+              </TableCell>
             </TableRow>
           </TableBody>
         </Table>
       </div>
+      )}
     </div>
   );
 }

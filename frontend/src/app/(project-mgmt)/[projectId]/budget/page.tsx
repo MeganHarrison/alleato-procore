@@ -65,7 +65,7 @@ export default function ProjectBudgetPage() {
 
   const handleCreateClick = () => {
     console.log('Create clicked for project:', projectId);
-    window.location.href = `/${projectId}/budget/line-item/new`;
+    window.location.href = `/budget/line-item/new?projectId=${projectId}`;
   };
 
   const handleResendToERP = () => {
@@ -99,7 +99,7 @@ export default function ProjectBudgetPage() {
   return (
     <div className="flex flex-col h-[calc(100vh-48px)]">
       {/* Page Header */}
-      <div className="bg-white">
+      <div>
         <BudgetPageHeader
           title={projectName ? `Budget - ${projectName}` : 'Budget'}
           isSynced={budgetSyncStatus.isSynced}
@@ -111,11 +111,6 @@ export default function ProjectBudgetPage() {
 
         {/* Tab Navigation */}
         <BudgetTabs activeTab={activeTab} onTabChange={handleTabChange} />
-      </div>
-
-      {/* Status Banner */}
-      <div className="mx-6 mt-4">
-        <BudgetStatusBanner syncStatus={budgetSyncStatus} />
       </div>
 
       {/* Filter Controls */}

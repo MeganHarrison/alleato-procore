@@ -1,10 +1,10 @@
-import {
-  BudgetLineItem,
-  BudgetView,
-  BudgetSnapshot,
-  BudgetGroup,
-  BudgetSyncStatus,
+import type {
   BudgetGrandTotals,
+  BudgetGroup,
+  BudgetLineItem,
+  BudgetSnapshot,
+  BudgetSyncStatus,
+  BudgetView,
 } from '@/types/budget';
 
 export const budgetLineItems: BudgetLineItem[] = [
@@ -22,6 +22,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 0,
     pendingCostChanges: 0,
     projectedCosts: 0,
+    forecastToComplete: 0,
+    estimatedCostAtCompletion: 0,
+    projectedOverUnder: 3500,
   },
   {
     id: '01',
@@ -37,6 +40,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 2958,
     pendingCostChanges: 0,
     projectedCosts: 170364.87,
+    forecastToComplete: 0,
+    estimatedCostAtCompletion: 170364.87,
+    projectedOverUnder: -166864.87,
     children: [
       {
         id: '01-100',
@@ -52,6 +58,9 @@ export const budgetLineItems: BudgetLineItem[] = [
         committedCosts: 2000,
         pendingCostChanges: 0,
         projectedCosts: 94000,
+        forecastToComplete: 0,
+        estimatedCostAtCompletion: 94000,
+        projectedOverUnder: 75114.06,
       },
       {
         id: '01-200',
@@ -67,6 +76,9 @@ export const budgetLineItems: BudgetLineItem[] = [
         committedCosts: 958,
         pendingCostChanges: 0,
         projectedCosts: 52864.87,
+        forecastToComplete: 0,
+        estimatedCostAtCompletion: 52864.87,
+        projectedOverUnder: 40135.13,
       },
       {
         id: '01-300',
@@ -82,6 +94,9 @@ export const budgetLineItems: BudgetLineItem[] = [
         committedCosts: 0,
         pendingCostChanges: 0,
         projectedCosts: 23500,
+        forecastToComplete: 0,
+        estimatedCostAtCompletion: 23500,
+        projectedOverUnder: 29114.059999999998,
       },
     ],
   },
@@ -99,6 +114,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 4500,
     pendingCostChanges: 0,
     projectedCosts: 25592.50,
+    forecastToComplete: 0,
+    estimatedCostAtCompletion: 25592.5,
+    projectedOverUnder: -2092.5,
   },
   {
     id: '03',
@@ -114,6 +132,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 19238.28,
     pendingCostChanges: 0,
     projectedCosts: 27456.57,
+    forecastToComplete: 8218.279999999999,
+    estimatedCostAtCompletion: 27456.57,
+    projectedOverUnder: -1864.0699999999997,
   },
   {
     id: '04',
@@ -129,6 +150,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 0,
     pendingCostChanges: 0,
     projectedCosts: 0,
+    forecastToComplete: 0,
+    estimatedCostAtCompletion: 0,
+    projectedOverUnder: 19238.28,
   },
   {
     id: '05',
@@ -144,6 +168,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 0,
     pendingCostChanges: 0,
     projectedCosts: 0,
+    forecastToComplete: 0,
+    estimatedCostAtCompletion: 0,
+    projectedOverUnder: 0,
   },
   {
     id: '06',
@@ -159,6 +186,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 0,
     pendingCostChanges: 0,
     projectedCosts: 76.63,
+    forecastToComplete: 0,
+    estimatedCostAtCompletion: 76.63,
+    projectedOverUnder: -76.63,
   },
   {
     id: '07',
@@ -174,6 +204,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 7000,
     pendingCostChanges: 0,
     projectedCosts: 7000,
+    forecastToComplete: 0,
+    estimatedCostAtCompletion: 7000,
+    projectedOverUnder: -6923.37,
   },
   {
     id: '08',
@@ -189,6 +222,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 46358.25,
     pendingCostChanges: 0,
     projectedCosts: 79310.01,
+    forecastToComplete: 34828.49999999999,
+    estimatedCostAtCompletion: 79310.01,
+    projectedOverUnder: -72310.01,
   },
   {
     id: '09',
@@ -204,6 +240,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 450376,
     pendingCostChanges: 0,
     projectedCosts: 451474.80,
+    forecastToComplete: 0,
+    estimatedCostAtCompletion: 451474.8,
+    projectedOverUnder: -403284.41,
     children: [
       {
         id: '09-100',
@@ -219,6 +258,9 @@ export const budgetLineItems: BudgetLineItem[] = [
         committedCosts: 149500,
         pendingCostChanges: 0,
         projectedCosts: 150000,
+        forecastToComplete: 0,
+        estimatedCostAtCompletion: 150000,
+        projectedOverUnder: 301474.8,
       },
       {
         id: '09-200',
@@ -234,6 +276,9 @@ export const budgetLineItems: BudgetLineItem[] = [
         committedCosts: 186176,
         pendingCostChanges: 0,
         projectedCosts: 186474.80,
+        forecastToComplete: 0,
+        estimatedCostAtCompletion: 186474.8,
+        projectedOverUnder: -36474.79999999999,
       },
       {
         id: '09-300',
@@ -249,6 +294,9 @@ export const budgetLineItems: BudgetLineItem[] = [
         committedCosts: 114700,
         pendingCostChanges: 0,
         projectedCosts: 115000,
+        forecastToComplete: 0,
+        estimatedCostAtCompletion: 115000,
+        projectedOverUnder: 71474.79999999999,
       },
     ],
   },
@@ -266,6 +314,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 16502.52,
     pendingCostChanges: 0,
     projectedCosts: 16886.33,
+    forecastToComplete: 0,
+    estimatedCostAtCompletion: 16886.33,
+    projectedOverUnder: 98113.67,
   },
   {
     id: '11',
@@ -281,6 +332,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 0,
     pendingCostChanges: 0,
     projectedCosts: 834.58,
+    forecastToComplete: 0,
+    estimatedCostAtCompletion: 834.58,
+    projectedOverUnder: 16051.750000000002,
   },
   {
     id: '12',
@@ -296,6 +350,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 42415.55,
     pendingCostChanges: 0,
     projectedCosts: 42415.55,
+    forecastToComplete: 32.10000000000582,
+    estimatedCostAtCompletion: 42415.55,
+    projectedOverUnder: -41580.97,
   },
   {
     id: '21',
@@ -311,6 +368,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 29907.15,
     pendingCostChanges: 0,
     projectedCosts: 32884.64,
+    forecastToComplete: 600,
+    estimatedCostAtCompletion: 32884.64,
+    projectedOverUnder: 9530.910000000003,
   },
   {
     id: '22',
@@ -326,6 +386,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 159418,
     pendingCostChanges: 0,
     projectedCosts: 159516.40,
+    forecastToComplete: 0,
+    estimatedCostAtCompletion: 159516.4,
+    projectedOverUnder: -126631.76,
   },
   {
     id: '23',
@@ -341,6 +404,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 67786,
     pendingCostChanges: 0,
     projectedCosts: 67786,
+    forecastToComplete: 0,
+    estimatedCostAtCompletion: 67786,
+    projectedOverUnder: 91730.4,
   },
   {
     id: '26',
@@ -356,6 +422,9 @@ export const budgetLineItems: BudgetLineItem[] = [
     committedCosts: 300674.53,
     pendingCostChanges: 0,
     projectedCosts: 300674.53,
+    forecastToComplete: 0,
+    estimatedCostAtCompletion: 300674.53,
+    projectedOverUnder: -232888.53000000003,
     children: [
       {
         id: '26-100',
@@ -371,6 +440,9 @@ export const budgetLineItems: BudgetLineItem[] = [
         committedCosts: 100000,
         pendingCostChanges: 0,
         projectedCosts: 100000,
+        forecastToComplete: 0,
+        estimatedCostAtCompletion: 100000,
+        projectedOverUnder: 200674.53000000003,
       },
       {
         id: '26-200',
@@ -386,6 +458,9 @@ export const budgetLineItems: BudgetLineItem[] = [
         committedCosts: 125674.53,
         pendingCostChanges: 0,
         projectedCosts: 125674.53,
+        forecastToComplete: 0,
+        estimatedCostAtCompletion: 125674.53,
+        projectedOverUnder: -25674.53,
       },
       {
         id: '26-300',
@@ -401,6 +476,9 @@ export const budgetLineItems: BudgetLineItem[] = [
         committedCosts: 75000,
         pendingCostChanges: 0,
         projectedCosts: 75000,
+        forecastToComplete: 0,
+        estimatedCostAtCompletion: 75000,
+        projectedOverUnder: 50674.53,
       },
     ],
   },
@@ -418,6 +496,9 @@ export const budgetGrandTotals: BudgetGrandTotals = {
   committedCosts: 1156849.28,
   pendingCostChanges: 0,
   projectedCosts: 1425548.70,
+  forecastToComplete: 43678.88,
+  estimatedCostAtCompletion: 1425548.70,
+  projectedOverUnder: 169644.19,
 };
 
 export const budgetViews: BudgetView[] = [

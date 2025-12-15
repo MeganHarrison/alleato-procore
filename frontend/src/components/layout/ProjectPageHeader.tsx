@@ -1,86 +1,100 @@
 "use client"
 
 import * as React from "react"
-import { useParams } from "next/navigation"
 import { ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { useProject } from "@/contexts/project-context"
+
+interface BreadcrumbItem {
+  label: string
+  href?: string
+}
 
 interface ProjectPageHeaderProps {
   title: string
   description?: string
+  breadcrumbs?: BreadcrumbItem[]
   actions?: React.ReactNode
   className?: string
-  projectName?: string
   showProjectName?: boolean
 }
 
 export function ProjectPageHeader({
   title,
   description,
+  breadcrumbs,
   actions,
   className,
-  projectName,
   showProjectName = true,
 }: ProjectPageHeaderProps) {
-  const params = useParams()
-  const projectId = params?.projectId as string
-  const [project, setProject] = React.useState<{ name: string; 'job number': string | null } | null>(null)
-  const [loading, setLoading] = React.useState(true)
-
-  React.useEffect(() => {
-    // If projectName is provided as prop, use it
-    if (projectName) {
-      setProject({ name: projectName, 'job number': null })
-      setLoading(false)
-      return
-    }
-
-    // Otherwise fetch project details if projectId is available
-    if (projectId && showProjectName) {
-      const fetchProject = async () => {
-        try {
-          const response = await fetch(`/api/projects/${projectId}`)
-          if (response.ok) {
-            const data = await response.json()
-            setProject(data)
-          }
-        } catch (error) {
-          console.error('Failed to fetch project:', error)
-        } finally {
-          setLoading(false)
-        }
-      }
-      fetchProject()
-    } else {
-      setLoading(false)
-    }
-  }, [projectId, projectName, showProjectName])
+  const { selectedProject, isLoading } = useProject()
 
   return (
     <div className={cn("border-b bg-white", className)}>
       <div className="px-4 sm:px-6 lg:px-8">
-        {/* Project Name Subtitle */}
-        {showProjectName && !loading && project && (
-          <div className="pt-4 pb-2">
-            <div className="flex items-center gap-2 text-sm text-gray-500">
-              <span className="font-medium">
-                {project['job number'] ? `${project['job number']} - ` : ''}
-                {project.name}
-              </span>
-              <ChevronRight className="h-3 w-3" />
-              <span className="text-gray-900 font-medium">{title}</span>
-            </div>
-          </div>
+        {/* Breadcrumbs */}
+        {breadcrumbs && breadcrumbs.length > 0 && (
+          <nav className="flex py-3" aria-label="Breadcrumb">
+            <ol className="flex items-center space-x-2">
+              {breadcrumbs.map((item) => (
+                <li key={item.label} className="flex items-center">
+                  {breadcrumbs.indexOf(item) > 0 && (
+                    <ChevronRight className="h-4 w-4 text-gray-400 mx-2" />
+                  )}
+                  {item.href ? (
+                    <a
+                      href={item.href}
+                      className="text-sm font-medium text-gray-500 hover:text-gray-700"
+                    >
+                      {item.label}
+                    </a>
+                  ) : (
+                    <span className="text-sm font-medium text-gray-900">
+                      {item.label}
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ol>
+          </nav>
         )}
 
         {/* Title and Actions */}
         <div className="flex items-center justify-between py-6">
           <div>
+            {/* Project Name - Displayed prominently above page title */}
+            {showProjectName && (
+              <div className="mb-1">
+                {isLoading ? (
+                  // Loading skeleton
+                  <div className="h-5 w-48 bg-gray-200 animate-pulse rounded" />
+                ) : selectedProject ? (
+                  // Project name with job number if available
+                  <div className="text-sm font-medium text-muted-foreground">
+                    {selectedProject.number && (
+                      <span className="text-gray-600">
+                        {selectedProject.number}
+                        {' · '}
+                      </span>
+                    )}
+                    <span className="text-gray-900">
+                      {selectedProject.name}
+                    </span>
+                  </div>
+                ) : null}
+              </div>
+            )}
+
+            {/* Page Title */}
             <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+
+            {/* Description */}
             {description && (
               <p className="mt-2 text-sm text-gray-600">{description}</p>
             )}
           </div>
+
+          {/* Actions */}
           {actions && <div className="flex items-center gap-3">{actions}</div>}
         </div>
       </div>

@@ -24,40 +24,40 @@ import { SidebarTrigger } from "@/components/ui/sidebar"
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle } from "@/components/ui/sheet"
 import Link from "next/link"
 import { usePathname, useRouter, useSearchParams } from "next/navigation"
-import { useHeader } from "@/components/layout/header-context"
 
-const coreTools: Array<{ name: string; href: string; badge?: string }> = [
-  { name: "Home", href: "/" },
-  { name: "360 Reporting", href: "/reporting" },
-  { name: "Documents", href: "/documents" },
-  { name: "Directory", href: "/directory" },
-  { name: "Employees", href: "/employees" },
-  { name: "Tasks", href: "/tasks" },
-  { name: "Admin", href: "/admin" },
+// Tool configuration - these will be scoped to projectId when available
+const coreTools: Array<{ name: string; path: string; badge?: string; requiresProject?: boolean }> = [
+  { name: "Home", path: "home", requiresProject: true },
+  { name: "360 Reporting", path: "reporting", requiresProject: true },
+  { name: "Documents", path: "documents", requiresProject: true },
+  { name: "Directory", path: "directory", requiresProject: true },
+  { name: "Connection Manager", path: "connection-manager", requiresProject: false },
+  { name: "Tasks", path: "tasks", requiresProject: true },
+  { name: "Admin", path: "admin", requiresProject: true },
 ]
 
-const projectManagementTools: Array<{ name: string; href: string; hasCreateAction?: boolean; isFavorite?: boolean }> = [
-  { name: "Emails", href: "/emails" },
-  { name: "RFIs", href: "/rfis", hasCreateAction: true },
-  { name: "Submittals", href: "/submittals", hasCreateAction: true },
-  { name: "Transmittals", href: "/transmittals" },
-  { name: "Punch List", href: "/punch-list", hasCreateAction: true },
-  { name: "Meetings", href: "/meetings" },
-  { name: "Schedule", href: "/schedule" },
-  { name: "Daily Log", href: "/daily-log" },
-  { name: "Photos", href: "/photos" },
-  { name: "Drawings", href: "/drawings" },
-  { name: "Specifications", href: "/specifications" }
+const projectManagementTools: Array<{ name: string; path: string; hasCreateAction?: boolean; isFavorite?: boolean; requiresProject?: boolean }> = [
+  { name: "Emails", path: "emails", requiresProject: true },
+  { name: "RFIs", path: "rfis", hasCreateAction: true, requiresProject: true },
+  { name: "Submittals", path: "submittals", hasCreateAction: true, requiresProject: true },
+  { name: "Transmittals", path: "transmittals", requiresProject: true },
+  { name: "Punch List", path: "punch-list", hasCreateAction: true, requiresProject: true },
+  { name: "Meetings", path: "meetings", requiresProject: true },
+  { name: "Schedule", path: "schedule", requiresProject: true },
+  { name: "Daily Log", path: "daily-log", requiresProject: true },
+  { name: "Photos", path: "photos", requiresProject: true },
+  { name: "Drawings", path: "drawings", requiresProject: true },
+  { name: "Specifications", path: "specifications", requiresProject: true }
 ]
 
-const financialManagementTools: Array<{ name: string; href: string; hasCreateAction?: boolean }> = [
-  { name: "Prime Contracts", href: "/contracts" },
-  { name: "Budget", href: "/budget" },
-  { name: "Commitments", href: "/commitments" },
-  { name: "Change Orders", href: "/change-orders" },
-  { name: "Change Events", href: "/change-events", hasCreateAction: true },
-  { name: "Direct Costs", href: "/direct-costs" },
-  { name: "Invoicing", href: "/invoices" }
+const financialManagementTools: Array<{ name: string; path: string; hasCreateAction?: boolean; requiresProject?: boolean }> = [
+  { name: "Prime Contracts", path: "contracts", requiresProject: true },
+  { name: "Budget", path: "budget", requiresProject: true },
+  { name: "Commitments", path: "commitments", requiresProject: true },
+  { name: "Change Orders", path: "change-orders", requiresProject: true },
+  { name: "Change Events", path: "change-events", hasCreateAction: true, requiresProject: true },
+  { name: "Direct Costs", path: "direct-costs", requiresProject: true },
+  { name: "Invoicing", path: "invoices", requiresProject: true }
 ]
 
 const defaultAvatar = "/favicon-light.png"
@@ -73,17 +73,11 @@ export function SiteHeader({
 }: {
   userAvatar?: string
 } = {}) {
-  const [currentTool, setCurrentTool] = useState("Home")
   const avatarSrc = userAvatar ?? defaultAvatar
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [projects, setProjects] = useState<Project[]>([])
   const [loadingProjects, setLoadingProjects] = useState(false)
   const [currentProject, setCurrentProject] = useState<Project | null>(null)
-  const { header } = useHeader()
-  const {
-    companyName = "Alleato Group",
-    projectName = "24-104 - Goodwill Bart",
-  } = header
   const pathname = usePathname()
   const router = useRouter()
   const searchParams = useSearchParams()
@@ -145,6 +139,47 @@ export function SiteHeader({
       setLoadingProjects(false)
     }
   }
+
+  // Handle project selection - navigate to the same tool for the new project
+  const handleProjectSelect = (newProjectId: number) => {
+    const segments = pathname?.split("/").filter(Boolean) ?? []
+
+    // Check if we're currently on a project-scoped page
+    if (segments.length >= 2 && /^\d+$/.test(segments[0])) {
+      // We're on a project page - navigate to the same tool for the new project
+      const toolPath = segments.slice(1).join('/')
+      router.push(`/${newProjectId}/${toolPath}`)
+    } else {
+      // Not on a project page - navigate to home for the new project
+      router.push(`/${newProjectId}/home`)
+    }
+  }
+
+  // Helper function to build project-scoped URLs
+  const buildToolUrl = (toolPath: string, requiresProject: boolean = true) => {
+    if (requiresProject && projectId) {
+      return `/${projectId}/${toolPath}`
+    }
+    return `/${toolPath}`
+  }
+
+  // Determine the currently active tool from the URL
+  const activeToolName = useMemo(() => {
+    const segments = pathname?.split("/").filter(Boolean) ?? []
+
+    // If we're on a project-scoped page, the tool is the second segment
+    if (segments.length >= 2 && /^\d+$/.test(segments[0])) {
+      const toolPath = segments[1]
+
+      // Search through all tool arrays to find the matching tool name
+      const allTools = [...coreTools, ...projectManagementTools, ...financialManagementTools]
+      const matchingTool = allTools.find(tool => tool.path === toolPath)
+
+      return matchingTool?.name || "Home"
+    }
+
+    return "Home"
+  }, [pathname])
 
   const breadcrumbs = useMemo(() => {
     const segments = pathname?.split("/").filter(Boolean) ?? []
@@ -234,9 +269,9 @@ export function SiteHeader({
               ) : projects.length > 0 ? (
                 <>
                   {projects.slice(0, 10).map((project) => (
-                    <DropdownMenuItem 
+                    <DropdownMenuItem
                       key={project.id}
-                      onClick={() => router.push(`/${project.id}/home`)}
+                      onClick={() => handleProjectSelect(project.id)}
                       className="cursor-pointer"
                     >
                       <div className="flex flex-col">
@@ -271,7 +306,7 @@ export function SiteHeader({
                 className="flex h-8 items-center gap-2 rounded px-2 text-[hsl(var(--procore-header-text))] transition-colors"
               >
                 <span className="text-xs text-gray-200">Project Tools</span>
-                <span className="ml-2 text-sm font-medium">{currentTool}</span>
+                <span className="ml-2 text-sm font-medium">{activeToolName}</span>
                 <ChevronDown className="ml-1 h-3 w-3" />
               </Button>
             </DropdownMenuTrigger>
@@ -282,21 +317,35 @@ export function SiteHeader({
                 <div>
                   <h3 className="mb-3 text-sm font-semibold text-gray-900">Core Tools</h3>
                   <div className="space-y-1">
-                    {coreTools.map((tool) => (
-                      <Link
-                        key={tool.name}
-                        href={tool.href}
-                        onClick={() => setCurrentTool(tool.name)}
-                        className="flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100"
-                      >
-                        <span>{tool.name}</span>
-                        {tool.badge && (
-                          <span className="rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
-                            {tool.badge}
-                          </span>
-                        )}
-                      </Link>
-                    ))}
+                    {coreTools.map((tool) => {
+                      const href = buildToolUrl(tool.path, tool.requiresProject)
+                      const isDisabled = tool.requiresProject && !projectId
+
+                      return (
+                        <Link
+                          key={tool.name}
+                          href={href}
+                          onClick={(e) => {
+                            if (isDisabled) {
+                              e.preventDefault()
+                            }
+                          }}
+                          className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm ${
+                            isDisabled
+                              ? 'opacity-50 cursor-not-allowed hover:bg-transparent'
+                              : 'hover:bg-gray-100'
+                          }`}
+                          aria-disabled={isDisabled}
+                        >
+                          <span>{tool.name}</span>
+                          {tool.badge && (
+                            <span className="rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+                              {tool.badge}
+                            </span>
+                          )}
+                        </Link>
+                      )
+                    })}
                   </div>
                 </div>
 
@@ -304,22 +353,36 @@ export function SiteHeader({
                 <div>
                   <h3 className="mb-3 text-sm font-semibold text-gray-900">Project Management</h3>
                   <div className="space-y-1">
-                    {projectManagementTools.map((tool) => (
-                      <Link
-                        key={tool.name}
-                        href={tool.href}
-                        onClick={() => setCurrentTool(tool.name)}
-                        className="flex w-full items-center rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100"
-                      >
-                        <span className="flex items-center gap-2">
-                          {tool.isFavorite && <Star className="h-3.5 w-3.5 text-gray-400" />}
-                          {tool.name}
-                          {tool.hasCreateAction && (
-                            <Plus className="h-4 w-4 rounded-full bg-orange-500 p-0.5 text-white ml-1" />
-                          )}
-                        </span>
-                      </Link>
-                    ))}
+                    {projectManagementTools.map((tool) => {
+                      const href = buildToolUrl(tool.path, tool.requiresProject)
+                      const isDisabled = tool.requiresProject && !projectId
+
+                      return (
+                        <Link
+                          key={tool.name}
+                          href={href}
+                          onClick={(e) => {
+                            if (isDisabled) {
+                              e.preventDefault()
+                            }
+                          }}
+                          className={`flex w-full items-center rounded px-2 py-1.5 text-left text-sm ${
+                            isDisabled
+                              ? 'opacity-50 cursor-not-allowed hover:bg-transparent'
+                              : 'hover:bg-gray-100'
+                          }`}
+                          aria-disabled={isDisabled}
+                        >
+                          <span className="flex items-center gap-2">
+                            {tool.isFavorite && <Star className="h-3.5 w-3.5 text-gray-400" />}
+                            {tool.name}
+                            {tool.hasCreateAction && (
+                              <Plus className="h-4 w-4 rounded-full bg-orange-500 p-0.5 text-white ml-1" />
+                            )}
+                          </span>
+                        </Link>
+                      )
+                    })}
                   </div>
                 </div>
 
@@ -327,21 +390,35 @@ export function SiteHeader({
                 <div>
                   <h3 className="mb-3 text-sm font-semibold text-gray-900">Financial Management</h3>
                   <div className="space-y-1">
-                    {financialManagementTools.map((tool) => (
-                      <Link
-                        key={tool.name}
-                        href={tool.href}
-                        onClick={() => setCurrentTool(tool.name)}
-                        className="flex w-full items-center rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100"
-                      >
-                        <span className="flex items-center gap-2">
-                          {tool.name}
-                          {tool.hasCreateAction && (
-                            <Plus className="h-4 w-4 rounded-full bg-orange-500 p-0.5 text-white ml-1" />
-                          )}
-                        </span>
-                      </Link>
-                    ))}
+                    {financialManagementTools.map((tool) => {
+                      const href = buildToolUrl(tool.path, tool.requiresProject)
+                      const isDisabled = tool.requiresProject && !projectId
+
+                      return (
+                        <Link
+                          key={tool.name}
+                          href={href}
+                          onClick={(e) => {
+                            if (isDisabled) {
+                              e.preventDefault()
+                            }
+                          }}
+                          className={`flex w-full items-center rounded px-2 py-1.5 text-left text-sm ${
+                            isDisabled
+                              ? 'opacity-50 cursor-not-allowed hover:bg-transparent'
+                              : 'hover:bg-gray-100'
+                          }`}
+                          aria-disabled={isDisabled}
+                        >
+                          <span className="flex items-center gap-2">
+                            {tool.name}
+                            {tool.hasCreateAction && (
+                              <Plus className="h-4 w-4 rounded-full bg-orange-500 p-0.5 text-white ml-1" />
+                            )}
+                          </span>
+                        </Link>
+                      )
+                    })}
                   </div>
                 </div>
                 </div>

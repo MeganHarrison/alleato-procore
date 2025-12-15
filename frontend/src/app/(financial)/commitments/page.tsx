@@ -14,7 +14,7 @@ import {
 import { StatusBadge } from '@/components/financial/shared/status-badge';
 import { useFinancialStore } from '@/lib/stores/financial-store';
 import { Commitment } from '@/types/financial';
-import { PageHeader, PageContainer, PageToolbar, PageTabs } from '@/components/layout';
+import { ProjectPageHeader, PageContainer, PageToolbar, PageTabs } from '@/components/layout';
 import { DataTableResponsive } from '@/components/tables';
 import { ColumnDef } from '@tanstack/react-table';
 import { ProjectGuard } from '@/components/project-guard';
@@ -259,7 +259,7 @@ export default function CommitmentsPage() {
   if (errors.commitments) {
     return (
       <ProjectGuard message={`Please select a project to view commitments for ${selectedProject?.name || 'this project'}.`}>
-        <PageHeader
+        <ProjectPageHeader
           title="Commitments"
           description="Manage purchase orders and subcontracts"
           breadcrumbs={getFinancialBreadcrumbs('Commitments', selectedProject)}
@@ -279,7 +279,7 @@ export default function CommitmentsPage() {
 
   return (
     <ProjectGuard message={`Please select a project to view commitments for ${selectedProject?.name || 'this project'}.`}>
-      <PageHeader
+      <ProjectPageHeader
         title="Commitments"
         description="Manage purchase orders and subcontracts"
         breadcrumbs={getFinancialBreadcrumbs('Commitments', selectedProject)}

@@ -1,65 +1,306 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
+import { ArrowLeft, Plus, Search, Trash2 } from 'lucide-react';
+
 import { Button } from '@/components/ui/button';
+import { createClient } from '@/lib/supabase/client';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
 import {
   Select,
   SelectContent,
+  SelectGroup,
   SelectItem,
+  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
-import { ArrowLeft, Calculator } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog';
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from '@/components/ui/command';
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from '@/components/ui/popover';
+
+interface BudgetCode {
+  id: string;
+  code: string;
+  costType: string; // L = Labor, M = Material, E = Equipment, S = Subcontract, O = Other
+  description: string;
+  fullLabel: string; // Composite label like "01-3120.L – Vice President – Labor"
+}
+
+interface BudgetLineItemRow {
+  id: string;
+  budgetCodeId: string;
+  budgetCodeLabel: string;
+  qty: string;
+  uom: string;
+  unitCost: string;
+  amount: string;
+}
 
 export default function NewBudgetLineItemPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const projectId = searchParams.get('projectId');
+
   const [loading, setLoading] = useState(false);
-  
-  // Form state
-  const [budgetItemData, setBudgetItemData] = useState({
-    costCode: '',
-    description: '',
-    budgetGroup: '',
-    vendor: '',
-    category: 'labor',
-    calculationMethod: 'amount',
-    quantity: '',
-    unit: '',
-    unitCost: '',
-    amount: '0.00',
-    notes: '',
-    allowInvoicing: true,
-    excludeFromBudget: false,
+  const [budgetCodes, setBudgetCodes] = useState<BudgetCode[]>([]);
+  const [loadingCodes, setLoadingCodes] = useState(true);
+
+  // Cost codes from Supabase
+  const [availableCostCodes, setAvailableCostCodes] = useState<Array<{ id: string; description: string; division_title: string; division: string }>>([]);
+  const [loadingCostCodes, setLoadingCostCodes] = useState(false);
+  const [groupedCostCodes, setGroupedCostCodes] = useState<Record<string, Array<{ id: string; description: string; division_title: string; division: string }>>>({});
+
+  // Multiple rows state
+  const [rows, setRows] = useState<BudgetLineItemRow[]>([
+    {
+      id: '1',
+      budgetCodeId: '',
+      budgetCodeLabel: '',
+      qty: '',
+      uom: '',
+      unitCost: '',
+      amount: '0.00',
+    },
+  ]);
+
+  // Budget Code creation modal state
+  const [showCreateCodeModal, setShowCreateCodeModal] = useState(false);
+  const [newCodeData, setNewCodeData] = useState({
+    costCodeId: '', // ID from cost_codes table
+    costType: 'L',
   });
 
-  const calculateAmount = () => {
-    if (budgetItemData.calculationMethod === 'unit') {
-      const qty = parseFloat(budgetItemData.quantity) || 0;
-      const cost = parseFloat(budgetItemData.unitCost) || 0;
-      const amount = qty * cost;
-      setBudgetItemData({ ...budgetItemData, amount: amount.toFixed(2) });
+  // Budget Code selector state
+  const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState('');
+
+  // Fetch cost codes from Supabase when modal opens
+  useEffect(() => {
+    const fetchCostCodes = async () => {
+      if (!showCreateCodeModal) return;
+
+      try {
+        setLoadingCostCodes(true);
+        const supabase = createClient();
+
+        const { data, error } = await supabase
+          .from('cost_codes')
+          .select('id, description, division_title, division')
+          .order('division', { ascending: true })
+          .order('id', { ascending: true });
+
+        if (error) {
+          console.error('Error fetching cost codes:', error);
+          return;
+        }
+
+        const codes = data || [];
+        setAvailableCostCodes(codes);
+
+        // Group cost codes by division
+        const grouped = codes.reduce((acc, code) => {
+          const divisionKey = code.division_title || code.division || 'Other';
+          if (!acc[divisionKey]) {
+            acc[divisionKey] = [];
+          }
+          acc[divisionKey].push(code);
+          return acc;
+        }, {} as Record<string, typeof codes>);
+
+        setGroupedCostCodes(grouped);
+      } catch (error) {
+        console.error('Error fetching cost codes:', error);
+      } finally {
+        setLoadingCostCodes(false);
+      }
+    };
+
+    fetchCostCodes();
+  }, [showCreateCodeModal]);
+
+  // Fetch budget codes for the project
+  useEffect(() => {
+    const fetchBudgetCodes = async () => {
+      if (!projectId) return;
+
+      try {
+        setLoadingCodes(true);
+        // TODO: Replace with actual API call
+        // const response = await fetch(`/api/projects/${projectId}/budget-codes`);
+        // const data = await response.json();
+
+        // Mock data for now
+        const mockCodes: BudgetCode[] = [
+          {
+            id: '1',
+            code: '01-3120',
+            costType: 'L',
+            description: 'Vice President',
+            fullLabel: '01-3120.L – Vice President – Labor',
+          },
+          {
+            id: '2',
+            code: '01-3130',
+            costType: 'L',
+            description: 'Project Manager',
+            fullLabel: '01-3130.L – Project Manager – Labor',
+          },
+          {
+            id: '3',
+            code: '01-3140',
+            costType: 'M',
+            description: 'Concrete Materials',
+            fullLabel: '01-3140.M – Concrete Materials – Material',
+          },
+          {
+            id: '4',
+            code: '01-3150',
+            costType: 'E',
+            description: 'Equipment Rental',
+            fullLabel: '01-3150.E – Equipment Rental – Equipment',
+          },
+        ];
+        setBudgetCodes(mockCodes);
+      } catch (error) {
+        console.error('Error fetching budget codes:', error);
+      } finally {
+        setLoadingCodes(false);
+      }
+    };
+
+    fetchBudgetCodes();
+  }, [projectId]);
+
+  const getCostTypeLabel = (type: string) => {
+    const types: Record<string, string> = {
+      L: 'Labor',
+      M: 'Material',
+      E: 'Equipment',
+      S: 'Subcontract',
+      O: 'Other',
+    };
+    return types[type] || type;
+  };
+
+  const handleCreateBudgetCode = async () => {
+    try {
+      setLoading(true);
+
+      // Find the selected cost code
+      const selectedCostCode = availableCostCodes.find((cc) => cc.id === newCodeData.costCodeId);
+      if (!selectedCostCode) {
+        alert('Please select a cost code');
+        return;
+      }
+
+      // TODO: API call to create project budget code (project_cost_codes table)
+      // const response = await fetch(`/api/projects/${projectId}/budget-codes`, {
+      //   method: 'POST',
+      //   body: JSON.stringify({
+      //     cost_code_id: newCodeData.costCodeId,
+      //     cost_type_id: newCodeData.costType,
+      //     project_id: projectId,
+      //   }),
+      // });
+      // const createdCode = await response.json();
+
+      // Mock: Add the new code to the list
+      const newCode: BudgetCode = {
+        id: Date.now().toString(),
+        code: selectedCostCode.id,
+        costType: newCodeData.costType,
+        description: selectedCostCode.description || '',
+        fullLabel: `${selectedCostCode.id}.${newCodeData.costType} – ${selectedCostCode.description} – ${getCostTypeLabel(newCodeData.costType)}`,
+      };
+
+      setBudgetCodes([...budgetCodes, newCode]);
+
+      // Reset modal
+      setShowCreateCodeModal(false);
+      setNewCodeData({ costCodeId: '', costType: 'L' });
+    } catch (error) {
+      console.error('Error creating budget code:', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  const handleCalculationMethodChange = (value: string) => {
-    setBudgetItemData({ ...budgetItemData, calculationMethod: value });
-    if (value === 'amount') {
-      // Clear unit-related fields when switching to amount
-      setBudgetItemData({
-        ...budgetItemData,
-        calculationMethod: value,
-        quantity: '',
-        unit: '',
-        unitCost: '',
-      });
-    }
+  const handleBudgetCodeSelect = (rowId: string, code: BudgetCode) => {
+    setRows(
+      rows.map((row) =>
+        row.id === rowId
+          ? { ...row, budgetCodeId: code.id, budgetCodeLabel: code.fullLabel }
+          : row
+      )
+    );
+    setOpenPopoverId(null);
+  };
+
+  const calculateAmount = (qty: string, unitCost: string): string => {
+    const qtyNum = parseFloat(qty) || 0;
+    const costNum = parseFloat(unitCost) || 0;
+    return (qtyNum * costNum).toFixed(2);
+  };
+
+  const handleRowChange = (
+    rowId: string,
+    field: keyof BudgetLineItemRow,
+    value: string
+  ) => {
+    setRows(
+      rows.map((row) => {
+        if (row.id !== rowId) return row;
+
+        const updatedRow = { ...row, [field]: value };
+
+        // Auto-calculate amount when qty or unitCost changes
+        if (field === 'qty' || field === 'unitCost') {
+          updatedRow.amount = calculateAmount(updatedRow.qty, updatedRow.unitCost);
+        }
+
+        return updatedRow;
+      })
+    );
+  };
+
+  const addRow = () => {
+    const newRow: BudgetLineItemRow = {
+      id: Date.now().toString(),
+      budgetCodeId: '',
+      budgetCodeLabel: '',
+      qty: '',
+      uom: '',
+      unitCost: '',
+      amount: '0.00',
+    };
+    setRows([...rows, newRow]);
+  };
+
+  const removeRow = (rowId: string) => {
+    if (rows.length === 1) return; // Keep at least one row
+    setRows(rows.filter((row) => row.id !== rowId));
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -67,352 +308,241 @@ export default function NewBudgetLineItemPage() {
     setLoading(true);
 
     try {
-      // TODO: API call to create budget line item
-      console.log('Creating budget line item:', budgetItemData);
-      
-      // Navigate back to budget page
-      router.push('/budget');
+      // Validate: all rows must have a budget code and amount
+      const invalidRows = rows.filter(
+        (row) => !row.budgetCodeId || parseFloat(row.amount) === 0
+      );
+
+      if (invalidRows.length > 0) {
+        alert('All rows must have a budget code and a non-zero amount.');
+        return;
+      }
+
+      // TODO: API call to create budget line items
+      console.log('Creating budget line items:', { projectId, rows });
+
+      // Navigate back to project budget page
+      router.push(`/${projectId}/budget`);
     } catch (error) {
-      console.error('Error creating budget line item:', error);
+      console.error('Error creating budget line items:', error);
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = () => {
-    router.push('/budget');
+    router.push(`/${projectId}/budget`);
   };
 
+  const filteredCodes = budgetCodes.filter((code) =>
+    code.fullLabel.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
-    <div className="container mx-auto py-6 max-w-4xl">
+    <div className="container mx-auto py-6 max-w-7xl">
       {/* Header */}
       <div className="mb-6">
         <div className="flex items-center gap-2 mb-4">
           <Button
             variant="ghost"
             size="sm"
-            onClick={() => router.back()}
+            onClick={() => router.push(`/${projectId}/budget`)}
             className="gap-2"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Budget
           </Button>
         </div>
-        <h1 className="text-2xl font-bold">Create Budget Line Item</h1>
-        <p className="text-gray-600">Add a new line item to the project budget</p>
+        <h1 className="text-2xl font-bold">Create Budget Line Items</h1>
+        <p className="text-gray-600">Add one or more line items to the project budget</p>
       </div>
 
       <form onSubmit={handleSubmit}>
-        <Tabs defaultValue="general" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="general">General Info</TabsTrigger>
-            <TabsTrigger value="calculation">Calculation</TabsTrigger>
-            <TabsTrigger value="settings">Settings</TabsTrigger>
-          </TabsList>
+        <div className="bg-white border rounded-lg overflow-hidden">
+          {/* Table Header */}
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead className="bg-gray-50 border-b">
+                <tr>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-12">
+                    #
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 min-w-[300px]">
+                    Budget Code*
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-24">
+                    Qty
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-28">
+                    UOM
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-32">
+                    Unit Cost
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-32">
+                    Amount*
+                  </th>
+                  <th className="px-4 py-3 w-12">
+                    <span className="sr-only">Actions</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody className="divide-y">
+                {rows.map((row, index) => (
+                  <tr key={row.id} className="hover:bg-gray-50">
+                    <td className="px-4 py-3 text-sm text-gray-600">{index + 1}</td>
 
-          <TabsContent value="general">
-            <Card>
-              <CardHeader>
-                <CardTitle>General Information</CardTitle>
-                <CardDescription>Basic line item details</CardDescription>
-              </CardHeader>
-              <CardContent className="grid gap-6">
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="costCode">Cost Code*</Label>
-                    <Input
-                      id="costCode"
-                      value={budgetItemData.costCode}
-                      onChange={(e) => setBudgetItemData({ ...budgetItemData, costCode: e.target.value })}
-                      placeholder="01-510"
-                      required
-                    />
-                    <p className="text-sm text-gray-500">
-                      Enter the cost code for this budget item
-                    </p>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="budgetGroup">Budget Group</Label>
-                    <Select
-                      value={budgetItemData.budgetGroup}
-                      onValueChange={(value) => setBudgetItemData({ ...budgetItemData, budgetGroup: value })}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select budget group" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="site-work">Site Work</SelectItem>
-                        <SelectItem value="concrete">Concrete</SelectItem>
-                        <SelectItem value="masonry">Masonry</SelectItem>
-                        <SelectItem value="metals">Metals</SelectItem>
-                        <SelectItem value="wood-plastics">Wood & Plastics</SelectItem>
-                        <SelectItem value="thermal-moisture">Thermal & Moisture Protection</SelectItem>
-                        <SelectItem value="doors-windows">Doors & Windows</SelectItem>
-                        <SelectItem value="finishes">Finishes</SelectItem>
-                        <SelectItem value="specialties">Specialties</SelectItem>
-                        <SelectItem value="equipment">Equipment</SelectItem>
-                        <SelectItem value="mechanical">Mechanical</SelectItem>
-                        <SelectItem value="electrical">Electrical</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
+                    {/* Budget Code Selector */}
+                    <td className="px-4 py-3">
+                      <Popover
+                        open={openPopoverId === row.id}
+                        onOpenChange={(open) => setOpenPopoverId(open ? row.id : null)}
+                      >
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className="w-full justify-between text-left font-normal h-9"
+                          >
+                            <span className="truncate">
+                              {row.budgetCodeLabel || 'Select budget code...'}
+                            </span>
+                            <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent className="w-[400px] p-0" align="start">
+                          <Command>
+                            <CommandInput
+                              placeholder="Search budget codes..."
+                              value={searchQuery}
+                              onValueChange={setSearchQuery}
+                            />
+                            <CommandList>
+                              <CommandEmpty>
+                                {loadingCodes ? 'Loading...' : 'No budget codes found.'}
+                              </CommandEmpty>
+                              <CommandGroup>
+                                {filteredCodes.map((code) => (
+                                  <CommandItem
+                                    key={code.id}
+                                    value={code.fullLabel}
+                                    onSelect={() => handleBudgetCodeSelect(row.id, code)}
+                                  >
+                                    {code.fullLabel}
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                              <CommandSeparator />
+                              <CommandGroup>
+                                <CommandItem
+                                  onSelect={() => {
+                                    setOpenPopoverId(null);
+                                    setShowCreateCodeModal(true);
+                                  }}
+                                  className="text-blue-600"
+                                >
+                                  <Plus className="mr-2 h-4 w-4" />
+                                  Create New Budget Code
+                                </CommandItem>
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
+                    </td>
 
-                <div className="space-y-2">
-                  <Label htmlFor="description">Description*</Label>
-                  <Input
-                    id="description"
-                    value={budgetItemData.description}
-                    onChange={(e) => setBudgetItemData({ ...budgetItemData, description: e.target.value })}
-                    placeholder="Concrete Foundation Work"
-                    required
-                  />
-                </div>
+                    {/* Quantity */}
+                    <td className="px-4 py-3">
+                      <Input
+                        type="number"
+                        step="0.001"
+                        value={row.qty}
+                        onChange={(e) => handleRowChange(row.id, 'qty', e.target.value)}
+                        placeholder="0"
+                        className="h-9"
+                      />
+                    </td>
 
-                <div className="grid gap-4 md:grid-cols-2">
-                  <div className="space-y-2">
-                    <Label htmlFor="category">Category*</Label>
-                    <Select
-                      value={budgetItemData.category}
-                      onValueChange={(value) => setBudgetItemData({ ...budgetItemData, category: value })}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="labor">Labor</SelectItem>
-                        <SelectItem value="material">Material</SelectItem>
-                        <SelectItem value="equipment">Equipment</SelectItem>
-                        <SelectItem value="subcontract">Subcontract</SelectItem>
-                        <SelectItem value="other">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="vendor">Vendor/Subcontractor</Label>
-                    <Select
-                      value={budgetItemData.vendor}
-                      onValueChange={(value) => setBudgetItemData({ ...budgetItemData, vendor: value })}
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Select vendor" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="1">ABC Construction LLC</SelectItem>
-                        <SelectItem value="2">XYZ Electric Co</SelectItem>
-                        <SelectItem value="3">Superior Plumbing Inc</SelectItem>
-                        <SelectItem value="4">TBD</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
+                    {/* UOM */}
+                    <td className="px-4 py-3">
+                      <Select
+                        value={row.uom}
+                        onValueChange={(value) => handleRowChange(row.id, 'uom', value)}
+                      >
+                        <SelectTrigger className="h-9">
+                          <SelectValue placeholder="Select" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="EA">EA</SelectItem>
+                          <SelectItem value="HR">HR</SelectItem>
+                          <SelectItem value="SF">SF</SelectItem>
+                          <SelectItem value="LF">LF</SelectItem>
+                          <SelectItem value="LS">LS</SelectItem>
+                          <SelectItem value="CY">CY</SelectItem>
+                          <SelectItem value="TON">TON</SelectItem>
+                          <SelectItem value="DAY">DAY</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </td>
 
-                <div className="space-y-2">
-                  <Label htmlFor="notes">Notes</Label>
-                  <Textarea
-                    id="notes"
-                    value={budgetItemData.notes}
-                    onChange={(e) => setBudgetItemData({ ...budgetItemData, notes: e.target.value })}
-                    placeholder="Additional notes or comments..."
-                    rows={3}
-                  />
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
+                    {/* Unit Cost */}
+                    <td className="px-4 py-3">
+                      <Input
+                        type="number"
+                        step="0.01"
+                        value={row.unitCost}
+                        onChange={(e) => handleRowChange(row.id, 'unitCost', e.target.value)}
+                        placeholder="0.00"
+                        className="h-9"
+                      />
+                    </td>
 
-          <TabsContent value="calculation">
-            <Card>
-              <CardHeader>
-                <CardTitle>Calculation Method</CardTitle>
-                <CardDescription>How this budget item is calculated</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div>
-                  <Label>Calculation Method</Label>
-                  <RadioGroup
-                    value={budgetItemData.calculationMethod}
-                    onValueChange={handleCalculationMethodChange}
-                    className="mt-2"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="amount" id="amount" />
-                      <Label htmlFor="amount">Fixed Amount</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="unit" id="unit" />
-                      <Label htmlFor="unit">Unit Price (Quantity × Unit Cost)</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="percent" id="percent" />
-                      <Label htmlFor="percent">Percentage of Budget</Label>
-                    </div>
-                  </RadioGroup>
-                </div>
+                    {/* Amount */}
+                    <td className="px-4 py-3">
+                      <Input
+                        type="number"
+                        step="0.01"
+                        value={row.amount}
+                        onChange={(e) => handleRowChange(row.id, 'amount', e.target.value)}
+                        placeholder="0.00"
+                        className="h-9 font-medium"
+                      />
+                    </td>
 
-                {budgetItemData.calculationMethod === 'amount' && (
-                  <div className="space-y-2">
-                    <Label htmlFor="amount">Budget Amount*</Label>
-                    <Input
-                      id="amount"
-                      type="number"
-                      step="0.01"
-                      value={budgetItemData.amount}
-                      onChange={(e) => setBudgetItemData({ ...budgetItemData, amount: e.target.value })}
-                      placeholder="0.00"
-                      required
-                    />
-                  </div>
-                )}
-
-                {budgetItemData.calculationMethod === 'unit' && (
-                  <div className="space-y-4">
-                    <div className="grid gap-4 md:grid-cols-3">
-                      <div className="space-y-2">
-                        <Label htmlFor="quantity">Quantity*</Label>
-                        <Input
-                          id="quantity"
-                          type="number"
-                          step="0.001"
-                          value={budgetItemData.quantity}
-                          onChange={(e) => {
-                            setBudgetItemData({ ...budgetItemData, quantity: e.target.value });
-                            calculateAmount();
-                          }}
-                          placeholder="0"
-                          required
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="unit">Unit*</Label>
-                        <Select
-                          value={budgetItemData.unit}
-                          onValueChange={(value) => setBudgetItemData({ ...budgetItemData, unit: value })}
+                    {/* Delete */}
+                    <td className="px-4 py-3">
+                      {rows.length > 1 && (
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeRow(row.id)}
+                          className="h-9 w-9 p-0 text-gray-400 hover:text-red-600"
                         >
-                          <SelectTrigger>
-                            <SelectValue placeholder="Select unit" />
-                          </SelectTrigger>
-                          <SelectContent>
-                            <SelectItem value="ea">Each (EA)</SelectItem>
-                            <SelectItem value="hr">Hour (HR)</SelectItem>
-                            <SelectItem value="day">Day (DAY)</SelectItem>
-                            <SelectItem value="wk">Week (WK)</SelectItem>
-                            <SelectItem value="mo">Month (MO)</SelectItem>
-                            <SelectItem value="ls">Lump Sum (LS)</SelectItem>
-                            <SelectItem value="sf">Square Foot (SF)</SelectItem>
-                            <SelectItem value="lf">Linear Foot (LF)</SelectItem>
-                            <SelectItem value="cy">Cubic Yard (CY)</SelectItem>
-                            <SelectItem value="ton">Ton (TON)</SelectItem>
-                          </SelectContent>
-                        </Select>
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="unitCost">Unit Cost*</Label>
-                        <Input
-                          id="unitCost"
-                          type="number"
-                          step="0.01"
-                          value={budgetItemData.unitCost}
-                          onChange={(e) => {
-                            setBudgetItemData({ ...budgetItemData, unitCost: e.target.value });
-                            calculateAmount();
-                          }}
-                          placeholder="0.00"
-                          required
-                        />
-                      </div>
-                    </div>
-                    
-                    <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg">
-                      <span className="text-sm text-gray-600">Calculated Amount:</span>
-                      <span className="text-2xl font-bold">${budgetItemData.amount}</span>
-                    </div>
-                    
-                    <Button
-                      type="button"
-                      variant="outline"
-                      onClick={calculateAmount}
-                      className="w-full"
-                    >
-                      <Calculator className="h-4 w-4 mr-2" />
-                      Recalculate
-                    </Button>
-                  </div>
-                )}
+                          <Trash2 className="h-4 w-4" />
+                        </Button>
+                      )}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
 
-                {budgetItemData.calculationMethod === 'percent' && (
-                  <div className="space-y-2">
-                    <Label htmlFor="percent">Percentage of Total Budget*</Label>
-                    <Input
-                      id="percent"
-                      type="number"
-                      step="0.01"
-                      min="0"
-                      max="100"
-                      placeholder="0.00"
-                      required
-                    />
-                    <p className="text-sm text-gray-500">
-                      This will be calculated based on the total project budget
-                    </p>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-
-          <TabsContent value="settings">
-            <Card>
-              <CardHeader>
-                <CardTitle>Line Item Settings</CardTitle>
-                <CardDescription>Additional configuration options</CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="allowInvoicing">Allow Invoicing</Label>
-                    <p className="text-sm text-gray-500">
-                      Allow this line item to be included in invoices
-                    </p>
-                  </div>
-                  <Select
-                    value={budgetItemData.allowInvoicing ? 'yes' : 'no'}
-                    onValueChange={(value) => setBudgetItemData({ ...budgetItemData, allowInvoicing: value === 'yes' })}
-                  >
-                    <SelectTrigger className="w-24">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="yes">Yes</SelectItem>
-                      <SelectItem value="no">No</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-
-                <div className="flex items-center justify-between">
-                  <div>
-                    <Label htmlFor="excludeFromBudget">Exclude from Budget Totals</Label>
-                    <p className="text-sm text-gray-500">
-                      Exclude this item from budget calculations
-                    </p>
-                  </div>
-                  <Select
-                    value={budgetItemData.excludeFromBudget ? 'yes' : 'no'}
-                    onValueChange={(value) => setBudgetItemData({ ...budgetItemData, excludeFromBudget: value === 'yes' })}
-                  >
-                    <SelectTrigger className="w-24">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      <SelectItem value="yes">Yes</SelectItem>
-                      <SelectItem value="no">No</SelectItem>
-                    </SelectContent>
-                  </Select>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
+          {/* Add Row Button */}
+          <div className="px-4 py-3 border-t bg-gray-50">
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              onClick={addRow}
+              className="gap-2"
+            >
+              <Plus className="h-4 w-4" />
+              Add Row
+            </Button>
+          </div>
+        </div>
 
         {/* Action buttons */}
         <div className="flex items-center justify-end gap-4 mt-6">
@@ -420,10 +550,106 @@ export default function NewBudgetLineItemPage() {
             Cancel
           </Button>
           <Button type="submit" disabled={loading}>
-            {loading ? 'Creating...' : 'Create Line Item'}
+            {loading ? 'Creating...' : `Create ${rows.length} Line Item${rows.length > 1 ? 's' : ''}`}
           </Button>
         </div>
       </form>
+
+      {/* Create Budget Code Modal */}
+      <Dialog open={showCreateCodeModal} onOpenChange={setShowCreateCodeModal}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Create New Budget Code</DialogTitle>
+            <DialogDescription>
+              Add a new budget code that can be used for line items in this project.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="costCode">Cost Code*</Label>
+              <Select
+                value={newCodeData.costCodeId}
+                onValueChange={(value) =>
+                  setNewCodeData({ ...newCodeData, costCodeId: value })
+                }
+                disabled={loadingCostCodes}
+              >
+                <SelectTrigger>
+                  <SelectValue placeholder={loadingCostCodes ? 'Loading cost codes...' : 'Select cost code'} />
+                </SelectTrigger>
+                <SelectContent className="max-h-[400px]">
+                  {Object.keys(groupedCostCodes).sort().map((division) => (
+                    <SelectGroup key={division}>
+                      <SelectLabel className="text-xs font-semibold text-gray-700 px-2 py-1.5">
+                        {division}
+                      </SelectLabel>
+                      {groupedCostCodes[division].map((costCode) => (
+                        <SelectItem key={costCode.id} value={costCode.id} className="pl-6">
+                          {costCode.id} – {costCode.description}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  ))}
+                </SelectContent>
+              </Select>
+              <p className="text-sm text-gray-500">
+                Cost codes grouped by division
+              </p>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="costType">Cost Type*</Label>
+              <Select
+                value={newCodeData.costType}
+                onValueChange={(value) =>
+                  setNewCodeData({ ...newCodeData, costType: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="L">L - Labor</SelectItem>
+                  <SelectItem value="M">M - Material</SelectItem>
+                  <SelectItem value="E">E - Equipment</SelectItem>
+                  <SelectItem value="S">S - Subcontract</SelectItem>
+                  <SelectItem value="O">O - Other</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="p-3 bg-gray-50 rounded-md">
+              <p className="text-sm font-medium text-gray-700">Preview:</p>
+              <p className="text-sm text-gray-600 mt-1">
+                {newCodeData.costCodeId ? (
+                  <>
+                    {availableCostCodes.find((cc) => cc.id === newCodeData.costCodeId)?.id}
+                    .{newCodeData.costType} –{' '}
+                    {availableCostCodes.find((cc) => cc.id === newCodeData.costCodeId)?.description} –{' '}
+                    {getCostTypeLabel(newCodeData.costType)}
+                  </>
+                ) : (
+                  'Select cost code and cost type to see preview'
+                )}
+              </p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setShowCreateCodeModal(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              onClick={handleCreateBudgetCode}
+              disabled={loading || !newCodeData.costCodeId || !newCodeData.costType}
+            >
+              {loading ? 'Creating...' : 'Create Budget Code'}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
