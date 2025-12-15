@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { ThemeProvider } from "@/components/providers/theme-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { HeaderProvider } from "@/components/layout/header-context";
@@ -38,19 +39,21 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <ProjectProvider>
-              <HeaderProvider>
-                <SidebarProvider defaultOpen={false}>
-                  <AppSidebar />
-                  <SidebarInset>
-                  <SiteHeader />
-                  <div className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6">
-                  {children}
-                </div>
-                  </SidebarInset>
-                </SidebarProvider>
-              </HeaderProvider>
-            </ProjectProvider>
+            <Suspense fallback={null}>
+              <ProjectProvider>
+                <HeaderProvider>
+                  <SidebarProvider defaultOpen={false}>
+                    <AppSidebar />
+                    <SidebarInset>
+                      <SiteHeader />
+                      <div className="flex-1 w-full px-4 sm:px-6 lg:px-8 py-6">
+                        {children}
+                      </div>
+                    </SidebarInset>
+                  </SidebarProvider>
+                </HeaderProvider>
+              </ProjectProvider>
+            </Suspense>
           </ThemeProvider>
         </QueryProvider>
         <Toaster />

@@ -77,9 +77,63 @@ export function ProjectHomeClient({
   return (
     <div className="min-h-screen p-6">
       {/* Project Title */}
-      <h1 className="text-2xl font-semibold text-brand mb-6">
-        {project.name || project['job number']}
-      </h1>
+      <div className="mb-6">
+        <h1 className="text-2xl font-semibold text-brand mb-2">
+          {project.name || project['job number']}
+        </h1>
+
+        {/* Financial navigation links */}
+        <div className="flex items-center gap-3 text-sm flex-wrap">
+          <Link
+            href={`/${project.id}/budget`}
+            className="text-gray-600 hover:text-[hsl(var(--procore-orange))] transition-colors"
+          >
+            Budget
+          </Link>
+          <span className="text-gray-300">|</span>
+          <Link
+            href={`/${project.id}/commitments`}
+            className="text-gray-600 hover:text-[hsl(var(--procore-orange))] transition-colors"
+          >
+            Commitments
+          </Link>
+          <span className="text-gray-300">|</span>
+          <Link
+            href={`/${project.id}/change-orders`}
+            className="text-gray-600 hover:text-[hsl(var(--procore-orange))] transition-colors"
+          >
+            Change Orders
+          </Link>
+          <span className="text-gray-300">|</span>
+          <Link
+            href={`/${project.id}/change-events`}
+            className="text-gray-600 hover:text-[hsl(var(--procore-orange))] transition-colors"
+          >
+            Change Events
+          </Link>
+          <span className="text-gray-300">|</span>
+          <Link
+            href={`/${project.id}/direct-costs`}
+            className="text-gray-600 hover:text-[hsl(var(--procore-orange))] transition-colors"
+          >
+            Direct Costs
+          </Link>
+          <span className="text-gray-300">|</span>
+          <Link
+            href={`/${project.id}/contracts`}
+            className="text-gray-600 hover:text-[hsl(var(--procore-orange))] transition-colors"
+          >
+            Prime Contracts
+          </Link>
+          <span className="text-gray-300">|</span>
+          <Link
+            href={`/${project.id}/invoices`}
+            className="text-gray-600 hover:text-[hsl(var(--procore-orange))] transition-colors"
+          >
+            Invoicing
+          </Link>
+        </div>
+      </div>
 
       {/* Three Info Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">

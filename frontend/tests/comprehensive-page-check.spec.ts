@@ -133,4 +133,56 @@ test.describe('Comprehensive Page Check', () => {
     expect(hasSwitchCompany).toBe(false);
     expect(hasViewAllProjects).toBe(true);
   });
+  
+  test('should show financial toggles on project home', async ({ page }) => {
+    // Navigate to home page
+    await page.goto('/');
+    await page.waitForLoadState('networkidle');
+    
+    // Click on first project to go to project home
+    const firstProject = page.locator('tbody tr').first();
+    await firstProject.click();
+    await page.waitForURL(/\/\d+\/home/);
+    await page.waitForTimeout(2000);
+    
+    // Check for financial toggle sections
+    console.log('\nChecking financial toggles...');
+    
+    const budgetSection = page.locator('h3:has-text("Budget")');
+    const hasBudget = await budgetSection.count() > 0;
+    console.log(`Budget section: ${hasBudget ? '✅ Present' : '❌ Missing'}`);
+    
+    const primeSection = page.locator('h3:has-text("Prime Contract")');
+    const hasPrime = await primeSection.count() > 0; 
+    console.log(`Prime Contract section: ${hasPrime ? '✅ Present' : '❌ Missing'}`);
+    
+    const commitmentsSection = page.locator('h3:has-text("Commitments")');
+    const hasCommitments = await commitmentsSection.count() > 0;
+    console.log(`Commitments section: ${hasCommitments ? '✅ Present' : '❌ Missing'}`);
+    
+    // Take screenshot
+    await page.screenshot({ path: 'tests/screenshots/project-home-financial-toggles.png', fullPage: true });
+    
+    // Test toggle interaction
+    if (hasBudget) {
+      const budgetToggle = budgetSection.locator('..');
+      const budgetButton = budgetToggle.locator('button').first();
+      
+      // Check if budget is expanded by default
+      const totalBudgetText = page.locator('text="Total Budget"');
+      const isExpanded = await totalBudgetText.isVisible();
+      console.log(`Budget expanded by default: ${isExpanded ? '✅ Yes' : '❌ No'}`);
+      
+      // Click to toggle
+      await budgetButton.click();
+      await page.waitForTimeout(500);
+      
+      const isCollapsed = await totalBudgetText.isHidden();
+      console.log(`Budget collapsed after click: ${isCollapsed ? '✅ Yes' : '❌ No'}`);
+    }
+    
+    expect(hasBudget).toBe(true);
+    expect(hasPrime).toBe(true);
+    expect(hasCommitments).toBe(true);
+  });
 });

@@ -2,6 +2,7 @@
 
 import * as React from 'react';
 import { Settings, ChevronDown, FileText, Plus } from 'lucide-react';
+import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -35,14 +36,63 @@ export function PortfolioHeader({
     <div className="bg-white border-b border-gray-200">
       {/* Title row */}
       <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
-        <div className="flex items-center gap-2 sm:gap-3">
-          <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Portfolio</h1>
-          <button
-            onClick={onSettingsClick}
-            className="p-1.5 hover:bg-gray-100 rounded text-gray-500"
-          >
-            <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
-          </button>
+        <div className="flex flex-col gap-2">
+          <div className="flex items-center gap-2 sm:gap-3">
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Portfolio</h1>
+            <button
+              onClick={onSettingsClick}
+              className="p-1.5 hover:bg-gray-100 rounded text-gray-500"
+              title="Settings"
+              aria-label="Settings"
+            >
+              <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
+            </button>
+          </div>
+
+          {/* Financial navigation links */}
+          <div className="flex items-center gap-3 text-sm">
+            <Link
+              href="/budget"
+              className="text-gray-600 hover:text-[hsl(var(--procore-orange))] transition-colors"
+            >
+              Budget
+            </Link>
+            <span className="text-gray-300">|</span>
+            <Link
+              href="/commitments"
+              className="text-gray-600 hover:text-[hsl(var(--procore-orange))] transition-colors"
+            >
+              Commitments
+            </Link>
+            <span className="text-gray-300">|</span>
+            <Link
+              href="/change-orders"
+              className="text-gray-600 hover:text-[hsl(var(--procore-orange))] transition-colors"
+            >
+              Change Orders
+            </Link>
+            <span className="text-gray-300">|</span>
+            <Link
+              href="/change-events"
+              className="text-gray-600 hover:text-[hsl(var(--procore-orange))] transition-colors"
+            >
+              Change Events
+            </Link>
+            <span className="text-gray-300 hidden sm:inline">|</span>
+            <Link
+              href="/contracts"
+              className="text-gray-600 hover:text-[hsl(var(--procore-orange))] transition-colors hidden sm:inline"
+            >
+              Prime Contracts
+            </Link>
+            <span className="text-gray-300 hidden md:inline">|</span>
+            <Link
+              href="/invoices"
+              className="text-gray-600 hover:text-[hsl(var(--procore-orange))] transition-colors hidden md:inline"
+            >
+              Invoicing
+            </Link>
+          </div>
         </div>
       </div>
 
