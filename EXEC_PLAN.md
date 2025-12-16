@@ -29,6 +29,42 @@ This plan assumes **Option A (UI First)**: build the component system first, the
 
 ## Recent Updates
 
+### 2025-12-16: Generic Table Editing Feature
+
+- **Added inline editing capability** to all generic table pages using a dialog-based interface
+- **Enhanced generic-table-factory.tsx** with editing support:
+  - Added `EditConfig` interface for configurable editing
+  - Implemented state management for edit operations (editingRow, isEditDialogOpen, isSaving)
+  - Created edit handlers (handleEditClick, handleSaveEdit, handleFieldChange)
+  - Added Actions column with pencil icon edit buttons
+  - Built comprehensive edit dialog with dynamic form fields based on column types
+  - Supports text, email, number, date, select/badge, and textarea inputs
+  - Protects immutable fields (id, created_at, updated_at)
+- **Created API route** for table updates: `/api/table-update`
+  - Server-side Supabase updates with proper error handling
+  - Removes protected fields automatically
+  - Returns updated record or error details
+- **Updated 9 table pages** with edit configurations:
+  - Risks: 7 editable fields (description, category, status, impact, likelihood, owner_name, mitigation_plan)
+  - Opportunities: 6 editable fields (description, type, status, owner_name, owner_email, next_step)
+  - Decisions: 7 editable fields (description, status, impact, owner_name, owner_email, rationale, effective_date)
+  - Issues: 12 editable fields (title, category, severity, status, dates, costs, descriptions)
+  - Daily Logs: 10 editable fields (log_date, weather, manpower, equipment, work, materials, issues, etc.)
+  - Notes: 2 editable fields (body, created_by)
+  - Meeting Segments: 8 editable fields (title, summary, index, times, topics, participants, key_points)
+  - Insights: 10 editable fields (title, description, type, category, priority, status, etc.)
+  - Daily Reports: 6 editable fields (recap_date, date ranges, text, model, token_count)
+- **User experience features**:
+  - Optimistic local updates after successful save
+  - Toast notifications (sonner) for success/error feedback
+  - Loading states with disabled buttons during save
+  - Click event handling to prevent row click during edit
+- **Documentation created**: `frontend/src/components/tables/README-EDITING.md` with complete feature guide
+- **Implementation files**:
+  - `frontend/src/components/tables/generic-table-factory.tsx` - Enhanced with editing
+  - `frontend/src/app/api/table-update/route.ts` - New API endpoint
+  - All 9 table pages updated with editConfig
+
 ### 2025-12-16: Budget Line Item Modal and Cost Code Fixes
 
 - **Fixed budget line item creation** by implementing hardcoded cost codes in `CreateBudgetCodeModal` to work around missing backend integration

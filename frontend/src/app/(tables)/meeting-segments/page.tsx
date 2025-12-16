@@ -9,6 +9,10 @@ const config: GenericTableConfig = {
   description: 'Chunked meeting content for AI analysis and retrieval',
   searchFields: ['title', 'summary'],
   exportFilename: 'meeting-segments-export.csv',
+  editConfig: {
+    tableName: 'meeting_segments',
+    editableFields: ['title', 'summary', 'segment_index', 'start_time', 'end_time', 'topics', 'participants', 'key_points'],
+  },
   columns: [
     {
       id: 'title',

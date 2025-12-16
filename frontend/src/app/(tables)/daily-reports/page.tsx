@@ -9,6 +9,10 @@ const config: GenericTableConfig = {
   description: 'AI-generated daily summaries of meetings and decisions',
   searchFields: ['recap_text', 'model_used'],
   exportFilename: 'daily-recaps-export.csv',
+  editConfig: {
+    tableName: 'daily_recaps',
+    editableFields: ['recap_date', 'date_range_start', 'date_range_end', 'recap_text', 'model_used', 'token_count'],
+  },
   columns: [
     {
       id: 'recap_date',

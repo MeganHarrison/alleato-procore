@@ -9,6 +9,10 @@ const config: GenericTableConfig = {
   description: 'Track and manage project issues',
   searchFields: ['title', 'description', 'reported_by', 'notes'],
   exportFilename: 'issues-export.csv',
+  editConfig: {
+    tableName: 'issues',
+    editableFields: ['title', 'category', 'severity', 'status', 'reported_by', 'date_reported', 'date_resolved', 'total_cost', 'direct_cost', 'indirect_cost', 'description', 'notes'],
+  },
   columns: [
     {
       id: 'title',

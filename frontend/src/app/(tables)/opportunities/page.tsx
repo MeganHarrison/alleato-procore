@@ -9,6 +9,10 @@ const config: GenericTableConfig = {
   description: 'Track and pursue business opportunities',
   searchFields: ['description', 'type', 'owner_name', 'next_step'],
   exportFilename: 'opportunities-export.csv',
+  editConfig: {
+    tableName: 'opportunities',
+    editableFields: ['description', 'type', 'status', 'owner_name', 'owner_email', 'next_step'],
+  },
   columns: [
     {
       id: 'description',

@@ -30,10 +30,23 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from '@/components/ui/dialog'
+import { Label } from '@/components/ui/label'
+import { Textarea } from '@/components/ui/textarea'
+import { toast } from 'sonner'
+import {
   Search,
   Download,
   Columns3,
   ChevronDown,
+  Pencil,
+  Plus,
 } from 'lucide-react'
 
 // Serializable badge render configuration
@@ -99,6 +112,12 @@ export interface FilterConfig {
   options: { value: string; label: string }[]
 }
 
+export interface EditConfig {
+  tableName: string // Supabase table name
+  editableFields?: string[] // List of field IDs that can be edited inline
+  requiresDialog?: boolean // If true, opens a dialog for all edits
+}
+
 export interface GenericTableConfig {
   title: string
   description: string
@@ -107,6 +126,7 @@ export interface GenericTableConfig {
   searchFields: string[]
   rowClickPath?: string // Use {id} as placeholder, e.g. "/risks/{id}"
   exportFilename?: string
+  editConfig?: EditConfig // Optional: enables editing
 }
 
 interface GenericDataTableProps {
@@ -116,12 +136,15 @@ interface GenericDataTableProps {
 
 export function GenericDataTable({ data: initialData, config }: GenericDataTableProps) {
   const router = useRouter()
-  const [data] = useState(initialData)
+  const [data, setData] = useState(initialData)
   const [searchTerm, setSearchTerm] = useState('')
   const [filters, setFilters] = useState<Record<string, string>>({})
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
     new Set(config.columns.filter(col => col.defaultVisible).map(col => col.id))
   )
+  const [editingRow, setEditingRow] = useState<Record<string, unknown> | null>(null)
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [isSaving, setIsSaving] = useState(false)
 
   // Filter and search logic
   const filteredData = useMemo(() => {
@@ -186,8 +209,8 @@ export function GenericDataTable({ data: initialData, config }: GenericDataTable
         if (renderConfig.itemType === 'badge') {
           return (
             <div className="flex gap-1 flex-wrap">
-              {value.map((item) => (
-                <Badge key={String(item)} variant="outline" className="text-xs">
+              {value.map((item, idx) => (
+                <Badge key={`${String(item)}-${idx}`} variant="outline" className="text-xs">
                   {String(item)}
                 </Badge>
               ))}
@@ -294,6 +317,53 @@ export function GenericDataTable({ data: initialData, config }: GenericDataTable
     }
   }
 
+  const handleEditClick = (row: Record<string, unknown>, e: React.MouseEvent) => {
+    e.stopPropagation() // Prevent row click from firing
+    setEditingRow({ ...row })
+    setIsEditDialogOpen(true)
+  }
+
+  const handleSaveEdit = async () => {
+    if (!editingRow || !config.editConfig) return
+
+    setIsSaving(true)
+    try {
+      const response = await fetch('/api/table-update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          table: config.editConfig.tableName,
+          id: editingRow.id,
+          data: editingRow,
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to save changes')
+      }
+
+      // Update local data
+      setData(prevData =>
+        prevData.map(row => (row.id === editingRow.id ? editingRow : row))
+      )
+
+      toast.success('Changes saved successfully')
+
+      setIsEditDialogOpen(false)
+      setEditingRow(null)
+    } catch (error) {
+      console.error('Error saving:', error)
+      toast.error('Failed to save changes. Please try again.')
+    } finally {
+      setIsSaving(false)
+    }
+  }
+
+  const handleFieldChange = (fieldId: string, value: unknown) => {
+    if (!editingRow) return
+    setEditingRow({ ...editingRow, [fieldId]: value })
+  }
+
   return (
     <div className="space-y-4">
       {/* Header */}
@@ -394,6 +464,7 @@ export function GenericDataTable({ data: initialData, config }: GenericDataTable
                 .map(col => (
                   <TableHead key={col.id}>{col.label}</TableHead>
                 ))}
+              {config.editConfig && <TableHead className="w-[80px]">Actions</TableHead>}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -420,12 +491,121 @@ export function GenericDataTable({ data: initialData, config }: GenericDataTable
                         {renderCellContent(col, row)}
                       </TableCell>
                     ))}
+                  {config.editConfig && (
+                    <TableCell>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={(e) => handleEditClick(row, e)}
+                      >
+                        <Pencil className="h-4 w-4" />
+                      </Button>
+                    </TableCell>
+                  )}
                 </TableRow>
               ))
             )}
           </TableBody>
         </Table>
       </div>
+
+      {/* Edit Dialog */}
+      {config.editConfig && (
+        <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+            <DialogHeader>
+              <DialogTitle>Edit {config.title.slice(0, -1)}</DialogTitle>
+              <DialogDescription>
+                Make changes to this record. Click save when you're done.
+              </DialogDescription>
+            </DialogHeader>
+            <div className="grid gap-4 py-4">
+              {editingRow && config.columns
+                .filter(col => col.id !== 'id' && col.id !== 'created_at' && col.id !== 'updated_at')
+                .map((col) => {
+                  const value = editingRow[col.id]
+                  const isEditable = !config.editConfig?.editableFields ||
+                                   config.editConfig.editableFields.includes(col.id)
+
+                  if (!isEditable) return null
+
+                  return (
+                    <div key={col.id} className="grid grid-cols-4 items-start gap-4">
+                      <Label htmlFor={col.id} className="text-right pt-2">
+                        {col.label}
+                      </Label>
+                      <div className="col-span-3">
+                        {col.type === 'date' ? (
+                          <Input
+                            id={col.id}
+                            type="date"
+                            value={value ? String(value).split('T')[0] : ''}
+                            onChange={(e) => handleFieldChange(col.id, e.target.value)}
+                          />
+                        ) : col.renderConfig?.type === 'badge' || col.type === 'badge' ? (
+                          <Select
+                            value={String(value || '')}
+                            onValueChange={(v) => handleFieldChange(col.id, v)}
+                          >
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              {config.filters
+                                ?.find(f => f.field === col.id)
+                                ?.options.map(opt => (
+                                  <SelectItem key={opt.value} value={opt.value}>
+                                    {opt.label}
+                                  </SelectItem>
+                                )) || []}
+                            </SelectContent>
+                          </Select>
+                        ) : col.renderConfig?.type === 'currency' || col.type === 'number' ? (
+                          <Input
+                            id={col.id}
+                            type="number"
+                            step="0.01"
+                            value={value ? Number(value) : ''}
+                            onChange={(e) => handleFieldChange(col.id, parseFloat(e.target.value))}
+                          />
+                        ) : col.type === 'email' ? (
+                          <Input
+                            id={col.id}
+                            type="email"
+                            value={String(value || '')}
+                            onChange={(e) => handleFieldChange(col.id, e.target.value)}
+                          />
+                        ) : (
+                          <Textarea
+                            id={col.id}
+                            value={String(value || '')}
+                            onChange={(e) => handleFieldChange(col.id, e.target.value)}
+                            rows={3}
+                          />
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+            </div>
+            <DialogFooter>
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setIsEditDialogOpen(false)
+                  setEditingRow(null)
+                }}
+                disabled={isSaving}
+              >
+                Cancel
+              </Button>
+              <Button onClick={handleSaveEdit} disabled={isSaving}>
+                {isSaving ? 'Saving...' : 'Save changes'}
+              </Button>
+            </DialogFooter>
+          </DialogContent>
+        </Dialog>
+      )}
     </div>
   )
 }

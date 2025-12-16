@@ -9,6 +9,10 @@ const config: GenericTableConfig = {
   description: 'View daily construction logs and weather conditions',
   searchFields: ['log_date', 'created_by'],
   exportFilename: 'daily-logs-export.csv',
+  editConfig: {
+    tableName: 'daily_logs',
+    editableFields: ['log_date', 'weather_conditions', 'manpower', 'equipment_used', 'work_completed', 'materials_delivered', 'issues', 'safety_incidents', 'visitors', 'created_by'],
+  },
   columns: [
     {
       id: 'log_date',

@@ -9,6 +9,10 @@ const config: GenericTableConfig = {
   description: 'Track and manage project risks',
   searchFields: ['description', 'category', 'owner_name', 'mitigation_plan'],
   exportFilename: 'risks-export.csv',
+  editConfig: {
+    tableName: 'risks',
+    editableFields: ['description', 'category', 'status', 'impact', 'likelihood', 'owner_name', 'mitigation_plan'],
+  },
   columns: [
     {
       id: 'description',

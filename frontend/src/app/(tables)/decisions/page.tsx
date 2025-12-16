@@ -6,6 +6,10 @@ const config: GenericTableConfig = {
   description: 'Track important project and business decisions',
   searchFields: ['description', 'impact', 'owner_name', 'rationale'],
   exportFilename: 'decisions-export.csv',
+  editConfig: {
+    tableName: 'decisions',
+    editableFields: ['description', 'status', 'impact', 'owner_name', 'owner_email', 'rationale', 'effective_date'],
+  },
   columns: [
     {
       id: 'description',

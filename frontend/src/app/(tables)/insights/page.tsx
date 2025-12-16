@@ -9,6 +9,10 @@ const config: GenericTableConfig = {
   description: 'AI-generated insights from meetings and documents',
   searchFields: ['title', 'description', 'business_impact', 'assignee'],
   exportFilename: 'ai-insights-export.csv',
+  editConfig: {
+    tableName: 'ai_insights',
+    editableFields: ['title', 'description', 'insight_type', 'category', 'priority', 'status', 'business_impact', 'recommended_action', 'assignee', 'due_date'],
+  },
   columns: [
     {
       id: 'title',

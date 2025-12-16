@@ -9,6 +9,10 @@ const config: GenericTableConfig = {
   description: 'Project notes and annotations',
   searchFields: ['body', 'created_by'],
   exportFilename: 'notes-export.csv',
+  editConfig: {
+    tableName: 'notes',
+    editableFields: ['body', 'created_by'],
+  },
   columns: [
     {
       id: 'body',
