@@ -84,10 +84,9 @@ export function BudgetLineItemModal({
   const [availableCostCodes, setAvailableCostCodes] = useState<
     Array<{
       id: string;
-      description: string;
-      division_title: string;
-      division: string;
-      cost_code_divisions?: { code: string; title: string; sort_order: number };
+      description: string | null;
+      status: string | null;
+      division_title: string | null;
     }>
   >([]);
   const [loadingCostCodes, setLoadingCostCodes] = useState(false);
@@ -96,10 +95,9 @@ export function BudgetLineItemModal({
       string,
       Array<{
         id: string;
-        description: string;
-        division_title: string;
-        division: string;
-        cost_code_divisions?: { code: string; title: string; sort_order: number };
+        description: string | null;
+        status: string | null;
+        division_title: string | null;
       }>
     >
   >({});
@@ -121,7 +119,7 @@ export function BudgetLineItemModal({
   const [showCreateCodeModal, setShowCreateCodeModal] = useState(false);
   const [newCodeData, setNewCodeData] = useState({
     costCodeId: '',
-    costType: 'L',
+    costType: 'R',
   });
   const [expandedDivisions, setExpandedDivisions] = useState<Set<string>>(new Set());
 
@@ -157,21 +155,11 @@ export function BudgetLineItemModal({
         setLoadingCostCodes(true);
         const supabase = createClient();
 
-        // Fetch cost codes with their division information
+        // Fetch cost codes from Supabase
         const { data, error } = await supabase
           .from('cost_codes')
-          .select(`
-            id,
-            description,
-            division_title,
-            division,
-            cost_code_divisions!inner (
-              code,
-              title,
-              sort_order
-            )
-          `)
-          .order('cost_code_divisions(sort_order)', { ascending: true })
+          .select('id, description, status, division_title')
+          .eq('status', 'True')
           .order('id', { ascending: true });
 
         if (error) {
@@ -182,9 +170,9 @@ export function BudgetLineItemModal({
         const codes = data || [];
         setAvailableCostCodes(codes);
 
-        // Group cost codes by division title (e.g., "01 General Requirements")
+        // Group cost codes by division_title
         const grouped = codes.reduce((acc, code) => {
-          const divisionKey = code.cost_code_divisions?.title || code.division_title || 'Other';
+          const divisionKey = code.division_title || 'Other';
           if (!acc[divisionKey]) {
             acc[divisionKey] = [];
           }
@@ -258,11 +246,12 @@ export function BudgetLineItemModal({
 
   const getCostTypeLabel = (type: string) => {
     const types: Record<string, string> = {
+      R: 'Contract Revenue',
+      E: 'Equipment',
+      X: 'Expense',
       L: 'Labor',
       M: 'Material',
-      E: 'Equipment',
       S: 'Subcontract',
-      O: 'Other',
     };
     return types[type] || type;
   };
@@ -292,15 +281,15 @@ export function BudgetLineItemModal({
       // TODO: API call to create project budget code
       const newCode: BudgetCode = {
         id: Date.now().toString(),
-        code: selectedCostCode.id,
+        code: selectedCostCode.division || selectedCostCode.id,
         costType: newCodeData.costType,
         description: selectedCostCode.description || '',
-        fullLabel: `${selectedCostCode.id}.${newCodeData.costType} – ${selectedCostCode.description} – ${getCostTypeLabel(newCodeData.costType)}`,
+        fullLabel: `${selectedCostCode.division || selectedCostCode.id}.${newCodeData.costType} – ${selectedCostCode.description} – ${getCostTypeLabel(newCodeData.costType)}`,
       };
 
       setBudgetCodes([...budgetCodes, newCode]);
       setShowCreateCodeModal(false);
-      setNewCodeData({ costCodeId: '', costType: 'L' });
+      setNewCodeData({ costCodeId: '', costType: 'R' });
     } catch (error) {
       console.error('Error creating budget code:', error);
     } finally {
@@ -369,14 +358,45 @@ export function BudgetLineItemModal({
         return;
       }
 
-      // TODO: API call to create budget line items
-      console.log('Creating budget line items:', { projectId, rows });
+      // Get the budget code details for each row
+      const lineItemsToSubmit = rows.map((row) => {
+        const budgetCode = budgetCodes.find((code) => code.id === row.budgetCodeId);
 
-      // Close modal and notify parent
+        return {
+          costCodeId: budgetCode?.code || row.budgetCodeId,
+          costType: budgetCode?.costType || null,
+          qty: row.qty,
+          uom: row.uom,
+          unitCost: row.unitCost,
+          amount: row.amount,
+        };
+      });
+
+      // Call API to create budget line items
+      const response = await fetch(`/api/projects/${projectId}/budget`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          lineItems: lineItemsToSubmit,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.details || error.error || 'Failed to create budget line items');
+      }
+
+      const result = await response.json();
+      console.log('Budget line items created:', result);
+
+      // Close modal and notify parent to refresh data
       onOpenChange(false);
       onSuccess?.();
     } catch (error) {
       console.error('Error creating budget line items:', error);
+      alert(`Failed to create budget line items: ${error instanceof Error ? error.message : 'Unknown error'}`);
     } finally {
       setLoading(false);
     }
@@ -592,9 +612,9 @@ export function BudgetLineItemModal({
                 <div className="border rounded-md p-3 text-sm text-gray-500">Loading cost codes...</div>
               ) : (
                 <div className="border rounded-md max-h-[400px] overflow-y-auto">
-                  {Object.keys(groupedCostCodes)
-                    .sort()
-                    .map((division) => (
+                  {Object.entries(groupedCostCodes)
+                    .sort(([a], [b]) => a.localeCompare(b))
+                    .map(([division]) => (
                       <div key={division} className="border-b last:border-b-0">
                         <button
                           type="button"
@@ -622,7 +642,7 @@ export function BudgetLineItemModal({
                                     : 'text-gray-700'
                                 }`}
                               >
-                                {costCode.id} – {costCode.description}
+                                {costCode.division || costCode.id} - {costCode.description}
                               </button>
                             ))}
                           </div>
@@ -643,11 +663,12 @@ export function BudgetLineItemModal({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
+                  <SelectItem value="R">R - Contract Revenue</SelectItem>
+                  <SelectItem value="E">E - Equipment</SelectItem>
+                  <SelectItem value="X">X - Expense</SelectItem>
                   <SelectItem value="L">L - Labor</SelectItem>
                   <SelectItem value="M">M - Material</SelectItem>
-                  <SelectItem value="E">E - Equipment</SelectItem>
                   <SelectItem value="S">S - Subcontract</SelectItem>
-                  <SelectItem value="O">O - Other</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -656,9 +677,10 @@ export function BudgetLineItemModal({
               <p className="text-sm text-gray-600 mt-1">
                 {newCodeData.costCodeId ? (
                   <>
-                    {availableCostCodes.find((cc) => cc.id === newCodeData.costCodeId)?.id}.
-                    {newCodeData.costType} –{' '}
-                    {availableCostCodes.find((cc) => cc.id === newCodeData.costCodeId)?.description} –{' '}
+                    {availableCostCodes.find((cc) => cc.id === newCodeData.costCodeId)?.division || 
+                     availableCostCodes.find((cc) => cc.id === newCodeData.costCodeId)?.id}.
+                    {newCodeData.costType} – {' '}
+                    {availableCostCodes.find((cc) => cc.id === newCodeData.costCodeId)?.description} – {' '}
                     {getCostTypeLabel(newCodeData.costType)}
                   </>
                 ) : (

@@ -29,6 +29,33 @@ This plan assumes **Option A (UI First)**: build the component system first, the
 
 ## Recent Updates
 
+### 2025-12-15: Project Routing Architecture Fix (CRITICAL)
+
+- **Resolved duplicate routing structure** that was causing project context confusion
+- **DELETED all non-project-scoped financial routes** in `(financial)` directory:
+  - Removed `/budget/*` (use `/[projectId]/budget/*` instead)
+  - Removed `/commitments/*` (use `/[projectId]/commitments/*` instead)
+  - Removed `/contracts/*` (use `/[projectId]/contracts/*` instead)
+  - Removed `/change-orders/*` (use `/[projectId]/change-orders/*` instead)
+  - Removed `/invoices/*` (use `/[projectId]/invoices/*` instead)
+  - Removed `/change-events/*` (use `/[projectId]/change-events/*` instead)
+- **Created missing project-scoped creation routes**:
+  - `/[projectId]/commitments/new` - Create subcontracts/POs for specific project
+  - `/[projectId]/contracts/new` - Create prime contracts for specific project
+  - `/[projectId]/contracts/[id]` - View contract details for specific project
+  - `/[projectId]/change-orders/new` - Create change orders for specific project
+  - `/[projectId]/invoices/new` - Create invoices for specific project
+- **Updated all navigation links** in project-scoped pages to use `/${projectId}/...` pattern
+- **Established routing enforcement rule**: ALL project tools MUST use `/[projectId]/` routes
+- **Key Benefits**:
+  - No more confusion between global vs project-scoped routes
+  - Project context is ALWAYS in the URL - no reliance on query params
+  - Direct links are shareable and bookmarkable with project context intact
+  - Browser refresh maintains project context automatically
+  - Simplified navigation logic - one consistent pattern
+- **Enforcement**: Added to CLAUDE.md as mandatory requirement for all future project tools
+- **Documentation**: Created PROJECT-ROUTING-FIX.md and ROUTING-AUDIT.md for complete implementation checklist
+
 ### 2025-12-15: Budget Sidebar Forms Implementation
 - **Converted budget forms from separate pages to slide-in sidebars** for better UX
 - **Created BudgetLineItemModal** (`/frontend/src/components/budget/budget-line-item-modal.tsx`)

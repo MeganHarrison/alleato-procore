@@ -66,9 +66,19 @@ export default function NewBudgetLineItemPage() {
   const [loadingCodes, setLoadingCodes] = useState(true);
 
   // Cost codes from Supabase
-  const [availableCostCodes, setAvailableCostCodes] = useState<Array<{ id: string; description: string; division_title: string; division: string }>>([]);
+  const [availableCostCodes, setAvailableCostCodes] = useState<Array<{
+    id: string;
+    description: string | null;
+    status: string | null;
+    division_title: string | null;
+  }>>([]);
   const [loadingCostCodes, setLoadingCostCodes] = useState(false);
-  const [groupedCostCodes, setGroupedCostCodes] = useState<Record<string, Array<{ id: string; description: string; division_title: string; division: string }>>>({});
+  const [groupedCostCodes, setGroupedCostCodes] = useState<Record<string, Array<{
+    id: string;
+    description: string | null;
+    status: string | null;
+    division_title: string | null;
+  }>>>({});
 
   // Multiple rows state
   const [rows, setRows] = useState<BudgetLineItemRow[]>([
@@ -106,8 +116,8 @@ export default function NewBudgetLineItemPage() {
 
         const { data, error } = await supabase
           .from('cost_codes')
-          .select('id, description, division_title, division')
-          .order('division', { ascending: true })
+          .select('id, description, status, division_title')
+          .eq('status', 'True')
           .order('id', { ascending: true });
 
         if (error) {
@@ -118,9 +128,9 @@ export default function NewBudgetLineItemPage() {
         const codes = data || [];
         setAvailableCostCodes(codes);
 
-        // Group cost codes by division
+        // Group cost codes by division_title
         const grouped = codes.reduce((acc, code) => {
-          const divisionKey = code.division_title || code.division || 'Other';
+          const divisionKey = code.division_title || 'Other';
           if (!acc[divisionKey]) {
             acc[divisionKey] = [];
           }
@@ -584,7 +594,9 @@ export default function NewBudgetLineItemPage() {
                 </div>
               ) : (
                 <div className="border rounded-md max-h-[400px] overflow-y-auto">
-                  {Object.keys(groupedCostCodes).sort().map((division) => (
+                  {Object.entries(groupedCostCodes)
+                    .sort(([a], [b]) => a.localeCompare(b))
+                    .map(([division]) => (
                     <div key={division} className="border-b last:border-b-0">
                       {/* Division Header - Clickable */}
                       <button
