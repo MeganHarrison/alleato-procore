@@ -39,13 +39,25 @@ export async function POST(request: NextRequest) {
     console.log(`[RAG-ChatKit API] ⏱️  Response received in ${elapsed}ms`);
     console.log('[RAG-ChatKit API] 📊 Status:', response.status, response.statusText);
 
-    // Safely parse response - handle non-JSON responses
+    const contentType = response.headers.get('content-type') || '';
+
+    // Stream Server-Sent Events directly back to the client
+    if (contentType.includes('text/event-stream')) {
+      console.log('[RAG-ChatKit API] 🔁 Streaming SSE response to client');
+      const headers = new Headers();
+      response.headers.forEach((value, key) => headers.set(key, value));
+      return new NextResponse(response.body, { status: response.status, headers });
+    }
+
+    // Safely parse JSON responses
     let data: Record<string, any> | null = null;
-    const text = await response.text();
+    const jsonResponse = response.clone();
     try {
-      data = text ? JSON.parse(text) : null;
-    } catch {
-      console.error('[RAG-ChatKit API] ⚠️  Response is not JSON:', text.substring(0, 200));
+      data = await jsonResponse.json();
+    } catch (error) {
+      const text = await response.text();
+      console.error('[RAG-ChatKit API] ⚠️  Failed to parse JSON response:', (error as Error).message);
+      console.error('[RAG-ChatKit API] ⚠️  Raw response:', text.substring(0, 200));
       return NextResponse.json(
         {
           error: 'Invalid Backend Response',

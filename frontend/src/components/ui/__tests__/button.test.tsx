@@ -66,13 +66,13 @@ describe('Button', () => {
   it('renders as a child component when asChild is true', () => {
     render(
       <Button asChild>
-        <a href="/test">Link Button</a>
+        <a href="https://example.com/test">Link Button</a>
       </Button>
     )
     
     const link = screen.getByRole('link', { name: 'Link Button' })
     expect(link).toBeInTheDocument()
-    expect(link).toHaveAttribute('href', '/test')
+    expect(link).toHaveAttribute('href', 'https://example.com/test')
   })
 
   it('applies custom className', () => {

@@ -2,15 +2,13 @@
 
 import React, { ReactNode } from 'react'
 import { useRouter } from 'next/navigation'
-import { ProjectPageHeader } from '@/components/project-page-header'
-import { PageContainer } from '@/components/layout/page-container'
+import { PageContainer, ProjectPageHeader } from '@/components/layout'
 import { SummaryCardsGrid, SummaryCard } from './summary-cards-grid'
 import { Card } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
 import { cn } from '@/lib/utils'
 
 interface FinancialPageLayoutProps {
-  projectId: string
-  projectName?: string
   title: string
   description: string
   createButtonLabel: string
@@ -23,8 +21,6 @@ interface FinancialPageLayoutProps {
 }
 
 export function FinancialPageLayout({
-  projectId,
-  projectName,
   title,
   description,
   createButtonLabel,
@@ -50,13 +46,16 @@ export function FinancialPageLayout({
       <ProjectPageHeader
         title={title}
         description={description}
-        projectId={projectId}
-        projectName={projectName}
-        createButtonLabel={createButtonLabel}
-        onCreateClick={handleCreateClick}
-        additionalActions={headerActions}
+        actions={
+          <div className="flex items-center gap-3">
+            {headerActions}
+            <Button size="sm" className="bg-orange-500 hover:bg-orange-600" onClick={handleCreateClick}>
+              {createButtonLabel}
+            </Button>
+          </div>
+        }
       />
-      
+
       <PageContainer className={cn("space-y-6", className)}>
         {/* Summary Cards */}
         <SummaryCardsGrid cards={summaryCards} />

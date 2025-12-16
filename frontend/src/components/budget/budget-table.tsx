@@ -22,7 +22,13 @@ import { BudgetLineItem, BudgetGrandTotals } from '@/types/budget';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
 
-const columnTooltips = {
+type ColumnTooltip = {
+  title: string
+  formula: string
+  details?: readonly string[]
+}
+
+const columnTooltips: Record<string, ColumnTooltip> = {
   originalBudgetAmount: {
     title: 'Original Budget Amount',
     formula: 'Baseline dollars imported from estimating or entered during project setup.',
@@ -92,7 +98,7 @@ const columnTooltips = {
     formula: 'Projected Budget - Estimated Cost at Completion.',
     details: ['Positive = under budget, Negative = over budget.'],
   },
-} as const;
+};
 
 type ColumnTooltipKey = keyof typeof columnTooltips;
 

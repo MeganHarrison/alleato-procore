@@ -2,9 +2,11 @@
 
 import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Send, Loader2 } from 'lucide-react'
+import { Textarea } from '@/components/ui/textarea'
+import { Send, Loader2, Bot, User, Sparkles } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
+import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
 interface Message {
   role: 'user' | 'assistant'
@@ -89,7 +91,7 @@ export default function SimpleChatPage() {
     }
   }
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault()
       sendMessage()
@@ -101,58 +103,134 @@ export default function SimpleChatPage() {
   }
 
   return (
-    <div className="container mx-auto p-6 max-w-4xl h-[calc(100vh-100px)]">
-      <Card className="h-full flex flex-col">
-        <CardHeader className="border-b">
-          <div className="flex items-center justify-between">
-            <CardTitle>Simple RAG Chat</CardTitle>
-            <Button variant="outline" size="sm" onClick={clearChat}>
-              Clear Chat
-            </Button>
+    <div className="flex flex-col h-screen bg-white">
+      {/* Header */}
+      <div className="border-b px-4 py-3">
+        <div className="max-w-4xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-2">
+            <Sparkles className="h-5 w-5 text-purple-600" />
+            <h1 className="text-lg font-semibold">Alleato AI Assistant</h1>
           </div>
-        </CardHeader>
+          <Button variant="ghost" size="sm" onClick={clearChat}>
+            Clear Chat
+          </Button>
+        </div>
+      </div>
 
-        <CardContent className="flex-1 flex flex-col p-4 overflow-hidden">
+      {/* Main Content */}
+      <div className="flex-1 overflow-hidden">
+        <div className="max-w-4xl mx-auto h-full flex flex-col">
           {/* Messages Area */}
-          <div className="flex-1 overflow-y-auto mb-4 space-y-4">
-            {messages.length === 0 ? (
-              <div className="flex items-center justify-center h-full text-gray-500">
-                <div className="text-center">
-                  <p className="text-lg font-medium">No messages yet</p>
-                  <p className="text-sm">Send a message to start chatting with the RAG system</p>
-                </div>
-              </div>
-            ) : (
-              messages.map((message, index) => (
-                <div
-                  key={index}
-                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
-                >
-                  <div
-                    className={`max-w-[80%] rounded-lg p-4 ${
-                      message.role === 'user'
-                        ? 'bg-blue-600 text-white'
-                        : 'bg-gray-100 text-gray-900'
-                    }`}
-                  >
-                    <div className="text-sm font-medium mb-1">
-                      {message.role === 'user' ? 'You' : 'Assistant'}
-                    </div>
-                    <div className="whitespace-pre-wrap break-words">
-                      {message.content}
-                    </div>
-                    <div className="text-xs opacity-70 mt-2">
-                      {message.timestamp.toLocaleTimeString()}
-                    </div>
+          <div className="flex-1 overflow-y-auto">
+            <div className="px-4 py-8">
+              {messages.length === 0 ? (
+                <div className="flex flex-col items-center justify-center h-full text-center py-20">
+                  <Bot className="h-12 w-12 text-gray-300 mb-4" />
+                  <h2 className="text-2xl font-medium text-gray-900 mb-2">How can I help you today?</h2>
+                  <p className="text-gray-600 mb-8 max-w-lg">
+                    I can help you with questions about your projects, tasks, meetings, and more.
+                  </p>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
+                    {[
+                      'Show me active projects',
+                      'What are my recent tasks?',
+                      'Summarize latest meetings',
+                      'Help me plan a project'
+                    ].map((prompt) => (
+                      <button
+                        key={prompt}
+                        onClick={() => setInput(prompt)}
+                        className="text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
+                      >
+                        <p className="text-sm font-medium text-gray-900">{prompt}</p>
+                      </button>
+                    ))}
                   </div>
                 </div>
-              ))
-            )}
+              ) : (
+                <div className="space-y-6">
+                  {messages.map((message, index) => (
+                    <div key={index} className="group">
+                      <div className="flex gap-3">
+                        <div className="flex-shrink-0">
+                          {message.role === 'user' ? (
+                            <div className="w-8 h-8 bg-gray-600 rounded-sm flex items-center justify-center">
+                              <User className="h-5 w-5 text-white" />
+                            </div>
+                          ) : (
+                            <div className="w-8 h-8 bg-purple-600 rounded-sm flex items-center justify-center">
+                              <Bot className="h-5 w-5 text-white" />
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex-1 overflow-hidden">
+                          <div className="font-semibold text-sm mb-1">
+                            {message.role === 'user' ? 'You' : 'Alleato AI'}
+                          </div>
+                          {message.role === 'assistant' ? (
+                            <div className="prose prose-sm max-w-none">
+                              <ReactMarkdown
+                                components={{
+                                  code({ node, inline, className, children, ...props }) {
+                                    const match = /language-(\w+)/.exec(className || '')
+                                    return !inline && match ? (
+                                      <SyntaxHighlighter
+                                        style={oneDark}
+                                        language={match[1]}
+                                        PreTag="div"
+                                        className="rounded-md my-2"
+                                        {...props}
+                                      >
+                                        {String(children).replace(/\n$/, '')}
+                                      </SyntaxHighlighter>
+                                    ) : (
+                                      <code className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono" {...props}>
+                                        {children}
+                                      </code>
+                                    )
+                                  },
+                                  p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+                                  ul: ({ children }) => <ul className="list-disc pl-5 mb-2">{children}</ul>,
+                                  ol: ({ children }) => <ol className="list-decimal pl-5 mb-2">{children}</ol>,
+                                  h1: ({ children }) => <h1 className="text-xl font-bold mb-2">{children}</h1>,
+                                  h2: ({ children }) => <h2 className="text-lg font-bold mb-2">{children}</h2>,
+                                  h3: ({ children }) => <h3 className="text-base font-bold mb-2">{children}</h3>,
+                                  blockquote: ({ children }) => (
+                                    <blockquote className="border-l-4 border-gray-300 pl-4 italic my-2">
+                                      {children}
+                                    </blockquote>
+                                  ),
+                                }}
+                              >
+                                {message.content}
+                              </ReactMarkdown>
+                            </div>
+                          ) : (
+                            <div className="text-gray-900">
+                              {message.content}
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
 
             {isLoading && (
-              <div className="flex justify-start">
-                <div className="bg-gray-100 rounded-lg p-4">
-                  <Loader2 className="h-5 w-5 animate-spin" />
+              <div className="px-4 pb-4">
+                <div className="flex gap-3">
+                  <div className="w-8 h-8 bg-purple-600 rounded-sm flex items-center justify-center">
+                    <Bot className="h-5 w-5 text-white" />
+                  </div>
+                  <div className="flex-1">
+                    <div className="font-semibold text-sm mb-1">Alleato AI</div>
+                    <div className="flex items-center gap-1">
+                      <Loader2 className="h-4 w-4 animate-spin text-gray-500" />
+                      <span className="text-gray-500 text-sm">Thinking...</span>
+                    </div>
+                  </div>
                 </div>
               </div>
             )}
@@ -161,29 +239,38 @@ export default function SimpleChatPage() {
           </div>
 
           {/* Input Area */}
-          <div className="flex gap-2">
-            <Input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="Type your message..."
-              disabled={isLoading}
-              className="flex-1"
-            />
-            <Button
-              onClick={sendMessage}
-              disabled={isLoading || !input.trim()}
-              size="icon"
-            >
-              {isLoading ? (
-                <Loader2 className="h-4 w-4 animate-spin" />
-              ) : (
-                <Send className="h-4 w-4" />
-              )}
-            </Button>
+          <div className="border-t px-4 py-4">
+            <div className="max-w-2xl mx-auto">
+              <div className="relative">
+                <Textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyDown={handleKeyPress}
+                  placeholder="Message Alleato AI..."
+                  disabled={isLoading}
+                  className="min-h-[44px] max-h-[200px] pr-12 resize-none py-3"
+                  rows={1}
+                />
+                <Button
+                  onClick={sendMessage}
+                  disabled={isLoading || !input.trim()}
+                  size="icon"
+                  className="absolute bottom-2 right-2 h-8 w-8"
+                >
+                  {isLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <Send className="h-4 w-4" />
+                  )}
+                </Button>
+              </div>
+              <p className="text-xs text-gray-500 mt-2 text-center">
+                Alleato AI can make mistakes. Check important info.
+              </p>
+            </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
     </div>
   )
 }

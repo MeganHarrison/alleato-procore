@@ -2,6 +2,8 @@
 
 import { Card, CardContent } from '@/components/ui/card'
 import { User } from 'lucide-react'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 interface FormattedTranscriptProps {
   content: string
@@ -21,6 +23,38 @@ interface TranscriptEntry {
  * - **Speaker:** Text (markdown format)
  */
 export function FormattedTranscript({ content }: FormattedTranscriptProps) {
+  const renderMarkdown = (value: string) => (
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
+      className="prose prose-sm max-w-none text-gray-700"
+      components={{
+        p: ({ node, ...props }) => (
+          <p {...props} className="leading-relaxed text-gray-700 last:mb-0" />
+        ),
+        ul: ({ node, ...props }) => (
+          <ul
+            {...props}
+            className="list-disc pl-6 text-gray-700 space-y-1 last:mb-0"
+          />
+        ),
+        ol: ({ node, ...props }) => (
+          <ol
+            {...props}
+            className="list-decimal pl-6 text-gray-700 space-y-1 last:mb-0"
+          />
+        ),
+        li: ({ node, ...props }) => (
+          <li {...props} className="leading-relaxed text-gray-700" />
+        ),
+        strong: ({ node, ...props }) => (
+          <strong {...props} className="text-gray-900" />
+        ),
+      }}
+    >
+      {value}
+    </ReactMarkdown>
+  )
+
   // Parse the transcript content into structured entries
   const parseTranscript = (text: string): TranscriptEntry[] => {
     const entries: TranscriptEntry[] = []
@@ -88,18 +122,10 @@ export function FormattedTranscript({ content }: FormattedTranscriptProps) {
 
   // If no structured entries found, fall back to paragraph formatting
   if (entries.length === 0) {
-    const paragraphs = content.split('\n\n').filter(p => p.trim())
-
     return (
       <Card>
         <CardContent className="pt-6">
-          <div className="space-y-4">
-            {paragraphs.map((paragraph, index) => (
-              <p key={index} className="text-sm leading-relaxed text-gray-700">
-                {paragraph.trim()}
-              </p>
-            ))}
-          </div>
+          {renderMarkdown(content)}
         </CardContent>
       </Card>
     )
@@ -124,9 +150,7 @@ export function FormattedTranscript({ content }: FormattedTranscriptProps) {
                 <div className="font-semibold text-sm text-gray-900">
                   {entry.speaker}
                 </div>
-                <div className="text-sm leading-relaxed text-gray-700">
-                  {entry.text}
-                </div>
+                {renderMarkdown(entry.text)}
               </div>
             </div>
           ))}

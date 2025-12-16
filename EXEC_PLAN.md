@@ -29,6 +29,77 @@ This plan assumes **Option A (UI First)**: build the component system first, the
 
 ## Recent Updates
 
+### 2025-12-16: Budget Line Item Modal and Cost Code Fixes
+
+- **Fixed budget line item creation** by implementing hardcoded cost codes in `CreateBudgetCodeModal` to work around missing backend integration
+- **Added comprehensive cost code data** with divisions and codes matching construction industry standards:
+  - Division 1-9: Pre-construction and general requirements 
+  - Division 10-20: Building components and systems
+  - Division 21-28: Mechanical, electrical, plumbing
+  - Division 31-35: Site work and infrastructure
+- **Resolved modal functionality issues**:
+  - Fixed cost code selector to properly populate dropdown
+  - Ensured form validation works with required fields
+  - Connected submit handler to create budget line items via Supabase
+- **Implementation files**:
+  - `frontend/src/components/budget/CreateBudgetCodeModal.tsx` - Updated with hardcoded cost codes
+  - `frontend/src/components/budget/budget-line-item-modal.tsx` - References the modal for code creation
+- **Validation**: Budget line item creation now works end-to-end with proper cost code selection
+
+### 2025-12-16: ChatKit widget public-access + streaming proxy fix
+
+### 2025-12-16: RAG System Documentation and UI Enhancement
+
+- **Created unified RAG documentation** at `docs/RAG_SYSTEM_DOCUMENTATION.md` consolidating all RAG-related information:
+  - Multi-agent architecture (Classification, Project, Policy, Strategic agents)
+  - RAG strategies and reasoning (multi-resolution, contextual embeddings, hybrid search)
+  - Complete process flow from ingestion to response
+  - Manual triggering methods for ingestion and testing
+  - Future advancement recommendations
+  
+- **Enhanced Simple Chat UI** to match ChatGPT design:
+  - Implemented markdown rendering with syntax highlighting
+  - Added user/AI avatars with modern styling
+  - Created suggested prompts for empty state
+  - Improved message formatting and spacing
+  - Files: `frontend/src/app/simple-chat/page.tsx`
+  
+- **Key insights from RAG documentation**:
+  - System uses pgvector with 1536-dimension embeddings
+  - Implements structured extraction for decisions, risks, opportunities
+  - Supports project-scoped retrieval for better relevance
+  - Uses 4-worker pipeline for document processing
+  - Provides both simple and advanced chat interfaces
+
+### 2025-12-16: Document Pipeline Management & Tables Directory
+
+- **Created Document Pipeline Management Page** at `/admin/documents/pipeline`:
+  - Displays all documents with their RAG processing status
+  - Shows pipeline phases with action buttons: Parse, Embed, Extract
+  - Real-time status table with badges and error tracking
+  - API endpoints for status fetching and phase triggering
+  - Files: `frontend/src/app/(admin)/admin/documents/pipeline/page.tsx`
+  
+- **Created Tables Directory Page** at `/tables-directory`:
+  - Grid view of all data tables organized by category
+  - Categories: Core Data, Project Management, Financial, Directory, AI Insights
+  - 19 table pages with descriptions and navigation links
+  - Statistics cards showing table counts per category
+  - Quick navigation with category badges
+  - Added to Core Tools in header navigation with "New" badge
+  - Files: `frontend/src/app/tables-directory/page.tsx`
+  
+- **Fixed Build Error**:
+  - Resolved Tailwind CSS build error for missing `daily-recaps` page
+  - Created redirect from old location to new tables location
+  - File: `frontend/src/app/(project-mgmt)/daily-recaps/page.tsx`
+
+- **Removed the Supabase proxy redirect** for `/api/rag-chatkit*`, `/api/rag-chat*`, and their `/rag-chatkit*` counterparts so anonymous visitors can still bootstrap the AI assistant (`frontend/src/lib/supabase/proxy.ts`).
+- **Fixed the Next.js proxy** to stream Server-Sent Events from the Python backend instead of forcing JSON parsing, eliminating ChatKit’s `502 Bad Gateway` crashes once the backend is live (`frontend/src/app/api/rag-chatkit/route.ts`).
+- **Added Playwright coverage** to exercise the floating AI widget in both "backend online" and "offline fallback" modes without authentication (`frontend/tests/e2e/chat-widget-debug.spec.ts`, `frontend/config/playwright/playwright.config.ts`).
+- **Captured screenshots** proving both states render via the widget (`frontend/tests/screenshots/chat-widget-online.png`, `frontend/tests/screenshots/chat-widget-offline.png`).
+- **Validation**: `BASE_URL=http://localhost:3000 npx playwright test tests/chat-rag-e2e.spec.ts --config=config/playwright/playwright.config.ts --project=chromium` (all cases pass except the pre-existing “starter prompts” assertion) and `npx playwright test tests/e2e/chat-widget-debug.spec.ts --config=config/playwright/playwright.config.ts --project=no-auth`.
+
 ### 2025-12-15: Project Routing Architecture Fix (CRITICAL)
 
 - **Resolved duplicate routing structure** that was causing project context confusion
@@ -1158,6 +1229,9 @@ This document assumes Phase 0 exists (component system) and builds upward.
 - [x] Patched `/auth/login` to resolve `searchParams` asynchronously and keep redirect support working on Next 15 (`frontend/src/app/auth/login/page.tsx`).
 - [x] Relaxed Supabase proxy redirect rules so `/api/auth/*` routes stay reachable when unauthenticated (`frontend/src/lib/supabase/proxy.ts`).
 - [x] Added targeted Playwright coverage for sign-up + login flows, including screenshot capture, and verified via `npx playwright test tests/e2e/auth-flow.spec.ts --project=chromium` (screenshots in `frontend/tests/screenshots/auth/`).
+- [x] Stabilized the Supabase auth proxy + dev-login route so Playwright can mint real sessions on `127.0.0.1:3001`, including lazy admin fallbacks for legacy users (`frontend/src/lib/supabase/proxy.ts`, `frontend/src/app/(demo)/dev-login/route.ts`, `frontend/src/contexts/project-context.tsx`).
+- [x] Rebuilt `tests/page-title-verification.spec.ts` to honor `BASE_URL`, reuse the `/dev-login` helper, and guard against project IDs in the title, then re-ran `BASE_URL=http://127.0.0.1:3001 npx playwright test tests/page-title-verification.spec.ts --config=config/playwright/playwright.config.ts` (artifacts in `frontend/tests/test-results/page-title-verification-*`).
+- [x] Restored clean `npm run lint`/`npm run typecheck` runs by teaching ESLint to ignore `.next` artifacts, fixing the project-home text + button tests that violated `react/no-unescaped-entities` and `@next/next/no-html-link-for-pages`, wiring the contracts refactor + financial layout to existing shared components, tightening the budget tooltip typing, and installing the missing `@radix-ui/react-alert-dialog` dependency so `src/components/ui/alert-dialog.tsx` compiles (see `frontend/eslint.config.mjs`, `frontend/src/app/(project-mgmt)/[projectId]/home/project-home-client.tsx`, `frontend/src/components/ui/__tests__/button.test.tsx`, `frontend/src/components/shared/financial-page-layout.tsx`, `frontend/src/components/budget/budget-table.tsx`, and `frontend/package.json`). Verified with `npm run lint` and `npm run typecheck` from `frontend/`.
 
 ---
 

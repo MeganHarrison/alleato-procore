@@ -1,69 +1,67 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from '@playwright/test'
+
+const BASE_URL =
+  process.env.PAGE_TITLE_BASE_URL ||
+  process.env.BASE_URL ||
+  'http://127.0.0.1:3001'
+
+const PROJECT_ID = process.env.PAGE_TITLE_PROJECT_ID || '34'
+const TEST_EMAIL = process.env.PAGE_TITLE_TEST_EMAIL || 'test@example.com'
+const TEST_PASSWORD =
+  process.env.PAGE_TITLE_TEST_PASSWORD || 'testpassword123'
+
+async function authenticate(page: Page) {
+  const loginUrl = new URL(
+    `/dev-login?email=${encodeURIComponent(TEST_EMAIL)}&password=${encodeURIComponent(TEST_PASSWORD)}`,
+    BASE_URL
+  ).toString()
+
+  await page.goto(loginUrl)
+  await page.waitForLoadState('networkidle')
+}
+
+async function visitProjectPage(page: Page, path: string) {
+  const url = new URL(`/${PROJECT_ID}/${path}`, BASE_URL).toString()
+  await page.goto(url)
+  await page.waitForLoadState('networkidle')
+  await page.waitForTimeout(2000)
+  return page.title()
+}
 
 test.describe('Page Title Verification', () => {
+  test.beforeEach(async ({ page }) => {
+    await authenticate(page)
+  })
+
   test('Budget page should show format "Budget - Project - [project name]"', async ({ page }) => {
-    // Navigate to budget page for project 34
-    await page.goto('http://localhost:3001/34/budget');
+    const title = await visitProjectPage(page, 'budget')
+    console.log('Actual browser tab title:', title)
 
-    // Wait for page to load
-    await page.waitForLoadState('networkidle');
+    expect(title).toMatch(/^Budget/)
+    expect(title).not.toMatch(new RegExp(`Budget\\s+-\\s+Project\\s+-\\s+${PROJECT_ID}$`))
 
-    // Wait a bit for the title to be set by the useProjectTitle hook
-    await page.waitForTimeout(2000);
-
-    // Get the page title
-    const title = await page.title();
-
-    console.log('Actual browser tab title:', title);
-
-    // Expected format: "Budget - Project - ProjectName"
-    // Or if no project loaded yet: "Budget" (while loading)
-
-    // Verify title starts with "Budget"
-    expect(title).toMatch(/^Budget/);
-
-    // Verify title does NOT use the project ID "34" instead of project name
-    // If it has "34" right after "Project -", that's wrong
-    expect(title).not.toMatch(/Budget\s+-\s+Project\s+-\s+34$/);
-
-    // Log the result
     if (title.includes('Project -')) {
-      console.log('✅ Title includes project separator "Project -"');
-      console.log('Current title:', title);
+      console.log('✅ Title includes project separator "Project -"')
+      console.log('Current title:', title)
     } else {
-      console.log('⚠️  Title does not include project section (may be loading)');
-      console.log('Current title:', title);
+      console.log('⚠️  Title does not include project section (may be loading)')
+      console.log('Current title:', title)
     }
-  });
+  })
 
   test('Commitments page should show format "Commitments - Project - [project name]"', async ({ page }) => {
-    // Navigate to commitments page for project 34
-    await page.goto('http://localhost:3001/34/commitments');
+    const title = await visitProjectPage(page, 'commitments')
+    console.log('Commitments page title:', title)
 
-    // Wait for page to load
-    await page.waitForLoadState('networkidle');
+    expect(title).toMatch(/^Commitments/)
+    expect(title).not.toMatch(new RegExp(`Commitments\\s+-\\s+Project\\s+-\\s+${PROJECT_ID}$`))
 
-    // Wait for the title to be set
-    await page.waitForTimeout(2000);
-
-    // Get the page title
-    const title = await page.title();
-
-    console.log('Commitments page title:', title);
-
-    // Verify title starts with "Commitments"
-    expect(title).toMatch(/^Commitments/);
-
-    // Verify title does NOT use just the project ID
-    expect(title).not.toMatch(/Commitments\s+-\s+Project\s+-\s+34$/);
-
-    // Log the result
     if (title.includes('Project -')) {
-      console.log('✅ Title includes project separator "Project -"');
-      console.log('Current title:', title);
+      console.log('✅ Title includes project separator "Project -"')
+      console.log('Current title:', title)
     } else {
-      console.log('⚠️  Title does not include project section (may be loading)');
-      console.log('Current title:', title);
+      console.log('⚠️  Title does not include project section (may be loading)')
+      console.log('Current title:', title)
     }
-  });
-});
+  })
+})

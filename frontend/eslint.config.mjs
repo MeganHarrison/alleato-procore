@@ -9,7 +9,22 @@ const compat = new FlatCompat({
   allConfig: false,
 })
 
+const IGNORE_PATTERNS = [
+  '.next/**',
+  '**/.next/**',
+  '**/node_modules/**',
+  'dist/**',
+  'build/**',
+  'out/**',
+  'coverage/**',
+  'public/**',
+  'test-results/**',
+]
+
 const config = [
+  {
+    ignores: IGNORE_PATTERNS,
+  },
   ...compat.extends('next/core-web-vitals'),
   {
     plugins: {
@@ -20,7 +35,6 @@ const config = [
       'turbo/no-undeclared-env-vars': 'off',
       '@typescript-eslint/no-explicit-any': 'off',
     },
-    ignores: ['**/node_modules/**', '.next/**', 'dist/**', 'coverage/**', 'public/**'],
   },
 ]
 

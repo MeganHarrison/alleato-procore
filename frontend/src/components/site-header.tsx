@@ -31,6 +31,7 @@ const coreTools: Array<{ name: string; path: string; badge?: string; requiresPro
   { name: "360 Reporting", path: "reporting", requiresProject: true },
   { name: "Documents", path: "documents", requiresProject: true },
   { name: "Directory", path: "directory", requiresProject: true },
+  { name: "Tables Directory", path: "/tables-directory", requiresProject: false, badge: "New" },
   { name: "Connection Manager", path: "connection-manager", requiresProject: false },
   { name: "Tasks", path: "tasks", requiresProject: true },
   { name: "Admin", path: "admin", requiresProject: true },
@@ -58,6 +59,10 @@ const financialManagementTools: Array<{ name: string; path: string; hasCreateAct
   { name: "Change Events", path: "change-events", hasCreateAction: true, requiresProject: true },
   { name: "Direct Costs", path: "direct-costs", requiresProject: true },
   { name: "Invoicing", path: "invoices", requiresProject: true }
+]
+
+const adminTools: Array<{ name: string; path: string; requiresProject?: boolean }> = [
+  { name: "Document Pipeline", path: "/admin/documents/pipeline", requiresProject: false },
 ]
 
 interface Project {
@@ -347,7 +352,7 @@ export function SiteHeader({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-screen p-6 rounded-none border-x-0">
               <div className="container mx-auto">
-                <div className="grid grid-cols-3 gap-12">
+                <div className="grid grid-cols-4 gap-8">
                 {/* Core Tools Column */}
                 <div>
                   <h3 className="mb-3 text-sm font-semibold text-gray-900">Core Tools</h3>
@@ -451,6 +456,26 @@ export function SiteHeader({
                               <Plus className="h-4 w-4 rounded-full bg-orange-500 p-0.5 text-white ml-1" />
                             )}
                           </span>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </div>
+
+                {/* Admin Tools Column */}
+                <div>
+                  <h3 className="mb-3 text-sm font-semibold text-gray-900">Admin Tools</h3>
+                  <div className="space-y-1">
+                    {adminTools.map((tool) => {
+                      const href = tool.path
+                      
+                      return (
+                        <Link
+                          key={tool.name}
+                          href={href}
+                          className="flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100"
+                        >
+                          <span>{tool.name}</span>
                         </Link>
                       )
                     })}

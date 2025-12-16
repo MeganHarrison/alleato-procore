@@ -57,7 +57,7 @@ export default function EditCommitmentPage() {
       }
 
       const updatedCommitment = await response.json();
-      updateCommitment(updatedCommitment);
+      updateCommitment(commitmentId, updatedCommitment);
       router.push('/commitments');
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'An unexpected error occurred';

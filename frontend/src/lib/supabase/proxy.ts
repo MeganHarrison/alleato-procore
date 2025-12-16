@@ -3,6 +3,20 @@ import { NextResponse, type NextRequest } from "next/server";
 import { hasEnvVars } from "../utils";
 import { getSupabaseConfig } from "./config";
 
+const PUBLIC_CHAT_PATHS = [
+  "/api/rag-chatkit",
+  "/api/rag-chat",
+  "/rag-chatkit",
+  "/rag-chat",
+];
+
+function isPublicChatPath(pathname: string) {
+  return PUBLIC_CHAT_PATHS.some((prefix) => {
+    if (pathname === prefix) return true;
+    return pathname.startsWith(`${prefix}/`);
+  });
+}
+
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
     request,
@@ -59,7 +73,7 @@ export async function updateSession(request: NextRequest) {
     pathname.startsWith("/api/auth") ||
     isDevAuthRoute;
 
-  if (pathname !== "/" && !user && !isAuthRoute) {
+  if (pathname !== "/" && !user && !isAuthRoute && !isPublicChatPath(pathname)) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";

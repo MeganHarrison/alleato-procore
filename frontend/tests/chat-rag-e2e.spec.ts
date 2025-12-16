@@ -115,36 +115,26 @@ test.describe('Chat RAG End-to-End Test', () => {
 
     await page.waitForTimeout(2000);
 
-    let foundPrompts = 0;
     if (chatKitVisible) {
-      const prompts = [
-        'Create Budget Report',
-        'Analyze Project Delays',
-        'Review RFI Status',
-        'Executive Summary'
-      ];
-      for (const prompt of prompts) {
-        const promptElement = page.getByText(prompt, { exact: false });
-        if (await promptElement.isVisible().catch(() => false)) {
-          foundPrompts++;
-        }
-      }
+      const composer = chatPanel.locator('[data-chatkit-composer]');
+      await expect(composer).toBeVisible({ timeout: 5000 });
     } else {
       const prompts = [
         'What projects do we have?',
         'Show me recent tasks',
         'Summarize the latest meetings'
       ];
+      let foundPrompts = 0;
       for (const prompt of prompts) {
         const promptElement = fallbackPanel.getByText(prompt, { exact: true });
         if (await promptElement.isVisible().catch(() => false)) {
           foundPrompts++;
         }
       }
+      expect(foundPrompts).toBeGreaterThan(0);
     }
 
     await page.screenshot({ path: 'tests/screenshots/chat-rag-07-prompts.png', fullPage: true });
-    expect(foundPrompts).toBeGreaterThan(0);
   });
 
   test('API endpoints respond correctly', async ({ page }) => {

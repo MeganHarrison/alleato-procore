@@ -1,7 +1,7 @@
 'use client';
 
 import * as React from 'react';
-import { useForm } from 'react-hook-form';
+import { useForm, type Resolver } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   Dialog,
@@ -64,7 +64,7 @@ export function ClientFormDialog({
   const { companies, isLoading: isLoadingCompanies } = useCompanies({});
 
   const form = useForm<ClientFormData>({
-    resolver: zodResolver(clientSchema),
+    resolver: zodResolver(clientSchema) as Resolver<ClientFormData>,
     defaultValues: {
       name: client?.name || '',
       company_id: client?.company_id || null,
@@ -127,7 +127,7 @@ export function ClientFormDialog({
 
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-            <FormField
+            <FormField<ClientFormData>
               control={form.control}
               name="name"
               render={({ field }) => (
@@ -141,7 +141,7 @@ export function ClientFormDialog({
               )}
             />
 
-            <FormField
+            <FormField<ClientFormData>
               control={form.control}
               name="company_id"
               render={({ field }) => (
@@ -170,7 +170,7 @@ export function ClientFormDialog({
               )}
             />
 
-            <FormField
+            <FormField<ClientFormData>
               control={form.control}
               name="status"
               render={({ field }) => (

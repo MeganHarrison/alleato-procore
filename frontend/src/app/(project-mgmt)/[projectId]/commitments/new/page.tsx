@@ -78,7 +78,6 @@ export default function NewProjectCommitmentPage() {
             users={mockUsers}
             onSubmit={handleSubmit}
             onCancel={handleCancel}
-            defaultType={type as 'subcontract' | 'purchase_order' | undefined}
           />
         </div>
       </Card>

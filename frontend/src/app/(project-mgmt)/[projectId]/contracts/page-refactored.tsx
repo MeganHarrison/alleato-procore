@@ -13,7 +13,7 @@ import {
   TableColumn 
 } from '@/components/shared';
 import { useFormatCurrency } from '@/hooks/use-format-currency';
-import { StatusBadge } from '@/components/status-badge';
+import { StatusBadge } from '@/components/financial/shared/status-badge';
 import { createClient } from '@/lib/supabase/client';
 import {
   DropdownMenu,
@@ -53,7 +53,7 @@ export default function ContractsPage() {
   const params = useParams();
   const router = useRouter();
   const projectId = params.projectId as string;
-  const projectName = useProjectTitle(parseInt(projectId));
+  useProjectTitle('Prime Contracts');
   
   const formatCurrency = useFormatCurrency();
   const [contracts, setContracts] = useState<Contract[]>([]);
@@ -168,8 +168,8 @@ export default function ContractsPage() {
       header: 'Status',
       accessor: (contract) => (
         <StatusBadge 
-          status={contract.status} 
-          type="contract" 
+          status={contract.status || 'draft'} 
+          type="prime-contract" 
         />
       )
     },
@@ -258,8 +258,6 @@ export default function ContractsPage() {
 
   return (
     <FinancialPageLayout
-      projectId={projectId}
-      projectName={projectName}
       title="Prime Contracts"
       description="Manage your prime contracts and change orders"
       createButtonLabel="Create Contract"
