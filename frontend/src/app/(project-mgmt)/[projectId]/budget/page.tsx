@@ -10,6 +10,7 @@ import {
   BudgetTable,
   BudgetLineItemModal,
   BudgetModificationModal,
+  VerticalMarkupSettings,
 } from '@/components/budget';
 import {
   budgetViews,
@@ -205,39 +206,49 @@ export default function ProjectBudgetPage() {
         <BudgetTabs activeTab={activeTab} onTabChange={handleTabChange} />
       </div>
 
-      {/* Filter Controls */}
-      <div className="mx-6 mt-4 bg-white rounded-md">
-        <BudgetFilters
-          views={budgetViews}
-          snapshots={budgetSnapshots}
-          groups={budgetGroups}
-          selectedView={selectedView}
-          selectedSnapshot={selectedSnapshot}
-          selectedGroup={selectedGroup}
-          onViewChange={setSelectedView}
-          onSnapshotChange={setSelectedSnapshot}
-          onGroupChange={setSelectedGroup}
-          onAddFilter={handleAddFilter}
-          onAnalyzeVariance={handleAnalyzeVariance}
-          onToggleFullscreen={handleToggleFullscreen}
-        />
-      </div>
-
-      {/* Budget Table */}
-      <div className="flex-1 overflow-hidden mx-6 mt-4 mb-6 bg-white rounded-md border border-gray-200">
-        <Suspense fallback={<div className="flex items-center justify-center h-full">Loading...</div>}>
-          {loading ? (
-            <div className="flex items-center justify-center h-full">
-              Loading budget data for project {projectId}...
-            </div>
-          ) : (
-            <BudgetTable
-              data={budgetData}
-              grandTotals={grandTotals}
+      {/* Tab Content */}
+      {activeTab === 'settings' ? (
+        // Settings Tab - Vertical Markup Configuration
+        <div className="flex-1 overflow-auto mx-6 mt-4 mb-6">
+          <VerticalMarkupSettings projectId={projectId} />
+        </div>
+      ) : (
+        <>
+          {/* Filter Controls */}
+          <div className="mx-6 mt-4 bg-white rounded-md">
+            <BudgetFilters
+              views={budgetViews}
+              snapshots={budgetSnapshots}
+              groups={budgetGroups}
+              selectedView={selectedView}
+              selectedSnapshot={selectedSnapshot}
+              selectedGroup={selectedGroup}
+              onViewChange={setSelectedView}
+              onSnapshotChange={setSelectedSnapshot}
+              onGroupChange={setSelectedGroup}
+              onAddFilter={handleAddFilter}
+              onAnalyzeVariance={handleAnalyzeVariance}
+              onToggleFullscreen={handleToggleFullscreen}
             />
-          )}
-        </Suspense>
-      </div>
+          </div>
+
+          {/* Budget Table */}
+          <div className="flex-1 overflow-hidden mx-6 mt-4 mb-6 bg-white rounded-md border border-gray-200">
+            <Suspense fallback={<div className="flex items-center justify-center h-full">Loading...</div>}>
+              {loading ? (
+                <div className="flex items-center justify-center h-full">
+                  Loading budget data for project {projectId}...
+                </div>
+              ) : (
+                <BudgetTable
+                  data={budgetData}
+                  grandTotals={grandTotals}
+                />
+              )}
+            </Suspense>
+          </div>
+        </>
+      )}
 
       {/* Modals */}
       <BudgetLineItemModal

@@ -644,7 +644,7 @@ Based on the video walkthrough analysis, the following implementation phases are
 - [x] Refactor contract form with 5-tab interface (`/frontend/src/components/domain/contracts/ContractForm.tsx` - General, SOV, Dates, Billing, Privacy)
 - [x] Integrate Schedule of Values with grid management (`/frontend/src/components/domain/contracts/ScheduleOfValuesGrid.tsx`)
 - [x] Add retention settings configuration (`/frontend/src/components/domain/contracts/ContractBillingSection.tsx`)
-- [ ] Implement vertical markup with compound calculations
+- [x] Implement vertical markup with compound calculations (`/frontend/src/components/budget/vertical-markup-settings.tsx`, `/frontend/src/app/api/projects/[id]/vertical-markup/route.ts`)
 - [x] Create comprehensive contract details page (`/frontend/src/app/(project-mgmt)/[projectId]/contracts/[id]/page.tsx` - 4-tab view: Details, Billing, Change Orders, Documents)
 - [ ] Build document management with versioning
 
@@ -677,7 +677,7 @@ Based on the video walkthrough analysis, the following implementation phases are
 2. ~~**Schedule of Values Management**~~ ✅ IMPLEMENTED - Grid UI in contract forms
 3. ~~**Budget Locking**~~ ✅ IMPLEMENTED - Lock/unlock UI with confirmation dialogs, API at `/api/projects/[id]/budget/lock`
 4. ~~**Budget Modifications**~~ ✅ UI EXISTS - Modal created, needs API integration
-5. **Vertical Markup** - No compound calculation capability for insurance/fees
+5. ~~**Vertical Markup**~~ ✅ IMPLEMENTED - Settings UI with compound calculation, API at `/api/projects/[id]/vertical-markup`
 6. **Subcontractor Portal** - No separate interface for subs to submit SOVs
 7. **Payment Applications** - No progress billing based on SOV
 8. **Financial Calculations** - Missing complex budget tracking formulas

@@ -5,3 +5,4 @@ export { BudgetFilters } from './budget-filters';
 export { BudgetTable } from './budget-table';
 export { BudgetLineItemModal } from './budget-line-item-modal';
 export { BudgetModificationModal } from './budget-modification-modal';
+export { VerticalMarkupSettings } from './vertical-markup-settings';

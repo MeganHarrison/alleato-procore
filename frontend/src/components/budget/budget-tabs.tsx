@@ -20,6 +20,7 @@ const tabs: Tab[] = [
   { id: 'forecasting', label: 'Forecasting' },
   { id: 'snapshots', label: 'Project Status Snapshots' },
   { id: 'change-history', label: 'Change History' },
+  { id: 'settings', label: 'Settings' },
 ];
 
 export function BudgetTabs({
