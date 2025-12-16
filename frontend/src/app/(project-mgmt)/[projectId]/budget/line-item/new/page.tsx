@@ -65,6 +65,13 @@ type CostCodeOption = {
   divisionTitle: string;
 };
 
+/**
+ * Render the page for creating one or more budget line items for a project.
+ *
+ * Provides a form to add, edit, and remove multiple line items; pick an existing budget code or create a new one via a modal; enter quantity, unit, unit cost, and amount; and submit the created line items to the project's budget API.
+ *
+ * @returns A React element containing the create-line-items form, budget code selector (with search and create-modal), and related controls and actions.
+ */
 export default function NewBudgetLineItemPage() {
   const router = useRouter();
   const params = useParams();

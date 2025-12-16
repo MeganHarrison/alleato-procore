@@ -26,6 +26,19 @@ const formatBudgetCode = (options: {
   return `${code}${costTypeSuffix} – ${safeDescription}${typeDescription}`;
 };
 
+/**
+ * Fetches budget codes for the specified project, preferring project-specific codes and falling back to active global cost codes.
+ *
+ * @param _request - Incoming request (unused).
+ * @param params - Route parameters object containing the `id` of the project to load budget codes for.
+ * @param params.id - Project identifier as a string; must be parseable as an integer.
+ * @returns An object with a `budgetCodes` array where each element contains:
+ * - `id`: the cost code identifier
+ * - `code`: the cost code identifier (same as `id`)
+ * - `description`: the cost code description (empty string if missing)
+ * - `costType`: the associated cost type code or `null` when not applicable
+ * - `fullLabel`: a human-readable label combining code, optional cost type, description, and optional cost type description
+ */
 export async function GET(
   _request: NextRequest,
   { params }: { params: { id: string } }

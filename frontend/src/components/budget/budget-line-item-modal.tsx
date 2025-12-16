@@ -70,6 +70,18 @@ interface BudgetLineItemModalProps {
   onSuccess?: () => void;
 }
 
+/**
+ * Modal sheet that lets a user create one or more budget line items for a specific project.
+ *
+ * Renders a table-based form where each row maps to a budget line item (budget code, quantity, UOM, unit cost, amount),
+ * supports creating new budget codes from available cost codes, and submits the line items to the project budget API.
+ *
+ * @param open - Whether the modal is visible
+ * @param onOpenChange - Callback invoked when the modal open state should change
+ * @param projectId - ID of the project to which the line items will be added
+ * @param onSuccess - Optional callback invoked after successful creation to allow parent refresh or additional actions
+ * @returns The rendered modal component (JSX element)
+ */
 export function BudgetLineItemModal({
   open,
   onOpenChange,
