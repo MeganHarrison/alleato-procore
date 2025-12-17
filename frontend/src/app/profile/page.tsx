@@ -1,6 +1,8 @@
 "use client"
 
 import { AlertCircle, CheckCircle2, Clock, Mail, MapPin, Phone, ShieldCheck } from "lucide-react"
+import { useMemo } from "react"
+
 import { PageContainer, PageHeader } from "@/components/layout"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Badge } from "@/components/ui/badge"
@@ -9,6 +11,7 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
+import { useCurrentUserProfile } from "@/hooks/use-current-user-profile"
 
 const notificationPreferences = [
   {
@@ -76,14 +79,46 @@ const securityItems = [
 ]
 
 export default function ProfilePage() {
+  const { profile } = useCurrentUserProfile()
+
+  const initials = useMemo(() => {
+    const name = profile?.fullName || ""
+    return name
+      .split(" ")
+      .map((part) => part[0])
+      .join("")
+      .toUpperCase()
+  }, [profile?.fullName])
+
+  const contactDetails = [
+    {
+      icon: Mail,
+      value: profile?.email ?? "Add an email address",
+    },
+    {
+      icon: Phone,
+      value: profile?.phone ?? "Add a phone number",
+    },
+    {
+      icon: MapPin,
+      value: profile?.location ?? "Share your location",
+    },
+  ]
+
+  const specialties = profile?.specialties && profile.specialties.length > 0
+    ? profile.specialties
+    : ["General contracting", "Field operations"]
+
+  const profileCompleteness = profile?.profileCompleteness ?? 65
+
   return (
     <>
       <PageHeader
-        title="Profile"
+        title={profile?.fullName || "Profile"}
         description="Manage your personal details, notification preferences, and security settings."
         breadcrumbs={[
           { label: "Account", href: "/settings" },
-          { label: "Profile" },
+          { label: profile?.fullName ? "Profile" : "Profile setup" },
         ]}
         actions={
           <div className="flex items-center gap-3">
@@ -103,21 +138,26 @@ export default function ProfilePage() {
             <CardHeader className="flex flex-row items-start justify-between gap-4">
               <div className="flex items-start gap-4">
                 <Avatar className="h-16 w-16">
-                  <AvatarImage src="/avatars/avatar-01.png" alt="Jordan Steele" />
-                  <AvatarFallback>JS</AvatarFallback>
+                  {profile?.avatarUrl ? (
+                    <AvatarImage src={profile.avatarUrl} alt={profile.fullName} />
+                  ) : null}
+                  <AvatarFallback>{initials || "?"}</AvatarFallback>
                 </Avatar>
                 <div className="space-y-1">
                   <div className="flex items-center gap-2">
-                    <CardTitle className="text-xl">Jordan Steele</CardTitle>
-                    <Badge variant="secondary">Project Admin</Badge>
+                    <CardTitle className="text-xl">{profile?.fullName || "Your profile"}</CardTitle>
+                    <Badge variant="secondary">{profile?.role || "Team member"}</Badge>
                   </div>
-                  <CardDescription>Senior Project Manager · Alleato Construction</CardDescription>
+                  <CardDescription>
+                    {[profile?.title, profile?.company].filter(Boolean).join(" · ") ||
+                      "Share your title and company"}
+                  </CardDescription>
                   <div className="flex flex-wrap gap-2 text-sm text-muted-foreground">
-                    <span>License: CA B-1059920</span>
+                    <span>License: {profile?.licenseNumber || "Add license"}</span>
                     <span className="text-gray-300">•</span>
-                    <span>Timezone: PST (UTC-8)</span>
+                    <span>Timezone: {profile?.timezone || "Set your timezone"}</span>
                     <span className="text-gray-300">•</span>
-                    <span>Primary region: West Coast</span>
+                    <span>Primary region: {profile?.region || "Not specified"}</span>
                   </div>
                 </div>
               </div>
@@ -128,39 +168,37 @@ export default function ProfilePage() {
             <CardContent className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2">
                 <div className="space-y-3 rounded-xl border bg-muted/40 p-4">
-                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <Mail className="h-4 w-4" />
-                    <span>jordan@alleato.build</span>
-                  </div>
-                  <Separator />
-                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <Phone className="h-4 w-4" />
-                    <span>(415) 555-0142</span>
-                  </div>
-                  <Separator />
-                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                    <MapPin className="h-4 w-4" />
-                    <span>San Francisco, CA</span>
-                  </div>
+                  {contactDetails.map((detail, index) => (
+                    <div key={`${detail.value}-${index}`} className="space-y-3">
+                      <div className="flex items-center gap-3 text-sm text-muted-foreground">
+                        <detail.icon className="h-4 w-4" />
+                        <span>{detail.value}</span>
+                      </div>
+                      {index < contactDetails.length - 1 && <Separator />}
+                    </div>
+                  ))}
                 </div>
                 <div className="flex flex-col gap-3 rounded-xl border bg-muted/40 p-4">
                   <div className="flex items-center justify-between text-sm">
                     <span className="text-muted-foreground">Profile completeness</span>
-                    <span className="font-semibold text-foreground">82%</span>
+                    <span className="font-semibold text-foreground">{profileCompleteness}%</span>
                   </div>
-                  <Progress value={82} className="h-2" />
+                  <Progress value={profileCompleteness} className="h-2" />
                   <div className="flex flex-wrap gap-2 text-xs text-muted-foreground">
-                    <Badge variant="outline">Emergency contacts pending</Badge>
-                    <Badge variant="outline">Safety certifications updated</Badge>
+                    <Badge variant="outline">{profile?.workHours || "Set availability"}</Badge>
+                    <Badge variant="outline">
+                      {profile?.communicationPreference || "Choose communication preference"}
+                    </Badge>
                   </div>
                 </div>
               </div>
             </CardContent>
             <CardFooter className="flex flex-wrap gap-3 text-sm text-muted-foreground">
-              <Badge variant="outline">Concrete</Badge>
-              <Badge variant="outline">Healthcare</Badge>
-              <Badge variant="outline">Data centers</Badge>
-              <Badge variant="outline">Tenant improvement</Badge>
+              {specialties.map((specialty) => (
+                <Badge key={specialty} variant="outline">
+                  {specialty}
+                </Badge>
+              ))}
             </CardFooter>
           </Card>
 
@@ -173,23 +211,29 @@ export default function ProfilePage() {
               <div className="flex items-start justify-between rounded-lg border bg-white p-3">
                 <div className="space-y-1">
                   <p className="text-sm font-medium">Default role</p>
-                  <p className="text-sm text-muted-foreground">Project Manager · Structural focus</p>
+                  <p className="text-sm text-muted-foreground">
+                    {profile?.role || "Share your primary role"}
+                  </p>
                 </div>
-                <Badge>Primary</Badge>
+                <Badge>{profile?.role ? "Primary" : "Pending"}</Badge>
               </div>
               <div className="flex items-start justify-between rounded-lg border bg-white p-3">
                 <div className="space-y-1">
                   <p className="text-sm font-medium">Work hours</p>
-                  <p className="text-sm text-muted-foreground">6:30 AM - 4:00 PM · Monday - Friday</p>
+                  <p className="text-sm text-muted-foreground">
+                    {profile?.workHours || "Add your working hours"}
+                  </p>
                 </div>
-                <Badge variant="secondary">Field first</Badge>
+                <Badge variant="secondary">Updated</Badge>
               </div>
               <div className="flex items-start justify-between rounded-lg border bg-white p-3">
                 <div className="space-y-1">
                   <p className="text-sm font-medium">Preferred communication</p>
-                  <p className="text-sm text-muted-foreground">Push first, email summaries daily</p>
+                  <p className="text-sm text-muted-foreground">
+                    {profile?.communicationPreference || "Select how we should reach you"}
+                  </p>
                 </div>
-                <Badge variant="secondary">Updated</Badge>
+                <Badge variant="secondary">Synced</Badge>
               </div>
             </CardContent>
           </Card>
@@ -224,7 +268,11 @@ export default function ProfilePage() {
                 <div key={preference.title} className="flex items-start justify-between gap-4">
                   <div className="space-y-1">
                     <p className="text-sm font-medium text-foreground">{preference.title}</p>
-                    <p className="text-sm text-muted-foreground">{preference.description}</p>
+                    <p className="text-sm text-muted-foreground">
+                      {preference.title === "Email"
+                        ? `Send detailed summaries and approvals to ${profile?.email || "your email"}`
+                        : preference.description}
+                    </p>
                   </div>
                   <Switch defaultChecked={preference.defaultChecked} aria-label={preference.title} />
                 </div>
