@@ -45,7 +45,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
-      <body className="font-sans antialiased bg-background text-foreground" suppressHydrationWarning>
+      <body className="font-sans antialiased text-foreground" suppressHydrationWarning>
         <QueryProvider>
           <ThemeProvider
             attribute="class"
@@ -60,7 +60,7 @@ export default function RootLayout({
                     <AppSidebar />
                     <SidebarInset>
                       <SiteHeader />
-                      <div className="flex-1 w-full px-6 pt-8 pb-20">
+                      <div className="bg-neutral-50 flex-1 w-full px-6 pt-8 pb-20">
                         {children}
                       </div>
                     </SidebarInset>

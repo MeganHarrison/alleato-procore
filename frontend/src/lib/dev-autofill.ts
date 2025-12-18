@@ -93,15 +93,56 @@ export const fakeData = {
  */
 export const autoFillPresets = {
   project: {
+    // Basic Information
     name: fakeData.projectName,
     description: fakeData.projectDescription,
     job_number: fakeData.jobNumber,
+    project_number: fakeData.projectNumber,
+    project_code: () => `PRJ-${copycat.int(Math.random().toString(), { min: 1000, max: 9999 })}`,
+
+    // Client & Classification
     client: fakeData.companyName,
-    start_date: fakeData.futureDate,
+    category: () => copycat.oneOf(Math.random().toString(), ['Commercial', 'Residential', 'Infrastructure', 'Industrial']),
+    project_type: () => copycat.oneOf(Math.random().toString(), ['New Construction', 'Renovation', 'Tenant Improvement', 'Addition']),
+    project_sector: () => copycat.oneOf(Math.random().toString(), ['Education', 'Healthcare', 'Office', 'Retail', 'Hospitality', 'Industrial', 'Mixed Use']),
+    work_scope: () => copycat.oneOf(Math.random().toString(), ['Full Build', 'Core & Shell', 'Tenant Improvement', 'Site Work', 'Demolition']),
+
+    // Project Setup
+    project_template: () => copycat.oneOf(Math.random().toString(), ['Standard', 'Fast Track', 'Design Build', 'IPD']),
+    stage: () => copycat.oneOf(Math.random().toString(), ['Pre-Construction', 'Bidding', 'Construction', 'Closeout']),
+    delivery_method: () => copycat.oneOf(Math.random().toString(), ['Design-Bid-Build', 'Design-Build', 'CM at Risk', 'IPD']),
+
+    // Location
+    street_address: fakeData.streetAddress,
+    city: fakeData.city,
+    state: () => fakeData.state().substring(0, 2).toUpperCase(),
+    postal_code: fakeData.zipCode,
+    country: fakeData.country,
+    region: () => copycat.oneOf(Math.random().toString(), ['Northeast', 'Southeast', 'Midwest', 'Southwest', 'West']),
+    timezone: () => copycat.oneOf(Math.random().toString(), ['America/New_York', 'America/Chicago', 'America/Denver', 'America/Los_Angeles']),
+
+    // Financials
     estimated_revenue: () => fakeData.amount(100000, 10000000),
     estimated_profit: () => fakeData.amount(10000, 1000000),
-    state: () => fakeData.state().substring(0, 2).toUpperCase(),
-    category: () => copycat.oneOf(Math.random().toString(), ['Commercial', 'Residential', 'Infrastructure', 'Industrial']),
+    total_value: () => fakeData.amount(500000, 15000000),
+    square_footage: () => fakeData.amount(5000, 500000),
+
+    // Dates
+    start_date: fakeData.futureDate,
+    completion_date: () => {
+      const date = new Date();
+      date.setDate(date.getDate() + copycat.int(Math.random().toString(), { min: 180, max: 730 }));
+      return date.toISOString().split('T')[0];
+    },
+
+    // Contact & Organization
+    phone: fakeData.phone,
+    office: () => copycat.oneOf(Math.random().toString(), ['Main Office', 'Regional Office', 'Branch Office']),
+
+    // Flags
+    active: () => true,
+    test_project: () => false,
+    erp_sync: () => copycat.bool(Math.random().toString()),
   },
 
   contract: {

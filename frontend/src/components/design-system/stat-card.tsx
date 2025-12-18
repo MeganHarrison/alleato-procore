@@ -1,5 +1,4 @@
-import React from 'react'
-import { LucideIcon } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 
 interface StatCardProps {
   label: string
@@ -23,30 +22,20 @@ export function StatCard({ label, value, icon: Icon, trend, onClick, href }: Sta
 
   const content = (
     <>
-      <div className="space-y-3">
-        <div className="flex items-center gap-3">
-          {Icon && <Icon className="h-4 w-4 text-brand" />}
-          <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
-            {label}
-          </p>
-        </div>
-
-        <div className="space-y-2">
-          <p className="text-3xl md:text-4xl font-light tabular-nums tracking-tight text-neutral-900">
-            {value}
-          </p>
-
-          {trend && (
-            <div className="flex items-center gap-1.5">
-              <span className={`text-xs font-medium tabular-nums ${
-                trend.positive ? 'text-green-700' : 'text-red-700'
-              }`}>
-                {trend.value}
-              </span>
-            </div>
-          )}
-        </div>
+      <div className="flex items-center justify-between mb-2">
+        {Icon && <Icon className="h-4 w-4 text-brand" />}
+        {trend && (
+          <span className={`text-xs ${trend.positive ? 'text-green-600' : 'text-red-600'}`}>
+            {trend.value}
+          </span>
+        )}
       </div>
+      <div className="text-xl md:text-2xl font-light tabular-nums tracking-tight text-neutral-900 mb-1">
+        {value}
+      </div>
+      <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+        {label}
+      </p>
     </>
   )
 

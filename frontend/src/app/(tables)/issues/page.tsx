@@ -1,12 +1,11 @@
 import { createClient } from '@/lib/supabase/server'
 import { GenericDataTable, type GenericTableConfig } from '@/components/tables/generic-table-factory'
-import { Database } from '@/types/database.types'
+import { TablePageWrapper } from '@/components/tables/table-page-wrapper'
 
-type Issue = Database['public']['Tables']['issues']['Row']
+const PAGE_TITLE = 'Issues'
+const PAGE_DESCRIPTION = 'Track and manage project issues'
 
 const config: GenericTableConfig = {
-  title: 'Issues',
-  description: 'Track and manage project issues',
   searchFields: ['title', 'description', 'reported_by', 'notes'],
   exportFilename: 'issues-export.csv',
   editConfig: {
@@ -163,7 +162,7 @@ const config: GenericTableConfig = {
 export default async function IssuesPage() {
   const supabase = await createClient()
 
-  const { data: issues, error } = await supabase
+  const { data, error } = await supabase
     .from('issues')
     .select('*')
     .order('created_at', { ascending: false })
@@ -171,21 +170,17 @@ export default async function IssuesPage() {
   if (error) {
     console.error('Error fetching issues:', error)
     return (
-      <div className="min-h-screen bg-neutral-50">
-        <div className="max-w-[1800px] mx-auto px-6 md:px-10 lg:px-12 py-12">
-          <div className="text-center text-red-600">
-            Error loading issues. Please try again later.
-          </div>
+      <TablePageWrapper title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+        <div className="text-center text-red-600 p-6">
+          Error loading data. Please try again later.
         </div>
-      </div>
+      </TablePageWrapper>
     )
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
-      <div className="max-w-[1800px] mx-auto px-6 md:px-10 lg:px-12 py-12">
-        <GenericDataTable data={issues || []} config={config} />
-      </div>
-    </div>
+    <TablePageWrapper title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+      <GenericDataTable data={data || []} config={config} />
+    </TablePageWrapper>
   )
 }

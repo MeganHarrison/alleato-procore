@@ -32,7 +32,7 @@ export function ProjectPageHeader({
   const { selectedProject, isLoading } = useProject()
 
   return (
-    <div className={cn("border-b bg-white", className)}>
+    <div className={cn("border-b", className)}>
       <div className="px-4 sm:px-6 lg:px-8">
         {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (
@@ -51,7 +51,7 @@ export function ProjectPageHeader({
                       {item.label}
                     </a>
                   ) : (
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium">
                       {item.label}
                     </span>
                   )}
@@ -74,12 +74,12 @@ export function ProjectPageHeader({
                   // Project name with job number if available
                   <div className="text-sm font-medium text-muted-foreground">
                     {selectedProject.number && (
-                      <span className="text-gray-600">
+                      <span>
                         {selectedProject.number}
                         {' · '}
                       </span>
                     )}
-                    <span className="text-gray-900">
+                    <span>
                       {selectedProject.name}
                     </span>
                   </div>
@@ -91,12 +91,12 @@ export function ProjectPageHeader({
             {titleContent ? (
               titleContent
             ) : (
-              <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+              <h1 className="text-2xl font-bold">{title}</h1>
             )}
 
             {/* Description */}
             {description && (
-              <p className="mt-2 text-sm text-gray-600">{description}</p>
+              <p className="mt-2 text-sm">{description}</p>
             )}
           </div>
 

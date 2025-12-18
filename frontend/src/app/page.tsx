@@ -262,7 +262,7 @@ export default function PortfolioPage() {
 
   const handleCreateProject = () => {
     console.log('Create project clicked');
-    router.push('/project-form');
+    router.push('/form-project');
   };
 
   return (

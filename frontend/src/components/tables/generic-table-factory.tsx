@@ -119,8 +119,8 @@ export interface EditConfig {
 }
 
 export interface GenericTableConfig {
-  title: string
-  description: string
+  title?: string
+  description?: string
   columns: ColumnConfig[]
   filters?: FilterConfig[]
   searchFields: string[]
@@ -366,16 +366,20 @@ export function GenericDataTable({ data: initialData, config }: GenericDataTable
 
   return (
     <div className="space-y-4">
-      {/* Header */}
-      <div className="flex items-center justify-between">
-        <div>
-          <h2 className="text-2xl font-bold tracking-tight">{config.title}</h2>
-          <p className="text-muted-foreground">{config.description}</p>
+      {/* Header - only render if title is provided */}
+      {config.title && (
+        <div className="flex items-center justify-between">
+          <div>
+            <h2 className="text-2xl font-bold tracking-tight">{config.title}</h2>
+            {config.description && (
+              <p className="text-muted-foreground">{config.description}</p>
+            )}
+          </div>
+          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+            {filteredData.length} of {data.length} {config.title?.toLowerCase() || 'items'}
+          </div>
         </div>
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          {filteredData.length} of {data.length} {config.title.toLowerCase()}
-        </div>
-      </div>
+      )}
 
       {/* Filters */}
       <div className="flex items-center justify-between gap-4">
@@ -384,7 +388,7 @@ export function GenericDataTable({ data: initialData, config }: GenericDataTable
           <div className="relative max-w-sm">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder={`Search ${config.title.toLowerCase()}...`}
+              placeholder={`Search ${config.title?.toLowerCase() || 'items'}...`}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -474,7 +478,7 @@ export function GenericDataTable({ data: initialData, config }: GenericDataTable
                   colSpan={config.columns.filter(col => visibleColumns.has(col.id)).length}
                   className="h-24 text-center"
                 >
-                  No {config.title.toLowerCase()} found.
+                  No {config.title?.toLowerCase() || 'items'} found.
                 </TableCell>
               </TableRow>
             ) : (
@@ -514,9 +518,9 @@ export function GenericDataTable({ data: initialData, config }: GenericDataTable
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Edit {config.title.slice(0, -1)}</DialogTitle>
+              <DialogTitle>Edit {config.title?.slice(0, -1) || 'Item'}</DialogTitle>
               <DialogDescription>
-                Make changes to this record. Click save when you're done.
+                Make changes to this record. Click save when you&apos;re done.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">

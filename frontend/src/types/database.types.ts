@@ -7,30 +7,10 @@ export type Json =
   | Json[]
 
 export type Database = {
-  graphql_public: {
-    Tables: {
-      [_ in never]: never
-    }
-    Views: {
-      [_ in never]: never
-    }
-    Functions: {
-      graphql: {
-        Args: {
-          extensions?: Json
-          operationName?: string
-          query?: string
-          variables?: Json
-        }
-        Returns: Json
-      }
-    }
-    Enums: {
-      [_ in never]: never
-    }
-    CompositeTypes: {
-      [_ in never]: never
-    }
+  // Allows to automatically instantiate createClient with right options
+  // instead of createClient<Database, { PostgrestVersion: 'XX' }>(URL, KEY)
+  __InternalSupabase: {
+    PostgrestVersion: "13.0.4"
   }
   public: {
     Tables: {
@@ -2855,6 +2835,7 @@ export type Database = {
           notes: string | null
           state: string | null
           title: string | null
+          type: string | null
           updated_at: string | null
           website: string | null
         }
@@ -2869,6 +2850,7 @@ export type Database = {
           notes?: string | null
           state?: string | null
           title?: string | null
+          type?: string | null
           updated_at?: string | null
           website?: string | null
         }
@@ -2883,6 +2865,7 @@ export type Database = {
           notes?: string | null
           state?: string | null
           title?: string | null
+          type?: string | null
           updated_at?: string | null
           website?: string | null
         }
@@ -3000,19 +2983,29 @@ export type Database = {
       }
       contracts: {
         Row: {
+          actual_completion_date: string | null
           apply_vertical_markup: boolean | null
           approved_change_orders: number | null
+          architect_engineer_id: number | null
           attachment_count: number | null
           client_id: number
           contract_number: string | null
+          contract_termination_date: string | null
+          contractor_id: number | null
           created_at: string
+          default_retainage: number | null
+          description: string | null
           draft_change_orders: number | null
           erp_status: string | null
+          estimated_completion_date: string | null
+          exclusions: string | null
           executed: boolean | null
           id: number
+          inclusions: string | null
           invoiced_amount: number | null
           notes: string | null
           original_contract_amount: number | null
+          owner_client_id: number | null
           payments_received: number | null
           pending_change_orders: number | null
           percent_paid: number | null
@@ -3021,23 +3014,36 @@ export type Database = {
           remaining_balance: number | null
           retention_percentage: number | null
           revised_contract_amount: number | null
+          signed_contract_received_date: string | null
+          start_date: string | null
           status: string | null
+          substantial_completion_date: string | null
           title: string
         }
         Insert: {
+          actual_completion_date?: string | null
           apply_vertical_markup?: boolean | null
           approved_change_orders?: number | null
+          architect_engineer_id?: number | null
           attachment_count?: number | null
           client_id: number
           contract_number?: string | null
+          contract_termination_date?: string | null
+          contractor_id?: number | null
           created_at?: string
+          default_retainage?: number | null
+          description?: string | null
           draft_change_orders?: number | null
           erp_status?: string | null
+          estimated_completion_date?: string | null
+          exclusions?: string | null
           executed?: boolean | null
           id?: number
+          inclusions?: string | null
           invoiced_amount?: number | null
           notes?: string | null
           original_contract_amount?: number | null
+          owner_client_id?: number | null
           payments_received?: number | null
           pending_change_orders?: number | null
           percent_paid?: number | null
@@ -3046,23 +3052,36 @@ export type Database = {
           remaining_balance?: number | null
           retention_percentage?: number | null
           revised_contract_amount?: number | null
+          signed_contract_received_date?: string | null
+          start_date?: string | null
           status?: string | null
+          substantial_completion_date?: string | null
           title: string
         }
         Update: {
+          actual_completion_date?: string | null
           apply_vertical_markup?: boolean | null
           approved_change_orders?: number | null
+          architect_engineer_id?: number | null
           attachment_count?: number | null
           client_id?: number
           contract_number?: string | null
+          contract_termination_date?: string | null
+          contractor_id?: number | null
           created_at?: string
+          default_retainage?: number | null
+          description?: string | null
           draft_change_orders?: number | null
           erp_status?: string | null
+          estimated_completion_date?: string | null
+          exclusions?: string | null
           executed?: boolean | null
           id?: number
+          inclusions?: string | null
           invoiced_amount?: number | null
           notes?: string | null
           original_contract_amount?: number | null
+          owner_client_id?: number | null
           payments_received?: number | null
           pending_change_orders?: number | null
           percent_paid?: number | null
@@ -3071,13 +3090,37 @@ export type Database = {
           remaining_balance?: number | null
           retention_percentage?: number | null
           revised_contract_amount?: number | null
+          signed_contract_received_date?: string | null
+          start_date?: string | null
           status?: string | null
+          substantial_completion_date?: string | null
           title?: string
         }
         Relationships: [
           {
+            foreignKeyName: "contracts_architect_engineer_id_fkey"
+            columns: ["architect_engineer_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
             foreignKeyName: "contracts_client_id_fkey"
             columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_contractor_id_fkey"
+            columns: ["contractor_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "contracts_owner_client_id_fkey"
+            columns: ["owner_client_id"]
             isOneToOne: false
             referencedRelation: "clients"
             referencedColumns: ["id"]
@@ -8417,7 +8460,6 @@ export type Database = {
           health_status: string | null
           id: number
           "job number": string | null
-          keywords: string[] | null
           name: string | null
           name_code: string | null
           onedrive: string | null
@@ -8465,7 +8507,6 @@ export type Database = {
           health_status?: string | null
           id?: number
           "job number"?: string | null
-          keywords?: string[] | null
           name?: string | null
           name_code?: string | null
           onedrive?: string | null
@@ -8513,7 +8554,6 @@ export type Database = {
           health_status?: string | null
           id?: number
           "job number"?: string | null
-          keywords?: string[] | null
           name?: string | null
           name_code?: string | null
           onedrive?: string | null
@@ -11163,6 +11203,55 @@ export type Database = {
             columns: ["metadata_id"]
             isOneToOne: false
             referencedRelation: "document_metadata_manual_only"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_activity_view"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard_no_summary"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_issue_summary"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_with_manager"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "tasks_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "submittal_project_dashboard"
             referencedColumns: ["id"]
           },
           {
@@ -14380,9 +14469,6 @@ export type CompositeTypes<
     : never
 
 export const Constants = {
-  graphql_public: {
-    Enums: {},
-  },
   public: {
     Enums: {
       billing_period_status: ["open", "closed", "approved"],
@@ -14413,4 +14499,3 @@ export const Constants = {
     },
   },
 } as const
-

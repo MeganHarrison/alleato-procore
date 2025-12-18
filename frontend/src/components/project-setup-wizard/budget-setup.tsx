@@ -17,15 +17,13 @@ import {
 import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
-import { 
-  AlertCircle, 
-  Calculator, 
+import {
+  AlertCircle,
+  Calculator,
   DollarSign,
   FileSpreadsheet,
   Upload,
   Download,
-  Plus,
-  X,
 } from "lucide-react"
 import { StepComponentProps } from "./project-setup-wizard"
 import type { Database } from "@/types/database.types"
@@ -134,23 +132,6 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
     setBudgetItems(updatedItems)
   }
 
-  const addCustomBudgetItem = () => {
-    const newItem: SimpleBudgetItem = {
-      project_id: parseInt(projectId),
-      cost_code_id: null,
-      description: "",
-      amount: 0,
-      quantity: null,
-      unit_price: null,
-      unit_of_measure: null,
-      status: "draft",
-    }
-    setBudgetItems([...budgetItems, newItem])
-  }
-
-  const removeBudgetItem = (index: number) => {
-    setBudgetItems(budgetItems.filter((_, i) => i !== index))
-  }
 
   const calculateSummary = (): BudgetSummary => {
     const totalBudget = budgetItems.reduce((sum, item) => sum + (item.amount || 0), 0)
@@ -173,27 +154,28 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
       setSaving(true)
       setError(null)
 
-      // Filter out items with no amount
-      const itemsToSave = budgetItems.filter(item => item.amount > 0)
+      // Filter out items with no amount (all items have cost codes from project_cost_codes)
+      const itemsToSave = budgetItems.filter(item => item.amount > 0 && item.cost_code_id)
 
       if (itemsToSave.length === 0) {
         setError("Please enter at least one budget item with an amount")
         return
       }
 
-      // Insert new budget items with the correct fields for the database
       const { error: insertError } = await supabase
         .from("budget_items")
         .insert(
           itemsToSave.map(item => ({
             project_id: item.project_id,
-            cost_code_id: item.cost_code_id || "",
+            cost_code_id: item.cost_code_id,
             original_budget_amount: item.amount,
             original_amount: item.amount,
-            unit_qty: item.quantity,
-            unit_cost: item.unit_price,
-            uom: item.unit_of_measure,
+            unit_qty: item.quantity || null,
+            unit_cost: item.unit_price || null,
+            uom: item.unit_of_measure || null,
             cost_type: item.cost_code_type?.code || null,
+            approved_cos: 0,
+            budget_modifications: 0,
           }))
         )
 
@@ -311,14 +293,6 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
                 <Download className="h-4 w-4 mr-2" />
                 Export Template
               </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={addCustomBudgetItem}
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Add Line Item
-              </Button>
             </div>
 
             <div className="border rounded-lg overflow-hidden">
@@ -331,7 +305,6 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
                     <TableHead className="w-20">Unit</TableHead>
                     <TableHead className="w-32">Unit Price</TableHead>
                     <TableHead className="w-32">Total</TableHead>
-                    <TableHead className="w-16"></TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -397,18 +370,6 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
                             className="h-8 pl-7 font-medium"
                           />
                         </div>
-                      </TableCell>
-                      <TableCell>
-                        {!item.cost_code_id && (
-                          <Button
-                            variant="ghost"
-                            size="icon"
-                            onClick={() => removeBudgetItem(index)}
-                            className="h-8 w-8"
-                          >
-                            <X className="h-4 w-4" />
-                          </Button>
-                        )}
                       </TableCell>
                     </TableRow>
                   ))}

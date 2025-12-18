@@ -1,0 +1,86 @@
+'use client';
+
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Building2, Users, User, Contact } from 'lucide-react';
+import Link from 'next/link';
+
+export default function DirectoryPage() {
+  return (
+    <div className="min-h-screen bg-neutral-50">
+      <div className="max-w-[1800px] mx-auto px-6 md:px-10 lg:px-12 py-12">
+        <div className="mb-12">
+          <h1 className="text-4xl md:text-5xl font-serif font-light tracking-tight text-neutral-900 mb-3">Directory</h1>
+          <p className="text-sm text-neutral-500">
+            Manage companies, clients, contacts, and users across your organization
+          </p>
+        </div>
+
+        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
+        <Link href="/companies">
+          <Card className="cursor-pointer transition-all hover:shadow-lg">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="rounded-lg bg-primary/10 p-2">
+                  <Building2 className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle>Companies</CardTitle>
+              </div>
+              <CardDescription>
+                View and manage company information
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+
+        <Link href="/clients">
+          <Card className="cursor-pointer transition-all hover:shadow-lg">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="rounded-lg bg-primary/10 p-2">
+                  <Users className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle>Clients</CardTitle>
+              </div>
+              <CardDescription>
+                Manage client relationships and contacts
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+
+        <Link href="/contacts">
+          <Card className="cursor-pointer transition-all hover:shadow-lg">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="rounded-lg bg-primary/10 p-2">
+                  <Contact className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle>Contacts</CardTitle>
+              </div>
+              <CardDescription>
+                Manage individual contacts and relationships
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+
+        <Link href="/users">
+          <Card className="cursor-pointer transition-all hover:shadow-lg">
+            <CardHeader>
+              <div className="flex items-center gap-3">
+                <div className="rounded-lg bg-primary/10 p-2">
+                  <User className="h-6 w-6 text-primary" />
+                </div>
+                <CardTitle>Users</CardTitle>
+              </div>
+              <CardDescription>
+                Manage user accounts and permissions
+              </CardDescription>
+            </CardHeader>
+          </Card>
+        </Link>
+        </div>
+      </div>
+    </div>
+  );
+}

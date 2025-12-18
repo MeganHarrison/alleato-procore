@@ -16,7 +16,7 @@ import { Badge } from '@/components/ui/badge'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
 import { Separator } from '@/components/ui/separator'
 import Link from 'next/link'
-import { FormattedTranscript } from '../../(project-mgmt)/[projectId]/meetings/formatted-transcript'
+import { FormattedTranscript } from '../../../[projectId]/meetings/formatted-transcript'
 
 interface PageProps {
   params: Promise<{ id: string }>

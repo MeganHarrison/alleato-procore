@@ -1,9 +1,12 @@
 'use client';
 
 import { ReactNode } from 'react';
-import { ProjectPageHeader, PageContainer } from '@/components/layout';
+import {PageHeader } from '@/components/design-system'
+import {PageContainer } from '@/components/layout';
 
 interface ProjectToolPageProps {
+  project?: string;
+  client?: string;
   title: string;
   description?: string;
   actions?: ReactNode;
@@ -15,6 +18,8 @@ interface ProjectToolPageProps {
  * Provides consistent header and container styling.
  */
 export function ProjectToolPage({
+  project,
+  client,
   title,
   description,
   actions,
@@ -22,11 +27,13 @@ export function ProjectToolPage({
 }: ProjectToolPageProps) {
   return (
     <>
-      <ProjectPageHeader
+      <PageHeader
+        project={project}
+        client={client}
         title={title}
         description={description}
         actions={actions}
-      />
+        />
       <PageContainer>
         {children}
       </PageContainer>
