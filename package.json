@@ -19,10 +19,26 @@
     "test:all": "./scripts/run-all-tests.sh",
     "test:coverage": "npm run test:frontend:coverage && npm run test:backend:coverage",
     "test:frontend:coverage": "cd frontend && npm run test:unit:coverage",
-    "test:backend:coverage": "cd backend && pytest --cov --cov-report=html"
+    "test:backend:coverage": "cd backend && pytest --cov --cov-report=html",
+    "watch:docs": "node scripts/watch-docs.js",
+    "seed:sync": "npx @snaplet/seed sync && node scripts/fix-snaplet-models.cjs",
+    "seed:db": "npx tsx scripts/seed-database.ts",
+    "seed:db:dry": "npx tsx scripts/seed-database.ts --dry-run",
+    "seed:db:reset": "npx tsx scripts/seed-database.ts --reset",
+    "seed:financial": "npx tsx scripts/seed-financial-data.ts",
+    "seed:project": "npx tsx scripts/seed-project-financial-data.ts",
+    "schema:docs": "node scripts/generate-schema-docs.js",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@snaplet/copycat": "^6.0.0",
+    "@snaplet/seed": "^0.98.0",
+    "@types/pg": "^8.16.0",
+    "chokidar": "^5.0.0",
     "concurrently": "^9.1.2",
-    "js-yaml": "^4.1.1"
+    "js-yaml": "^4.1.1",
+    "pg": "^8.16.3",
+    "postgres": "^3.4.7",
+    "tsx": "^4.21.0"
   }
 }
