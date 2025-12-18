@@ -14,8 +14,8 @@ export async function GET(request: Request, { params }: RouteParams) {
       .from('contracts')
       .select(`
         *,
-        client:clients(id, name),
-        project:projects(id, name, project_number)
+        client:clients!contracts_client_id_fkey(id, name),
+        project:projects!contracts_project_id_fkey(id, name, project_number)
       `)
       .eq('id', id)
       .single();
@@ -77,8 +77,8 @@ export async function PUT(request: Request, { params }: RouteParams) {
       .eq('id', id)
       .select(`
         *,
-        client:clients(id, name),
-        project:projects(id, name, project_number)
+        client:clients!contracts_client_id_fkey(id, name),
+        project:projects!contracts_project_id_fkey(id, name, project_number)
       `)
       .single();
 

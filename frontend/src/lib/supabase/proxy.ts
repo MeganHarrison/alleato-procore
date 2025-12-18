@@ -67,13 +67,16 @@ export async function updateSession(request: NextRequest) {
   const isDevAuthRoute =
     pathname.startsWith("/dev-login") || pathname.startsWith("/dev-tools");
 
+  // API routes handle their own authentication
+  const isApiRoute = pathname.startsWith("/api/");
+
   const isAuthRoute =
     pathname.startsWith("/login") ||
     pathname.startsWith("/auth") ||
     pathname.startsWith("/api/auth") ||
     isDevAuthRoute;
 
-  if (pathname !== "/" && !user && !isAuthRoute && !isPublicChatPath(pathname)) {
+  if (pathname !== "/" && !user && !isAuthRoute && !isApiRoute && !isPublicChatPath(pathname)) {
     // no user, potentially respond by redirecting the user to the login page
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
