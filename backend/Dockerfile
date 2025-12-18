@@ -17,10 +17,10 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy source code
 COPY src/ ./src/
 COPY scripts/ ./scripts/
-COPY start.sh ./start.sh
+COPY entrypoint.py ./entrypoint.py
 
 # Create directories for scripts and workers if needed
-RUN mkdir -p src/workers/scripts && chmod +x start.sh
+RUN mkdir -p src/workers/scripts && chmod +x entrypoint.py
 
 # Set Python path to include src directories
 ENV PYTHONPATH=/app:/app/src:/app/src/services:/app/src/workers
@@ -36,4 +36,4 @@ HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
   CMD curl -f http://localhost:${PORT:-8000}/health || exit 1
 
 # Run the application with dynamic port binding
-CMD ["./start.sh"]
+CMD ["python3", "entrypoint.py"]
