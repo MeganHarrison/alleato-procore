@@ -7,6 +7,7 @@ import { SelectField } from "@/components/forms/SelectField"
 import { NumberField } from "@/components/forms/NumberField"
 import { DateField } from "@/components/forms/DateField"
 import { RichTextField } from "@/components/forms/RichTextField"
+import { SearchableSelect } from "@/components/forms/SearchableSelect"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
@@ -223,25 +224,15 @@ export function ContractForm({
               placeholder="2"
             />
 
-            <div className="space-y-2">
-              <Label>Owner/Client</Label>
-              <div className="flex gap-2">
-                <Select
-                  value={formData.ownerClientId}
-                  onValueChange={(value) => updateFormData({ ownerClientId: value })}
-                  disabled={clientsLoading}
-                >
-                  <SelectTrigger className="flex-1">
-                    <SelectValue placeholder="Select company" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {clientOptions.map((option) => (
-                      <SelectItem key={option.value} value={option.value}>
-                        {option.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+            <SearchableSelect
+              label="Owner/Client"
+              options={clientOptions}
+              value={formData.ownerClientId}
+              onValueChange={(value) => updateFormData({ ownerClientId: value })}
+              placeholder="Select company"
+              searchPlaceholder="Search"
+              disabled={clientsLoading}
+              addButton={
                 <Dialog open={showAddClient} onOpenChange={setShowAddClient}>
                   <DialogTrigger asChild>
                     <Button variant="outline" size="icon" title="Add new client">
@@ -275,8 +266,8 @@ export function ContractForm({
                     </DialogFooter>
                   </DialogContent>
                 </Dialog>
-              </div>
-            </div>
+              }
+            />
 
             <TextField
               label="Title"
@@ -325,21 +316,23 @@ export function ContractForm({
 
           {/* Row 3: Contractor, Architect/Engineer */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <SelectField
+            <SearchableSelect
               label="Contractor"
               options={clientOptions}
               value={formData.contractorId}
               onValueChange={(value) => updateFormData({ contractorId: value })}
               placeholder="Select contractor"
+              searchPlaceholder="Search"
               disabled={clientsLoading}
             />
 
-            <SelectField
+            <SearchableSelect
               label="Architect/Engineer"
               options={clientOptions}
               value={formData.architectEngineerId}
               onValueChange={(value) => updateFormData({ architectEngineerId: value })}
               placeholder="Select architect/engineer"
+              searchPlaceholder="Search"
               disabled={clientsLoading}
             />
           </div>
