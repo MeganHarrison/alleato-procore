@@ -170,18 +170,18 @@ export function ProjectHomeClient({
   const activeTasks = tasks.length
 
   return (
-    <div className="min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-6 max-w-[1800px] mx-auto">
+    <div className="min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-2 sm:py-6 max-w-[1800px] mx-auto">
       {/* Header Section - Refined Architectural Hierarchy */}
-      <header className="mb-8 pb-8">
+      <header className="mb-4 pb-4 sm:mb-8 sm:pb-8">
         {/* Client Pre-heading */}
-        <div className="mb-4">
+        <div className="mb-2 sm:mb-4">
           <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-neutral-400">
             {project.client || ''}
           </p>
         </div>
 
         {/* Project Title - Editorial Typography with Enhanced Scale */}
-        <div className="mb-10 flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
+        <div className="mb-4 sm:mb-10 flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
           <h1 className="text-4xl md:text-5xl lg:text-6xl font-serif font-light tracking-tight text-neutral-900 leading-[1.05]">
             {project.name || project['job number']}
           </h1>
@@ -190,14 +190,13 @@ export function ProjectHomeClient({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
-                variant="outline"
-                className="h-10 w-full justify-between px-4 border-neutral-300 hover:border-brand hover:bg-neutral-50 transition-colors md:w-auto md:justify-center"
+                className="h-10 w-full justify-between px-4 bg-brand text-white hover:bg-brand/90 transition-colors md:w-auto md:justify-center"
               >
-                <span className="text-sm font-medium text-neutral-700">{currentTool}</span>
-                <ChevronDown className="h-4 w-4 text-neutral-500" />
+                <span className="text-sm font-medium">{currentTool}</span>
+                <ChevronDown className="h-4 w-4 ml-2" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-screen max-w-4xl rounded-lg border-neutral-200 p-8 shadow-lg">
+            <DropdownMenuContent align="end" className="w-[calc(100vw-2rem)] sm:w-screen sm:max-w-4xl rounded-lg border-neutral-200 p-4 sm:p-8 shadow-lg max-h-[80vh] overflow-y-auto">
               <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-12">
                 {/* Core Tools */}
                 <div>

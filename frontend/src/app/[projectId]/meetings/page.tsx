@@ -64,39 +64,19 @@ export default async function ProjectMeetingsPage({ params }: PageProps) {
       />
 
       {/* Meeting Statistics */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-        <div className="border border-neutral-200 bg-white p-8 transition-all duration-300 hover:border-brand hover:shadow-sm">
-          <div className="flex items-center gap-3">
+      <div className="flex items-center lg:gap-12 gap-4 mb-6">
+          <div className="flex items-center lg:gap-3 gap-2">
             <Calendar className="h-4 w-4 text-brand" />
             <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
               {totalMeetings} Total Meetings
             </p>
-          </div>
         </div>
-        <div className="border border-neutral-200 bg-white p-8 transition-all duration-300 hover:border-brand hover:shadow-sm">
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 lg:gap-3">
             <Clock className="h-4 w-4 text-brand" />
             <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
               {thisMonth} This Month
             </p>
           </div>
-        </div>
-        <div className="border border-neutral-200 bg-white p-8 transition-all duration-300 hover:border-brand hover:shadow-sm">
-          <div className="flex items-center gap-3">
-            <Video className="h-4 w-4 text-brand" />
-            <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
-              {withRecordings} With Recordings
-            </p>
-          </div>
-        </div>
-        <div className="border border-neutral-200 bg-white p-8 transition-all duration-300 hover:border-brand hover:shadow-sm">
-          <div className="flex items-center gap-3">
-            <User className="h-4 w-4 text-brand" />
-            <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
-              {avgParticipants} Avg Participants
-            </p>
-          </div>
-        </div>
       </div>
 
       {/* Meetings Table */}
@@ -109,9 +89,6 @@ export default async function ProjectMeetingsPage({ params }: PageProps) {
       ) : (
         <div className="space-y-6">
           <div className="mb-8">
-            <p className="text-sm text-neutral-500">
-              {totalMeetings} {totalMeetings === 1 ? 'meeting' : 'meetings'} recorded
-            </p>
           </div>
 
           <MeetingsTableWrapper meetings={meetings || []} projectId={projectId} />
