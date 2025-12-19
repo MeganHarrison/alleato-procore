@@ -5,6 +5,10 @@ const nextConfig: NextConfig = {
     // Skip type checking during build (for faster deployments)
     ignoreBuildErrors: true,
   },
+  eslint: {
+    // Skip ESLint during build (for faster deployments)
+    ignoreDuringBuilds: true,
+  },
   // Proxy chatkit requests to the Alleato RAG backend (port 8051)
   async rewrites() {
     return [
