@@ -27,7 +27,7 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { format } from 'date-fns'
 import Link from 'next/link'
-import { Database } from '@/types/database'
+import type { Database } from '@/types/database.types'
 
 type Meeting = Database['public']['Tables']['document_metadata']['Row']
 

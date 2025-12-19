@@ -8,10 +8,10 @@
  */
 
 // Database types (auto-generated from Supabase)
-export type { Database, Json } from './database'
+export type { Database, Json } from './database.types'
 
 // Derived table types for convenience
-import type { Database } from './database'
+import type { Database } from './database.types'
 
 // Table Row Types (what you get when fetching data)
 export type Project = Database['public']['Tables']['projects']['Row']

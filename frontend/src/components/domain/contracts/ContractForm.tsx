@@ -59,10 +59,14 @@ export interface ContractFormData {
   ownerClientId?: string // Owner/Client
   contractorId?: string // Contractor
   architectEngineerId?: string // Architect/Engineer
+  contractCompanyId?: string // Contract Company ID
   status: string
   executed: boolean
   defaultRetainage?: number
+  retentionPercent?: number
   description?: string
+  originalAmount?: number
+  revisedAmount?: number
 
   // Contract Dates
   startDate?: Date

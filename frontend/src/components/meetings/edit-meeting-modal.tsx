@@ -22,7 +22,7 @@ import {
   SelectValue,
 } from '@/components/ui/select'
 import { Textarea } from '@/components/ui/textarea'
-import { Database } from '@/types/database'
+import type { Database } from '@/types/database.types'
 import { Loader2 } from 'lucide-react'
 
 type Meeting = Database['public']['Tables']['document_metadata']['Row']

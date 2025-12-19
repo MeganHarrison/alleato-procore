@@ -12,6 +12,8 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
 import { useCurrentUserProfile } from "@/hooks/use-current-user-profile"
+import { ProfileImageUpload } from "@/components/profile-image-upload"
+import { getBestAvatarUrl } from "@/lib/gravatar"
 
 const notificationPreferences = [
   {
@@ -140,6 +142,8 @@ export default function ProfilePage() {
                 <Avatar className="h-16 w-16">
                   {profile?.avatarUrl ? (
                     <AvatarImage src={profile.avatarUrl} alt={profile.fullName} />
+                  ) : profile?.email ? (
+                    <AvatarImage src={getBestAvatarUrl(undefined, profile.email)} alt={profile.fullName} />
                   ) : null}
                   <AvatarFallback>{initials || "?"}</AvatarFallback>
                 </Avatar>
@@ -161,9 +165,11 @@ export default function ProfilePage() {
                   </div>
                 </div>
               </div>
-              <Button variant="outline" size="sm">
-                Update photo
-              </Button>
+              <ProfileImageUpload
+                currentImage={profile?.avatarUrl}
+                userEmail={profile?.email || ''}
+                userName={profile?.fullName || 'User'}
+              />
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2">

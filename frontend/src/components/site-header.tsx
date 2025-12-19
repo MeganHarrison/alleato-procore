@@ -9,6 +9,7 @@ import {
 } from "@tabler/icons-react"
 import { createClient } from "@/lib/supabase/client"
 import { toast } from "sonner"
+import { getBestAvatarUrl } from "@/lib/gravatar"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -109,7 +110,9 @@ export function SiteHeader({
   }, [supabase.auth])
 
   // Generate avatar data from user or props
-  const avatarSrc = userAvatar || user?.user_metadata?.avatar_url
+  const customAvatar = userAvatar || user?.user_metadata?.avatar_url
+  const userEmail = user?.email || ''
+  const avatarSrc = getBestAvatarUrl(customAvatar, userEmail)
   const displayName = userName || user?.user_metadata?.full_name || user?.email?.split('@')[0] || 'User'
   const fallbackInitials = userInitials ||
     (user?.user_metadata?.full_name
