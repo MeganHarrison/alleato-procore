@@ -21,10 +21,10 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider defaultOpen={false}>
       <AppSidebar />
-      <SidebarInset className="flex flex-col min-h-screen">
+      <SidebarInset className="flex flex-col min-h-screen overflow-x-hidden">
         <SiteHeader />
-        {/* Main content container with consistent layout styling */}
-        <main className="flex-1 flex flex-col min-h-0 bg-neutral-50 w-full px-4 sm:px-6 md:px-8 pt-6 md:pt-8 pb-20">
+        {/* Main content container - no padding here, let PageContainer handle it */}
+        <main className="flex-1 flex flex-col min-h-0 bg-neutral-50 w-full overflow-x-hidden">
           {children}
         </main>
       </SidebarInset>

@@ -41,7 +41,7 @@ export function ChatMain({
   onMessageSelect,
 }: ChatMainProps) {
   const roomName = `${channelId}-channel`
-  const { messages, sendMessage, isConnected } = useRealtimeChat(roomName, username)
+  const { messages, sendMessage, isConnected } = useRealtimeChat({ roomName, username })
 
   const channel = channelInfo[channelId] || { name: channelId, topic: "" }
 
