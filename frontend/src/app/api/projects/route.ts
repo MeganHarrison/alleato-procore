@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
+import { createServiceClient } from "@/lib/supabase/service"
 
 export async function GET(request: NextRequest) {
   try {
-    const supabase = await createClient()
+    // Use service role client to bypass RLS for public project listing
+    const supabase = createServiceClient()
     const { searchParams } = new URL(request.url)
 
     // Pagination params
