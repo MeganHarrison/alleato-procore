@@ -11,6 +11,7 @@ export default {
         background: "hsl(var(--background))",
         foreground: "hsl(var(--foreground))",
         brand: "hsl(var(--brand))",
+        "surface-inverse": "hsl(var(--surface-inverse))",
         procore: {
           orange: "hsl(var(--procore-orange))",
           "orange-hover": "hsl(var(--procore-orange-hover))",
