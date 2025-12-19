@@ -6,11 +6,8 @@ export default function AuthLayout({
 }: {
   children: React.ReactNode
 }) {
-  // Auth pages inherit SessionProvider and ThemeProvider from root layout
-  // Just wrap in minimal container
-  return (
-    <div className="min-h-screen bg-background">
-      {children}
-    </div>
-  )
+  // Auth pages use a minimal layout without header/sidebar
+  // They inherit ThemeProvider and QueryProvider from root layout
+  // but render their own structure
+  return children
 }

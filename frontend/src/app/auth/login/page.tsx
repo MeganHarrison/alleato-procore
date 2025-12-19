@@ -1,26 +1,36 @@
-import { LoginForm } from '@/components/login-form'
+import Image from "next/image"
+import Link from "next/link"
 
-type LoginPageProps = {
-  searchParams?: Promise<Record<string, string | string[]>>
-}
+import { LoginForm } from "@/components/login-form"
 
-export default async function Page({ searchParams }: LoginPageProps) {
-  const resolvedParams = searchParams ? await searchParams : undefined
-  const rawCallback = resolvedParams?.callbackUrl
-  const callbackUrl =
-    typeof rawCallback === 'string'
-      ? rawCallback
-      : Array.isArray(rawCallback)
-        ? rawCallback[0]
-        : undefined
-
-  const redirectTarget =
-    typeof callbackUrl === 'string' && callbackUrl.startsWith('/') ? callbackUrl : '/'
-
+export default function LoginPage() {
   return (
-    <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
-      <div className="w-full max-w-sm">
-        <LoginForm redirectTo={redirectTarget} />
+    <div className="grid min-h-svh lg:grid-cols-2">
+      <div className="flex flex-col gap-4 p-6 md:p-10">
+        <div className="flex justify-center gap-2 md:justify-start">
+          <Link href="/" className="flex items-center gap-2 font-medium">
+            <Image
+              src="/Alleato Favicon.png"
+              alt="Alleato"
+              width={32}
+              height={32}
+              className="object-contain"
+            />
+            <span className="text-xl font-semibold">Alleato</span>
+          </Link>
+        </div>
+        <div className="flex flex-1 items-center justify-center">
+          <div className="w-full max-w-xs">
+            <LoginForm />
+          </div>
+        </div>
+      </div>
+      <div className="bg-muted relative hidden lg:block">
+        <img
+          src="/placeholder.svg"
+          alt="Image"
+          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+        />
       </div>
     </div>
   )

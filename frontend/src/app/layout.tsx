@@ -4,15 +4,9 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import { QueryProvider } from "@/components/providers/query-provider";
 import { HeaderProvider } from "@/components/layout/header-context";
 import { ProjectProvider } from "@/contexts/project-context";
-import { SiteHeader } from "@/components/site-header"
+import { ConditionalLayout } from "@/components/layout/conditional-layout";
 import { Toaster } from "@/components/ui/sonner"
 import { Playfair_Display, Inter } from 'next/font/google'
-
-import { AppSidebar } from "@/components/app-sidebar";
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar"
 import { AIChatWidget } from "@/components/chat/ai-chat-widget";
 import "./globals.css";
 
@@ -61,15 +55,9 @@ export default function RootLayout({
             <Suspense fallback={null}>
               <ProjectProvider>
                 <HeaderProvider>
-                  <SidebarProvider defaultOpen={false}>
-                    <AppSidebar />
-                    <SidebarInset>
-                      <SiteHeader />
-                      <div className="bg-neutral-50 flex-1 w-full px-4 sm:px-6 md:px-8 pt-6 md:pt-8 pb-20">
-                        {children}
-                      </div>
-                    </SidebarInset>
-                  </SidebarProvider>
+                  <ConditionalLayout>
+                    {children}
+                  </ConditionalLayout>
                 </HeaderProvider>
               </ProjectProvider>
             </Suspense>
