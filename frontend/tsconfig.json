@@ -27,7 +27,9 @@
       {
         "name": "next"
       }
-    ]
+    ],
+    "noFallthroughCasesInSwitch": true,
+    "forceConsistentCasingInFileNames": true
   },
   "include": [
     "next-env.d.ts",
