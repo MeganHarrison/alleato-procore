@@ -162,37 +162,36 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
         return
       }
 
-      const { error: insertError } = await supabase
-        .from("budget_items")
-        .insert(
-          itemsToSave.map(item => ({
-            project_id: item.project_id,
-            cost_code_id: item.cost_code_id,
-            original_budget_amount: item.amount,
-            original_amount: item.amount,
-            unit_qty: item.quantity || null,
-            unit_cost: item.unit_price || null,
+      // Use the budget API endpoint which properly creates budget_codes and budget_line_items
+      // This ensures data is in the correct tables for the mv_budget_rollup view
+      const response = await fetch(`/api/projects/${projectId}/budget`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          lineItems: itemsToSave.map(item => ({
+            costCodeId: item.cost_code_id,
+            costType: item.cost_code_type?.id || null,
+            qty: item.quantity?.toString() || null,
             uom: item.unit_of_measure || null,
-            cost_type: item.cost_code_type?.code || null,
-            approved_cos: 0,
-            budget_modifications: 0,
-          }))
-        )
+            unitCost: item.unit_price?.toString() || null,
+            amount: item.amount.toString(),
+            description: item.description || null,
+          })),
+        }),
+      })
 
-      if (insertError) throw insertError
+      if (!response.ok) {
+        let errorMessage = "Failed to create budget items"
+        try {
+          const errorData = await response.json()
+          errorMessage = errorData.error || errorMessage
+        } catch {
+          // Response body is empty or not valid JSON - use default message
+        }
+        throw new Error(errorMessage)
+      }
 
-      // Update project budget total
-      const summary = calculateSummary()
-      const { error: updateError } = await supabase
-        .from("projects")
-        .update({
-          original_budget: summary.totalBudget,
-          current_budget: summary.totalBudget,
-        })
-        .eq("id", projectId)
-
-      if (updateError) throw updateError
-
+      // API endpoint now handles updating project budget totals atomically
       onNext()
 
     } catch (err) {
