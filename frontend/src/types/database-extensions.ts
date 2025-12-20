@@ -1,0 +1,170 @@
+/**
+ * Database Type Extensions
+ *
+ * This file contains type extensions for columns that may exist in the database
+ * but are not present in the auto-generated database.types.ts file.
+ *
+ * WHY THIS EXISTS:
+ * - The generated types only include columns present at generation time
+ * - Some columns may be added via migrations but types not regenerated
+ * - Some API responses include computed/joined fields not in the base table
+ *
+ * HOW TO USE:
+ * 1. Import the base type from database.types.ts
+ * 2. Extend it with the additional fields here
+ * 3. Use the extended type in your components
+ *
+ * MAINTENANCE:
+ * - When you regenerate database types, review this file
+ * - Remove extensions for columns that are now in the generated types
+ * - Add new extensions as needed for new columns
+ */
+
+import type { Database } from './database.types'
+
+// =============================================================================
+// Base Table Types (re-exported for convenience)
+// =============================================================================
+
+export type Project = Database['public']['Tables']['projects']['Row']
+export type ProjectInsert = Database['public']['Tables']['projects']['Insert']
+export type ProjectUpdate = Database['public']['Tables']['projects']['Update']
+
+export type Task = Database['public']['Tables']['project_tasks']['Row']
+export type TaskInsert = Database['public']['Tables']['project_tasks']['Insert']
+export type TaskUpdate = Database['public']['Tables']['project_tasks']['Update']
+
+export type Contract = Database['public']['Tables']['contracts']['Row']
+export type Commitment = Database['public']['Tables']['commitments']['Row']
+export type RFI = Database['public']['Tables']['rfis']['Row']
+export type ChangeOrder = Database['public']['Tables']['change_orders']['Row']
+export type DailyLog = Database['public']['Tables']['daily_logs']['Row']
+export type BudgetLineItem = Database['public']['Tables']['budget_line_items']['Row']
+
+// =============================================================================
+// Extended Types (for columns not in generated types)
+// =============================================================================
+
+/**
+ * Extended meeting segment type.
+ * The `opportunities` field may exist in newer schema versions.
+ */
+export type MeetingSegment = Database['public']['Tables']['meeting_segments']['Row']
+
+export type MeetingSegmentExtended = MeetingSegment & {
+  opportunities?: unknown[]
+}
+
+/**
+ * Extended document metadata type.
+ * The `duration` field may exist for meeting recordings.
+ */
+export type DocumentMetadata = Database['public']['Tables']['document_metadata']['Row']
+
+export type DocumentMetadataExtended = DocumentMetadata & {
+  duration?: number
+}
+
+/**
+ * Extended AI insight type.
+ * May include additional computed fields from API responses.
+ */
+export type AIInsight = Database['public']['Tables']['ai_insights']['Row']
+
+export type AIInsightExtended = AIInsight & {
+  related_documents?: string[]
+  confidence_score?: number
+}
+
+// =============================================================================
+// Joined/Computed Types
+// =============================================================================
+
+/**
+ * Project with related counts (from joins)
+ */
+export type ProjectWithCounts = Project & {
+  task_count?: number
+  commitment_count?: number
+  contract_count?: number
+  open_rfi_count?: number
+}
+
+/**
+ * Task with assignee details
+ */
+export type TaskWithAssignee = Task & {
+  assignee_name?: string
+  assignee_email?: string
+}
+
+/**
+ * Meeting with segment summaries
+ */
+export type MeetingWithSummary = DocumentMetadataExtended & {
+  segment_count?: number
+  total_tasks?: number
+  total_risks?: number
+  total_decisions?: number
+}
+
+// =============================================================================
+// Form Data Types
+// =============================================================================
+
+/**
+ * Type for task creation form
+ */
+export type TaskFormData = {
+  task_description: string
+  assigned_to?: string
+  status: 'pending' | 'in_progress' | 'completed' | 'blocked'
+  priority: 'low' | 'medium' | 'high'
+  due_date?: string
+}
+
+/**
+ * Type for project creation form
+ */
+export type ProjectFormData = {
+  name: string
+  client?: string
+  project_number?: string
+  address?: string
+  city?: string
+  state?: string
+  zip?: string
+  start_date?: string
+  end_date?: string
+  contract_amount?: number
+}
+
+// =============================================================================
+// Status Types (enums as union types)
+// =============================================================================
+
+export type TaskStatus = 'pending' | 'in_progress' | 'completed' | 'blocked'
+export type TaskPriority = 'low' | 'medium' | 'high'
+export type RfiStatus = 'draft' | 'open' | 'pending' | 'closed' | 'void'
+export type ChangeOrderStatus = 'draft' | 'pending' | 'approved' | 'rejected' | 'void'
+export type DocumentType = 'meeting' | 'document' | 'drawing' | 'photo' | 'email'
+
+// =============================================================================
+// Utility Types
+// =============================================================================
+
+/**
+ * Makes specified keys required in a type
+ */
+export type RequireKeys<T, K extends keyof T> = T & Required<Pick<T, K>>
+
+/**
+ * Makes all keys optional except specified ones
+ */
+export type PartialExcept<T, K extends keyof T> = Partial<Omit<T, K>> & Pick<T, K>
+
+/**
+ * Extracts the row type from a table name
+ */
+export type TableRow<T extends keyof Database['public']['Tables']> =
+  Database['public']['Tables'][T]['Row']
