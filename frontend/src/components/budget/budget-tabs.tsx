@@ -17,6 +17,7 @@ interface BudgetTabsProps {
 const tabs: Tab[] = [
   { id: 'budget', label: 'Budget' },
   { id: 'budget-details', label: 'Budget Details' },
+  { id: 'cost-codes', label: 'Cost Codes' },
   { id: 'forecasting', label: 'Forecasting' },
   { id: 'snapshots', label: 'Project Status Snapshots' },
   { id: 'change-history', label: 'Change History' },

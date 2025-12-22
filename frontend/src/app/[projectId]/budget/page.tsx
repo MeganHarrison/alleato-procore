@@ -10,6 +10,7 @@ import {
   BudgetLineItemModal,
   BudgetModificationModal,
   VerticalMarkupSettings,
+  CostCodesTab,
 } from '@/components/budget';
 import {
   budgetViews,
@@ -218,6 +219,10 @@ export default function ProjectBudgetPage() {
         {activeTab === 'settings' ? (
           <div className="flex-1 rounded-lg border bg-white shadow-sm">
             <VerticalMarkupSettings projectId={projectId} />
+          </div>
+        ) : activeTab === 'cost-codes' ? (
+          <div className="flex-1 rounded-lg border bg-white shadow-sm p-6">
+            <CostCodesTab projectId={projectId} />
           </div>
         ) : (
           <>
