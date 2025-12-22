@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import { createClient } from "@/lib/supabase/client"
+import { addToProjectDirectory, updateProjectDirectoryEntry, deleteProjectDirectoryEntry } from "@/app/actions/project-directory-actions"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
@@ -186,27 +187,18 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
         return
       }
 
-      const { data, error } = await supabase
-        .from("project_directory")
-        .insert({
-          project_id: numericProjectId,
-          company_id: selectedCompanyId,
-          role: selectedRole,
-          is_active: true,
-          permissions: {
-            can_view: true,
-            can_edit: false,
-            can_approve: false,
-            can_submit: true,
-          },
-        })
-        .select(`
-          *,
-          company:companies(*)
-        `)
-        .single()
-
-      if (error) throw error
+      const data = await addToProjectDirectory({
+        project_id: numericProjectId,
+        company_id: selectedCompanyId,
+        role: selectedRole,
+        is_active: true,
+        permissions: {
+          can_view: true,
+          can_edit: false,
+          can_approve: false,
+          can_submit: true,
+        },
+      })
 
       setProjectDirectory([...projectDirectory, data])
       setShowAddDialog(false)
@@ -223,12 +215,7 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
 
   const toggleActive = async (entryId: string, isActive: boolean) => {
     try {
-      const { error } = await supabase
-        .from("project_directory")
-        .update({ is_active: isActive })
-        .eq("id", entryId)
-
-      if (error) throw error
+      await updateProjectDirectoryEntry(entryId, { is_active: isActive })
 
       setProjectDirectory(
         projectDirectory.map(entry =>
@@ -244,12 +231,7 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
 
   const removeFromDirectory = async (entryId: string) => {
     try {
-      const { error } = await supabase
-        .from("project_directory")
-        .delete()
-        .eq("id", entryId)
-
-      if (error) throw error
+      await deleteProjectDirectoryEntry(entryId)
 
       setProjectDirectory(projectDirectory.filter(entry => entry.id !== entryId))
 
