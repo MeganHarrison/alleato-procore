@@ -404,6 +404,7 @@ export function ProjectHomeClient({
 
       {/* Hero Metrics - Executive Dashboard KPIs */}
       <HeroMetrics
+        projectId={project.id.toString()}
         totalBudget={totalBudget}
         committed={committed}
         spent={spent}

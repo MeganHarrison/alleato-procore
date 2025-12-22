@@ -1,8 +1,10 @@
 'use client'
 
-import { TrendingUp, TrendingDown } from 'lucide-react'
+import { TrendingUp, TrendingDown, ArrowRight } from 'lucide-react'
+import Link from 'next/link'
 
 interface HeroMetricsProps {
+  projectId: string
   totalBudget: number
   committed: number
   spent: number
@@ -12,6 +14,7 @@ interface HeroMetricsProps {
 }
 
 export function HeroMetrics({
+  projectId,
   totalBudget,
   committed,
   spent,
@@ -35,13 +38,22 @@ export function HeroMetrics({
   }
 
   return (
-    <div className="flex flex-col gap-4 md:flex-row md:gap-6 mb-20">
+    <div className="flex flex-col gap-4 md:flex-row md:gap-6 lg:mb-20 mb-8">
       {/* Primary Metric - Budget Remaining */}
-      <div className="w-full border border-neutral-200 bg-white p-4 transition-all duration-300 hover:border-brand hover:shadow-sm md:w-1/3 md:p-6">
+      <Link
+        href={`/${projectId}/budget`}
+        className="w-full border border-neutral-200 bg-white p-4 transition-all duration-300 hover:border-brand hover:shadow-md md:w-1/3 md:p-6 group cursor-pointer"
+      >
         <div className="space-y-3">
-          <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
-            Budget Remaining
-          </p>
+          <div className="flex items-center justify-between">
+            <p className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+              Budget Remaining
+            </p>
+            <div className="flex items-center gap-1 text-xs text-brand opacity-0 group-hover:opacity-100 transition-opacity">
+              <span className="font-medium">View Budget</span>
+              <ArrowRight className="h-3 w-3" />
+            </div>
+          </div>
           <div className="space-y-1">
             <p className="text-4xl md:text-5xl font-light tabular-nums tracking-tight text-brand">
               {formatCurrency(remainingBudget)}
@@ -57,7 +69,7 @@ export function HeroMetrics({
             </div>
           </div>
         </div>
-      </div>
+      </Link>
 
       {/* Forecast Variance */}
       <div className="w-full border border-neutral-200 bg-white p-4 transition-all duration-300 hover:border-brand hover:shadow-sm md:w-1/3 md:p-6">
