@@ -143,7 +143,7 @@ export default function PortfolioPage() {
   const handleExport = (format: 'pdf' | 'csv') => {
     // Export to CSV
     if (format === 'csv') {
-      const headers = ['Job Number', 'Project Name', 'Client', 'Phase', 'Category', 'State', 'Revenue', 'Profit', 'Status'];
+      const headers = ['Job Number', 'Project Name', 'Client', 'Phase', 'Category', 'State', 'Status'];
       const csvData = filteredProjects.map(project => [
         project.jobNumber,
         project.name,
@@ -151,8 +151,6 @@ export default function PortfolioPage() {
         project.phase || '',
         project.category || '',
         project.state || '',
-        project.estRevenue || '',
-        project.estProfit || '',
         project.status
       ]);
       
@@ -207,8 +205,6 @@ export default function PortfolioPage() {
                   <th>Phase</th>
                   <th>Category</th>
                   <th>State</th>
-                  <th>Revenue</th>
-                  <th>Profit</th>
                   <th>Status</th>
                 </tr>
               </thead>
@@ -221,8 +217,6 @@ export default function PortfolioPage() {
                     <td>${project.phase || '-'}</td>
                     <td>${project.category || '-'}</td>
                     <td>${project.state || '-'}</td>
-                    <td>${project.estRevenue ? '$' + project.estRevenue.toLocaleString() : '-'}</td>
-                    <td>${project.estProfit ? '$' + project.estProfit.toLocaleString() : '-'}</td>
                     <td>${project.status}</td>
                   </tr>
                 `).join('')}

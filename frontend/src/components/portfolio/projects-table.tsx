@@ -65,18 +65,11 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
         'startDate': 'start date',
         'state': 'state',
         'phase': 'phase',
-        'estRevenue': 'est revenue',
-        'estProfit': 'est profit',
         'category': 'category',
       };
 
       const dbField = fieldMap[field] || field;
-      let dbValue: string | number | null = value;
-
-      // Convert numeric fields
-      if (field === 'estRevenue' || field === 'estProfit') {
-        dbValue = value ? parseFloat(value) : null;
-      }
+      const dbValue: string | number | null = value;
 
       const response = await fetch(`/api/projects/${projectId}`, {
         method: 'PATCH',
@@ -101,7 +94,7 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
     }
   };
 
-  // Column order: name, job number, client, start date, state, phase, est revenue, est profit, category
+  // Column order: name, job number, client, start date, state, phase, category
   const columns: ColumnDef<Project>[] = [
     {
       accessorKey: 'name',
@@ -249,54 +242,6 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
       size: 120,
     },
     {
-      accessorKey: 'estRevenue',
-      header: ({ column }) => (
-        <button
-          type="button"
-          className="flex items-center gap-1 hover:text-gray-900"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Est Revenue
-          <ArrowUpDown className="w-3.5 h-3.5" />
-        </button>
-      ),
-      cell: ({ row }) => {
-        const revenue = row.getValue('estRevenue') as number | null;
-        return (
-          <EditableCell
-            value={revenue?.toString() || ''}
-            type="number"
-            onSave={(value) => updateProject(row.original.id, 'estRevenue', value)}
-          />
-        );
-      },
-      size: 130,
-    },
-    {
-      accessorKey: 'estProfit',
-      header: ({ column }) => (
-        <button
-          type="button"
-          className="flex items-center gap-1 hover:text-gray-900"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
-        >
-          Est Profit
-          <ArrowUpDown className="w-3.5 h-3.5" />
-        </button>
-      ),
-      cell: ({ row }) => {
-        const profit = row.getValue('estProfit') as number | null;
-        return (
-          <EditableCell
-            value={profit?.toString() || ''}
-            type="number"
-            onSave={(value) => updateProject(row.original.id, 'estProfit', value)}
-          />
-        );
-      },
-      size: 130,
-    },
-    {
       accessorKey: 'category',
       header: ({ column }) => (
         <button
@@ -430,27 +375,6 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
                         <div className="flex items-center justify-between">
                           <span className="text-gray-500">Category:</span>
                           <span className="text-gray-700 truncate ml-2">{project.category}</span>
-                        </div>
-                      )}
-
-                      {(project.estRevenue || project.estProfit) && (
-                        <div className="pt-2 mt-2 border-t border-gray-100">
-                          {project.estRevenue && (
-                            <div className="flex items-center justify-between mb-1">
-                              <span className="text-gray-500 text-xs">Revenue:</span>
-                              <span className="font-medium text-gray-700 text-xs">
-                                ${project.estRevenue.toLocaleString()}
-                              </span>
-                            </div>
-                          )}
-                          {project.estProfit && (
-                            <div className="flex items-center justify-between">
-                              <span className="text-gray-500 text-xs">Profit:</span>
-                              <span className="font-medium text-gray-700 text-xs">
-                                ${project.estProfit.toLocaleString()}
-                              </span>
-                            </div>
-                          )}
                         </div>
                       )}
                     </div>
