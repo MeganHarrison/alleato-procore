@@ -376,21 +376,6 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
           </Button>
         </div>
 
-        {/* Cost Code Types Legend */}
-        <Card className="p-4">
-          <h4 className="font-medium mb-3">Cost Code Types</h4>
-          <div className="grid grid-cols-4 gap-3">
-            {costCodeTypes.map(type => (
-              <div key={type.id} className="flex items-center gap-2">
-                <div className="w-8 h-8 rounded bg-muted flex items-center justify-center font-semibold text-sm">
-                  {type.code}
-                </div>
-                <span className="text-sm">{type.description}</span>
-              </div>
-            ))}
-          </div>
-        </Card>
-
         {/* Cost Codes Table */}
         <Card>
           <Table>
@@ -403,7 +388,6 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
                     aria-label="Select all"
                   />
                 </TableHead>
-                <TableHead className="w-24">Type</TableHead>
                 <TableHead className="w-32">Code</TableHead>
                 <TableHead>Description</TableHead>
               </TableRow>
@@ -416,11 +400,6 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
                       checked={selectedCodes.has(code.id)}
                       onCheckedChange={() => toggleCostCode(code.id)}
                     />
-                  </TableCell>
-                  <TableCell>
-                    <div className="w-8 h-8 rounded bg-muted flex items-center justify-center font-semibold text-sm">
-                      {code.cost_code_type?.code || "-"}
-                    </div>
                   </TableCell>
                   <TableCell className="font-medium">{code.id}</TableCell>
                   <TableCell>{code.title}</TableCell>
