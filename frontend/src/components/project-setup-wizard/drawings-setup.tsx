@@ -88,18 +88,17 @@ export function DrawingsSetup({ projectId, onNext, onSkip }: StepComponentProps)
           .getPublicUrl(filePath)
 
         const { data: document, error: dbError } = await supabase
-          .from("documents")
+          .from("files")
           .insert({
-            project_id: parseInt(projectId),
-            title: uploadFile.file.name,
-            file_id: uploadFile.id,
-            url: publicUrl,
+            id: uploadFile.id,
             content: "",
+            url: publicUrl,
             metadata: {
               fileName: uploadFile.file.name,
               fileType: uploadFile.file.type || "application/octet-stream",
               fileSize: uploadFile.file.size,
               category: "drawings",
+              projectId: parseInt(projectId, 10),
             },
           })
           .select()
