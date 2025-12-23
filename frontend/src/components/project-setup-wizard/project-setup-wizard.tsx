@@ -8,7 +8,9 @@ import { Progress } from "@/components/ui/progress"
 import { CheckCircle2, Circle } from "lucide-react"
 import { CostCodeSetup } from "./cost-code-setup"
 import { ProjectDirectorySetup } from "./project-directory-setup"
-import { DocumentUploadSetup } from "./document-upload-setup"
+import { DrawingsSetup } from "./drawings-setup"
+import { SpecificationsSetup } from "./specifications-setup"
+import { ScheduleSetup } from "./schedule-setup"
 import { BudgetSetup } from "./budget-setup"
 import { ContractSetup } from "./contract-setup"
 
@@ -34,22 +36,36 @@ const setupSteps: SetupStep[] = [
   {
     id: "cost-codes",
     title: "Cost Code Configuration",
-    description: "Set up your project's cost code structure for budget tracking",
+    description: "Cost code structure for budget tracking",
     component: CostCodeSetup,
     required: true,
   },
   {
     id: "project-directory",
     title: "Project Directory",
-    description: "Add team members and assign roles to your project",
+    description: "Assign roles to your project",
     component: ProjectDirectorySetup,
     required: false,
   },
   {
-    id: "documents",
-    title: "Document Upload",
-    description: "Upload initial project documents and plans",
-    component: DocumentUploadSetup,
+    id: "drawings",
+    title: "Drawings",
+    description: "Upload project drawings and plans",
+    component: DrawingsSetup,
+    required: false,
+  },
+  {
+    id: "specifications",
+    title: "Specifications",
+    description: "Upload project specifications",
+    component: SpecificationsSetup,
+    required: false,
+  },
+  {
+    id: "schedule",
+    title: "Schedule",
+    description: "Upload project schedule documents",
+    component: ScheduleSetup,
     required: false,
   },
   {
@@ -104,8 +120,8 @@ export function ProjectSetupWizard({ projectId }: ProjectSetupWizardProps) {
     <div className="w-full">
       <div className="w-full">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-3xl font-bold mb-2">Project Setup</h1>
+        <div className="mb-4">
+          <h1 className="text-3xl font-bold">Project Setup</h1>
           <p className="text-muted-foreground">
             Complete the setup steps to configure your project
           </p>
