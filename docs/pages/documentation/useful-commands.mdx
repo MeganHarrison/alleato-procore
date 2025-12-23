@@ -2,30 +2,31 @@
 
 ### Generate Supabase types
 
-```
+```bash
 supabase gen types typescript --project-id lgveqfnpkxvzbnnwuled > database.types.ts
 ```
 
 ### Push changes to Docs Github repo
 
-```
+```bash
 .save-docs.sh
 ```
 
 ### Start backend
 
-```
+```bash
 cd backend && ./start.sh > /tmp/backend-server.log 2>&1 &
 ```
 
 **Health check**
 
-```
+```bash
 curl http://localhost:8000/health
 ```
-→ {"status":"healthy","openai_configured":true,"rag_available":true,...} confirming it’s alive.
 
-Logs: tail -f /tmp/backend-server.log if you want to watch the FastAPI/uvicorn output. Stop it later with kill 13441 (and the reloader PIDs 13559/13562 if needed).
+Response: `{"status":"healthy","openai_configured":true,"rag_available":true,...}` confirming it's alive.
+
+Logs: `tail -f /tmp/backend-server.log` if you want to watch the FastAPI/uvicorn output. Stop it later with `kill 13441` (and the reloader PIDs 13559/13562 if needed).
 
 ### Claude Code Skills Saved Here:
 
