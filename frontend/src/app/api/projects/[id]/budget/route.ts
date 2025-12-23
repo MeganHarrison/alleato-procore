@@ -161,7 +161,17 @@ export async function POST(
     const supabase = await createClient();
 
     // Get current user
-    const { data: { user } } = await supabase.auth.getUser();
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      console.error('Auth error or no user:', { userError, hasUser: !!user });
+      return NextResponse.json(
+        { error: 'Unauthorized - please log in' },
+        { status: 401 }
+      );
+    }
+
+    console.warn('Authenticated user creating budget:', { userId: user.id, email: user.email });
 
     // Look up cost code IDs from the code strings or IDs
     const costCodes = normalizedLineItems.map((item) => item.costCodeId);

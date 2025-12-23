@@ -4,7 +4,8 @@ test.describe('Budget Setup - Create Line Item (Authenticated)', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to dev login first to authenticate
     await page.goto('http://localhost:3005/dev-login?email=test@example.com&password=testpassword123');
-    await page.waitForURL(/\/\d+\/home/, { timeout: 10000 });
+    // Wait for redirect to complete (goes to "/" by default)
+    await page.waitForURL('http://localhost:3005/', { timeout: 10000 });
   });
 
   test('should successfully create a budget line item', async ({ page }) => {
