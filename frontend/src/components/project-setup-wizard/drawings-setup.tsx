@@ -73,10 +73,10 @@ export function DrawingsSetup({ projectId, onNext, onSkip }: StepComponentProps)
     for (const uploadFile of newFiles) {
       try {
         const fileExt = uploadFile.file.name.split('.').pop()
-        const filePath = `projects/${projectId}/documents/${uploadFile.id}.${fileExt}`
+        const filePath = `projects/${projectId}/drawings/${uploadFile.id}.${fileExt}`
 
         const { error: uploadError } = await supabase.storage
-          .from("documents")
+          .from("drawings")
           .upload(filePath, uploadFile.file)
 
         if (uploadError) {
@@ -84,7 +84,7 @@ export function DrawingsSetup({ projectId, onNext, onSkip }: StepComponentProps)
         }
 
         const { data: { publicUrl } } = supabase.storage
-          .from("documents")
+          .from("drawings")
           .getPublicUrl(filePath)
 
         const { data: document, error: dbError } = await supabase
@@ -99,7 +99,7 @@ export function DrawingsSetup({ projectId, onNext, onSkip }: StepComponentProps)
               fileName: uploadFile.file.name,
               fileType: uploadFile.file.type || "application/octet-stream",
               fileSize: uploadFile.file.size,
-              category: "plans",
+              category: "drawings",
             },
           })
           .select()
