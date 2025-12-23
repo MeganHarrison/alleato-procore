@@ -24,6 +24,8 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
 } from '@/components/ui/alert-dialog';
+import { Button } from '@/components/ui/button';
+import { Trash2 } from 'lucide-react';
 import {
   budgetViews,
   budgetSnapshots,
@@ -45,14 +47,15 @@ export default function ProjectBudgetPage() {
   const [selectedView, setSelectedView] = React.useState('procore-standard');
   const [selectedSnapshot, setSelectedSnapshot] = React.useState('current');
   const [selectedGroup, setSelectedGroup] = React.useState('cost-code-tier-1');
-  const [budgetData, setBudgetData] = React.useState<any[]>([]);
-  const [grandTotals, setGrandTotals] = React.useState<any>(budgetGrandTotals);
+  const [budgetData, setBudgetData] = React.useState<BudgetLineItem[]>([]);
+  const [grandTotals, setGrandTotals] = React.useState(budgetGrandTotals);
   const [loading, setLoading] = React.useState(true);
   const [showLineItemModal, setShowLineItemModal] = React.useState(false);
   const [showModificationModal, setShowModificationModal] = React.useState(false);
   const [showEditModal, setShowEditModal] = React.useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
   const [selectedLineItem, setSelectedLineItem] = React.useState<BudgetLineItem | null>(null);
+  const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [deleting, setDeleting] = React.useState(false);
 
   // Budget lock state
@@ -109,7 +112,7 @@ export default function ProjectBudgetPage() {
       toast.error('Budget is locked. Unlock to add new line items.');
       return;
     }
-    console.log('Create clicked for project:', projectId);
+    console.error('Create clicked for project:', projectId);
     // Navigate to bulk budget setup page
     router.push(`/${projectId}/budget/setup`);
   };
@@ -119,12 +122,12 @@ export default function ProjectBudgetPage() {
       toast.error('Budget is locked. Unlock to create modifications.');
       return;
     }
-    console.log('Modification clicked for project:', projectId);
+    console.error('Modification clicked for project:', projectId);
     setShowModificationModal(true);
   };
 
   const handleResendToERP = () => {
-    console.log('Resend to ERP clicked');
+    console.error('Resend to ERP clicked');
   };
 
   const handleLockBudget = async () => {
@@ -171,7 +174,7 @@ export default function ProjectBudgetPage() {
   };
 
   const handleExport = (format: string) => {
-    console.log('Export to', format);
+    console.error('Export to', format);
   };
 
   const handleTabChange = (tabId: string) => {
@@ -179,15 +182,15 @@ export default function ProjectBudgetPage() {
   };
 
   const handleAddFilter = () => {
-    console.log('Add filter clicked');
+    console.error('Add filter clicked');
   };
 
   const handleAnalyzeVariance = () => {
-    console.log('Analyze variance clicked');
+    console.error('Analyze variance clicked');
   };
 
   const handleToggleFullscreen = () => {
-    console.log('Toggle fullscreen clicked');
+    console.error('Toggle fullscreen clicked');
   };
 
   const handleLineItemSuccess = () => {
@@ -221,41 +224,47 @@ export default function ProjectBudgetPage() {
     setShowEditModal(true);
   };
 
-  const handleDeleteLineItem = (lineItem: BudgetLineItem) => {
+  const handleSelectionChange = (ids: string[]) => {
+    setSelectedIds(ids);
+  };
+
+  const handleDeleteSelected = () => {
     if (isLocked) {
       toast.error('Budget is locked. Unlock to delete line items.');
       return;
     }
-    setSelectedLineItem(lineItem);
+    if (selectedIds.length === 0) return;
     setShowDeleteDialog(true);
   };
 
-  const confirmDeleteLineItem = async () => {
-    if (!selectedLineItem) return;
+  const confirmDeleteSelected = async () => {
+    if (selectedIds.length === 0) return;
 
     setDeleting(true);
     try {
-      const response = await fetch(
-        `/api/projects/${projectId}/budget/lines/${selectedLineItem.id}`,
-        {
+      // Delete all selected items
+      const deletePromises = selectedIds.map((id) =>
+        fetch(`/api/projects/${projectId}/budget/lines/${id}`, {
           method: 'DELETE',
-        }
+        })
       );
 
-      if (response.ok) {
-        toast.success('Line item deleted successfully');
+      const results = await Promise.all(deletePromises);
+      const allSuccessful = results.every((r) => r.ok);
+
+      if (allSuccessful) {
+        toast.success(`${selectedIds.length} line item(s) deleted successfully`);
+        setSelectedIds([]);
         handleLineItemSuccess(); // Refresh data
       } else {
-        const error = await response.json();
-        toast.error(error.error || 'Failed to delete line item');
+        toast.error('Some items could not be deleted');
       }
     } catch (error) {
-      console.error('Error deleting line item:', error);
-      toast.error('Failed to delete line item');
+      console.error('Error deleting line items:', error);
+      toast.error('Failed to delete line items');
     } finally {
       setDeleting(false);
       setShowDeleteDialog(false);
-      setSelectedLineItem(null);
     }
   };
 
@@ -342,6 +351,24 @@ export default function ProjectBudgetPage() {
               />
             </div>
 
+            {/* Selection action bar */}
+            {selectedIds.length > 0 && (
+              <div className="flex items-center gap-4 px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg">
+                <span className="text-sm text-blue-700 font-medium">
+                  {selectedIds.length} item(s) selected
+                </span>
+                <Button
+                  variant="destructive"
+                  size="sm"
+                  onClick={handleDeleteSelected}
+                  disabled={isLocked}
+                >
+                  <Trash2 className="w-4 h-4 mr-1" />
+                  Delete Selected
+                </Button>
+              </div>
+            )}
+
             <div className="flex-1 rounded-lg border bg-white shadow-sm">
               <Suspense fallback={<div className="flex items-center justify-center h-full">Loading...</div>}>
                 {loading ? (
@@ -353,7 +380,7 @@ export default function ProjectBudgetPage() {
                     data={budgetData}
                     grandTotals={grandTotals}
                     onEditLineItem={handleEditLineItem}
-                    onDeleteLineItem={handleDeleteLineItem}
+                    onSelectionChange={handleSelectionChange}
                   />
                 )}
               </Suspense>
@@ -401,21 +428,16 @@ export default function ProjectBudgetPage() {
       <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
         <AlertDialogContent>
           <AlertDialogHeader>
-            <AlertDialogTitle>Delete Line Item</AlertDialogTitle>
+            <AlertDialogTitle>Delete Line Items</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete this line item?
-              {selectedLineItem && (
-                <span className="block mt-2 font-medium text-gray-900">
-                  {selectedLineItem.costCode} - {selectedLineItem.description}
-                </span>
-              )}
+              Are you sure you want to delete {selectedIds.length} selected line item(s)?
               This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel disabled={deleting}>Cancel</AlertDialogCancel>
             <AlertDialogAction
-              onClick={confirmDeleteLineItem}
+              onClick={confirmDeleteSelected}
               disabled={deleting}
               className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
             >

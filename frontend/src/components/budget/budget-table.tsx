@@ -8,8 +8,9 @@ import {
   useReactTable,
   getExpandedRowModel,
   ExpandedState,
+  RowSelectionState,
 } from '@tanstack/react-table';
-import { ChevronRight, ChevronDown, MoreHorizontal, Trash2 } from 'lucide-react';
+import { ChevronRight, ChevronDown } from 'lucide-react';
 import {
   Table,
   TableBody,
@@ -21,7 +22,7 @@ import {
 import { BudgetLineItem, BudgetGrandTotals } from '@/types/budget';
 import { cn } from '@/lib/utils';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
-import { Button } from '@/components/ui/button';
+import { Checkbox } from '@/components/ui/checkbox';
 
 type ColumnTooltip = {
   title: string
@@ -166,7 +167,7 @@ interface BudgetTableProps {
   data: BudgetLineItem[];
   grandTotals: BudgetGrandTotals;
   onEditLineItem?: (lineItem: BudgetLineItem) => void;
-  onDeleteLineItem?: (lineItem: BudgetLineItem) => void;
+  onSelectionChange?: (selectedIds: string[]) => void;
 }
 
 function formatCurrency(value: number): string {
@@ -194,7 +195,7 @@ function CurrencyCell({ value }: { value: number }) {
 }
 
 const columnWidthClasses: Record<string, string> = {
-  delete: 'w-8 min-w-[32px]',
+  select: 'w-10 min-w-[40px]',
   expander: 'w-10 min-w-[40px]',
   description: 'w-[280px] min-w-[240px]',
   originalBudgetAmount: 'w-[130px] min-w-[120px]',
@@ -224,34 +225,45 @@ function getDepthPadding(depth: number) {
   return depthPaddingClasses[index];
 }
 
-export function BudgetTable({ data, grandTotals, onEditLineItem, onDeleteLineItem }: BudgetTableProps) {
+export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChange }: BudgetTableProps) {
   const [expanded, setExpanded] = React.useState<ExpandedState>({});
+  const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
+
+  // Notify parent of selection changes
+  React.useEffect(() => {
+    if (onSelectionChange) {
+      const selectedIds = Object.keys(rowSelection).filter(key => rowSelection[key]);
+      onSelectionChange(selectedIds);
+    }
+  }, [rowSelection, onSelectionChange]);
 
   const columns: ColumnDef<BudgetLineItem>[] = [
     {
-      id: 'delete',
-      header: () => null,
+      id: 'select',
+      header: ({ table }) => (
+        <Checkbox
+          checked={table.getIsAllPageRowsSelected()}
+          onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+          aria-label="Select all"
+          className="h-4 w-4"
+        />
+      ),
       cell: ({ row }) => {
-        // Only show delete for leaf nodes (no children)
+        // Only show checkbox for leaf nodes (no children)
         const hasChildren = row.original.children && row.original.children.length > 0;
         if (hasChildren) {
-          return <div className="w-6" />;
+          return <div className="w-4" />;
         }
         return (
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-6 w-6 p-0 hover:bg-red-50 hover:text-red-600"
-            onClick={(e) => {
-              e.stopPropagation();
-              onDeleteLineItem?.(row.original);
-            }}
-          >
-            <Trash2 className="w-3.5 h-3.5 text-gray-400 hover:text-red-500" />
-          </Button>
+          <Checkbox
+            checked={row.getIsSelected()}
+            onCheckedChange={(value) => row.toggleSelected(!!value)}
+            aria-label="Select row"
+            className="h-4 w-4"
+          />
         );
       },
-      size: 32,
+      size: 40,
     },
     {
       id: 'expander',
@@ -301,24 +313,24 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onDeleteLineIte
         />
       ),
       cell: ({ row }) => {
-        // Only show edit for leaf nodes (no children)
         const hasChildren = row.original.children && row.original.children.length > 0;
+        const value = row.getValue('originalBudgetAmount') as number;
+
+        // Make clickable for leaf nodes
+        if (!hasChildren && onEditLineItem) {
+          return (
+            <div
+              className="text-right cursor-pointer hover:bg-blue-50 hover:text-blue-700 px-1 py-0.5 rounded transition-colors"
+              onClick={() => onEditLineItem(row.original)}
+            >
+              <CurrencyCell value={value} />
+            </div>
+          );
+        }
+
         return (
-          <div className="text-right flex items-center justify-end gap-1">
-            <CurrencyCell value={row.getValue('originalBudgetAmount')} />
-            {!hasChildren && (
-              <Button
-                variant="ghost"
-                size="sm"
-                className="h-5 w-5 p-0 hover:bg-gray-100 ml-1"
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onEditLineItem?.(row.original);
-                }}
-              >
-                <MoreHorizontal className="w-3.5 h-3.5 text-gray-400" />
-              </Button>
-            )}
+          <div className="text-right">
+            <CurrencyCell value={value} />
           </div>
         );
       },
@@ -508,11 +520,15 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onDeleteLineIte
     columns,
     state: {
       expanded,
+      rowSelection,
     },
     onExpandedChange: setExpanded,
+    onRowSelectionChange: setRowSelection,
     getCoreRowModel: getCoreRowModel(),
     getExpandedRowModel: getExpandedRowModel(),
     getSubRows: (row) => row.children,
+    getRowId: (row) => row.id,
+    enableRowSelection: (row) => !row.original.children || row.original.children.length === 0,
   });
 
   return (
@@ -548,7 +564,8 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onDeleteLineIte
                   key={row.id}
                   className={cn(
                     "border-b border-gray-100 hover:bg-gray-50/50 transition-colors",
-                    row.depth > 0 && "bg-gray-50/30"
+                    row.depth > 0 && "bg-gray-50/30",
+                    row.getIsSelected() && "bg-blue-50"
                   )}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -582,7 +599,7 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onDeleteLineIte
           <table className="w-full caption-bottom text-sm table-fixed">
             <tbody>
               <tr className="font-semibold bg-gray-50 border-b transition-colors">
-                <td className={cn('py-3 px-2', getWidthClass('delete'))} />
+                <td className={cn('py-3 px-2', getWidthClass('select'))} />
                 <td className={cn('py-3 px-2', getWidthClass('expander'))} />
                 <td
                   className={cn(
