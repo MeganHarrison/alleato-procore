@@ -262,7 +262,7 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
+    <div className="px-12 sm:px-12 py-6 flex flex-col flex-1 min-h-0 overflow-hidden">
       {/* Portfolio Header with tabs */}
       <PortfolioHeader
         views={portfolioViews}
@@ -295,11 +295,6 @@ export default function PortfolioPage() {
           onExport={handleExport}
           onCreateProject={handleCreateProject}
         />
-
-        {/* Projects count */}
-        <div className="px-4 py-2 text-xs sm:text-sm text-gray-600 bg-white border-b border-gray-200">
-          <span className="font-medium">{filteredProjects.length}</span> project{filteredProjects.length !== 1 ? 's' : ''} found
-        </div>
 
         {/* Projects Table */}
         <div className="flex-1 overflow-hidden bg-white">

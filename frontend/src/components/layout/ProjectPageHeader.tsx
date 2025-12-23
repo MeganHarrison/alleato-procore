@@ -33,7 +33,7 @@ export function ProjectPageHeader({
 
   return (
     <div className={cn(className)}>
-      <div className="px-4 sm:px-6 lg:px-8">
+      <div>
         {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav className="flex py-3" aria-label="Breadcrumb">

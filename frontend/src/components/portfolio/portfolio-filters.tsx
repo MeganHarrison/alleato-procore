@@ -100,7 +100,7 @@ export function PortfolioFilters({
     [phaseFilter, categoryFilter, clientFilter].filter((value) => value && value.length > 0).length;
 
   return (
-    <div className="flex items-center justify-between px-4 py-3 bg-white border-b border-gray-200 gap-2">
+    <div className="flex items-center justify-between py-3 gap-2">
       {/* Mobile: Compact layout with filter sheet */}
       <div className="flex lg:hidden items-center gap-2 flex-1">
         {/* Search */}
@@ -277,6 +277,7 @@ export function PortfolioFilters({
                   Clear All Filters
                 </Button>
               )}
+              
             </div>
           </SheetContent>
         </Sheet>

@@ -35,9 +35,9 @@ export function PortfolioHeader({
   onCreateTestProject,
 }: PortfolioHeaderProps) {
   return (
-    <div className="bg-white border-b border-gray-200">
+    <div>
       {/* Title row */}
-      <div className="flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4">
+      <div className="flex items-center justify-between py-3 sm:py-4">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2 sm:gap-3">
             <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Portfolio</h1>
@@ -55,7 +55,7 @@ export function PortfolioHeader({
       </div>
 
       {/* View tabs - Hidden on mobile */}
-      <div className="px-4 sm:px-6 hidden sm:flex sm:items-center sm:justify-between gap-3 pb-0">
+      <div className="hidden sm:flex sm:items-center sm:justify-between gap-3 pb-0">
         <nav className="flex items-center gap-0 sm:gap-1 -mb-px overflow-x-auto">
           {views.map((view) => (
             <button
