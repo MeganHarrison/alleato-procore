@@ -73,10 +73,10 @@ export function ScheduleSetup({ projectId, onNext, onSkip }: StepComponentProps)
     for (const uploadFile of newFiles) {
       try {
         const fileExt = uploadFile.file.name.split('.').pop()
-        const filePath = `projects/${projectId}/documents/${uploadFile.id}.${fileExt}`
+        const filePath = `projects/${projectId}/schedules/${uploadFile.id}.${fileExt}`
 
         const { error: uploadError } = await supabase.storage
-          .from("documents")
+          .from("schedules")
           .upload(filePath, uploadFile.file)
 
         if (uploadError) {
@@ -84,22 +84,22 @@ export function ScheduleSetup({ projectId, onNext, onSkip }: StepComponentProps)
         }
 
         const { data: { publicUrl } } = supabase.storage
-          .from("documents")
+          .from("schedules")
           .getPublicUrl(filePath)
 
         const { data: document, error: dbError } = await supabase
-          .from("documents")
+          .from("files")
           .insert({
-            project_id: parseInt(projectId),
-            title: uploadFile.file.name,
-            file_id: uploadFile.id,
+            id: uploadFile.id,
+            content: uploadFile.file.name,
             url: publicUrl,
-            content: "",
+            status: "active",
             metadata: {
               fileName: uploadFile.file.name,
               fileType: uploadFile.file.type || "application/octet-stream",
               fileSize: uploadFile.file.size,
               category: "schedule",
+              projectId: parseInt(projectId, 10),
             },
           })
           .select()
@@ -165,7 +165,7 @@ export function ScheduleSetup({ projectId, onNext, onSkip }: StepComponentProps)
       setLoading(true)
 
       const { error } = await supabase
-        .from("documents")
+        .from("files")
         .delete()
         .eq("id", documentId)
 
