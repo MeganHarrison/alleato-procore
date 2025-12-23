@@ -332,7 +332,7 @@ export default function ProjectBudgetPage() {
           </div>
         ) : (
           <>
-            <div className="rounded-lg border bg-white shadow-sm">
+            <div>
               <BudgetFilters
                 views={budgetViews}
                 snapshots={budgetSnapshots}
@@ -367,7 +367,7 @@ export default function ProjectBudgetPage() {
               </div>
             )}
 
-            <div className="flex-1 rounded-lg border bg-white shadow-sm">
+            <div className="flex-1">
               <Suspense fallback={<div className="flex items-center justify-center h-full">Loading...</div>}>
                 {loading ? (
                   <div className="flex items-center justify-center h-full">
