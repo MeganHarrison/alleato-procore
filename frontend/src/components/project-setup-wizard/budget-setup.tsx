@@ -351,7 +351,7 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
                             </Badge>
                           )}
                           <span className="text-sm font-medium">
-                            {item.cost_code?.id || "-"}
+                            {item.cost_code ? `${item.cost_code.id} ${item.cost_code.title}` : "-"}
                           </span>
                         </div>
                       </TableCell>
