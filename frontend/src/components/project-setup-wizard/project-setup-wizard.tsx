@@ -12,7 +12,6 @@ import { DrawingsSetup } from "./drawings-setup"
 import { SpecificationsSetup } from "./specifications-setup"
 import { ScheduleSetup } from "./schedule-setup"
 import { BudgetSetup } from "./budget-setup"
-import { ContractSetup } from "./contract-setup"
 
 interface ProjectSetupWizardProps {
   projectId: string
@@ -73,13 +72,6 @@ const setupSteps: SetupStep[] = [
     title: "Budget Setup",
     description: "Configure your initial project budget",
     component: BudgetSetup,
-    required: false,
-  },
-  {
-    id: "contract",
-    title: "Prime Contract",
-    description: "Set up your initial prime contract (optional)",
-    component: ContractSetup,
     required: false,
   },
 ]
