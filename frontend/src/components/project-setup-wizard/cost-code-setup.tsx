@@ -314,8 +314,18 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
       // Insert selected cost codes
       const projectCostCodes = Array.from(selectedCodes).map(codeId => {
         const code = costCodes.find(c => c.id === codeId)
-        const typeId = code?.cost_code_type?.id || 
+        let typeId = code?.cost_code_type?.id ||
           costCodeTypes.find(t => codeId.startsWith(t.code + "-"))?.id
+
+        // CRITICAL: If we still don't have a type, use "Other" as fallback
+        // Every project cost code MUST have a cost_type_id
+        if (!typeId) {
+          const otherType = costCodeTypes.find(t => t.code === "O")
+          if (!otherType) {
+            throw new Error(`Cost code ${codeId} has no type and "Other" type not found. Please ensure cost code types are configured.`)
+          }
+          typeId = otherType.id
+        }
 
         return {
           project_id: projectId,
@@ -334,7 +344,7 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
       }
 
       onNext()
-      
+
     } catch (err) {
       console.error("Error saving project cost codes:", err)
       setError(err instanceof Error ? err.message : "Failed to save cost codes")

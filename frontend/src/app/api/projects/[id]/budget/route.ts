@@ -274,6 +274,9 @@ export async function POST(
             sub_job_id: null,
             description: item.description || null,
             original_amount: item.amount || 0,
+            quantity: item.qty,
+            unit_of_measure: item.uom,
+            unit_cost: item.unitCost,
             created_by: user?.id,
           })
           .select()

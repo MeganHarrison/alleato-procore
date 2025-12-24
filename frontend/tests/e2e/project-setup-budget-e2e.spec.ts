@@ -176,17 +176,7 @@ test.describe('Project Setup - Budget Creation E2E', () => {
     // Wait for API call to complete
     const apiResponse = await apiPromise
 
-    // NOTE: Currently the API returns 500 due to missing required fields in budget_line_items
-    // The test correctly fills in all data, but the backend API needs to be fixed
-    // TODO: Fix backend API to handle budget creation properly
-    if (apiResponse.status() === 500) {
-      console.warn('⚠️  API returned 500 error (known issue - backend needs fix)')
-      const responseBody = await apiResponse.text()
-      console.warn('Error details:', responseBody)
-      // Skip the rest of the test since we can't proceed without a successful save
-      return
-    }
-
+    // Verify API call succeeded
     expect(apiResponse.status()).toBe(200)
     console.warn('✅ Budget saved successfully via API')
 
