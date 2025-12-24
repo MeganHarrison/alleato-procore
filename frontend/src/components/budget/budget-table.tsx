@@ -559,15 +559,26 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           </TableHeader>
           <TableBody>
             {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row) => (
-                <TableRow
-                  key={row.id}
-                  className={cn(
-                    "border-b border-gray-100 hover:bg-gray-50/50 transition-colors",
-                    row.depth > 0 && "bg-gray-50/30",
-                    row.getIsSelected() && "bg-blue-50"
-                  )}
-                >
+              table.getRowModel().rows.map((row) => {
+                const hasChildren = row.original.children && row.original.children.length > 0;
+                const isClickable = !hasChildren && onEditLineItem;
+
+                return (
+                  <TableRow
+                    key={row.id}
+                    onClick={() => {
+                      if (isClickable) {
+                        onEditLineItem(row.original);
+                      }
+                    }}
+                    className={cn(
+                      "border-b border-gray-100 transition-colors",
+                      isClickable && "cursor-pointer hover:bg-blue-50/50",
+                      !isClickable && "hover:bg-gray-50/50",
+                      row.depth > 0 && "bg-gray-50/30",
+                      row.getIsSelected() && "bg-blue-50"
+                    )}
+                  >
                   {row.getVisibleCells().map((cell) => (
                     <TableCell
                       key={cell.id}
@@ -581,7 +592,8 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
                     </TableCell>
                   ))}
                 </TableRow>
-              ))
+                );
+              })
             ) : (
               <TableRow>
                 <TableCell colSpan={columns.length} className="h-24 text-center">
