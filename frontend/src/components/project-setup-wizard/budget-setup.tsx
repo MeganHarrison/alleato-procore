@@ -18,6 +18,13 @@ import { Card } from "@/components/ui/card"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
 import { Badge } from "@/components/ui/badge"
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import {
   AlertCircle,
   Calculator,
   DollarSign,
@@ -58,11 +65,12 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  
+
   const [projectCostCodes, setProjectCostCodes] = useState<any[]>([])
   const [budgetItems, setBudgetItems] = useState<SimpleBudgetItem[]>([])
+  const [costCodeTypes, setCostCodeTypes] = useState<CostCodeType[]>([])
   const [activeTab, setActiveTab] = useState("manual")
-  
+
   const supabase = createClient()
 
   useEffect(() => {
@@ -73,6 +81,15 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
     try {
       setLoading(true)
       setError(null)
+
+      // Load all cost code types for the dropdown
+      const { data: types, error: typesError } = await supabase
+        .from("cost_code_types")
+        .select("*")
+        .order("code")
+
+      if (typesError) throw typesError
+      setCostCodeTypes(types || [])
 
       // Load project cost codes with details
       const { data: costCodes, error: codesError } = await supabase
@@ -92,18 +109,25 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
 
       // For initial setup, we'll always start with empty budget items based on cost codes
       // Initialize budget items from project cost codes
-      const initialItems: SimpleBudgetItem[] = (costCodes || []).map(pcc => ({
-        project_id: parseInt(projectId),
-        cost_code_id: pcc.cost_code_id,
-        cost_code: pcc.cost_code,
-        cost_code_type: pcc.cost_type,
-        description: pcc.cost_code?.description || "",
-        amount: 0,
-        quantity: null,
-        unit_price: null,
-        unit_of_measure: null,
-        status: "draft",
-      }))
+      const initialItems: SimpleBudgetItem[] = (costCodes || []).map(pcc => {
+        // Format description as "title.type" (e.g., "Vice President.Labor")
+        const title = pcc.cost_code?.title || ""
+        const typeDesc = pcc.cost_type?.description || ""
+        const description = title && typeDesc ? `${title}.${typeDesc}` : title
+
+        return {
+          project_id: parseInt(projectId),
+          cost_code_id: pcc.cost_code_id,
+          cost_code: pcc.cost_code,
+          cost_code_type: pcc.cost_type,
+          description,
+          amount: 0,
+          quantity: null,
+          unit_price: null,
+          unit_of_measure: null,
+          status: "draft",
+        }
+      })
       setBudgetItems(initialItems)
 
     } catch (err) {
@@ -119,6 +143,15 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
     updatedItems[index] = {
       ...updatedItems[index],
       [field]: value,
+    }
+
+    // If cost code type is changed, update the description to "title.type"
+    if (field === "cost_code_type") {
+      const newType = costCodeTypes.find(t => t.id === value)
+      const title = updatedItems[index].cost_code?.title || ""
+      const typeDesc = newType?.description || ""
+      updatedItems[index].description = title && typeDesc ? `${title}.${typeDesc}` : title
+      updatedItems[index].cost_code_type = newType
     }
 
     // Calculate amount if quantity and unit_price are provided
@@ -333,6 +366,7 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
                 <TableHeader>
                   <TableRow>
                     <TableHead className="w-32">Cost Code</TableHead>
+                    <TableHead className="w-32">Cost Code Type</TableHead>
                     <TableHead>Description</TableHead>
                     <TableHead className="w-24">Quantity</TableHead>
                     <TableHead className="w-20">Unit</TableHead>
@@ -344,22 +378,50 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
                   {budgetItems.map((item, index) => (
                     <TableRow key={index}>
                       <TableCell>
-                        <div className="flex items-center gap-2">
-                          {item.cost_code_type && (
-                            <Badge variant="secondary" className="text-xs">
-                              {item.cost_code_type.code}
-                            </Badge>
-                          )}
-                          <span className="text-sm font-medium">
-                            {item.cost_code ? `${item.cost_code.id} ${item.cost_code.title}` : "-"}
-                          </span>
-                        </div>
+                        <span className="text-sm font-medium">
+                          {item.cost_code ? `${item.cost_code.id} ${item.cost_code.title}` : "-"}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <Select
+                          value={item.cost_code_type?.id || ""}
+                          onValueChange={(value) => updateBudgetItem(index, "cost_code_type", value)}
+                        >
+                          <SelectTrigger className="h-8">
+                            <SelectValue>
+                              {item.cost_code_type ? (
+                                <div className="flex items-center gap-1">
+                                  <Badge variant="secondary" className="text-xs">
+                                    {item.cost_code_type.code}
+                                  </Badge>
+                                  <span className="text-xs">
+                                    {item.cost_code_type.description}
+                                  </span>
+                                </div>
+                              ) : (
+                                "Select type"
+                              )}
+                            </SelectValue>
+                          </SelectTrigger>
+                          <SelectContent>
+                            {costCodeTypes.map((type) => (
+                              <SelectItem key={type.id} value={type.id}>
+                                <div className="flex items-center gap-2">
+                                  <Badge variant="secondary" className="text-xs">
+                                    {type.code}
+                                  </Badge>
+                                  <span className="text-sm">{type.description}</span>
+                                </div>
+                              </SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
                       </TableCell>
                       <TableCell>
                         <Input
                           value={item.description || ""}
                           onChange={(e) => updateBudgetItem(index, "description", e.target.value)}
-                          placeholder="Enter description"
+                          placeholder="Auto-filled from cost code"
                           className="h-8"
                         />
                       </TableCell>
