@@ -14,7 +14,7 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-import { ProjectPageHeader, PageContainer } from '@/components/layout';
+import { ProjectPageHeader, PageContainer, PageTabs } from '@/components/layout';
 import type { ChangeOrder } from '@/types/financial';
 
 export default function ProjectChangeOrdersPage() {
@@ -88,6 +88,15 @@ export default function ProjectChangeOrdersPage() {
             New Change Order
           </Button>
         }
+      />
+
+      <PageTabs
+        tabs={[
+          { label: 'All Change Orders', href: `/${projectId}/change-orders`, count: changeOrders.length },
+          { label: 'Pending', href: `/${projectId}/change-orders?status=pending` },
+          { label: 'Approved', href: `/${projectId}/change-orders?status=approved` },
+          { label: 'Draft', href: `/${projectId}/change-orders?status=draft` },
+        ]}
       />
 
       <PageContainer>

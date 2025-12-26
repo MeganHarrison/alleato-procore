@@ -35,8 +35,8 @@ const coreTools: Array<{ name: string; path: string; badge?: string; requiresPro
   { name: "360 Reporting", path: "reporting", requiresProject: true },
   { name: "Documents", path: "documents", requiresProject: true },
   { name: "Directory", path: "directory", requiresProject: true },
-  { name: "Tables Directory", path: "/tables-directory", requiresProject: false, badge: "New" },
-  { name: "Connection Manager", path: "connection-manager", requiresProject: false },
+  { name: "Tables Directory", path: "tables-directory", requiresProject: false, badge: "New" },
+  { name: "Settings", path: "settings/plugins", requiresProject: false },
   { name: "Tasks", path: "tasks", requiresProject: true },
   { name: "Admin", path: "admin", requiresProject: true },
 ]
@@ -87,6 +87,7 @@ export function SiteHeader({
   const [user, setUser] = useState<User | null>(null)
   const [notificationsOpen, setNotificationsOpen] = useState(false)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [projectToolsOpen, setProjectToolsOpen] = useState(false)
   const [projects, setProjects] = useState<Project[]>([])
   const [loadingProjects, setLoadingProjects] = useState(false)
   const [currentProject, setCurrentProject] = useState<Project | null>(null)
@@ -146,8 +147,8 @@ export function SiteHeader({
       return parseInt(firstSegment)
     }
 
-    // Then check query parameters
-    const projectParam = searchParams?.get('project')
+    // Then check query parameters (both 'project' and 'projectId' for compatibility)
+    const projectParam = searchParams?.get('project') || searchParams?.get('projectId')
     if (projectParam && /^\d+$/.test(projectParam)) {
       return parseInt(projectParam)
     }
@@ -284,7 +285,7 @@ export function SiteHeader({
         <div className="flex md:hidden w-full items-center justify-between">
           {/* Logo - left side on mobile */}
           <Link href="/" className="flex items-center hover:opacity-80 transition-opacity">
-            <Image src="/Alleato-Group-Logo_Light.png" alt="Alleato" width={100} height={28} className="object-contain" />
+            <Image src="/favicon-light.png" alt="Alleato" width={32} height={32} className="object-contain" />
           </Link>
 
           {/* Mobile Actions - right side */}
@@ -338,7 +339,7 @@ export function SiteHeader({
           <div className="min-w-0 flex-1 flex items-center gap-2 overflow-x-auto">
             {/* Alleato Logo - links to homepage */}
             <Link href="/" className="flex items-center gap-2 shrink-0 hover:opacity-80 transition-opacity">
-              <Image src="/Alleato-Group-Logo_Light.png" alt="Alleato" width={120} height={32} className="object-contain" />
+              <Image src="/favicon-light.png" alt="Alleato" width={32} height={32} className="object-contain" />
             </Link>
 
             {/* Breadcrumbs */}
@@ -426,7 +427,7 @@ export function SiteHeader({
           </DropdownMenu>
 
           {/* Project Tools - hidden on mobile */}
-          <DropdownMenu>
+          <DropdownMenu open={projectToolsOpen} onOpenChange={setProjectToolsOpen}>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
@@ -455,6 +456,8 @@ export function SiteHeader({
                           onClick={(e) => {
                             if (isDisabled) {
                               e.preventDefault()
+                            } else {
+                              setProjectToolsOpen(false)
                             }
                           }}
                           className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm ${
@@ -491,6 +494,8 @@ export function SiteHeader({
                           onClick={(e) => {
                             if (isDisabled) {
                               e.preventDefault()
+                            } else {
+                              setProjectToolsOpen(false)
                             }
                           }}
                           className={`flex w-full items-center rounded px-2 py-1.5 text-left text-sm ${
@@ -528,6 +533,8 @@ export function SiteHeader({
                           onClick={(e) => {
                             if (isDisabled) {
                               e.preventDefault()
+                            } else {
+                              setProjectToolsOpen(false)
                             }
                           }}
                           className={`flex w-full items-center rounded px-2 py-1.5 text-left text-sm ${
@@ -555,11 +562,12 @@ export function SiteHeader({
                   <div className="space-y-1">
                     {adminTools.map((tool) => {
                       const href = tool.path
-                      
+
                       return (
                         <Link
                           key={tool.name}
                           href={href}
+                          onClick={() => setProjectToolsOpen(false)}
                           className="flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100"
                         >
                           <span>{tool.name}</span>

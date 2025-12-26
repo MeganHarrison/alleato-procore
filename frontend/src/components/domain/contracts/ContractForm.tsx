@@ -210,12 +210,12 @@ export function ContractForm({
   }, [formData.sovItems])
 
   return (
-    <Form onSubmit={handleSubmit} className="space-y-6">
+    <Form onSubmit={handleSubmit} className="space-y-4">
       {/* ================================================================ */}
       {/* GENERAL INFORMATION */}
       {/* ================================================================ */}
       <Card>
-        <CardHeader className="pb-4">
+        <CardHeader>
           <CardTitle className="text-lg font-semibold">General Information</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -521,7 +521,7 @@ export function ContractForm({
       {/* INCLUSIONS & EXCLUSIONS */}
       {/* ================================================================ */}
       <Card>
-        <CardHeader className="pb-4">
+        <CardHeader className="pb-0">
           <CardTitle className="text-lg font-semibold">Inclusions & Exclusions</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -547,7 +547,7 @@ export function ContractForm({
       {/* CONTRACT DATES */}
       {/* ================================================================ */}
       <Card>
-        <CardHeader className="pb-4">
+        <CardHeader>
           <CardTitle className="text-lg font-semibold">Contract Dates</CardTitle>
         </CardHeader>
         <CardContent>
@@ -616,7 +616,7 @@ export function ContractForm({
       {/* CONTRACT PRIVACY */}
       {/* ================================================================ */}
       <Card>
-        <CardHeader className="pb-4">
+        <CardHeader>
           <CardTitle className="text-lg font-semibold">Contract Privacy</CardTitle>
         </CardHeader>
         <CardContent className="space-y-4">

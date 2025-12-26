@@ -15,7 +15,7 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
-import { PageContainer, ProjectPageHeader } from '@/components/layout';
+import { PageContainer, ProjectPageHeader, PageTabs } from '@/components/layout';
 
 import type { Invoice } from '@/types/financial';
 
@@ -103,6 +103,16 @@ export default function ProjectInvoicesPage() {
             New Invoice
           </Button>
         }
+      />
+
+      <PageTabs
+        tabs={[
+          { label: 'All Invoices', href: `/${projectId}/invoices`, count: invoices.length },
+          { label: 'Draft', href: `/${projectId}/invoices?status=draft` },
+          { label: 'Submitted', href: `/${projectId}/invoices?status=submitted` },
+          { label: 'Approved', href: `/${projectId}/invoices?status=approved` },
+          { label: 'Paid', href: `/${projectId}/invoices?status=paid` },
+        ]}
       />
 
       <PageContainer>

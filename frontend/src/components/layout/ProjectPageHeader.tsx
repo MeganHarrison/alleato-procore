@@ -1,9 +1,16 @@
 "use client"
 
 import * as React from "react"
-import { ChevronRight } from "lucide-react"
+import { ChevronRight, Download } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useProject } from "@/contexts/project-context"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu"
 
 interface BreadcrumbItem {
   label: string
@@ -18,6 +25,10 @@ interface ProjectPageHeaderProps {
   actions?: React.ReactNode
   className?: string
   showProjectName?: boolean
+  showExportButton?: boolean
+  onExportCSV?: () => void
+  onExportPDF?: () => void
+  exportLabel?: string
 }
 
 export function ProjectPageHeader({
@@ -28,12 +39,16 @@ export function ProjectPageHeader({
   actions,
   className,
   showProjectName = true,
+  showExportButton = false,
+  onExportCSV,
+  onExportPDF,
+  exportLabel = "Export",
 }: ProjectPageHeaderProps) {
   const { selectedProject, isLoading } = useProject()
 
   return (
     <div className={cn(className)}>
-      <div>
+      <div className="px-4 sm:px-6 lg:px-12">
         {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav className="flex py-3" aria-label="Breadcrumb">
@@ -101,8 +116,30 @@ export function ProjectPageHeader({
           </div>
 
           {/* Actions */}
-          {actions && (
+          {(actions || showExportButton) && (
             <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row md:items-center">
+              {showExportButton && (onExportCSV || onExportPDF) && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="sm" className="gap-2">
+                      <Download className="h-4 w-4" />
+                      {exportLabel}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent align="end">
+                    {onExportCSV && (
+                      <DropdownMenuItem onClick={onExportCSV}>
+                        Export as CSV
+                      </DropdownMenuItem>
+                    )}
+                    {onExportPDF && (
+                      <DropdownMenuItem onClick={onExportPDF}>
+                        Export as PDF
+                      </DropdownMenuItem>
+                    )}
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
               {actions}
             </div>
           )}

@@ -327,9 +327,7 @@ export default function ProjectCommitmentsPage() {
         </div>
 
         {/* Status Overview */}
-        <Card className="mb-8">
-          <div className="p-6">
-            <h2 className="text-lg font-semibold mb-4">Status Overview</h2>
+            <h2 className="font-semibold mb-4">Status Overview</h2>
             <div className="flex flex-wrap gap-4">
               {Object.entries(statusCounts).map(([status, count]) => (
                 <div key={status} className="flex items-center gap-2">
@@ -338,8 +336,6 @@ export default function ProjectCommitmentsPage() {
                 </div>
               ))}
             </div>
-          </div>
-        </Card>
 
         <PageToolbar
           onExport={() => console.log('Export commitments')}

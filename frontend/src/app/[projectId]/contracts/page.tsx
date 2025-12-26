@@ -3,13 +3,13 @@
 import { Fragment, useCallback, useEffect, useMemo, useState } from 'react';
 import Link from 'next/link';
 import { useParams, useRouter } from 'next/navigation';
-import { ChevronDown, ChevronRight, Download, Plus } from 'lucide-react';
+import { ChevronDown, ChevronRight, Plus } from 'lucide-react';
 
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import { PageContainer, PageToolbar, ProjectPageHeader } from '@/components/layout';
+import { PageContainer, PageToolbar, ProjectPageHeader, PageTabs } from '@/components/layout';
 import { createClient } from '@/lib/supabase/client';
 import { cn } from '@/lib/utils';
 import {
@@ -252,6 +252,15 @@ export default function ProjectContractsPage() {
       <ProjectPageHeader
         title="Prime Contracts"
         description="Manage prime contracts and owner agreements"
+        showExportButton={true}
+        onExportCSV={() => {
+          // TODO: Implement CSV export functionality
+          console.warn('CSV export functionality not yet implemented')
+        }}
+        onExportPDF={() => {
+          // TODO: Implement PDF export functionality
+          console.warn('PDF export functionality not yet implemented')
+        }}
         actions={
           <Button
             size="sm"
@@ -264,16 +273,45 @@ export default function ProjectContractsPage() {
         }
       />
 
+      <PageTabs
+        tabs={[
+          { label: 'All Contracts', href: `/${projectId}/contracts`, count: contracts.length },
+          { label: 'Active', href: `/${projectId}/contracts?status=active` },
+          { label: 'Completed', href: `/${projectId}/contracts?status=completed` },
+        ]}
+      />
+
       <PageContainer className="space-y-6">
-        <Card className="border bg-white shadow-sm">
-          <PageToolbar
-            searchPlaceholder="Search contracts or clients..."
-            onSearch={setSearchTerm}
-            filters={
-              <div className="flex items-center gap-2">
-                <div className="hidden md:block">
+        <PageToolbar
+          searchPlaceholder="Search contracts or clients..."
+          onSearch={setSearchTerm}
+          filters={
+            <div className="flex items-center gap-2">
+              <div className="hidden md:block">
+                <Select value={statusFilter} onValueChange={setStatusFilter}>
+                  <SelectTrigger className="w-[220px]">
+                    <SelectValue placeholder="Filter by status" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="all">All statuses</SelectItem>
+                    <SelectItem value="draft">Draft</SelectItem>
+                    <SelectItem value="pending">Pending</SelectItem>
+                    <SelectItem value="approved">Approved</SelectItem>
+                    <SelectItem value="executed">Executed</SelectItem>
+                    <SelectItem value="closed">Closed</SelectItem>
+                    <SelectItem value="void">Void</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+              <MobileFilterModal
+                className="md:hidden"
+                hasActiveFilters={statusFilter !== 'all'}
+                onReset={() => setStatusFilter('all')}
+              >
+                <div className="space-y-2">
+                  <Label className="text-sm font-medium text-gray-700">Status</Label>
                   <Select value={statusFilter} onValueChange={setStatusFilter}>
-                    <SelectTrigger className="w-[220px]">
+                    <SelectTrigger>
                       <SelectValue placeholder="Filter by status" />
                     </SelectTrigger>
                     <SelectContent>
@@ -287,39 +325,10 @@ export default function ProjectContractsPage() {
                     </SelectContent>
                   </Select>
                 </div>
-                <MobileFilterModal
-                  className="md:hidden"
-                  hasActiveFilters={statusFilter !== 'all'}
-                  onReset={() => setStatusFilter('all')}
-                >
-                  <div className="space-y-2">
-                    <Label className="text-sm font-medium text-gray-700">Status</Label>
-                    <Select value={statusFilter} onValueChange={setStatusFilter}>
-                      <SelectTrigger>
-                        <SelectValue placeholder="Filter by status" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="all">All statuses</SelectItem>
-                        <SelectItem value="draft">Draft</SelectItem>
-                        <SelectItem value="pending">Pending</SelectItem>
-                        <SelectItem value="approved">Approved</SelectItem>
-                        <SelectItem value="executed">Executed</SelectItem>
-                        <SelectItem value="closed">Closed</SelectItem>
-                        <SelectItem value="void">Void</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </MobileFilterModal>
-              </div>
-            }
-            actions={
-              <Button variant="outline" size="sm" className="gap-2">
-                <Download className="h-4 w-4" />
-                Export CSV
-              </Button>
-            }
-          />
-        </Card>
+              </MobileFilterModal>
+            </div>
+          }
+        />
 
         {/* Summary Cards */}
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4 mb-6">
@@ -342,130 +351,128 @@ export default function ProjectContractsPage() {
         </div>
 
         {/* Contracts Table */}
-        <Card className="border bg-white shadow-sm">
-          {loading ? (
-            <div className="flex justify-center items-center h-64">
-              <p className="text-muted-foreground">Loading contracts...</p>
-            </div>
-          ) : filteredContracts.length === 0 ? (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground mb-4">No contracts found</p>
-              <Button onClick={() => router.push(`/${projectId}/contracts/new`)}>
-                <Plus className="h-4 w-4 mr-2" />
-                Create your first contract
-              </Button>
-            </div>
-          ) : (
-            <div className="overflow-x-auto">
-              <Table>
-                <TableHeader>
-                  <TableRow className="bg-gray-50">
-                    <TableHead className="w-10">
-                      <span className="sr-only">Expand</span>
-                    </TableHead>
-                    <TableHead>#</TableHead>
-                    <TableHead>Owner/Client</TableHead>
-                    <TableHead>Title</TableHead>
-                    <TableHead>Status</TableHead>
-                    <TableHead>Executed</TableHead>
-                    <TableHead className="text-right">Original Amount</TableHead>
-                    <TableHead className="text-right">Approved COs</TableHead>
-                    <TableHead className="text-right">Pending COs</TableHead>
-                    <TableHead className="text-right">Draft COs</TableHead>
-                    <TableHead className="text-right">Revised Amount</TableHead>
-                  </TableRow>
-                </TableHeader>
-                <TableBody>
-                  {filteredContracts.map((contract) => {
-                    const isExpanded = expandedRows.has(contract.id);
-                    const revised = (contract.original_contract_amount || 0) + (contract.approved_change_orders || 0);
+        {loading ? (
+          <div className="flex justify-center items-center h-64">
+            <p className="text-muted-foreground">Loading contracts...</p>
+          </div>
+        ) : filteredContracts.length === 0 ? (
+          <div className="text-center py-12">
+            <p className="text-muted-foreground mb-4">No contracts found</p>
+            <Button onClick={() => router.push(`/${projectId}/contracts/new`)}>
+              <Plus className="h-4 w-4 mr-2" />
+              Create your first contract
+            </Button>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader>
+                <TableRow className="bg-gray-50">
+                  <TableHead className="w-10">
+                    <span className="sr-only">Expand</span>
+                  </TableHead>
+                  <TableHead>#</TableHead>
+                  <TableHead>Owner/Client</TableHead>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Executed</TableHead>
+                  <TableHead className="text-right">Original Amount</TableHead>
+                  <TableHead className="text-right">Approved COs</TableHead>
+                  <TableHead className="text-right">Pending COs</TableHead>
+                  <TableHead className="text-right">Draft COs</TableHead>
+                  <TableHead className="text-right">Revised Amount</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredContracts.map((contract) => {
+                  const isExpanded = expandedRows.has(contract.id);
+                  const revised = (contract.original_contract_amount || 0) + (contract.approved_change_orders || 0);
 
-                    return (
-                      <Fragment key={contract.id}>
-                        <TableRow
-                          className={cn(
-                            'border-b hover:bg-gray-50 cursor-pointer',
-                            isExpanded && 'bg-blue-50'
-                          )}
-                          onClick={() => toggleRow(contract.id)}
-                        >
-                          <TableCell>
-                            <button
-                              type="button"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                toggleRow(contract.id);
-                              }}
-                              className="text-gray-400 hover:text-gray-600"
-                            >
-                              {isExpanded ? (
-                                <ChevronDown className="h-4 w-4" />
-                              ) : (
-                                <ChevronRight className="h-4 w-4" />
-                              )}
-                            </button>
-                          </TableCell>
-                          <TableCell>
-                            <Link
-                              href={`/${projectId}/contracts/${contract.id}`}
-                              className="text-blue-600 hover:text-blue-800 hover:underline"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              {contract.contract_number || contract.id}
-                            </Link>
-                          </TableCell>
-                          <TableCell>{contract.client?.name || '--'}</TableCell>
-                          <TableCell>
-                            <Link
-                              href={`/${projectId}/contracts/${contract.id}`}
-                              className="text-blue-600 hover:text-blue-800 hover:underline"
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              {contract.title || contract.project?.name || 'Prime Contract'}
-                            </Link>
-                          </TableCell>
-                          <TableCell>{getStatusBadge(contract.status)}</TableCell>
-                          <TableCell>{contract.executed ? 'Yes' : 'No'}</TableCell>
-                          <TableCell className="text-right font-medium">
-                            {formatCurrency(contract.original_contract_amount)}
-                          </TableCell>
-                          <TableCell className="text-right text-green-600">
-                            {formatCurrency(contract.approved_change_orders)}
-                          </TableCell>
-                          <TableCell className="text-right text-yellow-600">
-                            {formatCurrency(contract.pending_change_orders)}
-                          </TableCell>
-                          <TableCell className="text-right text-gray-500">
-                            {formatCurrency(contract.draft_change_orders)}
-                          </TableCell>
-                          <TableCell className="text-right font-medium">
-                            {formatCurrency(revised)}
-                          </TableCell>
-                        </TableRow>
-                        {isExpanded && (
-                          <ContractChangeOrders
-                            contract={contract}
-                            getStatusBadge={getStatusBadge}
-                          />
+                  return (
+                    <Fragment key={contract.id}>
+                      <TableRow
+                        className={cn(
+                          'border-b hover:bg-gray-50 cursor-pointer',
+                          isExpanded && 'bg-blue-50'
                         )}
-                      </Fragment>
-                    );
-                  })}
-                </TableBody>
-                <tfoot>
-                  <TableRow className="bg-gray-100 font-medium">
-                    <TableCell colSpan={6}>Grand Totals</TableCell>
-                    <TableCell className="text-right">{formatCurrency(totals.original)}</TableCell>
-                    <TableCell className="text-right text-green-600">{formatCurrency(totals.approved)}</TableCell>
-                    <TableCell className="text-right text-yellow-600">{formatCurrency(totals.pending)}</TableCell>
-                    <TableCell className="text-right text-gray-500">{formatCurrency(totals.draft)}</TableCell>
-                    <TableCell className="text-right">{formatCurrency(totals.revised)}</TableCell>
-                  </TableRow>
-                </tfoot>
-              </Table>
-            </div>
-          )}
-        </Card>
+                        onClick={() => toggleRow(contract.id)}
+                      >
+                        <TableCell>
+                          <button
+                            type="button"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              toggleRow(contract.id);
+                            }}
+                            className="text-gray-400 hover:text-gray-600"
+                          >
+                            {isExpanded ? (
+                              <ChevronDown className="h-4 w-4" />
+                            ) : (
+                              <ChevronRight className="h-4 w-4" />
+                            )}
+                          </button>
+                        </TableCell>
+                        <TableCell>
+                          <Link
+                            href={`/${projectId}/contracts/${contract.id}`}
+                            className="text-blue-600 hover:text-blue-800 hover:underline"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {contract.contract_number || contract.id}
+                          </Link>
+                        </TableCell>
+                        <TableCell>{contract.client?.name || '--'}</TableCell>
+                        <TableCell>
+                          <Link
+                            href={`/${projectId}/contracts/${contract.id}`}
+                            className="text-blue-600 hover:text-blue-800 hover:underline"
+                            onClick={(e) => e.stopPropagation()}
+                          >
+                            {contract.title || contract.project?.name || 'Prime Contract'}
+                          </Link>
+                        </TableCell>
+                        <TableCell>{getStatusBadge(contract.status)}</TableCell>
+                        <TableCell>{contract.executed ? 'Yes' : 'No'}</TableCell>
+                        <TableCell className="text-right font-medium">
+                          {formatCurrency(contract.original_contract_amount)}
+                        </TableCell>
+                        <TableCell className="text-right text-green-600">
+                          {formatCurrency(contract.approved_change_orders)}
+                        </TableCell>
+                        <TableCell className="text-right text-yellow-600">
+                          {formatCurrency(contract.pending_change_orders)}
+                        </TableCell>
+                        <TableCell className="text-right text-gray-500">
+                          {formatCurrency(contract.draft_change_orders)}
+                        </TableCell>
+                        <TableCell className="text-right font-medium">
+                          {formatCurrency(revised)}
+                        </TableCell>
+                      </TableRow>
+                      {isExpanded && (
+                        <ContractChangeOrders
+                          contract={contract}
+                          getStatusBadge={getStatusBadge}
+                        />
+                      )}
+                    </Fragment>
+                  );
+                })}
+              </TableBody>
+              <tfoot>
+                <TableRow className="bg-gray-100 font-medium">
+                  <TableCell colSpan={6}>Grand Totals</TableCell>
+                  <TableCell className="text-right">{formatCurrency(totals.original)}</TableCell>
+                  <TableCell className="text-right text-green-600">{formatCurrency(totals.approved)}</TableCell>
+                  <TableCell className="text-right text-yellow-600">{formatCurrency(totals.pending)}</TableCell>
+                  <TableCell className="text-right text-gray-500">{formatCurrency(totals.draft)}</TableCell>
+                  <TableCell className="text-right">{formatCurrency(totals.revised)}</TableCell>
+                </TableRow>
+              </tfoot>
+            </Table>
+          </div>
+        )}
       </PageContainer>
     </>
   );

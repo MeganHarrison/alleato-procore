@@ -7,42 +7,32 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
-import { Separator } from '@/components/ui/separator';
 import {
   ArrowLeft,
-  Edit,
   FileText,
   DollarSign,
-  Calendar,
-  Building2,
   AlertCircle,
   CheckCircle2,
   Clock,
-  FileQuestion,
   Download,
-  Upload,
-  ExternalLink,
-  MoreVertical,
-  Trash2,
+  Mail,
+  History,
+  Settings,
+  Plus,
+  ChevronDown,
+  ChevronRight,
 } from 'lucide-react';
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from '@/components/ui/collapsible';
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { toast } from 'sonner';
 
 interface Contract {
   id: number;
@@ -66,6 +56,7 @@ interface Contract {
   attachment_count: number | null;
   erp_status: string | null;
   created_at: string;
+  created_by: string | null;
   client_id: number;
   project_id: number;
   client?: {
@@ -88,8 +79,8 @@ export default function ProjectContractDetailPage() {
   const [contract, setContract] = useState<Contract | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const [deleting, setDeleting] = useState(false);
+  const [generalInfoOpen, setGeneralInfoOpen] = useState(true);
+  const [contractSummaryOpen, setContractSummaryOpen] = useState(true);
 
   useEffect(() => {
     const fetchContract = async () => {
@@ -126,30 +117,7 @@ export default function ProjectContractDetailPage() {
   };
 
   const handleEdit = () => {
-    router.push(`/${projectId}/contracts/${contractId}/edit`);
-  };
-
-  const handleDelete = async () => {
-    try {
-      setDeleting(true);
-      const response = await fetch(`/api/contracts/${contractId}`, {
-        method: 'DELETE',
-      });
-
-      if (response.ok) {
-        toast.success('Contract deleted successfully');
-        router.push(`/${projectId}/contracts`);
-      } else {
-        const data = await response.json();
-        toast.error(data.error || 'Failed to delete contract');
-      }
-    } catch (err) {
-      console.error('Error deleting contract:', err);
-      toast.error('Failed to delete contract');
-    } finally {
-      setDeleting(false);
-      setShowDeleteDialog(false);
-    }
+    router.push(`/form-contract/${contractId}?projectId=${projectId}`);
   };
 
   const formatCurrency = (value: number | null | undefined) => {
@@ -161,30 +129,27 @@ export default function ProjectContractDetailPage() {
   };
 
   const formatDate = (dateString: string | null | undefined) => {
-    if (!dateString) return '-';
+    if (!dateString) return '--';
     return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'short',
+      month: 'long',
       day: 'numeric',
       year: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: true,
+      timeZoneName: 'short',
     });
   };
 
   const getStatusBadgeVariant = (status: string | null): "default" | "secondary" | "success" | "warning" | "destructive" | "outline" => {
     switch (status?.toLowerCase()) {
       case 'approved':
-      case 'active':
         return 'success';
       case 'pending':
       case 'pending_approval':
         return 'warning';
       case 'draft':
         return 'secondary';
-      case 'complete':
-      case 'completed':
-        return 'default';
-      case 'void':
-      case 'cancelled':
-        return 'destructive';
       default:
         return 'outline';
     }
@@ -192,382 +157,433 @@ export default function ProjectContractDetailPage() {
 
   if (loading) {
     return (
-      <div className="container mx-auto py-10 max-w-6xl">
-        <div className="mb-8">
-          <Skeleton className="h-10 w-32 mb-4" />
+      <div className="min-h-screen bg-background">
+        <div className="border-b bg-card px-6 py-4">
           <Skeleton className="h-8 w-64" />
         </div>
-        <div className="grid gap-6 md:grid-cols-4">
-          <Skeleton className="h-32" />
-          <Skeleton className="h-32" />
-          <Skeleton className="h-32" />
-          <Skeleton className="h-32" />
+        <div className="p-6">
+          <Skeleton className="h-96" />
         </div>
-        <Skeleton className="h-96 mt-6" />
       </div>
     );
   }
 
   if (error || !contract) {
     return (
-      <div className="container mx-auto py-10 max-w-6xl">
-        <Button
-          variant="ghost"
-          onClick={handleBack}
-          className="mb-4"
-        >
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Contracts
-        </Button>
-        <Card className="p-6">
-          <div className="flex items-center gap-3 text-destructive">
-            <AlertCircle className="h-5 w-5" />
-            <p>{error || 'Contract not found'}</p>
-          </div>
-        </Card>
+      <div className="min-h-screen bg-background">
+        <div className="border-b bg-card px-6 py-4">
+          <Button variant="ghost" onClick={handleBack}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Prime Contracts
+          </Button>
+        </div>
+        <div className="p-6">
+          <Card className="p-6">
+            <div className="flex items-center gap-3 text-destructive">
+              <AlertCircle className="h-5 w-5" />
+              <p>{error || 'Contract not found'}</p>
+            </div>
+          </Card>
+        </div>
       </div>
     );
   }
 
-  const changeOrdersTotal = (contract.approved_change_orders || 0) +
+  const changeOrdersCount = (contract.approved_change_orders || 0) +
     (contract.pending_change_orders || 0) +
     (contract.draft_change_orders || 0);
 
+  const invoicesCount = 6; // TODO: Get from API
+  const paymentsCount = 5; // TODO: Get from API
+
   return (
-    <div className="container mx-auto py-10 max-w-6xl">
-      {/* Header */}
-      <div className="flex items-center justify-between mb-8">
-        <div className="flex items-center gap-4">
-          <Button
-            variant="ghost"
+    <div className="min-h-screen bg-background">
+      {/* Breadcrumb Header */}
+      <div className="border-b bg-card px-6 py-3">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <button
+            type="button"
             onClick={handleBack}
-            size="sm"
+            className="hover:text-foreground transition-colors"
           >
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Back
-          </Button>
-          <Separator orientation="vertical" className="h-6" />
+            Prime Contracts
+          </button>
+          <ChevronRight className="h-4 w-4" />
+          <span className="text-foreground font-medium">Prime Contract #{contract.contract_number || contract.id}</span>
+        </div>
+      </div>
+
+      {/* Title Bar */}
+      <div className="border-b bg-card px-6 py-4">
+        <div className="flex items-center justify-between">
           <div>
-            <div className="flex items-center gap-3">
-              <h1 className="text-2xl font-bold">{contract.title}</h1>
-              <Badge variant={getStatusBadgeVariant(contract.status)}>
-                {contract.status || 'Draft'}
-              </Badge>
-              {contract.executed && (
-                <Badge variant="outline" className="flex items-center gap-1">
-                  <CheckCircle2 className="h-3 w-3" />
-                  Executed
-                </Badge>
-              )}
-              {contract.private && (
-                <Badge variant="secondary">Private</Badge>
-              )}
-            </div>
-            <p className="text-muted-foreground mt-1">
-              {contract.contract_number && `#${contract.contract_number} · `}
+            <h1 className="text-2xl font-semibold text-foreground mb-1">
+              {contract.title}
+            </h1>
+            <p className="text-sm text-muted-foreground">
               {contract.client?.name || 'No client assigned'}
             </p>
           </div>
-        </div>
-
-        <div className="flex items-center gap-2">
-          <Button variant="outline" onClick={handleEdit}>
-            <Edit className="h-4 w-4 mr-2" />
-            Edit
-          </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" size="icon">
-                <MoreVertical className="h-4 w-4" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuItem>
-                <Download className="h-4 w-4 mr-2" />
-                Export PDF
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <Upload className="h-4 w-4 mr-2" />
-                Upload Document
-              </DropdownMenuItem>
-              <DropdownMenuItem>
-                <ExternalLink className="h-4 w-4 mr-2" />
-                View in ERP
-              </DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem
-                className="text-destructive focus:text-destructive"
-                onClick={() => setShowDeleteDialog(true)}
-              >
-                <Trash2 className="h-4 w-4 mr-2" />
-                Delete Contract
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex items-center gap-2">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="default" size="sm">
+                  <Plus className="h-4 w-4 mr-2" />
+                  Create
+                  <ChevronDown className="h-4 w-4 ml-2" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuItem onClick={() => router.push(`/form-change-event?projectId=${projectId}&contractId=${contractId}`)}>
+                  <FileText className="h-4 w-4 mr-2" />
+                  Change Event
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push(`/form-change-order?projectId=${projectId}&contractId=${contractId}`)}>
+                  <FileText className="h-4 w-4 mr-2" />
+                  Prime Contract CO
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push(`/form-invoice?projectId=${projectId}&contractId=${contractId}`)}>
+                  <DollarSign className="h-4 w-4 mr-2" />
+                  Invoice
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => router.push(`/form-payment?projectId=${projectId}&contractId=${contractId}`)}>
+                  <DollarSign className="h-4 w-4 mr-2" />
+                  Payment
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+            <Button variant="ghost" size="sm">
+              <Mail className="h-4 w-4" />
+            </Button>
+            <Button variant="ghost" size="sm">
+              •••
+            </Button>
+          </div>
         </div>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid gap-4 md:grid-cols-4 mb-6">
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription className="flex items-center gap-2">
-              <DollarSign className="h-4 w-4" />
-              Original Amount
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">
-              {formatCurrency(contract.original_contract_amount)}
-            </p>
-          </CardContent>
-        </Card>
+      {/* Tabs */}
+      <Tabs defaultValue="general" className="w-full">
+        <div className="border-b bg-card px-6">
+          <TabsList className="h-auto p-0 bg-transparent border-0">
+            <TabsTrigger
+              value="general"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
+            >
+              General
+            </TabsTrigger>
+            <TabsTrigger
+              value="change-orders"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
+            >
+              Change Orders ({changeOrdersCount})
+            </TabsTrigger>
+            <TabsTrigger
+              value="invoices"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
+            >
+              Invoices ({invoicesCount})
+            </TabsTrigger>
+            <TabsTrigger
+              value="payments"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
+            >
+              Payments Received ({paymentsCount})
+            </TabsTrigger>
+            <TabsTrigger
+              value="emails"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
+            >
+              Emails
+            </TabsTrigger>
+            <TabsTrigger
+              value="history"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
+            >
+              Change History
+            </TabsTrigger>
+            <TabsTrigger
+              value="financial-markup"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
+            >
+              Financial Markup
+            </TabsTrigger>
+            <TabsTrigger
+              value="settings"
+              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
+            >
+              Advanced Settings
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription className="flex items-center gap-2">
-              <DollarSign className="h-4 w-4" />
-              Revised Amount
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">
-              {formatCurrency(contract.revised_contract_amount || contract.original_contract_amount)}
-            </p>
-            {contract.revised_contract_amount && contract.original_contract_amount && (
-              <p className={`text-sm ${
-                contract.revised_contract_amount > contract.original_contract_amount
-                  ? 'text-green-600'
-                  : contract.revised_contract_amount < contract.original_contract_amount
-                    ? 'text-red-600'
-                    : 'text-muted-foreground'
-              }`}>
-                {contract.revised_contract_amount > contract.original_contract_amount ? '+' : ''}
-                {formatCurrency(contract.revised_contract_amount - contract.original_contract_amount)} from original
-              </p>
-            )}
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription className="flex items-center gap-2">
-              <FileText className="h-4 w-4" />
-              Change Orders
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">{changeOrdersTotal}</p>
-            <div className="flex gap-2 mt-1 text-xs">
-              <span className="text-green-600">{contract.approved_change_orders || 0} approved</span>
-              <span className="text-amber-600">{contract.pending_change_orders || 0} pending</span>
-              <span className="text-gray-500">{contract.draft_change_orders || 0} draft</span>
+        {/* General Tab */}
+        <TabsContent value="general" className="mt-0">
+          <div className="grid grid-cols-[240px_1fr] min-h-[calc(100vh-280px)]">
+            {/* Sidebar Navigation */}
+            <div className="border-r bg-muted/30 p-4">
+              <div className="space-y-1">
+                <h3 className="font-semibold text-sm mb-3 text-foreground">General Information</h3>
+                <a
+                  href="#contract-summary"
+                  className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
+                >
+                  Contract Summary
+                </a>
+                <a
+                  href="#schedule-of-values"
+                  className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
+                >
+                  Schedule of Values
+                </a>
+                <a
+                  href="#inclusions-exclusions"
+                  className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
+                >
+                  Inclusions & Exclusions
+                </a>
+                <a
+                  href="#contract-dates"
+                  className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
+                >
+                  Contract Dates
+                </a>
+                <a
+                  href="#contract-privacy"
+                  className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
+                >
+                  Contract Privacy
+                </a>
+              </div>
             </div>
-          </CardContent>
-        </Card>
 
-        <Card>
-          <CardHeader className="pb-2">
-            <CardDescription className="flex items-center gap-2">
-              <DollarSign className="h-4 w-4" />
-              Remaining Balance
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <p className="text-2xl font-bold">
-              {formatCurrency(contract.remaining_balance)}
-            </p>
-            {contract.percent_paid !== null && (
-              <p className="text-sm text-muted-foreground">
-                {contract.percent_paid?.toFixed(1)}% paid
-              </p>
-            )}
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Detailed Information */}
-      <Tabs defaultValue="details" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="details">Details</TabsTrigger>
-          <TabsTrigger value="billing">Billing & Payments</TabsTrigger>
-          <TabsTrigger value="change-orders">Change Orders</TabsTrigger>
-          <TabsTrigger value="documents">Documents ({contract.attachment_count || 0})</TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="details">
-          <Card>
-            <CardHeader>
-              <CardTitle>Contract Details</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-6">
-              <div className="grid grid-cols-2 gap-6">
-                <div>
-                  <h4 className="font-medium text-sm text-muted-foreground mb-1">Contract Number</h4>
-                  <p>{contract.contract_number || '-'}</p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-sm text-muted-foreground mb-1">Status</h4>
-                  <Badge variant={getStatusBadgeVariant(contract.status)}>
-                    {contract.status || 'Draft'}
-                  </Badge>
-                </div>
-                <div>
-                  <h4 className="font-medium text-sm text-muted-foreground mb-1">Client</h4>
-                  <div className="flex items-center gap-2">
-                    <Building2 className="h-4 w-4 text-muted-foreground" />
-                    <p>{contract.client?.name || '-'}</p>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-medium text-sm text-muted-foreground mb-1">Project</h4>
-                  <p>
-                    {contract.project?.project_number && `${contract.project.project_number} - `}
-                    {contract.project?.name || '-'}
-                  </p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-sm text-muted-foreground mb-1">Created</h4>
-                  <div className="flex items-center gap-2">
-                    <Calendar className="h-4 w-4 text-muted-foreground" />
-                    <p>{formatDate(contract.created_at)}</p>
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-medium text-sm text-muted-foreground mb-1">Executed</h4>
-                  <div className="flex items-center gap-2">
-                    {contract.executed ? (
-                      <>
-                        <CheckCircle2 className="h-4 w-4 text-green-600" />
-                        <p className="text-green-600">Yes</p>
-                      </>
-                    ) : (
-                      <>
-                        <Clock className="h-4 w-4 text-amber-500" />
-                        <p className="text-amber-500">Not yet</p>
-                      </>
-                    )}
-                  </div>
-                </div>
-                <div>
-                  <h4 className="font-medium text-sm text-muted-foreground mb-1">Retention</h4>
-                  <p>{contract.retention_percentage ? `${contract.retention_percentage}%` : '-'}</p>
-                </div>
-                <div>
-                  <h4 className="font-medium text-sm text-muted-foreground mb-1">Vertical Markup</h4>
-                  <p>{contract.apply_vertical_markup ? 'Applied' : 'Not applied'}</p>
-                </div>
+            {/* Main Content */}
+            <div className="p-6 space-y-6 bg-background">
+              <div className="flex items-center justify-end gap-2">
+                <Button variant="outline" size="sm">
+                  <Download className="h-4 w-4 mr-2" />
+                  Export
+                </Button>
+                <Button variant="default" size="sm" onClick={handleEdit}>
+                  Edit Contract
+                </Button>
               </div>
 
-              {contract.notes && (
-                <>
-                  <Separator />
-                  <div>
-                    <h4 className="font-medium text-sm text-muted-foreground mb-2">Notes</h4>
-                    <p className="whitespace-pre-wrap text-sm">{contract.notes}</p>
-                  </div>
-                </>
-              )}
-
-              {contract.erp_status && (
-                <>
-                  <Separator />
-                  <div>
-                    <h4 className="font-medium text-sm text-muted-foreground mb-1">ERP Status</h4>
-                    <Badge variant="outline">{contract.erp_status}</Badge>
-                  </div>
-                </>
-              )}
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="billing">
-          <Card>
-            <CardHeader>
-              <CardTitle>Billing & Payments</CardTitle>
-              <CardDescription>Financial summary for this contract</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="p-4 bg-muted rounded-lg">
-                    <p className="text-sm text-muted-foreground">Original Contract Amount</p>
-                    <p className="text-2xl font-bold">{formatCurrency(contract.original_contract_amount)}</p>
-                  </div>
-                  <div className="p-4 bg-muted rounded-lg">
-                    <p className="text-sm text-muted-foreground">Revised Contract Amount</p>
-                    <p className="text-2xl font-bold">{formatCurrency(contract.revised_contract_amount || contract.original_contract_amount)}</p>
-                  </div>
-                </div>
-
-                <Separator />
-
-                <div className="grid grid-cols-3 gap-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground">Invoiced Amount</p>
-                    <p className="text-lg font-semibold">{formatCurrency(contract.invoiced_amount)}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Payments Received</p>
-                    <p className="text-lg font-semibold text-green-600">{formatCurrency(contract.payments_received)}</p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground">Remaining Balance</p>
-                    <p className="text-lg font-semibold">{formatCurrency(contract.remaining_balance)}</p>
-                  </div>
-                </div>
-
-                {contract.percent_paid !== null && (
-                  <>
-                    <Separator />
-                    <div>
-                      <div className="flex justify-between mb-2">
-                        <p className="text-sm text-muted-foreground">Payment Progress</p>
-                        <p className="text-sm font-medium">{contract.percent_paid?.toFixed(1)}%</p>
-                      </div>
-                      <div className="w-full bg-muted rounded-full h-2">
-                        <div
-                          className="bg-green-600 h-2 rounded-full transition-all"
-                          style={{ width: `${Math.min(contract.percent_paid || 0, 100)}%` }}
-                        />
-                      </div>
+              {/* General Information Section */}
+              <Collapsible open={generalInfoOpen} onOpenChange={setGeneralInfoOpen}>
+                <Card>
+                  <CardHeader>
+                    <div className="flex items-center justify-between">
+                      <CollapsibleTrigger className="flex items-center gap-2 cursor-pointer hover:opacity-70 transition-opacity">
+                        <CardTitle className="text-lg flex items-center gap-2">
+                          {generalInfoOpen ? (
+                            <ChevronDown className="h-5 w-5" />
+                          ) : (
+                            <ChevronRight className="h-5 w-5" />
+                          )}
+                          General Information
+                        </CardTitle>
+                      </CollapsibleTrigger>
+                      <Button variant="ghost" size="sm" onClick={handleEdit}>
+                        Edit
+                      </Button>
                     </div>
-                  </>
-                )}
+                  </CardHeader>
+                  <CollapsibleContent>
+                    <CardContent className="pt-0">
+                      <p className="text-sm text-muted-foreground mb-6">
+                        Created by {contract.created_by || 'Unknown'} on {formatDate(contract.created_at)}
+                      </p>
 
-                {contract.retention_percentage && (
-                  <>
-                    <Separator />
-                    <div className="p-4 border rounded-lg">
-                      <div className="flex items-center justify-between">
+                      <div className="grid grid-cols-3 gap-x-8 gap-y-6">
                         <div>
-                          <p className="font-medium">Retention</p>
-                          <p className="text-sm text-muted-foreground">
-                            {contract.retention_percentage}% retention held
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Contract #</h4>
+                          <p className="text-sm">{contract.contract_number || contract.id}</p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Owner/Client</h4>
+                          <p className="text-sm text-primary">
+                            {contract.client?.name || '--'}
                           </p>
                         </div>
-                        <p className="text-lg font-semibold text-amber-600">
-                          {formatCurrency(
-                            ((contract.revised_contract_amount || contract.original_contract_amount || 0) *
-                            (contract.retention_percentage / 100))
-                          )}
-                        </p>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Title</h4>
+                          <p className="text-sm">{contract.title}</p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Status</h4>
+                          <Badge variant={getStatusBadgeVariant(contract.status)} className="text-xs">
+                            {contract.status || 'Draft'}
+                          </Badge>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Executed</h4>
+                          <div className="flex items-center gap-2">
+                            {contract.executed ? (
+                              <CheckCircle2 className="h-4 w-4" />
+                            ) : null}
+                            <span className="text-sm">{contract.executed ? '✓' : '--'}</span>
+                          </div>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Default Retainage</h4>
+                          <p className="text-sm">{contract.retention_percentage ? `${contract.retention_percentage}%` : '0%'}</p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Contractor</h4>
+                          <p className="text-sm text-primary">
+                            {contract.project?.name || 'Alleato Group'}
+                          </p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Architect/Engineer</h4>
+                          <p className="text-sm">--</p>
+                        </div>
+
+                        <div className="col-span-3">
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Description</h4>
+                          <p className="text-sm">{contract.notes || '--'}</p>
+                        </div>
+
+                        <div className="col-span-3">
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Attachments</h4>
+                          <p className="text-sm">--</p>
+                        </div>
                       </div>
+                    </CardContent>
+                  </CollapsibleContent>
+                </Card>
+              </Collapsible>
+
+              {/* Contract Summary Section */}
+              <Collapsible open={contractSummaryOpen} onOpenChange={setContractSummaryOpen} id="contract-summary">
+                <Card>
+                  <CardHeader>
+                    <CollapsibleTrigger className="flex items-center gap-2 cursor-pointer hover:opacity-70 transition-opacity w-full">
+                      <CardTitle className="text-lg flex items-center gap-2">
+                        {contractSummaryOpen ? (
+                          <ChevronDown className="h-5 w-5" />
+                        ) : (
+                          <ChevronRight className="h-5 w-5" />
+                        )}
+                        Contract Summary
+                      </CardTitle>
+                    </CollapsibleTrigger>
+                  </CardHeader>
+                  <CollapsibleContent>
+                    <CardContent className="pt-0">
+                      <div className="grid grid-cols-4 gap-6">
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Original Contract Amount</h4>
+                          <p className="text-lg font-semibold">{formatCurrency(contract.original_contract_amount)}</p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Pending Change Orders</h4>
+                          <p className="text-lg font-semibold">{formatCurrency(0)}</p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Invoices</h4>
+                          <p className="text-lg font-semibold">{formatCurrency(contract.invoiced_amount)}</p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Payments Received</h4>
+                          <p className="text-lg font-semibold">{formatCurrency(contract.payments_received)}</p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Approved Change Orders</h4>
+                          <p className="text-lg font-semibold">{formatCurrency(contract.approved_change_orders || 0)}</p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Pending Revised Contract Amount</h4>
+                          <p className="text-lg font-semibold">{formatCurrency(contract.revised_contract_amount || contract.original_contract_amount)}</p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Remaining Balance</h4>
+                          <p className="text-lg font-semibold">{formatCurrency(contract.remaining_balance)}</p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Percent Paid</h4>
+                          <p className="text-lg font-semibold">{contract.percent_paid?.toFixed(1) || '0'}%</p>
+                        </div>
+                      </div>
+                    </CardContent>
+                  </CollapsibleContent>
+                </Card>
+              </Collapsible>
+
+              {/* Placeholder sections */}
+              <Card id="schedule-of-values">
+                <CardHeader>
+                  <CardTitle className="text-lg">Schedule of Values</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">Schedule of Values will be displayed here</p>
+                </CardContent>
+              </Card>
+
+              <Card id="inclusions-exclusions">
+                <CardHeader>
+                  <CardTitle className="text-lg">Inclusions & Exclusions</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <p className="text-sm text-muted-foreground">Inclusions and exclusions will be displayed here</p>
+                </CardContent>
+              </Card>
+
+              <Card id="contract-dates">
+                <CardHeader>
+                  <CardTitle className="text-lg">Contract Dates</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Created</h4>
+                      <p className="text-sm">{formatDate(contract.created_at)}</p>
                     </div>
-                  </>
-                )}
-              </div>
-            </CardContent>
-          </Card>
+                    <div>
+                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Executed Date</h4>
+                      <p className="text-sm">--</p>
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+
+              <Card id="contract-privacy">
+                <CardHeader>
+                  <CardTitle className="text-lg">Contract Privacy</CardTitle>
+                </CardHeader>
+                <CardContent>
+                  <div>
+                    <h4 className="text-sm font-medium text-muted-foreground mb-2">Private</h4>
+                    <p className="text-sm">{contract.private ? 'Yes' : 'No'}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
         </TabsContent>
 
-        <TabsContent value="change-orders">
+        {/* Change Orders Tab */}
+        <TabsContent value="change-orders" className="mt-0 p-6">
           <Card>
             <CardHeader>
               <CardTitle>Change Orders</CardTitle>
               <CardDescription>
-                {changeOrdersTotal} change orders associated with this contract
+                {changeOrdersCount} change orders associated with this contract
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -588,7 +604,7 @@ export default function ProjectContractDetailPage() {
                 </div>
                 <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
                   <div className="flex items-center gap-2 mb-1">
-                    <FileQuestion className="h-4 w-4 text-gray-600" />
+                    <FileText className="h-4 w-4 text-gray-600" />
                     <p className="text-sm font-medium text-gray-600">Draft</p>
                   </div>
                   <p className="text-2xl font-bold">{contract.draft_change_orders || 0}</p>
@@ -598,67 +614,121 @@ export default function ProjectContractDetailPage() {
               <div className="text-center py-8 text-muted-foreground">
                 <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <p>Change orders list will be displayed here</p>
-                <Button variant="outline" className="mt-4" onClick={() => router.push(`/${projectId}/change-orders`)}>
-                  View All Change Orders
-                </Button>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
 
-        <TabsContent value="documents">
+        {/* Invoices Tab */}
+        <TabsContent value="invoices" className="mt-0 p-6">
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle>Documents</CardTitle>
-                  <CardDescription>
-                    {contract.attachment_count || 0} documents attached to this contract
-                  </CardDescription>
-                </div>
-                <Button>
-                  <Upload className="h-4 w-4 mr-2" />
-                  Upload Document
-                </Button>
-              </div>
+              <CardTitle>Invoices</CardTitle>
+              <CardDescription>{invoicesCount} invoices for this contract</CardDescription>
             </CardHeader>
             <CardContent>
-              <div className="text-center py-12 text-muted-foreground">
+              <div className="text-center py-8 text-muted-foreground">
                 <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>No documents uploaded yet</p>
-                <p className="text-sm mt-1">Upload contracts, amendments, and supporting documents</p>
+                <p>Invoices will be displayed here</p>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Payments Received Tab */}
+        <TabsContent value="payments" className="mt-0 p-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Payments Received</CardTitle>
+              <CardDescription>{paymentsCount} payments received</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center py-8 text-muted-foreground">
+                <DollarSign className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p>Payment history will be displayed here</p>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Emails Tab */}
+        <TabsContent value="emails" className="mt-0 p-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Emails</CardTitle>
+              <CardDescription>Email correspondence related to this contract</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center py-8 text-muted-foreground">
+                <Mail className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p>Email history will be displayed here</p>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Change History Tab */}
+        <TabsContent value="history" className="mt-0 p-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Change History</CardTitle>
+              <CardDescription>Track all changes made to this contract</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center py-8 text-muted-foreground">
+                <History className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                <p>Change history will be displayed here</p>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Financial Markup Tab */}
+        <TabsContent value="financial-markup" className="mt-0 p-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Financial Markup</CardTitle>
+              <CardDescription>Configure markup rates and settings</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                <div>
+                  <h4 className="text-sm font-medium text-muted-foreground mb-2">Apply Vertical Markup</h4>
+                  <p className="text-sm">{contract.apply_vertical_markup ? 'Enabled' : 'Disabled'}</p>
+                </div>
+                <div className="text-center py-8 text-muted-foreground">
+                  <Settings className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <p>Financial markup configuration will be displayed here</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        {/* Advanced Settings Tab */}
+        <TabsContent value="settings" className="mt-0 p-6">
+          <Card>
+            <CardHeader>
+              <CardTitle>Advanced Settings</CardTitle>
+              <CardDescription>Advanced configuration and integrations</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-4">
+                {contract.erp_status && (
+                  <div>
+                    <h4 className="text-sm font-medium text-muted-foreground mb-2">ERP Status</h4>
+                    <Badge variant="outline">{contract.erp_status}</Badge>
+                  </div>
+                )}
+                <div className="text-center py-8 text-muted-foreground">
+                  <Settings className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <p>Advanced settings will be displayed here</p>
+                </div>
               </div>
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
-
-      {/* Delete Confirmation Dialog */}
-      <AlertDialog open={showDeleteDialog} onOpenChange={setShowDeleteDialog}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Contract</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete this contract? This action cannot be undone.
-              {changeOrdersTotal > 0 && (
-                <p className="mt-2 text-amber-600">
-                  Note: This contract has {changeOrdersTotal} associated change orders that must be deleted first.
-                </p>
-              )}
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction
-              onClick={handleDelete}
-              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-              disabled={deleting}
-            >
-              {deleting ? 'Deleting...' : 'Delete'}
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
     </div>
   );
 }

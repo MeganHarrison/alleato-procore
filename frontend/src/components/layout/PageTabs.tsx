@@ -22,7 +22,7 @@ export function PageTabs({ tabs, className }: PageTabsProps) {
 
   return (
     <div className={cn("border-b bg-white", className)}>
-      <div className="px-4 sm:px-6 lg:px-8">
+      <div className="px-4 sm:px-6 lg:px-12">
         <nav className="-mb-px flex space-x-8" aria-label="Tabs">
           {tabs.map((tab) => {
             const isActive = tab.isActive ?? pathname === tab.href
@@ -33,7 +33,7 @@ export function PageTabs({ tabs, className }: PageTabsProps) {
                 className={cn(
                   "group inline-flex items-center gap-2 border-b-2 py-4 px-1 text-sm font-medium transition-colors",
                   isActive
-                    ? "border-indigo-500 text-indigo-600"
+                    ? "border-brand text-brand"
                     : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700"
                 )}
                 aria-current={isActive ? "page" : undefined}
@@ -43,7 +43,7 @@ export function PageTabs({ tabs, className }: PageTabsProps) {
                   <span className={cn(
                     "rounded-full px-2.5 py-0.5 text-xs font-medium",
                     isActive
-                      ? "bg-indigo-100 text-indigo-600"
+                      ? "bg-orange-100 text-orange-800"
                       : "bg-gray-100 text-gray-600"
                   )}>
                     {tab.count}
