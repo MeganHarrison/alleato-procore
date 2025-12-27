@@ -1,5 +1,6 @@
 'use client';
 
+import * as React from 'react';
 import { useEffect, useState } from 'react';
 import { useParams } from 'next/navigation';
 import { Plus } from 'lucide-react';
@@ -38,6 +39,8 @@ import {
 } from '@/components/ui/select';
 import { Label } from '@/components/ui/label';
 import { ChevronRight, ChevronDown } from 'lucide-react';
+import { BudgetPageHeader, BudgetTabs } from '@/components/budget';
+import { useProjectTitle } from '@/hooks/useProjectTitle';
 
 interface ProjectCostCode {
   id: string;
@@ -69,7 +72,9 @@ interface BudgetLineItem {
 export default function BudgetV2Page() {
   const params = useParams();
   const projectId = params.projectId as string;
+  useProjectTitle('Budget V2');
 
+  const [activeTab, setActiveTab] = React.useState('budget');
   const [loadingData, setLoadingData] = useState(true);
   const [projectCostCodes, setProjectCostCodes] = useState<ProjectCostCode[]>([]);
   const [lineItems, setLineItems] = useState<BudgetLineItem[]>([]);
@@ -105,6 +110,26 @@ export default function BudgetV2Page() {
   >({});
   const [expandedDivisions, setExpandedDivisions] = useState<Set<string>>(new Set());
 
+  // Budget lock state
+  const [isLocked, setIsLocked] = React.useState(false);
+  const [lockedAt, setLockedAt] = React.useState<string | null>(null);
+  const [lockedBy, setLockedBy] = React.useState<string | null>(null);
+
+  // Fetch budget lock status
+  const fetchLockStatus = React.useCallback(async () => {
+    try {
+      const response = await fetch(`/api/projects/${projectId}/budget/lock`);
+      if (response.ok) {
+        const data = await response.json();
+        setIsLocked(data.isLocked || false);
+        setLockedAt(data.lockedAt);
+        setLockedBy(data.lockedBy);
+      }
+    } catch (error) {
+      console.error('Error fetching lock status:', error);
+    }
+  }, [projectId]);
+
   // Load active project cost codes and create initial line items
   useEffect(() => {
     const loadData = async () => {
@@ -112,52 +137,58 @@ export default function BudgetV2Page() {
         setLoadingData(true);
         const supabase = createClient();
 
-        const { data, error } = await supabase
-          .from('project_budget_codes')
-          .select(`
-            id,
-            cost_code_id,
-            cost_type_id,
-            is_active,
-            cost_codes!inner (
-              id,
-              title,
-              division_title
-            ),
-            cost_code_types (
-              id,
-              code,
-              description
-            )
-          `)
-          .eq('project_id', parseInt(projectId, 10))
-          .eq('is_active', true)
-          .order('cost_code_id', { ascending: true });
+        // Fetch budget data and lock status in parallel
+        await Promise.all([
+          (async () => {
+            const { data, error } = await supabase
+              .from('project_budget_codes')
+              .select(`
+                id,
+                cost_code_id,
+                cost_type_id,
+                is_active,
+                cost_codes!inner (
+                  id,
+                  title,
+                  division_title
+                ),
+                cost_code_types (
+                  id,
+                  code,
+                  description
+                )
+              `)
+              .eq('project_id', parseInt(projectId, 10))
+              .eq('is_active', true)
+              .order('cost_code_id', { ascending: true });
 
-        if (error) throw error;
+            if (error) throw error;
 
-        console.warn('Loaded project cost codes:', data);
-        // Filter to only include cost codes with cost types (required by schema)
-        const validCostCodes = (data as unknown as ProjectCostCode[])?.filter(cc => cc.cost_type_id) || [];
-        setProjectCostCodes(validCostCodes);
+            console.warn('Loaded project cost codes:', data);
+            // Filter to only include cost codes with cost types (required by schema)
+            const validCostCodes = (data as unknown as ProjectCostCode[])?.filter(cc => cc.cost_type_id) || [];
+            setProjectCostCodes(validCostCodes);
 
-        // Auto-populate line items from copied cost codes
-        const initialLineItems: BudgetLineItem[] = validCostCodes.map((code) => {
-          const costCodeTitle = code.cost_codes?.title || '';
-          const label = `${code.cost_code_id} – ${costCodeTitle}`;
+            // Auto-populate line items from copied cost codes
+            const initialLineItems: BudgetLineItem[] = validCostCodes.map((code) => {
+              const costCodeTitle = code.cost_codes?.title || '';
+              const label = `${code.cost_code_id} – ${costCodeTitle}`;
 
-          return {
-            id: crypto.randomUUID(),
-            projectCostCodeId: code.id,
-            costCodeLabel: label,
-            qty: '',
-            uom: '',
-            unitCost: '',
-            amount: '',
-          };
-        });
+              return {
+                id: crypto.randomUUID(),
+                projectCostCodeId: code.id,
+                costCodeLabel: label,
+                qty: '',
+                uom: '',
+                unitCost: '',
+                amount: '',
+              };
+            });
 
-        setLineItems(initialLineItems);
+            setLineItems(initialLineItems);
+          })(),
+          fetchLockStatus(),
+        ]);
       } catch (error) {
         console.error('Error loading project cost codes:', error);
         toast.error('Failed to load project cost codes');
@@ -167,7 +198,7 @@ export default function BudgetV2Page() {
     };
 
     loadData();
-  }, [projectId]);
+  }, [projectId, fetchLockStatus]);
 
   // Fetch cost codes when create modal opens
   useEffect(() => {
@@ -377,192 +408,265 @@ export default function BudgetV2Page() {
 
   const totalAmount = lineItems.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0);
 
+  const handleCreateClick = () => {
+    if (isLocked) {
+      toast.error('Budget is locked. Unlock to add new budget codes.');
+      return;
+    }
+    setShowCreateCodeModal(true);
+  };
+
+  const handleModificationClick = () => {
+    toast.info('Budget modifications coming soon');
+  };
+
+  const handleResendToERP = () => {
+    toast.info('ERP integration coming soon');
+  };
+
+  const handleLockBudget = async () => {
+    try {
+      const response = await fetch(`/api/projects/${projectId}/budget/lock`, {
+        method: 'POST',
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        setIsLocked(true);
+        setLockedAt(data.data.budget_locked_at);
+        setLockedBy(data.data.budget_locked_by);
+        toast.success('Budget locked successfully');
+      } else {
+        const error = await response.json();
+        toast.error(error.error || 'Failed to lock budget');
+      }
+    } catch (error) {
+      console.error('Error locking budget:', error);
+      toast.error('Failed to lock budget');
+    }
+  };
+
+  const handleUnlockBudget = async () => {
+    try {
+      const response = await fetch(`/api/projects/${projectId}/budget/lock`, {
+        method: 'DELETE',
+      });
+
+      if (response.ok) {
+        setIsLocked(false);
+        setLockedAt(null);
+        setLockedBy(null);
+        toast.success('Budget unlocked successfully');
+      } else {
+        const error = await response.json();
+        toast.error(error.error || 'Failed to unlock budget');
+      }
+    } catch (error) {
+      console.error('Error unlocking budget:', error);
+      toast.error('Failed to unlock budget');
+    }
+  };
+
+  const handleExport = (format: string) => {
+    toast.info(`${format.toUpperCase()} export coming soon`);
+  };
+
+  const handleTabChange = (tabId: string) => {
+    setActiveTab(tabId);
+  };
+
   return (
-    <div className="min-h-screen">
-      {/* Header */}
-      <div className="border-b bg-white">
-        <div className="mx-auto px-4 py-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between">
-            <div>
-              {/* Heading */}
-              <div className="mt-2">
-                <h1 className="text-2xl font-semibold mb-2">Budget V2</h1>
-                <p className="text-sm text-gray-600">
-                  Budget line items from copied cost codes
-                </p>
+    <div className="flex flex-1 flex-col bg-muted/30">
+      <BudgetPageHeader
+        title="Budget V2"
+        isLocked={isLocked}
+        lockedAt={lockedAt}
+        lockedBy={lockedBy}
+        onCreateClick={handleCreateClick}
+        onModificationClick={handleModificationClick}
+        onResendToERP={handleResendToERP}
+        onLockBudget={handleLockBudget}
+        onUnlockBudget={handleUnlockBudget}
+        onExport={handleExport}
+      />
+
+      <BudgetTabs activeTab={activeTab} onTabChange={handleTabChange} />
+
+      <div className="flex flex-1 flex-col gap-4 px-4 sm:px-6 lg:px-12 py-6">
+        {activeTab === 'budget' && (
+          <>
+            {/* Summary Bar */}
+            <div className="rounded-lg border bg-white shadow-sm">
+              <div className="border-b bg-gray-50 px-6 py-3">
+                <div className="flex items-center justify-between text-sm">
+                  <span className="font-medium text-gray-700">
+                    {lineItems.length} Line Item{lineItems.length !== 1 ? 's' : ''}
+                  </span>
+                  <span className="font-semibold text-gray-900">
+                    Total: ${totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
+                  </span>
+                </div>
+              </div>
+
+              {/* Table */}
+              <div className="overflow-x-auto">
+                <table className="w-full">
+                  <thead className="border-b bg-gray-50">
+                    <tr>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        Budget Code
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        Qty
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        UOM
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        Unit Cost
+                      </th>
+                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        Amount
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-gray-200 bg-white">
+                    {loadingData ? (
+                      <tr>
+                        <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                          Loading project cost codes...
+                        </td>
+                      </tr>
+                    ) : lineItems.length === 0 ? (
+                      <tr>
+                        <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                          No budget codes found. Add budget codes to get started.
+                        </td>
+                      </tr>
+                    ) : (
+                      lineItems.map((row) => (
+                        <tr key={row.id} className="hover:bg-gray-50">
+                          <td className="px-4 py-3">
+                            <Popover
+                              open={openPopoverId === row.id}
+                              onOpenChange={(open) => setOpenPopoverId(open ? row.id : null)}
+                            >
+                              <PopoverTrigger asChild>
+                                <Button
+                                  variant="outline"
+                                  role="combobox"
+                                  className="w-full justify-start text-left font-normal"
+                                  disabled={isLocked}
+                                >
+                                  <span className={row.costCodeLabel ? 'text-gray-900' : 'text-gray-500'}>
+                                    {row.costCodeLabel || 'Select budget code...'}
+                                  </span>
+                                </Button>
+                              </PopoverTrigger>
+                              <PopoverContent className="w-[500px] p-0" align="start">
+                                <Command>
+                                  <CommandInput
+                                    placeholder="Search budget codes..."
+                                    value={searchQuery}
+                                    onValueChange={setSearchQuery}
+                                    className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                                  />
+                                  <CommandList>
+                                    <CommandEmpty>No budget codes found.</CommandEmpty>
+                                    <CommandGroup>
+                                      {filteredCostCodes.map((code) => {
+                                        const costCodeTitle = code.cost_codes?.title || '';
+                                        const displayLabel = `${code.cost_code_id} – ${costCodeTitle}`;
+
+                                        return (
+                                          <CommandItem
+                                            key={code.id}
+                                            value={displayLabel}
+                                            onSelect={() => handleBudgetCodeSelect(row.id, code)}
+                                          >
+                                            {displayLabel}
+                                          </CommandItem>
+                                        );
+                                      })}
+                                    </CommandGroup>
+                                    <CommandSeparator />
+                                    <CommandGroup>
+                                      <CommandItem
+                                        onSelect={() => {
+                                          setOpenPopoverId(null);
+                                          setShowCreateCodeModal(true);
+                                        }}
+                                        className="text-blue-600"
+                                      >
+                                        <Plus className="h-4 w-4 mr-2" />
+                                        Create New Budget Code
+                                      </CommandItem>
+                                    </CommandGroup>
+                                  </CommandList>
+                                </Command>
+                              </PopoverContent>
+                            </Popover>
+                          </td>
+                          <td className="px-4 py-3">
+                            <Input
+                              type="number"
+                              placeholder="0"
+                              value={row.qty}
+                              onChange={(e) => handleFieldChange(row.id, 'qty', e.target.value)}
+                              className="w-24"
+                              disabled={isLocked}
+                            />
+                          </td>
+                          <td className="px-4 py-3">
+                            <Input
+                              placeholder="EA"
+                              value={row.uom}
+                              onChange={(e) => handleFieldChange(row.id, 'uom', e.target.value)}
+                              className="w-20"
+                              disabled={isLocked}
+                            />
+                          </td>
+                          <td className="px-4 py-3">
+                            <Input
+                              type="number"
+                              placeholder="0.00"
+                              value={row.unitCost}
+                              onChange={(e) => handleFieldChange(row.id, 'unitCost', e.target.value)}
+                              className="w-32"
+                              disabled={isLocked}
+                            />
+                          </td>
+                          <td className="px-4 py-3">
+                            <Input
+                              type="number"
+                              placeholder="0.00"
+                              value={row.amount}
+                              onChange={(e) => handleFieldChange(row.id, 'amount', e.target.value)}
+                              className="w-32"
+                              disabled={isLocked}
+                            />
+                          </td>
+                        </tr>
+                      ))
+                    )}
+                  </tbody>
+                </table>
               </div>
             </div>
+          </>
+        )}
 
-            {/* Action Buttons */}
-            <div className="flex items-center gap-2">
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={() => setShowCreateCodeModal(true)}
-              >
-                <Plus className="h-4 w-4 mr-2" />
-                Add Budget Code
-              </Button>
-            </div>
+        {activeTab === 'settings' && (
+          <div className="flex-1 rounded-lg border bg-white shadow-sm p-6">
+            <p className="text-gray-500">Settings for Budget V2 coming soon</p>
           </div>
-        </div>
-      </div>
+        )}
 
-      {/* Main Content */}
-      <div className="mx-auto px-4 py-6 sm:px-6 lg:px-8">
-        <div className="rounded-lg border bg-white shadow-sm">
-          {/* Summary Bar */}
-          <div className="border-b bg-gray-50 px-6 py-3">
-            <div className="flex items-center justify-between text-sm">
-              <span className="font-medium text-gray-700">
-                {lineItems.length} Line Item{lineItems.length !== 1 ? 's' : ''}
-              </span>
-              <span className="font-semibold text-gray-900">
-                Total: ${totalAmount.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}
-              </span>
-            </div>
+        {activeTab === 'cost-codes' && (
+          <div className="flex-1 rounded-lg border bg-white shadow-sm p-6">
+            <p className="text-gray-500">Cost Codes management for Budget V2 coming soon</p>
           </div>
-
-          {/* Table */}
-          <div className="overflow-x-auto">
-            <table className="w-full">
-              <thead className="border-b bg-gray-50">
-                <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    Budget Code
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    Qty
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    UOM
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    Unit Cost
-                  </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
-                    Amount
-                  </th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-200 bg-white">
-                {loadingData ? (
-                  <tr>
-                    <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
-                      Loading project cost codes...
-                    </td>
-                  </tr>
-                ) : lineItems.length === 0 ? (
-                  <tr>
-                    <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
-                      No budget codes found. Add budget codes to get started.
-                    </td>
-                  </tr>
-                ) : (
-                  lineItems.map((row) => (
-                    <tr key={row.id} className="hover:bg-gray-50">
-                      <td className="px-4 py-3">
-                        <Popover
-                          open={openPopoverId === row.id}
-                          onOpenChange={(open) => setOpenPopoverId(open ? row.id : null)}
-                        >
-                          <PopoverTrigger asChild>
-                            <Button
-                              variant="outline"
-                              role="combobox"
-                              className="w-full justify-start text-left font-normal"
-                            >
-                              <span className={row.costCodeLabel ? 'text-gray-900' : 'text-gray-500'}>
-                                {row.costCodeLabel || 'Select budget code...'}
-                              </span>
-                            </Button>
-                          </PopoverTrigger>
-                          <PopoverContent className="w-[500px] p-0" align="start">
-                            <Command>
-                              <CommandInput
-                                placeholder="Search budget codes..."
-                                value={searchQuery}
-                                onValueChange={setSearchQuery}
-                                className="border-0 focus-visible:ring-0 focus-visible:ring-offset-0"
-                              />
-                              <CommandList>
-                                <CommandEmpty>No budget codes found.</CommandEmpty>
-                                <CommandGroup>
-                                  {filteredCostCodes.map((code) => {
-                                    const costCodeTitle = code.cost_codes?.title || '';
-                                    const displayLabel = `${code.cost_code_id} – ${costCodeTitle}`;
-
-                                    return (
-                                      <CommandItem
-                                        key={code.id}
-                                        value={displayLabel}
-                                        onSelect={() => handleBudgetCodeSelect(row.id, code)}
-                                      >
-                                        {displayLabel}
-                                      </CommandItem>
-                                    );
-                                  })}
-                                </CommandGroup>
-                                <CommandSeparator />
-                                <CommandGroup>
-                                  <CommandItem
-                                    onSelect={() => {
-                                      setOpenPopoverId(null);
-                                      setShowCreateCodeModal(true);
-                                    }}
-                                    className="text-blue-600"
-                                  >
-                                    <Plus className="h-4 w-4 mr-2" />
-                                    Create New Budget Code
-                                  </CommandItem>
-                                </CommandGroup>
-                              </CommandList>
-                            </Command>
-                          </PopoverContent>
-                        </Popover>
-                      </td>
-                      <td className="px-4 py-3">
-                        <Input
-                          type="number"
-                          placeholder="0"
-                          value={row.qty}
-                          onChange={(e) => handleFieldChange(row.id, 'qty', e.target.value)}
-                          className="w-24"
-                        />
-                      </td>
-                      <td className="px-4 py-3">
-                        <Input
-                          placeholder="EA"
-                          value={row.uom}
-                          onChange={(e) => handleFieldChange(row.id, 'uom', e.target.value)}
-                          className="w-20"
-                        />
-                      </td>
-                      <td className="px-4 py-3">
-                        <Input
-                          type="number"
-                          placeholder="0.00"
-                          value={row.unitCost}
-                          onChange={(e) => handleFieldChange(row.id, 'unitCost', e.target.value)}
-                          className="w-32"
-                        />
-                      </td>
-                      <td className="px-4 py-3">
-                        <Input
-                          type="number"
-                          placeholder="0.00"
-                          value={row.amount}
-                          onChange={(e) => handleFieldChange(row.id, 'amount', e.target.value)}
-                          className="w-32"
-                        />
-                      </td>
-                    </tr>
-                  ))
-                )}
-              </tbody>
-            </table>
-          </div>
-        </div>
+        )}
       </div>
 
       {/* Create Budget Code Modal */}
