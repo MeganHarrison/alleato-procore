@@ -100,15 +100,6 @@ export function BudgetPageHeader({
 
   const actionButtons = (
     <div className="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-center md:justify-end">
-      {/* Add Line Item Button - direct action */}
-      <Button
-        size="sm"
-        onClick={onCreateClick}
-      >
-        <Plus className="w-4 h-4 mr-2" />
-        Add Line Item
-      </Button>
-
       {/* Create Dropdown */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
