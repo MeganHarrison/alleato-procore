@@ -58,6 +58,7 @@ const projectManagementTools: Array<{ name: string; path: string; hasCreateActio
 const financialManagementTools: Array<{ name: string; path: string; hasCreateAction?: boolean; requiresProject?: boolean }> = [
   { name: "Prime Contracts", path: "contracts", requiresProject: true },
   { name: "Budget", path: "budget", requiresProject: true },
+  { name: "Budget V2", path: "budget-v2", requiresProject: true },
   { name: "Commitments", path: "commitments", requiresProject: true },
   { name: "Change Orders", path: "change-orders", requiresProject: true },
   { name: "Change Events", path: "change-events", hasCreateAction: true, requiresProject: true },
