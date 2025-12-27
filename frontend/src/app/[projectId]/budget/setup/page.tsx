@@ -87,6 +87,7 @@ export default function BudgetSetupPage() {
   ]);
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [pendingRowId, setPendingRowId] = useState<string | null>(null); // Track which row triggered modal
 
   // Budget Code creation state
   const [showCreateCodeModal, setShowCreateCodeModal] = useState(false);
@@ -259,7 +260,7 @@ export default function BudgetSetupPage() {
         throw new Error(error?.error || 'Failed to create budget code');
       }
 
-      await response.json();
+      const result = await response.json();
 
       // Refresh project cost codes to include the new one
       const supabase = createClient();
@@ -280,10 +281,19 @@ export default function BudgetSetupPage() {
       if (refreshedData) {
         const validCostCodes = (refreshedData as unknown as ProjectCostCode[])?.filter(cc => cc.cost_type_id) || [];
         setProjectCostCodes(validCostCodes);
+
+        // Auto-populate the pending row with the newly created budget code
+        if (pendingRowId && result.data?.id) {
+          const newCode = validCostCodes.find(cc => cc.id === result.data.id);
+          if (newCode) {
+            handleBudgetCodeSelect(pendingRowId, newCode);
+          }
+        }
       }
 
       setShowCreateCodeModal(false);
       setNewCodeData({ costCodeId: '', costType: 'R' });
+      setPendingRowId(null);
       toast.success('Budget code created successfully');
     } catch (error) {
       console.error('Error creating budget code:', error);
@@ -573,6 +583,7 @@ export default function BudgetSetupPage() {
                                 <CommandGroup>
                                   <CommandItem
                                     onSelect={() => {
+                                      setPendingRowId(row.id);
                                       setOpenPopoverId(null);
                                       setShowCreateCodeModal(true);
                                     }}
@@ -597,12 +608,30 @@ export default function BudgetSetupPage() {
                         />
                       </td>
                       <td className="px-4 py-3">
-                        <Input
-                          placeholder="EA"
+                        <Select
                           value={row.uom}
-                          onChange={(e) => handleFieldChange(row.id, 'uom', e.target.value)}
-                          className="w-20"
-                        />
+                          onValueChange={(value) => handleFieldChange(row.id, 'uom', value)}
+                        >
+                          <SelectTrigger className="w-28">
+                            <SelectValue placeholder="Select UOM" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="EA">EA - Each</SelectItem>
+                            <SelectItem value="SF">SF - Square Foot</SelectItem>
+                            <SelectItem value="LF">LF - Linear Foot</SelectItem>
+                            <SelectItem value="SY">SY - Square Yard</SelectItem>
+                            <SelectItem value="CY">CY - Cubic Yard</SelectItem>
+                            <SelectItem value="TON">TON - Ton</SelectItem>
+                            <SelectItem value="HR">HR - Hour</SelectItem>
+                            <SelectItem value="DAY">DAY - Day</SelectItem>
+                            <SelectItem value="LS">LS - Lump Sum</SelectItem>
+                            <SelectItem value="LB">LB - Pound</SelectItem>
+                            <SelectItem value="GAL">GAL - Gallon</SelectItem>
+                            <SelectItem value="CF">CF - Cubic Foot</SelectItem>
+                            <SelectItem value="BF">BF - Board Foot</SelectItem>
+                            <SelectItem value="MSF">MSF - Thousand Square Feet</SelectItem>
+                          </SelectContent>
+                        </Select>
                       </td>
                       <td className="px-4 py-3">
                         <Input
