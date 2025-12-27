@@ -58,8 +58,11 @@ export async function POST(
 
     if (error) {
       console.error('Error locking budget:', error);
+      console.error('Error details:', JSON.stringify(error, null, 2));
+      console.error('User ID:', user?.id);
+      console.error('Project ID:', projectId);
       return NextResponse.json(
-        { error: 'Failed to lock budget' },
+        { error: `Failed to lock budget: ${error.message || JSON.stringify(error)}` },
         { status: 500 }
       );
     }
