@@ -277,9 +277,36 @@ export function BudgetLineItemModal({
       const { budgetCode } = (await response.json()) as { budgetCode: BudgetCode };
 
       setBudgetCodes([...budgetCodes, budgetCode]);
+
+      // Autopopulate the newly created budget code in the first empty row or create a new row
+      const firstEmptyRow = rows.find((row) => !row.budgetCodeId);
+
+      if (firstEmptyRow) {
+        // Populate the first empty row with the new budget code
+        setRows(
+          rows.map((row) =>
+            row.id === firstEmptyRow.id
+              ? { ...row, budgetCodeId: budgetCode.id, budgetCodeLabel: budgetCode.fullLabel }
+              : row
+          )
+        );
+      } else {
+        // All rows are filled, add a new row with the budget code
+        const newRow: BudgetLineItemRow = {
+          id: Date.now().toString(),
+          budgetCodeId: budgetCode.id,
+          budgetCodeLabel: budgetCode.fullLabel,
+          qty: '',
+          uom: '',
+          unitCost: '',
+          amount: '0.00',
+        };
+        setRows([...rows, newRow]);
+      }
+
       setShowCreateCodeModal(false);
       setNewCodeData({ costCodeId: '', costType: 'R' });
-      toast.success('Budget code created successfully');
+      toast.success('Budget code created and added to form');
     } catch (error) {
       console.error('Error creating budget code:', error);
       toast.error(
@@ -515,17 +542,27 @@ export function BudgetLineItemModal({
                               onValueChange={(value) => handleRowChange(row.id, 'uom', value)}
                             >
                               <SelectTrigger className="h-9">
-                                <SelectValue placeholder="Select" />
+                                <SelectValue placeholder="Select UOM" />
                               </SelectTrigger>
                               <SelectContent>
-                                <SelectItem value="EA">EA</SelectItem>
-                                <SelectItem value="HR">HR</SelectItem>
-                                <SelectItem value="SF">SF</SelectItem>
-                                <SelectItem value="LF">LF</SelectItem>
-                                <SelectItem value="LS">LS</SelectItem>
-                                <SelectItem value="CY">CY</SelectItem>
-                                <SelectItem value="TON">TON</SelectItem>
-                                <SelectItem value="DAY">DAY</SelectItem>
+                                <SelectItem value="EA">EA - Each</SelectItem>
+                                <SelectItem value="HR">HR - Hour</SelectItem>
+                                <SelectItem value="DAY">DAY - Day</SelectItem>
+                                <SelectItem value="WK">WK - Week</SelectItem>
+                                <SelectItem value="MO">MO - Month</SelectItem>
+                                <SelectItem value="LS">LS - Lump Sum</SelectItem>
+                                <SelectItem value="LF">LF - Linear Foot</SelectItem>
+                                <SelectItem value="SF">SF - Square Foot</SelectItem>
+                                <SelectItem value="SY">SY - Square Yard</SelectItem>
+                                <SelectItem value="CF">CF - Cubic Foot</SelectItem>
+                                <SelectItem value="CY">CY - Cubic Yard</SelectItem>
+                                <SelectItem value="LB">LB - Pound</SelectItem>
+                                <SelectItem value="TON">TON - Ton</SelectItem>
+                                <SelectItem value="GAL">GAL - Gallon</SelectItem>
+                                <SelectItem value="KG">KG - Kilogram</SelectItem>
+                                <SelectItem value="M">M - Meter</SelectItem>
+                                <SelectItem value="M2">M² - Square Meter</SelectItem>
+                                <SelectItem value="M3">M³ - Cubic Meter</SelectItem>
                               </SelectContent>
                             </Select>
                           </td>
