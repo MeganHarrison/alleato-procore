@@ -63,6 +63,8 @@ interface BudgetLineItem {
   id: string;
   projectCostCodeId: string;
   costCodeLabel: string;
+  costTypeId: string;
+  description: string;
   qty: string;
   uom: string;
   unitCost: string;
@@ -80,13 +82,14 @@ export default function BudgetV2Page() {
   const [lineItems, setLineItems] = useState<BudgetLineItem[]>([]);
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const [costTypes, setCostTypes] = useState<Array<{ id: string; code: string; description: string }>>([]);
 
   // Budget Code creation state
   const [showCreateCodeModal, setShowCreateCodeModal] = useState(false);
   const [creatingBudgetCode, setCreatingBudgetCode] = useState(false);
   const [newCodeData, setNewCodeData] = useState({
     costCodeId: '',
-    costType: 'R',
+    costType: 'L',
   });
   const [availableCostCodes, setAvailableCostCodes] = useState<
     Array<{
@@ -137,7 +140,7 @@ export default function BudgetV2Page() {
         setLoadingData(true);
         const supabase = createClient();
 
-        // Fetch budget data and lock status in parallel
+        // Fetch budget data, cost types, and lock status in parallel
         await Promise.all([
           (async () => {
             const { data, error } = await supabase
@@ -172,12 +175,16 @@ export default function BudgetV2Page() {
             // Auto-populate line items from copied cost codes
             const initialLineItems: BudgetLineItem[] = validCostCodes.map((code) => {
               const costCodeTitle = code.cost_codes?.title || '';
+              const costTypeDesc = code.cost_code_types?.description || '';
               const label = `${code.cost_code_id} – ${costCodeTitle}`;
+              const description = `${costCodeTitle}.${costTypeDesc}`;
 
               return {
                 id: crypto.randomUUID(),
                 projectCostCodeId: code.id,
                 costCodeLabel: label,
+                costTypeId: code.cost_type_id || 'L',
+                description: description,
                 qty: '',
                 uom: '',
                 unitCost: '',
@@ -186,6 +193,15 @@ export default function BudgetV2Page() {
             });
 
             setLineItems(initialLineItems);
+          })(),
+          (async () => {
+            const { data, error } = await supabase
+              .from('cost_code_types')
+              .select('id, code, description')
+              .order('code', { ascending: true });
+
+            if (error) throw error;
+            setCostTypes(data || []);
           })(),
           fetchLockStatus(),
         ]);
@@ -322,7 +338,9 @@ export default function BudgetV2Page() {
         const newCode = validCostCodes.find(cc => cc.id === result.data?.id);
         if (newCode) {
           const costCodeTitle = newCode.cost_codes?.title || '';
+          const costTypeDesc = newCode.cost_code_types?.description || '';
           const label = `${newCode.cost_code_id} – ${costCodeTitle}`;
+          const description = `${costCodeTitle}.${costTypeDesc}`;
 
           setLineItems([
             ...lineItems,
@@ -330,6 +348,8 @@ export default function BudgetV2Page() {
               id: crypto.randomUUID(),
               projectCostCodeId: newCode.id,
               costCodeLabel: label,
+              costTypeId: newCode.cost_type_id || 'L',
+              description: description,
               qty: '',
               uom: '',
               unitCost: '',
@@ -340,7 +360,7 @@ export default function BudgetV2Page() {
       }
 
       setShowCreateCodeModal(false);
-      setNewCodeData({ costCodeId: '', costType: 'R' });
+      setNewCodeData({ costCodeId: '', costType: 'L' });
       toast.success('Budget code created successfully');
     } catch (error) {
       console.error('Error creating budget code:', error);
@@ -355,8 +375,10 @@ export default function BudgetV2Page() {
   const handleBudgetCodeSelect = (rowId: string, costCode: ProjectCostCode) => {
     console.warn('Selected cost code:', costCode);
     const costCodeTitle = costCode.cost_codes?.title || '';
+    const costTypeDesc = costCode.cost_code_types?.description || '';
     console.warn('Cost code title:', costCodeTitle);
     const label = `${costCode.cost_code_id} – ${costCodeTitle}`;
+    const description = `${costCodeTitle}.${costTypeDesc}`;
     console.warn('Generated label:', label);
 
     setLineItems(
@@ -366,6 +388,8 @@ export default function BudgetV2Page() {
               ...item,
               projectCostCodeId: costCode.id,
               costCodeLabel: label,
+              costTypeId: costCode.cost_type_id || 'L',
+              description: description,
             }
           : item
       )
@@ -385,6 +409,17 @@ export default function BudgetV2Page() {
           const qty = parseFloat(field === 'qty' ? value : item.qty) || 0;
           const unitCost = parseFloat(field === 'unitCost' ? value : item.unitCost) || 0;
           updated.amount = (qty * unitCost).toFixed(2);
+        }
+
+        // Auto-update description when cost type changes
+        if (field === 'costTypeId') {
+          const costCode = projectCostCodes.find(cc => cc.id === item.projectCostCodeId);
+          if (costCode) {
+            const costCodeTitle = costCode.cost_codes?.title || '';
+            const costType = projectCostCodes.find(cc => cc.cost_type_id === value);
+            const costTypeDesc = costType?.cost_code_types?.description || getCostTypeLabel(value);
+            updated.description = `${costCodeTitle}.${costTypeDesc}`;
+          }
         }
 
         return updated;
@@ -513,19 +548,25 @@ export default function BudgetV2Page() {
                 <table className="w-full">
                   <thead className="border-b bg-gray-50">
                     <tr>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Budget Code
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        Cost Type
+                      </th>
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                        Description
+                      </th>
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Qty
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         UOM
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Unit Cost
                       </th>
-                      <th className="px-4 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                         Amount
                       </th>
                     </tr>
@@ -533,20 +574,20 @@ export default function BudgetV2Page() {
                   <tbody className="divide-y divide-gray-200 bg-white">
                     {loadingData ? (
                       <tr>
-                        <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                        <td colSpan={7} className="px-3 py-6 text-center text-gray-500">
                           Loading project cost codes...
                         </td>
                       </tr>
                     ) : lineItems.length === 0 ? (
                       <tr>
-                        <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
+                        <td colSpan={7} className="px-3 py-6 text-center text-gray-500">
                           No budget codes found. Add budget codes to get started.
                         </td>
                       </tr>
                     ) : (
                       lineItems.map((row) => (
                         <tr key={row.id} className="hover:bg-gray-50">
-                          <td className="px-4 py-3">
+                          <td className="px-3 py-2">
                             <Popover
                               open={openPopoverId === row.id}
                               onOpenChange={(open) => setOpenPopoverId(open ? row.id : null)}
@@ -555,7 +596,7 @@ export default function BudgetV2Page() {
                                 <Button
                                   variant="outline"
                                   role="combobox"
-                                  className="w-full justify-start text-left font-normal"
+                                  className="w-full justify-start text-left font-normal h-8 text-sm"
                                   disabled={isLocked}
                                 >
                                   <span className={row.costCodeLabel ? 'text-gray-900' : 'text-gray-500'}>
@@ -607,42 +648,69 @@ export default function BudgetV2Page() {
                               </PopoverContent>
                             </Popover>
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-3 py-2">
+                            <Select
+                              value={row.costTypeId}
+                              onValueChange={(value) => handleFieldChange(row.id, 'costTypeId', value)}
+                              disabled={isLocked}
+                            >
+                              <SelectTrigger className="w-32 h-8 text-sm">
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {costTypes.map((type) => (
+                                  <SelectItem key={type.id} value={type.id}>
+                                    {type.code} - {type.description}
+                                  </SelectItem>
+                                ))}
+                              </SelectContent>
+                            </Select>
+                          </td>
+                          <td className="px-3 py-2">
+                            <Input
+                              placeholder="Description"
+                              value={row.description}
+                              onChange={(e) => handleFieldChange(row.id, 'description', e.target.value)}
+                              className="w-full h-8 text-sm"
+                              disabled={isLocked}
+                            />
+                          </td>
+                          <td className="px-3 py-2">
                             <Input
                               type="number"
                               placeholder="0"
                               value={row.qty}
                               onChange={(e) => handleFieldChange(row.id, 'qty', e.target.value)}
-                              className="w-24"
+                              className="w-20 h-8 text-sm"
                               disabled={isLocked}
                             />
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-3 py-2">
                             <Input
                               placeholder="EA"
                               value={row.uom}
                               onChange={(e) => handleFieldChange(row.id, 'uom', e.target.value)}
-                              className="w-20"
+                              className="w-16 h-8 text-sm"
                               disabled={isLocked}
                             />
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-3 py-2">
                             <Input
                               type="number"
                               placeholder="0.00"
                               value={row.unitCost}
                               onChange={(e) => handleFieldChange(row.id, 'unitCost', e.target.value)}
-                              className="w-32"
+                              className="w-28 h-8 text-sm"
                               disabled={isLocked}
                             />
                           </td>
-                          <td className="px-4 py-3">
+                          <td className="px-3 py-2">
                             <Input
                               type="number"
                               placeholder="0.00"
                               value={row.amount}
                               onChange={(e) => handleFieldChange(row.id, 'amount', e.target.value)}
-                              className="w-32"
+                              className="w-28 h-8 text-sm"
                               disabled={isLocked}
                             />
                           </td>
