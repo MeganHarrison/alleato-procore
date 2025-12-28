@@ -48,21 +48,30 @@ export function BudgetViewsManager({
   // Fetch views
   const fetchViews = React.useCallback(async () => {
     try {
+      console.log('[BudgetViewsManager] Fetching views for project:', projectId);
       const response = await fetch(`/api/projects/${projectId}/budget/views`);
-      if (!response.ok) throw new Error('Failed to fetch views');
+      console.log('[BudgetViewsManager] Response status:', response.status);
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        console.error('[BudgetViewsManager] API error:', errorData);
+        throw new Error('Failed to fetch views');
+      }
 
       const data = await response.json();
+      console.log('[BudgetViewsManager] Received views:', data.views?.length || 0, data.views);
       setViews(data.views || []);
 
       // If no current view is selected, select the default one
       if (!currentViewId && data.views.length > 0) {
         const defaultView = data.views.find((v: BudgetViewDefinition) => v.is_default);
         if (defaultView) {
+          console.log('[BudgetViewsManager] Setting default view:', defaultView.name);
           onViewChange(defaultView.id);
         }
       }
     } catch (error) {
-      console.error('Error fetching views:', error);
+      console.error('[BudgetViewsManager] Error fetching views:', error);
       toast.error('Failed to load budget views');
     } finally {
       setLoading(false);

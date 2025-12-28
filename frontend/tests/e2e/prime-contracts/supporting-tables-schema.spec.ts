@@ -48,10 +48,10 @@ test.describe('Supporting Tables Schema', () => {
 
     testUserId = authData.user.id;
 
-    // Get test project and company
+    // Get test project
     const { data: projects, error } = await supabaseAdmin
       .from('projects')
-      .select('id, company_id')
+      .select('id')
       .limit(1);
 
     if (error) throw error;
@@ -59,7 +59,18 @@ test.describe('Supporting Tables Schema', () => {
       throw new Error('No test project found');
     }
     testProjectId = projects[0].id;
-    testCompanyId = projects[0].company_id;
+
+    // Get test company
+    const { data: companies, error: companyError } = await supabaseAdmin
+      .from('companies')
+      .select('id')
+      .limit(1);
+
+    if (companyError) throw companyError;
+    if (!companies || companies.length === 0) {
+      throw new Error('No test company found');
+    }
+    testCompanyId = companies[0].id;
 
     // Ensure test user is a member of the project
     await supabaseAdmin

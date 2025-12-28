@@ -28,7 +28,7 @@ to do → in progress → testing → validated → complete
 4. Validation requires 3+ consecutive successful test runs
 5. Progress log must be updated at each status change
 
-## Phase 1: Foundation & Database (Weeks 1-2)
+## Phase 1: Foundation & Database
 
 ### 1.1 Database Schema - Prime Contracts Core ✅
 
@@ -79,16 +79,6 @@ to do → in progress → testing → validated → complete
 
 #### E2E Tests Required
 - ✅ `tests/e2e/prime-contracts/line-items-schema.spec.ts` ✅ **10/10 tests passing**
-  - ✅ Test: Create line items and verify total_cost calculation
-  - ✅ Test: Update and verify total_cost recalculates
-  - ✅ Test: Verify line_number uniqueness per contract
-  - ✅ Test: Allow same line_number in different contracts
-  - ✅ Test: Verify cascade delete when contract deleted
-  - ✅ Test: Verify RLS policies block unauthorized access
-  - ✅ Test: Verify check constraints on quantity and unit_cost
-  - ✅ Test: Verify updated_at trigger works
-  - ✅ Test: Handle zero quantity and unit_cost correctly
-  - ✅ Test: Handle decimal precision correctly
 
 #### Acceptance Criteria
 - ✅ Migration runs without errors
@@ -109,42 +99,8 @@ to do → in progress → testing → validated → complete
 - ✅ Add indexes and RLS policies
 - ✅ Generate TypeScript types
 
-#### Schema Definition
-```sql
-CREATE TABLE contract_change_orders (
-  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  contract_id UUID NOT NULL REFERENCES prime_contracts(id) ON DELETE CASCADE,
-  change_order_number TEXT NOT NULL,
-  description TEXT NOT NULL,
-  amount DECIMAL(15,2) NOT NULL,
-  status TEXT NOT NULL DEFAULT 'pending',
-  requested_by UUID REFERENCES auth.users(id),
-  requested_date DATE NOT NULL DEFAULT CURRENT_DATE,
-  approved_by UUID REFERENCES auth.users(id),
-  approved_date DATE,
-  rejection_reason TEXT,
-  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-  UNIQUE(contract_id, change_order_number)
-);
-
-CREATE INDEX idx_change_orders_contract ON contract_change_orders(contract_id);
-CREATE INDEX idx_change_orders_status ON contract_change_orders(status);
-```
-
 #### E2E Tests Required
 - ✅ `tests/e2e/prime-contracts/change-orders-schema.spec.ts` ✅ **11/11 tests passing**
-  - ✅ Test: Create change order with pending status
-  - ✅ Test: Update status from pending to approved
-  - ✅ Test: Update status from pending to rejected with reason
-  - ✅ Test: Verify unique constraint on change_order_number per contract
-  - ✅ Test: Allow same change_order_number in different contracts
-  - ✅ Test: Verify cascade delete when contract deleted
-  - ✅ Test: Verify RLS policies block unauthorized access
-  - ✅ Test: Verify status check constraint
-  - ✅ Test: Verify updated_at trigger works
-  - ✅ Test: Handle negative amounts for deductions
-  - ✅ Test: Use default requested_date when not provided
 
 #### Acceptance Criteria
 - ✅ Migration runs without errors
@@ -169,27 +125,6 @@ CREATE INDEX idx_change_orders_status ON contract_change_orders(status);
 #### E2E Tests Required
 
 - ✅ `tests/e2e/prime-contracts/billing-payments-schema.spec.ts` (21 tests)
-  - ✅ Test: Create billing period and verify auto-calculated fields
-  - Test: Recalculate auto-calculated fields when values updated
-  - ✅ Test: Verify unique constraint on period_number per contract
-  - ✅ Test: Verify date range constraint
-  - ✅ Test: Verify billing_date constraint
-  - ✅ Test: Create payment and verify all fields
-  - ✅ Test: Update payment status from pending to approved
-  - ✅ Test: Update payment status from approved to paid
-  - ✅ Test: Verify unique constraint on payment_number per contract
-  - ✅ Test: Link payment to billing period
-  - ✅ Test: Handle billing period delete with SET NULL on payment
-  - ✅ Test: Verify cascade delete when contract deleted
-  - ✅ Test: Verify RLS policies block unauthorized access
-  - ✅ Test: Verify billing period status check constraint
-  - ✅ Test: Verify payment status check constraint
-  - ✅ Test: Verify updated_at trigger works for billing periods
-  - ✅ Test: Verify updated_at trigger works for payments
-  - ✅ Test: Support different payment types
-  - ✅ Test: Verify retention percentage constraint (0-100)
-  - ✅ Test: Verify payment amount constraint (> 0)
-  - ✅ Test: Additional validation edge cases
 
 #### Acceptance Criteria
 - ✅ Migration runs without errors
@@ -198,29 +133,26 @@ CREATE INDEX idx_change_orders_status ON contract_change_orders(status);
 - ✅ No TypeScript or ESLint errors
 
 
-### 1.5 Database Schema - Supporting Tables
+### 1.5 Database Schema - Supporting Tables ✅
 
 | Status | Priority | Dependencies | Completed |
 |--------|----------|--------------|-----------|
-| **to do** | P1 - High | Task 1.1 | |
+| **complete** | P1 - High | Task 1.1 | 2025-12-28 |
 
 #### Tasks
-- [ ] Create `vendors` table (if not exists)
-- [ ] Create `contract_documents` table
-- [ ] Create `contract_snapshots` table
-- [ ] Create `contract_views` table
-- [ ] Generate TypeScript types
+- [x] Create `vendors` table (if not exists)
+- [x] Create `contract_documents` table
+- [x] Create `contract_snapshots` table
+- [x] Create `contract_views` table
+- [x] Generate TypeScript types
 
 #### E2E Tests Required
-- [ ] `tests/e2e/prime-contracts/supporting-tables.spec.ts`
-  - Test: Create vendor and link to contract
-  - Test: Upload document and link to contract
-  - Test: Create contract snapshot
-  - Test: Create custom contract view
+
+- [x] `tests/e2e/prime-contracts/supporting-tables-schema.spec.ts` (15 tests)
 
 #### Acceptance Criteria
 - ✅ All tables created successfully
-- ✅ All E2E tests pass
+- ✅ All E2E tests pass (15/15)
 - ✅ No TypeScript or ESLint errors
 
 
@@ -320,7 +252,7 @@ CREATE INDEX idx_change_orders_status ON contract_change_orders(status);
 - ✅ No TypeScript or ESLint errors
 
 
-## Phase 2: Core UI Components (Weeks 3-4)
+## Phase 2: Core UI Components
 
 ### 2.1 Contracts Table Component
 
@@ -586,7 +518,7 @@ CREATE INDEX idx_change_orders_status ON contract_change_orders(status);
 - ✅ No TypeScript or ESLint errors
 
 
-## Phase 3: Advanced Features (Weeks 5-6)
+## Phase 3: Advanced Features
 
 ### 3.1 Change Order Management
 
@@ -794,7 +726,7 @@ retention_released = sum(payments.retention_released)
 - ✅ No TypeScript or ESLint errors
 
 
-## Phase 4: Integration & Polish (Weeks 7-8)
+## Phase 4: Integration & Polish
 
 ### 4.1 Budget Integration
 
@@ -985,8 +917,7 @@ retention_released = sum(payments.retention_released)
 - ✅ User experience smooth
 - ✅ No TypeScript or ESLint errors
 
-
-## Phase 5: Testing & Deployment (Week 8+)
+## Phase 5: Testing & Deployment
 
 ### 5.1 Comprehensive E2E Test Suite
 
@@ -1017,7 +948,6 @@ retention_released = sum(payments.retention_released)
 - ✅ CI/CD pipeline green
 - ✅ No flaky tests
 
-
 ### 5.2 Documentation
 
 | Status | Priority | Dependencies | Completed |
@@ -1044,7 +974,6 @@ retention_released = sum(payments.retention_released)
 - ✅ Screenshots included
 - ✅ Examples provided
 - ✅ No outdated information
-
 
 ### 5.3 Production Deployment
 
@@ -1297,19 +1226,60 @@ retention_released = sum(payments.retention_released)
 - **Status:** `to do` → `in progress` → `testing` → `validated` → ✅ **`complete`**
 - **Next Task:** Task 1.5 - Supporting Tables Schema or continue with more tasks
 
+### 2025-12-28 - Task 1.5 Validation Complete ✅
+
+- **Migration Status:** Successfully deployed to database
+
+- **E2E Test Results:**
+  - ✅ Run 1: 15/15 tests passed (12.3s)
+  - ✅ Run 2: 15/15 tests passed (10.9s)
+  - ✅ Run 3: 15/15 tests passed (11.4s)
+
+- **Test Coverage:**
+  - ✅ Create vendor and verify all fields
+  - ✅ Link vendor to contract using FK constraint (vendor_id → vendors.id)
+  - ✅ Verify unique constraint on vendor name per company
+  - ✅ Create document and verify all fields
+  - ✅ Support all 8 document types (contract/amendment/insurance/bond/lien_waiver/change_order/invoice/other)
+  - ✅ Handle document versioning with is_current_version flag
+  - ✅ Create snapshot with JSONB data
+  - ✅ Create custom contract view with JSONB filters/columns/sort
+  - ✅ Verify unique constraint on view name per user
+  - ✅ Verify cascade delete when contract deleted
+  - ✅ Verify RLS policies block unauthorized access
+  - ✅ Verify vendor SET NULL on delete (contract keeps vendor_id NULL)
+  - ✅ Verify updated_at trigger for vendors
+  - ✅ Verify updated_at trigger for documents
+  - ✅ Verify updated_at trigger for views
+
+- **Quality Gates:**
+  - ✅ TypeScript: 0 errors
+  - ✅ ESLint: 0 errors (warnings acceptable)
+  - ✅ Migration: Deployed successfully
+  - ✅ FK constraint added: prime_contracts.vendor_id → vendors.id (SET NULL)
+  - ✅ JSONB support: snapshot_data, filters, columns, sort_order working correctly
+  - ✅ Tests: 3 consecutive passing runs
+
+- **Files Created:**
+  - [supabase/migrations/20251228_supporting_tables.sql](../../../supabase/migrations/20251228_supporting_tables.sql) - Database migration (4 tables)
+  - [frontend/src/types/supporting-tables.ts](../../../frontend/src/types/supporting-tables.ts) - TypeScript types
+  - [frontend/tests/e2e/prime-contracts/supporting-tables-schema.spec.ts](../../../frontend/tests/e2e/prime-contracts/supporting-tables-schema.spec.ts) - E2E tests (15 tests)
+- **Status:** `to do` → `in progress` → `testing` → `validated` → ✅ **`complete`**
+- **Next Task:** Task 1.6 - API Routes: Contract CRUD
+
 
 ## Test Coverage Summary
 
-**Current Status:** Phase 1 Started - Tasks 1.1, 1.2, 1.3, 1.4 Complete ✅✅✅✅
+**Current Status:** Phase 1 Started - Tasks 1.1, 1.2, 1.3, 1.4, 1.5 Complete ✅✅✅✅✅
 
 | Phase | Tasks | Tests Written | Tests Passing | Coverage |
 |-------|-------|---------------|---------------|----------|
-| Phase 1 | 4/8 | 4/8 | 4/8 | 50.0% complete ✅ |
+| Phase 1 | 5/8 | 5/8 | 5/8 | 62.5% complete ✅ |
 | Phase 2 | 0/7 | 0/7 | 0/7 | 0% |
 | Phase 3 | 0/6 | 0/6 | 0/6 | 0% |
 | Phase 4 | 0/6 | 0/6 | 0/6 | 0% |
 | Phase 5 | 0/3 | 0/3 | 0/3 | 0% |
-| **Total** | **4/48** | **4/48** | **4/48** | **8.3% complete** |
+| **Total** | **5/48** | **5/48** | **5/48** | **10.4% complete** |
 
 
 ## Status Legend
