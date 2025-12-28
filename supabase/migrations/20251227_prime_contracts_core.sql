@@ -8,10 +8,10 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- Create prime_contracts table
 CREATE TABLE IF NOT EXISTS prime_contracts (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  project_id UUID NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
+  project_id BIGINT NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
   contract_number TEXT NOT NULL,
   title TEXT NOT NULL,
-  vendor_id UUID REFERENCES vendors(id),
+  vendor_id UUID, -- No FK constraint yet - vendors table will be created in Task 1.3
   description TEXT,
   status TEXT NOT NULL DEFAULT 'draft' CHECK (status IN ('draft', 'active', 'completed', 'cancelled', 'on_hold')),
   original_contract_value DECIMAL(15,2) NOT NULL DEFAULT 0 CHECK (original_contract_value >= 0),
@@ -65,7 +65,7 @@ CREATE POLICY "Users can view contracts in their projects"
     )
   );
 
--- RLS Policy: Users with editor role can create contracts
+-- RLS Policy: Users with editor access can create contracts
 CREATE POLICY "Editors can create contracts"
   ON prime_contracts
   FOR INSERT
@@ -74,11 +74,11 @@ CREATE POLICY "Editors can create contracts"
       SELECT 1 FROM project_members
       WHERE project_members.project_id = prime_contracts.project_id
       AND project_members.user_id = auth.uid()
-      AND project_members.role IN ('editor', 'admin', 'owner')
+      AND project_members.access IN ('editor', 'admin', 'owner')
     )
   );
 
--- RLS Policy: Users with editor role can update contracts
+-- RLS Policy: Users with editor access can update contracts
 CREATE POLICY "Editors can update contracts"
   ON prime_contracts
   FOR UPDATE
@@ -87,7 +87,7 @@ CREATE POLICY "Editors can update contracts"
       SELECT 1 FROM project_members
       WHERE project_members.project_id = prime_contracts.project_id
       AND project_members.user_id = auth.uid()
-      AND project_members.role IN ('editor', 'admin', 'owner')
+      AND project_members.access IN ('editor', 'admin', 'owner')
     )
   )
   WITH CHECK (
@@ -95,7 +95,7 @@ CREATE POLICY "Editors can update contracts"
       SELECT 1 FROM project_members
       WHERE project_members.project_id = prime_contracts.project_id
       AND project_members.user_id = auth.uid()
-      AND project_members.role IN ('editor', 'admin', 'owner')
+      AND project_members.access IN ('editor', 'admin', 'owner')
     )
   );
 
@@ -108,7 +108,7 @@ CREATE POLICY "Admins can delete contracts"
       SELECT 1 FROM project_members
       WHERE project_members.project_id = prime_contracts.project_id
       AND project_members.user_id = auth.uid()
-      AND project_members.role IN ('admin', 'owner')
+      AND project_members.access IN ('admin', 'owner')
     )
   );
 
@@ -118,3 +118,4 @@ COMMENT ON COLUMN prime_contracts.status IS 'Contract status: draft, active, com
 COMMENT ON COLUMN prime_contracts.original_contract_value IS 'Original contract value before any change orders';
 COMMENT ON COLUMN prime_contracts.revised_contract_value IS 'Current contract value including approved change orders';
 COMMENT ON COLUMN prime_contracts.retention_percentage IS 'Percentage of each payment withheld as retention (0-100)';
+COMMENT ON COLUMN prime_contracts.vendor_id IS 'Reference to vendor/company - FK constraint will be added in Task 1.3 after vendors table is created';

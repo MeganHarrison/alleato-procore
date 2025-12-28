@@ -13,7 +13,7 @@
             --content-bg: #ffffff;
             --border-color: #e5e7eb;
             --text-primary: #111827;
-            --text-secondary: #6b7280;
+            --text-secondary: #5a5a5a;
             --text-muted: #9ca3af;
             --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
             --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
@@ -66,11 +66,12 @@
         }
 
         .sidebar h2 {
-            font-size: 12px;
+            font-size: 10px;
             font-weight: 600;
             text-transform: uppercase;
             letter-spacing: 0.05em;
-            margin-bottom: 16px;
+            margin-top: 16px;
+            margin-bottom: 12px;
             color: var(--text-muted);
             padding: 0 12px;
         }
@@ -80,35 +81,59 @@
         }
 
         .sidebar li {
-            margin-bottom: 2px;
+            margin-bottom: 0px;
         }
 
         .sidebar a {
-            color: var(--text-primary);
+            color: var(--text-secondary);
             text-decoration: none;
             display: block;
             padding: 8px 12px;
             border-radius: 3px;
             transition: all 0.15s ease;
             font-size: 14px;
-            font-weight: 500;
         }
 
         .sidebar a:hover {
             background: #ffffff;
-            color: var(--primary-color);
             transform: translateX(2px);
         }
 
         .sidebar a.active {
-            background: var(--primary-color);
-            color: #ffffff;
-            box-shadow: var(--shadow-sm);
+            text-decoration: underline;
         }
 
         .sidebar a.active:hover {
-            background: var(--primary-hover);
             transform: translateX(0);
+        }
+
+        /* Category Headers in Sidebar */
+        .sidebar h3 {
+            font-size: 12px !important;
+            font-weight: 600;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            margin-top: 30px;
+            margin-bottom: 0px;
+            padding: 0 12px;
+        }
+
+        .sidebar h3:first-of-type {
+            margin-top: 0;
+        }
+
+        /* Highlight important documentation files */
+        .sidebar a.doc-important {
+            background: linear-gradient(to right, #fff8f0, #ffffff);
+            border-left: 3px solid var(--primary-color);
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .sidebar a.doc-important:hover {
+            background: linear-gradient(to right, #fff0e0, #ffffff);
+            border-left-color: var(--primary-hover);
         }
 
         /* Content Area */
@@ -137,7 +162,7 @@
         }
 
         .markdown-body {
-            max-width: 1100px;
+            max-width: 95%;
             margin: 0 auto;
         }
 
@@ -158,6 +183,10 @@
             margin-bottom: 16px;
             color: var(--text-primary);
             letter-spacing: -0.01em;
+        }
+
+        .markdown-body h3, .markdown-body h4 {
+            margin-top: 20px;
         }
 
         .markdown-body p {
@@ -335,26 +364,11 @@
             color: var(--text-muted);
         }
 
-        /* Category Headers in Sidebar */
-        .sidebar h3 {
-            font-size: 11px;
-            font-weight: 600;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.08em;
-            margin-top: 24px;
-            margin-bottom: 8px;
-            padding: 0 12px;
-        }
-
-        .sidebar h3:first-of-type {
-            margin-top: 0;
-        }
     </style>
 </head>
 <body>
     <div class="sidebar">
-        <h2>Crawl Reports</h2>
+        <h2>Navigation</h2>
         <ul id="file-list">
             <li>Loading files...</li>
         </ul>
@@ -394,12 +408,32 @@
                 const response = await fetch('/api/files');
                 const files = await response.json();
 
-                // Group files by category
+                // Define important documentation keywords (case insensitive)
+                const importantKeywords = ['implementation', 'tasks', 'plan', 'roadmap', 'readme', 'crawl-summary'];
+
+                // Function to check if a file is important
+                const isImportantDoc = (fileName) => {
+                    const lowerName = fileName.toLowerCase();
+                    return importantKeywords.some(keyword => lowerName.includes(keyword));
+                };
+
+                // Group files by category and sort important docs first
                 const grouped = files.reduce((acc, file) => {
                     if (!acc[file.category]) acc[file.category] = [];
                     acc[file.category].push(file);
                     return acc;
                 }, {});
+
+                // Sort files within each category (important docs first)
+                Object.keys(grouped).forEach(category => {
+                    grouped[category].sort((a, b) => {
+                        const aImportant = isImportantDoc(a.name);
+                        const bImportant = isImportantDoc(b.name);
+                        if (aImportant && !bImportant) return -1;
+                        if (!aImportant && bImportant) return 1;
+                        return a.name.localeCompare(b.name);
+                    });
+                });
 
                 // Build the sidebar
                 fileListEl.innerHTML = '';
@@ -407,7 +441,7 @@
                 Object.entries(grouped).forEach(([category, categoryFiles]) => {
                     if (categoryFiles.length > 0) {
                         const categoryHeader = document.createElement('li');
-                        categoryHeader.innerHTML = `<h3 style="font-size: 14px; color: #666; margin-top: 15px; margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.5px;">${category}</h3>`;
+                        categoryHeader.innerHTML = `<h3 style="margin-top: 20px; margin-bottom: 0px;">${category}</h3>`;
                         fileListEl.appendChild(categoryHeader);
 
                         categoryFiles.forEach(file => {
@@ -423,11 +457,18 @@
                             a.textContent = displayName;
                             a.dataset.file = file.path;
 
+                            // Apply special styling to important docs
+                            if (isImportantDoc(file.name)) {
+                                a.classList.add('doc-important');
+                            }
+
                             a.addEventListener('click', (e) => {
                                 e.preventDefault();
 
                                 // Update active state
-                                document.querySelectorAll('#file-list a').forEach(l => l.classList.remove('active'));
+                                document.querySelectorAll('#file-list a').forEach(l => {
+                                    l.classList.remove('active');
+                                });
                                 a.classList.add('active');
 
                                 // Load and render markdown

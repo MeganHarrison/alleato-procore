@@ -12,6 +12,16 @@ export async function GET(
     const supabase = await createClient();
     const { id: projectId } = await context.params;
 
+    // Debug: Check authentication
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    console.log('[Budget Views API] GET Request:', {
+      projectId,
+      userId: user?.id,
+      userEmail: user?.email,
+      authError: authError?.message,
+      hasAuth: !!user
+    });
+
     // Fetch views with their columns
     const { data: views, error: viewsError } = await supabase
       .from('budget_views')
@@ -23,18 +33,25 @@ export async function GET(
       .order('created_at', { ascending: true });
 
     if (viewsError) {
-      console.error('Error fetching budget views:', viewsError);
+      console.error('[Budget Views API] Error fetching budget views:', viewsError);
       return NextResponse.json(
         { error: 'Failed to fetch budget views', details: viewsError.message },
         { status: 500 }
       );
     }
 
+    console.log('[Budget Views API] Query result:', {
+      viewsCount: views?.length || 0,
+      viewNames: views?.map(v => v.name) || []
+    });
+
     // Sort columns by display_order
     const viewsWithSortedColumns = views?.map(view => ({
       ...view,
       columns: view.columns?.sort((a, b) => a.display_order - b.display_order) || [],
     }));
+
+    console.log('[Budget Views API] Returning views:', viewsWithSortedColumns?.length || 0);
 
     return NextResponse.json({ views: viewsWithSortedColumns });
   } catch (error) {
@@ -69,9 +86,18 @@ export async function POST(
 
     // Get current user
     const { data: { user }, error: userError } = await supabase.auth.getUser();
+    console.log('[Budget Views API] POST Authentication:', {
+      projectId,
+      userId: user?.id,
+      userEmail: user?.email,
+      hasUser: !!user,
+      authError: userError?.message
+    });
+
     if (userError || !user) {
+      console.error('[Budget Views API] POST Unauthorized:', { userError, hasUser: !!user });
       return NextResponse.json(
-        { error: 'Unauthorized' },
+        { error: 'Unauthorized', details: userError?.message },
         { status: 401 }
       );
     }

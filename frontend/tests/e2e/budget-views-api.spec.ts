@@ -10,7 +10,7 @@ test.describe('Budget Views API - Phase 2a', () => {
 
   test.beforeAll(async ({ browser }) => {
     // Load authentication
-    const authFile = path.join(__dirname, '../playwright/.auth/user.json');
+    const authFile = path.join(__dirname, '../.auth/user.json');
     const authData = JSON.parse(require('fs').readFileSync(authFile, 'utf-8'));
     authCookies = authData.cookies
       .map((cookie: { name: string; value: string }) => `${cookie.name}=${cookie.value}`)

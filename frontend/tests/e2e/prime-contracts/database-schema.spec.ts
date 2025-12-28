@@ -15,39 +15,66 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
+const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 test.describe('Prime Contracts Database Schema', () => {
   let supabase: ReturnType<typeof createClient>;
-  let testProjectId: string;
+  let supabaseAdmin: ReturnType<typeof createClient>;
+  let testProjectId: number;
   let testUserId: string;
 
   test.beforeAll(async () => {
-    // Initialize Supabase client
+    // Initialize Supabase clients
     supabase = createClient(supabaseUrl, supabaseAnonKey);
-  });
+    supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
 
-  test.beforeEach(async ({ page }) => {
-    // Login and get test project
-    await page.goto('/login');
-    await page.fill('input[type="email"]', process.env.TEST_USER_EMAIL || 'test@example.com');
-    await page.fill('input[type="password"]', process.env.TEST_USER_PASSWORD || 'testpassword');
-    await page.click('button[type="submit"]');
-    await page.waitForURL('**/projects');
+    // Sign in test user using dev credentials
+    const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+      email: 'test@example.com',
+      password: 'testpassword123',
+    });
 
-    // Get authenticated user
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) throw new Error('No authenticated user');
-    testUserId = user.id;
+    if (authError) {
+      throw new Error(`Failed to authenticate: ${authError.message}`);
+    }
 
-    // Get or create test project
-    const { data: projects, error } = await supabase
+    if (!authData.user) {
+      throw new Error('No user returned from authentication');
+    }
+
+    testUserId = authData.user.id;
+
+    // Get test project - use admin client to ensure we can access it
+    const { data: projects, error } = await supabaseAdmin
       .from('projects')
       .select('id')
       .limit(1);
 
     if (error) throw error;
-    if (!projects || projects.length === 0) throw new Error('No test project found');
+    if (!projects || projects.length === 0) {
+      throw new Error('No test project found');
+    }
     testProjectId = projects[0].id;
+
+    // Ensure test user is a member of the project with editor access
+    const { error: memberError } = await supabaseAdmin
+      .from('project_members')
+      .upsert({
+        project_id: testProjectId,
+        user_id: testUserId,
+        access: 'editor',
+      }, {
+        onConflict: 'project_id,user_id',
+      });
+
+    if (memberError) {
+      console.warn('Could not ensure project membership:', memberError);
+    }
+  });
+
+  test.afterAll(async () => {
+    // Clean up - sign out
+    await supabase.auth.signOut();
   });
 
   test('should create contract and verify all fields persist correctly', async () => {
@@ -91,13 +118,13 @@ test.describe('Prime Contracts Database Schema', () => {
 
     // Cleanup
     if (contract?.id) {
-      await supabase.from('prime_contracts').delete().eq('id', contract.id);
+      await supabaseAdmin.from('prime_contracts').delete().eq('id', contract.id);
     }
   });
 
-  test('should verify RLS policies block unauthorized access', async ({ page }) => {
-    // Create a contract
-    const { data: contract } = await supabase
+  test('should verify RLS policies block unauthorized access', async () => {
+    // Create a contract using admin client
+    const { data: contract } = await supabaseAdmin
       .from('prime_contracts')
       .insert({
         project_id: testProjectId,
@@ -112,27 +139,21 @@ test.describe('Prime Contracts Database Schema', () => {
 
     expect(contract).toBeTruthy();
 
-    // Logout current user
-    await supabase.auth.signOut();
+    // Create unauthenticated client
+    const unauthClient = createClient(supabaseUrl, supabaseAnonKey);
 
     // Try to access contract without authentication
-    const { data: unauthorized, error: rlsError } = await supabase
+    const { data: unauthorized } = await unauthClient
       .from('prime_contracts')
       .select()
       .eq('id', contract!.id);
 
-    // Should return empty array or error due to RLS
+    // Should return empty array due to RLS
     expect(unauthorized?.length || 0).toBe(0);
 
-    // Cleanup - need to re-authenticate
-    await page.goto('/login');
-    await page.fill('input[type="email"]', process.env.TEST_USER_EMAIL || 'test@example.com');
-    await page.fill('input[type="password"]', process.env.TEST_USER_PASSWORD || 'testpassword');
-    await page.click('button[type="submit"]');
-    await page.waitForURL('**/projects');
-
+    // Cleanup
     if (contract?.id) {
-      await supabase.from('prime_contracts').delete().eq('id', contract.id);
+      await supabaseAdmin.from('prime_contracts').delete().eq('id', contract.id);
     }
   });
 
@@ -160,7 +181,7 @@ test.describe('Prime Contracts Database Schema', () => {
       .from('prime_contracts')
       .insert({
         project_id: testProjectId,
-        contract_number: contractNumber, // Same number
+        contract_number: contractNumber,
         title: 'Duplicate Contract',
         original_contract_value: 20000.00,
         revised_contract_value: 20000.00,
@@ -171,21 +192,21 @@ test.describe('Prime Contracts Database Schema', () => {
 
     // Should fail due to unique constraint
     expect(duplicateError).toBeTruthy();
-    expect(duplicateError?.code).toBe('23505'); // Unique violation
+    expect(duplicateError?.code).toBe('23505');
     expect(contract2).toBeNull();
 
     // Cleanup
     if (contract1?.id) {
-      await supabase.from('prime_contracts').delete().eq('id', contract1.id);
+      await supabaseAdmin.from('prime_contracts').delete().eq('id', contract1.id);
     }
   });
 
   test('should verify foreign key constraints', async () => {
     // Try to create contract with invalid project_id
-    const { data: invalidContract, error: fkError } = await supabase
+    const { data: invalidContract, error: fkError } = await supabaseAdmin
       .from('prime_contracts')
       .insert({
-        project_id: '00000000-0000-0000-0000-000000000000', // Invalid UUID
+        project_id: 999999999,
         contract_number: `PC-FK-TEST-${Date.now()}`,
         title: 'Invalid FK Contract',
         original_contract_value: 10000.00,
@@ -197,7 +218,7 @@ test.describe('Prime Contracts Database Schema', () => {
 
     // Should fail due to foreign key constraint
     expect(fkError).toBeTruthy();
-    expect(fkError?.code).toBe('23503'); // Foreign key violation
+    expect(fkError?.code).toBe('23503');
     expect(invalidContract).toBeNull();
   });
 
@@ -220,7 +241,7 @@ test.describe('Prime Contracts Database Schema', () => {
 
     expect(insertedContracts?.length).toBe(10);
 
-    // Test index on project_id (should be fast)
+    // Test index on project_id
     const startTime1 = Date.now();
     const { data: byProject } = await supabase
       .from('prime_contracts')
@@ -229,9 +250,9 @@ test.describe('Prime Contracts Database Schema', () => {
     const queryTime1 = Date.now() - startTime1;
 
     expect(byProject).toBeTruthy();
-    expect(queryTime1).toBeLessThan(1000); // Should be fast with index
+    expect(queryTime1).toBeLessThan(1000);
 
-    // Test index on status (should be fast)
+    // Test index on status
     const startTime2 = Date.now();
     const { data: byStatus } = await supabase
       .from('prime_contracts')
@@ -241,9 +262,9 @@ test.describe('Prime Contracts Database Schema', () => {
     const queryTime2 = Date.now() - startTime2;
 
     expect(byStatus).toBeTruthy();
-    expect(queryTime2).toBeLessThan(1000); // Should be fast with index
+    expect(queryTime2).toBeLessThan(1000);
 
-    // Test index on contract_number (should be fast)
+    // Test index on contract_number
     const startTime3 = Date.now();
     const { data: byNumber } = await supabase
       .from('prime_contracts')
@@ -252,12 +273,12 @@ test.describe('Prime Contracts Database Schema', () => {
     const queryTime3 = Date.now() - startTime3;
 
     expect(byNumber).toBeTruthy();
-    expect(queryTime3).toBeLessThan(1000); // Should be fast with index
+    expect(queryTime3).toBeLessThan(1000);
 
     // Cleanup
     if (insertedContracts) {
       const ids = insertedContracts.map(c => c.id);
-      await supabase.from('prime_contracts').delete().in('id', ids);
+      await supabaseAdmin.from('prime_contracts').delete().in('id', ids);
     }
   });
 
@@ -296,13 +317,13 @@ test.describe('Prime Contracts Database Schema', () => {
 
     // Cleanup
     if (contract?.id) {
-      await supabase.from('prime_contracts').delete().eq('id', contract.id);
+      await supabaseAdmin.from('prime_contracts').delete().eq('id', contract.id);
     }
   });
 
   test('should verify status check constraint', async () => {
     // Try to create contract with invalid status
-    const { data: invalidStatus, error: statusError } = await supabase
+    const { data: invalidStatus, error: statusError } = await supabaseAdmin
       .from('prime_contracts')
       .insert({
         project_id: testProjectId,
@@ -310,7 +331,7 @@ test.describe('Prime Contracts Database Schema', () => {
         title: 'Invalid Status Contract',
         original_contract_value: 10000.00,
         revised_contract_value: 10000.00,
-        status: 'invalid_status' as any
+        status: 'invalid_status' as unknown
       })
       .select()
       .single();
@@ -322,13 +343,13 @@ test.describe('Prime Contracts Database Schema', () => {
 
   test('should verify value check constraints', async () => {
     // Try to create contract with negative value
-    const { data: negativeValue, error: valueError } = await supabase
+    const { data: negativeValue, error: valueError } = await supabaseAdmin
       .from('prime_contracts')
       .insert({
         project_id: testProjectId,
         contract_number: `PC-VALUE-${Date.now()}`,
         title: 'Negative Value Contract',
-        original_contract_value: -10000.00, // Negative value
+        original_contract_value: -10000.00,
         revised_contract_value: 10000.00,
         status: 'draft'
       })
@@ -342,7 +363,7 @@ test.describe('Prime Contracts Database Schema', () => {
 
   test('should verify date range check constraint', async () => {
     // Try to create contract with end_date before start_date
-    const { data: invalidDates, error: dateError } = await supabase
+    const { data: invalidDates, error: dateError } = await supabaseAdmin
       .from('prime_contracts')
       .insert({
         project_id: testProjectId,
@@ -352,7 +373,7 @@ test.describe('Prime Contracts Database Schema', () => {
         revised_contract_value: 10000.00,
         status: 'draft',
         start_date: '2025-12-31',
-        end_date: '2025-01-01' // Before start_date
+        end_date: '2025-01-01'
       })
       .select()
       .single();

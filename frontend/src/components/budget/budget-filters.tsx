@@ -11,7 +11,6 @@ import {
   DropdownMenuSeparator,
 } from '@/components/ui/dropdown-menu';
 import { BudgetView, BudgetSnapshot, BudgetGroup } from '@/types/budget';
-import { Badge } from '@/components/ui/badge';
 
 export type QuickFilterType = 'over-budget' | 'under-budget' | 'no-activity' | 'all';
 
@@ -202,7 +201,7 @@ export function BudgetFilters({
       </div>
 
       {/* Right side - Actions */}
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 ml-4">
         <Button
           variant="outline"
           className="h-9"

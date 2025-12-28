@@ -7,7 +7,7 @@ const BASE_URL = `http://localhost:3000/${TEST_PROJECT_ID}/budget`;
 test.describe('Budget Views UI - Phase 2b', () => {
   test.beforeEach(async ({ page }) => {
     // Load authentication
-    const authFile = path.join(__dirname, '../playwright/.auth/user.json');
+    const authFile = path.join(__dirname, '../.auth/user.json');
     const authData = JSON.parse(require('fs').readFileSync(authFile, 'utf-8'));
 
     // Set cookies
@@ -20,8 +20,8 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
   test.describe('BudgetViewsManager Component', () => {
     test('should display Budget Views dropdown button', async ({ page }) => {
-      // Find the Budget Views button (Settings icon + text)
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      // Find the Budget Views button (Settings icon + text) - use .last() to get the BudgetViewsManager instance
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await expect(viewsButton).toBeVisible();
 
       // Should have Settings icon
@@ -30,8 +30,8 @@ test.describe('Budget Views UI - Phase 2b', () => {
     });
 
     test('should open dropdown and show available views', async ({ page }) => {
-      // Click the Budget Views button
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      // Click the Budget Views button - use .last() to get the BudgetViewsManager instance
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await viewsButton.click();
 
       // Should show dropdown menu
@@ -50,7 +50,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
     test('should show star indicator for default view', async ({ page }) => {
       // Click the Budget Views button
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await viewsButton.click();
 
       // Find the default view (Procore Standard)
@@ -63,7 +63,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
     test('should switch between views', async ({ page }) => {
       // First, create a test view via API for this test
-      const authFile = path.join(__dirname, '../playwright/.auth/user.json');
+      const authFile = path.join(__dirname, '../.auth/user.json');
       const authData = JSON.parse(require('fs').readFileSync(authFile, 'utf-8'));
       const authCookies = authData.cookies
         .map((cookie: { name: string; value: string }) => `${cookie.name}=${cookie.value}`)
@@ -90,7 +90,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
       await page.waitForLoadState('networkidle');
 
       // Click the Budget Views button
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await viewsButton.click();
 
       // Click on the test view
@@ -108,7 +108,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
     test('should show action buttons for user views only', async ({ page }) => {
       // Open dropdown
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await viewsButton.click();
 
       // Procore Standard (system view) should NOT have edit/delete buttons
@@ -119,7 +119,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
     test('should open "Create New View" modal', async ({ page }) => {
       // Open dropdown
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await viewsButton.click();
 
       // Click "Create New View"
@@ -145,7 +145,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
     test('should allow setting a view as default', async ({ page }) => {
       // Create a test view
-      const authFile = path.join(__dirname, '../playwright/.auth/user.json');
+      const authFile = path.join(__dirname, '../.auth/user.json');
       const authData = JSON.parse(require('fs').readFileSync(authFile, 'utf-8'));
       const authCookies = authData.cookies
         .map((cookie: { name: string; value: string }) => `${cookie.name}=${cookie.value}`)
@@ -164,7 +164,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
       await page.reload();
       await page.waitForLoadState('networkidle');
 
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await viewsButton.click();
       await page.locator('[role="menuitem"]').filter({ hasText: 'Test Default View' }).click();
 
@@ -185,7 +185,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
   test.describe('BudgetViewsModal Component', () => {
     test('should create a new budget view with columns', async ({ page }) => {
       // Open create modal
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await viewsButton.click();
       await page.locator('[role="menuitem"]').filter({ hasText: 'Create New View' }).click();
 
@@ -220,7 +220,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
       await expect(page.locator('[role="menuitem"]').filter({ hasText: 'Playwright Test View' })).toBeVisible();
 
       // Cleanup: Delete the created view
-      const authFile = path.join(__dirname, '../playwright/.auth/user.json');
+      const authFile = path.join(__dirname, '../.auth/user.json');
       const authData = JSON.parse(require('fs').readFileSync(authFile, 'utf-8'));
       const authCookies = authData.cookies
         .map((cookie: { name: string; value: string }) => `${cookie.name}=${cookie.value}`)
@@ -243,7 +243,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
     test('should edit an existing budget view', async ({ page }) => {
       // First create a view to edit
-      const authFile = path.join(__dirname, '../playwright/.auth/user.json');
+      const authFile = path.join(__dirname, '../.auth/user.json');
       const authData = JSON.parse(require('fs').readFileSync(authFile, 'utf-8'));
       const authCookies = authData.cookies
         .map((cookie: { name: string; value: string }) => `${cookie.name}=${cookie.value}`)
@@ -266,7 +266,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
       await page.waitForLoadState('networkidle');
 
       // Open dropdown and click edit button
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await viewsButton.click();
 
       // Find the view row and click edit button (pencil icon)
@@ -302,7 +302,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
     test('should clone a budget view', async ({ page }) => {
       // Open dropdown
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await viewsButton.click();
 
       // Find Procore Standard and click clone button (copy icon)
@@ -318,7 +318,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
       await expect(page.locator('[role="menuitem"]').filter({ hasText: 'Procore Standard (Copy)' })).toBeVisible();
 
       // Cleanup
-      const authFile = path.join(__dirname, '../playwright/.auth/user.json');
+      const authFile = path.join(__dirname, '../.auth/user.json');
       const authData = JSON.parse(require('fs').readFileSync(authFile, 'utf-8'));
       const authCookies = authData.cookies
         .map((cookie: { name: string; value: string }) => `${cookie.name}=${cookie.value}`)
@@ -341,7 +341,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
     test('should delete a user view with confirmation', async ({ page }) => {
       // Create a view to delete
-      const authFile = path.join(__dirname, '../playwright/.auth/user.json');
+      const authFile = path.join(__dirname, '../.auth/user.json');
       const authData = JSON.parse(require('fs').readFileSync(authFile, 'utf-8'));
       const authCookies = authData.cookies
         .map((cookie: { name: string; value: string }) => `${cookie.name}=${cookie.value}`)
@@ -361,7 +361,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
       await page.waitForLoadState('networkidle');
 
       // Open dropdown
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await viewsButton.click();
 
       // Click delete button (trash icon)
@@ -389,7 +389,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
     test('should prevent editing system views', async ({ page }) => {
       // Open dropdown
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await viewsButton.click();
 
       // System views should not have edit/delete buttons visible
@@ -405,7 +405,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
     test('should reorder columns in modal', async ({ page }) => {
       // Open create modal
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await viewsButton.click();
       await page.locator('[role="menuitem"]').filter({ hasText: 'Create New View' }).click();
 
@@ -438,7 +438,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
   test.describe('Integration with Budget Page', () => {
     test('should persist selected view across page reloads', async ({ page }) => {
       // Create a test view
-      const authFile = path.join(__dirname, '../playwright/.auth/user.json');
+      const authFile = path.join(__dirname, '../.auth/user.json');
       const authData = JSON.parse(require('fs').readFileSync(authFile, 'utf-8'));
       const authCookies = authData.cookies
         .map((cookie: { name: string; value: string }) => `${cookie.name}=${cookie.value}`)
@@ -458,7 +458,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
       await page.waitForLoadState('networkidle');
 
       // Select the view
-      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ });
+      const viewsButton = page.locator('button').filter({ hasText: /Procore Standard|Select View/ }).last();
       await viewsButton.click();
       await page.locator('[role="menuitem"]').filter({ hasText: 'Persistent View Test' }).click();
 

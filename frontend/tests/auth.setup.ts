@@ -1,6 +1,7 @@
 import { test as setup } from '@playwright/test';
+import path from 'path';
 
-const authFile = 'playwright/.auth/user.json';
+const authFile = path.join(__dirname, '.auth/user.json');
 
 setup('authenticate', async ({ page }) => {
   // Use dev-login for testing

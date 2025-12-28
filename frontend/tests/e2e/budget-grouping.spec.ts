@@ -7,7 +7,7 @@ const BASE_URL = `http://localhost:3000/${TEST_PROJECT_ID}/budget`;
 test.describe('Budget Hierarchical Grouping - Phase 2c', () => {
   test.beforeEach(async ({ page }) => {
     // Load authentication
-    const authFile = path.join(__dirname, '../playwright/.auth/user.json');
+    const authFile = path.join(__dirname, '../.auth/user.json');
     const authData = JSON.parse(require('fs').readFileSync(authFile, 'utf-8'));
 
     // Set cookies

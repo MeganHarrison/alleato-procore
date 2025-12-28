@@ -1,789 +1,1614 @@
 {
-  "url": "https://es.support.procore.com/continuing-education/tutorials",
+  "url": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/",
   "pageName": "tutorials",
-  "category": "documentation",
+  "category": "tutorial",
   "pageId": "tutorials",
-  "timestamp": "2025-12-27T19:28:01.756Z",
+  "timestamp": "2025-12-28T19:24:30.107Z",
   "analysis": {
     "components": {
-      "buttons": 19,
-      "forms": 2,
-      "inputs": 15,
+      "buttons": 11,
+      "forms": 1,
+      "inputs": 2,
       "tables": 0,
-      "modals": 1,
-      "navigation": 5,
+      "modals": 0,
+      "navigation": 4,
       "cards": 0,
       "lists": 17,
       "tabs": 0,
-      "dropdowns": 1,
-      "icons": 4,
+      "dropdowns": 2,
+      "icons": 36,
       "headings": {
         "h1": 1,
-        "h2": 2,
+        "h2": 1,
         "h3": 2,
-        "h4": 4
+        "h4": 8
       },
       "codeBlocks": 0,
-      "images": 5,
+      "images": 0,
       "videos": 0
     },
     "articleContent": {
-      "title": "Educación continua de Procore - Tutoriales",
+      "title": "Prime Contracts",
       "headings": [
         {
-          "level": "h2",
-          "text": "Artículos recomendados",
+          "level": "h4",
+          "text": "Resources",
+          "id": null
+        },
+        {
+          "level": "h4",
+          "text": "United States",
           "id": null
         },
         {
           "level": "h2",
-          "text": "Cookie Preferences",
-          "id": "ot-pc-title"
+          "text": "Tutorials",
+          "id": "page-title"
+        },
+        {
+          "level": "h4",
+          "text": "Prime Contracts",
+          "id": null
+        },
+        {
+          "level": "h4",
+          "text": "Integrations",
+          "id": null
+        },
+        {
+          "level": "h4",
+          "text": "Change Orders",
+          "id": null
+        },
+        {
+          "level": "h4",
+          "text": "Owner Invoices",
+          "id": null
+        },
+        {
+          "level": "h4",
+          "text": "Prime Contracts (Beta)",
+          "id": null
+        },
+        {
+          "level": "h4",
+          "text": "Uncategorized",
+          "id": null
         },
         {
           "level": "h3",
-          "text": "Manage Consent Preferences",
-          "id": "ot-category-title"
+          "text": "About Procore",
+          "id": null
         },
         {
           "level": "h3",
-          "text": "Cookie List",
+          "text": "Downloads",
           "id": null
         }
       ],
-      "paragraphs": 8,
-      "sections": 6
+      "paragraphs": 9,
+      "sections": 3
     },
     "tables": [],
     "breadcrumbs": [
       {
-        "text": "Saltar al contenido principal",
-        "href": "https://es.support.procore.com/continuing-education/tutorials#elm-main-content"
+        "text": "Support Home",
+        "href": "https://v2.support.procore.com/"
       },
       {
-        "text": "Soporte",
-        "href": "https://es.support.procore.com/"
+        "text": "Prime Contracts",
+        "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/"
       },
       {
-        "text": "procore.com",
-        "href": "https://www.procore.com/es?journey=supporttoprocore"
-      },
-      {
-        "text": "América Latina (Español)",
-        "href": "https://es.support.procore.com/continuing-education/tutorials#"
-      },
-      {
-        "text": "América Latina (Español)",
-        "href": "https://es.support.procore.com/"
-      },
-      {
-        "text": "Australia (English)",
-        "href": "https://en-au.support.procore.com/"
-      },
-      {
-        "text": "Brasil (Português)",
-        "href": "https://pt-br.support.procore.com/"
-      },
-      {
-        "text": "Canada (English)",
-        "href": "https://en-ca.support.procore.com/"
-      },
-      {
-        "text": "Canada (Français)",
-        "href": "https://fr-ca.support.procore.com/"
-      },
-      {
-        "text": "Deutschland (Deutsch)",
-        "href": "https://de.support.procore.com/"
-      },
-      {
-        "text": "España (Español)",
-        "href": "https://es-es.support.procore.com/"
-      },
-      {
-        "text": "France (Français)",
-        "href": "https://fr.support.procore.com/"
-      },
-      {
-        "text": "United Kingdom (English)",
-        "href": "https://en-gb.support.procore.com/"
-      },
-      {
-        "text": "United States (English)",
-        "href": "https://support.procore.com/"
-      },
-      {
-        "text": "新加坡（简体中文）",
-        "href": "https://zh-sg.support.procore.com/"
-      },
-      {
-        "text": "日本（日本語）",
-        "href": "https://ja-jp.support.procore.com/"
-      },
-      {
-        "text": "Contáctenos",
-        "href": "https://es.support.procore.com/references/contact-support"
-      },
-      {
-        "text": "Iniciar sesión en la Aplicación de Procore",
-        "href": "https://login.procore.com/?locale=es&journey=supporttologin"
-      },
-      {
-        "text": "",
-        "href": "https://es.support.procore.com/"
-      },
-      {
-        "text": "Training Center Help",
-        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
-      },
-      {
-        "text": "Buscar en el sitio",
-        "href": "https://es.support.procore.com/continuing-education/tutorials#"
-      },
-      {
-        "text": "Ir al artículo anterior",
-        "href": "https://es.support.procore.com/continuing-education/tutorials#"
-      },
-      {
-        "text": "Inicio de sesión",
-        "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=continuing-education%2Ftutorials"
-      },
-      {
-        "text": "Inicio",
-        "href": "https://es.support.procore.com/"
-      },
-      {
-        "text": "Educación Continua",
-        "href": "https://es.support.procore.com/continuing-education"
-      },
-      {
-        "text": "Guardar como PDF",
-        "href": "https://es.support.procore.com/@api/deki/pages/3076/pdf/Educaci%25C3%25B3n%2bcontinua%2bde%2bProcore%2b-%2bTutoriales.pdf"
-      },
-      {
-        "text": "Cambie su dirección de correo electrónico en la certificación Procore",
-        "href": "https://es.support.procore.com/certification/tutorials/change-your-email-address-in-procore-certification"
-      },
-      {
-        "text": "Cambie su nombre en la certificación Procore",
-        "href": "https://es.support.procore.com/certification/tutorials/change-your-name-in-procore-certification"
-      },
-      {
-        "text": "Descargue su certificado de Procore Certified",
-        "href": "https://es.support.procore.com/certification/tutorials/download-your-procore-certified-certificate"
-      },
-      {
-        "text": "Inicie sesión en La Educación Continua de Procore",
-        "href": "https://es.support.procore.com/certification/tutorials/log-into-procore-certification"
-      },
-      {
-        "text": "Volver arriba",
-        "href": "https://es.support.procore.com/continuing-education/tutorials#title"
-      },
-      {
-        "text": "¿Cómo reporto el crédito de Educación Continua?",
-        "href": "https://es.support.procore.com/continuing-education/faq/how-do-i-report-continuing-education-credit"
-      },
-      {
-        "text": "Éxito del cliente",
-        "href": "https://es.support.procore.com/customer-success"
-      },
-      {
-        "text": "¿Cómo reporto el crédito de Educación Continua?",
-        "href": "https://es.support.procore.com/continuing-education/faq/how-do-i-report-continuing-education-credit"
-      },
-      {
-        "text": "¿Qué sesiones innovadoras de 2021 calificaron para Evento de cliente crédito?",
-        "href": "https://es.support.procore.com/faq/which-groundbreak-2021-sessions-qualified-for-ce-credit"
-      },
-      {
-        "text": "Educación continua de Procore - Cursos",
-        "href": "https://es.support.procore.com/continuing-education/courses"
-      },
-      {
-        "text": "Certificación Procore",
-        "href": "https://es.support.procore.com/certification"
-      },
-      {
-        "text": "Guide",
-        "href": "https://es.support.procore.com/Special:Search?tags=article%3Atopic-guide"
-      },
-      {
-        "text": "English-US",
-        "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us"
-      },
-      {
-        "text": "Publish Ready",
-        "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublish-ready"
-      },
-      {
-        "text": "continuing education",
-        "href": "https://es.support.procore.com/Special:Search?tags=continuing+education"
-      },
-      {
-        "text": "do-not-migrate",
-        "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate"
-      },
-      {
-        "text": "skilljar",
-        "href": "https://es.support.procore.com/Special:Search?tags=skilljar"
-      },
-      {
-        "text": "Powered by CXone Expert\n   ®",
-        "href": "https://mindtouch.com/demo"
-      },
-      {
-        "text": "",
-        "href": "https://www.linkedin.com/company/procore-technologies"
-      },
-      {
-        "text": "",
-        "href": "https://www.facebook.com/procore.tech"
-      },
-      {
-        "text": "",
-        "href": "https://www.twitter.com/procoretech"
-      },
-      {
-        "text": "",
-        "href": "https://www.instagram.com/procoretech"
-      },
-      {
-        "text": "",
-        "href": "https://www.youtube.com/user/ProcoreVideo"
-      },
-      {
-        "text": "Aviso de privacidad",
-        "href": "https://www.procore.com/es/legal/privacy"
-      },
-      {
-        "text": "Términos de uso",
-        "href": "https://www.procore.com/es/legal/terms-of-service"
-      },
-      {
-        "text": "procore.com",
-        "href": "https://www.procore.com/es"
-      },
-      {
-        "text": "Iniciar sesión",
-        "href": "https://app.procore.com/mindtouch/auth"
-      },
-      {
-        "text": "More information",
-        "href": "https://www.procore.com/legal/cookie-notice"
-      },
-      {
-        "text": "",
-        "href": "https://www.onetrust.com/products/cookie-consent/"
+        "text": "Tutorials",
+        "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/"
       }
     ],
-    "title": "Educación continua de Procore - Tutoriales - Procore",
-    "h1": "Educación continua de Procore - Tutoriales",
-    "metaDescription": "Esta p&aacute;gina incluye una lista de tutoriales para varias tareas relacionadas con la educaci&oacute;n continua de Procore."
+    "title": "Tutorials",
+    "h1": "Prime Contracts",
+    "metaDescription": "This page includes a list of tutorials for various tasks that can be performed in the project's Prime Contracts tool."
   },
-  "links": 36,
+  "links": 142,
   "linkDetails": [
     {
-      "href": "https://es.support.procore.com/",
-      "text": "Soporte",
+      "href": "https://v2.support.procore.com/",
+      "text": "",
       "classes": "",
-      "id": null,
-      "index": 1,
+      "id": "icon",
+      "index": 0,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
-      "href": "https://es.support.procore.com/",
-      "text": "América Latina (Español)",
-      "classes": "internal",
+      "href": "https://v2.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": "mobile-icon",
+      "index": 1,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/",
+      "text": "Product Manuals",
+      "classes": "",
       "id": null,
-      "index": 4,
+      "index": 2,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/",
+      "text": "Process Guides",
+      "classes": "",
+      "id": null,
+      "index": 3,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/video-library/",
+      "text": "Training Video Library   Search our library of training videos",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 5,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/",
+      "text": "Permissions Matrix",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 6,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/glossary-of-terms/",
+      "text": "Glossary of Terms",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 7,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/release-notes/",
+      "text": "Release Notes",
+      "classes": "",
+      "id": null,
+      "index": 12,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/",
+      "text": "Product Manuals",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 13,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/",
+      "text": "Process Guides",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 14,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://learn.procore.com/",
+      "text": "Certifications",
+      "classes": "",
+      "id": null,
+      "index": 15,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/video-library/",
+      "text": "Training Video Library",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/",
+      "text": "Permissions Matrix",
+      "classes": "",
+      "id": null,
+      "index": 17,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/glossary-of-terms/",
+      "text": "Glossary of Terms",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://status.procore.com/",
+      "text": "System Status",
+      "classes": "",
+      "id": null,
+      "index": 19,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://community.procore.com/s/",
+      "text": "Community",
+      "classes": "",
+      "id": null,
+      "index": 20,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://www.procore.com/whats-new/en/",
+      "text": "Product Updates",
+      "classes": "",
+      "id": null,
+      "index": 21,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://developers.procore.com%20/",
+      "text": "Developers",
+      "classes": "",
+      "id": null,
+      "index": 22,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/release-notes/",
+      "text": "Release Notes",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 23,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
       "href": "https://en-au.support.procore.com/",
       "text": "Australia (English)",
-      "classes": "link-https",
+      "classes": "astro-zw5levfn",
       "id": null,
-      "index": 5,
+      "index": 24,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
       "href": "https://pt-br.support.procore.com/",
       "text": "Brasil (Português)",
-      "classes": "link-https",
+      "classes": "astro-zw5levfn",
       "id": null,
-      "index": 6,
+      "index": 25,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
       "href": "https://en-ca.support.procore.com/",
       "text": "Canada (English)",
-      "classes": "link-https",
+      "classes": "astro-zw5levfn",
       "id": null,
-      "index": 7,
+      "index": 26,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
       "href": "https://fr-ca.support.procore.com/",
       "text": "Canada (Français)",
-      "classes": "link-https",
+      "classes": "astro-zw5levfn",
       "id": null,
-      "index": 8,
+      "index": 27,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
       "href": "https://de.support.procore.com/",
       "text": "Deutschland (Deutsch)",
-      "classes": "link-https",
+      "classes": "astro-zw5levfn",
       "id": null,
-      "index": 9,
+      "index": 28,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
       "href": "https://es-es.support.procore.com/",
       "text": "España (Español)",
-      "classes": "link-https",
+      "classes": "astro-zw5levfn",
       "id": null,
-      "index": 10,
+      "index": 29,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
       "href": "https://fr.support.procore.com/",
       "text": "France (Français)",
-      "classes": "link-https",
+      "classes": "astro-zw5levfn",
       "id": null,
-      "index": 11,
+      "index": 30,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Latinoamérica (Español)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 31,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://pl-pl.support.procore.com/",
+      "text": "Polska (Polski)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 32,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
       "href": "https://en-gb.support.procore.com/",
       "text": "United Kingdom (English)",
-      "classes": "link-https",
+      "classes": "astro-zw5levfn",
       "id": null,
-      "index": 12,
-      "category": "general"
-    },
-    {
-      "href": "https://support.procore.com/",
-      "text": "United States (English)",
-      "classes": "link-https",
-      "id": null,
-      "index": 13,
+      "index": 33,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
       "href": "https://zh-sg.support.procore.com/",
-      "text": "新加坡（简体中文）",
-      "classes": "link-https",
+      "text": "新加坡 (中文)",
+      "classes": "astro-zw5levfn",
       "id": null,
-      "index": 14,
+      "index": 35,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
       "href": "https://ja-jp.support.procore.com/",
-      "text": "日本（日本語）",
-      "classes": "link-https",
-      "id": null,
-      "index": 15,
-      "category": "general"
-    },
-    {
-      "href": "https://es.support.procore.com/references/contact-support",
-      "text": "Contáctenos",
-      "classes": "",
-      "id": null,
-      "index": 16,
-      "category": "reference"
-    },
-    {
-      "href": "https://es.support.procore.com/",
-      "text": "",
-      "classes": "",
-      "id": null,
-      "index": 18,
-      "category": "general"
-    },
-    {
-      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
-      "text": "Training Center Help",
-      "classes": "mt-icon-editor-training-link",
-      "id": null,
-      "index": 19,
-      "category": "general"
-    },
-    {
-      "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=continuing-education%2Ftutorials",
-      "text": "Inicio de sesión",
-      "classes": "mt-icon-quick-sign-in ",
-      "id": null,
-      "index": 22,
-      "category": "general"
-    },
-    {
-      "href": "https://es.support.procore.com/",
-      "text": "Inicio",
-      "classes": "",
-      "id": null,
-      "index": 23,
-      "category": "general"
-    },
-    {
-      "href": "https://es.support.procore.com/continuing-education",
-      "text": "Educación Continua",
-      "classes": "",
-      "id": null,
-      "index": 24,
-      "category": "general"
-    },
-    {
-      "href": "https://es.support.procore.com/@api/deki/pages/3076/pdf/Educaci%25C3%25B3n%2bcontinua%2bde%2bProcore%2b-%2bTutoriales.pdf",
-      "text": "Guardar como PDF",
-      "classes": "",
-      "id": null,
-      "index": 25,
-      "category": "general"
-    },
-    {
-      "href": "https://es.support.procore.com/certification/tutorials/change-your-email-address-in-procore-certification",
-      "text": "Cambie su dirección de correo electrónico en la certificación Procore",
-      "classes": "",
-      "id": null,
-      "index": 26,
-      "category": "general"
-    },
-    {
-      "href": "https://es.support.procore.com/certification/tutorials/change-your-name-in-procore-certification",
-      "text": "Cambie su nombre en la certificación Procore",
-      "classes": "",
-      "id": null,
-      "index": 27,
-      "category": "general"
-    },
-    {
-      "href": "https://es.support.procore.com/certification/tutorials/download-your-procore-certified-certificate",
-      "text": "Descargue su certificado de Procore Certified",
-      "classes": "",
-      "id": null,
-      "index": 28,
-      "category": "general"
-    },
-    {
-      "href": "https://es.support.procore.com/certification/tutorials/log-into-procore-certification",
-      "text": "Inicie sesión en La Educación Continua de Procore",
-      "classes": "",
-      "id": null,
-      "index": 29,
-      "category": "general"
-    },
-    {
-      "href": "https://es.support.procore.com/continuing-education/faq/how-do-i-report-continuing-education-credit",
-      "text": "¿Cómo reporto el crédito de Educación Continua?",
-      "classes": "mt-icon-previous-article",
-      "id": null,
-      "index": 31,
-      "category": "faq"
-    },
-    {
-      "href": "https://es.support.procore.com/customer-success",
-      "text": "Éxito del cliente",
-      "classes": "mt-icon-next-article",
-      "id": null,
-      "index": 32,
-      "category": "general"
-    },
-    {
-      "href": "https://es.support.procore.com/continuing-education/faq/how-do-i-report-continuing-education-credit",
-      "text": "¿Cómo reporto el crédito de Educación Continua?",
-      "classes": "mt-related-listing-link",
-      "id": null,
-      "index": 33,
-      "category": "faq"
-    },
-    {
-      "href": "https://es.support.procore.com/faq/which-groundbreak-2021-sessions-qualified-for-ce-credit",
-      "text": "¿Qué sesiones innovadoras de 2021 calificaron para Evento de cliente crédito?",
-      "classes": "mt-related-listing-link",
-      "id": null,
-      "index": 34,
-      "category": "faq"
-    },
-    {
-      "href": "https://es.support.procore.com/continuing-education/courses",
-      "text": "Educación continua de Procore - Cursos",
-      "classes": "mt-related-listing-link",
-      "id": null,
-      "index": 35,
-      "category": "general"
-    },
-    {
-      "href": "https://es.support.procore.com/certification",
-      "text": "Certificación Procore",
-      "classes": "mt-related-listing-link",
+      "text": "日本 (日本語)",
+      "classes": "astro-zw5levfn",
       "id": null,
       "index": 36,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
-      "href": "https://es.support.procore.com/Special:Search?tags=article%3Atopic-guide",
-      "text": "Guide",
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
       "classes": "",
       "id": null,
       "index": 37,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
-      "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us",
-      "text": "English-US",
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
       "classes": "",
       "id": null,
       "index": 38,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
-      "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublish-ready",
-      "text": "Publish Ready",
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
       "classes": "",
       "id": null,
       "index": 39,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
-      "href": "https://es.support.procore.com/Special:Search?tags=continuing+education",
-      "text": "continuing education",
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
       "classes": "",
       "id": null,
       "index": 40,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
-      "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate",
-      "text": "do-not-migrate",
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
       "classes": "",
       "id": null,
       "index": 41,
+      "isPrimeContracts": false,
       "category": "general"
     },
     {
-      "href": "https://es.support.procore.com/Special:Search?tags=skilljar",
-      "text": "skilljar",
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
       "classes": "",
       "id": null,
       "index": 42,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "",
+      "id": null,
+      "index": 43,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Latinoamérica (Español)",
+      "classes": "",
+      "id": null,
+      "index": 44,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://pl-pl.support.procore.com/",
+      "text": "Polska (Polski)",
+      "classes": "",
+      "id": null,
+      "index": 45,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "",
+      "id": null,
+      "index": 46,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡 (中文)",
+      "classes": "",
+      "id": null,
+      "index": 48,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本 (日本語)",
+      "classes": "",
+      "id": null,
+      "index": 49,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/",
+      "text": "Support Home",
+      "classes": "",
+      "id": null,
+      "index": 50,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/",
+      "text": "Prime Contracts",
+      "classes": "",
+      "id": null,
+      "index": 51,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials",
+      "text": "Web",
+      "classes": "current-page",
+      "id": null,
+      "index": 53,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-ios/tutorials",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 54,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-android/tutorials",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 55,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
+      "text": "Overview",
+      "classes": "",
+      "id": null,
+      "index": 56,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials",
+      "text": "Tutorials",
+      "classes": "",
+      "id": null,
+      "index": 57,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/faq-or-troubleshooting",
+      "text": "FAQ/Troubleshooting",
+      "classes": "",
+      "id": null,
+      "index": 58,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/permissions",
+      "text": "Permissions",
+      "classes": "",
+      "id": null,
+      "index": 59,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project",
+      "text": "Overview",
+      "classes": "",
+      "id": null,
+      "index": 60,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials",
+      "text": "Tutorials",
+      "classes": "",
+      "id": null,
+      "index": 61,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/faq-or-troubleshooting",
+      "text": "FAQ/Troubleshooting",
+      "classes": "",
+      "id": null,
+      "index": 62,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/permissions",
+      "text": "Permissions",
+      "classes": "",
+      "id": null,
+      "index": 63,
+      "isPrimeContracts": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/about-the-prime-contracts-tool/",
+      "text": "About the Prime Contracts Tool",
+      "classes": "",
+      "id": null,
+      "index": 64,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/add-filters-to-the-change-orders-tab-on-a-prime-contract/",
+      "text": "Add Filters to the Change Orders Tab on a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 65,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/approve-a-prime-contract/",
+      "text": "Approve a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 66,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/configure-the-number-of-prime-contract-change-order-tiers/",
+      "text": "Configure the Number of Prime Contract Change Order Tiers",
+      "classes": "",
+      "id": null,
+      "index": 67,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/create-a-payment-received-for-a-prime-contract/",
+      "text": "Create a Payment Received for a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 68,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/create-prime-contracts/",
+      "text": "Create Prime Contracts",
+      "classes": "",
+      "id": null,
+      "index": 69,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/delete-a-prime-contract/",
+      "text": "Delete a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 70,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/email-a-prime-contract/",
+      "text": "Email a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 71,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/export-a-list-of-prime-contracts/",
+      "text": "Export a List of Prime Contracts",
+      "classes": "",
+      "id": null,
+      "index": 72,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/export-a-prime-contract/",
+      "text": "Export a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 73,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/manage-rows-and-columns-in-the-prime-contracts-tool/",
+      "text": "Manage Rows & Columns in the Prime Contracts Tool",
+      "classes": "",
+      "id": null,
+      "index": 74,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/search-for-and-apply-filters-to-the-prime-contracts-tool/",
+      "text": "Search for and Apply Filters to the Prime Contracts Tool",
+      "classes": "",
+      "id": null,
+      "index": 75,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/update-the-schedule-of-values-on-a-prime-contract/",
+      "text": "Update the Schedule of Values on a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 76,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/view-prime-contracts/",
+      "text": "View Prime Contracts",
+      "classes": "",
+      "id": null,
+      "index": 77,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/view-the-change-history-of-a-prime-contract/",
+      "text": "View the Change History of a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 78,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/complete-a-potential-change-order-for-a-prime-contract-with-docusign/",
+      "text": "Complete a Potential Change Order for a Prime Contract with DocuSign®",
+      "classes": "",
+      "id": null,
+      "index": 79,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/complete-a-prime-contract-change-order-with-docusign/",
+      "text": "Complete a Prime Contract Change Order with DocuSign®",
+      "classes": "",
+      "id": null,
+      "index": 80,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/complete-a-prime-contract-with-docusign/",
+      "text": "Complete a Prime Contract with DocuSign®",
+      "classes": "",
+      "id": null,
+      "index": 81,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/complete-owner-invoices-with-docusign/",
+      "text": "Complete Owner Invoices with DocuSign®",
+      "classes": "",
+      "id": null,
+      "index": 82,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/add-a-related-item-to-a-prime-contract-change-order/",
+      "text": "Add a Related Item to a Prime Contract Change Order",
+      "classes": "",
+      "id": null,
+      "index": 83,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/add-filters-to-the-change-orders-tab-on-a-prime-contract/",
+      "text": "Add Filters to the Change Orders Tab on a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 84,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/add-financial-markup-to-prime-contract-change-orders/",
+      "text": "Add Financial Markup to Prime Contract Change Orders",
+      "classes": "",
+      "id": null,
+      "index": 85,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-orders-project/tutorials/approve-or-reject-prime-contract-change-orders/",
+      "text": "Approve or Reject Prime Contract Change Orders",
+      "classes": "",
+      "id": null,
+      "index": 86,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/configure-the-number-of-prime-contract-change-order-tiers/",
+      "text": "Configure the Number of Prime Contract Change Order Tiers",
+      "classes": "",
+      "id": null,
+      "index": 87,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/record-changes-to-production-quantities-on-a-potential-change-order-for-a-prime-contract/",
+      "text": "Record Changes to Production Quantities on a Potential Change Order for a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 88,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/create-owner-invoices/",
+      "text": "Create Owner Invoices",
+      "classes": "",
+      "id": null,
+      "index": 89,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/delete-an-owner-invoice/",
+      "text": "Delete Owner Invoices",
+      "classes": "",
+      "id": null,
+      "index": 90,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/edit-owner-invoices/",
+      "text": "Edit Owner Invoices",
+      "classes": "",
+      "id": null,
+      "index": 91,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/email-owner-invoices/",
+      "text": "Email Owner Invoices",
+      "classes": "",
+      "id": null,
+      "index": 92,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/export-owner-invoices/",
+      "text": "Export Owner Invoices",
+      "classes": "",
+      "id": null,
+      "index": 93,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/view-a-summary-preview-of-an-owner-invoice/",
+      "text": "View a Summary Preview of an Owner Invoice",
+      "classes": "",
+      "id": null,
+      "index": 94,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/view-a-prime-contracts-change-orders/",
+      "text": "View a Prime Contract's Change Orders (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 95,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/beta-view-prime-contracts/",
+      "text": "View Prime Contracts (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 96,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/about-owner-invoices/",
+      "text": "About Owner Invoices (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 97,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/beta-add-financial-markup-to-prime-contract-change-orders/",
+      "text": "Add Financial Markup to Prime Contract Change Orders (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 98,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/approve-owner-invoices/",
+      "text": "Approve Owner Invoices (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 99,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/approve-prime-contracts/",
+      "text": "Approve Prime Contracts (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 100,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/configure-a-prime-contracts-advanced-settings/",
+      "text": "Configure a Prime Contract's Advanced Settings (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 101,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/create-prime-contract-change-orders/",
+      "text": "Create Prime Contract Change Orders (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 102,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/beta-create-prime-contracts/",
+      "text": "Create Prime Contracts (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 103,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/delete-prime-contracts/",
+      "text": "Delete Prime Contracts (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 104,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/edit-prime-contracts/",
+      "text": "Edit Prime Contracts (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 105,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/export-a-prime-contracts-list/",
+      "text": "Export a Prime Contracts List (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 106,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/export-prime-contracts/",
+      "text": "Export Prime Contracts (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 107,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/view-a-prime-contracts-owner-invoices/",
+      "text": "View a Prime Contract's Owner Invoices (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 108,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/(Beta)_Add_Financial_Markup_to_Prime_Contract_Change_Orders/",
+      "text": "Add Financial Markup to Prime Contract Change Orders",
+      "classes": "",
+      "id": null,
+      "index": 109,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/add-line-items-to-a-schedule-of-values-on-a-prime-contract/",
+      "text": "Add Line Items to a Schedule of Values on a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 110,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/approve-owner-invoices-legacy/",
+      "text": "Approve Owner Invoices (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 111,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/best-practices-for-creating-an-owner-invoice-workflow/",
+      "text": "Best Practices for Creating an Owner Invoice Workflow (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 112,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/configure-settings-prime-contracts/",
+      "text": "Configure Settings: Prime Contracts",
+      "classes": "",
+      "id": null,
+      "index": 113,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/copy-a-configurable-fieldset/",
+      "text": "Copy a Configurable Fieldset",
+      "classes": "",
+      "id": null,
+      "index": 114,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/create-a-change-order-request/",
+      "text": "Create a Change Order Request for a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 115,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/create-a-commitment-change-order-from-a-prime-contract-change-order/",
+      "text": "Create a Commitment Change Order from a Prime Contract Change Order",
+      "classes": "",
+      "id": null,
+      "index": 116,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/create-a-configurable-pdf-of-an-owner-invoice/",
+      "text": "Create a Configurable PDF of an Owner Invoice (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 117,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/create-a-potential-change-order-for-a-prime-contract/",
+      "text": "Create a Potential Change Order for a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 118,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/create-a-prime-contract-change-order/",
+      "text": "Create a Prime Contract Change Order",
+      "classes": "",
+      "id": null,
+      "index": 119,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/create-a-prime-contract-sov-from-the-project-budget/",
+      "text": "Create a Schedule of Values on a Prime Contract using the Project's Budget",
+      "classes": "",
+      "id": null,
+      "index": 120,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/reports-project/tutorials/create-an-allowance-and-or-contingency-report/",
+      "text": "Create an Allowance and/or Contingency Report",
+      "classes": "",
+      "id": null,
+      "index": 121,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/create-an-owner-invoice/",
+      "text": "Create an Owner Invoice (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 122,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/work-breakdown-structure/tutorials/create-budget-codes-in-procores-project-financials-tools/",
+      "text": "Create Budget Codes in Procore's Project Financials Tools",
+      "classes": "",
+      "id": null,
+      "index": 123,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-custom-sections/",
+      "text": "Create Custom Sections",
+      "classes": "",
+      "id": null,
+      "index": 124,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-new-configurable-fieldsets/",
+      "text": "Create New Configurable Fieldsets",
+      "classes": "",
+      "id": null,
+      "index": 125,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-new-custom-fields/",
+      "text": "Create New Custom Fields",
+      "classes": "",
+      "id": null,
+      "index": 126,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/delete-a-prime-contract-change-order/",
+      "text": "Delete a Prime Contract Change Order",
+      "classes": "",
+      "id": null,
+      "index": 127,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/delete-owner-invoices/",
+      "text": "Delete Owner Invoices",
+      "classes": "",
+      "id": null,
+      "index": 128,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-orders-project/tutorials/determine-the-order-in-which-change-orders-were-approved/",
+      "text": "Determine the Order in Which Change Orders were Approved",
+      "classes": "",
+      "id": null,
+      "index": 129,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/edit-a-commitment-change-order-linked-to-a-potential-change-order-for-a-prime-contract/",
+      "text": "Edit a Commitment Change Order Linked to a Potential Change Order for a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 130,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/edit-a-configurable-pdf-of-an-owner-invoice/",
+      "text": "Edit a Configurable PDF of an Owner Invoice (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 131,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/edit-the-advanced-settings-on-a-prime-contract/",
+      "text": "Edit the Advanced Settings on a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 132,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/email-a-potential-change-order-for-a-prime-contract/",
+      "text": "Email a Potential Change Order for a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 133,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/email-an-owner-invoice-legacy/",
+      "text": "Email an Owner Invoice from the Prime Contracts Tool (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 134,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/enable-financial-markup-on-a-prime-contract/",
+      "text": "Enable Financial Markup on a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 135,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/export-a-configurable-pdf-of-an-owner-invoice/",
+      "text": "Export a Configurable PDF of an Owner Invoice (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 136,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/export-an-owner-invoice/",
+      "text": "Export an Owner Invoice (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 137,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-orders-project/tutorials/forward-a-change-order-to-a-project-user-by-email/",
+      "text": "Forward a Change Order to a Project User by Email",
+      "classes": "",
+      "id": null,
+      "index": 138,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/import-a-prime-contract-sov-from-a-csv-file/",
+      "text": "Import a Prime Contract SOV from a CSV File",
+      "classes": "",
+      "id": null,
+      "index": 139,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/link-a-schedule-of-values-line-item-to-a-change-event-line-item/",
+      "text": "Link a Schedule of Values Line Item to a Change Event Line Item",
+      "classes": "",
+      "id": null,
+      "index": 140,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/login-and-account-management/tutorials/navigate-procores-tools/",
+      "text": "Navigate Procore's Tools",
+      "classes": "",
+      "id": null,
+      "index": 141,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/record-changes-to-production-quantities-in-a-change-event/",
+      "text": "Record Changes to Production Quantities in a Change Event",
+      "classes": "",
+      "id": null,
+      "index": 142,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/remove-a-change-order-from-a-prime-contract/",
+      "text": "Remove a Change Order from a Prime Contract",
+      "classes": "",
+      "id": null,
+      "index": 143,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/set-or-release-retainage-on-an-owner-invoice-legacy/",
+      "text": "Set or Release Retainage on an Owner Invoice in the Prime Contracts Tool (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 144,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/sage-300-cre/tutorials/set-up-the-hh2-synchronization-client-for-exporting-pccos/",
+      "text": "Set Up the hh2 Synchronization Client for Exporting PCCOs",
+      "classes": "",
+      "id": null,
+      "index": 145,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/update-a-unit-of-measure-on-the-unit-of-measure-master-list/",
+      "text": "Update a Unit of Measure on the Unit of Measure Master List",
+      "classes": "",
+      "id": null,
+      "index": 146,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/tutorials/Update_the_Schedule_of_Values_on_a_Owner_Invoice/",
+      "text": "Update the Schedule of Values on a Owner Invoice",
+      "classes": "",
+      "id": null,
+      "index": 147,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/update-the-tool-settings-for-contracts/",
+      "text": "Update the Tool Settings for Contracts & Change Orders",
+      "classes": "",
+      "id": null,
+      "index": 148,
+      "isPrimeContracts": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/contact-support",
+      "text": "Contact Support",
+      "classes": "",
+      "id": null,
+      "index": 157,
+      "isPrimeContracts": false,
       "category": "general"
     }
   ],
-  "clickables": 20,
+  "clickables": 11,
   "clickableDetails": [
     {
-      "text": "América Latina (Español)",
-      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
-      "type": "a",
-      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "text": "",
+      "id": "banner-close-button",
+      "type": "button",
+      "classes": "banner-close-button",
       "hasDropdown": false,
       "index": 0
     },
     {
-      "text": "Buscar",
-      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "text": "Menu",
+      "id": "mobile-nav-toggle",
       "type": "button",
-      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "classes": "",
       "hasDropdown": false,
       "index": 1
     },
     {
-      "text": "Buscar",
-      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "text": "What do you need help with?",
+      "id": "autocomplete-0-label",
       "type": "button",
-      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "classes": "aa-DetachedSearchButton",
       "hasDropdown": false,
       "index": 2
     },
     {
-      "text": "Expandir/contraer jerarquía global",
-      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "text": "Resources",
+      "id": "",
       "type": "button",
-      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
-      "hasDropdown": false,
+      "classes": "",
+      "hasDropdown": true,
       "index": 3
     },
     {
-      "text": "Expandir/contraer ubicación global",
-      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "text": "Resources",
+      "id": "mobile-nav-accordion-button",
       "type": "button",
-      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "classes": "mobile-nav-accordion-button",
       "hasDropdown": false,
       "index": 4
     },
     {
-      "text": "Índice",
-      "id": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "text": "United States",
+      "id": "",
       "type": "button",
-      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
-      "hasDropdown": false,
+      "classes": "",
+      "hasDropdown": true,
       "index": 5
     },
     {
-      "text": "‌‍​",
-      "id": "back-to-top-button",
+      "text": "United States",
+      "id": "mobile-nav-accordion-button",
       "type": "button",
-      "classes": "",
+      "classes": "mobile-nav-accordion-button",
       "hasDropdown": false,
       "index": 6
     },
     {
-      "text": "",
-      "id": "close-pc-btn-handler",
+      "text": "Table of Contents",
+      "id": "mobile-nav-accordion-button",
       "type": "button",
-      "classes": "ot-close-icon",
+      "classes": "mobile-nav-accordion-button",
       "hasDropdown": false,
       "index": 7
     },
     {
-      "text": "Allow All",
-      "id": "accept-recommended-btn-handler",
+      "text": "",
+      "id": "back-to-top-button",
       "type": "button",
       "classes": "",
       "hasDropdown": false,
       "index": 8
     },
     {
-      "text": "",
-      "id": "",
+      "text": "About Procore",
+      "id": "footer-accordion-button",
       "type": "button",
-      "classes": "",
+      "classes": "footer-accordion-button",
       "hasDropdown": false,
       "index": 9
     },
     {
-      "text": "",
-      "id": "",
+      "text": "Downloads",
+      "id": "footer-accordion-button",
       "type": "button",
-      "classes": "",
+      "classes": "footer-accordion-button",
       "hasDropdown": false,
       "index": 10
-    },
-    {
-      "text": "",
-      "id": "",
-      "type": "button",
-      "classes": "",
-      "hasDropdown": false,
-      "index": 11
-    },
-    {
-      "text": "",
-      "id": "",
-      "type": "button",
-      "classes": "",
-      "hasDropdown": false,
-      "index": 12
-    },
-    {
-      "text": "Back Button",
-      "id": "ot-link-btn back-btn-handler",
-      "type": "button",
-      "classes": "ot-link-btn back-btn-handler",
-      "hasDropdown": false,
-      "index": 13
-    },
-    {
-      "text": "Filter Icon",
-      "id": "filter-btn-handler",
-      "type": "button",
-      "classes": "",
-      "hasDropdown": false,
-      "index": 14
-    },
-    {
-      "text": "Clear",
-      "id": "clear-filters-handler",
-      "type": "button",
-      "classes": "",
-      "hasDropdown": false,
-      "index": 15
-    },
-    {
-      "text": "Apply",
-      "id": "filter-apply-handler",
-      "type": "button",
-      "classes": "",
-      "hasDropdown": false,
-      "index": 16
-    },
-    {
-      "text": "Cancel",
-      "id": "filter-cancel-handler",
-      "type": "button",
-      "classes": "",
-      "hasDropdown": false,
-      "index": 17
-    },
-    {
-      "text": "Reject All",
-      "id": "ot-pc-refuse-all-handler",
-      "type": "button",
-      "classes": "ot-pc-refuse-all-handler",
-      "hasDropdown": false,
-      "index": 18
-    },
-    {
-      "text": "Confirm My Choices",
-      "id": "save-preference-btn-handler onetrust-close-btn-handler",
-      "type": "button",
-      "classes": "save-preference-btn-handler onetrust-close-btn-handler",
-      "hasDropdown": false,
-      "index": 19
     }
   ],
-  "expandables": 6,
+  "expandables": 16,
   "expandableDetails": [
     {
-      "text": "Índice",
-      "type": "button",
-      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "text": "Product Manuals",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
       "id": null,
       "isExpanded": false,
       "index": 0
     },
     {
-      "text": "Sin encabezados",
-      "type": "nav",
-      "classes": "mt-toc-content mt-collapsible-section",
+      "text": "Product Manuals",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
       "id": null,
       "isExpanded": false,
       "index": 1
     },
     {
-      "text": "Strictly Necessary CookiesAlways ActiveThese cookies are necessary for the website to function and c",
-      "type": "div",
-      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "text": "Process Guides",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
       "id": null,
       "isExpanded": false,
       "index": 2
     },
     {
-      "text": "Functional Cookies  Functional Cookies These cookies enable the website to provide enhanced function",
-      "type": "div",
-      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "text": "Process Guides",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
       "id": null,
       "isExpanded": false,
       "index": 3
     },
     {
-      "text": "Performance Cookies  Performance Cookies These cookies allow us to count visits and traffic sources ",
-      "type": "div",
-      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "text": "Resources",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
       "id": null,
       "isExpanded": false,
       "index": 4
     },
     {
-      "text": "Opt Out of Sale of Sharing/Targeted Advertising  Opt Out of Sale of Sharing/Targeted Advertising As ",
-      "type": "div",
-      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "text": "Resources",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
       "id": null,
       "isExpanded": false,
       "index": 5
+    },
+    {
+      "text": "Release Notes",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 6
+    },
+    {
+      "text": "Release Notes",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 7
+    },
+    {
+      "text": "United States",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 8
+    },
+    {
+      "text": "United States",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 9
+    },
+    {
+      "text": "Table of Contents",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 10
+    },
+    {
+      "text": "Table of Contents",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 11
+    },
+    {
+      "text": "About Procore",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 12
+    },
+    {
+      "text": "About Procore",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 13
+    },
+    {
+      "text": "Downloads",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 14
+    },
+    {
+      "text": "Downloads",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 15
     }
   ],
   "screenshotPath": "pages/tutorials/screenshot.png"

@@ -7,7 +7,7 @@ export type ContractStatus = 'draft' | 'active' | 'completed' | 'cancelled' | 'o
 
 export interface PrimeContract {
   id: string;
-  project_id: string;
+  project_id: number;
   contract_number: string;
   title: string;
   vendor_id: string | null;
@@ -26,7 +26,7 @@ export interface PrimeContract {
 }
 
 export interface CreatePrimeContractInput {
-  project_id: string;
+  project_id: number;
   contract_number: string;
   title: string;
   vendor_id?: string;
