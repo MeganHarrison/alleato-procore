@@ -1,0 +1,877 @@
+{
+  "url": "https://es.support.procore.com/customer-success/implementation-roadmap",
+  "pageName": "implementation-roadmap",
+  "category": "documentation",
+  "pageId": "implementation-roadmap",
+  "timestamp": "2025-12-27T19:28:08.193Z",
+  "analysis": {
+    "components": {
+      "buttons": 19,
+      "forms": 2,
+      "inputs": 15,
+      "tables": 1,
+      "modals": 1,
+      "navigation": 5,
+      "cards": 0,
+      "lists": 23,
+      "tabs": 0,
+      "dropdowns": 1,
+      "icons": 4,
+      "headings": {
+        "h1": 1,
+        "h2": 5,
+        "h3": 2,
+        "h4": 7
+      },
+      "codeBlocks": 0,
+      "images": 5,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "Hoja de ruta de implementación de Procore",
+      "headings": [
+        {
+          "level": "h2",
+          "text": "Visión general",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Elección de su Comité Procore",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Fases",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Artículos recomendados",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Cookie Preferences",
+          "id": "ot-pc-title"
+        },
+        {
+          "level": "h3",
+          "text": "Manage Consent Preferences",
+          "id": "ot-category-title"
+        },
+        {
+          "level": "h3",
+          "text": "Cookie List",
+          "id": null
+        }
+      ],
+      "paragraphs": 20,
+      "sections": 6
+    },
+    "tables": [
+      {
+        "index": 1,
+        "headers": [],
+        "rows": 1,
+        "classes": "mt-responsive-table",
+        "id": null
+      }
+    ],
+    "breadcrumbs": [
+      {
+        "text": "Saltar al contenido principal",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap#elm-main-content"
+      },
+      {
+        "text": "Soporte",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es?journey=supporttoprocore"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "Contáctenos",
+        "href": "https://es.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "Iniciar sesión en la Aplicación de Procore",
+        "href": "https://login.procore.com/?locale=es&journey=supporttologin"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Buscar en el sitio",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap#"
+      },
+      {
+        "text": "Ir al artículo anterior",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap#"
+      },
+      {
+        "text": "Inicio de sesión",
+        "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=customer-success%2Fimplementation-roadmap"
+      },
+      {
+        "text": "Inicio",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Éxito del cliente",
+        "href": "https://es.support.procore.com/customer-success"
+      },
+      {
+        "text": "Guardar como PDF",
+        "href": "https://es.support.procore.com/@api/deki/pages/186/pdf/Hoja%2bde%2bruta%2bde%2bimplementaci%25C3%25B3n%2bde%2bProcore.pdf"
+      },
+      {
+        "text": "Haga clic en un paso para navegar",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap#Haga_clic_en_un_paso_para_navegar"
+      },
+      {
+        "text": "Visión general",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap#Visi.C3.B3n_general"
+      },
+      {
+        "text": "Elección de su Comité Procore",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap#Elecci.C3.B3n_de_su_Comit.C3.A9_Procore"
+      },
+      {
+        "text": "Patrocinador(s) ejecutivo(s)",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap#Patrocinador(s)_ejecutivo(s)"
+      },
+      {
+        "text": "Asesor(s) de Procore",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap#Asesor(s)_de_Procore"
+      },
+      {
+        "text": "Representante(s) del equipo",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap#Representante(s)_del_equipo"
+      },
+      {
+        "text": "Fases",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap#Fases"
+      },
+      {
+        "text": "Configuración de cuenta",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/1-account-setup"
+      },
+      {
+        "text": "Lanzamiento",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/2-launch"
+      },
+      {
+        "text": "Capacitación y consultas",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/3-training-and-consultations"
+      },
+      {
+        "text": "Implementación de la compañía",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/4-rollout"
+      },
+      {
+        "text": "Éxito continuo",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/5-continued-success"
+      },
+      {
+        "text": "Configuración de cuenta",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/1-account-setup"
+      },
+      {
+        "text": "Lanzamiento",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/2-launch"
+      },
+      {
+        "text": "Capacitación y consultas",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/3-training-and-consultations"
+      },
+      {
+        "text": "Implementación",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/4-rollout"
+      },
+      {
+        "text": "Éxito continuo",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/5-continued-success"
+      },
+      {
+        "text": "Volver arriba",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap#title"
+      },
+      {
+        "text": "Éxito del cliente",
+        "href": "https://es.support.procore.com/customer-success"
+      },
+      {
+        "text": "Configuración de cuenta",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/1-account-setup"
+      },
+      {
+        "text": "Configuración de cuenta",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/1-account-setup"
+      },
+      {
+        "text": "Lanzamiento",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/2-launch"
+      },
+      {
+        "text": "Capacitación y consultas",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/3-training-and-consultations"
+      },
+      {
+        "text": "Éxito continuo",
+        "href": "https://es.support.procore.com/customer-success/implementation-roadmap/5-continued-success"
+      },
+      {
+        "text": "Guide",
+        "href": "https://es.support.procore.com/Special:Search?tags=article%3Atopic-guide"
+      },
+      {
+        "text": "English-US",
+        "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us"
+      },
+      {
+        "text": "do-not-migrate",
+        "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate"
+      },
+      {
+        "text": "Powered by CXone Expert\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "Aviso de privacidad",
+        "href": "https://www.procore.com/es/legal/privacy"
+      },
+      {
+        "text": "Términos de uso",
+        "href": "https://www.procore.com/es/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "More information",
+        "href": "https://www.procore.com/legal/cookie-notice"
+      },
+      {
+        "text": "",
+        "href": "https://www.onetrust.com/products/cookie-consent/"
+      }
+    ],
+    "title": "Hoja de ruta de implementación de Procore - Procore",
+    "h1": "Hoja de ruta de implementación de Procore",
+    "metaDescription": "El equipo de &Eacute;xito del cliente de Procore est&aacute; dedicado a garantizar que usted tenga una implementaci&oacute;n exitosa de la plataforma de administraci&oacute;n de la construcci&oacute;…"
+  },
+  "links": 39,
+  "linkDetails": [
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Soporte",
+      "classes": "",
+      "id": null,
+      "index": 1,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "internal",
+      "id": null,
+      "index": 4,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 5,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 6,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 7,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 8,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 9,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 10,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 11,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 12,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 13,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡（简体中文）",
+      "classes": "link-https",
+      "id": null,
+      "index": 14,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 15,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/references/contact-support",
+      "text": "Contáctenos",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 19,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=customer-success%2Fimplementation-roadmap",
+      "text": "Inicio de sesión",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 22,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Inicio",
+      "classes": "",
+      "id": null,
+      "index": 23,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success",
+      "text": "Éxito del cliente",
+      "classes": "",
+      "id": null,
+      "index": 24,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/@api/deki/pages/186/pdf/Hoja%2bde%2bruta%2bde%2bimplementaci%25C3%25B3n%2bde%2bProcore.pdf",
+      "text": "Guardar como PDF",
+      "classes": "",
+      "id": null,
+      "index": 25,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/1-account-setup",
+      "text": "Configuración de cuenta",
+      "classes": "",
+      "id": null,
+      "index": 33,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/2-launch",
+      "text": "Lanzamiento",
+      "classes": "",
+      "id": null,
+      "index": 34,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/3-training-and-consultations",
+      "text": "Capacitación y consultas",
+      "classes": "",
+      "id": null,
+      "index": 35,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/4-rollout",
+      "text": "Implementación de la compañía",
+      "classes": "",
+      "id": null,
+      "index": 36,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/5-continued-success",
+      "text": "Éxito continuo",
+      "classes": "",
+      "id": null,
+      "index": 37,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/1-account-setup",
+      "text": "Configuración de cuenta",
+      "classes": "",
+      "id": null,
+      "index": 38,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/2-launch",
+      "text": "Lanzamiento",
+      "classes": "",
+      "id": null,
+      "index": 39,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/3-training-and-consultations",
+      "text": "Capacitación y consultas",
+      "classes": "",
+      "id": null,
+      "index": 40,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/4-rollout",
+      "text": "Implementación",
+      "classes": "",
+      "id": null,
+      "index": 41,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/5-continued-success",
+      "text": "Éxito continuo",
+      "classes": "",
+      "id": null,
+      "index": 42,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success",
+      "text": "Éxito del cliente",
+      "classes": "mt-icon-previous-article",
+      "id": null,
+      "index": 44,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/1-account-setup",
+      "text": "Configuración de cuenta",
+      "classes": "mt-icon-next-article",
+      "id": null,
+      "index": 45,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/1-account-setup",
+      "text": "Configuración de cuenta",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 46,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/2-launch",
+      "text": "Lanzamiento",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 47,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/3-training-and-consultations",
+      "text": "Capacitación y consultas",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 48,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/customer-success/implementation-roadmap/5-continued-success",
+      "text": "Éxito continuo",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 49,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=article%3Atopic-guide",
+      "text": "Guide",
+      "classes": "",
+      "id": null,
+      "index": 50,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us",
+      "text": "English-US",
+      "classes": "",
+      "id": null,
+      "index": 51,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate",
+      "text": "do-not-migrate",
+      "classes": "",
+      "id": null,
+      "index": 52,
+      "category": "general"
+    }
+  ],
+  "clickables": 20,
+  "clickableDetails": [
+    {
+      "text": "América Latina (Español)",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Buscar",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "Buscar",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Expandir/contraer jerarquía global",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 3
+    },
+    {
+      "text": "Expandir/contraer ubicación global",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "Índice",
+      "id": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "hasDropdown": false,
+      "index": 5
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "",
+      "id": "close-pc-btn-handler",
+      "type": "button",
+      "classes": "ot-close-icon",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "Allow All",
+      "id": "accept-recommended-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 10
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 11
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 12
+    },
+    {
+      "text": "Back Button",
+      "id": "ot-link-btn back-btn-handler",
+      "type": "button",
+      "classes": "ot-link-btn back-btn-handler",
+      "hasDropdown": false,
+      "index": 13
+    },
+    {
+      "text": "Filter Icon",
+      "id": "filter-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 14
+    },
+    {
+      "text": "Clear",
+      "id": "clear-filters-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 15
+    },
+    {
+      "text": "Apply",
+      "id": "filter-apply-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 16
+    },
+    {
+      "text": "Cancel",
+      "id": "filter-cancel-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 17
+    },
+    {
+      "text": "Reject All",
+      "id": "ot-pc-refuse-all-handler",
+      "type": "button",
+      "classes": "ot-pc-refuse-all-handler",
+      "hasDropdown": false,
+      "index": 18
+    },
+    {
+      "text": "Confirm My Choices",
+      "id": "save-preference-btn-handler onetrust-close-btn-handler",
+      "type": "button",
+      "classes": "save-preference-btn-handler onetrust-close-btn-handler",
+      "hasDropdown": false,
+      "index": 19
+    }
+  ],
+  "expandables": 6,
+  "expandableDetails": [
+    {
+      "text": "Índice",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "Haga clic en un paso para navegarVisión generalElección de su Comité ProcorePatrocinador(s) ejecutiv",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Strictly Necessary CookiesAlways ActiveThese cookies are necessary for the website to function and c",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Functional Cookies  Functional Cookies These cookies enable the website to provide enhanced function",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Performance Cookies  Performance Cookies These cookies allow us to count visits and traffic sources ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Opt Out of Sale of Sharing/Targeted Advertising  Opt Out of Sale of Sharing/Targeted Advertising As ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    }
+  ],
+  "screenshotPath": "pages/implementation-roadmap/screenshot.png"
+}

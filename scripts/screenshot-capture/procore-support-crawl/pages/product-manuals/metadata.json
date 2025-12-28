@@ -1,0 +1,1773 @@
+{
+  "url": "https://v2.support.procore.com/product-manuals/",
+  "pageName": "product-manuals",
+  "category": "documentation",
+  "pageId": "product-manuals",
+  "timestamp": "2025-12-27T19:03:10.700Z",
+  "analysis": {
+    "components": {
+      "buttons": 14,
+      "forms": 2,
+      "inputs": 8,
+      "tables": 0,
+      "modals": 0,
+      "navigation": 1,
+      "cards": 0,
+      "lists": 8,
+      "tabs": 0,
+      "dropdowns": 2,
+      "icons": 175,
+      "headings": {
+        "h1": 1,
+        "h2": 1,
+        "h3": 2,
+        "h4": 2
+      },
+      "codeBlocks": 0,
+      "images": 0,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "All Product Manuals",
+      "headings": [
+        {
+          "level": "h2",
+          "text": "Refine Results",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "About Procore",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "Downloads",
+          "id": null
+        }
+      ],
+      "paragraphs": 10,
+      "sections": 3
+    },
+    "tables": [],
+    "breadcrumbs": [
+      {
+        "text": "Support Home",
+        "href": "https://v2.support.procore.com/"
+      },
+      {
+        "text": "All Product Manuals",
+        "href": "https://v2.support.procore.com/product-manuals/"
+      }
+    ],
+    "title": "All Product Manuals",
+    "h1": "All Product Manuals",
+    "metaDescription": "Procore Support"
+  },
+  "links": 180,
+  "linkDetails": [
+    {
+      "href": "https://v2.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": "icon",
+      "index": 0,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": "mobile-icon",
+      "index": 1,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/",
+      "text": "Process Guides",
+      "classes": "",
+      "id": null,
+      "index": 3,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/video-library/",
+      "text": "Training Video Library   Search our library of training videos",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 5,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/",
+      "text": "Permissions Matrix",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 6,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/glossary-of-terms/",
+      "text": "Glossary of Terms",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 7,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/release-notes/",
+      "text": "Release Notes",
+      "classes": "",
+      "id": null,
+      "index": 12,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/",
+      "text": "Process Guides",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 14,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://learn.procore.com/",
+      "text": "Certifications",
+      "classes": "",
+      "id": null,
+      "index": 15,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/video-library/",
+      "text": "Training Video Library",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/",
+      "text": "Permissions Matrix",
+      "classes": "",
+      "id": null,
+      "index": 17,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/glossary-of-terms/",
+      "text": "Glossary of Terms",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://status.procore.com/",
+      "text": "System Status",
+      "classes": "",
+      "id": null,
+      "index": 19,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://community.procore.com/s/",
+      "text": "Community",
+      "classes": "",
+      "id": null,
+      "index": 20,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://www.procore.com/whats-new/en/",
+      "text": "Product Updates",
+      "classes": "",
+      "id": null,
+      "index": 21,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://developers.procore.com%20/",
+      "text": "Developers",
+      "classes": "",
+      "id": null,
+      "index": 22,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/release-notes/",
+      "text": "Release Notes",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 23,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 24,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 25,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 26,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 27,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 28,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 29,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 30,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Latinoamérica (Español)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 31,
+      "category": "general"
+    },
+    {
+      "href": "https://pl-pl.support.procore.com/",
+      "text": "Polska (Polski)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 32,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 33,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡 (中文)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 35,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本 (日本語)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 36,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "",
+      "id": null,
+      "index": 37,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "",
+      "id": null,
+      "index": 38,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "",
+      "id": null,
+      "index": 39,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "",
+      "id": null,
+      "index": 40,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "",
+      "id": null,
+      "index": 41,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "",
+      "id": null,
+      "index": 42,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "",
+      "id": null,
+      "index": 43,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Latinoamérica (Español)",
+      "classes": "",
+      "id": null,
+      "index": 44,
+      "category": "general"
+    },
+    {
+      "href": "https://pl-pl.support.procore.com/",
+      "text": "Polska (Polski)",
+      "classes": "",
+      "id": null,
+      "index": 45,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "",
+      "id": null,
+      "index": 46,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡 (中文)",
+      "classes": "",
+      "id": null,
+      "index": 48,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本 (日本語)",
+      "classes": "",
+      "id": null,
+      "index": 49,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/",
+      "text": "Support Home",
+      "classes": "",
+      "id": null,
+      "index": 50,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/reports-company/",
+      "text": "360 Reporting (Company)",
+      "classes": "",
+      "id": null,
+      "index": 52,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/reports-project/",
+      "text": "360 Reporting (Project)",
+      "classes": "",
+      "id": null,
+      "index": 53,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/action-plans-project/",
+      "text": "Action Plans",
+      "classes": "",
+      "id": null,
+      "index": 54,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/acumatica-vision/",
+      "text": "Acumatica Vision ERP",
+      "classes": "",
+      "id": null,
+      "index": 55,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/acumatica-construction/",
+      "text": "Acumatica® Construction ERP",
+      "classes": "",
+      "id": null,
+      "index": 56,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/",
+      "text": "Admin (Company)",
+      "classes": "",
+      "id": null,
+      "index": 57,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-project/",
+      "text": "Admin (Project)",
+      "classes": "",
+      "id": null,
+      "index": 58,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/agent-builder-project/",
+      "text": "Agent Builder",
+      "classes": "",
+      "id": null,
+      "index": 59,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-analytics/",
+      "text": "Analytics (1.0)",
+      "classes": "",
+      "id": null,
+      "index": 60,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/analytics-company/",
+      "text": "Analytics (2.0)",
+      "classes": "",
+      "id": null,
+      "index": 61,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/announcements-ios/",
+      "text": "Announcements",
+      "classes": "",
+      "id": null,
+      "index": 62,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/assist-project/",
+      "text": "Assist",
+      "classes": "",
+      "id": null,
+      "index": 63,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/asta-powerproject/",
+      "text": "Asta Powerproject",
+      "classes": "",
+      "id": null,
+      "index": 64,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/azure-ad-sso/",
+      "text": "Azure AD SSO",
+      "classes": "",
+      "id": null,
+      "index": 65,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/bid-board-company/",
+      "text": "Bid Board",
+      "classes": "",
+      "id": null,
+      "index": 66,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/bidding-project/",
+      "text": "Bidding",
+      "classes": "",
+      "id": null,
+      "index": 67,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/bluebeam/",
+      "text": "Bluebeam",
+      "classes": "",
+      "id": null,
+      "index": 68,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/box-fedramp-solution/",
+      "text": "Box Fedramp Solution",
+      "classes": "",
+      "id": null,
+      "index": 69,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/budget-project/",
+      "text": "Budget",
+      "classes": "",
+      "id": null,
+      "index": 70,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/camera-ios/",
+      "text": "Camera",
+      "classes": "",
+      "id": null,
+      "index": 71,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-events-project/",
+      "text": "Change Events",
+      "classes": "",
+      "id": null,
+      "index": 72,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-orders-project/",
+      "text": "Change Orders",
+      "classes": "",
+      "id": null,
+      "index": 73,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/client-contracts-project/",
+      "text": "Client Contracts",
+      "classes": "",
+      "id": null,
+      "index": 74,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/cmic/",
+      "text": "CMiC ERP",
+      "classes": "",
+      "id": null,
+      "index": 75,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/",
+      "text": "Commitments",
+      "classes": "",
+      "id": null,
+      "index": 76,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/connection-manager-project/",
+      "text": "Connection Manager",
+      "classes": "",
+      "id": null,
+      "index": 77,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/conversations-company/",
+      "text": "Conversations",
+      "classes": "",
+      "id": null,
+      "index": 78,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/coordination-issues-project/",
+      "text": "Coordination Issues",
+      "classes": "",
+      "id": null,
+      "index": 79,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/correspondence-project/",
+      "text": "Correspondence",
+      "classes": "",
+      "id": null,
+      "index": 80,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/cost-catalog-company/",
+      "text": "Cost Catalog",
+      "classes": "",
+      "id": null,
+      "index": 81,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/crews-project/",
+      "text": "Crews",
+      "classes": "",
+      "id": null,
+      "index": 82,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/custom-sso/",
+      "text": "Custom SSO",
+      "classes": "",
+      "id": null,
+      "index": 83,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/daily-log-project/",
+      "text": "Daily Log",
+      "classes": "",
+      "id": null,
+      "index": 84,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/data-extracts-2.0-project/",
+      "text": "Data Extracts 2.0",
+      "classes": "",
+      "id": null,
+      "index": 85,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/direct-costs-project/",
+      "text": "Direct Costs (Project)",
+      "classes": "",
+      "id": null,
+      "index": 86,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/directory-company/",
+      "text": "Directory (Company)",
+      "classes": "",
+      "id": null,
+      "index": 87,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/directory-project/",
+      "text": "Directory (Project)",
+      "classes": "",
+      "id": null,
+      "index": 88,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/document-management-project/",
+      "text": "Document Management",
+      "classes": "",
+      "id": null,
+      "index": 89,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/documents-company/",
+      "text": "Documents (Company)",
+      "classes": "",
+      "id": null,
+      "index": 90,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/documents-project/",
+      "text": "Documents (Project)",
+      "classes": "",
+      "id": null,
+      "index": 91,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/docusign/",
+      "text": "Docusign",
+      "classes": "",
+      "id": null,
+      "index": 92,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/drawings-project/",
+      "text": "Drawings",
+      "classes": "",
+      "id": null,
+      "index": 93,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/emails-project/",
+      "text": "Emails",
+      "classes": "",
+      "id": null,
+      "index": 94,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/equipment-company/",
+      "text": "Equipment (Company)",
+      "classes": "",
+      "id": null,
+      "index": 95,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/equipment-project/",
+      "text": "Equipment (Project)",
+      "classes": "",
+      "id": null,
+      "index": 96,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/estimating-project/",
+      "text": "Estimating",
+      "classes": "",
+      "id": null,
+      "index": 97,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/forms-project/",
+      "text": "Forms Project",
+      "classes": "",
+      "id": null,
+      "index": 98,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/free-procore-account/",
+      "text": "Free Procore Account",
+      "classes": "",
+      "id": null,
+      "index": 99,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/funding-project/",
+      "text": "Funding",
+      "classes": "",
+      "id": null,
+      "index": 100,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/gmail-addon/",
+      "text": "Gmail Addon",
+      "classes": "",
+      "id": null,
+      "index": 101,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/go-to-meeting/",
+      "text": "Go To Meeting",
+      "classes": "",
+      "id": null,
+      "index": 102,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/google-sheets-for-procore/",
+      "text": "Google Sheets For Procore",
+      "classes": "",
+      "id": null,
+      "index": 103,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/google-sso/",
+      "text": "Google SSO",
+      "classes": "",
+      "id": null,
+      "index": 104,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/home-project/",
+      "text": "Home (Project)",
+      "classes": "",
+      "id": null,
+      "index": 105,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/incidents-project/",
+      "text": "Incidents",
+      "classes": "",
+      "id": null,
+      "index": 106,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/insights/",
+      "text": "Insights",
+      "classes": "",
+      "id": null,
+      "index": 107,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/inspections-company/",
+      "text": "Inspections (Company)",
+      "classes": "",
+      "id": null,
+      "index": 108,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/inspections-project/",
+      "text": "Inspections (Project)",
+      "classes": "",
+      "id": null,
+      "index": 109,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/instructions-project/",
+      "text": "Instructions",
+      "classes": "",
+      "id": null,
+      "index": 110,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/",
+      "text": "Invoicing",
+      "classes": "",
+      "id": null,
+      "index": 111,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/jobpac/",
+      "text": "Jobpac ERP",
+      "classes": "",
+      "id": null,
+      "index": 112,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/levelset/",
+      "text": "Levelset",
+      "classes": "",
+      "id": null,
+      "index": 113,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/locations-ios/",
+      "text": "Locations (Mobile)",
+      "classes": "",
+      "id": null,
+      "index": 114,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-maps/",
+      "text": "Maps (General)",
+      "classes": "",
+      "id": null,
+      "index": 115,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/meetings-project/",
+      "text": "Meetings",
+      "classes": "",
+      "id": null,
+      "index": 116,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/meetings-with-microsoft-teams/",
+      "text": "Meetings With Microsoft Teams",
+      "classes": "",
+      "id": null,
+      "index": 117,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/microsoft-365/",
+      "text": "Microsoft 365",
+      "classes": "",
+      "id": null,
+      "index": 118,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/microsoft-project/",
+      "text": "Microsoft Project",
+      "classes": "",
+      "id": null,
+      "index": 119,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/miro/",
+      "text": "Miro",
+      "classes": "",
+      "id": null,
+      "index": 120,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/models-project/",
+      "text": "Models",
+      "classes": "",
+      "id": null,
+      "index": 121,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/mri-project-financials/",
+      "text": "MRI Project Financials ERP",
+      "classes": "",
+      "id": null,
+      "index": 122,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/mulesoft/",
+      "text": "Mulesoft",
+      "classes": "",
+      "id": null,
+      "index": 123,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/my-time-ios/",
+      "text": "My Time",
+      "classes": "",
+      "id": null,
+      "index": 124,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/myob-advanced/",
+      "text": "MYOB Advanced ERP",
+      "classes": "",
+      "id": null,
+      "index": 125,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/netsuite/",
+      "text": "Netsuite® ERP",
+      "classes": "",
+      "id": null,
+      "index": 126,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/observations-project/",
+      "text": "Observations",
+      "classes": "",
+      "id": null,
+      "index": 127,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/okta-sso/",
+      "text": "Okta SSO",
+      "classes": "",
+      "id": null,
+      "index": 128,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/onelogin-sso/",
+      "text": "Onelogin SSO",
+      "classes": "",
+      "id": null,
+      "index": 129,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/oracle-primavera/",
+      "text": "Oracle Primavera",
+      "classes": "",
+      "id": null,
+      "index": 130,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/permissions-company/",
+      "text": "Permissions",
+      "classes": "",
+      "id": null,
+      "index": 131,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/photos-project/",
+      "text": "Photos",
+      "classes": "",
+      "id": null,
+      "index": 132,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/planroom-company/",
+      "text": "Planroom",
+      "classes": "",
+      "id": null,
+      "index": 133,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/portfolio-company/",
+      "text": "Portfolio",
+      "classes": "",
+      "id": null,
+      "index": 134,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/portfolio-financials/",
+      "text": "Portfolio Financials (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 135,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/portfolio-planning-company/",
+      "text": "Portfolio Planning",
+      "classes": "",
+      "id": null,
+      "index": 136,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prequalification-portal-company/",
+      "text": "Prequalification Portal",
+      "classes": "",
+      "id": null,
+      "index": 137,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prequalifications-company/",
+      "text": "Prequalifications",
+      "classes": "",
+      "id": null,
+      "index": 138,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/prime-contracts-project/",
+      "text": "Prime Contracts",
+      "classes": "",
+      "id": null,
+      "index": 139,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-analytics-embedded/",
+      "text": "Procore Analytics (Embedded)",
+      "classes": "",
+      "id": null,
+      "index": 140,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/analytics-embedded-2.0-company/",
+      "text": "Procore Analytics Embedded 2.0",
+      "classes": "",
+      "id": null,
+      "index": 141,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-bim-plugins/",
+      "text": "Procore BIM Plugins",
+      "classes": "",
+      "id": null,
+      "index": 142,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-construction-network/",
+      "text": "Procore Construction Network",
+      "classes": "",
+      "id": null,
+      "index": 143,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-data-extract/",
+      "text": "Procore Data Extract",
+      "classes": "",
+      "id": null,
+      "index": 144,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-drive/",
+      "text": "Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 145,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-estimating/",
+      "text": "Procore Estimating (Standalone)",
+      "classes": "",
+      "id": null,
+      "index": 146,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-extracts/",
+      "text": "Procore Extracts",
+      "classes": "",
+      "id": null,
+      "index": 147,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-for-government/",
+      "text": "Procore For Government",
+      "classes": "",
+      "id": null,
+      "index": 148,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-imports/",
+      "text": "Procore Imports",
+      "classes": "",
+      "id": null,
+      "index": 149,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-initiated-sso/",
+      "text": "Procore Initiated SSO",
+      "classes": "",
+      "id": null,
+      "index": 150,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-mfa/",
+      "text": "Procore MFA",
+      "classes": "",
+      "id": null,
+      "index": 151,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/mobile-ios-general/",
+      "text": "Procore Mobile App (General)",
+      "classes": "",
+      "id": null,
+      "index": 152,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-pay/",
+      "text": "Procore Pay",
+      "classes": "",
+      "id": null,
+      "index": 153,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/programs-company/",
+      "text": "Programs",
+      "classes": "",
+      "id": null,
+      "index": 154,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/project-dashboard-ios/",
+      "text": "Project Dashboard",
+      "classes": "",
+      "id": null,
+      "index": 155,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/project-map/",
+      "text": "Project Map",
+      "classes": "",
+      "id": null,
+      "index": 156,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/project-overview-project/",
+      "text": "Project Overview",
+      "classes": "",
+      "id": null,
+      "index": 157,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/project-status-snapshots/",
+      "text": "Project Status Snapshots",
+      "classes": "",
+      "id": null,
+      "index": 158,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/punch-list-project/",
+      "text": "Punch List",
+      "classes": "",
+      "id": null,
+      "index": 159,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/qbo/",
+      "text": "QuickBooks Online ERP",
+      "classes": "",
+      "id": null,
+      "index": 160,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/quickbooks-desktop/",
+      "text": "Quickbooks® Desktop ERP",
+      "classes": "",
+      "id": null,
+      "index": 161,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/resource-planning-company/",
+      "text": "Resource Planning",
+      "classes": "",
+      "id": null,
+      "index": 162,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/rfi-project/",
+      "text": "RFIs",
+      "classes": "",
+      "id": null,
+      "index": 163,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/sage-100/",
+      "text": "Sage 100 ERP",
+      "classes": "",
+      "id": null,
+      "index": 164,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/sage-300-cre/",
+      "text": "Sage 300 CRE® ERP",
+      "classes": "",
+      "id": null,
+      "index": 165,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/sage-intacct/",
+      "text": "Sage Intacct ERP",
+      "classes": "",
+      "id": null,
+      "index": 166,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/schedule-company/",
+      "text": "Schedule (Company)",
+      "classes": "",
+      "id": null,
+      "index": 167,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/schedule-project/",
+      "text": "Schedule (Project)",
+      "classes": "",
+      "id": null,
+      "index": 168,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/smartsheet-for-procore/",
+      "text": "Smartsheet For Procore",
+      "classes": "",
+      "id": null,
+      "index": 169,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/specifications-project/",
+      "text": "Specifications",
+      "classes": "",
+      "id": null,
+      "index": 170,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/submittals-project/",
+      "text": "Submittals",
+      "classes": "",
+      "id": null,
+      "index": 171,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/tm-tickets-project/",
+      "text": "T&M Tickets",
+      "classes": "",
+      "id": null,
+      "index": 172,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/tasks-project/",
+      "text": "Tasks",
+      "classes": "",
+      "id": null,
+      "index": 173,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/team-ios/",
+      "text": "Team (Mobile)",
+      "classes": "",
+      "id": null,
+      "index": 174,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/timecard-company/",
+      "text": "Timecard (Company)",
+      "classes": "",
+      "id": null,
+      "index": 175,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/timesheets-company/",
+      "text": "Timesheets (Company)",
+      "classes": "",
+      "id": null,
+      "index": 176,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/timesheets-project/",
+      "text": "Timesheets (Project)",
+      "classes": "",
+      "id": null,
+      "index": 177,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/transmittals-project/",
+      "text": "Transmittals",
+      "classes": "",
+      "id": null,
+      "index": 178,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/unearth/",
+      "text": "Unearth",
+      "classes": "",
+      "id": null,
+      "index": 179,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/viewpoint-spectrum/",
+      "text": "Viewpoint Spectrum ERP",
+      "classes": "",
+      "id": null,
+      "index": 180,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/vista/",
+      "text": "Vista ERP",
+      "classes": "",
+      "id": null,
+      "index": 181,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/work-breakdown-structure/",
+      "text": "Work Breakdown Structure",
+      "classes": "",
+      "id": null,
+      "index": 182,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/workday/",
+      "text": "Workday ERP",
+      "classes": "",
+      "id": null,
+      "index": 183,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/workflows-company/",
+      "text": "Workflows",
+      "classes": "",
+      "id": null,
+      "index": 184,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/xero/",
+      "text": "Xero™ Connector ERP",
+      "classes": "",
+      "id": null,
+      "index": 185,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/yardi-voyager/",
+      "text": "Yardi Voyager® ERP",
+      "classes": "",
+      "id": null,
+      "index": 186,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/zapier/",
+      "text": "Zapier",
+      "classes": "",
+      "id": null,
+      "index": 187,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/zoom/",
+      "text": "Zoom",
+      "classes": "",
+      "id": null,
+      "index": 188,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/contact-support",
+      "text": "Contact Support",
+      "classes": "",
+      "id": null,
+      "index": 197,
+      "category": "general"
+    }
+  ],
+  "clickables": 14,
+  "clickableDetails": [
+    {
+      "text": "",
+      "id": "banner-close-button",
+      "type": "button",
+      "classes": "banner-close-button",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Menu",
+      "id": "mobile-nav-toggle",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "What do you need help with?",
+      "id": "autocomplete-0-label",
+      "type": "button",
+      "classes": "aa-DetachedSearchButton",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Resources",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": true,
+      "index": 3
+    },
+    {
+      "text": "Resources",
+      "id": "mobile-nav-accordion-button",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "United States",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": true,
+      "index": 5
+    },
+    {
+      "text": "United States",
+      "id": "mobile-nav-accordion-button",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "Clear All",
+      "id": "clear-form-button",
+      "type": "button",
+      "classes": "clear-form-button",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "Level",
+      "id": "filter-accordion-button",
+      "type": "button",
+      "classes": "filter-accordion-button",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "Level",
+      "id": "filter-accordion-button",
+      "type": "button",
+      "classes": "filter-accordion-button",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "Filters",
+      "id": "filter-toggle",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 10
+    },
+    {
+      "text": "",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 11
+    },
+    {
+      "text": "About Procore",
+      "id": "footer-accordion-button",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "hasDropdown": false,
+      "index": 12
+    },
+    {
+      "text": "Downloads",
+      "id": "footer-accordion-button",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "hasDropdown": false,
+      "index": 13
+    }
+  ],
+  "expandables": 18,
+  "expandableDetails": [
+    {
+      "text": "Product Manuals",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "Product Manuals",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Process Guides",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Process Guides",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Resources",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Resources",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    },
+    {
+      "text": "Release Notes",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 6
+    },
+    {
+      "text": "Release Notes",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 7
+    },
+    {
+      "text": "United States",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 8
+    },
+    {
+      "text": "United States",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 9
+    },
+    {
+      "text": "Level",
+      "type": "button",
+      "classes": "filter-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 10
+    },
+    {
+      "text": "Level",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 11
+    },
+    {
+      "text": "Level",
+      "type": "button",
+      "classes": "filter-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 12
+    },
+    {
+      "text": "Level",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 13
+    },
+    {
+      "text": "About Procore",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 14
+    },
+    {
+      "text": "About Procore",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 15
+    },
+    {
+      "text": "Downloads",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 16
+    },
+    {
+      "text": "Downloads",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 17
+    }
+  ],
+  "screenshotPath": "pages/product-manuals/screenshot.png"
+}

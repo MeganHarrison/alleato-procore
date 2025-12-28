@@ -1,0 +1,49 @@
+{
+  "url": "https://support.procore.com/@api/deki/pages/273/pdf/Procore%2bWeb%2b(app.procore.com).pdf",
+  "pageName": "Procore%2bWeb%2b(app.procore.com).pdf",
+  "category": "documentation",
+  "pageId": "procore_2bweb_2b_app_procore_com_pdf",
+  "timestamp": "2025-12-27T18:54:44.247Z",
+  "analysis": {
+    "components": {
+      "buttons": 0,
+      "forms": 0,
+      "inputs": 0,
+      "tables": 0,
+      "modals": 0,
+      "navigation": 0,
+      "cards": 0,
+      "lists": 0,
+      "tabs": 0,
+      "dropdowns": 0,
+      "icons": 0,
+      "headings": {
+        "h1": 0,
+        "h2": 0,
+        "h3": 0,
+        "h4": 0
+      },
+      "codeBlocks": 0,
+      "images": 0,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "",
+      "headings": [],
+      "paragraphs": 0,
+      "sections": 0
+    },
+    "tables": [],
+    "breadcrumbs": [],
+    "title": "",
+    "h1": null,
+    "metaDescription": null
+  },
+  "links": 0,
+  "linkDetails": [],
+  "clickables": 0,
+  "clickableDetails": [],
+  "expandables": 0,
+  "expandableDetails": [],
+  "screenshotPath": "pages/procore_2bweb_2b_app_procore_com_pdf/screenshot.png"
+}

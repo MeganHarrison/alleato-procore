@@ -1,0 +1,23 @@
+{
+  "parentPage": "permissions-matrix",
+  "parentUrl": "https://v2.support.procore.com/process-guides/permissions-matrix/",
+  "expandableIndex": 1,
+  "revealedContent": [
+    {
+      "text": "Company Level Tool Permissions           360 Reporting - 360 Reports    360 Reporting - Single Tool Reports    Admin Tool     Bid Board / Portfolio Planning    Conversations    Cost Catalog    Directo",
+      "type": "details",
+      "classes": "toc-subNav-desktop"
+    },
+    {
+      "text": "Project Level Tool Permissions           360 Reporting - 360 Reports    360 Reporting - Single Tool Reports    Action Plans    Admin Tool    Bidding    Budget    Change Events    Change Orders    Comm",
+      "type": "details",
+      "classes": "toc-subNav-desktop"
+    },
+    {
+      "text": "Mobile           Announcements    Change Events    Commitments    Conversations    Coordination Issues    Drawings    General Mobile    Incidents    Instructions    Locations    My Time    Photos    P",
+      "type": "details",
+      "classes": "toc-subNav-desktop"
+    }
+  ],
+  "timestamp": "2025-12-27T19:08:16.745Z"
+}

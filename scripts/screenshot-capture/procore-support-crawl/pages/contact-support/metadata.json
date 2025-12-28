@@ -1,0 +1,928 @@
+{
+  "url": "https://es.support.procore.com/references/contact-support",
+  "pageName": "contact-support",
+  "category": "reference",
+  "pageId": "contact-support",
+  "timestamp": "2025-12-27T19:22:37.027Z",
+  "analysis": {
+    "components": {
+      "buttons": 20,
+      "forms": 3,
+      "inputs": 34,
+      "tables": 3,
+      "modals": 1,
+      "navigation": 5,
+      "cards": 0,
+      "lists": 22,
+      "tabs": 0,
+      "dropdowns": 1,
+      "icons": 4,
+      "headings": {
+        "h1": 1,
+        "h2": 2,
+        "h3": 2,
+        "h4": 6
+      },
+      "codeBlocks": 0,
+      "images": 5,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "Contactar a Soporte",
+      "headings": [
+        {
+          "level": "h2",
+          "text": "Artículos recomendados",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Cookie Preferences",
+          "id": "ot-pc-title"
+        },
+        {
+          "level": "h3",
+          "text": "Manage Consent Preferences",
+          "id": "ot-category-title"
+        },
+        {
+          "level": "h3",
+          "text": "Cookie List",
+          "id": null
+        }
+      ],
+      "paragraphs": 14,
+      "sections": 6
+    },
+    "tables": [
+      {
+        "index": 1,
+        "headers": [],
+        "rows": 2,
+        "classes": "",
+        "id": null
+      },
+      {
+        "index": 2,
+        "headers": [],
+        "rows": 1,
+        "classes": "vertical-lines mt-responsive-table",
+        "id": null
+      },
+      {
+        "index": 3,
+        "headers": [],
+        "rows": 1,
+        "classes": "vertical-lines mt-responsive-table",
+        "id": null
+      }
+    ],
+    "breadcrumbs": [
+      {
+        "text": "Saltar al contenido principal",
+        "href": "https://es.support.procore.com/references/contact-support#elm-main-content"
+      },
+      {
+        "text": "Soporte",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es?journey=supporttoprocore"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/references/contact-support#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "Contáctenos",
+        "href": "https://es.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "Iniciar sesión en la Aplicación de Procore",
+        "href": "https://login.procore.com/?locale=es&journey=supporttologin"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Buscar en el sitio",
+        "href": "https://es.support.procore.com/references/contact-support#"
+      },
+      {
+        "text": "Ir al artículo anterior",
+        "href": "https://es.support.procore.com/references/contact-support#"
+      },
+      {
+        "text": "Inicio de sesión",
+        "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=references%2Fcontact-support"
+      },
+      {
+        "text": "Inicio",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Referencias",
+        "href": "https://es.support.procore.com/references"
+      },
+      {
+        "text": "Guardar como PDF",
+        "href": "https://es.support.procore.com/@api/deki/pages/1144/pdf/Contactar%2ba%2bSoporte.pdf"
+      },
+      {
+        "text": "Resultados de la búsqueda basados en su asunto",
+        "href": "https://es.support.procore.com/references/contact-support#Resultados_de_la_b.C3.BAsqueda_basados_en_su_asunto"
+      },
+      {
+        "text": "Enlaces útiles",
+        "href": "https://es.support.procore.com/references/contact-support#Enlaces_.C3.BAtiles"
+      },
+      {
+        "text": "Soporte al cliente",
+        "href": "https://es.support.procore.com/references/contact-support#Soporte_al_cliente"
+      },
+      {
+        "text": "Enlaces útiles",
+        "href": "https://es.support.procore.com/references/contact-support#Enlaces_.C3.BAtiles_2"
+      },
+      {
+        "text": "Soporte al cliente",
+        "href": "https://es.support.procore.com/references/contact-support#Soporte_al_cliente_2"
+      },
+      {
+        "text": "Comienzo con Procore",
+        "href": "https://es.support.procore.com/getting-started-with-procore"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/faq"
+      },
+      {
+        "text": "¿Por qué no puedo iniciar sesión en Procore?",
+        "href": "https://es.support.procore.com/faq/trouble-logging-in-to-procore"
+      },
+      {
+        "text": "Matriz de permisos de usuario - Web",
+        "href": "https://es.support.procore.com/references/user-permissions-matrix-web"
+      },
+      {
+        "text": "Matriz de permisos de usuario - móvil",
+        "href": "https://es.support.procore.com/references/user-permission-matrix-mobile"
+      },
+      {
+        "text": "Glosario de términos",
+        "href": "https://es.support.procore.com/references/construction-management/glossary-of-terms"
+      },
+      {
+        "text": "Enviarnos por correo electrónico",
+        "href": "mailto:soporte@procore.com"
+      },
+      {
+        "text": "Comienzo con Procore",
+        "href": "https://es.support.procore.com/getting-started-with-procore"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/faq"
+      },
+      {
+        "text": "¿Por qué no puedo iniciar sesión en Procore?",
+        "href": "https://es.support.procore.com/faq/trouble-logging-in-to-procore"
+      },
+      {
+        "text": "Matriz de permisos de usuario - Web",
+        "href": "https://es.support.procore.com/references/user-permissions-matrix-web"
+      },
+      {
+        "text": "Matriz de permisos de usuario - móvil",
+        "href": "https://es.support.procore.com/references/user-permission-matrix-mobile"
+      },
+      {
+        "text": "Glosario de términos",
+        "href": "https://es.support.procore.com/references/construction-management/glossary-of-terms"
+      },
+      {
+        "text": "Enviarnos por correo electrónico",
+        "href": "mailto:soporte@procore.com"
+      },
+      {
+        "text": "Volver arriba",
+        "href": "https://es.support.procore.com/references/contact-support#title"
+      },
+      {
+        "text": "Glosario de términos",
+        "href": "https://es.support.procore.com/references/construction-management/glossary-of-terms"
+      },
+      {
+        "text": "Seguridad y privacidad de la información",
+        "href": "https://es.support.procore.com/references/information-security-and-privacy"
+      },
+      {
+        "text": "Procore Analytics 1.0 - Descripción general de las medidas de seguridad",
+        "href": "https://es.support.procore.com/references/Procore_Analytics_-_Security_Measures_Overview"
+      },
+      {
+        "text": "Videos",
+        "href": "https://es.support.procore.com/references/videos"
+      },
+      {
+        "text": "Administración de la construcción",
+        "href": "https://es.support.procore.com/references/construction-management"
+      },
+      {
+        "text": "Plantillas de importación de Procore",
+        "href": "https://es.support.procore.com/references/procore-import-templates"
+      },
+      {
+        "text": "English-US",
+        "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us"
+      },
+      {
+        "text": "Published",
+        "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished"
+      },
+      {
+        "text": "Powered by CXone Expert\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "Aviso de privacidad",
+        "href": "https://www.procore.com/es/legal/privacy"
+      },
+      {
+        "text": "Términos de uso",
+        "href": "https://www.procore.com/es/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "More information",
+        "href": "https://www.procore.com/legal/cookie-notice"
+      },
+      {
+        "text": "",
+        "href": "https://www.onetrust.com/products/cookie-consent/"
+      }
+    ],
+    "title": "Contactar a Soporte - Procore",
+    "h1": "Contactar a Soporte",
+    "metaDescription": "&iquest;Tienes una pregunta? &iquest;Necesita ayuda? &iquest;Encuentra un error? Nuestro equipo de soporte t&eacute;cnico est&aacute; aqu&iacute; para ayudarte."
+  },
+  "links": 39,
+  "linkDetails": [
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Soporte",
+      "classes": "",
+      "id": null,
+      "index": 1,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "internal",
+      "id": null,
+      "index": 4,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 5,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 6,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 7,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 8,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 9,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 10,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 11,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 12,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 13,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡（简体中文）",
+      "classes": "link-https",
+      "id": null,
+      "index": 14,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 15,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 19,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=references%2Fcontact-support",
+      "text": "Inicio de sesión",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 22,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Inicio",
+      "classes": "",
+      "id": null,
+      "index": 23,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/references",
+      "text": "Referencias",
+      "classes": "",
+      "id": null,
+      "index": 24,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/@api/deki/pages/1144/pdf/Contactar%2ba%2bSoporte.pdf",
+      "text": "Guardar como PDF",
+      "classes": "",
+      "id": null,
+      "index": 25,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/getting-started-with-procore",
+      "text": "Comienzo con Procore",
+      "classes": "",
+      "id": null,
+      "index": 31,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq",
+      "text": "Preguntas frecuentes",
+      "classes": "",
+      "id": null,
+      "index": 32,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/trouble-logging-in-to-procore",
+      "text": "¿Por qué no puedo iniciar sesión en Procore?",
+      "classes": "",
+      "id": null,
+      "index": 33,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/references/user-permissions-matrix-web",
+      "text": "Matriz de permisos de usuario - Web",
+      "classes": "",
+      "id": null,
+      "index": 34,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/references/user-permission-matrix-mobile",
+      "text": "Matriz de permisos de usuario - móvil",
+      "classes": "",
+      "id": null,
+      "index": 35,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/references/construction-management/glossary-of-terms",
+      "text": "Glosario de términos",
+      "classes": "",
+      "id": null,
+      "index": 36,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/getting-started-with-procore",
+      "text": "Comienzo con Procore",
+      "classes": "",
+      "id": null,
+      "index": 38,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq",
+      "text": "Preguntas frecuentes",
+      "classes": "",
+      "id": null,
+      "index": 39,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/trouble-logging-in-to-procore",
+      "text": "¿Por qué no puedo iniciar sesión en Procore?",
+      "classes": "",
+      "id": null,
+      "index": 40,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/references/user-permissions-matrix-web",
+      "text": "Matriz de permisos de usuario - Web",
+      "classes": "",
+      "id": null,
+      "index": 41,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/references/user-permission-matrix-mobile",
+      "text": "Matriz de permisos de usuario - móvil",
+      "classes": "",
+      "id": null,
+      "index": 42,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/references/construction-management/glossary-of-terms",
+      "text": "Glosario de términos",
+      "classes": "",
+      "id": null,
+      "index": 43,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/references/construction-management/glossary-of-terms",
+      "text": "Glosario de términos",
+      "classes": "mt-icon-previous-article",
+      "id": null,
+      "index": 46,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/references/information-security-and-privacy",
+      "text": "Seguridad y privacidad de la información",
+      "classes": "mt-icon-next-article",
+      "id": null,
+      "index": 47,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/references/Procore_Analytics_-_Security_Measures_Overview",
+      "text": "Procore Analytics 1.0 - Descripción general de las medidas de seguridad",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 48,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/references/videos",
+      "text": "Videos",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 49,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/references/construction-management",
+      "text": "Administración de la construcción",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 50,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/references/procore-import-templates",
+      "text": "Plantillas de importación de Procore",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 51,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us",
+      "text": "English-US",
+      "classes": "",
+      "id": null,
+      "index": 52,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished",
+      "text": "Published",
+      "classes": "",
+      "id": null,
+      "index": 53,
+      "category": "general"
+    }
+  ],
+  "clickables": 24,
+  "clickableDetails": [
+    {
+      "text": "América Latina (Español)",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Buscar",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "Buscar",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Expandir/contraer jerarquía global",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 3
+    },
+    {
+      "text": "Expandir/contraer ubicación global",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "Índice",
+      "id": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "hasDropdown": false,
+      "index": 5
+    },
+    {
+      "text": "aquí",
+      "id": "",
+      "type": "text",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "aquí",
+      "id": "",
+      "type": "text",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "aquí",
+      "id": "",
+      "type": "text",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "aquí",
+      "id": "",
+      "type": "text",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 10
+    },
+    {
+      "text": "",
+      "id": "close-pc-btn-handler",
+      "type": "button",
+      "classes": "ot-close-icon",
+      "hasDropdown": false,
+      "index": 11
+    },
+    {
+      "text": "Allow All",
+      "id": "accept-recommended-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 12
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 13
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 14
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 15
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 16
+    },
+    {
+      "text": "Back Button",
+      "id": "ot-link-btn back-btn-handler",
+      "type": "button",
+      "classes": "ot-link-btn back-btn-handler",
+      "hasDropdown": false,
+      "index": 17
+    },
+    {
+      "text": "Filter Icon",
+      "id": "filter-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 18
+    },
+    {
+      "text": "Clear",
+      "id": "clear-filters-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 19
+    },
+    {
+      "text": "Apply",
+      "id": "filter-apply-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 20
+    },
+    {
+      "text": "Cancel",
+      "id": "filter-cancel-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 21
+    },
+    {
+      "text": "Reject All",
+      "id": "ot-pc-refuse-all-handler",
+      "type": "button",
+      "classes": "ot-pc-refuse-all-handler",
+      "hasDropdown": false,
+      "index": 22
+    },
+    {
+      "text": "Confirm My Choices",
+      "id": "save-preference-btn-handler onetrust-close-btn-handler",
+      "type": "button",
+      "classes": "save-preference-btn-handler onetrust-close-btn-handler",
+      "hasDropdown": false,
+      "index": 23
+    }
+  ],
+  "expandables": 8,
+  "expandableDetails": [
+    {
+      "text": "Índice",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "Resultados de la búsqueda basados en su asuntoEnlaces útiles  Soporte al clienteEnlaces útiles  Sopo",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Soporte al cliente\n\nSi necesita solución de problemas adicional o ayuda técnica, nuestro dedicado eq",
+      "type": "div",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Soporte al cliente\n\nSi necesita solución de problemas adicional o ayuda técnica, nuestro dedicado eq",
+      "type": "div",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Strictly Necessary CookiesAlways ActiveThese cookies are necessary for the website to function and c",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Functional Cookies  Functional Cookies These cookies enable the website to provide enhanced function",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    },
+    {
+      "text": "Performance Cookies  Performance Cookies These cookies allow us to count visits and traffic sources ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 6
+    },
+    {
+      "text": "Opt Out of Sale of Sharing/Targeted Advertising  Opt Out of Sale of Sharing/Targeted Advertising As ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 7
+    }
+  ],
+  "screenshotPath": "pages/contact-support/screenshot.png"
+}

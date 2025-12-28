@@ -1,0 +1,3433 @@
+{
+  "url": "https://es.support.procore.com/products/procore-drive",
+  "pageName": "procore-drive",
+  "category": "product",
+  "pageId": "procore-drive",
+  "timestamp": "2025-12-27T19:26:49.477Z",
+  "analysis": {
+    "components": {
+      "buttons": 31,
+      "forms": 6,
+      "inputs": 28,
+      "tables": 5,
+      "modals": 1,
+      "navigation": 15,
+      "cards": 0,
+      "lists": 104,
+      "tabs": 0,
+      "dropdowns": 3,
+      "icons": 4,
+      "headings": {
+        "h1": 3,
+        "h2": 5,
+        "h3": 6,
+        "h4": 25
+      },
+      "codeBlocks": 0,
+      "images": 50,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "Procore Drive",
+      "headings": [
+        {
+          "level": "h2",
+          "text": "Art??culos recomendados",
+          "id": "Art.3F.3Fculos_recomendados-16985"
+        },
+        {
+          "level": "h3",
+          "text": "Herramienta documentos",
+          "id": "Herramienta_documentos-3560"
+        },
+        {
+          "level": "h3",
+          "text": "Herramienta documentos",
+          "id": "Herramienta_documentos-3563"
+        },
+        {
+          "level": "h3",
+          "text": "Herramienta documentos",
+          "id": "Herramienta_documentos-3566"
+        },
+        {
+          "level": "h3",
+          "text": "Herramienta documentos",
+          "id": "Herramienta_documentos-3569"
+        },
+        {
+          "level": "h2",
+          "text": "Cambios recientes",
+          "id": "Cambios_recientes-2683"
+        },
+        {
+          "level": "h2",
+          "text": "Art??culos recomendados",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Artículos recomendados",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Cookie Preferences",
+          "id": "ot-pc-title"
+        },
+        {
+          "level": "h3",
+          "text": "Manage Consent Preferences",
+          "id": "ot-category-title"
+        },
+        {
+          "level": "h3",
+          "text": "Cookie List",
+          "id": null
+        }
+      ],
+      "paragraphs": 41,
+      "sections": 10
+    },
+    "tables": [
+      {
+        "index": 1,
+        "headers": [],
+        "rows": 1,
+        "classes": "mt-responsive-table widget-tagged-articles",
+        "id": null
+      },
+      {
+        "index": 2,
+        "headers": [
+          "Tarea",
+          "Ninguno",
+          "Solo lectura",
+          "Estándar",
+          "Administrador"
+        ],
+        "rows": 11,
+        "classes": "mt-responsive-table perm-table perm-table-horizontal perm-table-highlight",
+        "id": null
+      },
+      {
+        "index": 3,
+        "headers": [
+          "Tarea",
+          "Ninguno",
+          "Solo lectura",
+          "Estándar",
+          "Administrador"
+        ],
+        "rows": 2,
+        "classes": "mt-responsive-table perm-table perm-table-horizontal perm-table-highlight",
+        "id": null
+      },
+      {
+        "index": 4,
+        "headers": [
+          "Tarea",
+          "Ninguno",
+          "Solo lectura",
+          "Estándar",
+          "Administrador"
+        ],
+        "rows": 7,
+        "classes": "mt-responsive-table perm-table perm-table-horizontal perm-table-highlight",
+        "id": null
+      },
+      {
+        "index": 5,
+        "headers": [
+          "Tarea",
+          "Ninguno",
+          "Solo lectura",
+          "Estándar",
+          "Administrador"
+        ],
+        "rows": 2,
+        "classes": "mt-responsive-table perm-table perm-table-horizontal perm-table-highlight",
+        "id": null
+      }
+    ],
+    "breadcrumbs": [
+      {
+        "text": "Saltar al contenido principal",
+        "href": "https://es.support.procore.com/products/procore-drive#elm-main-content"
+      },
+      {
+        "text": "Soporte",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es?journey=supporttoprocore"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "Contáctenos",
+        "href": "https://es.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "Iniciar sesión en la Aplicación de Procore",
+        "href": "https://login.procore.com/?locale=es&journey=supporttologin"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Buscar en el sitio",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Ir al artículo anterior",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Inicio de sesión",
+        "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products%2Fprocore-drive"
+      },
+      {
+        "text": "Inicio",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Productos",
+        "href": "https://es.support.procore.com/products"
+      },
+      {
+        "text": "Guardar como PDF",
+        "href": "https://es.support.procore.com/@api/deki/pages/1163/pdf/Procore%2bDrive.pdf"
+      },
+      {
+        "text": "Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive"
+      },
+      {
+        "text": "Procore Drive - Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_-_Tutoriales"
+      },
+      {
+        "text": "General",
+        "href": "https://es.support.procore.com/products/procore-drive#General"
+      },
+      {
+        "text": "Documentos",
+        "href": "https://es.support.procore.com/products/procore-drive#Documentos"
+      },
+      {
+        "text": "Correos electrónicos",
+        "href": "https://es.support.procore.com/products/procore-drive#Correos_electr.C3.B3nicos"
+      },
+      {
+        "text": "Fotos",
+        "href": "https://es.support.procore.com/products/procore-drive#Fotos"
+      },
+      {
+        "text": "Programa",
+        "href": "https://es.support.procore.com/products/procore-drive#Programa"
+      },
+      {
+        "text": "Art??culos recomendados",
+        "href": "https://es.support.procore.com/products/procore-drive#Art.3F.3Fculos_recomendados"
+      },
+      {
+        "text": "Herramienta documentos",
+        "href": "https://es.support.procore.com/products/procore-drive#Herramienta_documentos"
+      },
+      {
+        "text": "Herramienta documentos",
+        "href": "https://es.support.procore.com/products/procore-drive#Herramienta_documentos_2"
+      },
+      {
+        "text": "Herramienta documentos",
+        "href": "https://es.support.procore.com/products/procore-drive#Herramienta_documentos_3"
+      },
+      {
+        "text": "Herramienta documentos",
+        "href": "https://es.support.procore.com/products/procore-drive#Herramienta_documentos_4"
+      },
+      {
+        "text": "Cambios recientes",
+        "href": "https://es.support.procore.com/products/procore-drive#Cambios_recientes"
+      },
+      {
+        "text": "Procore Drive 3.0.5 (11/11/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_3.0.5_(11.2F11.2F2025)"
+      },
+      {
+        "text": "Procore Drive 3.0.4 (10/01/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_3.0.4_(10.2F01.2F2025)"
+      },
+      {
+        "text": "Procore Drive 3.0.3 (08/12/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_3.0.3_(08.2F12.2F2025)"
+      },
+      {
+        "text": "Procore Drive 3.0.2 (07/17/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_3.0.2_(07.2F17.2F2025)"
+      },
+      {
+        "text": "Procore Drive 3.0.1 (16/07/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_3.0.1_(16.2F07.2F2025)"
+      },
+      {
+        "text": "Procore Drive 3.0.0 (06/23/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_3.0.0_(06.2F23.2F2025)"
+      },
+      {
+        "text": "Procore Drive 2.0.2 (15/05/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_2.0.2_(15.2F05.2F2025)"
+      },
+      {
+        "text": "Procore Drive 2.0.1 (02/07/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_2.0.1_(02.2F07.2F2025)"
+      },
+      {
+        "text": "Procore Drive 2.0.0 (15/01/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_2.0.0_(15.2F01.2F2025)"
+      },
+      {
+        "text": "Procore Drive 1.11.36 (06/06/2024)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.36_(06.2F06.2F2024)"
+      },
+      {
+        "text": "Procore Drive 1.11.35 (29/04/2024)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.35_(29.2F04.2F2024)"
+      },
+      {
+        "text": "Procore Drive 1.11.34 (23/04/2024)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.34_(23.2F04.2F2024)"
+      },
+      {
+        "text": "Procore Drive 1.11.33 (28/03/2024)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.33_(28.2F03.2F2024)"
+      },
+      {
+        "text": "Procore Drive 1.11.32 (21/11/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.32_(21.2F11.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.31 (06/20/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.31_(06.2F20.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.30 (06/15/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.30_(06.2F15.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.29 (06/10/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.29_(06.2F10.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.28 (05/10/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.28_(05.2F10.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.27 (03/09/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.27_(03.2F09.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.26 (02/03/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.26_(02.2F03.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.25 (24/01/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.25_(24.2F01.2F2023)"
+      },
+      {
+        "text": "Art??culos recomendados",
+        "href": "https://es.support.procore.com/products/procore-drive#Art.3F.3Fculos_recomendados_2"
+      },
+      {
+        "text": "Saltar al contenido principal",
+        "href": "https://es.support.procore.com/products/procore-drive#elm-main-content"
+      },
+      {
+        "text": "Soporte",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es?journey=supporttoprocore"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "Contáctenos",
+        "href": "https://es.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "Iniciar sesión en la Aplicación de Procore",
+        "href": "https://login.procore.com/?locale=es&journey=supporttologin"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Buscar en el sitio",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Ir al art??culo anterior",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Inicio de sesi??n",
+        "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products/procore-drive"
+      },
+      {
+        "text": "Inicio",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Productos",
+        "href": "https://es.support.procore.com/products"
+      },
+      {
+        "text": "Guardar como PDF",
+        "href": "https://es.support.procore.com/@api/deki/pages/1163/pdf/Procore%2bDrive.pdf"
+      },
+      {
+        "text": "Procore Drive - Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_-_Tutoriales"
+      },
+      {
+        "text": "General",
+        "href": "https://es.support.procore.com/products/procore-drive#General"
+      },
+      {
+        "text": "Documentos",
+        "href": "https://es.support.procore.com/products/procore-drive#Documentos"
+      },
+      {
+        "text": "Correos electrónicos",
+        "href": "https://es.support.procore.com/products/procore-drive#Correos_electr.C3.B3nicos"
+      },
+      {
+        "text": "Fotos",
+        "href": "https://es.support.procore.com/products/procore-drive#Fotos"
+      },
+      {
+        "text": "Programa",
+        "href": "https://es.support.procore.com/products/procore-drive#Programa"
+      },
+      {
+        "text": "Art??culos recomendados",
+        "href": "https://es.support.procore.com/products/procore-drive#Art.3F.3Fculos_recomendados"
+      },
+      {
+        "text": "Herramienta documentos",
+        "href": "https://es.support.procore.com/products/procore-drive#Herramienta_documentos"
+      },
+      {
+        "text": "Herramienta documentos",
+        "href": "https://es.support.procore.com/products/procore-drive#Herramienta_documentos_2"
+      },
+      {
+        "text": "Herramienta documentos",
+        "href": "https://es.support.procore.com/products/procore-drive#Herramienta_documentos_3"
+      },
+      {
+        "text": "Herramienta documentos",
+        "href": "https://es.support.procore.com/products/procore-drive#Herramienta_documentos_4"
+      },
+      {
+        "text": "Cambios recientes",
+        "href": "https://es.support.procore.com/products/procore-drive#Cambios_recientes"
+      },
+      {
+        "text": "Procore Drive 3.0.5 (11/11/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_3.0.5_(11.2F11.2F2025)"
+      },
+      {
+        "text": "Procore Drive 3.0.4 (10/01/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_3.0.4_(10.2F01.2F2025)"
+      },
+      {
+        "text": "Procore Drive 3.0.3 (08/12/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_3.0.3_(08.2F12.2F2025)"
+      },
+      {
+        "text": "Procore Drive 3.0.2 (07/17/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_3.0.2_(07.2F17.2F2025)"
+      },
+      {
+        "text": "Procore Drive 3.0.1 (16/07/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_3.0.1_(16.2F07.2F2025)"
+      },
+      {
+        "text": "Procore Drive 3.0.0 (06/23/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_3.0.0_(06.2F23.2F2025)"
+      },
+      {
+        "text": "Procore Drive 2.0.2 (15/05/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_2.0.2_(15.2F05.2F2025)"
+      },
+      {
+        "text": "Procore Drive 2.0.1 (02/07/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_2.0.1_(02.2F07.2F2025)"
+      },
+      {
+        "text": "Procore Drive 2.0.0 (15/01/2025)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_2.0.0_(15.2F01.2F2025)"
+      },
+      {
+        "text": "Procore Drive 1.11.36 (06/06/2024)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.36_(06.2F06.2F2024)"
+      },
+      {
+        "text": "Procore Drive 1.11.35 (29/04/2024)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.35_(29.2F04.2F2024)"
+      },
+      {
+        "text": "Procore Drive 1.11.34 (23/04/2024)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.34_(23.2F04.2F2024)"
+      },
+      {
+        "text": "Procore Drive 1.11.33 (28/03/2024)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.33_(28.2F03.2F2024)"
+      },
+      {
+        "text": "Procore Drive 1.11.32 (21/11/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.32_(21.2F11.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.31 (06/20/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.31_(06.2F20.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.30 (06/15/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.30_(06.2F15.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.29 (06/10/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.29_(06.2F10.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.28 (05/10/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.28_(05.2F10.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.27 (03/09/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.27_(03.2F09.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.26 (02/03/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.26_(02.2F03.2F2023)"
+      },
+      {
+        "text": "Procore Drive 1.11.25 (24/01/2023)",
+        "href": "https://es.support.procore.com/products/procore-drive#Procore_Drive_1.11.25_(24.2F01.2F2023)"
+      },
+      {
+        "text": "Descripción general",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Notas",
+        "href": "https://es.support.procore.com/products/procore-drive#"
+      },
+      {
+        "text": "Guía de configuración de",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials/procore-drive-setup-guide"
+      },
+      {
+        "text": "Bloquear/desbloquear una carpeta/archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/lock-unlock-a-folder-file-in-procore-drive"
+      },
+      {
+        "text": "Procore Drive - Guía de configuración",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials/procore-drive-setup-guide"
+      },
+      {
+        "text": "Asignar recursos a usuarios de Microsoft Project",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/schedule/tutorials/assign-resources-to-microsoft-project-users"
+      },
+      {
+        "text": "Instalación automática de Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials/machine-install-procore-drive"
+      },
+      {
+        "text": "Descargar archivos de Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-files-from-procore-drive"
+      },
+      {
+        "text": "¿Por qué no funciona el acceso directo de escritorio de Procore Drive?",
+        "href": "https://es.support.procore.com/faq/why-is-the-procore-drive-desktop-shortcut-not-working"
+      },
+      {
+        "text": "¿Cómo puedo cargar archivos grandes en la aplicación web de Procore?",
+        "href": "https://es.support.procore.com/faq/how-can-i-upload-large-files-to-the-procore-web-app"
+      },
+      {
+        "text": "¿Por qué el botón de eliminar está atenuado y no está disponible en la herramienta del programa de Procore Drive?",
+        "href": "https://es.support.procore.com/faq/why-is-the-delete-button-dimmed-and-not-available--in-the-schedule-tool-of-procore-drive"
+      },
+      {
+        "text": "¿Debo integrar mi Programa del proyecto de Microsoft con la aplicación web de Procore o Procore Drive?",
+        "href": "https://es.support.procore.com/faq/should-i-integrate-my-microsoft-project-schedule-in-procores-web-application-or-procore-drive"
+      },
+      {
+        "text": "¿Por qué recibo un error al descargar Procore Drive?",
+        "href": "https://es.support.procore.com/faq/why-am-i-getting-an-error-when-downloading-procore-drive"
+      },
+      {
+        "text": "Acerca de Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/about-procore-drive"
+      },
+      {
+        "text": "guía de configuración Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials/procore-drive-setup-guide"
+      },
+      {
+        "text": "Saltar al contenido principal",
+        "href": "https://es.support.procore.com/products/procore-drive#elm-main-content"
+      },
+      {
+        "text": "Soporte",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es?journey=supporttoprocore"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "Contáctenos",
+        "href": "https://es.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "Iniciar sesión en la Aplicación de Procore",
+        "href": "https://login.procore.com/?locale=es&journey=supporttologin"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Buscar en el sitio",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials#"
+      },
+      {
+        "text": "Ir al art??culo anterior",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials#"
+      },
+      {
+        "text": "Inicio de sesi??n",
+        "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products/procore-drive/tutorials"
+      },
+      {
+        "text": "Inicio",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Productos",
+        "href": "https://es.support.procore.com/products"
+      },
+      {
+        "text": "Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive"
+      },
+      {
+        "text": "Guardar como PDF",
+        "href": "https://es.support.procore.com/@api/deki/pages/16985/pdf/Procore%2bDrive%2b-%2bTutoriales.pdf"
+      },
+      {
+        "text": "General",
+        "href": "https://es.support.procore.com/products/procore-drive#General-16985"
+      },
+      {
+        "text": "Documentos",
+        "href": "https://es.support.procore.com/products/procore-drive#Documentos-16985"
+      },
+      {
+        "text": "Correos electrónicos",
+        "href": "https://es.support.procore.com/products/procore-drive#Correos_electr.C3.B3nicos-16985"
+      },
+      {
+        "text": "Fotos",
+        "href": "https://es.support.procore.com/products/procore-drive#Fotos-16985"
+      },
+      {
+        "text": "Programa",
+        "href": "https://es.support.procore.com/products/procore-drive#Programa-16985"
+      },
+      {
+        "text": "Cerrar sesión en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials/logging-out-managing-settings-in-procore-drive"
+      },
+      {
+        "text": "Iniciar sesión en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials/log-in-to-procore-drive"
+      },
+      {
+        "text": "Procore Drive - Guía de configuración",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials/procore-drive-setup-guide"
+      },
+      {
+        "text": "Actualizar Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials/update-procore-drive"
+      },
+      {
+        "text": "Retirar/registrar archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/check-out-in-a-file-in-procore-drive"
+      },
+      {
+        "text": "Eliminar una carpeta o un archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/delete-a-folder-file-in-procore-drive"
+      },
+      {
+        "text": "Descargar archivos de Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-files-from-procore-drive"
+      },
+      {
+        "text": "Descargar carpetas desde Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-a-folder-from-procore-drive"
+      },
+      {
+        "text": "Editar archivos en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/edit-files-in-procore-drive"
+      },
+      {
+        "text": "Bloquear/desbloquear una carpeta/archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/lock-unlock-a-folder-file-in-procore-drive"
+      },
+      {
+        "text": "Abrir archivos en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/open-files-in-procore-drive"
+      },
+      {
+        "text": "Cambiar el nombre de un archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/rename-a-file-in-procore-drive"
+      },
+      {
+        "text": "Cambiar el nombre de una carpeta en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/rename-a-folder-in-procore-drive"
+      },
+      {
+        "text": "Seguir/dejar de seguir un archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/track-untrack-a-file-in-procore-drive"
+      },
+      {
+        "text": "Cargar archivos en una carpeta en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/upload-files-into-a-folder-in-procore-drive"
+      },
+      {
+        "text": "Correos electrónicos de importación masiva",
+        "href": "https://es.support.procore.com/products/procore-drive/emails/tutorials/bulk-import-emails"
+      },
+      {
+        "text": "Agregar/editar una descripción a una foto en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/add-edit-a-description-to-a-photo-in-procore-drive"
+      },
+      {
+        "text": "Crear un álbum en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/create-an-album-in-procore-drive"
+      },
+      {
+        "text": "Eliminar fotos/álbumes en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/delete-photos-albums-in-procore-drive"
+      },
+      {
+        "text": "Descargar fotos/álbumes en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/download-photos-albums-in-procore-drive"
+      },
+      {
+        "text": "Abrir/ver una foto en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/open-view-a-photo-in-procore-drive"
+      },
+      {
+        "text": "Cambiar el nombre de un álbum en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/rename-an-album-in-procore-drive"
+      },
+      {
+        "text": "Rotar una foto en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/rotate-a-photo-in-procore-drive"
+      },
+      {
+        "text": "Cargar fotos a un álbum en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/upload-photos-to-an-album-in-procore-drive"
+      },
+      {
+        "text": "Deshabilitar la ventana emergente Razón del cambio de Procore en MS Project",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/disable-the-procore-change-reason-popup-in-ms-project"
+      },
+      {
+        "text": "Integre un programa de Microsoft Project, Asta o Phoenix con Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-a-microsoft-project-schedule-using-procore-drive"
+      },
+      {
+        "text": "Integrar un programa Primavera P6 usando Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-a-primavera-p6-schedule-using-procore-drive"
+      },
+      {
+        "text": "Integrar un programa de Asta Powerproject utilizando Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-an-asta-powerproject-schedule-using-procore-drive"
+      },
+      {
+        "text": "Actualizar un programa de Microsoft Project, Asta o Phoenix en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/update-a-microsoft-project-schedule-in-procore-drive"
+      },
+      {
+        "text": "Actualizar un programa Primavera P6 en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/update-a-primavera-p6-schedule-in-procore-drive"
+      },
+      {
+        "text": "Volver arriba",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials#title"
+      },
+      {
+        "text": "Actualizar un programa de Primavera P6 en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/update-a-primavera-p6-schedule-in-procore-drive"
+      },
+      {
+        "text": "Iniciar sesi??n en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials/log-in-to-procore-drive"
+      },
+      {
+        "text": "Acerca de Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/about-procore-drive"
+      },
+      {
+        "text": "Procore Drive - Notas de la versión",
+        "href": "https://es.support.procore.com/products/procore-drive/release-notes"
+      },
+      {
+        "text": "Procore Drive - Guía de configuración",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials/procore-drive-setup-guide"
+      },
+      {
+        "text": "Instalación automática de Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/tutorials/machine-install-procore-drive"
+      },
+      {
+        "text": "Tutorial List",
+        "href": "https://es.support.procore.com/Special:Search?tags=article:tutorial-list"
+      },
+      {
+        "text": "English-US",
+        "href": "https://es.support.procore.com/Special:Search?tags=language:en-us"
+      },
+      {
+        "text": "Published",
+        "href": "https://es.support.procore.com/Special:Search?tags=stage:published"
+      },
+      {
+        "text": "Powered by CXone Expert\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "[1]",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "[2]",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "[3]",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "[4]",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "[5]",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "Aviso de privacidad",
+        "href": "https://www.procore.com/es/legal/privacy"
+      },
+      {
+        "text": "Términos de uso",
+        "href": "https://www.procore.com/es/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "Retirar/registrar archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/check-out-in-a-file-in-procore-drive"
+      },
+      {
+        "text": "Eliminar una carpeta o un archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/delete-a-folder-file-in-procore-drive"
+      },
+      {
+        "text": "Descargar carpetas desde Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-a-folder-from-procore-drive"
+      },
+      {
+        "text": "Descargar archivos de Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-files-from-procore-drive"
+      },
+      {
+        "text": "Editar archivos en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/edit-files-in-procore-drive"
+      },
+      {
+        "text": "Bloquear/desbloquear una carpeta/archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/lock-unlock-a-folder-file-in-procore-drive"
+      },
+      {
+        "text": "Abrir archivos en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/open-files-in-procore-drive"
+      },
+      {
+        "text": "Cambiar el nombre de un archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/rename-a-file-in-procore-drive"
+      },
+      {
+        "text": "Cambiar el nombre de una carpeta en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/rename-a-folder-in-procore-drive"
+      },
+      {
+        "text": "Seguir/dejar de seguir un archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/track-untrack-a-file-in-procore-drive"
+      },
+      {
+        "text": "Cargar archivos en una carpeta en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/upload-files-into-a-folder-in-procore-drive"
+      },
+      {
+        "text": "¿Por qué recibo un error sobre archivos vacíos?",
+        "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-about-empty-files"
+      },
+      {
+        "text": "¿Cómo puedo cargar archivos grandes en la aplicación web Procore?",
+        "href": "https://es.support.procore.com/faq/how-can-i-upload-large-files-to-the-procore-web-app"
+      },
+      {
+        "text": "Retirar/registrar archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/check-out-in-a-file-in-procore-drive"
+      },
+      {
+        "text": "Eliminar una carpeta o un archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/delete-a-folder-file-in-procore-drive"
+      },
+      {
+        "text": "Descargar carpetas de Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-a-folder-from-procore-drive"
+      },
+      {
+        "text": "Descargar archivos de Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-files-from-procore-drive"
+      },
+      {
+        "text": "Bloquear/desbloquear una carpeta/archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/lock-unlock-a-folder-file-in-procore-drive"
+      },
+      {
+        "text": "Abrir y guardar archivos en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/edit-files-in-procore-drive"
+      },
+      {
+        "text": "Cambiar el nombre de un archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/rename-a-file-in-procore-drive"
+      },
+      {
+        "text": "Cambiar el nombre de una carpeta en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/rename-a-folder-in-procore-drive"
+      },
+      {
+        "text": "Seguir/dejar de seguir un archivo en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/track-untrack-a-file-in-procore-drive"
+      },
+      {
+        "text": "Cargar archivos en una carpeta en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/upload-files-into-a-folder-in-procore-drive"
+      },
+      {
+        "text": "Ver archivos en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/open-files-in-procore-drive"
+      },
+      {
+        "text": "Correos electrónicos de importación masiva",
+        "href": "https://es.support.procore.com/products/procore-drive/emails/tutorials/bulk-import-emails"
+      },
+      {
+        "text": "Correos electrónicos de importación masiva",
+        "href": "https://es.support.procore.com/products/procore-drive/emails/tutorials/bulk-import-emails"
+      },
+      {
+        "text": "Ver correos electrónicos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/emails/tutorials/view-emails"
+      },
+      {
+        "text": "Agregar/editar una descripción a una foto en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/add-edit-a-description-to-a-photo-in-procore-drive"
+      },
+      {
+        "text": "Crear un álbum en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/create-an-album-in-procore-drive"
+      },
+      {
+        "text": "Eliminar fotos/álbumes en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/delete-photos-albums-in-procore-drive"
+      },
+      {
+        "text": "Descargar fotos/álbumes en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/download-photos-albums-in-procore-drive"
+      },
+      {
+        "text": "Abrir/ver una foto en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/open-view-a-photo-in-procore-drive"
+      },
+      {
+        "text": "Cambiar el nombre de un álbum en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/rename-an-album-in-procore-drive"
+      },
+      {
+        "text": "Rotar una foto en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/rotate-a-photo-in-procore-drive"
+      },
+      {
+        "text": "Cargar fotos a un álbum en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/upload-photos-to-an-album-in-procore-drive"
+      },
+      {
+        "text": "Agregar/editar una descripción a una foto en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/add-edit-a-description-to-a-photo-in-procore-drive"
+      },
+      {
+        "text": "Crear un álbum en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/create-an-album-in-procore-drive"
+      },
+      {
+        "text": "Eliminar fotos/álbumes en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/delete-photos-albums-in-procore-drive"
+      },
+      {
+        "text": "Descargar fotos/álbumes en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/download-photos-albums-in-procore-drive"
+      },
+      {
+        "text": "Abrir/ver una foto en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/open-view-a-photo-in-procore-drive"
+      },
+      {
+        "text": "Cambiar el nombre de un álbum en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/rename-an-album-in-procore-drive"
+      },
+      {
+        "text": "Cargar fotos a un álbum en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/upload-photos-to-an-album-in-procore-drive"
+      },
+      {
+        "text": "Deshabilitar la ventana emergente Razón del cambio de Procore en MS Project",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/disable-the-procore-change-reason-popup-in-ms-project"
+      },
+      {
+        "text": "Integre un programa de Microsoft Project, Asta o Phoenix con Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-a-microsoft-project-schedule-using-procore-drive"
+      },
+      {
+        "text": "Integrar un programa Primavera P6 usando Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-a-primavera-p6-schedule-using-procore-drive"
+      },
+      {
+        "text": "Integrar un programa de Asta Powerproject utilizando Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-an-asta-powerproject-schedule-using-procore-drive"
+      },
+      {
+        "text": "Actualizar un programa de Microsoft Project, Asta o Phoenix en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/update-a-microsoft-project-schedule-in-procore-drive"
+      },
+      {
+        "text": "Actualizar un programa Primavera P6 en Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/update-a-primavera-p6-schedule-in-procore-drive"
+      },
+      {
+        "text": "¿Por qué el botón de eliminar está atenuado y no está disponible en la herramienta del programa de Procore Drive?",
+        "href": "https://es.support.procore.com/faq/why-is-the-delete-button-dimmed-and-not-available--in-the-schedule-tool-of-procore-drive"
+      },
+      {
+        "text": "¿Debo integrar mi Programa del proyecto de Microsoft con la aplicación web de Procore o Procore Drive?",
+        "href": "https://es.support.procore.com/faq/should-i-integrate-my-microsoft-project-schedule-in-procores-web-application-or-procore-drive"
+      },
+      {
+        "text": "Integrar un programa de Microsoft Project utilizando Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-a-microsoft-project-schedule-using-procore-drive"
+      },
+      {
+        "text": "Integrar un programa Primavera P6 usando Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-a-primavera-p6-schedule-using-procore-drive"
+      },
+      {
+        "text": "Volver arriba",
+        "href": "https://es.support.procore.com/products/procore-drive#title"
+      },
+      {
+        "text": "Red de construcci??n de Procore - Videos",
+        "href": "https://es.support.procore.com/products/procore-construction-network/videos"
+      },
+      {
+        "text": "Acerca de Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/about-procore-drive"
+      },
+      {
+        "text": "Tool Landing Page",
+        "href": "https://es.support.procore.com/Special:Search?tags=article:tool-landing-page"
+      },
+      {
+        "text": "English-US",
+        "href": "https://es.support.procore.com/Special:Search?tags=language:en-us"
+      },
+      {
+        "text": "Published",
+        "href": "https://es.support.procore.com/Special:Search?tags=stage:published"
+      },
+      {
+        "text": "do-not-migrate",
+        "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate"
+      },
+      {
+        "text": "procore-drive",
+        "href": "https://es.support.procore.com/Special:Search?tags=procore-drive"
+      },
+      {
+        "text": "Powered by CXone Expert\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "[1]",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "[2]",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "[3]",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "[4]",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "[5]",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "Aviso de privacidad",
+        "href": "https://www.procore.com/es/legal/privacy"
+      },
+      {
+        "text": "Términos de uso",
+        "href": "https://www.procore.com/es/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "Volver arriba",
+        "href": "https://es.support.procore.com/products/procore-drive#title"
+      },
+      {
+        "text": "Red de construcción de Procore - Videos",
+        "href": "https://es.support.procore.com/products/procore-construction-network/videos"
+      },
+      {
+        "text": "Acerca de Procore Drive",
+        "href": "https://es.support.procore.com/products/procore-drive/about-procore-drive"
+      },
+      {
+        "text": "Tool Landing Page",
+        "href": "https://es.support.procore.com/Special:Search?tags=article%3Atool-landing-page"
+      },
+      {
+        "text": "English-US",
+        "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us"
+      },
+      {
+        "text": "Published",
+        "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished"
+      },
+      {
+        "text": "do-not-migrate",
+        "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate"
+      },
+      {
+        "text": "procore-drive",
+        "href": "https://es.support.procore.com/Special:Search?tags=procore-drive"
+      },
+      {
+        "text": "Powered by CXone Expert\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "Aviso de privacidad",
+        "href": "https://www.procore.com/es/legal/privacy"
+      },
+      {
+        "text": "Términos de uso",
+        "href": "https://www.procore.com/es/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "More information",
+        "href": "https://www.procore.com/legal/cookie-notice"
+      },
+      {
+        "text": "",
+        "href": "https://www.onetrust.com/products/cookie-consent/"
+      }
+    ],
+    "title": "Procore Drive - Procore",
+    "h1": "Procore Drive",
+    "metaDescription": "La forma m&aacute;s r&aacute;pida de cargar o descargar archivos dentro y fuera de Procore es utilizando Procore Drive, que es nuestra aplicaci&oacute;n de escritorio de Windows."
+  },
+  "links": 184,
+  "linkDetails": [
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Soporte",
+      "classes": "",
+      "id": null,
+      "index": 1,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "internal",
+      "id": null,
+      "index": 4,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 5,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 6,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 7,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 8,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 9,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 10,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 11,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 12,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 13,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡（简体中文）",
+      "classes": "link-https",
+      "id": null,
+      "index": 14,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 15,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/references/contact-support",
+      "text": "Contáctenos",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 19,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 20,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 21,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products%2Fprocore-drive",
+      "text": "Inicio de sesión",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 24,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Inicio",
+      "classes": "",
+      "id": null,
+      "index": 25,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products",
+      "text": "Productos",
+      "classes": "",
+      "id": null,
+      "index": 26,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/@api/deki/pages/1163/pdf/Procore%2bDrive.pdf",
+      "text": "Guardar como PDF",
+      "classes": "",
+      "id": null,
+      "index": 27,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Soporte",
+      "classes": "",
+      "id": null,
+      "index": 64,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "internal",
+      "id": null,
+      "index": 67,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 68,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 69,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 70,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 71,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 72,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 73,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 74,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 75,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 76,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡（简体中文）",
+      "classes": "link-https",
+      "id": null,
+      "index": 77,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 78,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/references/contact-support",
+      "text": "Contáctenos",
+      "classes": "",
+      "id": null,
+      "index": 79,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 81,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 82,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 83,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 84,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products/procore-drive",
+      "text": "Inicio de sesi??n",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 87,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Inicio",
+      "classes": "",
+      "id": null,
+      "index": 88,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products",
+      "text": "Productos",
+      "classes": "",
+      "id": null,
+      "index": 89,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/@api/deki/pages/1163/pdf/Procore%2bDrive.pdf",
+      "text": "Guardar como PDF",
+      "classes": "",
+      "id": null,
+      "index": 90,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/tutorials/procore-drive-setup-guide",
+      "text": "Guía de configuración de",
+      "classes": "",
+      "id": null,
+      "index": 139,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/lock-unlock-a-folder-file-in-procore-drive",
+      "text": "Bloquear/desbloquear una carpeta/archivo en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 140,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/tutorials/procore-drive-setup-guide",
+      "text": "Procore Drive - Guía de configuración",
+      "classes": "internal",
+      "id": null,
+      "index": 141,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/schedule/tutorials/assign-resources-to-microsoft-project-users",
+      "text": "Asignar recursos a usuarios de Microsoft Project",
+      "classes": "internal",
+      "id": null,
+      "index": 142,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/tutorials/machine-install-procore-drive",
+      "text": "Instalación automática de Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 143,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-files-from-procore-drive",
+      "text": "Descargar archivos de Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 144,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-is-the-procore-drive-desktop-shortcut-not-working",
+      "text": "¿Por qué no funciona el acceso directo de escritorio de Procore Drive?",
+      "classes": "internal",
+      "id": null,
+      "index": 145,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-can-i-upload-large-files-to-the-procore-web-app",
+      "text": "¿Cómo puedo cargar archivos grandes en la aplicación web de Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 146,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-is-the-delete-button-dimmed-and-not-available--in-the-schedule-tool-of-procore-drive",
+      "text": "¿Por qué el botón de eliminar está atenuado y no está disponible en la herramienta del programa de Procore Drive?",
+      "classes": "internal",
+      "id": null,
+      "index": 147,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/should-i-integrate-my-microsoft-project-schedule-in-procores-web-application-or-procore-drive",
+      "text": "¿Debo integrar mi Programa del proyecto de Microsoft con la aplicación web de Procore o Procore Drive?",
+      "classes": "internal",
+      "id": null,
+      "index": 148,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-am-i-getting-an-error-when-downloading-procore-drive",
+      "text": "¿Por qué recibo un error al descargar Procore Drive?",
+      "classes": "internal",
+      "id": null,
+      "index": 149,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/about-procore-drive",
+      "text": "Acerca de Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 150,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/tutorials/procore-drive-setup-guide",
+      "text": "guía de configuración Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 151,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Soporte",
+      "classes": "",
+      "id": null,
+      "index": 153,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "internal",
+      "id": null,
+      "index": 156,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 157,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 158,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 159,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 160,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 161,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 162,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 163,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 164,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 165,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡（简体中文）",
+      "classes": "link-https",
+      "id": null,
+      "index": 166,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 167,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/references/contact-support",
+      "text": "Contáctenos",
+      "classes": "",
+      "id": null,
+      "index": 168,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 170,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 171,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 172,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 173,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products/procore-drive/tutorials",
+      "text": "Inicio de sesi??n",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 176,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Inicio",
+      "classes": "",
+      "id": null,
+      "index": 177,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products",
+      "text": "Productos",
+      "classes": "",
+      "id": null,
+      "index": 178,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/@api/deki/pages/16985/pdf/Procore%2bDrive%2b-%2bTutoriales.pdf",
+      "text": "Guardar como PDF",
+      "classes": "",
+      "id": null,
+      "index": 180,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/tutorials/logging-out-managing-settings-in-procore-drive",
+      "text": "Cerrar sesión en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 186,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/tutorials/log-in-to-procore-drive",
+      "text": "Iniciar sesión en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 187,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/tutorials/procore-drive-setup-guide",
+      "text": "Procore Drive - Guía de configuración",
+      "classes": "internal",
+      "id": null,
+      "index": 188,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/tutorials/update-procore-drive",
+      "text": "Actualizar Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 189,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/check-out-in-a-file-in-procore-drive",
+      "text": "Retirar/registrar archivo en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 190,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/delete-a-folder-file-in-procore-drive",
+      "text": "Eliminar una carpeta o un archivo en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 191,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-files-from-procore-drive",
+      "text": "Descargar archivos de Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 192,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-a-folder-from-procore-drive",
+      "text": "Descargar carpetas desde Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 193,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/edit-files-in-procore-drive",
+      "text": "Editar archivos en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 194,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/lock-unlock-a-folder-file-in-procore-drive",
+      "text": "Bloquear/desbloquear una carpeta/archivo en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 195,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/open-files-in-procore-drive",
+      "text": "Abrir archivos en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 196,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/rename-a-file-in-procore-drive",
+      "text": "Cambiar el nombre de un archivo en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 197,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/rename-a-folder-in-procore-drive",
+      "text": "Cambiar el nombre de una carpeta en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 198,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/track-untrack-a-file-in-procore-drive",
+      "text": "Seguir/dejar de seguir un archivo en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 199,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/upload-files-into-a-folder-in-procore-drive",
+      "text": "Cargar archivos en una carpeta en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 200,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/emails/tutorials/bulk-import-emails",
+      "text": "Correos electrónicos de importación masiva",
+      "classes": "internal",
+      "id": null,
+      "index": 201,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/add-edit-a-description-to-a-photo-in-procore-drive",
+      "text": "Agregar/editar una descripción a una foto en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 202,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/create-an-album-in-procore-drive",
+      "text": "Crear un álbum en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 203,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/delete-photos-albums-in-procore-drive",
+      "text": "Eliminar fotos/álbumes en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 204,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/download-photos-albums-in-procore-drive",
+      "text": "Descargar fotos/álbumes en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 205,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/open-view-a-photo-in-procore-drive",
+      "text": "Abrir/ver una foto en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 206,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/rename-an-album-in-procore-drive",
+      "text": "Cambiar el nombre de un álbum en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 207,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/rotate-a-photo-in-procore-drive",
+      "text": "Rotar una foto en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 208,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/upload-photos-to-an-album-in-procore-drive",
+      "text": "Cargar fotos a un álbum en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 209,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/disable-the-procore-change-reason-popup-in-ms-project",
+      "text": "Deshabilitar la ventana emergente Razón del cambio de Procore en MS Project",
+      "classes": "internal",
+      "id": null,
+      "index": 210,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-a-microsoft-project-schedule-using-procore-drive",
+      "text": "Integre un programa de Microsoft Project, Asta o Phoenix con Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 211,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-a-primavera-p6-schedule-using-procore-drive",
+      "text": "Integrar un programa Primavera P6 usando Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 212,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-an-asta-powerproject-schedule-using-procore-drive",
+      "text": "Integrar un programa de Asta Powerproject utilizando Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 213,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/update-a-microsoft-project-schedule-in-procore-drive",
+      "text": "Actualizar un programa de Microsoft Project, Asta o Phoenix en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 214,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/update-a-primavera-p6-schedule-in-procore-drive",
+      "text": "Actualizar un programa Primavera P6 en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 215,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/update-a-primavera-p6-schedule-in-procore-drive",
+      "text": "Actualizar un programa de Primavera P6 en Procore Drive",
+      "classes": "mt-icon-previous-article",
+      "id": null,
+      "index": 217,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/tutorials/log-in-to-procore-drive",
+      "text": "Iniciar sesi??n en Procore Drive",
+      "classes": "mt-icon-next-article",
+      "id": null,
+      "index": 218,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/about-procore-drive",
+      "text": "Acerca de Procore Drive",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 219,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/release-notes",
+      "text": "Procore Drive - Notas de la versión",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 220,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/tutorials/procore-drive-setup-guide",
+      "text": "Procore Drive - Guía de configuración",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 221,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/tutorials/machine-install-procore-drive",
+      "text": "Instalación automática de Procore Drive",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 222,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=article:tutorial-list",
+      "text": "Tutorial List",
+      "classes": "",
+      "id": null,
+      "index": 223,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=language:en-us",
+      "text": "English-US",
+      "classes": "",
+      "id": null,
+      "index": 224,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=stage:published",
+      "text": "Published",
+      "classes": "",
+      "id": null,
+      "index": 225,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/check-out-in-a-file-in-procore-drive",
+      "text": "Retirar/registrar archivo en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 236,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/delete-a-folder-file-in-procore-drive",
+      "text": "Eliminar una carpeta o un archivo en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 237,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-a-folder-from-procore-drive",
+      "text": "Descargar carpetas desde Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 238,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-files-from-procore-drive",
+      "text": "Descargar archivos de Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 239,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/edit-files-in-procore-drive",
+      "text": "Editar archivos en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 240,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/lock-unlock-a-folder-file-in-procore-drive",
+      "text": "Bloquear/desbloquear una carpeta/archivo en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 241,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/open-files-in-procore-drive",
+      "text": "Abrir archivos en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 242,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/rename-a-file-in-procore-drive",
+      "text": "Cambiar el nombre de un archivo en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 243,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/rename-a-folder-in-procore-drive",
+      "text": "Cambiar el nombre de una carpeta en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 244,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/track-untrack-a-file-in-procore-drive",
+      "text": "Seguir/dejar de seguir un archivo en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 245,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/upload-files-into-a-folder-in-procore-drive",
+      "text": "Cargar archivos en una carpeta en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 246,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-about-empty-files",
+      "text": "¿Por qué recibo un error sobre archivos vacíos?",
+      "classes": "internal",
+      "id": null,
+      "index": 247,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-can-i-upload-large-files-to-the-procore-web-app",
+      "text": "¿Cómo puedo cargar archivos grandes en la aplicación web Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 248,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/check-out-in-a-file-in-procore-drive",
+      "text": "Retirar/registrar archivo en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 249,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/delete-a-folder-file-in-procore-drive",
+      "text": "Eliminar una carpeta o un archivo en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 250,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-a-folder-from-procore-drive",
+      "text": "Descargar carpetas de Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 251,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/download-files-from-procore-drive",
+      "text": "Descargar archivos de Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 252,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/lock-unlock-a-folder-file-in-procore-drive",
+      "text": "Bloquear/desbloquear una carpeta/archivo en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 253,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/edit-files-in-procore-drive",
+      "text": "Abrir y guardar archivos en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 254,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/rename-a-file-in-procore-drive",
+      "text": "Cambiar el nombre de un archivo en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 255,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/rename-a-folder-in-procore-drive",
+      "text": "Cambiar el nombre de una carpeta en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 256,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/track-untrack-a-file-in-procore-drive",
+      "text": "Seguir/dejar de seguir un archivo en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 257,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/upload-files-into-a-folder-in-procore-drive",
+      "text": "Cargar archivos en una carpeta en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 258,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/documents/tutorials/open-files-in-procore-drive",
+      "text": "Ver archivos en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 259,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/emails/tutorials/bulk-import-emails",
+      "text": "Correos electrónicos de importación masiva",
+      "classes": "internal",
+      "id": null,
+      "index": 260,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/emails/tutorials/bulk-import-emails",
+      "text": "Correos electrónicos de importación masiva",
+      "classes": "",
+      "id": null,
+      "index": 261,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/emails/tutorials/view-emails",
+      "text": "Ver correos electrónicos",
+      "classes": "",
+      "id": null,
+      "index": 262,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/add-edit-a-description-to-a-photo-in-procore-drive",
+      "text": "Agregar/editar una descripción a una foto en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 263,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/create-an-album-in-procore-drive",
+      "text": "Crear un álbum en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 264,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/delete-photos-albums-in-procore-drive",
+      "text": "Eliminar fotos/álbumes en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 265,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/download-photos-albums-in-procore-drive",
+      "text": "Descargar fotos/álbumes en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 266,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/open-view-a-photo-in-procore-drive",
+      "text": "Abrir/ver una foto en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 267,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/rename-an-album-in-procore-drive",
+      "text": "Cambiar el nombre de un álbum en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 268,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/rotate-a-photo-in-procore-drive",
+      "text": "Rotar una foto en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 269,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/upload-photos-to-an-album-in-procore-drive",
+      "text": "Cargar fotos a un álbum en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 270,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/add-edit-a-description-to-a-photo-in-procore-drive",
+      "text": "Agregar/editar una descripción a una foto en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 271,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/create-an-album-in-procore-drive",
+      "text": "Crear un álbum en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 272,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/delete-photos-albums-in-procore-drive",
+      "text": "Eliminar fotos/álbumes en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 273,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/download-photos-albums-in-procore-drive",
+      "text": "Descargar fotos/álbumes en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 274,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/open-view-a-photo-in-procore-drive",
+      "text": "Abrir/ver una foto en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 275,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/rename-an-album-in-procore-drive",
+      "text": "Cambiar el nombre de un álbum en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 276,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/photos/tutorials/upload-photos-to-an-album-in-procore-drive",
+      "text": "Cargar fotos a un álbum en Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 277,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/disable-the-procore-change-reason-popup-in-ms-project",
+      "text": "Deshabilitar la ventana emergente Razón del cambio de Procore en MS Project",
+      "classes": "internal",
+      "id": null,
+      "index": 278,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-a-microsoft-project-schedule-using-procore-drive",
+      "text": "Integre un programa de Microsoft Project, Asta o Phoenix con Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 279,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-a-primavera-p6-schedule-using-procore-drive",
+      "text": "Integrar un programa Primavera P6 usando Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 280,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-an-asta-powerproject-schedule-using-procore-drive",
+      "text": "Integrar un programa de Asta Powerproject utilizando Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 281,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/update-a-microsoft-project-schedule-in-procore-drive",
+      "text": "Actualizar un programa de Microsoft Project, Asta o Phoenix en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 282,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/update-a-primavera-p6-schedule-in-procore-drive",
+      "text": "Actualizar un programa Primavera P6 en Procore Drive",
+      "classes": "internal",
+      "id": null,
+      "index": 283,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-is-the-delete-button-dimmed-and-not-available--in-the-schedule-tool-of-procore-drive",
+      "text": "¿Por qué el botón de eliminar está atenuado y no está disponible en la herramienta del programa de Procore Drive?",
+      "classes": "internal",
+      "id": null,
+      "index": 284,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/should-i-integrate-my-microsoft-project-schedule-in-procores-web-application-or-procore-drive",
+      "text": "¿Debo integrar mi Programa del proyecto de Microsoft con la aplicación web de Procore o Procore Drive?",
+      "classes": "internal",
+      "id": null,
+      "index": 285,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-a-microsoft-project-schedule-using-procore-drive",
+      "text": "Integrar un programa de Microsoft Project utilizando Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 286,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/schedule/tutorials/integrate-a-primavera-p6-schedule-using-procore-drive",
+      "text": "Integrar un programa Primavera P6 usando Procore Drive",
+      "classes": "",
+      "id": null,
+      "index": 287,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-construction-network/videos",
+      "text": "Red de construcci??n de Procore - Videos",
+      "classes": "mt-icon-previous-article",
+      "id": null,
+      "index": 289,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/about-procore-drive",
+      "text": "Acerca de Procore Drive",
+      "classes": "mt-icon-next-article",
+      "id": null,
+      "index": 290,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=article:tool-landing-page",
+      "text": "Tool Landing Page",
+      "classes": "",
+      "id": null,
+      "index": 291,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=language:en-us",
+      "text": "English-US",
+      "classes": "",
+      "id": null,
+      "index": 292,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=stage:published",
+      "text": "Published",
+      "classes": "",
+      "id": null,
+      "index": 293,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate",
+      "text": "do-not-migrate",
+      "classes": "",
+      "id": null,
+      "index": 294,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=procore-drive",
+      "text": "procore-drive",
+      "classes": "",
+      "id": null,
+      "index": 295,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-construction-network/videos",
+      "text": "Red de construcción de Procore - Videos",
+      "classes": "mt-icon-previous-article",
+      "id": null,
+      "index": 307,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-drive/about-procore-drive",
+      "text": "Acerca de Procore Drive",
+      "classes": "mt-icon-next-article",
+      "id": null,
+      "index": 308,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=article%3Atool-landing-page",
+      "text": "Tool Landing Page",
+      "classes": "",
+      "id": null,
+      "index": 309,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us",
+      "text": "English-US",
+      "classes": "",
+      "id": null,
+      "index": 310,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished",
+      "text": "Published",
+      "classes": "",
+      "id": null,
+      "index": 311,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate",
+      "text": "do-not-migrate",
+      "classes": "",
+      "id": null,
+      "index": 312,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=procore-drive",
+      "text": "procore-drive",
+      "classes": "",
+      "id": null,
+      "index": 313,
+      "category": "general"
+    }
+  ],
+  "clickables": 49,
+  "clickableDetails": [
+    {
+      "text": "América Latina (Español)",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Buscar",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "Buscar",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Buscar",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 3
+    },
+    {
+      "text": "Buscar",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "Expandir/contraer jerarquía global",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 5
+    },
+    {
+      "text": "Expandir/contraer ubicación global",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "Índice",
+      "id": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "América Latina (Español)",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7 mt-self-link",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7 mt-self-link",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "Buscar",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "Expandir/contraer jerarqu??a global",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 10
+    },
+    {
+      "text": "Expandir/contraer ubicaci??n global",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 11
+    },
+    {
+      "text": "Tabla de contenido",
+      "id": "mobile-menu-toggle",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 12
+    },
+    {
+      "text": "Descripción general",
+      "id": "selected-chapter mt-self-link",
+      "type": "a",
+      "classes": "selected-chapter mt-self-link",
+      "hasDropdown": false,
+      "index": 13
+    },
+    {
+      "text": "Tutoriales",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 14
+    },
+    {
+      "text": "Tutoriales",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 15
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 16
+    },
+    {
+      "text": "Permisos",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 17
+    },
+    {
+      "text": "Tutoriales",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 18
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 19
+    },
+    {
+      "text": "Permisos",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 20
+    },
+    {
+      "text": "Tutoriales",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 21
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 22
+    },
+    {
+      "text": "Permisos",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 23
+    },
+    {
+      "text": "Tutoriales",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 24
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 25
+    },
+    {
+      "text": "Permisos",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 26
+    },
+    {
+      "text": "Notas",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 27
+    },
+    {
+      "text": "Descargar ahora",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 28
+    },
+    {
+      "text": "América Latina (Español)",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "hasDropdown": false,
+      "index": 29
+    },
+    {
+      "text": "Buscar",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 30
+    },
+    {
+      "text": "Expandir/contraer jerarqu??a global",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 31
+    },
+    {
+      "text": "Expandir/contraer ubicaci??n global",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 32
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 33
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 34
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 35
+    },
+    {
+      "text": "",
+      "id": "close-pc-btn-handler",
+      "type": "button",
+      "classes": "ot-close-icon",
+      "hasDropdown": false,
+      "index": 36
+    },
+    {
+      "text": "Allow All",
+      "id": "accept-recommended-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 37
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 38
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 39
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 40
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 41
+    },
+    {
+      "text": "Back Button",
+      "id": "ot-link-btn back-btn-handler",
+      "type": "button",
+      "classes": "ot-link-btn back-btn-handler",
+      "hasDropdown": false,
+      "index": 42
+    },
+    {
+      "text": "Filter Icon",
+      "id": "filter-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 43
+    },
+    {
+      "text": "Clear",
+      "id": "clear-filters-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 44
+    },
+    {
+      "text": "Apply",
+      "id": "filter-apply-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 45
+    },
+    {
+      "text": "Cancel",
+      "id": "filter-cancel-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 46
+    },
+    {
+      "text": "Reject All",
+      "id": "ot-pc-refuse-all-handler",
+      "type": "button",
+      "classes": "ot-pc-refuse-all-handler",
+      "hasDropdown": false,
+      "index": 47
+    },
+    {
+      "text": "Confirm My Choices",
+      "id": "save-preference-btn-handler onetrust-close-btn-handler",
+      "type": "button",
+      "classes": "save-preference-btn-handler onetrust-close-btn-handler",
+      "hasDropdown": false,
+      "index": 48
+    }
+  ],
+  "expandables": 12,
+  "expandableDetails": [
+    {
+      "text": "Índice",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "Procore Drive\n\n        Procore Drive - Tutoriales\nGeneralDocumentosCorreos electrónicosFotosPrograma",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Procore Drive - Tutoriales\nGeneralDocumentosCorreos electrónicosFotosProgramaArt??culos recomendados",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Procore Drive: herramienta de documentos  \n    \n        Tutoriales\n        Preguntas frecuentes\n    ",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Procore Drive: herramienta Correos electrónicos  \n    \n        Tutoriales\n        Preguntas frecuent",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Procore Drive: herramienta de fotos  \n    \n        Tutoriales\n        Preguntas frecuentes\n        P",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    },
+    {
+      "text": "Procore Drive: herramienta de programación  \n    \n        Tutoriales\n        Preguntas frecuentes\n  ",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 6
+    },
+    {
+      "text": "GeneralDocumentosCorreos electrónicosFotosPrograma",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 7
+    },
+    {
+      "text": "Strictly Necessary CookiesAlways ActiveThese cookies are necessary for the website to function and c",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 8
+    },
+    {
+      "text": "Functional Cookies  Functional Cookies These cookies enable the website to provide enhanced function",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 9
+    },
+    {
+      "text": "Performance Cookies  Performance Cookies These cookies allow us to count visits and traffic sources ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 10
+    },
+    {
+      "text": "Opt Out of Sale of Sharing/Targeted Advertising  Opt Out of Sale of Sharing/Targeted Advertising As ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 11
+    }
+  ],
+  "screenshotPath": "pages/procore-drive/screenshot.png"
+}

@@ -1,0 +1,3113 @@
+{
+  "url": "https://es.support.procore.com/products/procore-imports",
+  "pageName": "procore-imports",
+  "category": "product",
+  "pageId": "procore-imports",
+  "timestamp": "2025-12-27T19:27:06.200Z",
+  "analysis": {
+    "components": {
+      "buttons": 83,
+      "forms": 2,
+      "inputs": 15,
+      "tables": 7,
+      "modals": 64,
+      "navigation": 5,
+      "cards": 0,
+      "lists": 71,
+      "tabs": 0,
+      "dropdowns": 1,
+      "icons": 4,
+      "headings": {
+        "h1": 1,
+        "h2": 3,
+        "h3": 16,
+        "h4": 52
+      },
+      "codeBlocks": 0,
+      "images": 86,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "Procore Imports",
+      "headings": [
+        {
+          "level": "h3",
+          "text": "Administrador de la compañía (Procore Imports)",
+          "id": "Administrador_de_la_compa.C3.B1.C3.ADa_(Procore_Imports)-4512"
+        },
+        {
+          "level": "h3",
+          "text": "Directorio de la compañía (Procore Imports)",
+          "id": "Directorio_de_la_compa.C3.B1.C3.ADa_(Procore_Imports)-4516"
+        },
+        {
+          "level": "h3",
+          "text": "Administrador del proyecto (Procore Imports)",
+          "id": "Administrador_del_proyecto_(Procore_Imports)-4523"
+        },
+        {
+          "level": "h3",
+          "text": "Directorio de proyectos (Procore Imports)",
+          "id": "Directorio_de_proyectos_(Procore_Imports)-4519"
+        },
+        {
+          "level": "h3",
+          "text": "programa del proyecto (Procore Imports)",
+          "id": "programa_del_proyecto_(Procore_Imports)-9510"
+        },
+        {
+          "level": "h3",
+          "text": "Punch list (Procore Imports)",
+          "id": "Punch_list_(Procore_Imports)-4528"
+        },
+        {
+          "level": "h3",
+          "text": "Presentaciones (Procore Imports)",
+          "id": "Presentaciones_(Procore_Imports)-4525"
+        },
+        {
+          "level": "h3",
+          "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+          "id": "VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones-9217"
+        },
+        {
+          "level": "h3",
+          "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+          "id": "VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones-10545"
+        },
+        {
+          "level": "h3",
+          "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+          "id": "VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones-10546"
+        },
+        {
+          "level": "h3",
+          "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+          "id": "VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones-10547"
+        },
+        {
+          "level": "h3",
+          "text": "VIDEOS OBSOLETOS: eliminados de sitio de soporte y certificaciones",
+          "id": "VIDEOS_OBSOLETOS:_eliminados_de_sitio_de_soporte_y_certificaciones-17390"
+        },
+        {
+          "level": "h3",
+          "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+          "id": "VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones-10548"
+        },
+        {
+          "level": "h3",
+          "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+          "id": "VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones-9217"
+        },
+        {
+          "level": "h2",
+          "text": "Cambios recientes",
+          "id": "Cambios_recientes-2955"
+        },
+        {
+          "level": "h2",
+          "text": "Artículos recomendados",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Cookie Preferences",
+          "id": "ot-pc-title"
+        },
+        {
+          "level": "h3",
+          "text": "Manage Consent Preferences",
+          "id": "ot-category-title"
+        },
+        {
+          "level": "h3",
+          "text": "Cookie List",
+          "id": null
+        }
+      ],
+      "paragraphs": 85,
+      "sections": 6
+    },
+    "tables": [
+      {
+        "index": 1,
+        "headers": [
+          "Tarea",
+          "Ninguno",
+          "Solo lectura",
+          "Estándar",
+          "Administrador"
+        ],
+        "rows": 3,
+        "classes": "mt-responsive-table perm-table perm-table-horizontal perm-table-highlight",
+        "id": null
+      },
+      {
+        "index": 2,
+        "headers": [
+          "Tarea",
+          "Ninguno",
+          "Solo lectura",
+          "Estándar",
+          "Administrador"
+        ],
+        "rows": 3,
+        "classes": "mt-responsive-table perm-table perm-table-horizontal perm-table-highlight",
+        "id": null
+      },
+      {
+        "index": 3,
+        "headers": [
+          "Tarea",
+          "Ninguno",
+          "Solo lectura",
+          "Estándar",
+          "Administrador"
+        ],
+        "rows": 3,
+        "classes": "mt-responsive-table perm-table perm-table-horizontal perm-table-highlight",
+        "id": null
+      },
+      {
+        "index": 4,
+        "headers": [
+          "Tarea",
+          "Ninguno",
+          "Solo lectura",
+          "Estándar",
+          "Administrador"
+        ],
+        "rows": 3,
+        "classes": "mt-responsive-table perm-table perm-table-horizontal perm-table-highlight",
+        "id": null
+      },
+      {
+        "index": 5,
+        "headers": [
+          "Tarea",
+          "Ninguno",
+          "Solo lectura",
+          "Estándar",
+          "Administrador"
+        ],
+        "rows": 2,
+        "classes": "mt-responsive-table perm-table perm-table-horizontal perm-table-highlight",
+        "id": null
+      },
+      {
+        "index": 6,
+        "headers": [
+          "Tarea",
+          "Ninguno",
+          "Solo lectura",
+          "Estándar",
+          "Administrador"
+        ],
+        "rows": 2,
+        "classes": "mt-responsive-table perm-table perm-table-horizontal perm-table-highlight",
+        "id": null
+      },
+      {
+        "index": 7,
+        "headers": [
+          "Tarea",
+          "Ninguno",
+          "Solo lectura",
+          "Estándar",
+          "Administrador"
+        ],
+        "rows": 2,
+        "classes": "mt-responsive-table perm-table perm-table-horizontal perm-table-highlight",
+        "id": null
+      }
+    ],
+    "breadcrumbs": [
+      {
+        "text": "Saltar al contenido principal",
+        "href": "https://es.support.procore.com/products/procore-imports#elm-main-content"
+      },
+      {
+        "text": "Soporte",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es?journey=supporttoprocore"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "Contáctenos",
+        "href": "https://es.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "Iniciar sesión en la Aplicación de Procore",
+        "href": "https://login.procore.com/?locale=es&journey=supporttologin"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Buscar en el sitio",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Ir al artículo anterior",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Inicio de sesión",
+        "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products%2Fprocore-imports"
+      },
+      {
+        "text": "Inicio",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Productos",
+        "href": "https://es.support.procore.com/products"
+      },
+      {
+        "text": "Guardar como PDF",
+        "href": "https://es.support.procore.com/@api/deki/pages/1167/pdf/Procore%2bImports.pdf"
+      },
+      {
+        "text": "Administrador de la compañía (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports#Administrador_de_la_compa.C3.B1.C3.ADa_(Procore_Imports)"
+      },
+      {
+        "text": "Directorio de la compañía (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports#Directorio_de_la_compa.C3.B1.C3.ADa_(Procore_Imports)"
+      },
+      {
+        "text": "Administrador del proyecto (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports#Administrador_del_proyecto_(Procore_Imports)"
+      },
+      {
+        "text": "Directorio de proyectos (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports#Directorio_de_proyectos_(Procore_Imports)"
+      },
+      {
+        "text": "programa del proyecto (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports#programa_del_proyecto_(Procore_Imports)"
+      },
+      {
+        "text": "Punch list (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports#Punch_list_(Procore_Imports)"
+      },
+      {
+        "text": "Presentaciones (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports#Presentaciones_(Procore_Imports)"
+      },
+      {
+        "text": "Recomendación",
+        "href": "https://es.support.procore.com/products/procore-imports#Recomendaci.C3.B3n"
+      },
+      {
+        "text": "Importar ítems de segmento en la herramienta Administrador a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_de_segmento_en_la_herramienta_Administrador_a_nivel_compa.C3.B1.C3.ADa"
+      },
+      {
+        "text": "Importar ubicaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa"
+      },
+      {
+        "text": "Importar submittals",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals"
+      },
+      {
+        "text": "Importar ítems punch",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch"
+      },
+      {
+        "text": "Importar tareas de programa",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_tareas_de_programa"
+      },
+      {
+        "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones"
+      },
+      {
+        "text": "Importar códigos de costo en la herramienta Administrador",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_c.C3.B3digos_de_costo_en_la_herramienta_Administrador"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio"
+      },
+      {
+        "text": "Importar ubicaciones a la herramienta Administrador del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_a_la_herramienta_Administrador_del_proyecto"
+      },
+      {
+        "text": "Importar submittals a la herramienta Submittals del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_a_la_herramienta_Submittals_del_proyecto"
+      },
+      {
+        "text": "Importar ítems punch a la herramienta Punch list del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_a_la_herramienta_Punch_list_del_proyecto"
+      },
+      {
+        "text": "Importar ítems de segmento en la herramienta Administrador a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_de_segmento_en_la_herramienta_Administrador_a_nivel_compa.C3.B1.C3.ADa_2"
+      },
+      {
+        "text": "Importar ubicaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_2"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_2"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_2"
+      },
+      {
+        "text": "Importar submittals",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_2"
+      },
+      {
+        "text": "Importar ítems punch",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_2"
+      },
+      {
+        "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones_2"
+      },
+      {
+        "text": "Importar códigos de costo en la herramienta Administrador",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_c.C3.B3digos_de_costo_en_la_herramienta_Administrador_2"
+      },
+      {
+        "text": "Importar ubicaciones a la herramienta Administrador del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_a_la_herramienta_Administrador_del_proyecto_2"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_2"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_2"
+      },
+      {
+        "text": "Importar submittals a la herramienta Submittals del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_a_la_herramienta_Submittals_del_proyecto_2"
+      },
+      {
+        "text": "Importar ítems punch a la herramienta Punch list del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_a_la_herramienta_Punch_list_del_proyecto_2"
+      },
+      {
+        "text": "Importar ítems de segmento en la herramienta Administrador a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_de_segmento_en_la_herramienta_Administrador_a_nivel_compa.C3.B1.C3.ADa_3"
+      },
+      {
+        "text": "Importar ubicaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_3"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_3"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_3"
+      },
+      {
+        "text": "Importar submittals",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_3"
+      },
+      {
+        "text": "Importar ítems punch",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_3"
+      },
+      {
+        "text": "Importar ítems de segmento en la herramienta Administrador a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_de_segmento_en_la_herramienta_Administrador_a_nivel_compa.C3.B1.C3.ADa_4"
+      },
+      {
+        "text": "Importar ubicaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_4"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_4"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_4"
+      },
+      {
+        "text": "Importar submittals",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_4"
+      },
+      {
+        "text": "Importar ítems punch",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_4"
+      },
+      {
+        "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones_3"
+      },
+      {
+        "text": "Importar códigos de costo en la herramienta Administrador",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_c.C3.B3digos_de_costo_en_la_herramienta_Administrador_3"
+      },
+      {
+        "text": "Importar ubicaciones a la herramienta Administrador del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_a_la_herramienta_Administrador_del_proyecto_3"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_3"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_3"
+      },
+      {
+        "text": "Importar submittals a la herramienta Submittals del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_a_la_herramienta_Submittals_del_proyecto_3"
+      },
+      {
+        "text": "Importar ítems punch a la herramienta Punch list del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_a_la_herramienta_Punch_list_del_proyecto_3"
+      },
+      {
+        "text": "Importar ítems de segmento en la herramienta Administrador a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_de_segmento_en_la_herramienta_Administrador_a_nivel_compa.C3.B1.C3.ADa_5"
+      },
+      {
+        "text": "Importar ubicaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_5"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_5"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_5"
+      },
+      {
+        "text": "Importar submittals",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_5"
+      },
+      {
+        "text": "Importar ítems punch",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_5"
+      },
+      {
+        "text": "Importar ítems de segmento en la herramienta Administrador a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_de_segmento_en_la_herramienta_Administrador_a_nivel_compa.C3.B1.C3.ADa_6"
+      },
+      {
+        "text": "Importar ubicaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_6"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_6"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_6"
+      },
+      {
+        "text": "Importar submittals",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_6"
+      },
+      {
+        "text": "Importar ítems punch",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_6"
+      },
+      {
+        "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones_4"
+      },
+      {
+        "text": "Importar códigos de costo en la herramienta Administrador",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_c.C3.B3digos_de_costo_en_la_herramienta_Administrador_4"
+      },
+      {
+        "text": "Importar ubicaciones a la herramienta Administrador del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_a_la_herramienta_Administrador_del_proyecto_4"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_4"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_4"
+      },
+      {
+        "text": "Importar submittals a la herramienta Submittals del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_a_la_herramienta_Submittals_del_proyecto_4"
+      },
+      {
+        "text": "Importar ítems punch a la herramienta Punch list del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_a_la_herramienta_Punch_list_del_proyecto_4"
+      },
+      {
+        "text": "Importar submittals",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_7"
+      },
+      {
+        "text": "VIDEOS OBSOLETOS: eliminados de sitio de soporte y certificaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#VIDEOS_OBSOLETOS:_eliminados_de_sitio_de_soporte_y_certificaciones"
+      },
+      {
+        "text": "Importar ítems de segmento en la herramienta Administrador a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_de_segmento_en_la_herramienta_Administrador_a_nivel_compa.C3.B1.C3.ADa_7"
+      },
+      {
+        "text": "Importar ubicaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_7"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_7"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_7"
+      },
+      {
+        "text": "Importar submittals",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_8"
+      },
+      {
+        "text": "Importar ítems punch",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_7"
+      },
+      {
+        "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones_5"
+      },
+      {
+        "text": "Importar códigos de costo en la herramienta Administrador",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_c.C3.B3digos_de_costo_en_la_herramienta_Administrador_5"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_5"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_5"
+      },
+      {
+        "text": "Importar ubicaciones a la herramienta Administrador del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_a_la_herramienta_Administrador_del_proyecto_5"
+      },
+      {
+        "text": "Importar submittals a la herramienta Submittals del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_a_la_herramienta_Submittals_del_proyecto_5"
+      },
+      {
+        "text": "Importar ítems punch a la herramienta Punch list del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_a_la_herramienta_Punch_list_del_proyecto_5"
+      },
+      {
+        "text": "Importar ítems de segmento en la herramienta Administrador a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_de_segmento_en_la_herramienta_Administrador_a_nivel_compa.C3.B1.C3.ADa_8"
+      },
+      {
+        "text": "Importar ubicaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_8"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_8"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_8"
+      },
+      {
+        "text": "Importar submittals",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_9"
+      },
+      {
+        "text": "Importar ítems punch",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_8"
+      },
+      {
+        "text": "Importar ítems de segmento en la herramienta Administrador a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_de_segmento_en_la_herramienta_Administrador_a_nivel_compa.C3.B1.C3.ADa_9"
+      },
+      {
+        "text": "Importar ubicaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_9"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_9"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_9"
+      },
+      {
+        "text": "Importar submittals",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_10"
+      },
+      {
+        "text": "Importar ítems punch",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_9"
+      },
+      {
+        "text": "Importar ítems de segmento en la herramienta Administrador a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_de_segmento_en_la_herramienta_Administrador_a_nivel_compa.C3.B1.C3.ADa_10"
+      },
+      {
+        "text": "Importar ubicaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_10"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_10"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_a_nivel_compa.C3.B1.C3.ADa_10"
+      },
+      {
+        "text": "Importar submittals",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_11"
+      },
+      {
+        "text": "Importar ítems punch",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_10"
+      },
+      {
+        "text": "Importar tareas de programa",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_tareas_de_programa_2"
+      },
+      {
+        "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+        "href": "https://es.support.procore.com/products/procore-imports#VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones_6"
+      },
+      {
+        "text": "Importar códigos de costo en la herramienta Administrador",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_c.C3.B3digos_de_costo_en_la_herramienta_Administrador_6"
+      },
+      {
+        "text": "Importar usuarios a la herramienta Directorio",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_usuarios_a_la_herramienta_Directorio_6"
+      },
+      {
+        "text": "Importar compañías a la herramienta Directorio",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_compa.C3.B1.C3.ADas_a_la_herramienta_Directorio_6"
+      },
+      {
+        "text": "Importar ubicaciones a la herramienta Administrador del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_ubicaciones_a_la_herramienta_Administrador_del_proyecto_6"
+      },
+      {
+        "text": "Importar submittals a la herramienta Submittals del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_submittals_a_la_herramienta_Submittals_del_proyecto_6"
+      },
+      {
+        "text": "Importar ítems punch a la herramienta Punch list del proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports#Importar_.C3.ADtems_punch_a_la_herramienta_Punch_list_del_proyecto_6"
+      },
+      {
+        "text": "Cambios recientes",
+        "href": "https://es.support.procore.com/products/procore-imports#Cambios_recientes"
+      },
+      {
+        "text": "Procore Imports 1.5.9 (08/11/2025)",
+        "href": "https://es.support.procore.com/products/procore-imports#Procore_Imports_1.5.9_(08.2F11.2F2025)"
+      },
+      {
+        "text": "Procore Imports 1.5.7 (15/05/2025)",
+        "href": "https://es.support.procore.com/products/procore-imports#Procore_Imports_1.5.7_(15.2F05.2F2025)"
+      },
+      {
+        "text": "Procore Imports 1.5.6 (04/03/2025)",
+        "href": "https://es.support.procore.com/products/procore-imports#Procore_Imports_1.5.6_(04.2F03.2F2025)"
+      },
+      {
+        "text": "Procore Imports 1.5.5 (24/02/2025)",
+        "href": "https://es.support.procore.com/products/procore-imports#Procore_Imports_1.5.5_(24.2F02.2F2025)"
+      },
+      {
+        "text": "Procore Imports 1.5.4 (14/11/2024)",
+        "href": "https://es.support.procore.com/products/procore-imports#Procore_Imports_1.5.4_(14.2F11.2F2024)"
+      },
+      {
+        "text": "Procore Imports 1.5.3 (16/07/2024)",
+        "href": "https://es.support.procore.com/products/procore-imports#Procore_Imports_1.5.3_(16.2F07.2F2024)"
+      },
+      {
+        "text": "Procore Imports 1.5.2 (03/05/2024)",
+        "href": "https://es.support.procore.com/products/procore-imports#Procore_Imports_1.5.2_(03.2F05.2F2024)"
+      },
+      {
+        "text": "Procore Imports 1.5.1 (16/04/2024)",
+        "href": "https://es.support.procore.com/products/procore-imports#Procore_Imports_1.5.1_(16.2F04.2F2024)"
+      },
+      {
+        "text": "Procore Imports 1.5.0 (18/12/2023)",
+        "href": "https://es.support.procore.com/products/procore-imports#Procore_Imports_1.5.0_(18.2F12.2F2023)"
+      },
+      {
+        "text": "Procore Imports 1.4.9 (27/09/2023)",
+        "href": "https://es.support.procore.com/products/procore-imports#Procore_Imports_1.4.9_(27.2F09.2F2023)"
+      },
+      {
+        "text": "Procore Imports 1.4.8 (31/01/2023)",
+        "href": "https://es.support.procore.com/products/procore-imports#Procore_Imports_1.4.8_(31.2F01.2F2023)"
+      },
+      {
+        "text": "Procore Imports 1.4.7 (25/01/2023)",
+        "href": "https://es.support.procore.com/products/procore-imports#Procore_Imports_1.4.7_(25.2F01.2F2023)"
+      },
+      {
+        "text": "Descripción general",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Videos",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Notas",
+        "href": "https://es.support.procore.com/products/procore-imports#"
+      },
+      {
+        "text": "Guía de instalación de",
+        "href": "https://es.support.procore.com/products/procore-imports/tutorials/procore-imports-setup-guide"
+      },
+      {
+        "text": "Estructura de desglose del trabajo",
+        "href": "https://es.support.procore.com/products/online/work-breakdown-structure"
+      },
+      {
+        "text": "la Guía",
+        "href": "https://es.support.procore.com/products/procore-imports/tutorials/procore-imports-setup-guide"
+      },
+      {
+        "text": "Preparar a los usuarios y proveedores de la compañía para importarlos a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/prepare-users-and-vendors-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Prepare ubicaciones de varios niveles para importarlas a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/project-admin/tutorials/prepare-multi-tiered-locations-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Preparar tareas de programa para importar a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/project-schedule/tutorials/prepare-schedule-tasks-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Preparar los submittals para importarlos a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/submittals/tutorials/prepare-submittals-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Prepare a los usuarios y proveedores del proyecto para importarlos a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/prepare-users-vendors-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "¿Qué son los segmentos y los ítems de segmento?",
+        "href": "https://es.support.procore.com/faq/what-are-segments-and-segment-items"
+      },
+      {
+        "text": "¿Por qué recibo un mensaje de error en la aplicación Procore Imports?",
+        "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-message-in-the-procore-imports-app"
+      },
+      {
+        "text": "¿Por qué no puedo crear segmentos personalizados WBS?",
+        "href": "https://es.support.procore.com/faq/why-cant-i-create-wbs-custom-segments"
+      },
+      {
+        "text": "¿Puedo aplicar plantillas de permisos a varios usuarios a la vez?",
+        "href": "https://es.support.procore.com/faq/can-i-apply-permissions-templates-to-multiple-users-at-one-time"
+      },
+      {
+        "text": "¿Cuáles son las actualizaciones del encabezado de columna en las plantillas de importación?",
+        "href": "https://es.support.procore.com/faq/what-are-the-column-header-updates-in-the-import-templates"
+      },
+      {
+        "text": "Guia de preparación",
+        "href": "https://es.support.procore.com/products/procore-imports/tutorials/procore-imports-setup-guide"
+      },
+      {
+        "text": "Inicie sesión en Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/tutorials/log-in-to-procore-imports"
+      },
+      {
+        "text": "Preparar ítems de segmento para la importación",
+        "href": "https://es.support.procore.com/products/procore-imports/tutorials/prepare-segment-items-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Estructura de desglose del",
+        "href": "https://es.support.procore.com/products/online/work-breakdown-structure"
+      },
+      {
+        "text": "Preparar ítems de segmento para importarlos a la",
+        "href": "https://es.support.procore.com/products/procore-imports/tutorials/prepare-segment-items-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/tutorials/prepare-segment-items-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Importar ítems de segmento a la herramienta Administrador a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports/company-admin/tutorials/import-segment-items-into-your-company-level-admin-tool-procore-imports"
+      },
+      {
+        "text": "¿Por qué no puedo crear segmentos personalizados WBS?",
+        "href": "https://es.support.procore.com/faq/why-cant-i-create-wbs-custom-segments"
+      },
+      {
+        "text": "¿Por qué recibo un mensaje de error en la aplicación Procore Imports?",
+        "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-message-in-the-procore-imports-app"
+      },
+      {
+        "text": "¿Qué son los segmentos y los ítems de segmento?",
+        "href": "https://es.support.procore.com/faq/what-are-segments-and-segment-items"
+      },
+      {
+        "text": "Import códigos de costo en la herramienta Administrador a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports/company-admin/tutorials/import-cost-codes-into-your-company-level-admin-tool-procore-imports"
+      },
+      {
+        "text": "Import segment Items en la herramienta Administrador a nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports/company-admin/tutorials/import-segment-items-into-your-company-level-admin-tool-procore-imports"
+      },
+      {
+        "text": "Preparar códigos de costo para importarlos a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/company-admin/tutorials/prepare-cost-codes-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Importe usuarios y proveedores a su herramienta Directorio a nivel compañía (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/import-users-vendors-into-your-company-level-directory-tool-procore-imports"
+      },
+      {
+        "text": "Preparar a los usuarios y proveedores de la compañía para importarlos a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/prepare-users-and-vendors-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Actualice a los usuarios y proveedores en la herramienta Directorio a nivel compañía (importaciones Procore)",
+        "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/update-users-vendors-in-your-company-level-directory-tool-procore-imports"
+      },
+      {
+        "text": "¿Puedo aplicar plantillas de permisos a varios usuarios a la vez?",
+        "href": "https://es.support.procore.com/faq/can-i-apply-permissions-templates-to-multiple-users-at-one-time"
+      },
+      {
+        "text": "¿Por qué recibo un mensaje de error en la aplicación Procore Imports?",
+        "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-message-in-the-procore-imports-app"
+      },
+      {
+        "text": "¿Cuáles son las actualizaciones del encabezado de columna en las plantillas de importación?",
+        "href": "https://es.support.procore.com/faq/what-are-the-column-header-updates-in-the-import-templates"
+      },
+      {
+        "text": "Importar usuarios y proveedores a la herramienta Directorio de nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/import-users-vendors-into-your-company-level-directory-tool-procore-imports"
+      },
+      {
+        "text": "Prepare a los usuarios y proveedores para la importación a la aplicación de Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/prepare-users-and-vendors-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Actualizar usuarios y proveedores en la herramienta Directorio de nivel compañía",
+        "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/update-users-vendors-in-your-company-level-directory-tool-procore-imports"
+      },
+      {
+        "text": "Estructura de desglose del",
+        "href": "https://es.support.procore.com/products/online/work-breakdown-structure"
+      },
+      {
+        "text": "Preparar ítems de segmento para importar a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/tutorials/prepare-segment-items-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Importar ítems de segmento a su herramienta Administradr a nivel de proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports/project-admin/tutorials/import-segment-items-into-your-project-level-admin-tool-with-procore-imports"
+      },
+      {
+        "text": "Prepare ubicaciones de varios niveles para importarlas a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/project-admin/tutorials/prepare-multi-tiered-locations-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Importar ubicaciones en su herramienta Administrador a nivel proyecto (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/project-admin/tutorials/import-locations-into-your-project-level-admin-tool-procore-imports"
+      },
+      {
+        "text": "¿Por qué no puedo crear segmentos personalizados WBS?",
+        "href": "https://es.support.procore.com/faq/why-cant-i-create-wbs-custom-segments"
+      },
+      {
+        "text": "¿Por qué recibo un mensaje de error en la aplicación Procore Imports?",
+        "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-message-in-the-procore-imports-app"
+      },
+      {
+        "text": "¿Qué son los segmentos y los ítems de segmento?",
+        "href": "https://es.support.procore.com/faq/what-are-segments-and-segment-items"
+      },
+      {
+        "text": "Importar ubicaciones en su herramienta Administrador a nivel proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports/project-admin/tutorials/import-locations-into-your-project-level-admin-tool-procore-imports"
+      },
+      {
+        "text": "Importar ítems de segmento a su herramienta Administrador a nivel proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports/project-admin/tutorials/import-segment-items-into-your-project-level-admin-tool-with-procore-imports"
+      },
+      {
+        "text": "Preparar ítems de segmento para importar a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/tutorials/prepare-segment-items-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Importar contactos a su herramienta Directorio a nivel proyecto (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/import-contacts-into-your-project-level-directory-tool-procore-imports"
+      },
+      {
+        "text": "Importar usuarios y proveedores a su herramienta Directorio a nivel de proyecto (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/import-users-vendors-into-your-project-level-directory-tool-procore-imports"
+      },
+      {
+        "text": "Preparar contactos para importarlos a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/prepare-contacts-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Prepare a los usuarios y proveedores del proyecto para importarlos a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/prepare-users-vendors-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Actualice usuarios y proveedores en su herramienta Directorio a nivel proyecto (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/update-users-vendors-in-your-project-level-directory-tool-procore-imports"
+      },
+      {
+        "text": "¿Puedo aplicar plantillas de permisos a varios usuarios a la vez?",
+        "href": "https://es.support.procore.com/faq/can-i-apply-permissions-templates-to-multiple-users-at-one-time"
+      },
+      {
+        "text": "¿Por qué recibo un mensaje de error en la aplicación Procore Imports?",
+        "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-message-in-the-procore-imports-app"
+      },
+      {
+        "text": "¿Cuáles son las actualizaciones del encabezado de columna en las plantillas de importación?",
+        "href": "https://es.support.procore.com/faq/what-are-the-column-header-updates-in-the-import-templates"
+      },
+      {
+        "text": "Importar usuarios y proveedores a su herramienta Directorio a nivel de proyecto (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/import-users-vendors-into-your-project-level-directory-tool-procore-imports"
+      },
+      {
+        "text": "Prepare a los usuarios y proveedores para la importación a la aplicación de Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/prepare-users-vendors-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Actualice usuarios y proveedores en su herramienta Directorio a nivel proyecto (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/update-users-vendors-in-your-project-level-directory-tool-procore-imports"
+      },
+      {
+        "text": "Importe tareas de programa a su herramienta programa a nivel proyecto (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/project-schedule/tutorials/import-schedule-tasks-into-your-project-level-schedule-tool-procore-imports"
+      },
+      {
+        "text": "Preparar tareas de programa para importar a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/project-schedule/tutorials/prepare-schedule-tasks-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "¿Por qué recibo un mensaje de error en la aplicación Procore Imports?",
+        "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-message-in-the-procore-imports-app"
+      },
+      {
+        "text": "Importe tareas de programa a su herramienta programa a nivel proyecto (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/project-schedule/tutorials/import-schedule-tasks-into-your-project-level-schedule-tool-procore-imports"
+      },
+      {
+        "text": "Preparar tareas de programa para importar a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/project-schedule/tutorials/prepare-schedule-tasks-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Importar ítems de punch list a su herramienta Punch list a nivel proyecto (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/punch-list/tutorials/import-punch-list-items-into-your-project-level-punch-list-tool-procore-imports"
+      },
+      {
+        "text": "Prepare los Ítems de punch list para importarlos a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/punch-list/tutorials/prepare-punch-list-items-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Importe los Ítems de punch list a su herramienta Punch list a nivel proyecto",
+        "href": "https://es.support.procore.com/products/procore-imports/punch-list/tutorials/import-punch-list-items-into-your-project-level-punch-list-tool-procore-imports"
+      },
+      {
+        "text": "Prepare los Ítems de punch list para importarlos a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/punch-list/tutorials/prepare-punch-list-items-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Importe submittals a su herramienta Submittals a nivel proyecto (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/submittals/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports"
+      },
+      {
+        "text": "Preparar los submittals para importarlos a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/submittals/tutorials/prepare-submittals-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "Importe submittals a su herramienta Submittals a nivel proyecto (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/submittals/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports"
+      },
+      {
+        "text": "Prepare los Submittals para importarlos a la aplicación Procore Imports",
+        "href": "https://es.support.procore.com/products/procore-imports/submittals/tutorials/prepare-submittals-for-import-to-the-procore-imports-app"
+      },
+      {
+        "text": "visite nuestra biblioteca de videos",
+        "href": "https://es.support.procore.com/references/videos/training-videos"
+      },
+      {
+        "text": "Volver arriba",
+        "href": "https://es.support.procore.com/products/procore-imports#title"
+      },
+      {
+        "text": "Configuración: Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts/tutorials/settings-procore-extracts"
+      },
+      {
+        "text": "Herramienta administrador de la compañía (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/company-admin"
+      },
+      {
+        "text": "Herramienta administrador de la compañía (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/company-admin"
+      },
+      {
+        "text": "Directorio de la compañía (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/company-directory"
+      },
+      {
+        "text": "Herramienta administrador de proyectos (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/project-admin"
+      },
+      {
+        "text": "Presentaciones (Procore Imports)",
+        "href": "https://es.support.procore.com/products/procore-imports/submittals"
+      },
+      {
+        "text": "Tool Landing Page",
+        "href": "https://es.support.procore.com/Special:Search?tags=article%3Atool-landing-page"
+      },
+      {
+        "text": "English-US",
+        "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us"
+      },
+      {
+        "text": "Published",
+        "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished"
+      },
+      {
+        "text": "do-not-migrate",
+        "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate"
+      },
+      {
+        "text": "procore-imports",
+        "href": "https://es.support.procore.com/Special:Search?tags=procore-imports"
+      },
+      {
+        "text": "Powered by CXone Expert\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "Aviso de privacidad",
+        "href": "https://www.procore.com/es/legal/privacy"
+      },
+      {
+        "text": "Términos de uso",
+        "href": "https://www.procore.com/es/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "More information",
+        "href": "https://www.procore.com/legal/cookie-notice"
+      },
+      {
+        "text": "",
+        "href": "https://www.onetrust.com/products/cookie-consent/"
+      }
+    ],
+    "title": "Procore Imports - Procore",
+    "h1": "Procore Imports",
+    "metaDescription": "La forma m&aacute;s r&aacute;pida de importar datos a Procore es utilizando Procore Imports, que es una aplicaci&oacute;n de escritorio de Windows."
+  },
+  "links": 102,
+  "linkDetails": [
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Soporte",
+      "classes": "",
+      "id": null,
+      "index": 1,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "internal",
+      "id": null,
+      "index": 4,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 5,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 6,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 7,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 8,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 9,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 10,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 11,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 12,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 13,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡（简体中文）",
+      "classes": "link-https",
+      "id": null,
+      "index": 14,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 15,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/references/contact-support",
+      "text": "Contáctenos",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 19,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products%2Fprocore-imports",
+      "text": "Inicio de sesión",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 22,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Inicio",
+      "classes": "",
+      "id": null,
+      "index": 23,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products",
+      "text": "Productos",
+      "classes": "",
+      "id": null,
+      "index": 24,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/@api/deki/pages/1167/pdf/Procore%2bImports.pdf",
+      "text": "Guardar como PDF",
+      "classes": "",
+      "id": null,
+      "index": 25,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/tutorials/procore-imports-setup-guide",
+      "text": "Guía de instalación de",
+      "classes": "",
+      "id": null,
+      "index": 177,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/work-breakdown-structure",
+      "text": "Estructura de desglose del trabajo",
+      "classes": "",
+      "id": null,
+      "index": 178,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/tutorials/procore-imports-setup-guide",
+      "text": "la Guía",
+      "classes": "",
+      "id": null,
+      "index": 179,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/prepare-users-and-vendors-for-import-to-the-procore-imports-app",
+      "text": "Preparar a los usuarios y proveedores de la compañía para importarlos a la aplicación Procore Imports",
+      "classes": "internal",
+      "id": null,
+      "index": 180,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-admin/tutorials/prepare-multi-tiered-locations-for-import-to-the-procore-imports-app",
+      "text": "Prepare ubicaciones de varios niveles para importarlas a la aplicación Procore Imports",
+      "classes": "internal",
+      "id": null,
+      "index": 181,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-schedule/tutorials/prepare-schedule-tasks-for-import-to-the-procore-imports-app",
+      "text": "Preparar tareas de programa para importar a la aplicación Procore Imports",
+      "classes": "internal",
+      "id": null,
+      "index": 182,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/submittals/tutorials/prepare-submittals-for-import-to-the-procore-imports-app",
+      "text": "Preparar los submittals para importarlos a la aplicación Procore Imports",
+      "classes": "internal",
+      "id": null,
+      "index": 183,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/prepare-users-vendors-for-import-to-the-procore-imports-app",
+      "text": "Prepare a los usuarios y proveedores del proyecto para importarlos a la aplicación Procore Imports",
+      "classes": "internal",
+      "id": null,
+      "index": 184,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-segments-and-segment-items",
+      "text": "¿Qué son los segmentos y los ítems de segmento?",
+      "classes": "internal",
+      "id": null,
+      "index": 185,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-message-in-the-procore-imports-app",
+      "text": "¿Por qué recibo un mensaje de error en la aplicación Procore Imports?",
+      "classes": "internal",
+      "id": null,
+      "index": 186,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-cant-i-create-wbs-custom-segments",
+      "text": "¿Por qué no puedo crear segmentos personalizados WBS?",
+      "classes": "internal",
+      "id": null,
+      "index": 187,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/can-i-apply-permissions-templates-to-multiple-users-at-one-time",
+      "text": "¿Puedo aplicar plantillas de permisos a varios usuarios a la vez?",
+      "classes": "internal",
+      "id": null,
+      "index": 188,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-the-column-header-updates-in-the-import-templates",
+      "text": "¿Cuáles son las actualizaciones del encabezado de columna en las plantillas de importación?",
+      "classes": "internal",
+      "id": null,
+      "index": 189,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/tutorials/procore-imports-setup-guide",
+      "text": "Guia de preparación",
+      "classes": "",
+      "id": null,
+      "index": 190,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/tutorials/log-in-to-procore-imports",
+      "text": "Inicie sesión en Procore Imports",
+      "classes": "",
+      "id": null,
+      "index": 191,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/tutorials/prepare-segment-items-for-import-to-the-procore-imports-app",
+      "text": "Preparar ítems de segmento para la importación",
+      "classes": "",
+      "id": null,
+      "index": 192,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/work-breakdown-structure",
+      "text": "Estructura de desglose del",
+      "classes": "",
+      "id": null,
+      "index": 193,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/tutorials/prepare-segment-items-for-import-to-the-procore-imports-app",
+      "text": "Preparar ítems de segmento para importarlos a la",
+      "classes": "",
+      "id": null,
+      "index": 194,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/tutorials/prepare-segment-items-for-import-to-the-procore-imports-app",
+      "text": "aplicación Procore Imports",
+      "classes": "",
+      "id": null,
+      "index": 195,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-admin/tutorials/import-segment-items-into-your-company-level-admin-tool-procore-imports",
+      "text": "Importar ítems de segmento a la herramienta Administrador a nivel compañía",
+      "classes": "",
+      "id": null,
+      "index": 196,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-cant-i-create-wbs-custom-segments",
+      "text": "¿Por qué no puedo crear segmentos personalizados WBS?",
+      "classes": "internal",
+      "id": null,
+      "index": 197,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-message-in-the-procore-imports-app",
+      "text": "¿Por qué recibo un mensaje de error en la aplicación Procore Imports?",
+      "classes": "internal",
+      "id": null,
+      "index": 198,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-segments-and-segment-items",
+      "text": "¿Qué son los segmentos y los ítems de segmento?",
+      "classes": "internal",
+      "id": null,
+      "index": 199,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-admin/tutorials/import-cost-codes-into-your-company-level-admin-tool-procore-imports",
+      "text": "Import códigos de costo en la herramienta Administrador a nivel compañía",
+      "classes": "",
+      "id": null,
+      "index": 200,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-admin/tutorials/import-segment-items-into-your-company-level-admin-tool-procore-imports",
+      "text": "Import segment Items en la herramienta Administrador a nivel compañía",
+      "classes": "",
+      "id": null,
+      "index": 201,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-admin/tutorials/prepare-cost-codes-for-import-to-the-procore-imports-app",
+      "text": "Preparar códigos de costo para importarlos a la aplicación Procore Imports",
+      "classes": "",
+      "id": null,
+      "index": 202,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/import-users-vendors-into-your-company-level-directory-tool-procore-imports",
+      "text": "Importe usuarios y proveedores a su herramienta Directorio a nivel compañía (Procore Imports)",
+      "classes": "internal",
+      "id": null,
+      "index": 203,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/prepare-users-and-vendors-for-import-to-the-procore-imports-app",
+      "text": "Preparar a los usuarios y proveedores de la compañía para importarlos a la aplicación Procore Imports",
+      "classes": "internal",
+      "id": null,
+      "index": 204,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/update-users-vendors-in-your-company-level-directory-tool-procore-imports",
+      "text": "Actualice a los usuarios y proveedores en la herramienta Directorio a nivel compañía (importaciones Procore)",
+      "classes": "internal",
+      "id": null,
+      "index": 205,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/can-i-apply-permissions-templates-to-multiple-users-at-one-time",
+      "text": "¿Puedo aplicar plantillas de permisos a varios usuarios a la vez?",
+      "classes": "internal",
+      "id": null,
+      "index": 206,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-message-in-the-procore-imports-app",
+      "text": "¿Por qué recibo un mensaje de error en la aplicación Procore Imports?",
+      "classes": "internal",
+      "id": null,
+      "index": 207,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-the-column-header-updates-in-the-import-templates",
+      "text": "¿Cuáles son las actualizaciones del encabezado de columna en las plantillas de importación?",
+      "classes": "internal",
+      "id": null,
+      "index": 208,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/import-users-vendors-into-your-company-level-directory-tool-procore-imports",
+      "text": "Importar usuarios y proveedores a la herramienta Directorio de nivel compañía",
+      "classes": "",
+      "id": null,
+      "index": 209,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/prepare-users-and-vendors-for-import-to-the-procore-imports-app",
+      "text": "Prepare a los usuarios y proveedores para la importación a la aplicación de Procore Imports",
+      "classes": "",
+      "id": null,
+      "index": 210,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-directory/tutorials/update-users-vendors-in-your-company-level-directory-tool-procore-imports",
+      "text": "Actualizar usuarios y proveedores en la herramienta Directorio de nivel compañía",
+      "classes": "",
+      "id": null,
+      "index": 211,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/work-breakdown-structure",
+      "text": "Estructura de desglose del",
+      "classes": "",
+      "id": null,
+      "index": 212,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/tutorials/prepare-segment-items-for-import-to-the-procore-imports-app",
+      "text": "Preparar ítems de segmento para importar a la aplicación Procore Imports",
+      "classes": "",
+      "id": null,
+      "index": 213,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-admin/tutorials/import-segment-items-into-your-project-level-admin-tool-with-procore-imports",
+      "text": "Importar ítems de segmento a su herramienta Administradr a nivel de proyecto",
+      "classes": "",
+      "id": null,
+      "index": 214,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-admin/tutorials/prepare-multi-tiered-locations-for-import-to-the-procore-imports-app",
+      "text": "Prepare ubicaciones de varios niveles para importarlas a la aplicación Procore Imports",
+      "classes": "",
+      "id": null,
+      "index": 215,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-admin/tutorials/import-locations-into-your-project-level-admin-tool-procore-imports",
+      "text": "Importar ubicaciones en su herramienta Administrador a nivel proyecto (Procore Imports)",
+      "classes": "",
+      "id": null,
+      "index": 216,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-cant-i-create-wbs-custom-segments",
+      "text": "¿Por qué no puedo crear segmentos personalizados WBS?",
+      "classes": "internal",
+      "id": null,
+      "index": 217,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-message-in-the-procore-imports-app",
+      "text": "¿Por qué recibo un mensaje de error en la aplicación Procore Imports?",
+      "classes": "internal",
+      "id": null,
+      "index": 218,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-segments-and-segment-items",
+      "text": "¿Qué son los segmentos y los ítems de segmento?",
+      "classes": "internal",
+      "id": null,
+      "index": 219,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-admin/tutorials/import-locations-into-your-project-level-admin-tool-procore-imports",
+      "text": "Importar ubicaciones en su herramienta Administrador a nivel proyecto",
+      "classes": "",
+      "id": null,
+      "index": 220,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-admin/tutorials/import-segment-items-into-your-project-level-admin-tool-with-procore-imports",
+      "text": "Importar ítems de segmento a su herramienta Administrador a nivel proyecto",
+      "classes": "",
+      "id": null,
+      "index": 221,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/tutorials/prepare-segment-items-for-import-to-the-procore-imports-app",
+      "text": "Preparar ítems de segmento para importar a la aplicación Procore Imports",
+      "classes": "",
+      "id": null,
+      "index": 222,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/import-contacts-into-your-project-level-directory-tool-procore-imports",
+      "text": "Importar contactos a su herramienta Directorio a nivel proyecto (Procore Imports)",
+      "classes": "internal",
+      "id": null,
+      "index": 223,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/import-users-vendors-into-your-project-level-directory-tool-procore-imports",
+      "text": "Importar usuarios y proveedores a su herramienta Directorio a nivel de proyecto (Procore Imports)",
+      "classes": "internal",
+      "id": null,
+      "index": 224,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/prepare-contacts-for-import-to-the-procore-imports-app",
+      "text": "Preparar contactos para importarlos a la aplicación Procore Imports",
+      "classes": "internal",
+      "id": null,
+      "index": 225,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/prepare-users-vendors-for-import-to-the-procore-imports-app",
+      "text": "Prepare a los usuarios y proveedores del proyecto para importarlos a la aplicación Procore Imports",
+      "classes": "internal",
+      "id": null,
+      "index": 226,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/update-users-vendors-in-your-project-level-directory-tool-procore-imports",
+      "text": "Actualice usuarios y proveedores en su herramienta Directorio a nivel proyecto (Procore Imports)",
+      "classes": "internal",
+      "id": null,
+      "index": 227,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/can-i-apply-permissions-templates-to-multiple-users-at-one-time",
+      "text": "¿Puedo aplicar plantillas de permisos a varios usuarios a la vez?",
+      "classes": "internal",
+      "id": null,
+      "index": 228,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-message-in-the-procore-imports-app",
+      "text": "¿Por qué recibo un mensaje de error en la aplicación Procore Imports?",
+      "classes": "internal",
+      "id": null,
+      "index": 229,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-the-column-header-updates-in-the-import-templates",
+      "text": "¿Cuáles son las actualizaciones del encabezado de columna en las plantillas de importación?",
+      "classes": "internal",
+      "id": null,
+      "index": 230,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/import-users-vendors-into-your-project-level-directory-tool-procore-imports",
+      "text": "Importar usuarios y proveedores a su herramienta Directorio a nivel de proyecto (Procore Imports)",
+      "classes": "",
+      "id": null,
+      "index": 231,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/prepare-users-vendors-for-import-to-the-procore-imports-app",
+      "text": "Prepare a los usuarios y proveedores para la importación a la aplicación de Procore Imports",
+      "classes": "",
+      "id": null,
+      "index": 232,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-directory/tutorials/update-users-vendors-in-your-project-level-directory-tool-procore-imports",
+      "text": "Actualice usuarios y proveedores en su herramienta Directorio a nivel proyecto (Procore Imports)",
+      "classes": "",
+      "id": null,
+      "index": 233,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-schedule/tutorials/import-schedule-tasks-into-your-project-level-schedule-tool-procore-imports",
+      "text": "Importe tareas de programa a su herramienta programa a nivel proyecto (Procore Imports)",
+      "classes": "internal",
+      "id": null,
+      "index": 234,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-schedule/tutorials/prepare-schedule-tasks-for-import-to-the-procore-imports-app",
+      "text": "Preparar tareas de programa para importar a la aplicación Procore Imports",
+      "classes": "internal",
+      "id": null,
+      "index": 235,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-am-i-receiving-an-error-message-in-the-procore-imports-app",
+      "text": "¿Por qué recibo un mensaje de error en la aplicación Procore Imports?",
+      "classes": "internal",
+      "id": null,
+      "index": 236,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-schedule/tutorials/import-schedule-tasks-into-your-project-level-schedule-tool-procore-imports",
+      "text": "Importe tareas de programa a su herramienta programa a nivel proyecto (Procore Imports)",
+      "classes": "",
+      "id": null,
+      "index": 237,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-schedule/tutorials/prepare-schedule-tasks-for-import-to-the-procore-imports-app",
+      "text": "Preparar tareas de programa para importar a la aplicación Procore Imports",
+      "classes": "",
+      "id": null,
+      "index": 238,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/punch-list/tutorials/import-punch-list-items-into-your-project-level-punch-list-tool-procore-imports",
+      "text": "Importar ítems de punch list a su herramienta Punch list a nivel proyecto (Procore Imports)",
+      "classes": "internal",
+      "id": null,
+      "index": 239,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/punch-list/tutorials/prepare-punch-list-items-for-import-to-the-procore-imports-app",
+      "text": "Prepare los Ítems de punch list para importarlos a la aplicación Procore Imports",
+      "classes": "internal",
+      "id": null,
+      "index": 240,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/punch-list/tutorials/import-punch-list-items-into-your-project-level-punch-list-tool-procore-imports",
+      "text": "Importe los Ítems de punch list a su herramienta Punch list a nivel proyecto",
+      "classes": "",
+      "id": null,
+      "index": 241,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/punch-list/tutorials/prepare-punch-list-items-for-import-to-the-procore-imports-app",
+      "text": "Prepare los Ítems de punch list para importarlos a la aplicación Procore Imports",
+      "classes": "",
+      "id": null,
+      "index": 242,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/submittals/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
+      "text": "Importe submittals a su herramienta Submittals a nivel proyecto (Procore Imports)",
+      "classes": "internal",
+      "id": null,
+      "index": 243,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/submittals/tutorials/prepare-submittals-for-import-to-the-procore-imports-app",
+      "text": "Preparar los submittals para importarlos a la aplicación Procore Imports",
+      "classes": "internal",
+      "id": null,
+      "index": 244,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/submittals/tutorials/import-submittals-into-your-project-level-submittals-tool-procore-imports",
+      "text": "Importe submittals a su herramienta Submittals a nivel proyecto (Procore Imports)",
+      "classes": "",
+      "id": null,
+      "index": 245,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/submittals/tutorials/prepare-submittals-for-import-to-the-procore-imports-app",
+      "text": "Prepare los Submittals para importarlos a la aplicación Procore Imports",
+      "classes": "",
+      "id": null,
+      "index": 246,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/references/videos/training-videos",
+      "text": "visite nuestra biblioteca de videos",
+      "classes": "",
+      "id": null,
+      "index": 247,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/tutorials/settings-procore-extracts",
+      "text": "Configuración: Procore Extracts",
+      "classes": "mt-icon-previous-article",
+      "id": null,
+      "index": 249,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-admin",
+      "text": "Herramienta administrador de la compañía (Procore Imports)",
+      "classes": "mt-icon-next-article",
+      "id": null,
+      "index": 250,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-admin",
+      "text": "Herramienta administrador de la compañía (Procore Imports)",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 251,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/company-directory",
+      "text": "Directorio de la compañía (Procore Imports)",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 252,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/project-admin",
+      "text": "Herramienta administrador de proyectos (Procore Imports)",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 253,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-imports/submittals",
+      "text": "Presentaciones (Procore Imports)",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 254,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=article%3Atool-landing-page",
+      "text": "Tool Landing Page",
+      "classes": "",
+      "id": null,
+      "index": 255,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us",
+      "text": "English-US",
+      "classes": "",
+      "id": null,
+      "index": 256,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished",
+      "text": "Published",
+      "classes": "",
+      "id": null,
+      "index": 257,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate",
+      "text": "do-not-migrate",
+      "classes": "",
+      "id": null,
+      "index": 258,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=procore-imports",
+      "text": "procore-imports",
+      "classes": "",
+      "id": null,
+      "index": 259,
+      "category": "general"
+    }
+  ],
+  "clickables": 108,
+  "clickableDetails": [
+    {
+      "text": "América Latina (Español)",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Buscar",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "Buscar",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Expandir/contraer jerarquía global",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 3
+    },
+    {
+      "text": "Expandir/contraer ubicación global",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "Índice",
+      "id": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "hasDropdown": false,
+      "index": 5
+    },
+    {
+      "text": "Tabla de contenido",
+      "id": "mobile-menu-toggle",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "Descripción general",
+      "id": "selected-chapter",
+      "type": "a",
+      "classes": "selected-chapter",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "Tutoriales",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "Permisos",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 10
+    },
+    {
+      "text": "Tutoriales",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 11
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 12
+    },
+    {
+      "text": "Permisos",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 13
+    },
+    {
+      "text": "Tutoriales",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 14
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 15
+    },
+    {
+      "text": "Permisos",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 16
+    },
+    {
+      "text": "Tutoriales",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 17
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 18
+    },
+    {
+      "text": "Permisos",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 19
+    },
+    {
+      "text": "Tutoriales",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 20
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 21
+    },
+    {
+      "text": "Permisos",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 22
+    },
+    {
+      "text": "Tutoriales",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 23
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 24
+    },
+    {
+      "text": "Permisos",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 25
+    },
+    {
+      "text": "Tutoriales",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 26
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 27
+    },
+    {
+      "text": "Permisos",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 28
+    },
+    {
+      "text": "Videos",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 29
+    },
+    {
+      "text": "Notas",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 30
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 31
+    },
+    {
+      "text": "",
+      "id": "popover_preview_embed_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 32
+    },
+    {
+      "text": "",
+      "id": "wistia-9mrkhy1c8h-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 33
+    },
+    {
+      "text": "",
+      "id": "wistia-krzx9fbyox-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 34
+    },
+    {
+      "text": "",
+      "id": "wistia-x3k4nrlxpq-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 35
+    },
+    {
+      "text": "",
+      "id": "wistia-3i1v0oby09-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 36
+    },
+    {
+      "text": "",
+      "id": "wistia-wixhv5y8ai-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 37
+    },
+    {
+      "text": "",
+      "id": "wistia-ykqhmbs7v5-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 38
+    },
+    {
+      "text": "",
+      "id": "close-pc-btn-handler",
+      "type": "button",
+      "classes": "ot-close-icon",
+      "hasDropdown": false,
+      "index": 39
+    },
+    {
+      "text": "Allow All",
+      "id": "accept-recommended-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 40
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 41
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 42
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 43
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 44
+    },
+    {
+      "text": "Back Button",
+      "id": "ot-link-btn back-btn-handler",
+      "type": "button",
+      "classes": "ot-link-btn back-btn-handler",
+      "hasDropdown": false,
+      "index": 45
+    },
+    {
+      "text": "Filter Icon",
+      "id": "filter-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 46
+    },
+    {
+      "text": "Clear",
+      "id": "clear-filters-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 47
+    },
+    {
+      "text": "Apply",
+      "id": "filter-apply-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 48
+    },
+    {
+      "text": "Cancel",
+      "id": "filter-cancel-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 49
+    },
+    {
+      "text": "Reject All",
+      "id": "ot-pc-refuse-all-handler",
+      "type": "button",
+      "classes": "ot-pc-refuse-all-handler",
+      "hasDropdown": false,
+      "index": 50
+    },
+    {
+      "text": "Confirm My Choices",
+      "id": "save-preference-btn-handler onetrust-close-btn-handler",
+      "type": "button",
+      "classes": "save-preference-btn-handler onetrust-close-btn-handler",
+      "hasDropdown": false,
+      "index": 51
+    },
+    {
+      "text": "",
+      "id": "wistia-8miud247am-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 52
+    },
+    {
+      "text": "",
+      "id": "wistia-7u62aby022-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 53
+    },
+    {
+      "text": "",
+      "id": "wistia-xd06o50wrg-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 54
+    },
+    {
+      "text": "",
+      "id": "wistia-k5nfvust9u-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 55
+    },
+    {
+      "text": "",
+      "id": "wistia-cad1z1j3ut-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 56
+    },
+    {
+      "text": "",
+      "id": "wistia-l9wvirsx0c-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 57
+    },
+    {
+      "text": "",
+      "id": "wistia-6vo28rydy9-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 58
+    },
+    {
+      "text": "",
+      "id": "wistia-76qt2mr777-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 59
+    },
+    {
+      "text": "",
+      "id": "wistia-3uiwze5ff2-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 60
+    },
+    {
+      "text": "",
+      "id": "wistia-4hlo4tlcro-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 61
+    },
+    {
+      "text": "",
+      "id": "wistia-qbjyd2bflc-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 62
+    },
+    {
+      "text": "",
+      "id": "wistia-eewtn331wl-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 63
+    },
+    {
+      "text": "",
+      "id": "wistia-470fll37b1-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 64
+    },
+    {
+      "text": "",
+      "id": "wistia-4trty440lb-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 65
+    },
+    {
+      "text": "",
+      "id": "wistia-xxaitv789e-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 66
+    },
+    {
+      "text": "",
+      "id": "wistia-y01arndys4-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 67
+    },
+    {
+      "text": "",
+      "id": "wistia-e7hzfl7jeh-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 68
+    },
+    {
+      "text": "",
+      "id": "wistia-lnmvhaluen-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 69
+    },
+    {
+      "text": "",
+      "id": "wistia-mxvctu18gs-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 70
+    },
+    {
+      "text": "",
+      "id": "wistia-upzyvlp2l3-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 71
+    },
+    {
+      "text": "",
+      "id": "wistia-0tndxjeqet-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 72
+    },
+    {
+      "text": "",
+      "id": "wistia-21autnzyc2-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 73
+    },
+    {
+      "text": "",
+      "id": "wistia-dojmhi8jtc-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 74
+    },
+    {
+      "text": "",
+      "id": "wistia-nznfm3zev8-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 75
+    },
+    {
+      "text": "",
+      "id": "wistia-qqm9cnp7qe-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 76
+    },
+    {
+      "text": "",
+      "id": "wistia-0bn94tvht6-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 77
+    },
+    {
+      "text": "",
+      "id": "wistia-37po35z4qj-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 78
+    },
+    {
+      "text": "",
+      "id": "wistia-hxg87dn1yl-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 79
+    },
+    {
+      "text": "",
+      "id": "wistia-bxbv7xucxb-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 80
+    },
+    {
+      "text": "",
+      "id": "wistia-v1ctkq0hvl-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 81
+    },
+    {
+      "text": "",
+      "id": "wistia-9uqrxutfjx-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 82
+    },
+    {
+      "text": "",
+      "id": "wistia-gd6igmotuo-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 83
+    },
+    {
+      "text": "",
+      "id": "wistia-toim5od18e-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 84
+    },
+    {
+      "text": "",
+      "id": "wistia-qalbx08vs8-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 85
+    },
+    {
+      "text": "",
+      "id": "wistia-garhkj14go-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 86
+    },
+    {
+      "text": "",
+      "id": "wistia-hsam65v1dk-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 87
+    },
+    {
+      "text": "",
+      "id": "wistia-oitg17tltr-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 88
+    },
+    {
+      "text": "",
+      "id": "wistia-do7atsrfng-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 89
+    },
+    {
+      "text": "",
+      "id": "wistia-2bbusm2tcg-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 90
+    },
+    {
+      "text": "",
+      "id": "wistia-q59gkb4gf3-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 91
+    },
+    {
+      "text": "",
+      "id": "wistia-tcd2yvr6g4-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 92
+    },
+    {
+      "text": "",
+      "id": "wistia-qbov4l3efo-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 93
+    },
+    {
+      "text": "",
+      "id": "wistia-ldpwo2o1e1-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 94
+    },
+    {
+      "text": "",
+      "id": "wistia-ggj9xvo7ue-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 95
+    },
+    {
+      "text": "",
+      "id": "wistia-fns68sa95j-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 96
+    },
+    {
+      "text": "",
+      "id": "wistia-l9wfxwpphd-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 97
+    },
+    {
+      "text": "",
+      "id": "wistia-v3ij8lkf1a-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 98
+    },
+    {
+      "text": "",
+      "id": "wistia-5w55dp0pwq-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 99
+    },
+    {
+      "text": "",
+      "id": "wistia-cv422fn6jp-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 100
+    },
+    {
+      "text": "",
+      "id": "wistia-ydi7k7733e-2_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 101
+    },
+    {
+      "text": "",
+      "id": "wistia-9mrkhy1c8h-3_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 102
+    },
+    {
+      "text": "",
+      "id": "wistia-krzx9fbyox-3_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 103
+    },
+    {
+      "text": "",
+      "id": "wistia-x3k4nrlxpq-3_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 104
+    },
+    {
+      "text": "",
+      "id": "wistia-3i1v0oby09-3_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 105
+    },
+    {
+      "text": "",
+      "id": "wistia-wixhv5y8ai-3_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 106
+    },
+    {
+      "text": "",
+      "id": "wistia-ykqhmbs7v5-2_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 107
+    }
+  ],
+  "expandables": 13,
+  "expandableDetails": [
+    {
+      "text": "Índice",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "Administrador de la compañía (Procore Imports)Directorio de la compañía (Procore Imports)Administrad",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Administrador de la compañía  \n    \n        Tutoriales\n        Preguntas frecuentes\n        Permisos",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Directorio compañía  \n    \n        Tutoriales\n        Preguntas frecuentes\n        Permisos",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Administrador del proyecto  \n    \n        Tutoriales\n        Preguntas frecuentes\n        Permisos",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Directorio del proyecto  \n    \n        Tutoriales\n        Preguntas frecuentes\n        Permisos",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    },
+    {
+      "text": "programa del proyecto  \n    \n        Tutoriales\n        Preguntas frecuentes\n        Permisos",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 6
+    },
+    {
+      "text": "Punch list del proyecto  \n    \n        Tutoriales\n        Preguntas frecuentes\n        Permisos",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 7
+    },
+    {
+      "text": "Submittals del proyecto  \n    \n        Tutoriales\n        Preguntas frecuentes\n        Permisos",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 8
+    },
+    {
+      "text": "Strictly Necessary CookiesAlways ActiveThese cookies are necessary for the website to function and c",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 9
+    },
+    {
+      "text": "Functional Cookies  Functional Cookies These cookies enable the website to provide enhanced function",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 10
+    },
+    {
+      "text": "Performance Cookies  Performance Cookies These cookies allow us to count visits and traffic sources ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 11
+    },
+    {
+      "text": "Opt Out of Sale of Sharing/Targeted Advertising  Opt Out of Sale of Sharing/Targeted Advertising As ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 12
+    }
+  ],
+  "screenshotPath": "pages/procore-imports/screenshot.png"
+}

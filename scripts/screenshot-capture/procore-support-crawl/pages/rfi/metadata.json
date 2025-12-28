@@ -1,0 +1,4818 @@
+{
+  "url": "https://es.support.procore.com/products/online/user-guide/project-level/rfi",
+  "pageName": "rfi",
+  "category": "product",
+  "pageId": "rfi",
+  "timestamp": "2025-12-27T19:22:58.872Z",
+  "analysis": {
+    "components": {
+      "buttons": 91,
+      "forms": 2,
+      "inputs": 19,
+      "tables": 1,
+      "modals": 64,
+      "navigation": 5,
+      "cards": 0,
+      "lists": 95,
+      "tabs": 0,
+      "dropdowns": 1,
+      "icons": 11,
+      "headings": {
+        "h1": 1,
+        "h2": 4,
+        "h3": 33,
+        "h4": 47
+      },
+      "codeBlocks": 0,
+      "images": 273,
+      "videos": 1
+    },
+    "articleContent": {
+      "title": "RFI",
+      "headings": [
+        {
+          "level": "h3",
+          "text": "Web",
+          "id": "Web-61905"
+        },
+        {
+          "level": "h3",
+          "text": "Mobile",
+          "id": "Mobile-61905"
+        },
+        {
+          "level": "h3",
+          "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+          "id": "OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications-61905"
+        },
+        {
+          "level": "h3",
+          "text": "Web",
+          "id": "Web-185661"
+        },
+        {
+          "level": "h3",
+          "text": "Mobile",
+          "id": "Mobile-185661"
+        },
+        {
+          "level": "h3",
+          "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+          "id": "OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications-185661"
+        },
+        {
+          "level": "h3",
+          "text": "Web",
+          "id": "Web-178812"
+        },
+        {
+          "level": "h3",
+          "text": "Mobile",
+          "id": "Mobile-178812"
+        },
+        {
+          "level": "h3",
+          "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+          "id": "OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications-178812"
+        },
+        {
+          "level": "h3",
+          "text": "Web",
+          "id": "Web-191696"
+        },
+        {
+          "level": "h3",
+          "text": "Mobile",
+          "id": "Mobile-191696"
+        },
+        {
+          "level": "h3",
+          "text": "Web",
+          "id": "Web-178827"
+        },
+        {
+          "level": "h3",
+          "text": "Mobile",
+          "id": "Mobile-178827"
+        },
+        {
+          "level": "h3",
+          "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+          "id": "OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications-178827"
+        },
+        {
+          "level": "h3",
+          "text": "Web",
+          "id": "Web-175730"
+        },
+        {
+          "level": "h3",
+          "text": "Mobile",
+          "id": "Mobile-175730"
+        },
+        {
+          "level": "h3",
+          "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+          "id": "OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications-175730"
+        },
+        {
+          "level": "h3",
+          "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+          "id": "OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications-220115"
+        },
+        {
+          "level": "h3",
+          "text": "Web",
+          "id": "Web-179397"
+        },
+        {
+          "level": "h3",
+          "text": "Mobile",
+          "id": "Mobile-179397"
+        },
+        {
+          "level": "h3",
+          "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+          "id": "OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications-179397"
+        },
+        {
+          "level": "h3",
+          "text": "Web",
+          "id": "Web-179865"
+        },
+        {
+          "level": "h3",
+          "text": "Mobile",
+          "id": "Mobile-179865"
+        },
+        {
+          "level": "h3",
+          "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+          "id": "OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications-179865"
+        },
+        {
+          "level": "h3",
+          "text": "Web",
+          "id": "Web-191508"
+        },
+        {
+          "level": "h3",
+          "text": "Mobile",
+          "id": "Mobile-191508"
+        },
+        {
+          "level": "h3",
+          "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+          "id": "OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications-191508"
+        },
+        {
+          "level": "h3",
+          "text": "Web",
+          "id": "Web-61905"
+        },
+        {
+          "level": "h3",
+          "text": "Mobile",
+          "id": "Mobile-61905"
+        },
+        {
+          "level": "h3",
+          "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+          "id": "OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications-61905"
+        },
+        {
+          "level": "h3",
+          "text": "RFIs",
+          "id": "RFIs-434"
+        },
+        {
+          "level": "h2",
+          "text": "Recent Changes",
+          "id": "Recent_Changes-433"
+        },
+        {
+          "level": "h2",
+          "text": "Previous Changes",
+          "id": "Previous_Changes-433"
+        },
+        {
+          "level": "h2",
+          "text": "Artículos recomendados",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Cookie Preferences",
+          "id": "ot-pc-title"
+        },
+        {
+          "level": "h3",
+          "text": "Manage Consent Preferences",
+          "id": "ot-category-title"
+        },
+        {
+          "level": "h3",
+          "text": "Cookie List",
+          "id": null
+        }
+      ],
+      "paragraphs": 194,
+      "sections": 6
+    },
+    "tables": [
+      {
+        "index": 1,
+        "headers": [
+          "Action",
+          "None",
+          "Read Only",
+          "Standard",
+          "Admin",
+          "Notes"
+        ],
+        "rows": 40,
+        "classes": "permstyle mt-table-big mt-responsive-table",
+        "id": null
+      }
+    ],
+    "breadcrumbs": [
+      {
+        "text": "Saltar al contenido principal",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#elm-main-content"
+      },
+      {
+        "text": "Soporte",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es?journey=supporttoprocore"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "Contáctenos",
+        "href": "https://es.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "Iniciar sesión en la Aplicación de Procore",
+        "href": "https://login.procore.com/?locale=es&journey=supporttologin"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Buscar en el sitio",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#"
+      },
+      {
+        "text": "Ir al artículo anterior",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#"
+      },
+      {
+        "text": "Inicio de sesión",
+        "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products%2Fonline%2Fuser-guide%2Fproject-level%2Frfi"
+      },
+      {
+        "text": "Inicio",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Productos",
+        "href": "https://es.support.procore.com/products"
+      },
+      {
+        "text": "Procore Web (app.procore.com)",
+        "href": "https://es.support.procore.com/products/online"
+      },
+      {
+        "text": "Guía del usuario de Procore",
+        "href": "https://es.support.procore.com/products/online/user-guide"
+      },
+      {
+        "text": "Nivel proyecto",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level"
+      },
+      {
+        "text": "Guardar como PDF",
+        "href": "https://es.support.procore.com/@api/deki/pages/3599/pdf/RFI.pdf"
+      },
+      {
+        "text": "Tip",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Tip"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Web"
+      },
+      {
+        "text": "Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI"
+      },
+      {
+        "text": "Create an RFI Revision",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_Revision"
+      },
+      {
+        "text": "View an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#View_an_RFI"
+      },
+      {
+        "text": "Respond to an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Respond_to_an_RFI"
+      },
+      {
+        "text": "Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Close_an_RFI"
+      },
+      {
+        "text": "Mobile",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Mobile"
+      },
+      {
+        "text": "Create an RFI (Mobile) - Field Worker",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_(Mobile)_-_Field_Worker"
+      },
+      {
+        "text": "Create an RFI (Mobile) - Subcontractor as Collaborator",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_(Mobile)_-_Subcontractor_as_Collaborator"
+      },
+      {
+        "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications"
+      },
+      {
+        "text": "Configure RFI Settings",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Configure_RFI_Settings"
+      },
+      {
+        "text": "Create an RFI - Specialty Contractor",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_-_Specialty_Contractor"
+      },
+      {
+        "text": "Architect - Respond to an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Architect_-_Respond_to_an_RFI"
+      },
+      {
+        "text": "Field Worker - Create an RFI (Mobile)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Field_Worker_-_Create_an_RFI_(Mobile)"
+      },
+      {
+        "text": "Specialty Contractor as Client - Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Specialty_Contractor_as_Client_-_Create_an_RFI"
+      },
+      {
+        "text": "Subcontractor - Create RFIs (Mobile)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Subcontractor_-_Create_RFIs_(Mobile)"
+      },
+      {
+        "text": "Configure RFIs Settings",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Configure_RFIs_Settings"
+      },
+      {
+        "text": "Specialty Contractor as Client - Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Specialty_Contractor_as_Client_-_Close_an_RFI"
+      },
+      {
+        "text": "Owner - Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Owner_-_Create_an_RFI"
+      },
+      {
+        "text": "Owner - Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Owner_-_Close_an_RFI"
+      },
+      {
+        "text": "Superintendent - RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Superintendent_-_RFIs"
+      },
+      {
+        "text": "Architect - Overview",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Architect_-_Overview"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Web_2"
+      },
+      {
+        "text": "Configure RFI Settings",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Configure_RFI_Settings_2"
+      },
+      {
+        "text": "Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_2"
+      },
+      {
+        "text": "Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Close_an_RFI_2"
+      },
+      {
+        "text": "Mobile",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Mobile_2"
+      },
+      {
+        "text": "Create an RFI (Mobile) - Field Worker",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_(Mobile)_-_Field_Worker_2"
+      },
+      {
+        "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications_2"
+      },
+      {
+        "text": "Field Worker - Create an RFI (Mobile)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Field_Worker_-_Create_an_RFI_(Mobile)_2"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Web_3"
+      },
+      {
+        "text": "Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_3"
+      },
+      {
+        "text": "Respond to an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Respond_to_an_RFI_2"
+      },
+      {
+        "text": "Configure RFI Settings",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Configure_RFI_Settings_3"
+      },
+      {
+        "text": "Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Close_an_RFI_3"
+      },
+      {
+        "text": "Mobile",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Mobile_3"
+      },
+      {
+        "text": "Create an RFI (Mobile) - Field Worker",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_(Mobile)_-_Field_Worker_3"
+      },
+      {
+        "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications_3"
+      },
+      {
+        "text": "Field Worker - Create an RFI (Mobile)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Field_Worker_-_Create_an_RFI_(Mobile)_3"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Web_4"
+      },
+      {
+        "text": "Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_4"
+      },
+      {
+        "text": "Respond to an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Respond_to_an_RFI_3"
+      },
+      {
+        "text": "Configure RFI Settings",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Configure_RFI_Settings_4"
+      },
+      {
+        "text": "Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Close_an_RFI_4"
+      },
+      {
+        "text": "Mobile",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Mobile_4"
+      },
+      {
+        "text": "Create an RFI (Mobile) - Field Worker",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_(Mobile)_-_Field_Worker_4"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Web_5"
+      },
+      {
+        "text": "Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_5"
+      },
+      {
+        "text": "Configure RFI Settings",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Configure_RFI_Settings_5"
+      },
+      {
+        "text": "Respond to an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Respond_to_an_RFI_4"
+      },
+      {
+        "text": "Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Close_an_RFI_5"
+      },
+      {
+        "text": "Mobile",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Mobile_5"
+      },
+      {
+        "text": "Create an RFI (Mobile) - Field Worker",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_(Mobile)_-_Field_Worker_5"
+      },
+      {
+        "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications_4"
+      },
+      {
+        "text": "Field Worker - Create an RFI (Mobile)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Field_Worker_-_Create_an_RFI_(Mobile)_4"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Web_6"
+      },
+      {
+        "text": "Configure RFI Settings",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Configure_RFI_Settings_6"
+      },
+      {
+        "text": "Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_6"
+      },
+      {
+        "text": "Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Close_an_RFI_6"
+      },
+      {
+        "text": "Mobile",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Mobile_6"
+      },
+      {
+        "text": "Create an RFI (Mobile) - Field Worker",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_(Mobile)_-_Field_Worker_6"
+      },
+      {
+        "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications_5"
+      },
+      {
+        "text": "Configure RFIs Settings",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Configure_RFIs_Settings_2"
+      },
+      {
+        "text": "Field Worker - Create an RFI (Mobile)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Field_Worker_-_Create_an_RFI_(Mobile)_5"
+      },
+      {
+        "text": "Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_7"
+      },
+      {
+        "text": "Respond to an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Respond_to_an_RFI_5"
+      },
+      {
+        "text": "Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Close_an_RFI_7"
+      },
+      {
+        "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications_6"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Web_7"
+      },
+      {
+        "text": "Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_8"
+      },
+      {
+        "text": "Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Close_an_RFI_8"
+      },
+      {
+        "text": "Configure RFI Settings",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Configure_RFI_Settings_7"
+      },
+      {
+        "text": "Mobile",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Mobile_7"
+      },
+      {
+        "text": "Create an RFI (Mobile) - Field Worker",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_(Mobile)_-_Field_Worker_7"
+      },
+      {
+        "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications_7"
+      },
+      {
+        "text": "Field Worker - Create an RFI (Mobile)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Field_Worker_-_Create_an_RFI_(Mobile)_6"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Web_8"
+      },
+      {
+        "text": "Configure RFI Settings",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Configure_RFI_Settings_8"
+      },
+      {
+        "text": "Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_9"
+      },
+      {
+        "text": "Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Close_an_RFI_9"
+      },
+      {
+        "text": "Mobile",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Mobile_8"
+      },
+      {
+        "text": "Create an RFI (Mobile) - Field Worker",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_(Mobile)_-_Field_Worker_8"
+      },
+      {
+        "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications_8"
+      },
+      {
+        "text": "Field Worker - Create an RFI (Mobile)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Field_Worker_-_Create_an_RFI_(Mobile)_7"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Web_9"
+      },
+      {
+        "text": "Configure RFI Settings",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Configure_RFI_Settings_9"
+      },
+      {
+        "text": "Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_10"
+      },
+      {
+        "text": "Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Close_an_RFI_10"
+      },
+      {
+        "text": "Mobile",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Mobile_9"
+      },
+      {
+        "text": "Create an RFI (Mobile) - Field Worker",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_(Mobile)_-_Field_Worker_9"
+      },
+      {
+        "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications_9"
+      },
+      {
+        "text": "Field Worker - Create an RFI (Mobile)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Field_Worker_-_Create_an_RFI_(Mobile)_8"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Web_10"
+      },
+      {
+        "text": "Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_11"
+      },
+      {
+        "text": "Create an RFI Revision",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_Revision_2"
+      },
+      {
+        "text": "View an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#View_an_RFI_2"
+      },
+      {
+        "text": "Respond to an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Respond_to_an_RFI_6"
+      },
+      {
+        "text": "Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Close_an_RFI_11"
+      },
+      {
+        "text": "Mobile",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Mobile_10"
+      },
+      {
+        "text": "Create an RFI (Mobile) - Field Worker",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_(Mobile)_-_Field_Worker_10"
+      },
+      {
+        "text": "Create an RFI (Mobile) - Subcontractor as Collaborator",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_(Mobile)_-_Subcontractor_as_Collaborator_2"
+      },
+      {
+        "text": "OUTDATED VIDEOS - Removed from Support Site and Certifications",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#OUTDATED_VIDEOS_-_Removed_from_Support_Site_and_Certifications_10"
+      },
+      {
+        "text": "Configure RFI Settings",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Configure_RFI_Settings_10"
+      },
+      {
+        "text": "Create an RFI - Specialty Contractor",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Create_an_RFI_-_Specialty_Contractor_2"
+      },
+      {
+        "text": "Architect - Respond to an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Architect_-_Respond_to_an_RFI_2"
+      },
+      {
+        "text": "Field Worker - Create an RFI (Mobile)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Field_Worker_-_Create_an_RFI_(Mobile)_9"
+      },
+      {
+        "text": "Specialty Contractor as Client - Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Specialty_Contractor_as_Client_-_Create_an_RFI_2"
+      },
+      {
+        "text": "Subcontractor - Create RFIs (Mobile)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Subcontractor_-_Create_RFIs_(Mobile)_2"
+      },
+      {
+        "text": "Configure RFIs Settings",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Configure_RFIs_Settings_3"
+      },
+      {
+        "text": "Specialty Contractor as Client - Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Specialty_Contractor_as_Client_-_Close_an_RFI_2"
+      },
+      {
+        "text": "Owner - Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Owner_-_Create_an_RFI_2"
+      },
+      {
+        "text": "Owner - Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Owner_-_Close_an_RFI_2"
+      },
+      {
+        "text": "Superintendent - RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Superintendent_-_RFIs_2"
+      },
+      {
+        "text": "Architect - Overview",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Architect_-_Overview_2"
+      },
+      {
+        "text": "RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#RFIs"
+      },
+      {
+        "text": "Important",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Important"
+      },
+      {
+        "text": "Recent Changes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Recent_Changes"
+      },
+      {
+        "text": "Draft RFI Agent now in open beta (09/23/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Draft_RFI_Agent_now_in_open_beta_(09.2F23.2F2025)"
+      },
+      {
+        "text": "RFI REVisions for rfis now Generally Available (09/22/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#RFI_REVisions_for_rfis_now_Generally_Available_(09.2F22.2F2025)"
+      },
+      {
+        "text": "Enhanced RFI Export Functionality (08/19/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Enhanced_RFI_Export_Functionality_(08.2F19.2F2025)"
+      },
+      {
+        "text": "Saved views for rfis now generally available (05/22/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Saved_views_for_rfis_now_generally_available_(05.2F22.2F2025)"
+      },
+      {
+        "text": "RFI inline editing now available (07/22/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#RFI_inline_editing_now_available_(07.2F22.2F2025)"
+      },
+      {
+        "text": "RFI REVisions for rfis now in open beta (07/22/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#RFI_REVisions_for_rfis_now_in_open_beta_(07.2F22.2F2025)"
+      },
+      {
+        "text": "Saved views for rfis now in open beta (05/22/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Saved_views_for_rfis_now_in_open_beta_(05.2F22.2F2025)"
+      },
+      {
+        "text": "New 'Closed-Draft' Status for RFIS (03/18/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#New_'Closed-Draft'_Status_for_RFIS_(03.2F18.2F2025)"
+      },
+      {
+        "text": "Modernized List View for RFIs is now generally available (03/03/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Modernized_List_View_for_RFIs_is_now_generally_available_(03.2F03.2F2025)"
+      },
+      {
+        "text": "RFIs maintain their 'Open' status when moved to the Recycle Bin (01/27/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#RFIs_maintain_their_'Open'_status_when_moved_to_the_Recycle_Bin_(01.2F27.2F2025)"
+      },
+      {
+        "text": "Modernized RFI configuration settings view (08/22/2024)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Modernized_RFI_configuration_settings_view_(08.2F22.2F2024)"
+      },
+      {
+        "text": "Previous Changes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#Previous_Changes"
+      },
+      {
+        "text": "Descripción general",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#"
+      },
+      {
+        "text": "Videos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#"
+      },
+      {
+        "text": "Flujo de trabajo",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#"
+      },
+      {
+        "text": "Notas de lanzamiento",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#"
+      },
+      {
+        "text": "(view all)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#"
+      },
+      {
+        "text": "Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi"
+      },
+      {
+        "text": "Configure Advanced Settings: RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/configure-advanced-settings-rfis"
+      },
+      {
+        "text": "Respond to an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/respond-to-an-rfi"
+      },
+      {
+        "text": "Edit an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-an-rfi"
+      },
+      {
+        "text": "Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/close-an-rfi"
+      },
+      {
+        "text": "(view all)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#"
+      },
+      {
+        "text": "What are Procore's default cost codes?",
+        "href": "https://es.support.procore.com/faq/what-are-procores-default-cost-codes"
+      },
+      {
+        "text": "What are configurable fieldsets and which Procore tools support them?",
+        "href": "https://es.support.procore.com/faq/what-are-configurable-fieldsets-and-which-procore-tools-support-them"
+      },
+      {
+        "text": "Which Procore tools support granular permissions?",
+        "href": "https://es.support.procore.com/faq/which-procore-tools-support-granular-permissions"
+      },
+      {
+        "text": "What is the difference between a distribution group and distribution list in Procore?",
+        "href": "https://es.support.procore.com/faq/what-is-the-difference-between-a-distribution-group-and-a-distribution-list"
+      },
+      {
+        "text": "What are custom fields and which Procore tools support them?",
+        "href": "https://es.support.procore.com/faq/what-are-custom-fields-and-which-procore-tools-support-them"
+      },
+      {
+        "text": "RFI Tool Courses",
+        "href": "https://learn.procore.com/page/courses-by-tool#procore-tool_rfis-tool"
+      },
+      {
+        "text": "Procore Certification Courses",
+        "href": "https://learn.procore.com/page/procore-certification-all-courses#procore-tool_rfis-tool"
+      },
+      {
+        "text": "Procore Community RFI Discussions",
+        "href": "https://community.procore.com/s/global-search/rfi"
+      },
+      {
+        "text": "Add Assignees to an RFI as an Assignee on an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/add-assignees-to-an-rfi-as-an-assignee-on-an-rfi"
+      },
+      {
+        "text": "Add a Multi-Tiered Location to an Item",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/admin/tutorials/add-a-multi-tiered-location-to-an-item"
+      },
+      {
+        "text": "Add a Related Item to an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/add-a-related-item-to-an-rfi"
+      },
+      {
+        "text": "Choose an \"Official Response\" for an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/choose-an-official-response-for-an-rfi"
+      },
+      {
+        "text": "Close an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/close-an-rfi"
+      },
+      {
+        "text": "Configure Advanced Settings: RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/configure-advanced-settings-rfis"
+      },
+      {
+        "text": "Configure a Prefix and Starting Number for RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/configure-a-prefix-and-starting-number-for-rfis"
+      },
+      {
+        "text": "Create a Change Event from an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-a-change-event-from-an-rfi"
+      },
+      {
+        "text": "Create a Correspondence Item from an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-a-correspondence-item-from-an-rfi"
+      },
+      {
+        "text": "Create a Potential Change Order from an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-a-potential-change-order-from-an-rfi"
+      },
+      {
+        "text": "Create an Instruction from an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-instruction-from-an-rfi"
+      },
+      {
+        "text": "Create an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi"
+      },
+      {
+        "text": "Create and View an RFI Report",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-and-view-an-rfi-report"
+      },
+      {
+        "text": "Create or Link RFIs on a Drawing",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/drawings/tutorials/create-or-link-rfis-on-a-drawing"
+      },
+      {
+        "text": "Create, Edit, or Delete Saved Views for RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-edit-or-delete-saved-views-for-rfis"
+      },
+      {
+        "text": "Customize the Column Display in the RFIs Tool",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/customize-the-column-display-in-the-rfis-tools"
+      },
+      {
+        "text": "Delete a Response to an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/delete-a-response-to-an-rfi"
+      },
+      {
+        "text": "Delete an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/delete-an-rfi"
+      },
+      {
+        "text": "Designate the Default RFI Manager for a Project's RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/designate-the-default-rfi-manager-for-a-projects-rfis"
+      },
+      {
+        "text": "Draft an RFI with Assist (Beta)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/draft-an-rfi-with-assist"
+      },
+      {
+        "text": "Edit a Custom RFI Report",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-a-custom-rfi-report"
+      },
+      {
+        "text": "Edit an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-an-rfi"
+      },
+      {
+        "text": "Export RFIs to CSV or PDF",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/export-rfis"
+      },
+      {
+        "text": "Export an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/export-an-rfi"
+      },
+      {
+        "text": "Forward an RFI by Email",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/forward-an-rfi-by-email"
+      },
+      {
+        "text": "Forward an RFI for Review",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/forward-an-rfi-for-review"
+      },
+      {
+        "text": "Perform Bulk Actions on RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/perform-bulk-actions-on-rfis"
+      },
+      {
+        "text": "Reopen an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/reopen-an-rfi"
+      },
+      {
+        "text": "Resize the Column Width in the RFIs Log",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/resize-the-column-width-in-the-rfis-log"
+      },
+      {
+        "text": "Respond to an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/respond-to-an-rfi"
+      },
+      {
+        "text": "Retrieve an RFI from the Recycle Bin",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/retrieve-an-rfi-from-the-recycle-bin"
+      },
+      {
+        "text": "Revise an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/revise-an-rfi"
+      },
+      {
+        "text": "Search for and Filter RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/search-for-and-filter-rfis"
+      },
+      {
+        "text": "Share a Custom RFI Report",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/share-a-custom-rfi-report"
+      },
+      {
+        "text": "Shift the Ball In Court on an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/shift-the-ball-in-court-on-an-rfi"
+      },
+      {
+        "text": "User Guide: Procore Connect for RFIs",
+        "href": ""
+      },
+      {
+        "text": "View RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/view-rfis"
+      },
+      {
+        "text": "View the Change History of an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/view-the-change-history-of-an-rfi"
+      },
+      {
+        "text": "View the Distribution History of a Custom RFI Report",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/view-the-distribution-history-of-a-custom-rfi-report"
+      },
+      {
+        "text": "Change the Status of an RFI (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/change-the-status-of-an-rfi-ios"
+      },
+      {
+        "text": "Create Items from Photos (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/photos-ios/tutorials/create-items-from-photos"
+      },
+      {
+        "text": "Create RFIs on a Drawing (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/drawings-ios/tutorials/create-rfis-on-a-drawing-ios"
+      },
+      {
+        "text": "Create a Change Event from an RFI (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/create-a-change-event-from-an-rfi-ios"
+      },
+      {
+        "text": "Create an RFI (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/create-an-rfi-ios"
+      },
+      {
+        "text": "Download RFI Attachments (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/download-rfi-attachments"
+      },
+      {
+        "text": "Edit an RFI (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/edit-an-rfi-ios"
+      },
+      {
+        "text": "Email an RFI (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/email-an-rfi-ios"
+      },
+      {
+        "text": "Link RFIs on a Drawing (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/drawings-ios/tutorials/link-rfis-on-a-drawing-ios"
+      },
+      {
+        "text": "Link RFIs to a Drawing (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/link-rfis-to-a-drawing-ios"
+      },
+      {
+        "text": "Mark an RFI Response as Official (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/mark-an-rfi-response-as-official-ios"
+      },
+      {
+        "text": "Respond to an RFI (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/respond-to-an-rfi-ios"
+      },
+      {
+        "text": "Search for and Filter RFIs (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/search-for-and-filter-rfis-ios"
+      },
+      {
+        "text": "View RFIs (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/view-rfis-ios"
+      },
+      {
+        "text": "Change the Status of an RFI (Android)",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/change-the-status-of-an-rfi-android"
+      },
+      {
+        "text": "Create a Change Event from an RFI (Android)",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/create-a-change-event-from-an-rfi-android"
+      },
+      {
+        "text": "Create an RFI (Android)",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/create-an-rfi-android"
+      },
+      {
+        "text": "Edit an RFI (Android)",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/edit-an-rfi-android"
+      },
+      {
+        "text": "Email an RFI (Android)",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/email-an-rfi-android"
+      },
+      {
+        "text": "Mark an RFI Response as Official (Android)",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/mark-an-rfi-response-as-official-android"
+      },
+      {
+        "text": "Respond to an RFI (Android)",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/respond-to-an-rfi-android"
+      },
+      {
+        "text": "Search for and Filter RFIs (Android)",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/search-for-and-filter-rfis-android"
+      },
+      {
+        "text": "View RFIs (Android)",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/view-rfis-android"
+      },
+      {
+        "text": "visit our video library",
+        "href": "https://es.support.procore.com/references/videos/training-videos"
+      },
+      {
+        "text": "Can I create an RFI with a duplicate number?",
+        "href": "https://es.support.procore.com/faq/can-i-create-an-rfi-with-a-duplicate-number"
+      },
+      {
+        "text": "Can I provide users with 'Read Only' level permissions with limited access to update information in Procore?",
+        "href": "https://es.support.procore.com/faq/can-i-provide-users-with-read-only-level-permissions-with-limited-access-to-update-information-in-procore"
+      },
+      {
+        "text": "Does a user need to log in to Procore to respond to an RFI?",
+        "href": "https://es.support.procore.com/faq/does-a-user-need-to-log-in-to-procore-to-respond-to-an-rfi"
+      },
+      {
+        "text": "How can I troubleshoot an issue with the Procore Web Application?",
+        "href": "https://es.support.procore.com/faq/how-can-i-troubleshoot-an-issue-with-the-procore-web-application"
+      },
+      {
+        "text": "How do I access an RFI as an assignee?",
+        "href": "https://es.support.procore.com/faq/how-do-i-access-an-rfi-as-an-assignee"
+      },
+      {
+        "text": "How do I change my web browser's default email client for mailto links?",
+        "href": "https://es.support.procore.com/faq/how-do-i-change-my-web-browsers-default-email-client-for-mailto-links"
+      },
+      {
+        "text": "How do I control which emails are sent by Procore during the RFI process?",
+        "href": "https://es.support.procore.com/faq/how-do-i-control-which-emails-are-sent-by-procore-during-the-rfi-process"
+      },
+      {
+        "text": "How do I filter items by multi-tiered locations?",
+        "href": "https://es.support.procore.com/faq/how-do-i-filter-items-by-multi-tiered-locations"
+      },
+      {
+        "text": "How do I filter out 'Recycled' items from a custom RFIs report?",
+        "href": "https://es.support.procore.com/faq/how-do-i-filter-out-recycled-items-from-a-custom-rfis-report"
+      },
+      {
+        "text": "How do I mark an assignee as a required responder on an RFI?",
+        "href": "https://es.support.procore.com/faq/how-do-i-mark-an-assignee-as-a-required-responder-on-an-rfi"
+      },
+      {
+        "text": "How do I submit a response to a 'Draft' RFI when I am the RFI Manager?",
+        "href": "https://es.support.procore.com/faq/how-do-i-submit-a-response-to-a-draft-rfi-when-i-am-the-rfi-manager"
+      },
+      {
+        "text": "How does Procore assign numbers to RFIs?",
+        "href": "https://es.support.procore.com/faq/how-does-procore-assign-numbers-to-rfis"
+      },
+      {
+        "text": "RFIs: Notifications",
+        "href": ""
+      },
+      {
+        "text": "What are \"related items\" in Procore?",
+        "href": "https://es.support.procore.com/faq/what-are-related-items-in-procore"
+      },
+      {
+        "text": "What are Procore's default cost codes?",
+        "href": "https://es.support.procore.com/faq/what-are-procores-default-cost-codes"
+      },
+      {
+        "text": "What are configurable fieldsets and which Procore tools support them?",
+        "href": "https://es.support.procore.com/faq/what-are-configurable-fieldsets-and-which-procore-tools-support-them"
+      },
+      {
+        "text": "What are custom fields and which Procore tools support them?",
+        "href": "https://es.support.procore.com/faq/what-are-custom-fields-and-which-procore-tools-support-them"
+      },
+      {
+        "text": "What are custom sections and which Procore tools support them?",
+        "href": "https://es.support.procore.com/faq/what-are-custom-sections-and-which-procore-tools-support-them"
+      },
+      {
+        "text": "What are multi-tiered locations?",
+        "href": "https://es.support.procore.com/faq/what-are-multi-tiered-locations"
+      },
+      {
+        "text": "What are the GH Phipps Default Punch List TYPE(s)",
+        "href": ""
+      },
+      {
+        "text": "What fieldset configurations are recommended for configurable fieldsets?",
+        "href": "https://es.support.procore.com/faq/what-fieldset-configurations-are-recommended-for-configurable-fieldsets"
+      },
+      {
+        "text": "What granular permissions are available for the project's RFIs tool?",
+        "href": "https://es.support.procore.com/faq/what-granular-permissions-are-available-for-the-projects-rfis-tool"
+      },
+      {
+        "text": "What is Procore's Recycle Bin?",
+        "href": "https://es.support.procore.com/faq/what-is-procores-recycle-bin"
+      },
+      {
+        "text": "What is a 'Draft' RFI?",
+        "href": "https://es.support.procore.com/faq/what-is-a-draft-rfi"
+      },
+      {
+        "text": "What is an RFI?",
+        "href": "https://es.support.procore.com/faq/what-is-an-rfi"
+      },
+      {
+        "text": "What is an advanced search symbol in Procore?",
+        "href": "https://es.support.procore.com/faq/what-is-an-advanced-search-symbol-in-procore"
+      },
+      {
+        "text": "What is the Draft RFI Agent?",
+        "href": "https://es.support.procore.com/faq/what-is-the-draft-rfi-with-ai"
+      },
+      {
+        "text": "What is the RFI Manager role?",
+        "href": ""
+      },
+      {
+        "text": "What is the RFI Manager role?",
+        "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role"
+      },
+      {
+        "text": "What is the difference between Document Management attachments and attachments from other tools?",
+        "href": "https://es.support.procore.com/faq/what-is-the-difference-between-document-management-attachments-and-attachments-from-other-tools"
+      },
+      {
+        "text": "What is the difference between a distribution group and distribution list in Procore?",
+        "href": "https://es.support.procore.com/faq/what-is-the-difference-between-a-distribution-group-and-a-distribution-list"
+      },
+      {
+        "text": "What options do I have for numbering RFIs in Procore?",
+        "href": "https://es.support.procore.com/faq/what-options-do-i-have-for-numbering-rfis-in-procore"
+      },
+      {
+        "text": "What user roles can view which types of RFIs?",
+        "href": "https://es.support.procore.com/faq/what-user-roles-can-view-which-types-of-rfis"
+      },
+      {
+        "text": "What's the difference between adding an assignee to a RFI and forwarding an RFI for review?",
+        "href": "https://es.support.procore.com/faq/whats-the-difference-between-adding-an-assignee-to-an-rfi-and-forwarding-an-rfi-for-review"
+      },
+      {
+        "text": "When do the download links in emails sent from Procore expire?",
+        "href": ""
+      },
+      {
+        "text": "When does the RFIs tool send email notifications?",
+        "href": "https://es.support.procore.com/faq/when-does-the-rfis-tool-send-email-notifications"
+      },
+      {
+        "text": "Where do the selections in the 'Specification Section' drop-down list come from?",
+        "href": "https://es.support.procore.com/faq/where-do-the-selections-in-the-spec-sections-drop-down-list-come-from"
+      },
+      {
+        "text": "Which Microsoft Excel file versions can be attached to items in Procore?",
+        "href": "https://es.support.procore.com/faq/which-microsoft-excel-file-versions-can-be-attached-to-items-in-procore"
+      },
+      {
+        "text": "Which Procore tools can I use to create a change event?",
+        "href": "https://es.support.procore.com/faq/which-procore-tools-can-i-use-to-create-a-change-event"
+      },
+      {
+        "text": "Which Procore tools let me view digital image attachments in a map view?",
+        "href": "https://es.support.procore.com/faq/which-procore-tools-let-me-view-a-digital-image-attachment-in-a-map-view"
+      },
+      {
+        "text": "Which Procore tools support granular permissions?",
+        "href": "https://es.support.procore.com/faq/which-procore-tools-support-granular-permissions"
+      },
+      {
+        "text": "Which fields in the RFIs tool can be configured as required, optional, or hidden?",
+        "href": "https://es.support.procore.com/faq/which-fields-in-the-rfis-tool-can-be-configured-as-required-optional-or-hidden"
+      },
+      {
+        "text": "Which tools can attach Document Management files?",
+        "href": "https://es.support.procore.com/faq/which-tools-can-attach-document-management-files"
+      },
+      {
+        "text": "Who can be designated as an 'Assignee' on an RFI?",
+        "href": "https://es.support.procore.com/faq/who-can-be-designated-as-an-assignee-on-an-rfi"
+      },
+      {
+        "text": "Who can view a 'Draft' RFI?",
+        "href": "https://es.support.procore.com/faq/who-can-view-a-draft-rfi"
+      },
+      {
+        "text": "Why can't I delete items in Procore?",
+        "href": "https://es.support.procore.com/faq/why-cant-i-delete-items-in-procore"
+      },
+      {
+        "text": "Why do some of our project's RFI numbers have two prefixes?",
+        "href": "https://es.support.procore.com/faq/why-do-some-of-our-projects-rfi-numbers-have-two-prefixes"
+      },
+      {
+        "text": "User Permissions Matrix",
+        "href": "https://es.support.procore.com/references/user-permissions-matrix-web"
+      },
+      {
+        "text": "granular permissions",
+        "href": "https://es.support.procore.com/products/online/user-guide/company-level/permissions/tutorials/grant-granular-permissions-in-a-project-permissions-template"
+      },
+      {
+        "text": "What granular permissions are available for the project's RFIs tool?",
+        "href": "https://es.support.procore.com/faq/what-granular-permissions-are-available-for-the-projects-rfis-tool"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/add-a-related-item-to-an-rfi"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/add-assignees-to-an-rfi-as-an-assignee-on-an-rfi"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-an-rfi"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/change-the-status-of-an-rfi-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/change-the-status-of-an-rfi-android"
+      },
+      {
+        "text": "Act as RFI Manager",
+        "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/choose-an-official-response-for-an-rfi"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/mark-an-rfi-response-as-official-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/mark-an-rfi-response-as-official-android"
+      },
+      {
+        "text": "Act as RFI Manager",
+        "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/close-an-rfi"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/change-the-status-of-an-rfi-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/change-the-status-of-an-rfi-android"
+      },
+      {
+        "text": "Act as RFI Manager",
+        "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/configure-advanced-settings-rfis"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-a-change-event-from-an-rfi"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/create-a-change-event-from-an-rfi-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/create-a-change-event-from-an-rfi-android"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-a-potential-change-order-from-an-rfi"
+      },
+      {
+        "text": "Create a Change Event from an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-a-change-event-from-an-rfi"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-instruction-from-an-rfi"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/create-an-rfi-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/create-an-rfi-android"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/create-an-rfi-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/create-an-rfi-android"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-and-view-an-rfi-report"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/drawings/tutorials/create-or-link-rfis-on-a-drawing"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/drawings-ios/tutorials/create-rfis-on-a-drawing-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/drawings-android/tutorials/create-rfis-on-a-drawing-android"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/customize-the-column-display-in-the-rfis-tools"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/delete-a-response-to-an-rfi"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/delete-an-rfi"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/designate-the-default-rfi-manager-for-a-projects-rfis"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/download-rfi-attachments"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-a-custom-rfi-report"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-a-custom-rfi-report"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/export-an-rfi"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/export-rfis"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-an-rfi"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/edit-an-rfi-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/edit-an-rfi-android"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-an-rfi"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/edit-an-rfi-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/edit-an-rfi-android"
+      },
+      {
+        "text": "Act as RFI Manager",
+        "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/forward-an-rfi-by-email"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/email-an-rfi-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/email-an-rfi-android"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/forward-an-rfi-for-review"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/drawings/tutorials/create-or-link-rfis-on-a-drawing"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/drawings-ios/tutorials/link-rfis-on-a-drawing-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/drawings-android/tutorials/link-items-to-a-drawing-android"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/perform-bulk-actions-on-rfis"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/reopen-an-rfi"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/change-the-status-of-an-rfi-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/change-the-status-of-an-rfi-android"
+      },
+      {
+        "text": "Act as RFI Manager",
+        "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/respond-to-an-rfi"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/respond-to-an-rfi-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/respond-to-an-rfi-android"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/respond-to-an-rfi"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/respond-to-an-rfi-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/respond-to-an-rfi-android"
+      },
+      {
+        "text": "Act as RFI Manager",
+        "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role"
+      },
+      {
+        "text": "Act as RFI Manager",
+        "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/resize-the-column-width-in-the-rfis-log"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/retrieve-an-rfi-from-the-recycle-bin"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/revise-an-rfi"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/search-for-and-filter-rfis"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/search-for-and-filter-rfis-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/search-for-and-filter-rfis-android"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/share-a-custom-rfi-report"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/shift-the-ball-in-court-on-an-rfi"
+      },
+      {
+        "text": "Act as RFI Manager",
+        "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/view-rfis"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/view-rfis-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/view-rfis-android"
+      },
+      {
+        "text": "What user roles can view which types of RFIs?",
+        "href": "https://es.support.procore.com/faq/what-user-roles-can-view-which-types-of-rfis"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/view-rfis"
+      },
+      {
+        "text": "iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/view-rfis-ios"
+      },
+      {
+        "text": "Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/view-rfis-android"
+      },
+      {
+        "text": "What user roles can view which types of RFIs?",
+        "href": "https://es.support.procore.com/faq/what-user-roles-can-view-which-types-of-rfis"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/view-the-distribution-history-of-a-custom-rfi-report"
+      },
+      {
+        "text": "drafting RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/draft-an-rfi-with-assist"
+      },
+      {
+        "text": "Revise an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/revise-an-rfi"
+      },
+      {
+        "text": "Export RFIs to CSV or PDF",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/export-rfis"
+      },
+      {
+        "text": "Create, Edit, or Delete Saved Views for RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-edit-or-delete-saved-views-for-rfis"
+      },
+      {
+        "text": "Edit an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-an-rfi"
+      },
+      {
+        "text": "Revise an RFI",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/revise-an-rfi"
+      },
+      {
+        "text": "Create, Edit, or Delete Saved Views for RFIs",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-edit-or-delete-saved-views-for-rfis"
+      },
+      {
+        "text": "2023",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2023"
+      },
+      {
+        "text": "2022",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2022"
+      },
+      {
+        "text": "2021",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2021"
+      },
+      {
+        "text": "2020",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2020"
+      },
+      {
+        "text": "2019",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2019"
+      },
+      {
+        "text": "2018",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2018"
+      },
+      {
+        "text": "2017",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2017"
+      },
+      {
+        "text": "2016",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2016"
+      },
+      {
+        "text": "2015",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2015"
+      },
+      {
+        "text": "Volver arriba",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi#title"
+      },
+      {
+        "text": "Informes de Project 360 - Vídeos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/reports/videos"
+      },
+      {
+        "text": "RFI - Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/faq"
+      },
+      {
+        "text": "¿Por qué no puedo eliminar ítems en Procore?",
+        "href": "https://es.support.procore.com/faq/why-cant-i-delete-items-in-procore"
+      },
+      {
+        "text": "¿Puedo crear una RFI con un número duplicado?",
+        "href": "https://es.support.procore.com/faq/can-i-create-an-rfi-with-a-duplicate-number"
+      },
+      {
+        "text": "RFI - Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/faq"
+      },
+      {
+        "text": "RFI - Videos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/videos"
+      },
+      {
+        "text": "Tool Landing Page",
+        "href": "https://es.support.procore.com/Special:Search?tags=article%3Atool-landing-page"
+      },
+      {
+        "text": "English-US",
+        "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us"
+      },
+      {
+        "text": "Published",
+        "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished"
+      },
+      {
+        "text": "do-not-migrate",
+        "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate"
+      },
+      {
+        "text": "rfi",
+        "href": "https://es.support.procore.com/Special:Search?tags=rfi"
+      },
+      {
+        "text": "Powered by CXone Expert\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "Aviso de privacidad",
+        "href": "https://www.procore.com/es/legal/privacy"
+      },
+      {
+        "text": "Términos de uso",
+        "href": "https://www.procore.com/es/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "More information",
+        "href": "https://www.procore.com/legal/cookie-notice"
+      },
+      {
+        "text": "",
+        "href": "https://www.onetrust.com/products/cookie-consent/"
+      }
+    ],
+    "title": "RFI - Procore",
+    "h1": "RFI",
+    "metaDescription": "Esta es la p&aacute;gina de inicio para los art&iacute;culos de soporte sobre la herramienta RFI a nivel de proyecto. Contiene enlaces a tutoriales, preguntas frecuentes y otra documentaci&oacute;n …"
+  },
+  "links": 253,
+  "linkDetails": [
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Soporte",
+      "classes": "",
+      "id": null,
+      "index": 1,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "internal",
+      "id": null,
+      "index": 4,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 5,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 6,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 7,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 8,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 9,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 10,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 11,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 12,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 13,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡（简体中文）",
+      "classes": "link-https",
+      "id": null,
+      "index": 14,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 15,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/references/contact-support",
+      "text": "Contáctenos",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 19,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products%2Fonline%2Fuser-guide%2Fproject-level%2Frfi",
+      "text": "Inicio de sesión",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 22,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Inicio",
+      "classes": "",
+      "id": null,
+      "index": 23,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products",
+      "text": "Productos",
+      "classes": "",
+      "id": null,
+      "index": 24,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online",
+      "text": "Procore Web (app.procore.com)",
+      "classes": "",
+      "id": null,
+      "index": 25,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide",
+      "text": "Guía del usuario de Procore",
+      "classes": "",
+      "id": null,
+      "index": 26,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level",
+      "text": "Nivel proyecto",
+      "classes": "",
+      "id": null,
+      "index": 27,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/@api/deki/pages/3599/pdf/RFI.pdf",
+      "text": "Guardar como PDF",
+      "classes": "",
+      "id": null,
+      "index": 28,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi",
+      "text": "Create an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 167,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/configure-advanced-settings-rfis",
+      "text": "Configure Advanced Settings: RFIs",
+      "classes": "internal",
+      "id": null,
+      "index": 168,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/respond-to-an-rfi",
+      "text": "Respond to an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 169,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-an-rfi",
+      "text": "Edit an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 170,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/close-an-rfi",
+      "text": "Close an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 171,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-procores-default-cost-codes",
+      "text": "What are Procore's default cost codes?",
+      "classes": "internal",
+      "id": null,
+      "index": 173,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-configurable-fieldsets-and-which-procore-tools-support-them",
+      "text": "What are configurable fieldsets and which Procore tools support them?",
+      "classes": "internal",
+      "id": null,
+      "index": 174,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/which-procore-tools-support-granular-permissions",
+      "text": "Which Procore tools support granular permissions?",
+      "classes": "internal",
+      "id": null,
+      "index": 175,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-difference-between-a-distribution-group-and-a-distribution-list",
+      "text": "What is the difference between a distribution group and distribution list in Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 176,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-custom-fields-and-which-procore-tools-support-them",
+      "text": "What are custom fields and which Procore tools support them?",
+      "classes": "internal",
+      "id": null,
+      "index": 177,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/add-assignees-to-an-rfi-as-an-assignee-on-an-rfi",
+      "text": "Add Assignees to an RFI as an Assignee on an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 181,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/admin/tutorials/add-a-multi-tiered-location-to-an-item",
+      "text": "Add a Multi-Tiered Location to an Item",
+      "classes": "internal",
+      "id": null,
+      "index": 182,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/add-a-related-item-to-an-rfi",
+      "text": "Add a Related Item to an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 183,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/choose-an-official-response-for-an-rfi",
+      "text": "Choose an \"Official Response\" for an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 184,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/close-an-rfi",
+      "text": "Close an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 185,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/configure-advanced-settings-rfis",
+      "text": "Configure Advanced Settings: RFIs",
+      "classes": "internal",
+      "id": null,
+      "index": 186,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/configure-a-prefix-and-starting-number-for-rfis",
+      "text": "Configure a Prefix and Starting Number for RFIs",
+      "classes": "internal",
+      "id": null,
+      "index": 187,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-a-change-event-from-an-rfi",
+      "text": "Create a Change Event from an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 188,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-a-correspondence-item-from-an-rfi",
+      "text": "Create a Correspondence Item from an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 189,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-a-potential-change-order-from-an-rfi",
+      "text": "Create a Potential Change Order from an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 190,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-instruction-from-an-rfi",
+      "text": "Create an Instruction from an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 191,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi",
+      "text": "Create an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 192,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-and-view-an-rfi-report",
+      "text": "Create and View an RFI Report",
+      "classes": "internal",
+      "id": null,
+      "index": 193,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/drawings/tutorials/create-or-link-rfis-on-a-drawing",
+      "text": "Create or Link RFIs on a Drawing",
+      "classes": "internal",
+      "id": null,
+      "index": 194,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-edit-or-delete-saved-views-for-rfis",
+      "text": "Create, Edit, or Delete Saved Views for RFIs",
+      "classes": "internal",
+      "id": null,
+      "index": 195,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/customize-the-column-display-in-the-rfis-tools",
+      "text": "Customize the Column Display in the RFIs Tool",
+      "classes": "internal",
+      "id": null,
+      "index": 196,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/delete-a-response-to-an-rfi",
+      "text": "Delete a Response to an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 197,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/delete-an-rfi",
+      "text": "Delete an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 198,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/designate-the-default-rfi-manager-for-a-projects-rfis",
+      "text": "Designate the Default RFI Manager for a Project's RFIs",
+      "classes": "internal",
+      "id": null,
+      "index": 199,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/draft-an-rfi-with-assist",
+      "text": "Draft an RFI with Assist (Beta)",
+      "classes": "internal",
+      "id": null,
+      "index": 200,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-a-custom-rfi-report",
+      "text": "Edit a Custom RFI Report",
+      "classes": "internal",
+      "id": null,
+      "index": 201,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-an-rfi",
+      "text": "Edit an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 202,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/export-rfis",
+      "text": "Export RFIs to CSV or PDF",
+      "classes": "internal",
+      "id": null,
+      "index": 203,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/export-an-rfi",
+      "text": "Export an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 204,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/forward-an-rfi-by-email",
+      "text": "Forward an RFI by Email",
+      "classes": "internal",
+      "id": null,
+      "index": 205,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/forward-an-rfi-for-review",
+      "text": "Forward an RFI for Review",
+      "classes": "internal",
+      "id": null,
+      "index": 206,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/perform-bulk-actions-on-rfis",
+      "text": "Perform Bulk Actions on RFIs",
+      "classes": "internal",
+      "id": null,
+      "index": 207,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/reopen-an-rfi",
+      "text": "Reopen an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 208,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/resize-the-column-width-in-the-rfis-log",
+      "text": "Resize the Column Width in the RFIs Log",
+      "classes": "internal",
+      "id": null,
+      "index": 209,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/respond-to-an-rfi",
+      "text": "Respond to an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 210,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/retrieve-an-rfi-from-the-recycle-bin",
+      "text": "Retrieve an RFI from the Recycle Bin",
+      "classes": "internal",
+      "id": null,
+      "index": 211,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/revise-an-rfi",
+      "text": "Revise an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 212,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/search-for-and-filter-rfis",
+      "text": "Search for and Filter RFIs",
+      "classes": "internal",
+      "id": null,
+      "index": 213,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/share-a-custom-rfi-report",
+      "text": "Share a Custom RFI Report",
+      "classes": "internal",
+      "id": null,
+      "index": 214,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/shift-the-ball-in-court-on-an-rfi",
+      "text": "Shift the Ball In Court on an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 215,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/view-rfis",
+      "text": "View RFIs",
+      "classes": "internal",
+      "id": null,
+      "index": 216,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/view-the-change-history-of-an-rfi",
+      "text": "View the Change History of an RFI",
+      "classes": "internal",
+      "id": null,
+      "index": 217,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/view-the-distribution-history-of-a-custom-rfi-report",
+      "text": "View the Distribution History of a Custom RFI Report",
+      "classes": "internal",
+      "id": null,
+      "index": 218,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/change-the-status-of-an-rfi-ios",
+      "text": "Change the Status of an RFI (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 219,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/photos-ios/tutorials/create-items-from-photos",
+      "text": "Create Items from Photos (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 220,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/drawings-ios/tutorials/create-rfis-on-a-drawing-ios",
+      "text": "Create RFIs on a Drawing (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 221,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/create-a-change-event-from-an-rfi-ios",
+      "text": "Create a Change Event from an RFI (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 222,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/create-an-rfi-ios",
+      "text": "Create an RFI (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 223,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/download-rfi-attachments",
+      "text": "Download RFI Attachments (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 224,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/edit-an-rfi-ios",
+      "text": "Edit an RFI (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 225,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/email-an-rfi-ios",
+      "text": "Email an RFI (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 226,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/drawings-ios/tutorials/link-rfis-on-a-drawing-ios",
+      "text": "Link RFIs on a Drawing (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 227,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/link-rfis-to-a-drawing-ios",
+      "text": "Link RFIs to a Drawing (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 228,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/mark-an-rfi-response-as-official-ios",
+      "text": "Mark an RFI Response as Official (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 229,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/respond-to-an-rfi-ios",
+      "text": "Respond to an RFI (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 230,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/search-for-and-filter-rfis-ios",
+      "text": "Search for and Filter RFIs (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 231,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/view-rfis-ios",
+      "text": "View RFIs (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 232,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/change-the-status-of-an-rfi-android",
+      "text": "Change the Status of an RFI (Android)",
+      "classes": "internal",
+      "id": null,
+      "index": 233,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/create-a-change-event-from-an-rfi-android",
+      "text": "Create a Change Event from an RFI (Android)",
+      "classes": "internal",
+      "id": null,
+      "index": 234,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/create-an-rfi-android",
+      "text": "Create an RFI (Android)",
+      "classes": "internal",
+      "id": null,
+      "index": 235,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/edit-an-rfi-android",
+      "text": "Edit an RFI (Android)",
+      "classes": "internal",
+      "id": null,
+      "index": 236,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/email-an-rfi-android",
+      "text": "Email an RFI (Android)",
+      "classes": "internal",
+      "id": null,
+      "index": 237,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/mark-an-rfi-response-as-official-android",
+      "text": "Mark an RFI Response as Official (Android)",
+      "classes": "internal",
+      "id": null,
+      "index": 238,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/respond-to-an-rfi-android",
+      "text": "Respond to an RFI (Android)",
+      "classes": "internal",
+      "id": null,
+      "index": 239,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/search-for-and-filter-rfis-android",
+      "text": "Search for and Filter RFIs (Android)",
+      "classes": "internal",
+      "id": null,
+      "index": 240,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/view-rfis-android",
+      "text": "View RFIs (Android)",
+      "classes": "internal",
+      "id": null,
+      "index": 241,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/references/videos/training-videos",
+      "text": "visit our video library",
+      "classes": "",
+      "id": null,
+      "index": 242,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/can-i-create-an-rfi-with-a-duplicate-number",
+      "text": "Can I create an RFI with a duplicate number?",
+      "classes": "internal",
+      "id": null,
+      "index": 243,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/can-i-provide-users-with-read-only-level-permissions-with-limited-access-to-update-information-in-procore",
+      "text": "Can I provide users with 'Read Only' level permissions with limited access to update information in Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 244,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/does-a-user-need-to-log-in-to-procore-to-respond-to-an-rfi",
+      "text": "Does a user need to log in to Procore to respond to an RFI?",
+      "classes": "internal",
+      "id": null,
+      "index": 245,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-can-i-troubleshoot-an-issue-with-the-procore-web-application",
+      "text": "How can I troubleshoot an issue with the Procore Web Application?",
+      "classes": "internal",
+      "id": null,
+      "index": 246,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-do-i-access-an-rfi-as-an-assignee",
+      "text": "How do I access an RFI as an assignee?",
+      "classes": "internal",
+      "id": null,
+      "index": 247,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-do-i-change-my-web-browsers-default-email-client-for-mailto-links",
+      "text": "How do I change my web browser's default email client for mailto links?",
+      "classes": "internal",
+      "id": null,
+      "index": 248,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-do-i-control-which-emails-are-sent-by-procore-during-the-rfi-process",
+      "text": "How do I control which emails are sent by Procore during the RFI process?",
+      "classes": "internal",
+      "id": null,
+      "index": 249,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-do-i-filter-items-by-multi-tiered-locations",
+      "text": "How do I filter items by multi-tiered locations?",
+      "classes": "internal",
+      "id": null,
+      "index": 250,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-do-i-filter-out-recycled-items-from-a-custom-rfis-report",
+      "text": "How do I filter out 'Recycled' items from a custom RFIs report?",
+      "classes": "internal",
+      "id": null,
+      "index": 251,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-do-i-mark-an-assignee-as-a-required-responder-on-an-rfi",
+      "text": "How do I mark an assignee as a required responder on an RFI?",
+      "classes": "internal",
+      "id": null,
+      "index": 252,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-do-i-submit-a-response-to-a-draft-rfi-when-i-am-the-rfi-manager",
+      "text": "How do I submit a response to a 'Draft' RFI when I am the RFI Manager?",
+      "classes": "internal",
+      "id": null,
+      "index": 253,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-does-procore-assign-numbers-to-rfis",
+      "text": "How does Procore assign numbers to RFIs?",
+      "classes": "internal",
+      "id": null,
+      "index": 254,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-related-items-in-procore",
+      "text": "What are \"related items\" in Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 255,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-procores-default-cost-codes",
+      "text": "What are Procore's default cost codes?",
+      "classes": "internal",
+      "id": null,
+      "index": 256,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-configurable-fieldsets-and-which-procore-tools-support-them",
+      "text": "What are configurable fieldsets and which Procore tools support them?",
+      "classes": "internal",
+      "id": null,
+      "index": 257,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-custom-fields-and-which-procore-tools-support-them",
+      "text": "What are custom fields and which Procore tools support them?",
+      "classes": "internal",
+      "id": null,
+      "index": 258,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-custom-sections-and-which-procore-tools-support-them",
+      "text": "What are custom sections and which Procore tools support them?",
+      "classes": "internal",
+      "id": null,
+      "index": 259,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-multi-tiered-locations",
+      "text": "What are multi-tiered locations?",
+      "classes": "internal",
+      "id": null,
+      "index": 260,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-fieldset-configurations-are-recommended-for-configurable-fieldsets",
+      "text": "What fieldset configurations are recommended for configurable fieldsets?",
+      "classes": "internal",
+      "id": null,
+      "index": 261,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-granular-permissions-are-available-for-the-projects-rfis-tool",
+      "text": "What granular permissions are available for the project's RFIs tool?",
+      "classes": "internal",
+      "id": null,
+      "index": 262,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-procores-recycle-bin",
+      "text": "What is Procore's Recycle Bin?",
+      "classes": "internal",
+      "id": null,
+      "index": 263,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-a-draft-rfi",
+      "text": "What is a 'Draft' RFI?",
+      "classes": "internal",
+      "id": null,
+      "index": 264,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-an-rfi",
+      "text": "What is an RFI?",
+      "classes": "internal",
+      "id": null,
+      "index": 265,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-an-advanced-search-symbol-in-procore",
+      "text": "What is an advanced search symbol in Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 266,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-draft-rfi-with-ai",
+      "text": "What is the Draft RFI Agent?",
+      "classes": "internal",
+      "id": null,
+      "index": 267,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role",
+      "text": "What is the RFI Manager role?",
+      "classes": "internal",
+      "id": null,
+      "index": 268,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-difference-between-document-management-attachments-and-attachments-from-other-tools",
+      "text": "What is the difference between Document Management attachments and attachments from other tools?",
+      "classes": "internal",
+      "id": null,
+      "index": 269,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-difference-between-a-distribution-group-and-a-distribution-list",
+      "text": "What is the difference between a distribution group and distribution list in Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 270,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-options-do-i-have-for-numbering-rfis-in-procore",
+      "text": "What options do I have for numbering RFIs in Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 271,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-user-roles-can-view-which-types-of-rfis",
+      "text": "What user roles can view which types of RFIs?",
+      "classes": "internal",
+      "id": null,
+      "index": 272,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/whats-the-difference-between-adding-an-assignee-to-an-rfi-and-forwarding-an-rfi-for-review",
+      "text": "What's the difference between adding an assignee to a RFI and forwarding an RFI for review?",
+      "classes": "internal",
+      "id": null,
+      "index": 273,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/when-does-the-rfis-tool-send-email-notifications",
+      "text": "When does the RFIs tool send email notifications?",
+      "classes": "internal",
+      "id": null,
+      "index": 274,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/where-do-the-selections-in-the-spec-sections-drop-down-list-come-from",
+      "text": "Where do the selections in the 'Specification Section' drop-down list come from?",
+      "classes": "internal",
+      "id": null,
+      "index": 275,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/which-microsoft-excel-file-versions-can-be-attached-to-items-in-procore",
+      "text": "Which Microsoft Excel file versions can be attached to items in Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 276,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/which-procore-tools-can-i-use-to-create-a-change-event",
+      "text": "Which Procore tools can I use to create a change event?",
+      "classes": "internal",
+      "id": null,
+      "index": 277,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/which-procore-tools-let-me-view-a-digital-image-attachment-in-a-map-view",
+      "text": "Which Procore tools let me view digital image attachments in a map view?",
+      "classes": "internal",
+      "id": null,
+      "index": 278,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/which-procore-tools-support-granular-permissions",
+      "text": "Which Procore tools support granular permissions?",
+      "classes": "internal",
+      "id": null,
+      "index": 279,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/which-fields-in-the-rfis-tool-can-be-configured-as-required-optional-or-hidden",
+      "text": "Which fields in the RFIs tool can be configured as required, optional, or hidden?",
+      "classes": "internal",
+      "id": null,
+      "index": 280,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/which-tools-can-attach-document-management-files",
+      "text": "Which tools can attach Document Management files?",
+      "classes": "internal",
+      "id": null,
+      "index": 281,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/who-can-be-designated-as-an-assignee-on-an-rfi",
+      "text": "Who can be designated as an 'Assignee' on an RFI?",
+      "classes": "internal",
+      "id": null,
+      "index": 282,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/who-can-view-a-draft-rfi",
+      "text": "Who can view a 'Draft' RFI?",
+      "classes": "internal",
+      "id": null,
+      "index": 283,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-cant-i-delete-items-in-procore",
+      "text": "Why can't I delete items in Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 284,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-do-some-of-our-projects-rfi-numbers-have-two-prefixes",
+      "text": "Why do some of our project's RFI numbers have two prefixes?",
+      "classes": "internal",
+      "id": null,
+      "index": 285,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/references/user-permissions-matrix-web",
+      "text": "User Permissions Matrix",
+      "classes": "",
+      "id": null,
+      "index": 286,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/company-level/permissions/tutorials/grant-granular-permissions-in-a-project-permissions-template",
+      "text": "granular permissions",
+      "classes": "",
+      "id": null,
+      "index": 287,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-granular-permissions-are-available-for-the-projects-rfis-tool",
+      "text": "What granular permissions are available for the project's RFIs tool?",
+      "classes": "",
+      "id": null,
+      "index": 288,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/add-a-related-item-to-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 289,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/add-assignees-to-an-rfi-as-an-assignee-on-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 290,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 291,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/change-the-status-of-an-rfi-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 292,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/change-the-status-of-an-rfi-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 293,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role",
+      "text": "Act as RFI Manager",
+      "classes": "",
+      "id": null,
+      "index": 294,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/choose-an-official-response-for-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 295,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/mark-an-rfi-response-as-official-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 296,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/mark-an-rfi-response-as-official-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 297,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role",
+      "text": "Act as RFI Manager",
+      "classes": "",
+      "id": null,
+      "index": 298,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/close-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 299,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/change-the-status-of-an-rfi-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 300,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/change-the-status-of-an-rfi-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 301,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role",
+      "text": "Act as RFI Manager",
+      "classes": "",
+      "id": null,
+      "index": 302,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/configure-advanced-settings-rfis",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 303,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-a-change-event-from-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 304,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/create-a-change-event-from-an-rfi-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 305,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/create-a-change-event-from-an-rfi-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 306,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-a-potential-change-order-from-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 307,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-a-change-event-from-an-rfi",
+      "text": "Create a Change Event from an RFI",
+      "classes": "",
+      "id": null,
+      "index": 308,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-instruction-from-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 309,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 310,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/create-an-rfi-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 311,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/create-an-rfi-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 312,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 313,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/create-an-rfi-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 314,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/create-an-rfi-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 315,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-and-view-an-rfi-report",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 316,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/drawings/tutorials/create-or-link-rfis-on-a-drawing",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 317,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/drawings-ios/tutorials/create-rfis-on-a-drawing-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 318,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/drawings-android/tutorials/create-rfis-on-a-drawing-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 319,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/customize-the-column-display-in-the-rfis-tools",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 320,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/delete-a-response-to-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 321,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/delete-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 322,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/designate-the-default-rfi-manager-for-a-projects-rfis",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 323,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/download-rfi-attachments",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 324,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-a-custom-rfi-report",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 325,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-a-custom-rfi-report",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 326,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/export-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 327,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/export-rfis",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 328,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 329,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/edit-an-rfi-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 330,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/edit-an-rfi-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 331,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 332,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/edit-an-rfi-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 333,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/edit-an-rfi-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 334,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role",
+      "text": "Act as RFI Manager",
+      "classes": "",
+      "id": null,
+      "index": 335,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/forward-an-rfi-by-email",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 336,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/email-an-rfi-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 337,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/email-an-rfi-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 338,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/forward-an-rfi-for-review",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 339,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/drawings/tutorials/create-or-link-rfis-on-a-drawing",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 340,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/drawings-ios/tutorials/link-rfis-on-a-drawing-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 341,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/drawings-android/tutorials/link-items-to-a-drawing-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 342,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/perform-bulk-actions-on-rfis",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 343,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/reopen-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 344,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/change-the-status-of-an-rfi-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 345,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/change-the-status-of-an-rfi-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 346,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role",
+      "text": "Act as RFI Manager",
+      "classes": "",
+      "id": null,
+      "index": 347,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/respond-to-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 348,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/respond-to-an-rfi-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 349,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/respond-to-an-rfi-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 350,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/respond-to-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 351,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/respond-to-an-rfi-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 352,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/respond-to-an-rfi-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 353,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role",
+      "text": "Act as RFI Manager",
+      "classes": "",
+      "id": null,
+      "index": 354,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role",
+      "text": "Act as RFI Manager",
+      "classes": "",
+      "id": null,
+      "index": 355,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/resize-the-column-width-in-the-rfis-log",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 356,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/retrieve-an-rfi-from-the-recycle-bin",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 357,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/revise-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 358,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/search-for-and-filter-rfis",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 359,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/search-for-and-filter-rfis-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 360,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/search-for-and-filter-rfis-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 361,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/share-a-custom-rfi-report",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 362,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/shift-the-ball-in-court-on-an-rfi",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 363,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-rfi-manager-role",
+      "text": "Act as RFI Manager",
+      "classes": "",
+      "id": null,
+      "index": 364,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/view-rfis",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 365,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/view-rfis-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 366,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/view-rfis-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 367,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-user-roles-can-view-which-types-of-rfis",
+      "text": "What user roles can view which types of RFIs?",
+      "classes": "",
+      "id": null,
+      "index": 368,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/view-rfis",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 369,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/rfis-ios/tutorials/view-rfis-ios",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 370,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/rfis-android/tutorials/view-rfis-android",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 371,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-user-roles-can-view-which-types-of-rfis",
+      "text": "What user roles can view which types of RFIs?",
+      "classes": "",
+      "id": null,
+      "index": 372,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/view-the-distribution-history-of-a-custom-rfi-report",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 373,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/draft-an-rfi-with-assist",
+      "text": "drafting RFIs",
+      "classes": "",
+      "id": null,
+      "index": 374,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/revise-an-rfi",
+      "text": "Revise an RFI",
+      "classes": "",
+      "id": null,
+      "index": 375,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/export-rfis",
+      "text": "Export RFIs to CSV or PDF",
+      "classes": "",
+      "id": null,
+      "index": 376,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-edit-or-delete-saved-views-for-rfis",
+      "text": "Create, Edit, or Delete Saved Views for RFIs",
+      "classes": "",
+      "id": null,
+      "index": 377,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/edit-an-rfi",
+      "text": "Edit an RFI",
+      "classes": "",
+      "id": null,
+      "index": 378,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/revise-an-rfi",
+      "text": "Revise an RFI",
+      "classes": "",
+      "id": null,
+      "index": 379,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/tutorials/create-edit-or-delete-saved-views-for-rfis",
+      "text": "Create, Edit, or Delete Saved Views for RFIs",
+      "classes": "",
+      "id": null,
+      "index": 380,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2023",
+      "text": "2023",
+      "classes": "internal",
+      "id": null,
+      "index": 381,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2022",
+      "text": "2022",
+      "classes": "internal",
+      "id": null,
+      "index": 382,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2021",
+      "text": "2021",
+      "classes": "internal",
+      "id": null,
+      "index": 383,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2020",
+      "text": "2020",
+      "classes": "internal",
+      "id": null,
+      "index": 384,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2019",
+      "text": "2019",
+      "classes": "internal",
+      "id": null,
+      "index": 385,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2018",
+      "text": "2018",
+      "classes": "internal",
+      "id": null,
+      "index": 386,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2017",
+      "text": "2017",
+      "classes": "internal",
+      "id": null,
+      "index": 387,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2016",
+      "text": "2016",
+      "classes": "internal",
+      "id": null,
+      "index": 388,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/release-notes/2015",
+      "text": "2015",
+      "classes": "internal",
+      "id": null,
+      "index": 389,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/reports/videos",
+      "text": "Informes de Project 360 - Vídeos",
+      "classes": "mt-icon-previous-article",
+      "id": null,
+      "index": 391,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/faq",
+      "text": "RFI - Preguntas frecuentes",
+      "classes": "mt-icon-next-article",
+      "id": null,
+      "index": 392,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-cant-i-delete-items-in-procore",
+      "text": "¿Por qué no puedo eliminar ítems en Procore?",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 393,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/can-i-create-an-rfi-with-a-duplicate-number",
+      "text": "¿Puedo crear una RFI con un número duplicado?",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 394,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/faq",
+      "text": "RFI - Preguntas frecuentes",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 395,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/rfi/videos",
+      "text": "RFI - Videos",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 396,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=article%3Atool-landing-page",
+      "text": "Tool Landing Page",
+      "classes": "",
+      "id": null,
+      "index": 397,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us",
+      "text": "English-US",
+      "classes": "",
+      "id": null,
+      "index": 398,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished",
+      "text": "Published",
+      "classes": "",
+      "id": null,
+      "index": 399,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate",
+      "text": "do-not-migrate",
+      "classes": "",
+      "id": null,
+      "index": 400,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=rfi",
+      "text": "rfi",
+      "classes": "",
+      "id": null,
+      "index": 401,
+      "category": "general"
+    }
+  ],
+  "clickables": 102,
+  "clickableDetails": [
+    {
+      "text": "América Latina (Español)",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Buscar",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "Buscar",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Expandir/contraer jerarquía global",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 3
+    },
+    {
+      "text": "Expandir/contraer ubicación global",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "Índice",
+      "id": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "hasDropdown": false,
+      "index": 5
+    },
+    {
+      "text": "Tabla de contenido",
+      "id": "mobile-menu-toggle",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "Descripción general",
+      "id": "selected-chapter mt-self-link",
+      "type": "a",
+      "classes": "selected-chapter mt-self-link",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "Tutoriales",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "Videos",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 10
+    },
+    {
+      "text": "Flujo de trabajo",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 11
+    },
+    {
+      "text": "Permisos",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 12
+    },
+    {
+      "text": "Notas de lanzamiento",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 13
+    },
+    {
+      "text": "",
+      "id": "wistia_2319.big_play_button_graphic",
+      "type": "div",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 14
+    },
+    {
+      "text": "(view all)",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 15
+    },
+    {
+      "text": "(view all)",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 16
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 17
+    },
+    {
+      "text": "",
+      "id": "popover_preview_embed_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 18
+    },
+    {
+      "text": "",
+      "id": "wistia-nkii4ppch2-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 19
+    },
+    {
+      "text": "",
+      "id": "wistia-lsvn9yjzg3-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 20
+    },
+    {
+      "text": "",
+      "id": "wistia-i7abagzyt3-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 21
+    },
+    {
+      "text": "",
+      "id": "wistia-zoflvmyfmr-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 22
+    },
+    {
+      "text": "",
+      "id": "w-css-reset w-vulcan-v2-button",
+      "type": "button",
+      "classes": "w-css-reset w-vulcan-v2-button",
+      "hasDropdown": false,
+      "index": 23
+    },
+    {
+      "text": "",
+      "id": "w-big-play-button w-css-reset-button-important w-vulcan-v2-button",
+      "type": "button",
+      "classes": "w-big-play-button w-css-reset-button-important w-vulcan-v2-button",
+      "hasDropdown": false,
+      "index": 24
+    },
+    {
+      "text": "Click for sound\n  @keyframes VOLUME_SMALL_WAVE_FLASH {\n    0% { opacity: 0; }\n    33% { opacity: 1; }\n    66% { opacity: 1; }\n    100% { opacity: 0; }\n  }\n\n  @keyframes VOLUME_LARGE_WAVE_FLASH {\n    0% { opacity: 0; }\n    33% { opacity: 1; }\n    66% { opacity: 1; }\n    100% { opacity: 0; }\n  }\n\n  .volume__small-wave {\n    animation: VOLUME_SMALL_WAVE_FLASH 2s infinite;\n    opacity: 0;\n  }\n\n  .volume__large-wave {\n    animation: VOLUME_LARGE_WAVE_FLASH 2s infinite .3s;\n    opacity: 0;\n  }",
+      "id": "w-vulcan-v2-button click-for-sound-btn",
+      "type": "button",
+      "classes": "w-vulcan-v2-button click-for-sound-btn",
+      "hasDropdown": false,
+      "index": 25
+    },
+    {
+      "text": "",
+      "id": "w-vulcan-v2-button",
+      "type": "button",
+      "classes": "w-vulcan-v2-button",
+      "hasDropdown": false,
+      "index": 26
+    },
+    {
+      "text": "",
+      "id": "w-vulcan-v2-button w-css-reset w-css-reset-tree w-css-reset-button-important",
+      "type": "button",
+      "classes": "w-vulcan-v2-button w-css-reset w-css-reset-tree w-css-reset-button-important",
+      "hasDropdown": false,
+      "index": 27
+    },
+    {
+      "text": "",
+      "id": "w-vulcan-v2-button w-css-reset w-css-reset-tree w-css-reset-button-important",
+      "type": "button",
+      "classes": "w-vulcan-v2-button w-css-reset w-css-reset-tree w-css-reset-button-important",
+      "hasDropdown": false,
+      "index": 28
+    },
+    {
+      "text": "",
+      "id": "w-vulcan-v2-button w-css-reset w-css-reset-tree w-css-reset-button-important",
+      "type": "button",
+      "classes": "w-vulcan-v2-button w-css-reset w-css-reset-tree w-css-reset-button-important",
+      "hasDropdown": false,
+      "index": 29
+    },
+    {
+      "text": "",
+      "id": "w-vulcan-v2-button w-css-reset w-css-reset-tree w-css-reset-button-important",
+      "type": "button",
+      "classes": "w-vulcan-v2-button w-css-reset w-css-reset-tree w-css-reset-button-important",
+      "hasDropdown": false,
+      "index": 30
+    },
+    {
+      "text": "",
+      "id": "wistia-826lqg4hkl-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 31
+    },
+    {
+      "text": "",
+      "id": "wistia-h3xn49y0vt-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 32
+    },
+    {
+      "text": "",
+      "id": "wistia-s0xpyec8iv-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 33
+    },
+    {
+      "text": "",
+      "id": "wistia-7885um4pkj-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 34
+    },
+    {
+      "text": "",
+      "id": "wistia-d3xk9uq9wm-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 35
+    },
+    {
+      "text": "",
+      "id": "wistia-x1zbdc9272-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 36
+    },
+    {
+      "text": "",
+      "id": "wistia-leivaxw38l-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 37
+    },
+    {
+      "text": "",
+      "id": "wistia-tr85a9x69g-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 38
+    },
+    {
+      "text": "",
+      "id": "wistia-e2lg0go8so-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 39
+    },
+    {
+      "text": "",
+      "id": "wistia-2p3se7npzt-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 40
+    },
+    {
+      "text": "",
+      "id": "wistia-p651baqgkr-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 41
+    },
+    {
+      "text": "",
+      "id": "wistia-u4ic6p81x2-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 42
+    },
+    {
+      "text": "",
+      "id": "wistia-y1ixlxmjdz-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 43
+    },
+    {
+      "text": "",
+      "id": "wistia-ykfjd6qpbd-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 44
+    },
+    {
+      "text": "",
+      "id": "wistia-v4posmqqow-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 45
+    },
+    {
+      "text": "",
+      "id": "wistia-r98wkrri4y-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 46
+    },
+    {
+      "text": "",
+      "id": "wistia-y9osxoyhl5-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 47
+    },
+    {
+      "text": "",
+      "id": "wistia-teqnljb2ce-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 48
+    },
+    {
+      "text": "",
+      "id": "wistia-5nbt5c1lo9-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 49
+    },
+    {
+      "text": "",
+      "id": "wistia-9gt2i09k7m-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 50
+    },
+    {
+      "text": "",
+      "id": "wistia-2z0e43hznb-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 51
+    },
+    {
+      "text": "",
+      "id": "wistia-gxqpib8mrm-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 52
+    },
+    {
+      "text": "",
+      "id": "wistia-ad490xavyh-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 53
+    },
+    {
+      "text": "",
+      "id": "wistia-91as080fwz-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 54
+    },
+    {
+      "text": "",
+      "id": "wistia-od26i2dka7-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 55
+    },
+    {
+      "text": "",
+      "id": "wistia-3h0myn1sdr-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 56
+    },
+    {
+      "text": "",
+      "id": "wistia-j2gyuc05at-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 57
+    },
+    {
+      "text": "",
+      "id": "wistia-zixn4jg0ge-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 58
+    },
+    {
+      "text": "",
+      "id": "wistia-dojrw74f2f-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 59
+    },
+    {
+      "text": "",
+      "id": "wistia-eibt74r3zs-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 60
+    },
+    {
+      "text": "",
+      "id": "wistia-pgyfqflist-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 61
+    },
+    {
+      "text": "",
+      "id": "wistia-xo4eb74euh-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 62
+    },
+    {
+      "text": "",
+      "id": "wistia-ca7wn0m9kl-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 63
+    },
+    {
+      "text": "",
+      "id": "wistia-f6zbd1tgc8-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 64
+    },
+    {
+      "text": "",
+      "id": "wistia-ayzawqi0p4-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 65
+    },
+    {
+      "text": "",
+      "id": "wistia-ba9ymkutul-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 66
+    },
+    {
+      "text": "",
+      "id": "wistia-50adgpx9ze-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 67
+    },
+    {
+      "text": "",
+      "id": "wistia-vkwf2245ep-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 68
+    },
+    {
+      "text": "",
+      "id": "wistia-o4dtger6ws-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 69
+    },
+    {
+      "text": "",
+      "id": "wistia-7gxodp9azx-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 70
+    },
+    {
+      "text": "",
+      "id": "wistia-7khikapmgc-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 71
+    },
+    {
+      "text": "",
+      "id": "wistia-mifiya55b0-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 72
+    },
+    {
+      "text": "",
+      "id": "wistia-3hc5rccjmo-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 73
+    },
+    {
+      "text": "",
+      "id": "wistia-8d77vjxl4j-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 74
+    },
+    {
+      "text": "",
+      "id": "wistia-h62qkv936g-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 75
+    },
+    {
+      "text": "",
+      "id": "wistia-vrtb1pggv1-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 76
+    },
+    {
+      "text": "",
+      "id": "wistia-k54854a2yc-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 77
+    },
+    {
+      "text": "",
+      "id": "wistia-lqbtixkqco-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 78
+    },
+    {
+      "text": "",
+      "id": "wistia-k4yu2rw250-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 79
+    },
+    {
+      "text": "",
+      "id": "wistia-r466eoh47m-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 80
+    },
+    {
+      "text": "",
+      "id": "wistia-707fawrr1f-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 81
+    },
+    {
+      "text": "",
+      "id": "wistia-leivaxw38l-4_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 82
+    },
+    {
+      "text": "",
+      "id": "wistia-tr85a9x69g-2_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 83
+    },
+    {
+      "text": "",
+      "id": "wistia-e2lg0go8so-2_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 84
+    },
+    {
+      "text": "",
+      "id": "wistia-2p3se7npzt-4_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 85
+    },
+    {
+      "text": "",
+      "id": "wistia-p651baqgkr-3_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 86
+    },
+    {
+      "text": "",
+      "id": "wistia-u4ic6p81x2-3_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 87
+    },
+    {
+      "text": "",
+      "id": "wistia-y1ixlxmjdz-3_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 88
+    },
+    {
+      "text": "",
+      "id": "close-pc-btn-handler",
+      "type": "button",
+      "classes": "ot-close-icon",
+      "hasDropdown": false,
+      "index": 89
+    },
+    {
+      "text": "Allow All",
+      "id": "accept-recommended-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 90
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 91
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 92
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 93
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 94
+    },
+    {
+      "text": "Back Button",
+      "id": "ot-link-btn back-btn-handler",
+      "type": "button",
+      "classes": "ot-link-btn back-btn-handler",
+      "hasDropdown": false,
+      "index": 95
+    },
+    {
+      "text": "Filter Icon",
+      "id": "filter-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 96
+    },
+    {
+      "text": "Clear",
+      "id": "clear-filters-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 97
+    },
+    {
+      "text": "Apply",
+      "id": "filter-apply-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 98
+    },
+    {
+      "text": "Cancel",
+      "id": "filter-cancel-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 99
+    },
+    {
+      "text": "Reject All",
+      "id": "ot-pc-refuse-all-handler",
+      "type": "button",
+      "classes": "ot-pc-refuse-all-handler",
+      "hasDropdown": false,
+      "index": 100
+    },
+    {
+      "text": "Confirm My Choices",
+      "id": "save-preference-btn-handler onetrust-close-btn-handler",
+      "type": "button",
+      "classes": "save-preference-btn-handler onetrust-close-btn-handler",
+      "hasDropdown": false,
+      "index": 101
+    }
+  ],
+  "expandables": 6,
+  "expandableDetails": [
+    {
+      "text": "Índice",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "TipWebCreate an RFICreate an RFI RevisionView an RFIRespond to an RFIClose an RFIMobileCreate an RFI",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Strictly Necessary CookiesAlways ActiveThese cookies are necessary for the website to function and c",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Functional Cookies  Functional Cookies These cookies enable the website to provide enhanced function",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Performance Cookies  Performance Cookies These cookies allow us to count visits and traffic sources ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Opt Out of Sale of Sharing/Targeted Advertising  Opt Out of Sale of Sharing/Targeted Advertising As ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    }
+  ],
+  "screenshotPath": "pages/rfi/screenshot.png"
+}

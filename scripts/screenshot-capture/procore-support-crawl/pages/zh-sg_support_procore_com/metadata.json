@@ -1,0 +1,1709 @@
+{
+  "url": "https://zh-sg.support.procore.com/",
+  "pageName": "zh-sg.support.procore.com",
+  "category": "documentation",
+  "pageId": "zh-sg_support_procore_com",
+  "timestamp": "2025-12-27T18:54:12.387Z",
+  "analysis": {
+    "components": {
+      "buttons": 20,
+      "forms": 7,
+      "inputs": 20,
+      "tables": 1,
+      "modals": 1,
+      "navigation": 6,
+      "cards": 0,
+      "lists": 42,
+      "tabs": 3,
+      "dropdowns": 6,
+      "icons": 4,
+      "headings": {
+        "h1": 0,
+        "h2": 1,
+        "h3": 2,
+        "h4": 4
+      },
+      "codeBlocks": 0,
+      "images": 24,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "Home - Procore",
+      "headings": [
+        {
+          "level": "h2",
+          "text": "Cookie Preferences",
+          "id": "ot-pc-title"
+        },
+        {
+          "level": "h3",
+          "text": "Manage Consent Preferences",
+          "id": "ot-category-title"
+        },
+        {
+          "level": "h3",
+          "text": "Cookie List",
+          "id": null
+        }
+      ],
+      "paragraphs": 43,
+      "sections": 6
+    },
+    "tables": [
+      {
+        "index": 1,
+        "headers": [
+          "一般",
+          "学习",
+          "Procore"
+        ],
+        "rows": 5,
+        "classes": "mt-custom-table mt-responsive-table",
+        "id": "no-hover"
+      }
+    ],
+    "breadcrumbs": [
+      {
+        "text": "跳转到主内容",
+        "href": "https://zh-sg.support.procore.com/#elm-main-content"
+      },
+      {
+        "text": "支持",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/en-sg?journey=supporttoprocore"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "联系人",
+        "href": "https://zh-sg.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "登录 Procore 应用",
+        "href": "https://app.procore.com/?journey=supporttologin"
+      },
+      {
+        "text": "登录",
+        "href": "https://zh-sg.support.procore.com/Special:AuthenticationProviders?returntotitle="
+      },
+      {
+        "text": "",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://zh-sg.support.procore.com/tc/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "搜索网站",
+        "href": "https://zh-sg.support.procore.com/#"
+      },
+      {
+        "text": "返回到上一篇文章",
+        "href": "https://zh-sg.support.procore.com/#"
+      },
+      {
+        "text": "登录",
+        "href": "https://zh-sg.support.procore.com/Special:AuthenticationProviders?returntotitle="
+      },
+      {
+        "text": "",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "",
+        "href": "https://zh-sg.support.procore.com/#"
+      },
+      {
+        "text": "供你参考",
+        "href": "https://zh-sg.support.procore.com/#.E4.BE.9B.E4.BD.A0.E5.8F.82.E8.80.83"
+      },
+      {
+        "text": "Web",
+        "href": ""
+      },
+      {
+        "text": "移动",
+        "href": ""
+      },
+      {
+        "text": "Windows",
+        "href": ""
+      },
+      {
+        "text": "报批材料",
+        "href": "https://zh-sg.support.procore.com/products/online/user-guide/project-level/submittals"
+      },
+      {
+        "text": "RFI",
+        "href": "https://zh-sg.support.procore.com/products/online/user-guide/project-level/rfi"
+      },
+      {
+        "text": "图纸",
+        "href": "https://zh-sg.support.procore.com/products/online/user-guide/project-level/drawings"
+      },
+      {
+        "text": "投标",
+        "href": "https://zh-sg.support.procore.com/products/online/user-guide/project-level/bidding"
+      },
+      {
+        "text": "工作日志",
+        "href": "https://zh-sg.support.procore.com/products/online/user-guide/project-level/daily-log"
+      },
+      {
+        "text": "尾项清单",
+        "href": "https://zh-sg.support.procore.com/products/online/user-guide/project-level/punch-list"
+      },
+      {
+        "text": "实时培训网络研讨会",
+        "href": "http://www.procore.com/virtual-training/"
+      },
+      {
+        "text": "Procore 的新增功能",
+        "href": "https://www.procore.com/whats-new/en"
+      },
+      {
+        "text": "每月产品发布",
+        "href": "https://learn.procore.com/series/product-releases"
+      },
+      {
+        "text": "高级培训",
+        "href": "https://learn.procore.com/series/advanced-training"
+      },
+      {
+        "text": "常见问题",
+        "href": "https://zh-sg.support.procore.com/faq"
+      },
+      {
+        "text": "Procore 自定义解决方案",
+        "href": "https://zh-sg.support.procore.com/products/online/custom-solutions"
+      },
+      {
+        "text": "图纸",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide/drawings-ios"
+      },
+      {
+        "text": "照片",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide/photos-ios"
+      },
+      {
+        "text": "检查",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide/inspections-ios"
+      },
+      {
+        "text": "RFI",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide/rfis-ios"
+      },
+      {
+        "text": "工作日志",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide/daily-log-ios"
+      },
+      {
+        "text": "尾项清单",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide/punch-list-ios"
+      },
+      {
+        "text": "",
+        "href": "https://itunes.apple.com/us/app/procore/id374930542?mt=8"
+      },
+      {
+        "text": "",
+        "href": "https://play.google.com/store/apps/details?id=com.procore.activities"
+      },
+      {
+        "text": "iOS 发布说明",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios/release-notes"
+      },
+      {
+        "text": "Android 发布说明",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-android/release-notes"
+      },
+      {
+        "text": "入门 - iOS",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios"
+      },
+      {
+        "text": "用户指南 - iOS",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide"
+      },
+      {
+        "text": "入门 - Android",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-android/getting-started-procore-app-android"
+      },
+      {
+        "text": "用户指南 - Android",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-android/user-guide"
+      },
+      {
+        "text": "故障排除提示 - iOS",
+        "href": "https://zh-sg.support.procore.com/faq/procore-for-ios-troubleshooting-tips"
+      },
+      {
+        "text": "故障排除提示 - Android",
+        "href": "https://zh-sg.support.procore.com/faq/procore-for-android-troubleshooting-tips"
+      },
+      {
+        "text": "BIM 插件",
+        "href": "https://zh-sg.support.procore.com/products/procore-bim-plugins"
+      },
+      {
+        "text": "Drive",
+        "href": "https://zh-sg.support.procore.com/products/procore-drive"
+      },
+      {
+        "text": "Extracts",
+        "href": "https://zh-sg.support.procore.com/products/procore-extracts"
+      },
+      {
+        "text": "Imports",
+        "href": "https://zh-sg.support.procore.com/products/procore-imports"
+      },
+      {
+        "text": "Procore BIM 插件",
+        "href": "https://zh-sg.support.procore.com/products/procore-bim-plugins/tutorials/download-procore-plugins"
+      },
+      {
+        "text": "Procore Drive",
+        "href": "https://zh-sg.support.procore.com/products/procore-drive/tutorials/procore-drive-setup-guide"
+      },
+      {
+        "text": "Procore Extracts",
+        "href": "https://zh-sg.support.procore.com/products/procore-extracts/tutorials/install-procore-extracts"
+      },
+      {
+        "text": "Procore Imports",
+        "href": "https://zh-sg.support.procore.com/products/procore-imports/tutorials/procore-imports-setup-guide"
+      },
+      {
+        "text": "Procore Drive",
+        "href": "https://zh-sg.support.procore.com/products/procore-drive/release-notes"
+      },
+      {
+        "text": "Procore 文档插件",
+        "href": "https://zh-sg.support.procore.com/products/procore-bim-plugins/procore-documents-plugin-for-autodesk/release-notes"
+      },
+      {
+        "text": "Procore Extracts",
+        "href": "https://zh-sg.support.procore.com/products/procore-extracts/release-notes"
+      },
+      {
+        "text": "Procore Imports",
+        "href": "https://zh-sg.support.procore.com/products/procore-imports/release-notes"
+      },
+      {
+        "text": "Procore VDC 插件",
+        "href": "https://zh-sg.support.procore.com/products/procore-bim-plugins/procore-vdc-plugin/release-notes"
+      },
+      {
+        "text": "成人教育",
+        "href": "https://zh-sg.support.procore.com/continuing-education"
+      },
+      {
+        "text": "",
+        "href": "https://zh-sg.support.procore.com/continuing-education"
+      },
+      {
+        "text": "Procore 成人教育 - 课程",
+        "href": "https://zh-sg.support.procore.com/continuing-education/courses"
+      },
+      {
+        "text": "Procore 成人教育 - 常见问题",
+        "href": "https://zh-sg.support.procore.com/continuing-education/faq"
+      },
+      {
+        "text": "Procore 成人教育 - 教程",
+        "href": "https://zh-sg.support.procore.com/continuing-education/tutorials"
+      },
+      {
+        "text": "客户成功",
+        "href": "https://zh-sg.support.procore.com/customer-success"
+      },
+      {
+        "text": "无可用图像",
+        "href": "https://zh-sg.support.procore.com/customer-success"
+      },
+      {
+        "text": "Procore 实施路线图",
+        "href": "https://zh-sg.support.procore.com/customer-success/implementation-roadmap"
+      },
+      {
+        "text": "推进 Procore",
+        "href": "https://zh-sg.support.procore.com/customer-success/moving-forward-with-procore"
+      },
+      {
+        "text": "Procore 复习路线图",
+        "href": "https://zh-sg.support.procore.com/customer-success/procore-refresher-roadmap"
+      },
+      {
+        "text": "产品线培训资源",
+        "href": "https://zh-sg.support.procore.com/customer-success/product-line-training-resources"
+      },
+      {
+        "text": "开始使用 Procore",
+        "href": "https://zh-sg.support.procore.com/getting-started-with-procore"
+      },
+      {
+        "text": "无可用图像",
+        "href": "https://zh-sg.support.procore.com/getting-started-with-procore"
+      },
+      {
+        "text": "Procore 学习路径",
+        "href": "https://zh-sg.support.procore.com/procore-learning-paths"
+      },
+      {
+        "text": "无可用图像",
+        "href": "https://zh-sg.support.procore.com/procore-learning-paths"
+      },
+      {
+        "text": "总承包商",
+        "href": "https://zh-sg.support.procore.com/procore-learning-paths/general-contractor"
+      },
+      {
+        "text": "业主/CM",
+        "href": "https://zh-sg.support.procore.com/procore-learning-paths/owner-cm"
+      },
+      {
+        "text": "专业承包商",
+        "href": "https://zh-sg.support.procore.com/procore-learning-paths/specialty-contractor"
+      },
+      {
+        "text": "Procore 移动版 (Android)",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-android"
+      },
+      {
+        "text": "无可用图像",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-android"
+      },
+      {
+        "text": "Procore Android 应用程序 - 入门",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-android/getting-started-procore-app-android"
+      },
+      {
+        "text": "Procore Android 应用程序 - 用户指南",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-android/user-guide"
+      },
+      {
+        "text": "Procore Android 应用程序 - 用户权限",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-android/permissions"
+      },
+      {
+        "text": "Procore Android 应用程序 - 发布说明",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-android/release-notes"
+      },
+      {
+        "text": "Procore 移动版 (iOS)",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios"
+      },
+      {
+        "text": "无可用图像",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios"
+      },
+      {
+        "text": "Procore iOS 应用程序 - 入门",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios"
+      },
+      {
+        "text": "iOS 版 Procore 应用程序 - 用户指南",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide"
+      },
+      {
+        "text": "Procore iOS 应用程序 - 用户权限",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios/permissions"
+      },
+      {
+        "text": "iOS 版 Procore 应用程序 - 发布说明",
+        "href": "https://zh-sg.support.procore.com/procore-mobile-ios/release-notes"
+      },
+      {
+        "text": "产品",
+        "href": "https://zh-sg.support.procore.com/products"
+      },
+      {
+        "text": "无可用图像",
+        "href": "https://zh-sg.support.procore.com/products"
+      },
+      {
+        "text": "Procore Web (app.procore.com)",
+        "href": "https://zh-sg.support.procore.com/products/online"
+      },
+      {
+        "text": "综合财务管理和资金规划",
+        "href": "https://zh-sg.support.procore.com/products/portfolio-financials"
+      },
+      {
+        "text": "Procore Estimating",
+        "href": "https://zh-sg.support.procore.com/products/procore-estimating"
+      },
+      {
+        "text": "参考",
+        "href": "https://zh-sg.support.procore.com/references"
+      },
+      {
+        "text": "无可用图像",
+        "href": "https://zh-sg.support.procore.com/references"
+      },
+      {
+        "text": "施工管理",
+        "href": "https://zh-sg.support.procore.com/references/construction-management"
+      },
+      {
+        "text": "联系支持团队",
+        "href": "https://zh-sg.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "信息安全和隐私",
+        "href": "https://zh-sg.support.procore.com/references/information-security-and-privacy"
+      },
+      {
+        "text": "Procore Analytics 2.0 - 安全措施",
+        "href": "https://zh-sg.support.procore.com/references/procore-analytics-2-0-security-measures"
+      },
+      {
+        "text": "Procore 导入模板",
+        "href": "https://zh-sg.support.procore.com/references/procore-import-templates"
+      },
+      {
+        "text": "Procore Analytics 1.0 - 安全措施概述",
+        "href": "https://zh-sg.support.procore.com/references/Procore_Analytics_-_Security_Measures_Overview"
+      },
+      {
+        "text": "请求导入",
+        "href": "https://zh-sg.support.procore.com/references/request-an-import"
+      },
+      {
+        "text": "网站地图",
+        "href": "https://zh-sg.support.procore.com/references/sitemap"
+      },
+      {
+        "text": "用户权限矩阵 - 移动版",
+        "href": "https://zh-sg.support.procore.com/references/user-permission-matrix-mobile"
+      },
+      {
+        "text": "用户权限矩阵 - Web",
+        "href": "https://zh-sg.support.procore.com/references/user-permissions-matrix-web"
+      },
+      {
+        "text": "视频",
+        "href": "https://zh-sg.support.procore.com/references/videos"
+      },
+      {
+        "text": "欢迎，Procore 技术合作伙伴",
+        "href": "https://zh-sg.support.procore.com/references/welcome-procore-technology-partners"
+      },
+      {
+        "text": "工作流图",
+        "href": "https://zh-sg.support.procore.com/references/workflow-diagrams"
+      },
+      {
+        "text": "系统状态和指标",
+        "href": "https://status.procore.com/"
+      },
+      {
+        "text": "Procore 认证",
+        "href": "https://learn.procore.com/page/zh-sg"
+      },
+      {
+        "text": "App Marketplace",
+        "href": "https://marketplace.procore.com/"
+      },
+      {
+        "text": "导航 Procore",
+        "href": "https://zh-sg.support.procore.com/getting-started-with-procore/login-and-account-management/tutorials/navigate-procores-tools"
+      },
+      {
+        "text": "继续教育",
+        "href": "https://learn.procore.com/page/zh-sg"
+      },
+      {
+        "text": "Jobsite",
+        "href": "https://jobsite.procore.com/"
+      },
+      {
+        "text": "词汇表",
+        "href": "https://zh-sg.support.procore.com/references/construction-management/glossary-of-terms"
+      },
+      {
+        "text": "Procore 社区",
+        "href": "https://community.procore.com/"
+      },
+      {
+        "text": "分享反馈",
+        "href": "https://zh-sg.support.procore.com/faq/how-do-i-share-feedback-with-procore"
+      },
+      {
+        "text": "网络研讨会",
+        "href": "https://www.procore.com/webinars"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/en-sg"
+      },
+      {
+        "text": "Builder's Club",
+        "href": "https://www.procore.com/buildersclub"
+      },
+      {
+        "text": "CXone Expert提供\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "隐私声明",
+        "href": "https://www.procore.com/legal/privacy"
+      },
+      {
+        "text": "服务条款",
+        "href": "https://www.procore.com/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/en-sg"
+      },
+      {
+        "text": "登录",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "More information",
+        "href": "https://www.procore.com/legal/cookie-notice"
+      },
+      {
+        "text": "",
+        "href": "https://www.onetrust.com/products/cookie-consent/"
+      }
+    ],
+    "title": "Home - Procore",
+    "h1": null,
+    "metaDescription": "适用于Procore 建设工程管理平台的综合支持网站。查看分步教程、常见问题、用户指南、学习路径、发布说明等更多内容。"
+  },
+  "links": 103,
+  "linkDetails": [
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 4,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 5,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 6,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 7,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 8,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 9,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 10,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 11,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 12,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 13,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 15,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/contact-support",
+      "text": "联系人",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/Special:AuthenticationProviders?returntotitle=",
+      "text": "登录",
+      "classes": "mt-icon-quick-sign-in",
+      "id": null,
+      "index": 18,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/tc/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 20,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/Special:AuthenticationProviders?returntotitle=",
+      "text": "登录",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 23,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/online/user-guide/project-level/submittals",
+      "text": "报批材料",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 27,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/online/user-guide/project-level/rfi",
+      "text": "RFI",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 28,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/online/user-guide/project-level/drawings",
+      "text": "图纸",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 29,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/online/user-guide/project-level/bidding",
+      "text": "投标",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 30,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/online/user-guide/project-level/daily-log",
+      "text": "工作日志",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 31,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/online/user-guide/project-level/punch-list",
+      "text": "尾项清单",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 32,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/faq",
+      "text": "常见问题",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 37,
+      "category": "faq"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/online/custom-solutions",
+      "text": "Procore 自定义解决方案",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 38,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide/drawings-ios",
+      "text": "图纸",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 39,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide/photos-ios",
+      "text": "照片",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 40,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide/inspections-ios",
+      "text": "检查",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 41,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide/rfis-ios",
+      "text": "RFI",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 42,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide/daily-log-ios",
+      "text": "工作日志",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 43,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide/punch-list-ios",
+      "text": "尾项清单",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 44,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios/release-notes",
+      "text": "iOS 发布说明",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 47,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-android/release-notes",
+      "text": "Android 发布说明",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 48,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios",
+      "text": "入门 - iOS",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 49,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide",
+      "text": "用户指南 - iOS",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 50,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-android/getting-started-procore-app-android",
+      "text": "入门 - Android",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 51,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-android/user-guide",
+      "text": "用户指南 - Android",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 52,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/faq/procore-for-ios-troubleshooting-tips",
+      "text": "故障排除提示 - iOS",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 53,
+      "category": "faq"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/faq/procore-for-android-troubleshooting-tips",
+      "text": "故障排除提示 - Android",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 54,
+      "category": "faq"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-bim-plugins",
+      "text": "BIM 插件",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 55,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-drive",
+      "text": "Drive",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 56,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-extracts",
+      "text": "Extracts",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 57,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-imports",
+      "text": "Imports",
+      "classes": "mt-tabs-quick-a",
+      "id": null,
+      "index": 58,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-bim-plugins/tutorials/download-procore-plugins",
+      "text": "Procore BIM 插件",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 59,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-drive/tutorials/procore-drive-setup-guide",
+      "text": "Procore Drive",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 60,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-extracts/tutorials/install-procore-extracts",
+      "text": "Procore Extracts",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 61,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-imports/tutorials/procore-imports-setup-guide",
+      "text": "Procore Imports",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 62,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-drive/release-notes",
+      "text": "Procore Drive",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 63,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-bim-plugins/procore-documents-plugin-for-autodesk/release-notes",
+      "text": "Procore 文档插件",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 64,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-extracts/release-notes",
+      "text": "Procore Extracts",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 65,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-imports/release-notes",
+      "text": "Procore Imports",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 66,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-bim-plugins/procore-vdc-plugin/release-notes",
+      "text": "Procore VDC 插件",
+      "classes": "mt-tabs-column-a",
+      "id": null,
+      "index": 67,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/continuing-education",
+      "text": "成人教育",
+      "classes": "internal",
+      "id": null,
+      "index": 68,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/continuing-education",
+      "text": "",
+      "classes": "internal",
+      "id": null,
+      "index": 69,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/continuing-education/courses",
+      "text": "Procore 成人教育 - 课程",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 70,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/continuing-education/faq",
+      "text": "Procore 成人教育 - 常见问题",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 71,
+      "category": "faq"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/continuing-education/tutorials",
+      "text": "Procore 成人教育 - 教程",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 72,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/customer-success",
+      "text": "客户成功",
+      "classes": "internal",
+      "id": null,
+      "index": 73,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/customer-success",
+      "text": "无可用图像",
+      "classes": "internal",
+      "id": null,
+      "index": 74,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/customer-success/implementation-roadmap",
+      "text": "Procore 实施路线图",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 75,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/customer-success/moving-forward-with-procore",
+      "text": "推进 Procore",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 76,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/customer-success/procore-refresher-roadmap",
+      "text": "Procore 复习路线图",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 77,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/customer-success/product-line-training-resources",
+      "text": "产品线培训资源",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 78,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/getting-started-with-procore",
+      "text": "开始使用 Procore",
+      "classes": "internal",
+      "id": null,
+      "index": 79,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/getting-started-with-procore",
+      "text": "无可用图像",
+      "classes": "internal",
+      "id": null,
+      "index": 80,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-learning-paths",
+      "text": "Procore 学习路径",
+      "classes": "internal",
+      "id": null,
+      "index": 81,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-learning-paths",
+      "text": "无可用图像",
+      "classes": "internal",
+      "id": null,
+      "index": 82,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-learning-paths/general-contractor",
+      "text": "总承包商",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 83,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-learning-paths/owner-cm",
+      "text": "业主/CM",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 84,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-learning-paths/specialty-contractor",
+      "text": "专业承包商",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 85,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-android",
+      "text": "Procore 移动版 (Android)",
+      "classes": "internal",
+      "id": null,
+      "index": 86,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-android",
+      "text": "无可用图像",
+      "classes": "internal",
+      "id": null,
+      "index": 87,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-android/getting-started-procore-app-android",
+      "text": "Procore Android 应用程序 - 入门",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 88,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-android/user-guide",
+      "text": "Procore Android 应用程序 - 用户指南",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 89,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-android/permissions",
+      "text": "Procore Android 应用程序 - 用户权限",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 90,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-android/release-notes",
+      "text": "Procore Android 应用程序 - 发布说明",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 91,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios",
+      "text": "Procore 移动版 (iOS)",
+      "classes": "internal",
+      "id": null,
+      "index": 92,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios",
+      "text": "无可用图像",
+      "classes": "internal",
+      "id": null,
+      "index": 93,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios",
+      "text": "Procore iOS 应用程序 - 入门",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 94,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios/user-guide",
+      "text": "iOS 版 Procore 应用程序 - 用户指南",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 95,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios/permissions",
+      "text": "Procore iOS 应用程序 - 用户权限",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 96,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/procore-mobile-ios/release-notes",
+      "text": "iOS 版 Procore 应用程序 - 发布说明",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 97,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products",
+      "text": "产品",
+      "classes": "internal",
+      "id": null,
+      "index": 98,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products",
+      "text": "无可用图像",
+      "classes": "internal",
+      "id": null,
+      "index": 99,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/online",
+      "text": "Procore Web (app.procore.com)",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 100,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/portfolio-financials",
+      "text": "综合财务管理和资金规划",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 101,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/products/procore-estimating",
+      "text": "Procore Estimating",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 102,
+      "category": "product"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references",
+      "text": "参考",
+      "classes": "internal",
+      "id": null,
+      "index": 103,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references",
+      "text": "无可用图像",
+      "classes": "internal",
+      "id": null,
+      "index": 104,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/construction-management",
+      "text": "施工管理",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 105,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/contact-support",
+      "text": "联系支持团队",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 106,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/information-security-and-privacy",
+      "text": "信息安全和隐私",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 107,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/procore-analytics-2-0-security-measures",
+      "text": "Procore Analytics 2.0 - 安全措施",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 108,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/procore-import-templates",
+      "text": "Procore 导入模板",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 109,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/Procore_Analytics_-_Security_Measures_Overview",
+      "text": "Procore Analytics 1.0 - 安全措施概述",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 110,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/request-an-import",
+      "text": "请求导入",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 111,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/sitemap",
+      "text": "网站地图",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 112,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/user-permission-matrix-mobile",
+      "text": "用户权限矩阵 - 移动版",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 113,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/user-permissions-matrix-web",
+      "text": "用户权限矩阵 - Web",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 114,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/videos",
+      "text": "视频",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 115,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/welcome-procore-technology-partners",
+      "text": "欢迎，Procore 技术合作伙伴",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 116,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/workflow-diagrams",
+      "text": "工作流图",
+      "classes": "mt-listing-detailed-subpage-title internal",
+      "id": null,
+      "index": 117,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/getting-started-with-procore/login-and-account-management/tutorials/navigate-procores-tools",
+      "text": "导航 Procore",
+      "classes": "",
+      "id": null,
+      "index": 121,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/references/construction-management/glossary-of-terms",
+      "text": "词汇表",
+      "classes": "",
+      "id": null,
+      "index": 124,
+      "category": "reference"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/faq/how-do-i-share-feedback-with-procore",
+      "text": "分享反馈",
+      "classes": "",
+      "id": null,
+      "index": 126,
+      "category": "faq"
+    }
+  ],
+  "clickables": 21,
+  "clickableDetails": [
+    {
+      "text": "新加坡（简体中文）",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "搜索",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "扩展/隐缩全局层次",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "扩展/隐缩全局定位",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 3
+    },
+    {
+      "text": "搜索",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "目录",
+      "id": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "hasDropdown": false,
+      "index": 5
+    },
+    {
+      "text": "显示全部",
+      "id": "mt-icon-expand-collapse mt-reveal-listing-expand-link",
+      "type": "button",
+      "classes": "mt-icon-expand-collapse mt-reveal-listing-expand-link",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "",
+      "id": "close-pc-btn-handler",
+      "type": "button",
+      "classes": "ot-close-icon",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "Allow All",
+      "id": "accept-recommended-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 10
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 11
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 12
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 13
+    },
+    {
+      "text": "Back Button",
+      "id": "ot-link-btn back-btn-handler",
+      "type": "button",
+      "classes": "ot-link-btn back-btn-handler",
+      "hasDropdown": false,
+      "index": 14
+    },
+    {
+      "text": "Filter Icon",
+      "id": "filter-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 15
+    },
+    {
+      "text": "Clear",
+      "id": "clear-filters-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 16
+    },
+    {
+      "text": "Apply",
+      "id": "filter-apply-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 17
+    },
+    {
+      "text": "Cancel",
+      "id": "filter-cancel-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 18
+    },
+    {
+      "text": "Reject All",
+      "id": "ot-pc-refuse-all-handler",
+      "type": "button",
+      "classes": "ot-pc-refuse-all-handler",
+      "hasDropdown": false,
+      "index": 19
+    },
+    {
+      "text": "Confirm My Choices",
+      "id": "save-preference-btn-handler onetrust-close-btn-handler",
+      "type": "button",
+      "classes": "save-preference-btn-handler onetrust-close-btn-handler",
+      "hasDropdown": false,
+      "index": 20
+    }
+  ],
+  "expandables": 7,
+  "expandableDetails": [
+    {
+      "text": "目录",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "供你参考",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "显示全部",
+      "type": "button",
+      "classes": "mt-icon-expand-collapse mt-reveal-listing-expand-link",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Strictly Necessary CookiesAlways ActiveThese cookies are necessary for the website to function and c",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Functional Cookies  Functional Cookies These cookies enable the website to provide enhanced function",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Performance Cookies  Performance Cookies These cookies allow us to count visits and traffic sources ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    },
+    {
+      "text": "Opt Out of Sale of Sharing/Targeted Advertising  Opt Out of Sale of Sharing/Targeted Advertising As ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 6
+    }
+  ],
+  "screenshotPath": "pages/zh-sg_support_procore_com/screenshot.png"
+}

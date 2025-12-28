@@ -1,0 +1,81 @@
+{
+  "crawlDate": "2025-12-27T19:28:33.444Z",
+  "startUrl": "https://support.procore.com/products/online",
+  "totalPages": 100,
+  "statistics": {
+    "totalLinks": 13543,
+    "totalClickables": 2975,
+    "totalExpandables": 819,
+    "totalImages": 4482,
+    "totalCodeBlocks": 39,
+    "totalTables": 155
+  },
+  "categories": {
+    "reference": 5,
+    "product": 28,
+    "documentation": 63,
+    "faq": 4
+  },
+  "topPages": [
+    {
+      "name": "sitemap",
+      "url": "https://es.support.procore.com/references/sitemap",
+      "links": 5403,
+      "category": "reference"
+    },
+    {
+      "name": "user-permission-matrix-mobile",
+      "url": "https://es.support.procore.com/references/user-permission-matrix-mobile",
+      "links": 740,
+      "category": "reference"
+    },
+    {
+      "name": "procore-pay",
+      "url": "https://support.procore.com/products/online/procore-pay",
+      "links": 522,
+      "category": "product"
+    },
+    {
+      "name": "drawings",
+      "url": "https://es.support.procore.com/products/online/user-guide/project-level/drawings",
+      "links": 327,
+      "category": "product"
+    },
+    {
+      "name": "submittals",
+      "url": "https://es.support.procore.com/products/online/user-guide/project-level/submittals",
+      "links": 276,
+      "category": "product"
+    },
+    {
+      "name": "rfi",
+      "url": "https://es.support.procore.com/products/online/user-guide/project-level/rfi",
+      "links": 253,
+      "category": "product"
+    },
+    {
+      "name": "directory",
+      "url": "https://es.support.procore.com/products/online/user-guide/project-level/directory",
+      "links": 243,
+      "category": "product"
+    },
+    {
+      "name": "bidding",
+      "url": "https://es.support.procore.com/products/online/user-guide/project-level/bidding",
+      "links": 229,
+      "category": "product"
+    },
+    {
+      "name": "user-permissions-matrix-web",
+      "url": "https://es.support.procore.com/references/user-permissions-matrix-web",
+      "links": 218,
+      "category": "reference"
+    },
+    {
+      "name": "permissions-matrix",
+      "url": "https://v2.support.procore.com/process-guides/permissions-matrix/",
+      "links": 213,
+      "category": "documentation"
+    }
+  ]
+}

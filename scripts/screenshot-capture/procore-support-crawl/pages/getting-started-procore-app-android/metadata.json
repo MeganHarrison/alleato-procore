@@ -1,0 +1,1122 @@
+{
+  "url": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android",
+  "pageName": "getting-started-procore-app-android",
+  "category": "documentation",
+  "pageId": "getting-started-procore-app-android",
+  "timestamp": "2025-12-27T19:26:17.091Z",
+  "analysis": {
+    "components": {
+      "buttons": 20,
+      "forms": 2,
+      "inputs": 15,
+      "tables": 0,
+      "modals": 1,
+      "navigation": 5,
+      "cards": 0,
+      "lists": 52,
+      "tabs": 0,
+      "dropdowns": 1,
+      "icons": 4,
+      "headings": {
+        "h1": 1,
+        "h2": 13,
+        "h3": 7,
+        "h4": 6
+      },
+      "codeBlocks": 0,
+      "images": 30,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "Aplicación Procore para Android: introducción",
+      "headings": [
+        {
+          "level": "h2",
+          "text": "Descripción general",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Configurar el orden de herramientas para un proyecto",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Navegar a un proyecto diferente",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Ver la descripción general del proyecto",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Configurar preferencias de Aplicación",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "",
+          "id": "-17161"
+        },
+        {
+          "level": "h3",
+          "text": "Redes",
+          "id": "Redes-17161"
+        },
+        {
+          "level": "h3",
+          "text": "Modo oscuro",
+          "id": "Modo_oscuro-17161"
+        },
+        {
+          "level": "h2",
+          "text": "Administrar la configuración del proyecto",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "Almacenamiento",
+          "id": "Almacenamiento-12012"
+        },
+        {
+          "level": "h3",
+          "text": "Notificaciones",
+          "id": "Notificaciones-12012"
+        },
+        {
+          "level": "h2",
+          "text": "Actualice la aplicación Procore para Android",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Objetivo",
+          "id": "Objetivo-2990"
+        },
+        {
+          "level": "h2",
+          "text": "Contexto",
+          "id": "Contexto-2990"
+        },
+        {
+          "level": "h2",
+          "text": "Pasos",
+          "id": "Pasos-2990"
+        },
+        {
+          "level": "h2",
+          "text": "Ver también",
+          "id": "Ver_tambi.C3.A9n-2990"
+        },
+        {
+          "level": "h2",
+          "text": "Artículos recomendados",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Cookie Preferences",
+          "id": "ot-pc-title"
+        },
+        {
+          "level": "h3",
+          "text": "Manage Consent Preferences",
+          "id": "ot-category-title"
+        },
+        {
+          "level": "h3",
+          "text": "Cookie List",
+          "id": null
+        }
+      ],
+      "paragraphs": 27,
+      "sections": 6
+    },
+    "tables": [],
+    "breadcrumbs": [
+      {
+        "text": "Saltar al contenido principal",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#elm-main-content"
+      },
+      {
+        "text": "Soporte",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es?journey=supporttoprocore"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "Contáctenos",
+        "href": "https://es.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "Iniciar sesión en la Aplicación de Procore",
+        "href": "https://login.procore.com/?locale=es&journey=supporttologin"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Buscar en el sitio",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#"
+      },
+      {
+        "text": "Ir al artículo anterior",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#"
+      },
+      {
+        "text": "Inicio de sesión",
+        "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=procore-mobile-android%2Fgetting-started-procore-app-android"
+      },
+      {
+        "text": "Inicio",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Aplicación móvil de Procore (Android)",
+        "href": "https://es.support.procore.com/procore-mobile-android"
+      },
+      {
+        "text": "Guardar como PDF",
+        "href": "https://es.support.procore.com/@api/deki/pages/1966/pdf/Aplicaci%25C3%25B3n%2bProcore%2bpara%2bAndroid%253A%2bintroducci%25C3%25B3n.pdf"
+      },
+      {
+        "text": "Descripción general",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Descripci.C3.B3n_general"
+      },
+      {
+        "text": "Nota:",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Nota:"
+      },
+      {
+        "text": "Configurar el orden de herramientas para un proyecto",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Configurar_el_orden_de_herramientas_para_un_proyecto"
+      },
+      {
+        "text": "Navegar a un proyecto diferente",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Navegar_a_un_proyecto_diferente"
+      },
+      {
+        "text": "Ver la descripción general del proyecto",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Ver_la_descripci.C3.B3n_general_del_proyecto"
+      },
+      {
+        "text": "Configurar preferencias de Aplicación",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Configurar_preferencias_de_Aplicaci.C3.B3n"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#"
+      },
+      {
+        "text": "Redes",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Redes"
+      },
+      {
+        "text": "Modo oscuro",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Modo_oscuro"
+      },
+      {
+        "text": "Recomendación",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Recomendaci.C3.B3n"
+      },
+      {
+        "text": "Administrar la configuración del proyecto",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Administrar_la_configuraci.C3.B3n_del_proyecto"
+      },
+      {
+        "text": "Almacenamiento",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Almacenamiento"
+      },
+      {
+        "text": "Notificaciones",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Notificaciones"
+      },
+      {
+        "text": "Todos los proyectos",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Todos_los_proyectos"
+      },
+      {
+        "text": "Proyecto Actual",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Proyecto_Actual"
+      },
+      {
+        "text": "Actualice la aplicación Procore para Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Actualice_la_aplicaci.C3.B3n_Procore_para_Android"
+      },
+      {
+        "text": "Objetivo",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Objetivo"
+      },
+      {
+        "text": "Contexto",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Contexto"
+      },
+      {
+        "text": "Pasos",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Pasos"
+      },
+      {
+        "text": "Ver también",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Ver_tambi.C3.A9n"
+      },
+      {
+        "text": "Descripción general",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#"
+      },
+      {
+        "text": "Configurar el orden de herramientas para un proyecto",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#"
+      },
+      {
+        "text": "Navegar a un proyecto diferente",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#"
+      },
+      {
+        "text": "Ver la descripción general del proyecto",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#"
+      },
+      {
+        "text": "Configurar preferencias de Aplicación",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#"
+      },
+      {
+        "text": "Administrar la configuración del proyecto",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#"
+      },
+      {
+        "text": "Actualice la aplicación Procore para Android",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#"
+      },
+      {
+        "text": "Requisitos",
+        "href": "https://es.support.procore.com/faq/android-requirements"
+      },
+      {
+        "text": "Descargar desde Google Play™",
+        "href": "https://play.google.com/store/apps/details?id=com.procore.activities"
+      },
+      {
+        "text": "Sort Projects (Android)",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/project-overview-screen-android/tutorials/sort-projects-android"
+      },
+      {
+        "text": "Redes",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Networking"
+      },
+      {
+        "text": "Modo oscuro",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/sidebar-screen/tutorials/app-preferences-ios#Dark_Mode"
+      },
+      {
+        "text": "Project Settings.",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#s12012"
+      },
+      {
+        "text": "Project pantalla vista general",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/project-overview-screen-android/tutorials/about-the-project-overview-screen-android"
+      },
+      {
+        "text": "el almacenamiento",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Storage"
+      },
+      {
+        "text": "proyecto",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Notifications"
+      },
+      {
+        "text": "¿Cómo administro el almacenamiento que usa la aplicación móvil Procore en mi dispositivo?",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios/manage-the-storage-that-procores-ios-app-uses-on-your-device"
+      },
+      {
+        "text": "las secciones Todos los proyectos",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#All_Projects"
+      },
+      {
+        "text": "Proyecto actual",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#Current_Project"
+      },
+      {
+        "text": "Clock Your Time (Android)",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide/my-time-android/tutorials/clock-your-time-android"
+      },
+      {
+        "text": "¿Quién recibe correos electrónicos de ítems de correspondencia y notificaciones push?",
+        "href": "https://es.support.procore.com/faq/who-receives-correspondence-item-emails-and-push-notifications"
+      },
+      {
+        "text": "Suscribirse al registro de planos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/drawings/tutorials/subscribe-to-the-drawings-log"
+      },
+      {
+        "text": "Ver la última versión de la aplicación Procore en Google Play™ Store",
+        "href": "https://play.google.com/store/apps/details?id=com.procore.activities"
+      },
+      {
+        "text": "Procore para Android: Introducción",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android"
+      },
+      {
+        "text": "Procore para Android: Guía de usuario",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide"
+      },
+      {
+        "text": "Procore para Android: consejos para solucionar problemas",
+        "href": "https://es.support.procore.com/faq/procore-for-android-troubleshooting-tips"
+      },
+      {
+        "text": "Volver arriba",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android#title"
+      },
+      {
+        "text": "Aplicación móvil de Procore (Android)",
+        "href": "https://es.support.procore.com/procore-mobile-android"
+      },
+      {
+        "text": "Administre el almacenamiento que usa la aplicación Android de Procore en su dispositivo",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android/manage-the-storage-that-procores-android-app-uses-on-your-device"
+      },
+      {
+        "text": "Administre el almacenamiento que usa la aplicación Android de Procore en su dispositivo",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android/manage-the-storage-that-procores-android-app-uses-on-your-device"
+      },
+      {
+        "text": "Reportar un problema desde la aplicación Android de Procore",
+        "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android/report-an-issue-from-procores-android-app"
+      },
+      {
+        "text": "Aplicación de procore Android : Guía del usuario",
+        "href": "https://es.support.procore.com/procore-mobile-android/user-guide"
+      },
+      {
+        "text": "Aplicación Android de Procore: notas de la versión",
+        "href": "https://es.support.procore.com/procore-mobile-android/release-notes"
+      },
+      {
+        "text": "Category",
+        "href": "https://es.support.procore.com/Special:Search?tags=article%3Atopic-category"
+      },
+      {
+        "text": "English-US",
+        "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us"
+      },
+      {
+        "text": "Published",
+        "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished"
+      },
+      {
+        "text": "Powered by CXone Expert\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "Aviso de privacidad",
+        "href": "https://www.procore.com/es/legal/privacy"
+      },
+      {
+        "text": "Términos de uso",
+        "href": "https://www.procore.com/es/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "More information",
+        "href": "https://www.procore.com/legal/cookie-notice"
+      },
+      {
+        "text": "",
+        "href": "https://www.onetrust.com/products/cookie-consent/"
+      }
+    ],
+    "title": "Aplicación Procore para Android: introducción - Procore",
+    "h1": "Aplicación Procore para Android: introducción",
+    "metaDescription": null
+  },
+  "links": 38,
+  "linkDetails": [
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Soporte",
+      "classes": "",
+      "id": null,
+      "index": 1,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "internal",
+      "id": null,
+      "index": 4,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 5,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 6,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 7,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 8,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 9,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 10,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 11,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 12,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 13,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡（简体中文）",
+      "classes": "link-https",
+      "id": null,
+      "index": 14,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 15,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/references/contact-support",
+      "text": "Contáctenos",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 19,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=procore-mobile-android%2Fgetting-started-procore-app-android",
+      "text": "Inicio de sesión",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 22,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Inicio",
+      "classes": "",
+      "id": null,
+      "index": 23,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android",
+      "text": "Aplicación móvil de Procore (Android)",
+      "classes": "",
+      "id": null,
+      "index": 24,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/@api/deki/pages/1966/pdf/Aplicaci%25C3%25B3n%2bProcore%2bpara%2bAndroid%253A%2bintroducci%25C3%25B3n.pdf",
+      "text": "Guardar como PDF",
+      "classes": "",
+      "id": null,
+      "index": 25,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/android-requirements",
+      "text": "Requisitos",
+      "classes": "F1",
+      "id": null,
+      "index": 53,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/project-overview-screen-android/tutorials/sort-projects-android",
+      "text": "Sort Projects (Android)",
+      "classes": "",
+      "id": null,
+      "index": 55,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/project-overview-screen-android/tutorials/about-the-project-overview-screen-android",
+      "text": "Project pantalla vista general",
+      "classes": "",
+      "id": null,
+      "index": 59,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios/manage-the-storage-that-procores-ios-app-uses-on-your-device",
+      "text": "¿Cómo administro el almacenamiento que usa la aplicación móvil Procore en mi dispositivo?",
+      "classes": "",
+      "id": null,
+      "index": 62,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide/my-time-android/tutorials/clock-your-time-android",
+      "text": "Clock Your Time (Android)",
+      "classes": "",
+      "id": null,
+      "index": 65,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/who-receives-correspondence-item-emails-and-push-notifications",
+      "text": "¿Quién recibe correos electrónicos de ítems de correspondencia y notificaciones push?",
+      "classes": "",
+      "id": null,
+      "index": 66,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/drawings/tutorials/subscribe-to-the-drawings-log",
+      "text": "Suscribirse al registro de planos",
+      "classes": "",
+      "id": null,
+      "index": 67,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide",
+      "text": "Procore para Android: Guía de usuario",
+      "classes": "",
+      "id": null,
+      "index": 70,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/procore-for-android-troubleshooting-tips",
+      "text": "Procore para Android: consejos para solucionar problemas",
+      "classes": "",
+      "id": null,
+      "index": 71,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android",
+      "text": "Aplicación móvil de Procore (Android)",
+      "classes": "mt-icon-previous-article",
+      "id": null,
+      "index": 73,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android/manage-the-storage-that-procores-android-app-uses-on-your-device",
+      "text": "Administre el almacenamiento que usa la aplicación Android de Procore en su dispositivo",
+      "classes": "mt-icon-next-article",
+      "id": null,
+      "index": 74,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android/manage-the-storage-that-procores-android-app-uses-on-your-device",
+      "text": "Administre el almacenamiento que usa la aplicación Android de Procore en su dispositivo",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 75,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/getting-started-procore-app-android/report-an-issue-from-procores-android-app",
+      "text": "Reportar un problema desde la aplicación Android de Procore",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 76,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/user-guide",
+      "text": "Aplicación de procore Android : Guía del usuario",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 77,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-android/release-notes",
+      "text": "Aplicación Android de Procore: notas de la versión",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 78,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=article%3Atopic-category",
+      "text": "Category",
+      "classes": "",
+      "id": null,
+      "index": 79,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us",
+      "text": "English-US",
+      "classes": "",
+      "id": null,
+      "index": 80,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished",
+      "text": "Published",
+      "classes": "",
+      "id": null,
+      "index": 81,
+      "category": "general"
+    }
+  ],
+  "clickables": 28,
+  "clickableDetails": [
+    {
+      "text": "América Latina (Español)",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Buscar",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "Buscar",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Expandir/contraer jerarquía global",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 3
+    },
+    {
+      "text": "Expandir/contraer ubicación global",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "Índice",
+      "id": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "hasDropdown": false,
+      "index": 5
+    },
+    {
+      "text": "Tabla de contenido",
+      "id": "mobile-menu-toggle",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "Descripción general",
+      "id": "selected-chapter",
+      "type": "a",
+      "classes": "selected-chapter",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "Configurar el orden de herramientas para un proyecto",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "Navegar a un proyecto diferente",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "Ver la descripción general del proyecto",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 10
+    },
+    {
+      "text": "Configurar preferencias de Aplicación",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 11
+    },
+    {
+      "text": "Administrar la configuración del proyecto",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 12
+    },
+    {
+      "text": "Actualice la aplicación Procore para Android",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 13
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 14
+    },
+    {
+      "text": "",
+      "id": "close-pc-btn-handler",
+      "type": "button",
+      "classes": "ot-close-icon",
+      "hasDropdown": false,
+      "index": 15
+    },
+    {
+      "text": "Allow All",
+      "id": "accept-recommended-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 16
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 17
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 18
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 19
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 20
+    },
+    {
+      "text": "Back Button",
+      "id": "ot-link-btn back-btn-handler",
+      "type": "button",
+      "classes": "ot-link-btn back-btn-handler",
+      "hasDropdown": false,
+      "index": 21
+    },
+    {
+      "text": "Filter Icon",
+      "id": "filter-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 22
+    },
+    {
+      "text": "Clear",
+      "id": "clear-filters-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 23
+    },
+    {
+      "text": "Apply",
+      "id": "filter-apply-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 24
+    },
+    {
+      "text": "Cancel",
+      "id": "filter-cancel-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 25
+    },
+    {
+      "text": "Reject All",
+      "id": "ot-pc-refuse-all-handler",
+      "type": "button",
+      "classes": "ot-pc-refuse-all-handler",
+      "hasDropdown": false,
+      "index": 26
+    },
+    {
+      "text": "Confirm My Choices",
+      "id": "save-preference-btn-handler onetrust-close-btn-handler",
+      "type": "button",
+      "classes": "save-preference-btn-handler onetrust-close-btn-handler",
+      "hasDropdown": false,
+      "index": 27
+    }
+  ],
+  "expandables": 8,
+  "expandableDetails": [
+    {
+      "text": "Índice",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "Descripción general Nota:Configurar el orden de herramientas para un proyectoNavegar a un proyecto d",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Tablero del proyecto  \n    \n        Configurar el orden de herramientas para un proyecto\n        Nav",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Configuración  \n    \n        Configurar preferencias de Aplicación\n        Administrar la configurac",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Strictly Necessary CookiesAlways ActiveThese cookies are necessary for the website to function and c",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Functional Cookies  Functional Cookies These cookies enable the website to provide enhanced function",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    },
+    {
+      "text": "Performance Cookies  Performance Cookies These cookies allow us to count visits and traffic sources ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 6
+    },
+    {
+      "text": "Opt Out of Sale of Sharing/Targeted Advertising  Opt Out of Sale of Sharing/Targeted Advertising As ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 7
+    }
+  ],
+  "screenshotPath": "pages/getting-started-procore-app-android/screenshot.png"
+}

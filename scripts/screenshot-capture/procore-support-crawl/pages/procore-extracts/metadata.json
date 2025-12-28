@@ -1,0 +1,1655 @@
+{
+  "url": "https://es.support.procore.com/products/procore-extracts",
+  "pageName": "procore-extracts",
+  "category": "product",
+  "pageId": "procore-extracts",
+  "timestamp": "2025-12-27T19:26:59.810Z",
+  "analysis": {
+    "components": {
+      "buttons": 25,
+      "forms": 4,
+      "inputs": 21,
+      "tables": 1,
+      "modals": 1,
+      "navigation": 10,
+      "cards": 0,
+      "lists": 54,
+      "tabs": 0,
+      "dropdowns": 2,
+      "icons": 4,
+      "headings": {
+        "h1": 2,
+        "h2": 4,
+        "h3": 3,
+        "h4": 14
+      },
+      "codeBlocks": 0,
+      "images": 12,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "Procore Extracts",
+      "headings": [
+        {
+          "level": "h3",
+          "text": "Procore Extracts",
+          "id": "Procore_Extracts-2673"
+        },
+        {
+          "level": "h2",
+          "text": "Cambios recientes",
+          "id": "Cambios_recientes-1958"
+        },
+        {
+          "level": "h2",
+          "text": "Art??culos recomendados",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Artículos recomendados",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Cookie Preferences",
+          "id": "ot-pc-title"
+        },
+        {
+          "level": "h3",
+          "text": "Manage Consent Preferences",
+          "id": "ot-category-title"
+        },
+        {
+          "level": "h3",
+          "text": "Cookie List",
+          "id": null
+        }
+      ],
+      "paragraphs": 15,
+      "sections": 8
+    },
+    "tables": [
+      {
+        "index": 1,
+        "headers": [
+          "Tarea",
+          "Ninguno",
+          "Solo lectura",
+          "Estándar",
+          "Administrador"
+        ],
+        "rows": 2,
+        "classes": "mt-responsive-table perm-table perm-table-horizontal perm-table-highlight",
+        "id": null
+      }
+    ],
+    "breadcrumbs": [
+      {
+        "text": "Saltar al contenido principal",
+        "href": "https://es.support.procore.com/products/procore-extracts#elm-main-content"
+      },
+      {
+        "text": "Soporte",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es?journey=supporttoprocore"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/products/procore-extracts#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "Contáctenos",
+        "href": "https://es.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "Iniciar sesión en la Aplicación de Procore",
+        "href": "https://login.procore.com/?locale=es&journey=supporttologin"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Buscar en el sitio",
+        "href": "https://es.support.procore.com/products/procore-extracts#"
+      },
+      {
+        "text": "Ir al artículo anterior",
+        "href": "https://es.support.procore.com/products/procore-extracts#"
+      },
+      {
+        "text": "Inicio de sesión",
+        "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products%2Fprocore-extracts"
+      },
+      {
+        "text": "Inicio",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Productos",
+        "href": "https://es.support.procore.com/products"
+      },
+      {
+        "text": "Guardar como PDF",
+        "href": "https://es.support.procore.com/@api/deki/pages/1168/pdf/Procore%2bExtracts.pdf"
+      },
+      {
+        "text": "Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts"
+      },
+      {
+        "text": "Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_2"
+      },
+      {
+        "text": "Cambios recientes",
+        "href": "https://es.support.procore.com/products/procore-extracts#Cambios_recientes"
+      },
+      {
+        "text": "Procore Extracts 1.3.3 (10/10/2025)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.3.3_(10.2F10.2F2025)"
+      },
+      {
+        "text": "Procore Extracts 1.3.2 (11/14/2024)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.3.2_(11.2F14.2F2024)"
+      },
+      {
+        "text": "Procore Extracts 1.3.1 (17/07/2024)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.3.1_(17.2F07.2F2024)"
+      },
+      {
+        "text": "Procore Extracts 1.3.0 (01/10/2024)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.3.0_(01.2F10.2F2024)"
+      },
+      {
+        "text": "Procore Extracts 1.2.9 (18/12/2023)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.2.9_(18.2F12.2F2023)"
+      },
+      {
+        "text": "Procore Extracts 1.2.8 (08/09/2023)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.2.8_(08.2F09.2F2023)"
+      },
+      {
+        "text": "Procore Extracts 1.2.7 (15/06/2023)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.2.7_(15.2F06.2F2023)"
+      },
+      {
+        "text": "Procore Extracts 1.2.6 (02/10/2023)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.2.6_(02.2F10.2F2023)"
+      },
+      {
+        "text": "Procore Extracts 1.2.5 (24/01/2023)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.2.5_(24.2F01.2F2023)"
+      },
+      {
+        "text": "Procore Extracts 1.2.4 (17/01/2023)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.2.4_(17.2F01.2F2023)"
+      },
+      {
+        "text": "Art??culos recomendados",
+        "href": "https://es.support.procore.com/products/procore-extracts#Art.3F.3Fculos_recomendados"
+      },
+      {
+        "text": "Saltar al contenido principal",
+        "href": "https://es.support.procore.com/products/procore-extracts#elm-main-content"
+      },
+      {
+        "text": "Soporte",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es?journey=supporttoprocore"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/products/procore-extracts#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "Contáctenos",
+        "href": "https://es.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "Iniciar sesión en la Aplicación de Procore",
+        "href": "https://login.procore.com/?locale=es&journey=supporttologin"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Buscar en el sitio",
+        "href": "https://es.support.procore.com/products/procore-extracts#"
+      },
+      {
+        "text": "Ir al art??culo anterior",
+        "href": "https://es.support.procore.com/products/procore-extracts#"
+      },
+      {
+        "text": "Inicio de sesi??n",
+        "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products/procore-extracts"
+      },
+      {
+        "text": "Inicio",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Productos",
+        "href": "https://es.support.procore.com/products"
+      },
+      {
+        "text": "Guardar como PDF",
+        "href": "https://es.support.procore.com/@api/deki/pages/1168/pdf/Procore%2bExtracts.pdf"
+      },
+      {
+        "text": "Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts"
+      },
+      {
+        "text": "Cambios recientes",
+        "href": "https://es.support.procore.com/products/procore-extracts#Cambios_recientes"
+      },
+      {
+        "text": "Procore Extracts 1.3.3 (10/10/2025)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.3.3_(10.2F10.2F2025)"
+      },
+      {
+        "text": "Procore Extracts 1.3.2 (11/14/2024)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.3.2_(11.2F14.2F2024)"
+      },
+      {
+        "text": "Procore Extracts 1.3.1 (17/07/2024)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.3.1_(17.2F07.2F2024)"
+      },
+      {
+        "text": "Procore Extracts 1.3.0 (01/10/2024)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.3.0_(01.2F10.2F2024)"
+      },
+      {
+        "text": "Procore Extracts 1.2.9 (18/12/2023)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.2.9_(18.2F12.2F2023)"
+      },
+      {
+        "text": "Procore Extracts 1.2.8 (08/09/2023)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.2.8_(08.2F09.2F2023)"
+      },
+      {
+        "text": "Procore Extracts 1.2.7 (15/06/2023)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.2.7_(15.2F06.2F2023)"
+      },
+      {
+        "text": "Procore Extracts 1.2.6 (02/10/2023)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.2.6_(02.2F10.2F2023)"
+      },
+      {
+        "text": "Procore Extracts 1.2.5 (24/01/2023)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.2.5_(24.2F01.2F2023)"
+      },
+      {
+        "text": "Procore Extracts 1.2.4 (17/01/2023)",
+        "href": "https://es.support.procore.com/products/procore-extracts#Procore_Extracts_1.2.4_(17.2F01.2F2023)"
+      },
+      {
+        "text": "Descripción general",
+        "href": "https://es.support.procore.com/products/procore-extracts#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/procore-extracts#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-extracts#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/procore-extracts#"
+      },
+      {
+        "text": "Notas",
+        "href": "https://es.support.procore.com/products/procore-extracts#"
+      },
+      {
+        "text": "(ver todos)",
+        "href": "https://es.support.procore.com/products/procore-extracts/overview#"
+      },
+      {
+        "text": "Instalar Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts/tutorials/install-procore-extracts"
+      },
+      {
+        "text": "Extraer datos del proyecto con Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts/tutorials/extract-project-data-using-procore-extracts"
+      },
+      {
+        "text": "Configuración: Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts/tutorials/settings-procore-extracts"
+      },
+      {
+        "text": "archivo=\">(ver todo)<a onclick=\"displaySection('#chapt3'); return false;\" href.path=\"//\" href.anchor=\"\" href.",
+        "href": "https://es.support.procore.com/products/procore-extracts/overview#"
+      },
+      {
+        "text": "¿Por qué no puedo descargar y abrir un archivo.ZIP de Procore?",
+        "href": "https://es.support.procore.com/faq/why-am-i-unable-to-download-and-open-a-zip-file-from-procore"
+      },
+      {
+        "text": "¿De qué herramientas puedo extraer datos del proyecto a través de la aplicación Procore Extracts?",
+        "href": "https://es.support.procore.com/faq/which-tools-can-i-extract-project-data-from-using-the-procore-extracts-application"
+      },
+      {
+        "text": "¿Cuánto tiempo demora la extracción de datos de Procore?",
+        "href": "https://es.support.procore.com/faq/how-long-does-it-take-to-extract-data-from-procore"
+      },
+      {
+        "text": "¿Puedo usar la aplicación Procore Extracts en una Mac?",
+        "href": "https://es.support.procore.com/faq/can-i-use-the-procore-extracts-application-on-a-mac"
+      },
+      {
+        "text": "¿Qué es el archivo 'Información de cambio de nombre de archivo' incluido en los datos de mi proyecto extraídos?",
+        "href": "https://es.support.procore.com/faq/what-is-the-file-rename-information-file-included-with-my-extracted-project-data"
+      },
+      {
+        "text": "Guia de preparación",
+        "href": "https://es.support.procore.com/products/procore-extracts/tutorials/install-procore-extracts"
+      },
+      {
+        "text": "Extraer datos del proyecto con Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts/tutorials/extract-project-data-using-procore-extracts"
+      },
+      {
+        "text": "Instalar Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts/tutorials/install-procore-extracts"
+      },
+      {
+        "text": "Configuración: Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts/tutorials/settings-procore-extracts"
+      },
+      {
+        "text": "¿Por qué no puedo descargar y abrir un archivo.ZIP de Procore?",
+        "href": "https://es.support.procore.com/faq/why-am-i-unable-to-download-and-open-a-zip-file-from-procore"
+      },
+      {
+        "text": "¿De qué herramientas puedo extraer datos del proyecto a través de la aplicación Procore Extracts?",
+        "href": "https://es.support.procore.com/faq/which-tools-can-i-extract-project-data-from-using-the-procore-extracts-application"
+      },
+      {
+        "text": "¿Qué es el archivo 'Información de cambio de nombre de archivo' incluido en los datos de mi proyecto extraídos?",
+        "href": "https://es.support.procore.com/faq/what-is-the-file-rename-information-file-included-with-my-extracted-project-data"
+      },
+      {
+        "text": "¿Cuánto tiempo demora la extracción de datos de Procore?",
+        "href": "https://es.support.procore.com/faq/how-long-does-it-take-to-extract-data-from-procore"
+      },
+      {
+        "text": "¿Puedo usar la aplicación Procore Extracts en una Mac?",
+        "href": "https://es.support.procore.com/faq/can-i-use-the-procore-extracts-application-on-a-mac"
+      },
+      {
+        "text": "Extraer datos del proyecto con Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts/tutorials/extract-project-data-using-procore-extracts"
+      },
+      {
+        "text": "Instalar Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts/tutorials/install-procore-extracts"
+      },
+      {
+        "text": "Volver arriba",
+        "href": "https://es.support.procore.com/products/procore-extracts#title"
+      },
+      {
+        "text": "Editar una estimaci??n en la estimaci??n de Procore",
+        "href": "https://es.support.procore.com/products/procore-estimating/user-guide/standalone-procore-estimating/tutorials/edit-an-estimate-in-procore-estimating"
+      },
+      {
+        "text": "Procore Extracts - Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-extracts/faq"
+      },
+      {
+        "text": "Procore Extracts - Notas de la versión",
+        "href": "https://es.support.procore.com/products/procore-extracts/release-notes"
+      },
+      {
+        "text": "Instalar Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts/tutorials/install-procore-extracts"
+      },
+      {
+        "text": "Extraer datos del proyecto con Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts/tutorials/extract-project-data-using-procore-extracts"
+      },
+      {
+        "text": "Configuración: Procore Extracts",
+        "href": "https://es.support.procore.com/products/procore-extracts/tutorials/settings-procore-extracts"
+      },
+      {
+        "text": "Tool Landing Page",
+        "href": "https://es.support.procore.com/Special:Search?tags=article:tool-landing-page"
+      },
+      {
+        "text": "English-US",
+        "href": "https://es.support.procore.com/Special:Search?tags=language:en-us"
+      },
+      {
+        "text": "Published",
+        "href": "https://es.support.procore.com/Special:Search?tags=stage:published"
+      },
+      {
+        "text": "do-not-migrate",
+        "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate"
+      },
+      {
+        "text": "procore-extracts",
+        "href": "https://es.support.procore.com/Special:Search?tags=procore-extracts"
+      },
+      {
+        "text": "Powered by CXone Expert\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "[1]",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "[2]",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "[3]",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "[4]",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "[5]",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "Aviso de privacidad",
+        "href": "https://www.procore.com/es/legal/privacy"
+      },
+      {
+        "text": "Términos de uso",
+        "href": "https://www.procore.com/es/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "Volver arriba",
+        "href": "https://es.support.procore.com/products/procore-extracts#title"
+      },
+      {
+        "text": "Editar una estimación en la estimación de Procore",
+        "href": "https://es.support.procore.com/products/procore-estimating/user-guide/standalone-procore-estimating/tutorials/edit-an-estimate-in-procore-estimating"
+      },
+      {
+        "text": "Procore Extracts - Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/procore-extracts/faq"
+      },
+      {
+        "text": "Tool Landing Page",
+        "href": "https://es.support.procore.com/Special:Search?tags=article%3Atool-landing-page"
+      },
+      {
+        "text": "English-US",
+        "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us"
+      },
+      {
+        "text": "Published",
+        "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished"
+      },
+      {
+        "text": "do-not-migrate",
+        "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate"
+      },
+      {
+        "text": "procore-extracts",
+        "href": "https://es.support.procore.com/Special:Search?tags=procore-extracts"
+      },
+      {
+        "text": "Powered by CXone Expert\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "Aviso de privacidad",
+        "href": "https://www.procore.com/es/legal/privacy"
+      },
+      {
+        "text": "Términos de uso",
+        "href": "https://www.procore.com/es/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "More information",
+        "href": "https://www.procore.com/legal/cookie-notice"
+      },
+      {
+        "text": "",
+        "href": "https://www.onetrust.com/products/cookie-consent/"
+      }
+    ],
+    "title": "Procore Extracts - Procore",
+    "h1": "Procore Extracts",
+    "metaDescription": null
+  },
+  "links": 79,
+  "linkDetails": [
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Soporte",
+      "classes": "",
+      "id": null,
+      "index": 1,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "internal",
+      "id": null,
+      "index": 4,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 5,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 6,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 7,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 8,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 9,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 10,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 11,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 12,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 13,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡（简体中文）",
+      "classes": "link-https",
+      "id": null,
+      "index": 14,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 15,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/references/contact-support",
+      "text": "Contáctenos",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 19,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 20,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products%2Fprocore-extracts",
+      "text": "Inicio de sesión",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 23,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Inicio",
+      "classes": "",
+      "id": null,
+      "index": 24,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products",
+      "text": "Productos",
+      "classes": "",
+      "id": null,
+      "index": 25,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/@api/deki/pages/1168/pdf/Procore%2bExtracts.pdf",
+      "text": "Guardar como PDF",
+      "classes": "",
+      "id": null,
+      "index": 26,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Soporte",
+      "classes": "",
+      "id": null,
+      "index": 42,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "internal",
+      "id": null,
+      "index": 45,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 46,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 47,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 48,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 49,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 50,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 51,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 52,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 53,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 54,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡（简体中文）",
+      "classes": "link-https",
+      "id": null,
+      "index": 55,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 56,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/references/contact-support",
+      "text": "Contáctenos",
+      "classes": "",
+      "id": null,
+      "index": 57,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 59,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 60,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 61,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products/procore-extracts",
+      "text": "Inicio de sesi??n",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 64,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Inicio",
+      "classes": "",
+      "id": null,
+      "index": 65,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products",
+      "text": "Productos",
+      "classes": "",
+      "id": null,
+      "index": 66,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/@api/deki/pages/1168/pdf/Procore%2bExtracts.pdf",
+      "text": "Guardar como PDF",
+      "classes": "",
+      "id": null,
+      "index": 67,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/tutorials/install-procore-extracts",
+      "text": "Instalar Procore Extracts",
+      "classes": "internal",
+      "id": null,
+      "index": 86,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/tutorials/extract-project-data-using-procore-extracts",
+      "text": "Extraer datos del proyecto con Procore Extracts",
+      "classes": "internal",
+      "id": null,
+      "index": 87,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/tutorials/settings-procore-extracts",
+      "text": "Configuración: Procore Extracts",
+      "classes": "internal",
+      "id": null,
+      "index": 88,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-am-i-unable-to-download-and-open-a-zip-file-from-procore",
+      "text": "¿Por qué no puedo descargar y abrir un archivo.ZIP de Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 90,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/which-tools-can-i-extract-project-data-from-using-the-procore-extracts-application",
+      "text": "¿De qué herramientas puedo extraer datos del proyecto a través de la aplicación Procore Extracts?",
+      "classes": "internal",
+      "id": null,
+      "index": 91,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-long-does-it-take-to-extract-data-from-procore",
+      "text": "¿Cuánto tiempo demora la extracción de datos de Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 92,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/can-i-use-the-procore-extracts-application-on-a-mac",
+      "text": "¿Puedo usar la aplicación Procore Extracts en una Mac?",
+      "classes": "internal",
+      "id": null,
+      "index": 93,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-file-rename-information-file-included-with-my-extracted-project-data",
+      "text": "¿Qué es el archivo 'Información de cambio de nombre de archivo' incluido en los datos de mi proyecto extraídos?",
+      "classes": "internal",
+      "id": null,
+      "index": 94,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/tutorials/install-procore-extracts",
+      "text": "Guia de preparación",
+      "classes": "",
+      "id": null,
+      "index": 95,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/tutorials/extract-project-data-using-procore-extracts",
+      "text": "Extraer datos del proyecto con Procore Extracts",
+      "classes": "internal",
+      "id": null,
+      "index": 96,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/tutorials/install-procore-extracts",
+      "text": "Instalar Procore Extracts",
+      "classes": "internal",
+      "id": null,
+      "index": 97,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/tutorials/settings-procore-extracts",
+      "text": "Configuración: Procore Extracts",
+      "classes": "internal",
+      "id": null,
+      "index": 98,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-am-i-unable-to-download-and-open-a-zip-file-from-procore",
+      "text": "¿Por qué no puedo descargar y abrir un archivo.ZIP de Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 99,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/which-tools-can-i-extract-project-data-from-using-the-procore-extracts-application",
+      "text": "¿De qué herramientas puedo extraer datos del proyecto a través de la aplicación Procore Extracts?",
+      "classes": "internal",
+      "id": null,
+      "index": 100,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-file-rename-information-file-included-with-my-extracted-project-data",
+      "text": "¿Qué es el archivo 'Información de cambio de nombre de archivo' incluido en los datos de mi proyecto extraídos?",
+      "classes": "internal",
+      "id": null,
+      "index": 101,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-long-does-it-take-to-extract-data-from-procore",
+      "text": "¿Cuánto tiempo demora la extracción de datos de Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 102,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/can-i-use-the-procore-extracts-application-on-a-mac",
+      "text": "¿Puedo usar la aplicación Procore Extracts en una Mac?",
+      "classes": "internal",
+      "id": null,
+      "index": 103,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/tutorials/extract-project-data-using-procore-extracts",
+      "text": "Extraer datos del proyecto con Procore Extracts",
+      "classes": "",
+      "id": null,
+      "index": 104,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/tutorials/install-procore-extracts",
+      "text": "Instalar Procore Extracts",
+      "classes": "",
+      "id": null,
+      "index": 105,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-estimating/user-guide/standalone-procore-estimating/tutorials/edit-an-estimate-in-procore-estimating",
+      "text": "Editar una estimaci??n en la estimaci??n de Procore",
+      "classes": "mt-icon-previous-article",
+      "id": null,
+      "index": 107,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/faq",
+      "text": "Procore Extracts - Preguntas frecuentes",
+      "classes": "mt-icon-next-article",
+      "id": null,
+      "index": 108,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/release-notes",
+      "text": "Procore Extracts - Notas de la versión",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 109,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/tutorials/install-procore-extracts",
+      "text": "Instalar Procore Extracts",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 110,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/tutorials/extract-project-data-using-procore-extracts",
+      "text": "Extraer datos del proyecto con Procore Extracts",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 111,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/tutorials/settings-procore-extracts",
+      "text": "Configuración: Procore Extracts",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 112,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=article:tool-landing-page",
+      "text": "Tool Landing Page",
+      "classes": "",
+      "id": null,
+      "index": 113,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=language:en-us",
+      "text": "English-US",
+      "classes": "",
+      "id": null,
+      "index": 114,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=stage:published",
+      "text": "Published",
+      "classes": "",
+      "id": null,
+      "index": 115,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate",
+      "text": "do-not-migrate",
+      "classes": "",
+      "id": null,
+      "index": 116,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=procore-extracts",
+      "text": "procore-extracts",
+      "classes": "",
+      "id": null,
+      "index": 117,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-estimating/user-guide/standalone-procore-estimating/tutorials/edit-an-estimate-in-procore-estimating",
+      "text": "Editar una estimación en la estimación de Procore",
+      "classes": "mt-icon-previous-article",
+      "id": null,
+      "index": 129,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/procore-extracts/faq",
+      "text": "Procore Extracts - Preguntas frecuentes",
+      "classes": "mt-icon-next-article",
+      "id": null,
+      "index": 130,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=article%3Atool-landing-page",
+      "text": "Tool Landing Page",
+      "classes": "",
+      "id": null,
+      "index": 131,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us",
+      "text": "English-US",
+      "classes": "",
+      "id": null,
+      "index": 132,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished",
+      "text": "Published",
+      "classes": "",
+      "id": null,
+      "index": 133,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate",
+      "text": "do-not-migrate",
+      "classes": "",
+      "id": null,
+      "index": 134,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=procore-extracts",
+      "text": "procore-extracts",
+      "classes": "",
+      "id": null,
+      "index": 135,
+      "category": "general"
+    }
+  ],
+  "clickables": 34,
+  "clickableDetails": [
+    {
+      "text": "América Latina (Español)",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Buscar",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "Buscar",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Buscar",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 3
+    },
+    {
+      "text": "Expandir/contraer jerarquía global",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "Expandir/contraer ubicación global",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 5
+    },
+    {
+      "text": "Índice",
+      "id": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "América Latina (Español)",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7 mt-self-link",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7 mt-self-link",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "Buscar",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "Expandir/contraer jerarqu??a global",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "Expandir/contraer ubicaci??n global",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 10
+    },
+    {
+      "text": "Tabla de contenido",
+      "id": "mobile-menu-toggle",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 11
+    },
+    {
+      "text": "Descripción general",
+      "id": "selected-chapter mt-self-link",
+      "type": "a",
+      "classes": "selected-chapter mt-self-link",
+      "hasDropdown": false,
+      "index": 12
+    },
+    {
+      "text": "Tutoriales",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 13
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 14
+    },
+    {
+      "text": "Permisos",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 15
+    },
+    {
+      "text": "Notas",
+      "id": "mt-self-link",
+      "type": "a",
+      "classes": "mt-self-link",
+      "hasDropdown": false,
+      "index": 16
+    },
+    {
+      "text": "(ver todos)",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 17
+    },
+    {
+      "text": "archivo=\">(ver todo)<a onclick=\"displaySection('#chapt3'); return false;\" href.path=\"//\" href.anchor=\"\" href.",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 18
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 19
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 20
+    },
+    {
+      "text": "",
+      "id": "close-pc-btn-handler",
+      "type": "button",
+      "classes": "ot-close-icon",
+      "hasDropdown": false,
+      "index": 21
+    },
+    {
+      "text": "Allow All",
+      "id": "accept-recommended-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 22
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 23
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 24
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 25
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 26
+    },
+    {
+      "text": "Back Button",
+      "id": "ot-link-btn back-btn-handler",
+      "type": "button",
+      "classes": "ot-link-btn back-btn-handler",
+      "hasDropdown": false,
+      "index": 27
+    },
+    {
+      "text": "Filter Icon",
+      "id": "filter-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 28
+    },
+    {
+      "text": "Clear",
+      "id": "clear-filters-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 29
+    },
+    {
+      "text": "Apply",
+      "id": "filter-apply-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 30
+    },
+    {
+      "text": "Cancel",
+      "id": "filter-cancel-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 31
+    },
+    {
+      "text": "Reject All",
+      "id": "ot-pc-refuse-all-handler",
+      "type": "button",
+      "classes": "ot-pc-refuse-all-handler",
+      "hasDropdown": false,
+      "index": 32
+    },
+    {
+      "text": "Confirm My Choices",
+      "id": "save-preference-btn-handler onetrust-close-btn-handler",
+      "type": "button",
+      "classes": "save-preference-btn-handler onetrust-close-btn-handler",
+      "hasDropdown": false,
+      "index": 33
+    }
+  ],
+  "expandables": 7,
+  "expandableDetails": [
+    {
+      "text": "Índice",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "Procore Extracts\nProcore ExtractsCambios recientesProcore Extracts 1.3.3 (10/10/2025)Procore Extract",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Procore ExtractsCambios recientesProcore Extracts 1.3.3 (10/10/2025)Procore Extracts 1.3.2 (11/14/20",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Strictly Necessary CookiesAlways ActiveThese cookies are necessary for the website to function and c",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Functional Cookies  Functional Cookies These cookies enable the website to provide enhanced function",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Performance Cookies  Performance Cookies These cookies allow us to count visits and traffic sources ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    },
+    {
+      "text": "Opt Out of Sale of Sharing/Targeted Advertising  Opt Out of Sale of Sharing/Targeted Advertising As ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 6
+    }
+  ],
+  "screenshotPath": "pages/procore-extracts/screenshot.png"
+}

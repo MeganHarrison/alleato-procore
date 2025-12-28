@@ -1,0 +1,3826 @@
+{
+  "url": "https://es.support.procore.com/products/online/user-guide/project-level/bidding",
+  "pageName": "bidding",
+  "category": "product",
+  "pageId": "bidding",
+  "timestamp": "2025-12-27T19:23:12.069Z",
+  "analysis": {
+    "components": {
+      "buttons": 40,
+      "forms": 2,
+      "inputs": 16,
+      "tables": 2,
+      "modals": 21,
+      "navigation": 5,
+      "cards": 0,
+      "lists": 48,
+      "tabs": 0,
+      "dropdowns": 1,
+      "icons": 4,
+      "headings": {
+        "h1": 1,
+        "h2": 3,
+        "h3": 7,
+        "h4": 61
+      },
+      "codeBlocks": 0,
+      "images": 207,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "Licitación",
+      "headings": [
+        {
+          "level": "h3",
+          "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+          "id": "VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones-6684"
+        },
+        {
+          "level": "h3",
+          "text": "VIDEOS OBSOLETOS: eliminados de sitio de soporte y certificaciones",
+          "id": "VIDEOS_OBSOLETOS:_eliminados_de_sitio_de_soporte_y_certificaciones-17386"
+        },
+        {
+          "level": "h3",
+          "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+          "id": "VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones-6684"
+        },
+        {
+          "level": "h3",
+          "text": "Licitación",
+          "id": "Licitaci.C3.B3n-6731"
+        },
+        {
+          "level": "h3",
+          "text": "Licitación",
+          "id": "Licitaci.C3.B3n-4162"
+        },
+        {
+          "level": "h2",
+          "text": "Cambios recientes",
+          "id": "Cambios_recientes-4166"
+        },
+        {
+          "level": "h2",
+          "text": "Artículos recomendados",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Cookie Preferences",
+          "id": "ot-pc-title"
+        },
+        {
+          "level": "h3",
+          "text": "Manage Consent Preferences",
+          "id": "ot-category-title"
+        },
+        {
+          "level": "h3",
+          "text": "Cookie List",
+          "id": null
+        }
+      ],
+      "paragraphs": 206,
+      "sections": 6
+    },
+    "tables": [
+      {
+        "index": 1,
+        "headers": [],
+        "rows": 1,
+        "classes": "mt-responsive-table widget-tagged-articles",
+        "id": null
+      },
+      {
+        "index": 2,
+        "headers": [
+          "Acción",
+          "Ninguno",
+          "Solo lectura",
+          "Estándar",
+          "Admin",
+          "Notas"
+        ],
+        "rows": 47,
+        "classes": "permstyle mt-table-big mt-responsive-table",
+        "id": null
+      }
+    ],
+    "breadcrumbs": [
+      {
+        "text": "Saltar al contenido principal",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#elm-main-content"
+      },
+      {
+        "text": "Soporte",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es?journey=supporttoprocore"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "Contáctenos",
+        "href": "https://es.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "Iniciar sesión en la Aplicación de Procore",
+        "href": "https://login.procore.com/?locale=es&journey=supporttologin"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Buscar en el sitio",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#"
+      },
+      {
+        "text": "Ir al artículo anterior",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#"
+      },
+      {
+        "text": "Inicio de sesión",
+        "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products%2Fonline%2Fuser-guide%2Fproject-level%2Fbidding"
+      },
+      {
+        "text": "Inicio",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Productos",
+        "href": "https://es.support.procore.com/products"
+      },
+      {
+        "text": "Procore Web (app.procore.com)",
+        "href": "https://es.support.procore.com/products/online"
+      },
+      {
+        "text": "Guía del usuario de Procore",
+        "href": "https://es.support.procore.com/products/online/user-guide"
+      },
+      {
+        "text": "Nivel proyecto",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level"
+      },
+      {
+        "text": "Guardar como PDF",
+        "href": "https://es.support.procore.com/@api/deki/pages/3574/pdf/Licitaci%25C3%25B3n.pdf"
+      },
+      {
+        "text": "Nota:",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Nota:"
+      },
+      {
+        "text": "administración de licitaciones",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#administraci.C3.B3n_de_licitaciones"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#"
+      },
+      {
+        "text": "Integración con Compass",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Integraci.C3.B3n_con_Compass"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#_2"
+      },
+      {
+        "text": "Experiencia heredada",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Experiencia_heredada"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#_3"
+      },
+      {
+        "text": "Recomendación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Recomendaci.C3.B3n"
+      },
+      {
+        "text": "Experiencia mejorada de administración de ofertas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Experiencia_mejorada_de_administraci.C3.B3n_de_ofertas"
+      },
+      {
+        "text": "Crear un paquete de ofertas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Crear_un_paquete_de_ofertas"
+      },
+      {
+        "text": "Crear formularios de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Crear_formularios_de_licitaci.C3.B3n"
+      },
+      {
+        "text": "Invitar y administrar licitantes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Invitar_y_administrar_licitantes"
+      },
+      {
+        "text": "Nivelamiento de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Nivelamiento_de_licitaci.C3.B3n"
+      },
+      {
+        "text": "Adjudicar una oferta",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Adjudicar_una_oferta"
+      },
+      {
+        "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones"
+      },
+      {
+        "text": "Configurar las configuraciones de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Configurar_las_configuraciones_de_licitaci.C3.B3n"
+      },
+      {
+        "text": "Cargar Documentos de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Cargar_Documentos_de_licitaci.C3.B3n"
+      },
+      {
+        "text": "Enviar una oferta",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Enviar_una_oferta"
+      },
+      {
+        "text": "Cargar juego de planos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Cargar_juego_de_planos"
+      },
+      {
+        "text": "Actualizar y ver un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Actualizar_y_ver_un_paquete_de_licitaci.C3.B3n"
+      },
+      {
+        "text": "Preconstrucción: invitar a licitantes a licitar",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Preconstrucci.C3.B3n:_invitar_a_licitantes_a_licitar"
+      },
+      {
+        "text": "Cargar juego de especificaciones",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Cargar_juego_de_especificaciones"
+      },
+      {
+        "text": "Contratista especializado como cliente: cargue el juego de planos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Contratista_especializado_como_cliente:_cargue_el_juego_de_planos"
+      },
+      {
+        "text": "Contratista especializado como cliente: crear un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Contratista_especializado_como_cliente:_crear_un_paquete_de_licitaci.C3.B3n"
+      },
+      {
+        "text": "Contratista especializado como cliente: invitar a los licitantes a licitar",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Contratista_especializado_como_cliente:_invitar_a_los_licitantes_a_licitar"
+      },
+      {
+        "text": "Subcontratista: presentar una oferta",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Subcontratista:_presentar_una_oferta"
+      },
+      {
+        "text": "Contratista especializado como cliente: configurar los ajustes de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Contratista_especializado_como_cliente:_configurar_los_ajustes_de_licitaci.C3.B3n"
+      },
+      {
+        "text": "Contratista especializado como cliente: actualizar y ver un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Contratista_especializado_como_cliente:_actualizar_y_ver_un_paquete_de_licitaci.C3.B3n"
+      },
+      {
+        "text": "Preconstrucción: crear un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Preconstrucci.C3.B3n:_crear_un_paquete_de_licitaci.C3.B3n"
+      },
+      {
+        "text": "Preconstrucción: actualizar y ver un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Preconstrucci.C3.B3n:_actualizar_y_ver_un_paquete_de_licitaci.C3.B3n"
+      },
+      {
+        "text": "Preconstrucción: cargar documentos de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Preconstrucci.C3.B3n:_cargar_documentos_de_licitaci.C3.B3n"
+      },
+      {
+        "text": "Contratista especializado como cliente: cargar documentos de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Contratista_especializado_como_cliente:_cargar_documentos_de_licitaci.C3.B3n"
+      },
+      {
+        "text": "Crear un paquete de ofertas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Crear_un_paquete_de_ofertas_2"
+      },
+      {
+        "text": "Crear formularios de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Crear_formularios_de_licitaci.C3.B3n_2"
+      },
+      {
+        "text": "Crear un paquete de ofertas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Crear_un_paquete_de_ofertas_3"
+      },
+      {
+        "text": "Crear formularios de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Crear_formularios_de_licitaci.C3.B3n_3"
+      },
+      {
+        "text": "Crear un paquete de ofertas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Crear_un_paquete_de_ofertas_4"
+      },
+      {
+        "text": "Crear formularios de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Crear_formularios_de_licitaci.C3.B3n_4"
+      },
+      {
+        "text": "VIDEOS OBSOLETOS: eliminados de sitio de soporte y certificaciones",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#VIDEOS_OBSOLETOS:_eliminados_de_sitio_de_soporte_y_certificaciones"
+      },
+      {
+        "text": "Experiencia mejorada de administración de ofertas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Experiencia_mejorada_de_administraci.C3.B3n_de_ofertas_2"
+      },
+      {
+        "text": "Crear un paquete de ofertas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Crear_un_paquete_de_ofertas_5"
+      },
+      {
+        "text": "Crear formularios de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Crear_formularios_de_licitaci.C3.B3n_5"
+      },
+      {
+        "text": "Invitar y administrar licitantes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Invitar_y_administrar_licitantes_2"
+      },
+      {
+        "text": "Nivelamiento de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Nivelamiento_de_licitaci.C3.B3n_2"
+      },
+      {
+        "text": "Adjudicar una oferta",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Adjudicar_una_oferta_2"
+      },
+      {
+        "text": "VIDEOS OBSOLETOS: eliminados del sitio de soporte y las certificaciones",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#VIDEOS_OBSOLETOS:_eliminados_del_sitio_de_soporte_y_las_certificaciones_2"
+      },
+      {
+        "text": "Configurar las configuraciones de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Configurar_las_configuraciones_de_licitaci.C3.B3n_2"
+      },
+      {
+        "text": "Cargar Documentos de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Cargar_Documentos_de_licitaci.C3.B3n_2"
+      },
+      {
+        "text": "Enviar una oferta",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Enviar_una_oferta_2"
+      },
+      {
+        "text": "Cargar juego de planos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Cargar_juego_de_planos_2"
+      },
+      {
+        "text": "Actualizar y ver un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Actualizar_y_ver_un_paquete_de_licitaci.C3.B3n_2"
+      },
+      {
+        "text": "Preconstrucción: invitar a licitantes a licitar",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Preconstrucci.C3.B3n:_invitar_a_licitantes_a_licitar_2"
+      },
+      {
+        "text": "Cargar juego de especificaciones",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Cargar_juego_de_especificaciones_2"
+      },
+      {
+        "text": "Contratista especializado como cliente: cargue el juego de planos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Contratista_especializado_como_cliente:_cargue_el_juego_de_planos_2"
+      },
+      {
+        "text": "Contratista especializado como cliente: crear un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Contratista_especializado_como_cliente:_crear_un_paquete_de_licitaci.C3.B3n_2"
+      },
+      {
+        "text": "Contratista especializado como cliente: invitar a los licitantes a licitar",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Contratista_especializado_como_cliente:_invitar_a_los_licitantes_a_licitar_2"
+      },
+      {
+        "text": "Subcontratista: presentar una oferta",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Subcontratista:_presentar_una_oferta_2"
+      },
+      {
+        "text": "Contratista especializado como cliente: configurar los ajustes de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Contratista_especializado_como_cliente:_configurar_los_ajustes_de_licitaci.C3.B3n_2"
+      },
+      {
+        "text": "Contratista especializado como cliente: actualizar y ver un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Contratista_especializado_como_cliente:_actualizar_y_ver_un_paquete_de_licitaci.C3.B3n_2"
+      },
+      {
+        "text": "Preconstrucción: crear un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Preconstrucci.C3.B3n:_crear_un_paquete_de_licitaci.C3.B3n_2"
+      },
+      {
+        "text": "Preconstrucción: actualizar y ver un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Preconstrucci.C3.B3n:_actualizar_y_ver_un_paquete_de_licitaci.C3.B3n_2"
+      },
+      {
+        "text": "Preconstrucción: cargar documentos de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Preconstrucci.C3.B3n:_cargar_documentos_de_licitaci.C3.B3n_2"
+      },
+      {
+        "text": "Contratista especializado como cliente: cargar documentos de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Contratista_especializado_como_cliente:_cargar_documentos_de_licitaci.C3.B3n_2"
+      },
+      {
+        "text": "Licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Licitaci.C3.B3n"
+      },
+      {
+        "text": "Licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Licitaci.C3.B3n_2"
+      },
+      {
+        "text": "Importante",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Importante"
+      },
+      {
+        "text": "Cambios recientes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Cambios_recientes"
+      },
+      {
+        "text": "Actualizaciones de la nivelación de ofertas (21/10/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Actualizaciones_de_la_nivelaci.C3.B3n_de_ofertas_(21.2F10.2F2025)"
+      },
+      {
+        "text": "La nivelación de ofertas ya está disponible de forma general (9/23/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#La_nivelaci.C3.B3n_de_ofertas_ya_est.C3.A1_disponible_de_forma_general_(9.2F23.2F2025)"
+      },
+      {
+        "text": "Experiencia de usuario coherente con la licitación NGX Fase 1 (19/08/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Experiencia_de_usuario_coherente_con_la_licitaci.C3.B3n_NGX_Fase_1_(19.2F08.2F2025)"
+      },
+      {
+        "text": "La nivelación de ofertas ya está disponible de forma general en Estados Unidos, Canadá y México (19/08/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#La_nivelaci.C3.B3n_de_ofertas_ya_est.C3.A1_disponible_de_forma_general_en_Estados_Unidos.2C_Canad.C3.A1_y_M.C3.A9xico_(19.2F08.2F2025)"
+      },
+      {
+        "text": "Acuerdos de divulgación de NOn disponibles en licitaciones (22/07/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Acuerdos_de_divulgaci.C3.B3n_de_NOn_disponibles_en_licitaciones_(22.2F07.2F2025)"
+      },
+      {
+        "text": "Búsqueda por dirección de oficina en la red de construcción de PRocore (07/10/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#B.C3.BAsqueda_por_direcci.C3.B3n_de_oficina_en_la_red_de_construcci.C3.B3n_de_PRocore_(07.2F10.2F2025)"
+      },
+      {
+        "text": "Cerrar sesión en Compass (26/06/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Cerrar_sesi.C3.B3n_en_Compass_(26.2F06.2F2025)"
+      },
+      {
+        "text": "Datos de la brújula disponibles en vistas personalizadas (20/05/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Datos_de_la_br.C3.BAjula_disponibles_en_vistas_personalizadas_(20.2F05.2F2025)"
+      },
+      {
+        "text": "Nuevas vistas personalizables (22/04/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Nuevas_vistas_personalizables_(22.2F04.2F2025)"
+      },
+      {
+        "text": "Integración de Compass (25/02/2025)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Integraci.C3.B3n_de_Compass_(25.2F02.2F2025)"
+      },
+      {
+        "text": "Actualizaciones de la nivelación de ofertas (11/03/2024)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Actualizaciones_de_la_nivelaci.C3.B3n_de_ofertas_(11.2F03.2F2024)"
+      },
+      {
+        "text": "Invitar a empresas canadienses en la red de construcción de Procore a licitar (07/31/2024)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Invitar_a_empresas_canadienses_en_la_red_de_construcci.C3.B3n_de_Procore_a_licitar_(07.2F31.2F2024)"
+      },
+      {
+        "text": "Nombre del formulario de licitación Auto sugerencia (05/31/2024)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Nombre_del_formulario_de_licitaci.C3.B3n_Auto_sugerencia_(05.2F31.2F2024)"
+      },
+      {
+        "text": "Controles de licitación a ciegas (05/15/2024)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Controles_de_licitaci.C3.B3n_a_ciegas_(05.2F15.2F2024)"
+      },
+      {
+        "text": "Importar secciones en formularios de licitación (03/22/2024)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Importar_secciones_en_formularios_de_licitaci.C3.B3n_(03.2F22.2F2024)"
+      },
+      {
+        "text": "Copiar un paquete de licitación (03/18/2024)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Copiar_un_paquete_de_licitaci.C3.B3n_(03.2F18.2F2024)"
+      },
+      {
+        "text": "Filtro de especialidad (03/14/2024)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Filtro_de_especialidad_(03.2F14.2F2024)"
+      },
+      {
+        "text": "Secciones del formulario de licitación (02/01/2024)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Secciones_del_formulario_de_licitaci.C3.B3n_(02.2F01.2F2024)"
+      },
+      {
+        "text": "Buscar licitantes en un paquete de licitación (01/16/2024)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Buscar_licitantes_en_un_paquete_de_licitaci.C3.B3n_(01.2F16.2F2024)"
+      },
+      {
+        "text": "Invitar a los clientes de Procore a ofertar mediante la red de construcción de Procore (12/04/2023)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Invitar_a_los_clientes_de_Procore_a_ofertar_mediante_la_red_de_construcci.C3.B3n_de_Procore_(12.2F04.2F2023)"
+      },
+      {
+        "text": "Tipos de respuesta flexible para los formularios de licitación (10/09/2023)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Tipos_de_respuesta_flexible_para_los_formularios_de_licitaci.C3.B3n_(10.2F09.2F2023)"
+      },
+      {
+        "text": "Las funciones generales de importación de ítems y CSV ahora están disponibles para ERP cuentas integradas (09/13/2023)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Las_funciones_generales_de_importaci.C3.B3n_de_.C3.ADtems_y_CSV_ahora_est.C3.A1n_disponibles_para_ERP_cuentas_integradas_(09.2F13.2F2023)"
+      },
+      {
+        "text": "Crear formularios de licitación a partir de una importación de csv (08/03/2023)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Crear_formularios_de_licitaci.C3.B3n_a_partir_de_una_importaci.C3.B3n_de_csv_(08.2F03.2F2023)"
+      },
+      {
+        "text": "Agregar ítems generales a un formulario de licitación (06/22/2023)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Agregar_.C3.ADtems_generales_a_un_formulario_de_licitaci.C3.B3n_(06.2F22.2F2023)"
+      },
+      {
+        "text": "Experiencia mejorada de gestión de ofertas (03/27/2023)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#Experiencia_mejorada_de_gesti.C3.B3n_de_ofertas_(03.2F27.2F2023)"
+      },
+      {
+        "text": "Descripción general",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#"
+      },
+      {
+        "text": "Tutoriales",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#"
+      },
+      {
+        "text": "Videos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#"
+      },
+      {
+        "text": "Preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#"
+      },
+      {
+        "text": "Flujo de trabajo",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#"
+      },
+      {
+        "text": "Permisos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#"
+      },
+      {
+        "text": "Notas de lanzamiento",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#"
+      },
+      {
+        "text": "(ver todos)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/overview#"
+      },
+      {
+        "text": "Crear un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package"
+      },
+      {
+        "text": "Crear un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form"
+      },
+      {
+        "text": "Buscar e invitar licitantes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-invite-bidders"
+      },
+      {
+        "text": "Enviar una pregunta previa a la oferta",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/submit-a-pre-bid-question"
+      },
+      {
+        "text": "Cargar documentos de licitación en la herramienta Documentos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/upload-bid-documents"
+      },
+      {
+        "text": "principales (ver todo)",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/overview#"
+      },
+      {
+        "text": "¿Por qué no puedo descargar y abrir un archivo.ZIP de Procore?",
+        "href": "https://es.support.procore.com/faq/why-am-i-unable-to-download-and-open-a-zip-file-from-procore"
+      },
+      {
+        "text": "¿Cuál es la diferencia entre un grupo de distribución y una lista de distribución en Procore?",
+        "href": "https://es.support.procore.com/faq/what-is-the-difference-between-a-distribution-group-and-a-distribution-list"
+      },
+      {
+        "text": "¿Qué es el proceso de licitación de construcción?",
+        "href": "https://es.support.procore.com/faq/what-is-the-construction-bidding-process"
+      },
+      {
+        "text": "¿Qué herramientas de Procore admiten permisos granulares?",
+        "href": "https://es.support.procore.com/faq/which-procore-tools-support-granular-permissions"
+      },
+      {
+        "text": "¿Qué versiones de archivos de Microsoft Excel se pueden adjuntar a ítems en Procore?",
+        "href": "https://es.support.procore.com/faq/which-microsoft-excel-file-versions-can-be-attached-to-items-in-procore"
+      },
+      {
+        "text": "Cursos de herramientas de licitación",
+        "href": "https://learn.procore.com/page/courses-by-tool#procore-tool_bidding-tool"
+      },
+      {
+        "text": "Cursos de certificación Procore",
+        "href": "https://learn.procore.com/page/procore-certification-all-courses#procore-tool_bidding-tool"
+      },
+      {
+        "text": "Conversaciones de licitación de la comunidad Procore",
+        "href": "https://community.procore.com/s/global-search/bid"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience"
+      },
+      {
+        "text": "Acerca de",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience"
+      },
+      {
+        "text": "la experiencia mejorada de administración de ofertas y ¿Cuál es la diferencia entre la experiencia anterior y nueva de administración de ofertas en la herramienta de licitación?",
+        "href": "https://es.support.procore.com/faq/what-is-the-difference-between-the-old-and-new-bid-management-experience-in-the-bidding-tool"
+      },
+      {
+        "text": "Acerca de la Integración de Licitación + COMPASS",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-the-bidding-compass-integration"
+      },
+      {
+        "text": "Acerca de la gestión de ofertas experiencia mejorada",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience"
+      },
+      {
+        "text": "Actualizar documentos de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/update-bid-documents"
+      },
+      {
+        "text": "Adjudicación suave de una oferta",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/soft-award-a-bid"
+      },
+      {
+        "text": "Adjudicar una oferta y convertirla en un contrato o orden de compra",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-bid-and-convert-it-to-a-subcontract-or-purchase-order"
+      },
+      {
+        "text": "Administrar la integración de licitaciones y COMPASS",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/manage-the-bidding-and-compass-integration"
+      },
+      {
+        "text": "Agregar licitantes a un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-bidders-to-a-bid-form"
+      },
+      {
+        "text": "Agregar licitantes de la red de construcción de Procore a un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-bidders-from-the-procore-construction-network-to-a-bid-form"
+      },
+      {
+        "text": "Agregar licitantes del directorio a un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-bidders-from-the-directory-to-a-bid-form"
+      },
+      {
+        "text": "Agregar notas a la lista de ofertas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-notes-to-the-bid-list"
+      },
+      {
+        "text": "Agregar un nuevo contacto al directorio desde la herramienta licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-a-new-contact-to-the-directory-from-the-bidding-tool"
+      },
+      {
+        "text": "Agregar una nueva compañía al directorio desde la herramienta de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-a-new-company-to-the-directory-from-the-bidding-tool"
+      },
+      {
+        "text": "Buscar y filtrar compañías para agregar a un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-filter-companies-to-add-to-a-bid-form"
+      },
+      {
+        "text": "Cargar documentos de licitación en la herramienta Documentos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/upload-bid-documents"
+      },
+      {
+        "text": "Configurar opciones avanzadas: pujas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/configure-advanced-settings-bidding"
+      },
+      {
+        "text": "Copiar formularios de licitación de un paquete de licitación anterior",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/copy-bid-forms-from-a-previous-bid-package"
+      },
+      {
+        "text": "Crear un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form"
+      },
+      {
+        "text": "Crear un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package"
+      },
+      {
+        "text": "Crear un reporte de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bidding-report"
+      },
+      {
+        "text": "Editar un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/edit-a-bid-form"
+      },
+      {
+        "text": "Editar un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/edit-a-bid-package"
+      },
+      {
+        "text": "Eliminar un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/delete-a-bid-form"
+      },
+      {
+        "text": "Eliminar un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/delete-a-bid-package"
+      },
+      {
+        "text": "Enviar una nueva correspondencia en la herramienta Licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/send-a-new-correspondence-in-the-bidding-tab"
+      },
+      {
+        "text": "Exportar archivos de ofertas de un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-packages-bid-files"
+      },
+      {
+        "text": "Exportar la lista de ofertas de un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-packages-bid-list"
+      },
+      {
+        "text": "Exportar ofertas niveladas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-leveled-bids"
+      },
+      {
+        "text": "Exportar un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-package"
+      },
+      {
+        "text": "Exportar una hoja de oferta",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-sheet"
+      },
+      {
+        "text": "Filtrar y ordenar la información de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/filter-and-sort-bidding-information"
+      },
+      {
+        "text": "Importar formularios de licitación a la herramienta licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/import-bid-forms-to-the-bidding-tool"
+      },
+      {
+        "text": "Invitar a licitantes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/invite-bidders"
+      },
+      {
+        "text": "Ofertas a nivel de un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/level-bids-for-a-bid-form"
+      },
+      {
+        "text": "Personalice la visualización de columnas en la herramienta Licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/customize-the-column-display-in-the-bidding-tool"
+      },
+      {
+        "text": "Recuperar un paquete de licitación de la bandeja de reciclaje",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/retrieve-a-bid-package-from-the-recycle-bin"
+      },
+      {
+        "text": "Reenviar invitaciones a licitar",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/resend-invitations-to-bid"
+      },
+      {
+        "text": "Responder a las preguntas previas a la oferta",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/respond-to-pre-bid-questions"
+      },
+      {
+        "text": "Ver archivos de ofertas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-bid-files"
+      },
+      {
+        "text": "Ver un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-a-bid-form"
+      },
+      {
+        "text": "Ver un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-a-bid-package"
+      },
+      {
+        "text": "Ver un registro de actividad",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-an-activity-log"
+      },
+      {
+        "text": "Ver y administrar licitantes en un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-and-manage-bidders-on-a-bid-form"
+      },
+      {
+        "text": "Vista previa de un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/preview-a-bid-form"
+      },
+      {
+        "text": "Acerca de la Integración de Licitación + COMPASS",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-the-bidding-compass-integration"
+      },
+      {
+        "text": "Administrar la integración de licitaciones y COMPASS",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/manage-the-bidding-and-compass-integration"
+      },
+      {
+        "text": "Actualizar documentos de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/update-bid-documents"
+      },
+      {
+        "text": "Actualizar y redistribuir un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/update-and-redistribute-a-bid-package"
+      },
+      {
+        "text": "Adjudicar una Oferta Ganadora y convertirla en una Orden de compra",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-purchase-order"
+      },
+      {
+        "text": "Adjudique una oferta ganadora y conviértala en un contrato",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract"
+      },
+      {
+        "text": "Agregar notas a la lista de ofertas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-notes-to-the-bid-list"
+      },
+      {
+        "text": "Agregar nuevas compañías y contactos al directorio de compañía de la herramienta de Licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-new-companies-and-contacts-to-the-company-directory-from-the-bidding-tool"
+      },
+      {
+        "text": "Buscar e invitar licitantes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-invite-bidders"
+      },
+      {
+        "text": "Cargar documentos de licitación en la herramienta Documentos",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/upload-bid-documents"
+      },
+      {
+        "text": "Configurar opciones avanzadas: pujas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/configure-advanced-settings-bidding"
+      },
+      {
+        "text": "Crear un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package"
+      },
+      {
+        "text": "Crear un reporte de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bidding-report"
+      },
+      {
+        "text": "Editar licitantes de una Invitación de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/remove-a-bidder-from-a-bid-invitation"
+      },
+      {
+        "text": "Editar un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/edit-a-bid-package"
+      },
+      {
+        "text": "Eliminar un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/delete-a-bid-package"
+      },
+      {
+        "text": "Enviar correspondencia masiva",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/send-bulk-correspondences"
+      },
+      {
+        "text": "Enviar una nueva correspondencia en la herramienta Licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/send-a-new-correspondence-in-the-bidding-tab"
+      },
+      {
+        "text": "Exportar archivos de ofertas de un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-packages-bid-files"
+      },
+      {
+        "text": "Exportar la lista de ofertas de un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-packages-bid-list"
+      },
+      {
+        "text": "Exportar un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-package"
+      },
+      {
+        "text": "Exportar una hoja de oferta",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-sheet"
+      },
+      {
+        "text": "Filtrar y agrupar la lista de licitaciones",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/filter-and-group-the-bid-list"
+      },
+      {
+        "text": "Recuperar un paquete de licitación de la bandeja de reciclaje",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/retrieve-a-bid-package-from-the-recycle-bin"
+      },
+      {
+        "text": "Responder a las preguntas previas a la oferta",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/respond-to-pre-bid-questions"
+      },
+      {
+        "text": "Revisar las ofertas presentadas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/review-submitted-bids"
+      },
+      {
+        "text": "Ver archivos de ofertas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-bid-files"
+      },
+      {
+        "text": "Ver un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-a-bid-package"
+      },
+      {
+        "text": "Ver un registro de actividad",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-an-activity-log"
+      },
+      {
+        "text": "Volver a invitar a los usuarios a licitar",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/reinvite-users-to-bid"
+      },
+      {
+        "text": "visite nuestra biblioteca de videos",
+        "href": "https://es.support.procore.com/references/videos/training-videos"
+      },
+      {
+        "text": "Acerca de la Integración de Licitación + COMPASS",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-the-bidding-compass-integration"
+      },
+      {
+        "text": "¿Cuál es la diferencia entre la experiencia de administración de ofertas anterior y nueva en la herramienta Licitación?",
+        "href": "https://es.support.procore.com/faq/what-is-the-difference-between-the-old-and-new-bid-management-experience-in-the-bidding-tool"
+      },
+      {
+        "text": "¿Cuál es la diferencia entre un grupo de distribución y una lista de distribución en Procore?",
+        "href": "https://es.support.procore.com/faq/what-is-the-difference-between-a-distribution-group-and-a-distribution-list"
+      },
+      {
+        "text": "¿Cómo agrego a los licitantes en la nueva experiencia de administración de ofertas?",
+        "href": "https://es.support.procore.com/faq/how-do-i-add-bidders-in-the-new-bid-management-experience"
+      },
+      {
+        "text": "¿Cómo agrego códigos de costo faltantes para que pueda migrar proyectos a la nueva experiencia de administración de ofertas?",
+        "href": "https://es.support.procore.com/faq/how-do-i-add-missing-cost-codes-so-i-can-migrate-projects-to-the-new-bid-management-experience"
+      },
+      {
+        "text": "¿Cómo configuro la método contable para las ofertas?",
+        "href": "https://es.support.procore.com/faq/how-do-i-set-the-accounting-method-for-bids"
+      },
+      {
+        "text": "¿Cómo puedo solucionar un problema con la aplicación web Procore?",
+        "href": "https://es.support.procore.com/faq/how-can-i-troubleshoot-an-issue-with-the-procore-web-application"
+      },
+      {
+        "text": "¿Cómo se manejan compañías duplicadas entre la herramienta Directorio y la red de construcción de Procore?",
+        "href": "https://es.support.procore.com/faq/how-are-duplicate-companies-handled-between-the-directory-tool-and-procore-construction-network"
+      },
+      {
+        "text": "¿De dónde provienen los 'Calificaciones' datos al buscar licitantes?",
+        "href": "https://es.support.procore.com/faq/where-does-the-qualifications-data-come-from-when-searching-for-bidders"
+      },
+      {
+        "text": "¿Dónde pongo mis documentos de licitación en Procore?",
+        "href": "https://es.support.procore.com/faq/where-do-i-put-my-bid-documents-in-procore"
+      },
+      {
+        "text": "¿Los licitantes pueden enviar sus ofertas por correo electrónico o deben registrarse?",
+        "href": "https://es.support.procore.com/faq/can-bidders-submit-their-bid-via-email-or-must-they-sign-in"
+      },
+      {
+        "text": "¿Necesito usar códigos de costo en un formulario de licitación?",
+        "href": "https://es.support.procore.com/faq/do-i-need-to-use-cost-codes-on-a-bid-form"
+      },
+      {
+        "text": "¿Por qué algunas de mis subcarpetas en mi carpeta [Documentos de licitación] no aparecen cuando mis licitantes las descargan?",
+        "href": "https://es.support.procore.com/faq/why-are-some-of-my-sub-folders-in-my-bid-documents-folder-not-showing-up-when-my-bidders-download-them"
+      },
+      {
+        "text": "¿Por qué falta mi paquete de licitación en Planroom?",
+        "href": "https://es.support.procore.com/faq/why-is-my-bid-package-missing-from-the-planroom"
+      },
+      {
+        "text": "¿Por qué las licitaciones adjudicadas crean contratos con un tipo de costo O - Otro?",
+        "href": "https://es.support.procore.com/faq/Why-do-awarded-bids-create-commitments-with-an-O-Other-cost-type"
+      },
+      {
+        "text": "¿Por qué no puedo descargar y abrir un archivo.ZIP de Procore?",
+        "href": "https://es.support.procore.com/faq/why-am-i-unable-to-download-and-open-a-zip-file-from-procore"
+      },
+      {
+        "text": "¿Puedo eliminar una partida de una licitación?",
+        "href": "https://es.support.procore.com/faq/can-i-remove-a-line-item-from-a-bid"
+      },
+      {
+        "text": "¿Puedo enviar correspondencia después de la fecha de vencimiento de la licitación?",
+        "href": "https://es.support.procore.com/faq/can-i-send-correspondence-after-the-bid-due-date"
+      },
+      {
+        "text": "¿Puedo enviar un correo electrónico con la actualización de la licitación a cada proveedor/subcontratista?",
+        "href": "https://es.support.procore.com/faq/can-i-send-a-bid-update-email-to-every-vendor-subcontractor"
+      },
+      {
+        "text": "¿Puedo proporcionar a los usuarios permisos de nivel \"Solo lectura\" con acceso limitado para actualizar la información en Procore?",
+        "href": "https://es.support.procore.com/faq/can-i-provide-users-with-read-only-level-permissions-with-limited-access-to-update-information-in-procore"
+      },
+      {
+        "text": "¿Qué es el proceso de licitación de construcción?",
+        "href": "https://es.support.procore.com/faq/what-is-the-construction-bidding-process"
+      },
+      {
+        "text": "¿Qué es la licitación a ciegas?",
+        "href": "https://es.support.procore.com/faq/what-is-blind-bidding"
+      },
+      {
+        "text": "¿Qué herramientas de Procore admiten permisos granulares?",
+        "href": "https://es.support.procore.com/faq/which-procore-tools-support-granular-permissions"
+      },
+      {
+        "text": "¿Qué indicadores de actividad puedo ver para compañías enumeradas en la red de construcción de Procore?",
+        "href": "https://es.support.procore.com/faq/what-activity-metrics-can-i-see-for-companies-listed-on-the-procore-construction-network"
+      },
+      {
+        "text": "¿Qué permisos granulares están disponibles para la herramienta de licitación del proyecto?",
+        "href": "https://es.support.procore.com/faq/what-granular-permissions-are-available-for-the-projects-bidding-tool"
+      },
+      {
+        "text": "¿Qué permisos necesitan los licitantes para ser invitados a licitar y presentar una oferta?",
+        "href": "https://es.support.procore.com/faq/what-permissions-do-bidders-need-in-order-to-be-invited-to-bid-and-submit-a-bid"
+      },
+      {
+        "text": "¿Qué son especificaciones?",
+        "href": "https://es.support.procore.com/faq/what-are-specifications"
+      },
+      {
+        "text": "¿Qué sucede cuando actualizo un proyecto a la nueva experiencia de administración de ofertas?",
+        "href": "https://es.support.procore.com/faq/what-happens-when-i-update-a-project-to-the-new-bid-management-experience"
+      },
+      {
+        "text": "¿Qué sucede cuando las compañías y los usuarios se agregan desde la red de construcción de Procore al Directorio de compañía?",
+        "href": "https://es.support.procore.com/faq/what-happens-when-companies-and-users-are-added-from-the-procore-construction-network-to-the-company-directory"
+      },
+      {
+        "text": "¿Qué versiones de archivos de Microsoft Excel se pueden adjuntar a ítems en Procore?",
+        "href": "https://es.support.procore.com/faq/which-microsoft-excel-file-versions-can-be-attached-to-items-in-procore"
+      },
+      {
+        "text": "Matriz de permisos de usuario",
+        "href": "https://es.support.procore.com/references/user-permissions-matrix-web"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-new-companies-and-contacts-to-the-company-directory-from-the-bidding-tool"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-a-new-company-to-the-directory-from-the-bidding-tool"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-a-new-contact-to-the-directory-from-the-bidding-tool"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-bidders-to-a-bid-form"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-notes-to-the-bid-list"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-purchase-order"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-bid-and-convert-it-to-a-subcontract-or-purchase-order"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/configure-advanced-settings-bidding"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/copy-bid-forms-from-a-previous-bid-package"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/delete-a-bid-form"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/delete-a-bid-package"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-notes-to-the-bid-list"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/edit-a-bid-form"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/edit-a-bid-package"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-notes-to-the-bid-list"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-package"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-packages-bid-files"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-packages-bid-list"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-sheet"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/filter-and-group-the-bid-list"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/filter-and-group-the-bid-list"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/filter-and-sort-bidding-information"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/import-bid-forms-to-the-bidding-tool"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/invite-bidders"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/level-bids-for-a-bid-form"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/preview-a-bid-form"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/reinvite-users-to-bid"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/resend-invitations-to-bid"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/respond-to-pre-bid-questions"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/retrieve-a-bid-package-from-the-recycle-bin"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/review-submitted-bids"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-filter-companies-to-add-to-a-bid-form"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-invite-bidders"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/send-a-new-correspondence-in-the-bidding-tab"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/send-bulk-correspondences"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/show-or-hide-blind-bids-on-a-bid-package"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/soft-award-a-bid"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/update-and-redistribute-a-bid-package"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/update-bid-documents"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-a-bid-form"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-a-bid-package"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-an-activity-log"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/level-bids-for-a-bid-form"
+      },
+      {
+        "text": "Web",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-and-manage-bidders-on-a-bid-form"
+      },
+      {
+        "text": "Ver ofertas",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-leveled-bids"
+      },
+      {
+        "text": "Adjudicar una oferta y convertirla en una Subcontrato u orden",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-bid-and-convert-it-to-a-subcontract-or-purchase-order"
+      },
+      {
+        "text": "Ofertas de nivel para un formulario",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/level-bids-for-a-bid-form"
+      },
+      {
+        "text": "Ofertas de nivel para un formulario",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/level-bids-for-a-bid-form"
+      },
+      {
+        "text": "Crear un paquete de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package"
+      },
+      {
+        "text": "Buscar y filtrar compañías para agregar a un formulario",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-filter-companies-to-add-to-a-bid-form#Search_for_Companies"
+      },
+      {
+        "text": "Administrar la integración",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/manage-the-bidding-and-compass-integration"
+      },
+      {
+        "text": "integración de Licitación + COMPASS",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-the-bidding-compass-integration"
+      },
+      {
+        "text": "Personalizar la visualización de columnas en la herramienta Licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/customize-the-column-display-in-the-bidding-tool"
+      },
+      {
+        "text": "Personalizar la visualización de columnas en la herramienta Licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/customize-the-column-display-in-the-bidding-tool"
+      },
+      {
+        "text": "Acerca de la integración",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-the-bidding-compass-integration"
+      },
+      {
+        "text": "Ofertas de nivel para un formulario de oferta.",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/level-bids-for-a-bid-form"
+      },
+      {
+        "text": "Agregar licitantes a un formulario",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-bidders-to-a-bid-form#Add_from_the_Procore_Construction_Network"
+      },
+      {
+        "text": "Crear un formulario",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form"
+      },
+      {
+        "text": "Mostrar u ocultar ofertas a ciegas en un paquete",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/show-or-hide-blind-bids-on-a-bid-package"
+      },
+      {
+        "text": "Importar formularios de licitación a la herramienta",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/import-bid-forms-to-the-bidding-tool"
+      },
+      {
+        "text": "Copiar formularios de licitación de un paquete",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/copy-bid-forms-from-a-previous-bid-package"
+      },
+      {
+        "text": "Buscar y filtrar compañías para agregar a un formulario",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-filter-companies-to-add-to-a-bid-form"
+      },
+      {
+        "text": "administración de licitaciones",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience"
+      },
+      {
+        "text": "Crear un formulario",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form"
+      },
+      {
+        "text": "administración de licitaciones",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience"
+      },
+      {
+        "text": "Filtrar y ordenar la información",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/filter-and-sort-bidding-information"
+      },
+      {
+        "text": "nueva experiencia",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience"
+      },
+      {
+        "text": "Agregar licitantes a un formulario",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-bidders-to-a-bid-form#Add_from_the_Procore_Construction_Network"
+      },
+      {
+        "text": "Crear un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form"
+      },
+      {
+        "text": "¿Cómo configuro la método contable para las ofertas?",
+        "href": "https://es.support.procore.com/faq/how-do-i-set-the-accounting-method-for-bids"
+      },
+      {
+        "text": "Importar formularios de licitación a la herramienta de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/import-bid-forms-to-the-bidding-tool"
+      },
+      {
+        "text": "Crear un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form"
+      },
+      {
+        "text": "¿Necesito usar códigos de costo en un formulario de licitación?",
+        "href": "https://es.support.procore.com/faq/do-i-need-to-use-cost-codes-on-a-bid-form"
+      },
+      {
+        "text": "Importar formularios de licitación a la herramienta licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/import-bid-forms-to-the-bidding-tool"
+      },
+      {
+        "text": "Crear un formulario de licitación",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form"
+      },
+      {
+        "text": "¿Necesito usar códigos de costo en un formulario de licitación",
+        "href": "https://es.support.procore.com/faq/do-i-need-to-use-cost-codes-on-a-bid-form"
+      },
+      {
+        "text": "Acerca de la gestión de ofertas experiencia mejorada",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience"
+      },
+      {
+        "text": "Volver arriba",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding#title"
+      },
+      {
+        "text": "Herramienta administrador de proyectos: diagramas de flujo de trabajo",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/admin/workflows"
+      },
+      {
+        "text": "Licitación : preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/faq"
+      },
+      {
+        "text": "Cómo habilitar la integración de Procore Bidding + COMPASS",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-the-bidding-compass-integration/Details/how-to-enable-compass-integration"
+      },
+      {
+        "text": "¿Por qué falta mi paquete de licitación en Planroom?",
+        "href": "https://es.support.procore.com/faq/why-is-my-bid-package-missing-from-the-planroom"
+      },
+      {
+        "text": "Licitación: permisos de usuario",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/permissions"
+      },
+      {
+        "text": "Licitación : preguntas frecuentes",
+        "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/faq"
+      },
+      {
+        "text": "Tool Landing Page",
+        "href": "https://es.support.procore.com/Special:Search?tags=article%3Atool-landing-page"
+      },
+      {
+        "text": "English-US",
+        "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us"
+      },
+      {
+        "text": "Published",
+        "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished"
+      },
+      {
+        "text": "bidding",
+        "href": "https://es.support.procore.com/Special:Search?tags=bidding"
+      },
+      {
+        "text": "do-not-migrate",
+        "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate"
+      },
+      {
+        "text": "Powered by CXone Expert\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "Aviso de privacidad",
+        "href": "https://www.procore.com/es/legal/privacy"
+      },
+      {
+        "text": "Términos de uso",
+        "href": "https://www.procore.com/es/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "More information",
+        "href": "https://www.procore.com/legal/cookie-notice"
+      },
+      {
+        "text": "",
+        "href": "https://www.onetrust.com/products/cookie-consent/"
+      }
+    ],
+    "title": "Licitación - Procore",
+    "h1": "Licitación",
+    "metaDescription": "Esta es la p&aacute;gina de destino para los art&iacute;culos de soporte sobre la herramienta de licitaci&oacute;n a nivel de proyecto. Contiene enlaces a tutoriales, preguntas frecuentes y otra …"
+  },
+  "links": 229,
+  "linkDetails": [
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Soporte",
+      "classes": "",
+      "id": null,
+      "index": 1,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "internal",
+      "id": null,
+      "index": 4,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 5,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 6,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 7,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 8,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 9,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 10,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 11,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 12,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 13,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡（简体中文）",
+      "classes": "link-https",
+      "id": null,
+      "index": 14,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 15,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/references/contact-support",
+      "text": "Contáctenos",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 19,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=products%2Fonline%2Fuser-guide%2Fproject-level%2Fbidding",
+      "text": "Inicio de sesión",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 22,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Inicio",
+      "classes": "",
+      "id": null,
+      "index": 23,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products",
+      "text": "Productos",
+      "classes": "",
+      "id": null,
+      "index": 24,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online",
+      "text": "Procore Web (app.procore.com)",
+      "classes": "",
+      "id": null,
+      "index": 25,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide",
+      "text": "Guía del usuario de Procore",
+      "classes": "",
+      "id": null,
+      "index": 26,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level",
+      "text": "Nivel proyecto",
+      "classes": "",
+      "id": null,
+      "index": 27,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/@api/deki/pages/3574/pdf/Licitaci%25C3%25B3n.pdf",
+      "text": "Guardar como PDF",
+      "classes": "",
+      "id": null,
+      "index": 28,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package",
+      "text": "Crear un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 129,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form",
+      "text": "Crear un formulario de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 130,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-invite-bidders",
+      "text": "Buscar e invitar licitantes",
+      "classes": "internal",
+      "id": null,
+      "index": 131,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/submit-a-pre-bid-question",
+      "text": "Enviar una pregunta previa a la oferta",
+      "classes": "internal",
+      "id": null,
+      "index": 132,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/upload-bid-documents",
+      "text": "Cargar documentos de licitación en la herramienta Documentos",
+      "classes": "internal",
+      "id": null,
+      "index": 133,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-am-i-unable-to-download-and-open-a-zip-file-from-procore",
+      "text": "¿Por qué no puedo descargar y abrir un archivo.ZIP de Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 135,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-difference-between-a-distribution-group-and-a-distribution-list",
+      "text": "¿Cuál es la diferencia entre un grupo de distribución y una lista de distribución en Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 136,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-construction-bidding-process",
+      "text": "¿Qué es el proceso de licitación de construcción?",
+      "classes": "internal",
+      "id": null,
+      "index": 137,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/which-procore-tools-support-granular-permissions",
+      "text": "¿Qué herramientas de Procore admiten permisos granulares?",
+      "classes": "internal",
+      "id": null,
+      "index": 138,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/which-microsoft-excel-file-versions-can-be-attached-to-items-in-procore",
+      "text": "¿Qué versiones de archivos de Microsoft Excel se pueden adjuntar a ítems en Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 139,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience",
+      "text": "",
+      "classes": "internal",
+      "id": null,
+      "index": 143,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience",
+      "text": "Acerca de",
+      "classes": "internal",
+      "id": null,
+      "index": 144,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-difference-between-the-old-and-new-bid-management-experience-in-the-bidding-tool",
+      "text": "la experiencia mejorada de administración de ofertas y ¿Cuál es la diferencia entre la experiencia anterior y nueva de administración de ofertas en la herramienta de licitación?",
+      "classes": "",
+      "id": null,
+      "index": 145,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-the-bidding-compass-integration",
+      "text": "Acerca de la Integración de Licitación + COMPASS",
+      "classes": "internal",
+      "id": null,
+      "index": 146,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience",
+      "text": "Acerca de la gestión de ofertas experiencia mejorada",
+      "classes": "internal",
+      "id": null,
+      "index": 147,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/update-bid-documents",
+      "text": "Actualizar documentos de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 148,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/soft-award-a-bid",
+      "text": "Adjudicación suave de una oferta",
+      "classes": "internal",
+      "id": null,
+      "index": 149,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-bid-and-convert-it-to-a-subcontract-or-purchase-order",
+      "text": "Adjudicar una oferta y convertirla en un contrato o orden de compra",
+      "classes": "internal",
+      "id": null,
+      "index": 150,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/manage-the-bidding-and-compass-integration",
+      "text": "Administrar la integración de licitaciones y COMPASS",
+      "classes": "internal",
+      "id": null,
+      "index": 151,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-bidders-to-a-bid-form",
+      "text": "Agregar licitantes a un formulario de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 152,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-bidders-from-the-procore-construction-network-to-a-bid-form",
+      "text": "Agregar licitantes de la red de construcción de Procore a un formulario de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 153,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-bidders-from-the-directory-to-a-bid-form",
+      "text": "Agregar licitantes del directorio a un formulario de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 154,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-notes-to-the-bid-list",
+      "text": "Agregar notas a la lista de ofertas",
+      "classes": "internal",
+      "id": null,
+      "index": 155,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-a-new-contact-to-the-directory-from-the-bidding-tool",
+      "text": "Agregar un nuevo contacto al directorio desde la herramienta licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 156,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-a-new-company-to-the-directory-from-the-bidding-tool",
+      "text": "Agregar una nueva compañía al directorio desde la herramienta de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 157,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-filter-companies-to-add-to-a-bid-form",
+      "text": "Buscar y filtrar compañías para agregar a un formulario de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 158,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/upload-bid-documents",
+      "text": "Cargar documentos de licitación en la herramienta Documentos",
+      "classes": "internal",
+      "id": null,
+      "index": 159,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/configure-advanced-settings-bidding",
+      "text": "Configurar opciones avanzadas: pujas",
+      "classes": "internal",
+      "id": null,
+      "index": 160,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/copy-bid-forms-from-a-previous-bid-package",
+      "text": "Copiar formularios de licitación de un paquete de licitación anterior",
+      "classes": "internal",
+      "id": null,
+      "index": 161,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form",
+      "text": "Crear un formulario de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 162,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package",
+      "text": "Crear un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 163,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bidding-report",
+      "text": "Crear un reporte de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 164,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/edit-a-bid-form",
+      "text": "Editar un formulario de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 165,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/edit-a-bid-package",
+      "text": "Editar un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 166,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/delete-a-bid-form",
+      "text": "Eliminar un formulario de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 167,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/delete-a-bid-package",
+      "text": "Eliminar un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 168,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/send-a-new-correspondence-in-the-bidding-tab",
+      "text": "Enviar una nueva correspondencia en la herramienta Licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 169,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-packages-bid-files",
+      "text": "Exportar archivos de ofertas de un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 170,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-packages-bid-list",
+      "text": "Exportar la lista de ofertas de un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 171,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-leveled-bids",
+      "text": "Exportar ofertas niveladas",
+      "classes": "internal",
+      "id": null,
+      "index": 172,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-package",
+      "text": "Exportar un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 173,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-sheet",
+      "text": "Exportar una hoja de oferta",
+      "classes": "internal",
+      "id": null,
+      "index": 174,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/filter-and-sort-bidding-information",
+      "text": "Filtrar y ordenar la información de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 175,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/import-bid-forms-to-the-bidding-tool",
+      "text": "Importar formularios de licitación a la herramienta licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 176,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/invite-bidders",
+      "text": "Invitar a licitantes",
+      "classes": "internal",
+      "id": null,
+      "index": 177,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/level-bids-for-a-bid-form",
+      "text": "Ofertas a nivel de un formulario de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 178,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/customize-the-column-display-in-the-bidding-tool",
+      "text": "Personalice la visualización de columnas en la herramienta Licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 179,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/retrieve-a-bid-package-from-the-recycle-bin",
+      "text": "Recuperar un paquete de licitación de la bandeja de reciclaje",
+      "classes": "internal",
+      "id": null,
+      "index": 180,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/resend-invitations-to-bid",
+      "text": "Reenviar invitaciones a licitar",
+      "classes": "internal",
+      "id": null,
+      "index": 181,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/respond-to-pre-bid-questions",
+      "text": "Responder a las preguntas previas a la oferta",
+      "classes": "internal",
+      "id": null,
+      "index": 182,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-bid-files",
+      "text": "Ver archivos de ofertas",
+      "classes": "internal",
+      "id": null,
+      "index": 183,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-a-bid-form",
+      "text": "Ver un formulario de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 184,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-a-bid-package",
+      "text": "Ver un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 185,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-an-activity-log",
+      "text": "Ver un registro de actividad",
+      "classes": "internal",
+      "id": null,
+      "index": 186,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-and-manage-bidders-on-a-bid-form",
+      "text": "Ver y administrar licitantes en un formulario de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 187,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/preview-a-bid-form",
+      "text": "Vista previa de un formulario de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 188,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-the-bidding-compass-integration",
+      "text": "Acerca de la Integración de Licitación + COMPASS",
+      "classes": "internal",
+      "id": null,
+      "index": 189,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/manage-the-bidding-and-compass-integration",
+      "text": "Administrar la integración de licitaciones y COMPASS",
+      "classes": "internal",
+      "id": null,
+      "index": 190,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/update-bid-documents",
+      "text": "Actualizar documentos de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 191,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/update-and-redistribute-a-bid-package",
+      "text": "Actualizar y redistribuir un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 192,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-purchase-order",
+      "text": "Adjudicar una Oferta Ganadora y convertirla en una Orden de compra",
+      "classes": "internal",
+      "id": null,
+      "index": 193,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract",
+      "text": "Adjudique una oferta ganadora y conviértala en un contrato",
+      "classes": "internal",
+      "id": null,
+      "index": 194,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-notes-to-the-bid-list",
+      "text": "Agregar notas a la lista de ofertas",
+      "classes": "internal",
+      "id": null,
+      "index": 195,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-new-companies-and-contacts-to-the-company-directory-from-the-bidding-tool",
+      "text": "Agregar nuevas compañías y contactos al directorio de compañía de la herramienta de Licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 196,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-invite-bidders",
+      "text": "Buscar e invitar licitantes",
+      "classes": "internal",
+      "id": null,
+      "index": 197,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/upload-bid-documents",
+      "text": "Cargar documentos de licitación en la herramienta Documentos",
+      "classes": "internal",
+      "id": null,
+      "index": 198,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/configure-advanced-settings-bidding",
+      "text": "Configurar opciones avanzadas: pujas",
+      "classes": "internal",
+      "id": null,
+      "index": 199,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package",
+      "text": "Crear un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 200,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bidding-report",
+      "text": "Crear un reporte de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 201,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/remove-a-bidder-from-a-bid-invitation",
+      "text": "Editar licitantes de una Invitación de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 202,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/edit-a-bid-package",
+      "text": "Editar un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 203,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/delete-a-bid-package",
+      "text": "Eliminar un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 204,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/send-bulk-correspondences",
+      "text": "Enviar correspondencia masiva",
+      "classes": "internal",
+      "id": null,
+      "index": 205,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/send-a-new-correspondence-in-the-bidding-tab",
+      "text": "Enviar una nueva correspondencia en la herramienta Licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 206,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-packages-bid-files",
+      "text": "Exportar archivos de ofertas de un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 207,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-packages-bid-list",
+      "text": "Exportar la lista de ofertas de un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 208,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-package",
+      "text": "Exportar un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 209,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-sheet",
+      "text": "Exportar una hoja de oferta",
+      "classes": "internal",
+      "id": null,
+      "index": 210,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/filter-and-group-the-bid-list",
+      "text": "Filtrar y agrupar la lista de licitaciones",
+      "classes": "internal",
+      "id": null,
+      "index": 211,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/retrieve-a-bid-package-from-the-recycle-bin",
+      "text": "Recuperar un paquete de licitación de la bandeja de reciclaje",
+      "classes": "internal",
+      "id": null,
+      "index": 212,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/respond-to-pre-bid-questions",
+      "text": "Responder a las preguntas previas a la oferta",
+      "classes": "internal",
+      "id": null,
+      "index": 213,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/review-submitted-bids",
+      "text": "Revisar las ofertas presentadas",
+      "classes": "internal",
+      "id": null,
+      "index": 214,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-bid-files",
+      "text": "Ver archivos de ofertas",
+      "classes": "internal",
+      "id": null,
+      "index": 215,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-a-bid-package",
+      "text": "Ver un paquete de licitación",
+      "classes": "internal",
+      "id": null,
+      "index": 216,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-an-activity-log",
+      "text": "Ver un registro de actividad",
+      "classes": "internal",
+      "id": null,
+      "index": 217,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/reinvite-users-to-bid",
+      "text": "Volver a invitar a los usuarios a licitar",
+      "classes": "internal",
+      "id": null,
+      "index": 218,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/references/videos/training-videos",
+      "text": "visite nuestra biblioteca de videos",
+      "classes": "",
+      "id": null,
+      "index": 219,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-the-bidding-compass-integration",
+      "text": "Acerca de la Integración de Licitación + COMPASS",
+      "classes": "internal",
+      "id": null,
+      "index": 220,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-difference-between-the-old-and-new-bid-management-experience-in-the-bidding-tool",
+      "text": "¿Cuál es la diferencia entre la experiencia de administración de ofertas anterior y nueva en la herramienta Licitación?",
+      "classes": "internal",
+      "id": null,
+      "index": 221,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-difference-between-a-distribution-group-and-a-distribution-list",
+      "text": "¿Cuál es la diferencia entre un grupo de distribución y una lista de distribución en Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 222,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-do-i-add-bidders-in-the-new-bid-management-experience",
+      "text": "¿Cómo agrego a los licitantes en la nueva experiencia de administración de ofertas?",
+      "classes": "internal",
+      "id": null,
+      "index": 223,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-do-i-add-missing-cost-codes-so-i-can-migrate-projects-to-the-new-bid-management-experience",
+      "text": "¿Cómo agrego códigos de costo faltantes para que pueda migrar proyectos a la nueva experiencia de administración de ofertas?",
+      "classes": "internal",
+      "id": null,
+      "index": 224,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-do-i-set-the-accounting-method-for-bids",
+      "text": "¿Cómo configuro la método contable para las ofertas?",
+      "classes": "internal",
+      "id": null,
+      "index": 225,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-can-i-troubleshoot-an-issue-with-the-procore-web-application",
+      "text": "¿Cómo puedo solucionar un problema con la aplicación web Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 226,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-are-duplicate-companies-handled-between-the-directory-tool-and-procore-construction-network",
+      "text": "¿Cómo se manejan compañías duplicadas entre la herramienta Directorio y la red de construcción de Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 227,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/where-does-the-qualifications-data-come-from-when-searching-for-bidders",
+      "text": "¿De dónde provienen los 'Calificaciones' datos al buscar licitantes?",
+      "classes": "internal",
+      "id": null,
+      "index": 228,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/where-do-i-put-my-bid-documents-in-procore",
+      "text": "¿Dónde pongo mis documentos de licitación en Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 229,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/can-bidders-submit-their-bid-via-email-or-must-they-sign-in",
+      "text": "¿Los licitantes pueden enviar sus ofertas por correo electrónico o deben registrarse?",
+      "classes": "internal",
+      "id": null,
+      "index": 230,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/do-i-need-to-use-cost-codes-on-a-bid-form",
+      "text": "¿Necesito usar códigos de costo en un formulario de licitación?",
+      "classes": "internal",
+      "id": null,
+      "index": 231,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-are-some-of-my-sub-folders-in-my-bid-documents-folder-not-showing-up-when-my-bidders-download-them",
+      "text": "¿Por qué algunas de mis subcarpetas en mi carpeta [Documentos de licitación] no aparecen cuando mis licitantes las descargan?",
+      "classes": "internal",
+      "id": null,
+      "index": 232,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-is-my-bid-package-missing-from-the-planroom",
+      "text": "¿Por qué falta mi paquete de licitación en Planroom?",
+      "classes": "internal",
+      "id": null,
+      "index": 233,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/Why-do-awarded-bids-create-commitments-with-an-O-Other-cost-type",
+      "text": "¿Por qué las licitaciones adjudicadas crean contratos con un tipo de costo O - Otro?",
+      "classes": "internal",
+      "id": null,
+      "index": 234,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-am-i-unable-to-download-and-open-a-zip-file-from-procore",
+      "text": "¿Por qué no puedo descargar y abrir un archivo.ZIP de Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 235,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/can-i-remove-a-line-item-from-a-bid",
+      "text": "¿Puedo eliminar una partida de una licitación?",
+      "classes": "internal",
+      "id": null,
+      "index": 236,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/can-i-send-correspondence-after-the-bid-due-date",
+      "text": "¿Puedo enviar correspondencia después de la fecha de vencimiento de la licitación?",
+      "classes": "internal",
+      "id": null,
+      "index": 237,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/can-i-send-a-bid-update-email-to-every-vendor-subcontractor",
+      "text": "¿Puedo enviar un correo electrónico con la actualización de la licitación a cada proveedor/subcontratista?",
+      "classes": "internal",
+      "id": null,
+      "index": 238,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/can-i-provide-users-with-read-only-level-permissions-with-limited-access-to-update-information-in-procore",
+      "text": "¿Puedo proporcionar a los usuarios permisos de nivel \"Solo lectura\" con acceso limitado para actualizar la información en Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 239,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-the-construction-bidding-process",
+      "text": "¿Qué es el proceso de licitación de construcción?",
+      "classes": "internal",
+      "id": null,
+      "index": 240,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-is-blind-bidding",
+      "text": "¿Qué es la licitación a ciegas?",
+      "classes": "internal",
+      "id": null,
+      "index": 241,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/which-procore-tools-support-granular-permissions",
+      "text": "¿Qué herramientas de Procore admiten permisos granulares?",
+      "classes": "internal",
+      "id": null,
+      "index": 242,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-activity-metrics-can-i-see-for-companies-listed-on-the-procore-construction-network",
+      "text": "¿Qué indicadores de actividad puedo ver para compañías enumeradas en la red de construcción de Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 243,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-granular-permissions-are-available-for-the-projects-bidding-tool",
+      "text": "¿Qué permisos granulares están disponibles para la herramienta de licitación del proyecto?",
+      "classes": "internal",
+      "id": null,
+      "index": 244,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-permissions-do-bidders-need-in-order-to-be-invited-to-bid-and-submit-a-bid",
+      "text": "¿Qué permisos necesitan los licitantes para ser invitados a licitar y presentar una oferta?",
+      "classes": "internal",
+      "id": null,
+      "index": 245,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-are-specifications",
+      "text": "¿Qué son especificaciones?",
+      "classes": "internal",
+      "id": null,
+      "index": 246,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-happens-when-i-update-a-project-to-the-new-bid-management-experience",
+      "text": "¿Qué sucede cuando actualizo un proyecto a la nueva experiencia de administración de ofertas?",
+      "classes": "internal",
+      "id": null,
+      "index": 247,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/what-happens-when-companies-and-users-are-added-from-the-procore-construction-network-to-the-company-directory",
+      "text": "¿Qué sucede cuando las compañías y los usuarios se agregan desde la red de construcción de Procore al Directorio de compañía?",
+      "classes": "internal",
+      "id": null,
+      "index": 248,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/which-microsoft-excel-file-versions-can-be-attached-to-items-in-procore",
+      "text": "¿Qué versiones de archivos de Microsoft Excel se pueden adjuntar a ítems en Procore?",
+      "classes": "internal",
+      "id": null,
+      "index": 249,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/references/user-permissions-matrix-web",
+      "text": "Matriz de permisos de usuario",
+      "classes": "",
+      "id": null,
+      "index": 250,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-new-companies-and-contacts-to-the-company-directory-from-the-bidding-tool",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 251,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-a-new-company-to-the-directory-from-the-bidding-tool",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 252,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-a-new-contact-to-the-directory-from-the-bidding-tool",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 253,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-bidders-to-a-bid-form",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 254,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-notes-to-the-bid-list",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 255,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-purchase-order",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 256,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 257,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-bid-and-convert-it-to-a-subcontract-or-purchase-order",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 258,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/configure-advanced-settings-bidding",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 259,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/copy-bid-forms-from-a-previous-bid-package",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 260,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 261,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 262,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/delete-a-bid-form",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 263,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/delete-a-bid-package",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 264,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-notes-to-the-bid-list",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 265,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/edit-a-bid-form",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 266,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/edit-a-bid-package",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 267,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/add-notes-to-the-bid-list",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 268,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-package",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 269,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-packages-bid-files",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 270,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-packages-bid-list",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 271,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/export-a-bid-sheet",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 272,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/filter-and-group-the-bid-list",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 273,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/filter-and-group-the-bid-list",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 274,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/filter-and-sort-bidding-information",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 275,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/import-bid-forms-to-the-bidding-tool",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 276,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/invite-bidders",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 277,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/level-bids-for-a-bid-form",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 278,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/preview-a-bid-form",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 279,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/reinvite-users-to-bid",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 280,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/resend-invitations-to-bid",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 281,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/respond-to-pre-bid-questions",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 282,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/retrieve-a-bid-package-from-the-recycle-bin",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 283,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/review-submitted-bids",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 284,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-filter-companies-to-add-to-a-bid-form",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 285,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-invite-bidders",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 286,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/send-a-new-correspondence-in-the-bidding-tab",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 287,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/send-bulk-correspondences",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 288,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/show-or-hide-blind-bids-on-a-bid-package",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 289,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/soft-award-a-bid",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 290,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/update-and-redistribute-a-bid-package",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 291,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/update-bid-documents",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 292,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-a-bid-form",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 293,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-a-bid-package",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 294,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-an-activity-log",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 295,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/level-bids-for-a-bid-form",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 296,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-and-manage-bidders-on-a-bid-form",
+      "text": "Web",
+      "classes": "",
+      "id": null,
+      "index": 297,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/view-leveled-bids",
+      "text": "Ver ofertas",
+      "classes": "",
+      "id": null,
+      "index": 298,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/award-a-bid-and-convert-it-to-a-subcontract-or-purchase-order",
+      "text": "Adjudicar una oferta y convertirla en una Subcontrato u orden",
+      "classes": "",
+      "id": null,
+      "index": 299,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/level-bids-for-a-bid-form",
+      "text": "Ofertas de nivel para un formulario",
+      "classes": "",
+      "id": null,
+      "index": 300,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/level-bids-for-a-bid-form",
+      "text": "Ofertas de nivel para un formulario",
+      "classes": "",
+      "id": null,
+      "index": 301,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-package",
+      "text": "Crear un paquete de licitación",
+      "classes": "",
+      "id": null,
+      "index": 302,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/manage-the-bidding-and-compass-integration",
+      "text": "Administrar la integración",
+      "classes": "",
+      "id": null,
+      "index": 304,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-the-bidding-compass-integration",
+      "text": "integración de Licitación + COMPASS",
+      "classes": "",
+      "id": null,
+      "index": 305,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/customize-the-column-display-in-the-bidding-tool",
+      "text": "Personalizar la visualización de columnas en la herramienta Licitación",
+      "classes": "",
+      "id": null,
+      "index": 306,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/customize-the-column-display-in-the-bidding-tool",
+      "text": "Personalizar la visualización de columnas en la herramienta Licitación",
+      "classes": "",
+      "id": null,
+      "index": 307,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-the-bidding-compass-integration",
+      "text": "Acerca de la integración",
+      "classes": "",
+      "id": null,
+      "index": 308,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/level-bids-for-a-bid-form",
+      "text": "Ofertas de nivel para un formulario de oferta.",
+      "classes": "",
+      "id": null,
+      "index": 309,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form",
+      "text": "Crear un formulario",
+      "classes": "",
+      "id": null,
+      "index": 311,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/show-or-hide-blind-bids-on-a-bid-package",
+      "text": "Mostrar u ocultar ofertas a ciegas en un paquete",
+      "classes": "",
+      "id": null,
+      "index": 312,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/import-bid-forms-to-the-bidding-tool",
+      "text": "Importar formularios de licitación a la herramienta",
+      "classes": "",
+      "id": null,
+      "index": 313,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/copy-bid-forms-from-a-previous-bid-package",
+      "text": "Copiar formularios de licitación de un paquete",
+      "classes": "",
+      "id": null,
+      "index": 314,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/search-for-and-filter-companies-to-add-to-a-bid-form",
+      "text": "Buscar y filtrar compañías para agregar a un formulario",
+      "classes": "",
+      "id": null,
+      "index": 315,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience",
+      "text": "administración de licitaciones",
+      "classes": "",
+      "id": null,
+      "index": 316,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form",
+      "text": "Crear un formulario",
+      "classes": "",
+      "id": null,
+      "index": 317,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience",
+      "text": "administración de licitaciones",
+      "classes": "",
+      "id": null,
+      "index": 318,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/filter-and-sort-bidding-information",
+      "text": "Filtrar y ordenar la información",
+      "classes": "",
+      "id": null,
+      "index": 319,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience",
+      "text": "nueva experiencia",
+      "classes": "",
+      "id": null,
+      "index": 320,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form",
+      "text": "Crear un formulario de licitación",
+      "classes": "",
+      "id": null,
+      "index": 322,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/how-do-i-set-the-accounting-method-for-bids",
+      "text": "¿Cómo configuro la método contable para las ofertas?",
+      "classes": "",
+      "id": null,
+      "index": 323,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/import-bid-forms-to-the-bidding-tool",
+      "text": "Importar formularios de licitación a la herramienta de licitación",
+      "classes": "",
+      "id": null,
+      "index": 324,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form",
+      "text": "Crear un formulario de licitación",
+      "classes": "",
+      "id": null,
+      "index": 325,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/do-i-need-to-use-cost-codes-on-a-bid-form",
+      "text": "¿Necesito usar códigos de costo en un formulario de licitación?",
+      "classes": "",
+      "id": null,
+      "index": 326,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/import-bid-forms-to-the-bidding-tool",
+      "text": "Importar formularios de licitación a la herramienta licitación",
+      "classes": "",
+      "id": null,
+      "index": 327,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/create-a-bid-form",
+      "text": "Crear un formulario de licitación",
+      "classes": "",
+      "id": null,
+      "index": 328,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/do-i-need-to-use-cost-codes-on-a-bid-form",
+      "text": "¿Necesito usar códigos de costo en un formulario de licitación",
+      "classes": "",
+      "id": null,
+      "index": 329,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-bid-management-enhanced-experience",
+      "text": "Acerca de la gestión de ofertas experiencia mejorada",
+      "classes": "",
+      "id": null,
+      "index": 330,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/admin/workflows",
+      "text": "Herramienta administrador de proyectos: diagramas de flujo de trabajo",
+      "classes": "mt-icon-previous-article",
+      "id": null,
+      "index": 332,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/faq",
+      "text": "Licitación : preguntas frecuentes",
+      "classes": "mt-icon-next-article",
+      "id": null,
+      "index": 333,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/tutorials/about-the-bidding-compass-integration/Details/how-to-enable-compass-integration",
+      "text": "Cómo habilitar la integración de Procore Bidding + COMPASS",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 334,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-is-my-bid-package-missing-from-the-planroom",
+      "text": "¿Por qué falta mi paquete de licitación en Planroom?",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 335,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/permissions",
+      "text": "Licitación: permisos de usuario",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 336,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/products/online/user-guide/project-level/bidding/faq",
+      "text": "Licitación : preguntas frecuentes",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 337,
+      "category": "product"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=article%3Atool-landing-page",
+      "text": "Tool Landing Page",
+      "classes": "",
+      "id": null,
+      "index": 338,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us",
+      "text": "English-US",
+      "classes": "",
+      "id": null,
+      "index": 339,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished",
+      "text": "Published",
+      "classes": "",
+      "id": null,
+      "index": 340,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=bidding",
+      "text": "bidding",
+      "classes": "",
+      "id": null,
+      "index": 341,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=do-not-migrate",
+      "text": "do-not-migrate",
+      "classes": "",
+      "id": null,
+      "index": 342,
+      "category": "general"
+    }
+  ],
+  "clickables": 50,
+  "clickableDetails": [
+    {
+      "text": "América Latina (Español)",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Buscar",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "Buscar",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Expandir/contraer jerarquía global",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 3
+    },
+    {
+      "text": "Expandir/contraer ubicación global",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "Índice",
+      "id": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "hasDropdown": false,
+      "index": 5
+    },
+    {
+      "text": "Tabla de contenido",
+      "id": "mobile-menu-toggle",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "Descripción general",
+      "id": "selected-chapter",
+      "type": "a",
+      "classes": "selected-chapter",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "Tutoriales",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "Videos",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "Preguntas frecuentes",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 10
+    },
+    {
+      "text": "Flujo de trabajo",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 11
+    },
+    {
+      "text": "Permisos",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 12
+    },
+    {
+      "text": "Notas de lanzamiento",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 13
+    },
+    {
+      "text": "(ver todos)",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 14
+    },
+    {
+      "text": "principales (ver todo)",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 15
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 16
+    },
+    {
+      "text": "",
+      "id": "popover_preview_embed_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 17
+    },
+    {
+      "text": "",
+      "id": "wistia-kwqorshh9y-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 18
+    },
+    {
+      "text": "",
+      "id": "wistia-hlglblpsfo-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 19
+    },
+    {
+      "text": "",
+      "id": "wistia-86c3xzkwhi-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 20
+    },
+    {
+      "text": "",
+      "id": "wistia-gc0g4qjgjl-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 21
+    },
+    {
+      "text": "",
+      "id": "wistia-r71prq0rgc-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 22
+    },
+    {
+      "text": "",
+      "id": "wistia-12zui8l03v-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 23
+    },
+    {
+      "text": "",
+      "id": "wistia-0dcjn2ndwz-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 24
+    },
+    {
+      "text": "",
+      "id": "wistia-x97lslv3ry-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 25
+    },
+    {
+      "text": "",
+      "id": "wistia-d9fiz3un3j-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 26
+    },
+    {
+      "text": "",
+      "id": "wistia-0nj7dgavyi-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 27
+    },
+    {
+      "text": "",
+      "id": "wistia-bv7wl1hyi6-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 28
+    },
+    {
+      "text": "",
+      "id": "wistia-qkgbpqhc4c-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 29
+    },
+    {
+      "text": "",
+      "id": "wistia-vtik58zu9p-1_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 30
+    },
+    {
+      "text": "",
+      "id": "wistia-kwqorshh9y-4_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 31
+    },
+    {
+      "text": "",
+      "id": "wistia-hlglblpsfo-2_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 32
+    },
+    {
+      "text": "",
+      "id": "wistia-86c3xzkwhi-4_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 33
+    },
+    {
+      "text": "",
+      "id": "wistia-gc0g4qjgjl-2_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 34
+    },
+    {
+      "text": "",
+      "id": "wistia-r71prq0rgc-2_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 35
+    },
+    {
+      "text": "",
+      "id": "wistia-12zui8l03v-3_popover_popover_close_button",
+      "type": "button",
+      "classes": "wistia_placebo_close_button",
+      "hasDropdown": false,
+      "index": 36
+    },
+    {
+      "text": "",
+      "id": "close-pc-btn-handler",
+      "type": "button",
+      "classes": "ot-close-icon",
+      "hasDropdown": false,
+      "index": 37
+    },
+    {
+      "text": "Allow All",
+      "id": "accept-recommended-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 38
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 39
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 40
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 41
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 42
+    },
+    {
+      "text": "Back Button",
+      "id": "ot-link-btn back-btn-handler",
+      "type": "button",
+      "classes": "ot-link-btn back-btn-handler",
+      "hasDropdown": false,
+      "index": 43
+    },
+    {
+      "text": "Filter Icon",
+      "id": "filter-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 44
+    },
+    {
+      "text": "Clear",
+      "id": "clear-filters-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 45
+    },
+    {
+      "text": "Apply",
+      "id": "filter-apply-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 46
+    },
+    {
+      "text": "Cancel",
+      "id": "filter-cancel-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 47
+    },
+    {
+      "text": "Reject All",
+      "id": "ot-pc-refuse-all-handler",
+      "type": "button",
+      "classes": "ot-pc-refuse-all-handler",
+      "hasDropdown": false,
+      "index": 48
+    },
+    {
+      "text": "Confirm My Choices",
+      "id": "save-preference-btn-handler onetrust-close-btn-handler",
+      "type": "button",
+      "classes": "save-preference-btn-handler onetrust-close-btn-handler",
+      "hasDropdown": false,
+      "index": 49
+    }
+  ],
+  "expandables": 6,
+  "expandableDetails": [
+    {
+      "text": "Índice",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "Nota:administración de licitaciones Integración con Compass Experiencia heredada  RecomendaciónExper",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Strictly Necessary CookiesAlways ActiveThese cookies are necessary for the website to function and c",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Functional Cookies  Functional Cookies These cookies enable the website to provide enhanced function",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Performance Cookies  Performance Cookies These cookies allow us to count visits and traffic sources ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Opt Out of Sale of Sharing/Targeted Advertising  Opt Out of Sale of Sharing/Targeted Advertising As ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    }
+  ],
+  "screenshotPath": "pages/bidding/screenshot.png"
+}

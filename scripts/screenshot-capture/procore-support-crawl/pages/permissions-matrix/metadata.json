@@ -1,0 +1,2021 @@
+{
+  "url": "https://v2.support.procore.com/process-guides/permissions-matrix/",
+  "pageName": "permissions-matrix",
+  "category": "documentation",
+  "pageId": "permissions-matrix",
+  "timestamp": "2025-12-27T19:08:10.656Z",
+  "analysis": {
+    "components": {
+      "buttons": 11,
+      "forms": 1,
+      "inputs": 1,
+      "tables": 0,
+      "modals": 0,
+      "navigation": 3,
+      "cards": 0,
+      "lists": 16,
+      "tabs": 0,
+      "dropdowns": 2,
+      "icons": 37,
+      "headings": {
+        "h1": 1,
+        "h2": 1,
+        "h3": 2,
+        "h4": 2
+      },
+      "codeBlocks": 0,
+      "images": 0,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "Permissions Matrix",
+      "headings": [
+        {
+          "level": "h2",
+          "text": "Overview",
+          "id": "page-title"
+        },
+        {
+          "level": "h3",
+          "text": "About Procore",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "Downloads",
+          "id": null
+        }
+      ],
+      "paragraphs": 11,
+      "sections": 3
+    },
+    "tables": [],
+    "breadcrumbs": [
+      {
+        "text": "Support Home",
+        "href": "https://v2.support.procore.com/"
+      },
+      {
+        "text": "Permissions Matrix",
+        "href": "https://v2.support.procore.com/process-guides/permissions-matrix/"
+      }
+    ],
+    "title": "Permissions Matrix - Overview",
+    "h1": "Permissions Matrix",
+    "metaDescription": "This references guide provides all the tool permissions in one location"
+  },
+  "links": 213,
+  "linkDetails": [
+    {
+      "href": "https://v2.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": "icon",
+      "index": 0,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": "mobile-icon",
+      "index": 1,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/",
+      "text": "Product Manuals",
+      "classes": "",
+      "id": null,
+      "index": 2,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/",
+      "text": "Process Guides",
+      "classes": "",
+      "id": null,
+      "index": 3,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/video-library/",
+      "text": "Training Video Library   Search our library of training videos",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 5,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/glossary-of-terms/",
+      "text": "Glossary of Terms",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 7,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/release-notes/",
+      "text": "Release Notes",
+      "classes": "",
+      "id": null,
+      "index": 12,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/",
+      "text": "Product Manuals",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 13,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/",
+      "text": "Process Guides",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 14,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://learn.procore.com/",
+      "text": "Certifications",
+      "classes": "",
+      "id": null,
+      "index": 15,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/video-library/",
+      "text": "Training Video Library",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/glossary-of-terms/",
+      "text": "Glossary of Terms",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://status.procore.com/",
+      "text": "System Status",
+      "classes": "",
+      "id": null,
+      "index": 19,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://community.procore.com/s/",
+      "text": "Community",
+      "classes": "",
+      "id": null,
+      "index": 20,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://www.procore.com/whats-new/en/",
+      "text": "Product Updates",
+      "classes": "",
+      "id": null,
+      "index": 21,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://developers.procore.com%20/",
+      "text": "Developers",
+      "classes": "",
+      "id": null,
+      "index": 22,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/release-notes/",
+      "text": "Release Notes",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 23,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 24,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 25,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 26,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 27,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 28,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 29,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 30,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Latinoamérica (Español)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 31,
+      "category": "general"
+    },
+    {
+      "href": "https://pl-pl.support.procore.com/",
+      "text": "Polska (Polski)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 32,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 33,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡 (中文)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 35,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本 (日本語)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 36,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "",
+      "id": null,
+      "index": 37,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "",
+      "id": null,
+      "index": 38,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "",
+      "id": null,
+      "index": 39,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "",
+      "id": null,
+      "index": 40,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "",
+      "id": null,
+      "index": 41,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "",
+      "id": null,
+      "index": 42,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "",
+      "id": null,
+      "index": 43,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Latinoamérica (Español)",
+      "classes": "",
+      "id": null,
+      "index": 44,
+      "category": "general"
+    },
+    {
+      "href": "https://pl-pl.support.procore.com/",
+      "text": "Polska (Polski)",
+      "classes": "",
+      "id": null,
+      "index": 45,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "",
+      "id": null,
+      "index": 46,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡 (中文)",
+      "classes": "",
+      "id": null,
+      "index": 48,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本 (日本語)",
+      "classes": "",
+      "id": null,
+      "index": 49,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/",
+      "text": "Support Home",
+      "classes": "",
+      "id": null,
+      "index": 50,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix",
+      "text": "Overview",
+      "classes": "",
+      "id": null,
+      "index": 52,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-permissions-360-reporting-360-reports",
+      "text": "360 Reporting - 360 Reports",
+      "classes": "",
+      "id": null,
+      "index": 53,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-permissions-360-reporting-single-tool-reports",
+      "text": "360 Reporting - Single Tool Reports",
+      "classes": "",
+      "id": null,
+      "index": 54,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-admin-permissions",
+      "text": "Admin Tool",
+      "classes": "",
+      "id": null,
+      "index": 55,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-bid-board-permissions",
+      "text": "Bid Board / Portfolio Planning",
+      "classes": "",
+      "id": null,
+      "index": 56,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-conversations-permissions",
+      "text": "Conversations",
+      "classes": "",
+      "id": null,
+      "index": 57,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-cost-catalog-permissions",
+      "text": "Cost Catalog",
+      "classes": "",
+      "id": null,
+      "index": 58,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-directory-permissions",
+      "text": "Directory",
+      "classes": "",
+      "id": null,
+      "index": 59,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-equipment-permissions",
+      "text": "Equipment",
+      "classes": "",
+      "id": null,
+      "index": 60,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-erp-integrations-permissions",
+      "text": "ERP Integrations",
+      "classes": "",
+      "id": null,
+      "index": 61,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-inspections-permissions",
+      "text": "Inspections",
+      "classes": "",
+      "id": null,
+      "index": 62,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-permissions-permissions",
+      "text": "Permissions",
+      "classes": "",
+      "id": null,
+      "index": 63,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-planroom-permissions",
+      "text": "Planroom",
+      "classes": "",
+      "id": null,
+      "index": 64,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-portfolio-permissions",
+      "text": "Portfolio",
+      "classes": "",
+      "id": null,
+      "index": 65,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-prequalification-portal%20-permissions",
+      "text": "Prequalification Portal",
+      "classes": "",
+      "id": null,
+      "index": 66,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-prequalifications-permissions",
+      "text": "Prequalifications",
+      "classes": "",
+      "id": null,
+      "index": 67,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-programs-permissions",
+      "text": "Programs",
+      "classes": "",
+      "id": null,
+      "index": 68,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-resource-planning-permissions",
+      "text": "Resource Planning",
+      "classes": "",
+      "id": null,
+      "index": 69,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-schedule-permissions",
+      "text": "Schedule",
+      "classes": "",
+      "id": null,
+      "index": 70,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-timecard-permissions",
+      "text": "Timecard",
+      "classes": "",
+      "id": null,
+      "index": 71,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-timesheets-permissions",
+      "text": "Timesheets",
+      "classes": "",
+      "id": null,
+      "index": 72,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/webhooks-company",
+      "text": "Webhooks",
+      "classes": "",
+      "id": null,
+      "index": 73,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-workflows-permissions",
+      "text": "Workflows",
+      "classes": "",
+      "id": null,
+      "index": 74,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-360-reporting-permissions-360-reports",
+      "text": "360 Reporting - 360 Reports",
+      "classes": "",
+      "id": null,
+      "index": 75,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-360-reporting-permissions-single-tool-reports",
+      "text": "360 Reporting - Single Tool Reports",
+      "classes": "",
+      "id": null,
+      "index": 76,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-action-plans-permissions",
+      "text": "Action Plans",
+      "classes": "",
+      "id": null,
+      "index": 77,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-admin-permissions",
+      "text": "Admin Tool",
+      "classes": "",
+      "id": null,
+      "index": 78,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-bidding-permissions",
+      "text": "Bidding",
+      "classes": "",
+      "id": null,
+      "index": 79,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-budget-permissions",
+      "text": "Budget",
+      "classes": "",
+      "id": null,
+      "index": 80,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-change-events-permissions",
+      "text": "Change Events",
+      "classes": "",
+      "id": null,
+      "index": 81,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-change-orders-permissions",
+      "text": "Change Orders",
+      "classes": "",
+      "id": null,
+      "index": 82,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-commitments-permissions",
+      "text": "Commitments",
+      "classes": "",
+      "id": null,
+      "index": 83,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-coordination-issues-permissions",
+      "text": "Coordination Issues",
+      "classes": "",
+      "id": null,
+      "index": 84,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-correspondence-permissions",
+      "text": "Correspondence",
+      "classes": "",
+      "id": null,
+      "index": 85,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-crews-permissions",
+      "text": "Crews",
+      "classes": "",
+      "id": null,
+      "index": 86,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-daily-log-permissions",
+      "text": "Daily Log",
+      "classes": "",
+      "id": null,
+      "index": 87,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-data-extracts-2.0-permissions",
+      "text": "Data Extracts 2.0",
+      "classes": "",
+      "id": null,
+      "index": 88,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-direct-costs-permissions",
+      "text": "Direct Costs",
+      "classes": "",
+      "id": null,
+      "index": 89,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-directory-permissions",
+      "text": "Directory",
+      "classes": "",
+      "id": null,
+      "index": 90,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-documents-permissions",
+      "text": "Documents",
+      "classes": "",
+      "id": null,
+      "index": 91,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-drawings-permissions",
+      "text": "Drawings",
+      "classes": "",
+      "id": null,
+      "index": 92,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-emails-permissions",
+      "text": "Emails",
+      "classes": "",
+      "id": null,
+      "index": 93,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-equipment-permissions",
+      "text": "Equipment",
+      "classes": "",
+      "id": null,
+      "index": 94,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-estimating-permissions",
+      "text": "Estimating",
+      "classes": "",
+      "id": null,
+      "index": 95,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-forms-permissions",
+      "text": "Forms",
+      "classes": "",
+      "id": null,
+      "index": 96,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-home-permissions",
+      "text": "Home",
+      "classes": "",
+      "id": null,
+      "index": 97,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-incidents-permissions",
+      "text": "Incidents",
+      "classes": "",
+      "id": null,
+      "index": 98,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-inspections-permissions",
+      "text": "Inspections",
+      "classes": "",
+      "id": null,
+      "index": 99,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-instructions-permissions",
+      "text": "Instructions",
+      "classes": "",
+      "id": null,
+      "index": 100,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-invoicing-permissions",
+      "text": "Invoicing",
+      "classes": "",
+      "id": null,
+      "index": 101,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-meetings-permissions",
+      "text": "Meetings",
+      "classes": "",
+      "id": null,
+      "index": 102,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-models-permissions",
+      "text": "Models",
+      "classes": "",
+      "id": null,
+      "index": 103,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-observations-permissions",
+      "text": "Observations",
+      "classes": "",
+      "id": null,
+      "index": 104,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-photos-permissions",
+      "text": "Photos",
+      "classes": "",
+      "id": null,
+      "index": 105,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-prime-contracts-permissions",
+      "text": "Prime Contracts",
+      "classes": "",
+      "id": null,
+      "index": 106,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-punch-list-permissions",
+      "text": "Punch List",
+      "classes": "",
+      "id": null,
+      "index": 107,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-rfis-permissions",
+      "text": "RFIs",
+      "classes": "",
+      "id": null,
+      "index": 108,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-schedule-permissions",
+      "text": "Schedule",
+      "classes": "",
+      "id": null,
+      "index": 109,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-specifications-permissions",
+      "text": "Specifications",
+      "classes": "",
+      "id": null,
+      "index": 110,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-submittals-permissions",
+      "text": "Submittals",
+      "classes": "",
+      "id": null,
+      "index": 111,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-tasks-permissions",
+      "text": "Tasks",
+      "classes": "",
+      "id": null,
+      "index": 112,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-timesheets-permissions",
+      "text": "Timesheets",
+      "classes": "",
+      "id": null,
+      "index": 113,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-tmtickets-permissions",
+      "text": "T&M Tickets",
+      "classes": "",
+      "id": null,
+      "index": 114,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-transmittals-permissions",
+      "text": "Transmittals",
+      "classes": "",
+      "id": null,
+      "index": 115,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/webhooks-project-permissions",
+      "text": "Webhooks",
+      "classes": "",
+      "id": null,
+      "index": 116,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-announcements-permissions",
+      "text": "Announcements",
+      "classes": "",
+      "id": null,
+      "index": 117,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-change-events-permissions",
+      "text": "Change Events",
+      "classes": "",
+      "id": null,
+      "index": 118,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-commitments-permission",
+      "text": "Commitments",
+      "classes": "",
+      "id": null,
+      "index": 119,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-conversations-permissions",
+      "text": "Conversations",
+      "classes": "",
+      "id": null,
+      "index": 120,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-coordination-issues-permissions",
+      "text": "Coordination Issues",
+      "classes": "",
+      "id": null,
+      "index": 121,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-drawings-permissions",
+      "text": "Drawings",
+      "classes": "",
+      "id": null,
+      "index": 122,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/general-mobile",
+      "text": "General Mobile",
+      "classes": "",
+      "id": null,
+      "index": 123,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-incidents-permissions",
+      "text": "Incidents",
+      "classes": "",
+      "id": null,
+      "index": 124,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-instructions-permissions",
+      "text": "Instructions",
+      "classes": "",
+      "id": null,
+      "index": 125,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-locations-permissions",
+      "text": "Locations",
+      "classes": "",
+      "id": null,
+      "index": 126,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-my-time-permissions",
+      "text": "My Time",
+      "classes": "",
+      "id": null,
+      "index": 127,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-photos-permissions",
+      "text": "Photos",
+      "classes": "",
+      "id": null,
+      "index": 128,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-prime-contracts-permissions",
+      "text": "Prime Contracts",
+      "classes": "",
+      "id": null,
+      "index": 129,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-project-dashboard-permissions",
+      "text": "Project Dashboard",
+      "classes": "",
+      "id": null,
+      "index": 130,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-project-overview-screen-permissions",
+      "text": "Project Overview Screen",
+      "classes": "",
+      "id": null,
+      "index": 131,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-punch-list-permissions",
+      "text": "Punch List",
+      "classes": "",
+      "id": null,
+      "index": 132,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-resource-planning-permissions",
+      "text": "Resource Planning",
+      "classes": "",
+      "id": null,
+      "index": 133,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-rfis-permissions",
+      "text": "RFIs",
+      "classes": "",
+      "id": null,
+      "index": 134,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-submittals-permissions",
+      "text": "Submittals",
+      "classes": "",
+      "id": null,
+      "index": 135,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-tasks-permissions",
+      "text": "Tasks",
+      "classes": "",
+      "id": null,
+      "index": 136,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix",
+      "text": "Overview",
+      "classes": "",
+      "id": null,
+      "index": 137,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-permissions-360-reporting-360-reports",
+      "text": "360 Reporting - 360 Reports",
+      "classes": "",
+      "id": null,
+      "index": 138,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-permissions-360-reporting-single-tool-reports",
+      "text": "360 Reporting - Single Tool Reports",
+      "classes": "",
+      "id": null,
+      "index": 139,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-admin-permissions",
+      "text": "Admin Tool",
+      "classes": "",
+      "id": null,
+      "index": 140,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-bid-board-permissions",
+      "text": "Bid Board / Portfolio Planning",
+      "classes": "",
+      "id": null,
+      "index": 141,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-conversations-permissions",
+      "text": "Conversations",
+      "classes": "",
+      "id": null,
+      "index": 142,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-cost-catalog-permissions",
+      "text": "Cost Catalog",
+      "classes": "",
+      "id": null,
+      "index": 143,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-directory-permissions",
+      "text": "Directory",
+      "classes": "",
+      "id": null,
+      "index": 144,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-equipment-permissions",
+      "text": "Equipment",
+      "classes": "",
+      "id": null,
+      "index": 145,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-erp-integrations-permissions",
+      "text": "ERP Integrations",
+      "classes": "",
+      "id": null,
+      "index": 146,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-inspections-permissions",
+      "text": "Inspections",
+      "classes": "",
+      "id": null,
+      "index": 147,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-permissions-permissions",
+      "text": "Permissions",
+      "classes": "",
+      "id": null,
+      "index": 148,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-planroom-permissions",
+      "text": "Planroom",
+      "classes": "",
+      "id": null,
+      "index": 149,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-portfolio-permissions",
+      "text": "Portfolio",
+      "classes": "",
+      "id": null,
+      "index": 150,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-prequalification-portal%20-permissions",
+      "text": "Prequalification Portal",
+      "classes": "",
+      "id": null,
+      "index": 151,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-prequalifications-permissions",
+      "text": "Prequalifications",
+      "classes": "",
+      "id": null,
+      "index": 152,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-programs-permissions",
+      "text": "Programs",
+      "classes": "",
+      "id": null,
+      "index": 153,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-resource-planning-permissions",
+      "text": "Resource Planning",
+      "classes": "",
+      "id": null,
+      "index": 154,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-schedule-permissions",
+      "text": "Schedule",
+      "classes": "",
+      "id": null,
+      "index": 155,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-timecard-permissions",
+      "text": "Timecard",
+      "classes": "",
+      "id": null,
+      "index": 156,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-timesheets-permissions",
+      "text": "Timesheets",
+      "classes": "",
+      "id": null,
+      "index": 157,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/webhooks-company",
+      "text": "Webhooks",
+      "classes": "",
+      "id": null,
+      "index": 158,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-workflows-permissions",
+      "text": "Workflows",
+      "classes": "",
+      "id": null,
+      "index": 159,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-360-reporting-permissions-360-reports",
+      "text": "360 Reporting - 360 Reports",
+      "classes": "",
+      "id": null,
+      "index": 160,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-360-reporting-permissions-single-tool-reports",
+      "text": "360 Reporting - Single Tool Reports",
+      "classes": "",
+      "id": null,
+      "index": 161,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-action-plans-permissions",
+      "text": "Action Plans",
+      "classes": "",
+      "id": null,
+      "index": 162,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-admin-permissions",
+      "text": "Admin Tool",
+      "classes": "",
+      "id": null,
+      "index": 163,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-bidding-permissions",
+      "text": "Bidding",
+      "classes": "",
+      "id": null,
+      "index": 164,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-budget-permissions",
+      "text": "Budget",
+      "classes": "",
+      "id": null,
+      "index": 165,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-change-events-permissions",
+      "text": "Change Events",
+      "classes": "",
+      "id": null,
+      "index": 166,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-change-orders-permissions",
+      "text": "Change Orders",
+      "classes": "",
+      "id": null,
+      "index": 167,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-commitments-permissions",
+      "text": "Commitments",
+      "classes": "",
+      "id": null,
+      "index": 168,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-coordination-issues-permissions",
+      "text": "Coordination Issues",
+      "classes": "",
+      "id": null,
+      "index": 169,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-correspondence-permissions",
+      "text": "Correspondence",
+      "classes": "",
+      "id": null,
+      "index": 170,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-crews-permissions",
+      "text": "Crews",
+      "classes": "",
+      "id": null,
+      "index": 171,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-daily-log-permissions",
+      "text": "Daily Log",
+      "classes": "",
+      "id": null,
+      "index": 172,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-data-extracts-2.0-permissions",
+      "text": "Data Extracts 2.0",
+      "classes": "",
+      "id": null,
+      "index": 173,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-direct-costs-permissions",
+      "text": "Direct Costs",
+      "classes": "",
+      "id": null,
+      "index": 174,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-directory-permissions",
+      "text": "Directory",
+      "classes": "",
+      "id": null,
+      "index": 175,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-documents-permissions",
+      "text": "Documents",
+      "classes": "",
+      "id": null,
+      "index": 176,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-drawings-permissions",
+      "text": "Drawings",
+      "classes": "",
+      "id": null,
+      "index": 177,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-emails-permissions",
+      "text": "Emails",
+      "classes": "",
+      "id": null,
+      "index": 178,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-equipment-permissions",
+      "text": "Equipment",
+      "classes": "",
+      "id": null,
+      "index": 179,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-estimating-permissions",
+      "text": "Estimating",
+      "classes": "",
+      "id": null,
+      "index": 180,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-forms-permissions",
+      "text": "Forms",
+      "classes": "",
+      "id": null,
+      "index": 181,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-home-permissions",
+      "text": "Home",
+      "classes": "",
+      "id": null,
+      "index": 182,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-incidents-permissions",
+      "text": "Incidents",
+      "classes": "",
+      "id": null,
+      "index": 183,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-inspections-permissions",
+      "text": "Inspections",
+      "classes": "",
+      "id": null,
+      "index": 184,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-instructions-permissions",
+      "text": "Instructions",
+      "classes": "",
+      "id": null,
+      "index": 185,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-invoicing-permissions",
+      "text": "Invoicing",
+      "classes": "",
+      "id": null,
+      "index": 186,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-meetings-permissions",
+      "text": "Meetings",
+      "classes": "",
+      "id": null,
+      "index": 187,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-models-permissions",
+      "text": "Models",
+      "classes": "",
+      "id": null,
+      "index": 188,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-observations-permissions",
+      "text": "Observations",
+      "classes": "",
+      "id": null,
+      "index": 189,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-photos-permissions",
+      "text": "Photos",
+      "classes": "",
+      "id": null,
+      "index": 190,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-prime-contracts-permissions",
+      "text": "Prime Contracts",
+      "classes": "",
+      "id": null,
+      "index": 191,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-punch-list-permissions",
+      "text": "Punch List",
+      "classes": "",
+      "id": null,
+      "index": 192,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-rfis-permissions",
+      "text": "RFIs",
+      "classes": "",
+      "id": null,
+      "index": 193,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-schedule-permissions",
+      "text": "Schedule",
+      "classes": "",
+      "id": null,
+      "index": 194,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-specifications-permissions",
+      "text": "Specifications",
+      "classes": "",
+      "id": null,
+      "index": 195,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-submittals-permissions",
+      "text": "Submittals",
+      "classes": "",
+      "id": null,
+      "index": 196,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-tasks-permissions",
+      "text": "Tasks",
+      "classes": "",
+      "id": null,
+      "index": 197,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-timesheets-permissions",
+      "text": "Timesheets",
+      "classes": "",
+      "id": null,
+      "index": 198,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-tmtickets-permissions",
+      "text": "T&M Tickets",
+      "classes": "",
+      "id": null,
+      "index": 199,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/project-level-transmittals-permissions",
+      "text": "Transmittals",
+      "classes": "",
+      "id": null,
+      "index": 200,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/webhooks-project-permissions",
+      "text": "Webhooks",
+      "classes": "",
+      "id": null,
+      "index": 201,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-announcements-permissions",
+      "text": "Announcements",
+      "classes": "",
+      "id": null,
+      "index": 202,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-change-events-permissions",
+      "text": "Change Events",
+      "classes": "",
+      "id": null,
+      "index": 203,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-commitments-permission",
+      "text": "Commitments",
+      "classes": "",
+      "id": null,
+      "index": 204,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-conversations-permissions",
+      "text": "Conversations",
+      "classes": "",
+      "id": null,
+      "index": 205,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-coordination-issues-permissions",
+      "text": "Coordination Issues",
+      "classes": "",
+      "id": null,
+      "index": 206,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-drawings-permissions",
+      "text": "Drawings",
+      "classes": "",
+      "id": null,
+      "index": 207,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/general-mobile",
+      "text": "General Mobile",
+      "classes": "",
+      "id": null,
+      "index": 208,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-incidents-permissions",
+      "text": "Incidents",
+      "classes": "",
+      "id": null,
+      "index": 209,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-instructions-permissions",
+      "text": "Instructions",
+      "classes": "",
+      "id": null,
+      "index": 210,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-locations-permissions",
+      "text": "Locations",
+      "classes": "",
+      "id": null,
+      "index": 211,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-my-time-permissions",
+      "text": "My Time",
+      "classes": "",
+      "id": null,
+      "index": 212,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-photos-permissions",
+      "text": "Photos",
+      "classes": "",
+      "id": null,
+      "index": 213,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-prime-contracts-permissions",
+      "text": "Prime Contracts",
+      "classes": "",
+      "id": null,
+      "index": 214,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-project-dashboard-permissions",
+      "text": "Project Dashboard",
+      "classes": "",
+      "id": null,
+      "index": 215,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-project-overview-screen-permissions",
+      "text": "Project Overview Screen",
+      "classes": "",
+      "id": null,
+      "index": 216,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-punch-list-permissions",
+      "text": "Punch List",
+      "classes": "",
+      "id": null,
+      "index": 217,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/company-level-resource-planning-permissions",
+      "text": "Resource Planning",
+      "classes": "",
+      "id": null,
+      "index": 218,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-rfis-permissions",
+      "text": "RFIs",
+      "classes": "",
+      "id": null,
+      "index": 219,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-submittals-permissions",
+      "text": "Submittals",
+      "classes": "",
+      "id": null,
+      "index": 220,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/mobile-tasks-permissions",
+      "text": "Tasks",
+      "classes": "",
+      "id": null,
+      "index": 221,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/contact-support",
+      "text": "Contact Support",
+      "classes": "",
+      "id": null,
+      "index": 230,
+      "category": "general"
+    }
+  ],
+  "clickables": 11,
+  "clickableDetails": [
+    {
+      "text": "",
+      "id": "banner-close-button",
+      "type": "button",
+      "classes": "banner-close-button",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Menu",
+      "id": "mobile-nav-toggle",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "What do you need help with?",
+      "id": "autocomplete-0-label",
+      "type": "button",
+      "classes": "aa-DetachedSearchButton",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Resources",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": true,
+      "index": 3
+    },
+    {
+      "text": "Resources",
+      "id": "mobile-nav-accordion-button",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "United States",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": true,
+      "index": 5
+    },
+    {
+      "text": "United States",
+      "id": "mobile-nav-accordion-button",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "Table of Contents",
+      "id": "mobile-nav-accordion-button",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "About Procore",
+      "id": "footer-accordion-button",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "Downloads",
+      "id": "footer-accordion-button",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "hasDropdown": false,
+      "index": 10
+    }
+  ],
+  "expandables": 19,
+  "expandableDetails": [
+    {
+      "text": "Product Manuals",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "Product Manuals",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Process Guides",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Process Guides",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Resources",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Resources",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    },
+    {
+      "text": "Release Notes",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 6
+    },
+    {
+      "text": "Release Notes",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 7
+    },
+    {
+      "text": "United States",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 8
+    },
+    {
+      "text": "United States",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 9
+    },
+    {
+      "text": "Company Level Tool Permissions           360 Reporting - 360 Reports    360 Reporting - Single Tool ",
+      "type": "details",
+      "classes": "toc-subNav-desktop",
+      "id": null,
+      "isExpanded": false,
+      "index": 10
+    },
+    {
+      "text": "Project Level Tool Permissions           360 Reporting - 360 Reports    360 Reporting - Single Tool ",
+      "type": "details",
+      "classes": "toc-subNav-desktop",
+      "id": null,
+      "isExpanded": false,
+      "index": 11
+    },
+    {
+      "text": "Mobile           Announcements    Change Events    Commitments    Conversations    Coordination Issu",
+      "type": "details",
+      "classes": "toc-subNav-desktop",
+      "id": null,
+      "isExpanded": false,
+      "index": 12
+    },
+    {
+      "text": "Table of Contents",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 13
+    },
+    {
+      "text": "Table of Contents",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 14
+    },
+    {
+      "text": "About Procore",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 15
+    },
+    {
+      "text": "About Procore",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 16
+    },
+    {
+      "text": "Downloads",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 17
+    },
+    {
+      "text": "Downloads",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 18
+    }
+  ],
+  "screenshotPath": "pages/permissions-matrix/screenshot.png"
+}

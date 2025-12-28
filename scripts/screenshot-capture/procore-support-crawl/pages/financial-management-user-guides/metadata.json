@@ -1,0 +1,928 @@
+{
+  "url": "https://support.procore.com/products/online/financial-management-user-guides",
+  "pageName": "financial-management-user-guides",
+  "category": "product",
+  "pageId": "financial-management-user-guides",
+  "timestamp": "2025-12-27T18:58:29.645Z",
+  "analysis": {
+    "components": {
+      "buttons": 20,
+      "forms": 2,
+      "inputs": 16,
+      "tables": 0,
+      "modals": 1,
+      "navigation": 5,
+      "cards": 0,
+      "lists": 19,
+      "tabs": 0,
+      "dropdowns": 1,
+      "icons": 4,
+      "headings": {
+        "h1": 1,
+        "h2": 3,
+        "h3": 3,
+        "h4": 4
+      },
+      "codeBlocks": 0,
+      "images": 12,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "Financial Management User Guides",
+      "headings": [
+        {
+          "level": "h3",
+          "text": "Who owns the Procore account?",
+          "id": "Who_owns_the_Procore_account.3F-235786"
+        },
+        {
+          "level": "h2",
+          "text": "See Also",
+          "id": "See_Also-235786"
+        },
+        {
+          "level": "h2",
+          "text": "Recommended articles",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Cookie Preferences",
+          "id": "ot-pc-title"
+        },
+        {
+          "level": "h3",
+          "text": "Manage Consent Preferences",
+          "id": "ot-category-title"
+        },
+        {
+          "level": "h3",
+          "text": "Cookie List",
+          "id": null
+        }
+      ],
+      "paragraphs": 13,
+      "sections": 6
+    },
+    "tables": [],
+    "breadcrumbs": [
+      {
+        "text": "Skip to main content",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides#elm-main-content"
+      },
+      {
+        "text": "Support",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/?journey=supporttoprocore"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "Polska (Polski) - BETA",
+        "href": "https://pl-pl.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "Contact",
+        "href": "https://support.procore.com/references/contact-support"
+      },
+      {
+        "text": "Procore App Login",
+        "href": "https://app.procore.com/?journey=supporttologin"
+      },
+      {
+        "text": "",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://support.procore.com/tc/Training_Center_Help/"
+      },
+      {
+        "text": "Search site",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides#"
+      },
+      {
+        "text": "Go back to previous article",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides#"
+      },
+      {
+        "text": "Sign in",
+        "href": "https://support.procore.com/Special:AuthenticationProviders?returntotitle=products%2Fonline%2Ffinancial-management-user-guides"
+      },
+      {
+        "text": "Home",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "Products",
+        "href": "https://support.procore.com/products"
+      },
+      {
+        "text": "Procore Web (app.procore.com)",
+        "href": "https://support.procore.com/products/online"
+      },
+      {
+        "text": "Save as PDF",
+        "href": "https://support.procore.com/@api/deki/pages/2462/pdf/Financial%2bManagement%2bUser%2bGuides.pdf"
+      },
+      {
+        "text": "Share",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides#"
+      },
+      {
+        "text": "Share",
+        "href": "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsupport.procore.com%2Fproducts%2Fonline%2Ffinancial-management-user-guides"
+      },
+      {
+        "text": "Tweet",
+        "href": "https://twitter.com/intent/tweet?url=https%3A%2F%2Fsupport.procore.com%2Fproducts%2Fonline%2Ffinancial-management-user-guides&text=Financial+Management+User+Guides"
+      },
+      {
+        "text": "Share",
+        "href": "https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fsupport.procore.com%2Fproducts%2Fonline%2Ffinancial-management-user-guides&title=Financial+Management+User+Guides&summary=These+Financial+Management+User+Guides+show+you+how+to+set+up+Procore%27s+Project+Financials+tools%26mdash%3Bfrom+the+perspective+of+a+general+contractor+or+an+owner.+You%27ll+also+learn+which+tools+to+use+to+perform+common+financial+management+tasks+on+your+construction+projects."
+      },
+      {
+        "text": "Who owns the Procore account?",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides#Who_owns_the_Procore_account.3F"
+      },
+      {
+        "text": "See Also",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides#See_Also"
+      },
+      {
+        "text": "",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides/general-contractor-financial-management-user-guide"
+      },
+      {
+        "text": "General Contractor",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides/general-contractor-financial-management-user-guide"
+      },
+      {
+        "text": "",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides/owner-financial-management-user-guide"
+      },
+      {
+        "text": "Owner/CM",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides/owner-financial-management-user-guide"
+      },
+      {
+        "text": "",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides/specialty-contractor-financial-management-user-guide"
+      },
+      {
+        "text": "Specialty Contractor",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides/specialty-contractor-financial-management-user-guide"
+      },
+      {
+        "text": "Procore User Guide",
+        "href": "https://support.procore.com/products/online/user-guide"
+      },
+      {
+        "text": "Back to top",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides#title"
+      },
+      {
+        "text": "Get Started with Custom Workflows",
+        "href": "https://support.procore.com/products/online/custom-solutions/workflows/get-started-with-custom-workflows"
+      },
+      {
+        "text": "Financial Management User Guide: General Contractor",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides/general-contractor-financial-management-user-guide"
+      },
+      {
+        "text": "Financial Management User Guide: General Contractor",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides/general-contractor-financial-management-user-guide"
+      },
+      {
+        "text": "Financial Management User Guide: Owner",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides/owner-financial-management-user-guide"
+      },
+      {
+        "text": "Financial Management User Guide: Specialty Contractor",
+        "href": "https://support.procore.com/products/online/financial-management-user-guides/specialty-contractor-financial-management-user-guide"
+      },
+      {
+        "text": "Work Breakdown Structure",
+        "href": "https://support.procore.com/products/online/work-breakdown-structure"
+      },
+      {
+        "text": "Insights",
+        "href": "https://support.procore.com/products/online/insights"
+      },
+      {
+        "text": "Guide",
+        "href": "https://support.procore.com/Special:Search?tags=article%3Atopic-guide"
+      },
+      {
+        "text": "English-US",
+        "href": "https://support.procore.com/Special:Search?tags=language%3Aen-us"
+      },
+      {
+        "text": "Published",
+        "href": "https://support.procore.com/Special:Search?tags=stage%3Apublished"
+      },
+      {
+        "text": "do-not-migrate",
+        "href": "https://support.procore.com/Special:Search?tags=do-not-migrate"
+      },
+      {
+        "text": "Powered by CXone Expert\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "Privacy Notice",
+        "href": "https://www.procore.com/legal/privacy"
+      },
+      {
+        "text": "Terms of Service",
+        "href": "https://www.procore.com/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/"
+      },
+      {
+        "text": "Log In",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "More information",
+        "href": "https://www.procore.com/legal/cookie-notice"
+      },
+      {
+        "text": "",
+        "href": "https://www.onetrust.com/products/cookie-consent/"
+      }
+    ],
+    "title": "Financial Management User Guides - Procore",
+    "h1": "Financial Management User Guides",
+    "metaDescription": "These Financial Management User Guides show you how to set up Procore's Project Financials tools&mdash;from the perspective of a general contractor or an owner. You'll also learn which tools to use …"
+  },
+  "links": 43,
+  "linkDetails": [
+    {
+      "href": "https://support.procore.com/",
+      "text": "Support",
+      "classes": "",
+      "id": null,
+      "index": 1,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 4,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 5,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 6,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 7,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 8,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 9,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 10,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 11,
+      "category": "general"
+    },
+    {
+      "href": "https://pl-pl.support.procore.com/",
+      "text": "Polska (Polski) - BETA",
+      "classes": "link-https",
+      "id": null,
+      "index": 12,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 13,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "internal",
+      "id": null,
+      "index": 14,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡（简体中文）",
+      "classes": "link-https",
+      "id": null,
+      "index": 15,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 16,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/references/contact-support",
+      "text": "Contact",
+      "classes": "",
+      "id": null,
+      "index": 17,
+      "category": "reference"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 19,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/tc/Training_Center_Help/",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 20,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/Special:AuthenticationProviders?returntotitle=products%2Fonline%2Ffinancial-management-user-guides",
+      "text": "Sign in",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 23,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "Home",
+      "classes": "",
+      "id": null,
+      "index": 24,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/products",
+      "text": "Products",
+      "classes": "",
+      "id": null,
+      "index": 25,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/products/online",
+      "text": "Procore Web (app.procore.com)",
+      "classes": "",
+      "id": null,
+      "index": 26,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/@api/deki/pages/2462/pdf/Financial%2bManagement%2bUser%2bGuides.pdf",
+      "text": "Save as PDF",
+      "classes": "",
+      "id": null,
+      "index": 27,
+      "category": "general"
+    },
+    {
+      "href": "https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Fsupport.procore.com%2Fproducts%2Fonline%2Ffinancial-management-user-guides",
+      "text": "Share",
+      "classes": "mt-icon-facebook-share",
+      "id": null,
+      "index": 29,
+      "category": "general"
+    },
+    {
+      "href": "https://twitter.com/intent/tweet?url=https%3A%2F%2Fsupport.procore.com%2Fproducts%2Fonline%2Ffinancial-management-user-guides&text=Financial+Management+User+Guides",
+      "text": "Tweet",
+      "classes": "mt-icon-twitter-share",
+      "id": null,
+      "index": 30,
+      "category": "general"
+    },
+    {
+      "href": "https://www.linkedin.com/shareArticle?url=https%3A%2F%2Fsupport.procore.com%2Fproducts%2Fonline%2Ffinancial-management-user-guides&title=Financial+Management+User+Guides&summary=These+Financial+Management+User+Guides+show+you+how+to+set+up+Procore%27s+Project+Financials+tools%26mdash%3Bfrom+the+perspective+of+a+general+contractor+or+an+owner.+You%27ll+also+learn+which+tools+to+use+to+perform+common+financial+management+tasks+on+your+construction+projects.",
+      "text": "Share",
+      "classes": "mt-icon-linkedin-share",
+      "id": null,
+      "index": 31,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/products/online/financial-management-user-guides/general-contractor-financial-management-user-guide",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 34,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/products/online/financial-management-user-guides/general-contractor-financial-management-user-guide",
+      "text": "General Contractor",
+      "classes": "",
+      "id": null,
+      "index": 35,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/products/online/financial-management-user-guides/owner-financial-management-user-guide",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 36,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/products/online/financial-management-user-guides/owner-financial-management-user-guide",
+      "text": "Owner/CM",
+      "classes": "",
+      "id": null,
+      "index": 37,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/products/online/financial-management-user-guides/specialty-contractor-financial-management-user-guide",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 38,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/products/online/financial-management-user-guides/specialty-contractor-financial-management-user-guide",
+      "text": "Specialty Contractor",
+      "classes": "",
+      "id": null,
+      "index": 39,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/products/online/user-guide",
+      "text": "Procore User Guide",
+      "classes": "",
+      "id": null,
+      "index": 40,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/products/online/custom-solutions/workflows/get-started-with-custom-workflows",
+      "text": "Get Started with Custom Workflows",
+      "classes": "mt-icon-previous-article",
+      "id": null,
+      "index": 42,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/products/online/financial-management-user-guides/general-contractor-financial-management-user-guide",
+      "text": "Financial Management User Guide: General Contractor",
+      "classes": "mt-icon-next-article",
+      "id": null,
+      "index": 43,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/products/online/financial-management-user-guides/general-contractor-financial-management-user-guide",
+      "text": "Financial Management User Guide: General Contractor",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 44,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/products/online/financial-management-user-guides/owner-financial-management-user-guide",
+      "text": "Financial Management User Guide: Owner",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 45,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/products/online/financial-management-user-guides/specialty-contractor-financial-management-user-guide",
+      "text": "Financial Management User Guide: Specialty Contractor",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 46,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/products/online/work-breakdown-structure",
+      "text": "Work Breakdown Structure",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 47,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/products/online/insights",
+      "text": "Insights",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 48,
+      "category": "product"
+    },
+    {
+      "href": "https://support.procore.com/Special:Search?tags=article%3Atopic-guide",
+      "text": "Guide",
+      "classes": "",
+      "id": null,
+      "index": 49,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/Special:Search?tags=language%3Aen-us",
+      "text": "English-US",
+      "classes": "",
+      "id": null,
+      "index": 50,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/Special:Search?tags=stage%3Apublished",
+      "text": "Published",
+      "classes": "",
+      "id": null,
+      "index": 51,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/Special:Search?tags=do-not-migrate",
+      "text": "do-not-migrate",
+      "classes": "",
+      "id": null,
+      "index": 52,
+      "category": "general"
+    }
+  ],
+  "clickables": 24,
+  "clickableDetails": [
+    {
+      "text": "United States (English)",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Search",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "Search",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Expand/collapse global hierarchy",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 3
+    },
+    {
+      "text": "Expand/collapse global location",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "Share",
+      "id": "mt-icon-facebook-share",
+      "type": "a",
+      "classes": "mt-icon-facebook-share",
+      "hasDropdown": false,
+      "index": 5
+    },
+    {
+      "text": "Share",
+      "id": "mt-icon-linkedin-share",
+      "type": "a",
+      "classes": "mt-icon-linkedin-share",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "Table of contents",
+      "id": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "",
+      "id": "salesforceLiveChatHelpButton",
+      "type": "input",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "",
+      "id": "liveagent_button_online_57334000000Cakh",
+      "type": "img",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 10
+    },
+    {
+      "text": "",
+      "id": "close-pc-btn-handler",
+      "type": "button",
+      "classes": "ot-close-icon",
+      "hasDropdown": false,
+      "index": 11
+    },
+    {
+      "text": "Allow All",
+      "id": "accept-recommended-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 12
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 13
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 14
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 15
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 16
+    },
+    {
+      "text": "Back Button",
+      "id": "ot-link-btn back-btn-handler",
+      "type": "button",
+      "classes": "ot-link-btn back-btn-handler",
+      "hasDropdown": false,
+      "index": 17
+    },
+    {
+      "text": "Filter Icon",
+      "id": "filter-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 18
+    },
+    {
+      "text": "Clear",
+      "id": "clear-filters-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 19
+    },
+    {
+      "text": "Apply",
+      "id": "filter-apply-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 20
+    },
+    {
+      "text": "Cancel",
+      "id": "filter-cancel-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 21
+    },
+    {
+      "text": "Reject All",
+      "id": "ot-pc-refuse-all-handler",
+      "type": "button",
+      "classes": "ot-pc-refuse-all-handler",
+      "hasDropdown": false,
+      "index": 22
+    },
+    {
+      "text": "Confirm My Choices",
+      "id": "save-preference-btn-handler onetrust-close-btn-handler",
+      "type": "button",
+      "classes": "save-preference-btn-handler onetrust-close-btn-handler",
+      "hasDropdown": false,
+      "index": 23
+    }
+  ],
+  "expandables": 6,
+  "expandableDetails": [
+    {
+      "text": "Table of contents",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "Who owns the Procore account?See Also",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Strictly Necessary CookiesAlways ActiveThese cookies are necessary for the website to function and c",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Functional Cookies  Functional Cookies These cookies enable the website to provide enhanced function",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Performance Cookies  Performance Cookies These cookies allow us to count visits and traffic sources ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Opt Out of Sale of Sharing/Targeted Advertising  Opt Out of Sale of Sharing/Targeted Advertising As ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    }
+  ],
+  "screenshotPath": "pages/financial-management-user-guides/screenshot.png"
+}

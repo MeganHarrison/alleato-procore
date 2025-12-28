@@ -1,0 +1,1230 @@
+{
+  "url": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios",
+  "pageName": "getting-started-procore-app-ios",
+  "category": "documentation",
+  "pageId": "getting-started-procore-app-ios",
+  "timestamp": "2025-12-27T19:26:05.603Z",
+  "analysis": {
+    "components": {
+      "buttons": 20,
+      "forms": 2,
+      "inputs": 15,
+      "tables": 1,
+      "modals": 1,
+      "navigation": 5,
+      "cards": 0,
+      "lists": 62,
+      "tabs": 0,
+      "dropdowns": 1,
+      "icons": 4,
+      "headings": {
+        "h1": 1,
+        "h2": 14,
+        "h3": 10,
+        "h4": 13
+      },
+      "codeBlocks": 0,
+      "images": 36,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "Aplicación Procore para iOS - Introducción",
+      "headings": [
+        {
+          "level": "h2",
+          "text": "Descripción general",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Configurar el orden de las herramientas para un proyecto",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Navegar a una compañía diferente",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Navegar a un proyecto diferente",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Ver la descripción general del proyecto",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Preferencias de la aplicación",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "",
+          "id": "-17158"
+        },
+        {
+          "level": "h3",
+          "text": "Almacenamiento",
+          "id": "Almacenamiento-17158"
+        },
+        {
+          "level": "h3",
+          "text": "Cargas",
+          "id": "Cargas-17158"
+        },
+        {
+          "level": "h3",
+          "text": "Notificaciones",
+          "id": "Notificaciones-17158"
+        },
+        {
+          "level": "h3",
+          "text": "Proyectos inactivos",
+          "id": "Proyectos_inactivos-17158"
+        },
+        {
+          "level": "h3",
+          "text": "Captura rápida",
+          "id": "Captura_r.C3.A1pida-17158"
+        },
+        {
+          "level": "h3",
+          "text": "Modo oscuro",
+          "id": "Modo_oscuro-17158"
+        },
+        {
+          "level": "h3",
+          "text": "Iniciar sesión",
+          "id": "Iniciar_sesi.C3.B3n-17158"
+        },
+        {
+          "level": "h2",
+          "text": "Administrar la configuración del proyecto",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Actualice la aplicación de Procore para iOS",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Objetivo",
+          "id": "Objetivo-2733"
+        },
+        {
+          "level": "h2",
+          "text": "Contexto",
+          "id": "Contexto-2733"
+        },
+        {
+          "level": "h2",
+          "text": "Pasos",
+          "id": "Pasos-2733"
+        },
+        {
+          "level": "h2",
+          "text": "Ver también",
+          "id": "Ver_tambi.C3.A9n-2733"
+        },
+        {
+          "level": "h2",
+          "text": "Artículos recomendados",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Cookie Preferences",
+          "id": "ot-pc-title"
+        },
+        {
+          "level": "h3",
+          "text": "Manage Consent Preferences",
+          "id": "ot-category-title"
+        },
+        {
+          "level": "h3",
+          "text": "Cookie List",
+          "id": null
+        }
+      ],
+      "paragraphs": 24,
+      "sections": 6
+    },
+    "tables": [
+      {
+        "index": 1,
+        "headers": [],
+        "rows": 1,
+        "classes": "mt-responsive-table",
+        "id": null
+      }
+    ],
+    "breadcrumbs": [
+      {
+        "text": "Saltar al contenido principal",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#elm-main-content"
+      },
+      {
+        "text": "Soporte",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es?journey=supporttoprocore"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#"
+      },
+      {
+        "text": "América Latina (Español)",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Australia (English)",
+        "href": "https://en-au.support.procore.com/"
+      },
+      {
+        "text": "Brasil (Português)",
+        "href": "https://pt-br.support.procore.com/"
+      },
+      {
+        "text": "Canada (English)",
+        "href": "https://en-ca.support.procore.com/"
+      },
+      {
+        "text": "Canada (Français)",
+        "href": "https://fr-ca.support.procore.com/"
+      },
+      {
+        "text": "Deutschland (Deutsch)",
+        "href": "https://de.support.procore.com/"
+      },
+      {
+        "text": "España (Español)",
+        "href": "https://es-es.support.procore.com/"
+      },
+      {
+        "text": "France (Français)",
+        "href": "https://fr.support.procore.com/"
+      },
+      {
+        "text": "United Kingdom (English)",
+        "href": "https://en-gb.support.procore.com/"
+      },
+      {
+        "text": "United States (English)",
+        "href": "https://support.procore.com/"
+      },
+      {
+        "text": "新加坡（简体中文）",
+        "href": "https://zh-sg.support.procore.com/"
+      },
+      {
+        "text": "日本（日本語）",
+        "href": "https://ja-jp.support.procore.com/"
+      },
+      {
+        "text": "Contáctenos",
+        "href": "https://es.support.procore.com/references/contact-support"
+      },
+      {
+        "text": "Iniciar sesión en la Aplicación de Procore",
+        "href": "https://login.procore.com/?locale=es&journey=supporttologin"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Training Center Help",
+        "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation"
+      },
+      {
+        "text": "Buscar en el sitio",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#"
+      },
+      {
+        "text": "Ir al artículo anterior",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#"
+      },
+      {
+        "text": "Inicio de sesión",
+        "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=procore-mobile-ios%2Fgetting-started-procore-app-ios"
+      },
+      {
+        "text": "Inicio",
+        "href": "https://es.support.procore.com/"
+      },
+      {
+        "text": "Procore Mobile (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios"
+      },
+      {
+        "text": "Guardar como PDF",
+        "href": "https://es.support.procore.com/@api/deki/pages/1171/pdf/Aplicaci%25C3%25B3n%2bProcore%2bpara%2biOS%2b-%2bIntroducci%25C3%25B3n.pdf"
+      },
+      {
+        "text": "Descripción general",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Descripci.C3.B3n_general"
+      },
+      {
+        "text": "Nota:",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Nota:"
+      },
+      {
+        "text": "Configurar el orden de las herramientas para un proyecto",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Configurar_el_orden_de_las_herramientas_para_un_proyecto"
+      },
+      {
+        "text": "Navegar a una compañía diferente",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Navegar_a_una_compa.C3.B1.C3.ADa_diferente"
+      },
+      {
+        "text": "Navegar a un proyecto diferente",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Navegar_a_un_proyecto_diferente"
+      },
+      {
+        "text": "Ver la descripción general del proyecto",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Ver_la_descripci.C3.B3n_general_del_proyecto"
+      },
+      {
+        "text": "Preferencias de la aplicación",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Preferencias_de_la_aplicaci.C3.B3n"
+      },
+      {
+        "text": "",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#"
+      },
+      {
+        "text": "Almacenamiento",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Almacenamiento"
+      },
+      {
+        "text": "Administrar almacenamiento",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Administrar_almacenamiento"
+      },
+      {
+        "text": "Administrar almacenamiento de fotos",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Administrar_almacenamiento_de_fotos"
+      },
+      {
+        "text": "Cargas",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Cargas"
+      },
+      {
+        "text": "Lista por cargar",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Lista_por_cargar"
+      },
+      {
+        "text": "Cargar fotos solo con WiFi",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Cargar_fotos_solo_con_WiFi"
+      },
+      {
+        "text": "Calidad de la carga de fotos",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Calidad_de_la_carga_de_fotos"
+      },
+      {
+        "text": "Notificaciones",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Notificaciones"
+      },
+      {
+        "text": "Cambiar la configuración de notificación push global",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Cambiar_la_configuraci.C3.B3n_de_notificaci.C3.B3n_push_global"
+      },
+      {
+        "text": "Nota:",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Nota:_2"
+      },
+      {
+        "text": "Proyectos inactivos",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Proyectos_inactivos"
+      },
+      {
+        "text": "Captura rápida",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Captura_r.C3.A1pida"
+      },
+      {
+        "text": "Habilitar captura rápida",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Habilitar_captura_r.C3.A1pida"
+      },
+      {
+        "text": "Guardar grabaciones en el rollo de la cámara",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Guardar_grabaciones_en_el_rollo_de_la_c.C3.A1mara"
+      },
+      {
+        "text": "Ejecutar transcripción en Dispositivo",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Ejecutar_transcripci.C3.B3n_en_Dispositivo"
+      },
+      {
+        "text": "Modo oscuro",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Modo_oscuro"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Iniciar_sesi.C3.B3n"
+      },
+      {
+        "text": "Administrar la configuración del proyecto",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Administrar_la_configuraci.C3.B3n_del_proyecto"
+      },
+      {
+        "text": "Actualice la aplicación de Procore para iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Actualice_la_aplicaci.C3.B3n_de_Procore_para_iOS"
+      },
+      {
+        "text": "Objetivo",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Objetivo"
+      },
+      {
+        "text": "Contexto",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Contexto"
+      },
+      {
+        "text": "Pasos",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Pasos"
+      },
+      {
+        "text": "Ver también",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Ver_tambi.C3.A9n"
+      },
+      {
+        "text": "Descripción general",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#"
+      },
+      {
+        "text": "Configurar el orden de las herramientas para un proyecto",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#"
+      },
+      {
+        "text": "Navegar a una compañía diferente",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#"
+      },
+      {
+        "text": "Navegar a un proyecto diferente",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#"
+      },
+      {
+        "text": "Ver la descripción general del proyecto",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#"
+      },
+      {
+        "text": "Preferencias de la aplicación",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#"
+      },
+      {
+        "text": "Administrar la configuración del proyecto",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#"
+      },
+      {
+        "text": "Actualice la aplicación de Procore para iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#"
+      },
+      {
+        "text": "iOS Requisitos para conocer los",
+        "href": "https://es.support.procore.com/faq/ios-requirements"
+      },
+      {
+        "text": "Descargar en la App Store",
+        "href": "https://itunes.apple.com/us/app/procore/id374930542?mt=8"
+      },
+      {
+        "text": "Pantalla de vista general del proyecto (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/project-overview-screen-ios"
+      },
+      {
+        "text": "Ítems de creación rápida (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/project-overview-screen-ios/tutorials/quick-create-items-ios"
+      },
+      {
+        "text": "App Preferences (iOS).",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Inactive_Projects"
+      },
+      {
+        "text": "Sort Projects (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/project-overview-screen-ios/tutorials/sort-projects-ios"
+      },
+      {
+        "text": "Almacenamiento",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Storage"
+      },
+      {
+        "text": "Cargas",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Uploads"
+      },
+      {
+        "text": "Notificaciones",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Notifications"
+      },
+      {
+        "text": "Captura rápida",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Quick_Capture"
+      },
+      {
+        "text": "Modo oscuro",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Dark_Mode"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#Login"
+      },
+      {
+        "text": "Depuración",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/sidebar-screen/tutorials/app-preferences-ios#Debug"
+      },
+      {
+        "text": "¿Cómo administro el almacenamiento que usa la aplicación móvil Procore en mi dispositivo?",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios/manage-the-storage-that-procores-ios-app-uses-on-your-device"
+      },
+      {
+        "text": "Consulte Delete Fotos (iOS).",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/photos-ios/tutorials/delete-photos-ios"
+      },
+      {
+        "text": ", consulte Configuración del proyecto de",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#s11927"
+      },
+      {
+        "text": "Clock Your Time",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/my-time-ios/tutorials/clock-your-time-ios"
+      },
+      {
+        "text": "Selector",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#s3870"
+      },
+      {
+        "text": "Ver la última versión en App Store",
+        "href": "https://itunes.apple.com/us/app/procore-construction-management/id374930542?mt=8"
+      },
+      {
+        "text": "¿Por qué no puedo actualizar mi aplicación Procore? (iOS)",
+        "href": "https://es.support.procore.com/faq/why-cant-i-update-my-procore-app-ios"
+      },
+      {
+        "text": "Actualice su iPhone, iPad o iPod touch",
+        "href": "https://support.apple.com/en-us/HT204204"
+      },
+      {
+        "text": "Procore para iOS: consejos para solucionar problemas",
+        "href": "https://es.support.procore.com/faq/procore-for-ios-troubleshooting-tips"
+      },
+      {
+        "text": "¿Por qué no puedo actualizar mi aplicación Procore? (iOS)",
+        "href": "https://es.support.procore.com/faq/why-cant-i-update-my-procore-app-ios"
+      },
+      {
+        "text": "Volver arriba",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios#title"
+      },
+      {
+        "text": "Procore Mobile (iOS)",
+        "href": "https://es.support.procore.com/procore-mobile-ios"
+      },
+      {
+        "text": "Descargue la aplicación móvil de Procore para iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios/download-procores-ios-mobile-application"
+      },
+      {
+        "text": "Descargue la aplicación móvil de Procore para iOS",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios/download-procores-ios-mobile-application"
+      },
+      {
+        "text": "Administre el almacenamiento que la aplicación iOS de Procore usa en su dispositivo",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios/manage-the-storage-that-procores-ios-app-uses-on-your-device"
+      },
+      {
+        "text": "Reportar un problema desde la aplicación iOS de Procore",
+        "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios/report-an-issue-from-procores-ios-app"
+      },
+      {
+        "text": "Aplicación iOS de Procore: Guía del usuario",
+        "href": "https://es.support.procore.com/procore-mobile-ios/user-guide"
+      },
+      {
+        "text": "Category",
+        "href": "https://es.support.procore.com/Special:Search?tags=article%3Atopic-category"
+      },
+      {
+        "text": "English-US",
+        "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us"
+      },
+      {
+        "text": "Published",
+        "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished"
+      },
+      {
+        "text": "Powered by CXone Expert\n   ®",
+        "href": "https://mindtouch.com/demo"
+      },
+      {
+        "text": "",
+        "href": "https://www.linkedin.com/company/procore-technologies"
+      },
+      {
+        "text": "",
+        "href": "https://www.facebook.com/procore.tech"
+      },
+      {
+        "text": "",
+        "href": "https://www.twitter.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.instagram.com/procoretech"
+      },
+      {
+        "text": "",
+        "href": "https://www.youtube.com/user/ProcoreVideo"
+      },
+      {
+        "text": "Aviso de privacidad",
+        "href": "https://www.procore.com/es/legal/privacy"
+      },
+      {
+        "text": "Términos de uso",
+        "href": "https://www.procore.com/es/legal/terms-of-service"
+      },
+      {
+        "text": "procore.com",
+        "href": "https://www.procore.com/es"
+      },
+      {
+        "text": "Iniciar sesión",
+        "href": "https://app.procore.com/mindtouch/auth"
+      },
+      {
+        "text": "More information",
+        "href": "https://www.procore.com/legal/cookie-notice"
+      },
+      {
+        "text": "",
+        "href": "https://www.onetrust.com/products/cookie-consent/"
+      }
+    ],
+    "title": "Aplicación Procore para iOS - Introducción - Procore",
+    "h1": "Aplicación Procore para iOS - Introducción",
+    "metaDescription": null
+  },
+  "links": 39,
+  "linkDetails": [
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Soporte",
+      "classes": "",
+      "id": null,
+      "index": 1,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "América Latina (Español)",
+      "classes": "internal",
+      "id": null,
+      "index": 4,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 5,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "link-https",
+      "id": null,
+      "index": 6,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 7,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 8,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "link-https",
+      "id": null,
+      "index": 9,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "link-https",
+      "id": null,
+      "index": 10,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "link-https",
+      "id": null,
+      "index": 11,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 12,
+      "category": "general"
+    },
+    {
+      "href": "https://support.procore.com/",
+      "text": "United States (English)",
+      "classes": "link-https",
+      "id": null,
+      "index": 13,
+      "category": "general"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡（简体中文）",
+      "classes": "link-https",
+      "id": null,
+      "index": 14,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本（日本語）",
+      "classes": "link-https",
+      "id": null,
+      "index": 15,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/references/contact-support",
+      "text": "Contáctenos",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "category": "reference"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/u/1-Author_Training_Center_Documentation",
+      "text": "Training Center Help",
+      "classes": "mt-icon-editor-training-link",
+      "id": null,
+      "index": 19,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:AuthenticationProviders?returntotitle=procore-mobile-ios%2Fgetting-started-procore-app-ios",
+      "text": "Inicio de sesión",
+      "classes": "mt-icon-quick-sign-in ",
+      "id": null,
+      "index": 22,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Inicio",
+      "classes": "",
+      "id": null,
+      "index": 23,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios",
+      "text": "Procore Mobile (iOS)",
+      "classes": "",
+      "id": null,
+      "index": 24,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/@api/deki/pages/1171/pdf/Aplicaci%25C3%25B3n%2bProcore%2bpara%2biOS%2b-%2bIntroducci%25C3%25B3n.pdf",
+      "text": "Guardar como PDF",
+      "classes": "",
+      "id": null,
+      "index": 25,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/ios-requirements",
+      "text": "iOS Requisitos para conocer los",
+      "classes": "F1",
+      "id": null,
+      "index": 65,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/project-overview-screen-ios",
+      "text": "Pantalla de vista general del proyecto (iOS)",
+      "classes": "",
+      "id": null,
+      "index": 67,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/project-overview-screen-ios/tutorials/quick-create-items-ios",
+      "text": "Ítems de creación rápida (iOS)",
+      "classes": "",
+      "id": null,
+      "index": 68,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/project-overview-screen-ios/tutorials/sort-projects-ios",
+      "text": "Sort Projects (iOS)",
+      "classes": "",
+      "id": null,
+      "index": 70,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios/manage-the-storage-that-procores-ios-app-uses-on-your-device",
+      "text": "¿Cómo administro el almacenamiento que usa la aplicación móvil Procore en mi dispositivo?",
+      "classes": "",
+      "id": null,
+      "index": 78,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/photos-ios/tutorials/delete-photos-ios",
+      "text": "Consulte Delete Fotos (iOS).",
+      "classes": "",
+      "id": null,
+      "index": 79,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide/my-time-ios/tutorials/clock-your-time-ios",
+      "text": "Clock Your Time",
+      "classes": "",
+      "id": null,
+      "index": 81,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-cant-i-update-my-procore-app-ios",
+      "text": "¿Por qué no puedo actualizar mi aplicación Procore? (iOS)",
+      "classes": "",
+      "id": null,
+      "index": 84,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/procore-for-ios-troubleshooting-tips",
+      "text": "Procore para iOS: consejos para solucionar problemas",
+      "classes": "",
+      "id": null,
+      "index": 86,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/faq/why-cant-i-update-my-procore-app-ios",
+      "text": "¿Por qué no puedo actualizar mi aplicación Procore? (iOS)",
+      "classes": "",
+      "id": null,
+      "index": 87,
+      "category": "faq"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios",
+      "text": "Procore Mobile (iOS)",
+      "classes": "mt-icon-previous-article",
+      "id": null,
+      "index": 89,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios/download-procores-ios-mobile-application",
+      "text": "Descargue la aplicación móvil de Procore para iOS",
+      "classes": "mt-icon-next-article",
+      "id": null,
+      "index": 90,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios/download-procores-ios-mobile-application",
+      "text": "Descargue la aplicación móvil de Procore para iOS",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 91,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios/manage-the-storage-that-procores-ios-app-uses-on-your-device",
+      "text": "Administre el almacenamiento que la aplicación iOS de Procore usa en su dispositivo",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 92,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/getting-started-procore-app-ios/report-an-issue-from-procores-ios-app",
+      "text": "Reportar un problema desde la aplicación iOS de Procore",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 93,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/procore-mobile-ios/user-guide",
+      "text": "Aplicación iOS de Procore: Guía del usuario",
+      "classes": "mt-related-listing-link",
+      "id": null,
+      "index": 94,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=article%3Atopic-category",
+      "text": "Category",
+      "classes": "",
+      "id": null,
+      "index": 95,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=language%3Aen-us",
+      "text": "English-US",
+      "classes": "",
+      "id": null,
+      "index": 96,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/Special:Search?tags=stage%3Apublished",
+      "text": "Published",
+      "classes": "",
+      "id": null,
+      "index": 97,
+      "category": "general"
+    }
+  ],
+  "clickables": 29,
+  "clickableDetails": [
+    {
+      "text": "América Latina (Español)",
+      "id": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "type": "a",
+      "classes": "dropdown-toggle mt-icon-earth mt-icon-arrow-down7",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Buscar",
+      "id": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "type": "button",
+      "classes": "ui-button ui-widget ui-state-default ui-corner-all ui-button-text-only mt-inputredirect-button",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "Buscar",
+      "id": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "type": "button",
+      "classes": "mt-button ui-button-icon mt-icon-site-search-button search-button",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Expandir/contraer jerarquía global",
+      "id": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "type": "button",
+      "classes": "elm-hierarchy-trigger mt-hierarchy-trigger ui-button-icon mt-icon-hierarchy-trigger-closed",
+      "hasDropdown": false,
+      "index": 3
+    },
+    {
+      "text": "Expandir/contraer ubicación global",
+      "id": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "type": "button",
+      "classes": "mt-icon-hierarchy-mobile-view-trigger ui-button-icon mt-icon-hierarchy-mobile-trigger-closed",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "Índice",
+      "id": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "hasDropdown": false,
+      "index": 5
+    },
+    {
+      "text": "Tabla de contenido",
+      "id": "mobile-menu-toggle",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "Descripción general",
+      "id": "selected-chapter",
+      "type": "a",
+      "classes": "selected-chapter",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "Configurar el orden de las herramientas para un proyecto",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "Navegar a una compañía diferente",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "Navegar a un proyecto diferente",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 10
+    },
+    {
+      "text": "Ver la descripción general del proyecto",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 11
+    },
+    {
+      "text": "Preferencias de la aplicación",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 12
+    },
+    {
+      "text": "Administrar la configuración del proyecto",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 13
+    },
+    {
+      "text": "Actualice la aplicación de Procore para iOS",
+      "id": "",
+      "type": "a",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 14
+    },
+    {
+      "text": "‌‍​",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 15
+    },
+    {
+      "text": "",
+      "id": "close-pc-btn-handler",
+      "type": "button",
+      "classes": "ot-close-icon",
+      "hasDropdown": false,
+      "index": 16
+    },
+    {
+      "text": "Allow All",
+      "id": "accept-recommended-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 17
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 18
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 19
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 20
+    },
+    {
+      "text": "",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 21
+    },
+    {
+      "text": "Back Button",
+      "id": "ot-link-btn back-btn-handler",
+      "type": "button",
+      "classes": "ot-link-btn back-btn-handler",
+      "hasDropdown": false,
+      "index": 22
+    },
+    {
+      "text": "Filter Icon",
+      "id": "filter-btn-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 23
+    },
+    {
+      "text": "Clear",
+      "id": "clear-filters-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 24
+    },
+    {
+      "text": "Apply",
+      "id": "filter-apply-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 25
+    },
+    {
+      "text": "Cancel",
+      "id": "filter-cancel-handler",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 26
+    },
+    {
+      "text": "Reject All",
+      "id": "ot-pc-refuse-all-handler",
+      "type": "button",
+      "classes": "ot-pc-refuse-all-handler",
+      "hasDropdown": false,
+      "index": 27
+    },
+    {
+      "text": "Confirm My Choices",
+      "id": "save-preference-btn-handler onetrust-close-btn-handler",
+      "type": "button",
+      "classes": "save-preference-btn-handler onetrust-close-btn-handler",
+      "hasDropdown": false,
+      "index": 28
+    }
+  ],
+  "expandables": 8,
+  "expandableDetails": [
+    {
+      "text": "Índice",
+      "type": "button",
+      "classes": "mt-toggle mt-summary-toggle ui-button-icon mt-toggle-expand",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "Descripción general Nota:Configurar el orden de las herramientas para un proyectoNavegar a una compa",
+      "type": "nav",
+      "classes": "mt-toc-content mt-collapsible-section",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Tablero y navegación del proyecto  \n    \nConfigurar el orden de las herramientas para un proyecto\nNa",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Configuración  \n    \nPreferencias de la aplicación\nAdministrar la configuración del proyecto\nActuali",
+      "type": "li",
+      "classes": "collapsible",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Strictly Necessary CookiesAlways ActiveThese cookies are necessary for the website to function and c",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Functional Cookies  Functional Cookies These cookies enable the website to provide enhanced function",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    },
+    {
+      "text": "Performance Cookies  Performance Cookies These cookies allow us to count visits and traffic sources ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 6
+    },
+    {
+      "text": "Opt Out of Sale of Sharing/Targeted Advertising  Opt Out of Sale of Sharing/Targeted Advertising As ",
+      "type": "div",
+      "classes": "ot-accordion-layout ot-cat-item ot-vs-config",
+      "id": null,
+      "isExpanded": false,
+      "index": 7
+    }
+  ],
+  "screenshotPath": "pages/getting-started-procore-app-ios/screenshot.png"
+}
