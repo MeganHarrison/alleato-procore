@@ -383,6 +383,19 @@ export default function BudgetSetupPage() {
     );
   });
 
+  // Group filtered cost codes by division
+  const groupedFilteredCostCodes = filteredCostCodes.reduce((acc, code) => {
+    const division = code.cost_codes?.division_title || 'Other';
+    if (!acc[division]) {
+      acc[division] = [];
+    }
+    acc[division].push(code);
+    return acc;
+  }, {} as Record<string, typeof filteredCostCodes>);
+
+  // Sort divisions alphabetically
+  const sortedDivisions = Object.keys(groupedFilteredCostCodes).sort();
+
   const handleSubmit = async () => {
     // Validate that all rows have a budget code selected
     const invalidRows = lineItems.filter(item => !item.projectCostCodeId);
@@ -564,22 +577,41 @@ export default function BudgetSetupPage() {
                               />
                               <CommandList>
                                 <CommandEmpty>No budget codes found.</CommandEmpty>
-                                <CommandGroup>
-                                  {filteredCostCodes.map((code) => {
-                                    const costCodeTitle = code.cost_codes?.title || '';
-                                    const displayLabel = `${code.cost_code_id} – ${costCodeTitle}`;
+                                {sortedDivisions.map((division) => (
+                                  <CommandGroup key={division}>
+                                    <button
+                                      type="button"
+                                      className="flex items-center w-full px-2 py-1.5 text-sm font-semibold text-gray-700 hover:bg-gray-100 cursor-pointer"
+                                      onClick={() => toggleDivision(division)}
+                                    >
+                                      {expandedDivisions.has(division) ? (
+                                        <ChevronDown className="mr-2 h-4 w-4" />
+                                      ) : (
+                                        <ChevronRight className="mr-2 h-4 w-4" />
+                                      )}
+                                      {division}
+                                      <span className="ml-2 text-xs text-gray-500">
+                                        ({groupedFilteredCostCodes[division].length})
+                                      </span>
+                                    </button>
+                                    {expandedDivisions.has(division) &&
+                                      groupedFilteredCostCodes[division].map((code) => {
+                                        const costCodeTitle = code.cost_codes?.title || '';
+                                        const displayLabel = `${code.cost_code_id} – ${costCodeTitle}`;
 
-                                    return (
-                                      <CommandItem
-                                        key={code.id}
-                                        value={displayLabel}
-                                        onSelect={() => handleBudgetCodeSelect(row.id, code)}
-                                      >
-                                        {displayLabel}
-                                      </CommandItem>
-                                    );
-                                  })}
-                                </CommandGroup>
+                                        return (
+                                          <CommandItem
+                                            key={code.id}
+                                            value={displayLabel}
+                                            onSelect={() => handleBudgetCodeSelect(row.id, code)}
+                                            className="pl-8"
+                                          >
+                                            {displayLabel}
+                                          </CommandItem>
+                                        );
+                                      })}
+                                  </CommandGroup>
+                                ))}
                                 <CommandSeparator />
                                 <CommandGroup>
                                   <CommandItem
