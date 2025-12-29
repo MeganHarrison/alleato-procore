@@ -11,6 +11,7 @@ import {
   BudgetTabs,
   BudgetFilters,
   BudgetTable,
+  BudgetDetailsTable,
   BudgetLineItemModal,
   BudgetModificationModal,
   VerticalMarkupSettings,
@@ -19,6 +20,7 @@ import {
   BudgetViewsManager,
 } from '@/components/budget';
 import { ImportBudgetModal } from '@/components/budget/ImportBudgetModal';
+import type { BudgetDetailLineItem } from '@/components/budget/budget-details-table';
 import type { BudgetLineItem } from '@/types/budget';
 import {
   AlertDialog,
@@ -57,10 +59,12 @@ export default function ProjectBudgetPage() {
   const [selectedSnapshot, setSelectedSnapshot] = React.useState('current');
   const [selectedGroup, setSelectedGroup] = React.useState('cost-code-tier-1');
   const [budgetData, setBudgetData] = React.useState<BudgetLineItem[]>([]);
+  const [budgetDetailsData, setBudgetDetailsData] = React.useState<BudgetDetailLineItem[]>([]);
   const [quickFilter, setQuickFilter] = React.useState<QuickFilterType>('all');
   const [currentViewId, setCurrentViewId] = React.useState<string>('');
   const [grandTotals, setGrandTotals] = React.useState(budgetGrandTotals);
   const [loading, setLoading] = React.useState(true);
+  const [detailsLoading, setDetailsLoading] = React.useState(false);
   const [showLineItemModal, setShowLineItemModal] = React.useState(false);
   const [showModificationModal, setShowModificationModal] = React.useState(false);
   const [showImportModal, setShowImportModal] = React.useState(false);
@@ -221,7 +225,31 @@ export default function ProjectBudgetPage() {
 
   const handleTabChange = (tabId: string) => {
     setActiveTab(tabId);
+
+    // Fetch budget details when switching to budget-details tab
+    if (tabId === 'budget-details' && budgetDetailsData.length === 0) {
+      fetchBudgetDetails();
+    }
   };
+
+  // Fetch budget details data
+  const fetchBudgetDetails = React.useCallback(async () => {
+    try {
+      setDetailsLoading(true);
+      const response = await fetch(`/api/projects/${projectId}/budget/details`);
+      if (response.ok) {
+        const data = await response.json();
+        setBudgetDetailsData(data.details || []);
+      } else {
+        toast.error('Failed to load budget details');
+      }
+    } catch (error) {
+      console.error('Error fetching budget details:', error);
+      toast.error('Failed to load budget details');
+    } finally {
+      setDetailsLoading(false);
+    }
+  }, [projectId]);
 
   const handleAddFilter = () => {
     // TODO: Implement advanced filtering
@@ -412,6 +440,30 @@ export default function ProjectBudgetPage() {
           <div className="flex-1 rounded-lg border bg-white shadow-sm p-6">
             <CostCodesTab projectId={projectId} />
           </div>
+        ) : activeTab === 'budget-details' ? (
+          <>
+            <div className="flex items-center justify-between gap-4">
+              <BudgetFilters
+                views={budgetViews}
+                snapshots={budgetSnapshots}
+                groups={budgetGroups}
+                selectedView={selectedView}
+                selectedSnapshot={selectedSnapshot}
+                selectedGroup={selectedGroup}
+                onViewChange={setSelectedView}
+                onSnapshotChange={setSelectedSnapshot}
+                onGroupChange={setSelectedGroup}
+                onAddFilter={handleAddFilter}
+                onAnalyzeVariance={handleAnalyzeVariance}
+                onToggleFullscreen={handleToggleFullscreen}
+                onQuickFilterChange={handleQuickFilterChange}
+                activeQuickFilter={quickFilter}
+              />
+            </div>
+            <div className="flex-1">
+              <BudgetDetailsTable data={budgetDetailsData} loading={detailsLoading} />
+            </div>
+          </>
         ) : (
           <>
             <div className="flex items-center justify-between gap-4">
