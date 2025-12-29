@@ -229,33 +229,57 @@ export default function NewInvoicePage() {
   };
 
   return (
-    <div className="container mx-auto py-6 max-w-7xl">
-      {/* Header */}
-      <div className="mb-6">
-        <div className="flex items-center gap-2 mb-4">
-          <Button
-            variant="ghost"
-            size="sm"
+    <div className="min-h-screen bg-background">
+      {/* Breadcrumb Header */}
+      <div className="border-b bg-card px-6 py-3">
+        <div className="flex items-center gap-2 text-sm text-muted-foreground">
+          <button
+            type="button"
             onClick={() => router.back()}
-            className="gap-2"
+            className="hover:text-foreground transition-colors"
           >
-            <ArrowLeft className="h-4 w-4" />
+            <ArrowLeft className="h-4 w-4 inline mr-1" />
             Back
-          </Button>
+          </button>
         </div>
-        <h1 className="text-2xl font-bold">Create Invoice</h1>
-        <p className="text-gray-600">Create a new invoice for billing</p>
+      </div>
+
+      {/* Title Bar */}
+      <div className="border-b bg-card px-6 py-4">
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-2xl font-semibold text-foreground mb-1">Create Invoice</h1>
+            <p className="text-sm text-muted-foreground">Create a new invoice for billing</p>
+          </div>
+        </div>
       </div>
 
       <form onSubmit={handleSubmit}>
-        <Tabs defaultValue="general" className="space-y-4">
-          <TabsList>
-            <TabsTrigger value="general">General Info</TabsTrigger>
-            <TabsTrigger value="line-items">Line Items</TabsTrigger>
-            <TabsTrigger value="summary">Summary</TabsTrigger>
-          </TabsList>
+        <Tabs defaultValue="general" className="w-full">
+          <div className="border-b bg-card px-6">
+            <TabsList className="h-auto p-0 bg-transparent border-0">
+              <TabsTrigger
+                value="general"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
+              >
+                General Info
+              </TabsTrigger>
+              <TabsTrigger
+                value="line-items"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
+              >
+                Line Items
+              </TabsTrigger>
+              <TabsTrigger
+                value="summary"
+                className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
+              >
+                Summary
+              </TabsTrigger>
+            </TabsList>
+          </div>
 
-          <TabsContent value="general">
+          <TabsContent value="general" className="mt-0 p-6">
             <Card>
               <CardHeader>
                 <CardTitle>Invoice Information</CardTitle>
@@ -465,7 +489,7 @@ export default function NewInvoicePage() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="line-items">
+          <TabsContent value="line-items" className="mt-0 p-6">
             <Card>
               <CardHeader>
                 <CardTitle>Invoice Line Items</CardTitle>
@@ -578,7 +602,7 @@ export default function NewInvoicePage() {
             </Card>
           </TabsContent>
 
-          <TabsContent value="summary">
+          <TabsContent value="summary" className="mt-0 p-6">
             <Card>
               <CardHeader>
                 <CardTitle>Invoice Summary</CardTitle>
@@ -630,7 +654,7 @@ export default function NewInvoicePage() {
         </Tabs>
 
         {/* Action buttons */}
-        <div className="flex items-center justify-end gap-4 mt-6">
+        <div className="flex items-center justify-end gap-4 p-6 border-t bg-card">
           <Button type="button" variant="outline" onClick={handleCancel}>
             Cancel
           </Button>
