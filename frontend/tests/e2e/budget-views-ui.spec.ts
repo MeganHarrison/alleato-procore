@@ -9,6 +9,33 @@ test.describe('Budget Views UI - Phase 2b', () => {
     // Load authentication
     const authFile = path.join(__dirname, '../.auth/user.json');
     const authData = JSON.parse(require('fs').readFileSync(authFile, 'utf-8'));
+    const authCookies = authData.cookies
+      .map((cookie: { name: string; value: string }) => `${cookie.name}=${cookie.value}`)
+      .join('; ');
+
+    // Clean up any non-system views before each test to prevent duplicate name errors
+    try {
+      const viewsResponse = await page.request.get(
+        `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views`,
+        { headers: { Cookie: authCookies } }
+      );
+
+      if (viewsResponse.ok()) {
+        const { views } = await viewsResponse.json();
+
+        for (const view of views || []) {
+          if (!view.is_system) {
+            await page.request.delete(
+              `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views/${view.id}`,
+              { headers: { Cookie: authCookies } }
+            );
+          }
+        }
+      }
+    } catch (error) {
+      // Ignore cleanup errors - test can proceed
+      console.log('Cleanup warning:', error);
+    }
 
     // Set cookies
     await page.context().addCookies(authData.cookies);
@@ -96,8 +123,17 @@ test.describe('Budget Views UI - Phase 2b', () => {
       // Click on the test view
       await page.locator('[role="menuitem"]').filter({ hasText: 'Test View for Switch' }).click();
 
+      // Wait for the dropdown to close
+      await expect(page.locator('[role="menu"]')).not.toBeVisible();
+
+      // Wait for button text to update (parent component needs to re-render)
+      await page.waitForTimeout(500);
+
+      // Re-locate the button after state update
+      const updatedButton = page.locator('button').filter({ hasText: /Test View for Switch|Procore Standard|Select View/ }).last();
+
       // Button should now show the new view name
-      await expect(viewsButton).toContainText('Test View for Switch');
+      await expect(updatedButton).toContainText('Test View for Switch', { timeout: 5000 });
 
       // Cleanup
       await page.request.delete(
@@ -133,7 +169,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
       await expect(modal.locator('text=Create Budget View')).toBeVisible();
 
       // Should have name input
-      await expect(modal.locator('input[placeholder*="Enter view name"]')).toBeVisible();
+      await expect(modal.getByLabel('View Name')).toBeVisible();
 
       // Should have available columns list
       await expect(modal.locator('text=Available Columns')).toBeVisible();
@@ -193,7 +229,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
       await expect(modal).toBeVisible();
 
       // Fill in name
-      await modal.locator('input[placeholder*="Enter view name"]').fill('Playwright Test View');
+      await modal.getByLabel('View Name').fill('Playwright Test View');
 
       // Fill in description
       const descInput = modal.locator('textarea');
@@ -280,7 +316,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
       await expect(modal.locator('text=Edit Budget View')).toBeVisible();
 
       // Name should be pre-filled
-      const nameInput = modal.locator('input[placeholder*="Enter view name"]');
+      const nameInput = modal.getByLabel('View Name');
       await expect(nameInput).toHaveValue('View to Edit');
 
       // Change the name
@@ -413,7 +449,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
       await expect(modal).toBeVisible();
 
       // Fill name
-      await modal.locator('input[placeholder*="Enter view name"]').fill('Test Column Order');
+      await modal.getByLabel('View Name').fill('Test Column Order');
 
       // Add two columns
       await modal.locator('text=Cost Code').first().click();
@@ -462,8 +498,17 @@ test.describe('Budget Views UI - Phase 2b', () => {
       await viewsButton.click();
       await page.locator('[role="menuitem"]').filter({ hasText: 'Persistent View Test' }).click();
 
+      // Wait for the dropdown to close
+      await expect(page.locator('[role="menu"]')).not.toBeVisible();
+
+      // Wait for button text to update
+      await page.waitForTimeout(500);
+
+      // Re-locate the button after state update
+      const updatedButton = page.locator('button').filter({ hasText: /Persistent View Test|Procore Standard|Select View/ }).last();
+
       // Verify button shows selected view
-      await expect(viewsButton).toContainText('Persistent View Test');
+      await expect(updatedButton).toContainText('Persistent View Test', { timeout: 5000 });
 
       // Reload page
       await page.reload();

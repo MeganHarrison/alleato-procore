@@ -179,7 +179,7 @@
         .markdown-body h2 {
             font-size: 24px;
             font-weight: 600;
-            margin-top: 40px;
+            margin-top: 30px;
             margin-bottom: 16px;
             color: var(--text-primary);
             letter-spacing: -0.01em;
@@ -194,6 +194,10 @@
             color: var(--text-secondary);
             line-height: 1.7;
         }
+
+         .markdown-body li {
+            margin-left: 20px;
+         }
 
         .markdown-body strong {
             color: var(--text-primary);
@@ -362,6 +366,40 @@
         .welcome p {
             font-size: 18px;
             color: var(--text-muted);
+        }
+
+        /* Checkmark Styling - Custom styled checkboxes */
+        .markdown-body input[type="checkbox"] {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 18px;
+            height: 18px;
+            border: 2px solid #d1d5db;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-right: 8px;
+            position: relative;
+            vertical-align: middle;
+            transition: all 0.2s ease;
+        }
+
+        .markdown-body input[type="checkbox"]:hover {
+            border-color: var(--primary-color);
+        }
+
+        .markdown-body input[type="checkbox"]:checked {
+            background-color: var(--primary-color);
+            border-color: var(--primary-color);
+        }
+
+        .markdown-body input[type="checkbox"]:checked::after {
+            content: '✓';
+            position: absolute;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            left: 2px;
+            top: -1px;
         }
 
     </style>

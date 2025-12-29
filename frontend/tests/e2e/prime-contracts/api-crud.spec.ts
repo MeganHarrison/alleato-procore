@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { createClient } from '@supabase/supabase-js';
+import { withAuth } from '../../helpers/api-auth';
+import { join } from 'node:path';
 
 /**
  * E2E Tests for Prime Contracts API Routes
@@ -9,13 +11,13 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const storageStatePath = join(__dirname, '../..', '.auth/user.json');
 
 test.describe('Prime Contracts API CRUD', () => {
   let supabase: ReturnType<typeof createClient>;
   let supabaseAdmin: ReturnType<typeof createClient>;
   let testProjectId: number;
   let testUserId: string;
-  let accessToken: string;
   let createdContractIds: string[] = [];
 
   test.beforeAll(async () => {
@@ -36,7 +38,6 @@ test.describe('Prime Contracts API CRUD', () => {
     }
 
     testUserId = authData.user.id;
-    accessToken = authData.session.access_token;
 
     // Get test project
     const { data: projects, error } = await supabaseAdmin
@@ -73,11 +74,10 @@ test.describe('Prime Contracts API CRUD', () => {
   });
 
   test('GET /api/projects/[id]/contracts should return 200 with array', async ({ request }) => {
-    const response = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(200);
 
@@ -95,13 +95,12 @@ test.describe('Prime Contracts API CRUD', () => {
       retention_percentage: 10,
     };
 
-    const response = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: contractData,
-    });
+    const response = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`,
+      withAuth(storageStatePath, {
+        data: contractData,
+      })
+    );
 
     expect(response.status()).toBe(201);
 
@@ -123,13 +122,12 @@ test.describe('Prime Contracts API CRUD', () => {
       title: 'Missing contract number',
     };
 
-    const response = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: invalidData,
-    });
+    const response = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`,
+      withAuth(storageStatePath, {
+        data: invalidData,
+      })
+    );
 
     expect(response.status()).toBe(400);
 
@@ -147,26 +145,24 @@ test.describe('Prime Contracts API CRUD', () => {
     };
 
     // Create first contract
-    const firstResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: contractData,
-    });
+    const firstResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`,
+      withAuth(storageStatePath, {
+        data: contractData,
+      })
+    );
 
     expect(firstResponse.status()).toBe(201);
     const firstData = await firstResponse.json();
     createdContractIds.push(firstData.id);
 
     // Try to create second contract with same contract_number
-    const secondResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: contractData,
-    });
+    const secondResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`,
+      withAuth(storageStatePath, {
+        data: contractData,
+      })
+    );
 
     expect(secondResponse.status()).toBe(400);
 
@@ -182,23 +178,21 @@ test.describe('Prime Contracts API CRUD', () => {
       original_contract_value: 75000,
     };
 
-    const createResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: contractData,
-    });
+    const createResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`,
+      withAuth(storageStatePath, {
+        data: contractData,
+      })
+    );
 
     const createdContract = await createResponse.json();
     createdContractIds.push(createdContract.id);
 
     // Now get the contract
-    const response = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${createdContract.id}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${createdContract.id}`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(200);
 
@@ -211,11 +205,10 @@ test.describe('Prime Contracts API CRUD', () => {
   test('GET /api/projects/[id]/contracts/[contractId] should return 404 for non-existent contract', async ({ request }) => {
     const fakeContractId = '00000000-0000-0000-0000-000000000000';
 
-    const response = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${fakeContractId}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${fakeContractId}`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(404);
 
@@ -231,13 +224,12 @@ test.describe('Prime Contracts API CRUD', () => {
       original_contract_value: 80000,
     };
 
-    const createResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: contractData,
-    });
+    const createResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`,
+      withAuth(storageStatePath, {
+        data: contractData,
+      })
+    );
 
     const createdContract = await createResponse.json();
     createdContractIds.push(createdContract.id);
@@ -249,13 +241,12 @@ test.describe('Prime Contracts API CRUD', () => {
       revised_contract_value: 85000,
     };
 
-    const response = await request.put(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${createdContract.id}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: updateData,
-    });
+    const response = await request.put(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${createdContract.id}`,
+      withAuth(storageStatePath, {
+        data: updateData,
+      })
+    );
 
     expect(response.status()).toBe(200);
 
@@ -275,13 +266,12 @@ test.describe('Prime Contracts API CRUD', () => {
       original_contract_value: 60000,
     };
 
-    const createResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: contractData,
-    });
+    const createResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`,
+      withAuth(storageStatePath, {
+        data: contractData,
+      })
+    );
 
     const createdContract = await createResponse.json();
     createdContractIds.push(createdContract.id);
@@ -291,13 +281,12 @@ test.describe('Prime Contracts API CRUD', () => {
       retention_percentage: 150, // Invalid: must be 0-100
     };
 
-    const response = await request.put(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${createdContract.id}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: invalidUpdateData,
-    });
+    const response = await request.put(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${createdContract.id}`,
+      withAuth(storageStatePath, {
+        data: invalidUpdateData,
+      })
+    );
 
     expect(response.status()).toBe(400);
 
@@ -313,13 +302,12 @@ test.describe('Prime Contracts API CRUD', () => {
       original_contract_value: 70000,
     };
 
-    const createResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: contractData,
-    });
+    const createResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`,
+      withAuth(storageStatePath, {
+        data: contractData,
+      })
+    );
 
     const createdContract = await createResponse.json();
 
@@ -331,11 +319,10 @@ test.describe('Prime Contracts API CRUD', () => {
       .eq('user_id', testUserId);
 
     // Delete the contract
-    const response = await request.delete(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${createdContract.id}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.delete(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${createdContract.id}`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(200);
 
@@ -343,11 +330,10 @@ test.describe('Prime Contracts API CRUD', () => {
     expect(data.message).toContain('deleted successfully');
 
     // Verify contract is deleted
-    const verifyResponse = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${createdContract.id}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const verifyResponse = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${createdContract.id}`,
+      withAuth(storageStatePath)
+    );
 
     expect(verifyResponse.status()).toBe(404);
 
@@ -369,11 +355,10 @@ test.describe('Prime Contracts API CRUD', () => {
       .eq('project_id', testProjectId)
       .eq('user_id', testUserId);
 
-    const response = await request.delete(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${fakeContractId}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.delete(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${fakeContractId}`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(404);
 
@@ -401,32 +386,29 @@ test.describe('Prime Contracts API CRUD', () => {
       status: 'draft',
     };
 
-    const createActive = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: activeContract,
-    });
+    const createActive = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`,
+      withAuth(storageStatePath, {
+        data: activeContract,
+      })
+    );
 
-    const createDraft = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: draftContract,
-    });
+    const createDraft = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`,
+      withAuth(storageStatePath, {
+        data: draftContract,
+      })
+    );
 
     const activeData = await createActive.json();
     const draftData = await createDraft.json();
     createdContractIds.push(activeData.id, draftData.id);
 
     // Filter by active status
-    const response = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts?status=active`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts?status=active`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(200);
 
@@ -450,23 +432,21 @@ test.describe('Prime Contracts API CRUD', () => {
       original_contract_value: 55000,
     };
 
-    const createResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: contractData,
-    });
+    const createResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts`,
+      withAuth(storageStatePath, {
+        data: contractData,
+      })
+    );
 
     const createdContract = await createResponse.json();
     createdContractIds.push(createdContract.id);
 
     // Search for the contract
-    const response = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts?search=${encodeURIComponent(uniqueTitle)}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts?search=${encodeURIComponent(uniqueTitle)}`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(200);
 

@@ -143,7 +143,27 @@ const server = http.createServer((req, res) => {
   }
 
   // Serve static files
-  const filePath = path.join(BASE_DIR, req.url === '/' ? 'viewer.html' : req.url);
+  let filePath;
+
+  // Remove query string from URL
+  const urlPath = req.url.split('?')[0];
+
+  // Check if URL starts with a project folder
+  const urlParts = urlPath.split('/').filter(p => p);
+  const firstPart = urlParts[0];
+
+  // Map URLs like /procore-prime-contracts-crawl/... to the correct directory
+  if (firstPart === 'procore-prime-contracts-crawl') {
+    filePath = path.join(PARENT_DIR, urlPath);
+  } else if (firstPart === 'procore-support-crawl') {
+    filePath = path.join(PARENT_DIR, urlPath);
+  } else if (firstPart === 'procore-budget-crawl') {
+    filePath = path.join(PARENT_DIR, urlPath);
+  } else {
+    // Default to BASE_DIR
+    filePath = path.join(BASE_DIR, urlPath === '/' ? 'viewer.html' : urlPath);
+  }
+
   console.log(`[Static] URL: ${req.url} -> FilePath: ${filePath}`);
 
   const extname = String(path.extname(filePath)).toLowerCase();

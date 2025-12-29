@@ -55,76 +55,23 @@ procore-prime-contracts-crawl/
 
 **Use it for:** Planning your implementation sprint by sprint
 
-## Quick Start Guide
+## Database Schema Overview
 
-### For Product Managers
+Based on captured data, here are the key tables needed:
 
-1. **Read:** CRAWL-SUMMARY.md for feature overview
-2. **Review:** Screenshots in `pages/prime_contracts/`
-3. **Prioritize:** Tasks in IMPLEMENTATION-TASKS.md
-4. **Plan:** Use the 8-week roadmap
+### Core Tables
+1. **prime_contracts** - Main contract records
+2. **contract_line_items** - Individual line items
+3. **contract_billing_periods** - Billing schedules
+4. **contract_change_orders** - Change order tracking
+5. **contract_payments** - Payment tracking
+6. **contract_snapshots** - Point-in-time captures
+7. **contract_documents** - Document management
 
-### For Developers
-
-1. **Review:** `pages/prime_contracts/metadata.json` for component inventory
-2. **Study:** `pages/prime_contracts/dom.html` for UI structure
-3. **Reference:** IMPLEMENTATION-TASKS.md for technical specs
-4. **Start with:** Phase 1 tasks (Database Schema & API Development)
-
-### For Designers
-
-1. **View:** All screenshots in `pages/*/screenshot.png`
-2. **Analyze:** Table structures in metadata files
-3. **Extract:** Color schemes and component patterns
-4. **Design:** Based on discovered UI components
-
-## Implementation Roadmap
-
-### Phase 1: Foundation (Weeks 1-2) - P0 Tasks
-**Focus:** Database & API
-- [ ] Database Schema
-- [ ] API Development
-- [ ] Basic CRUD Operations
-- [ ] Authentication/Permissions
-
-**Deliverable:** Working API with database backing
-
-### Phase 2: Core Features (Weeks 3-4) - P0 Tasks
-**Focus:** UI & Basic Functionality
-- [ ] Contract Table Component
-- [ ] Contract Detail View
-- [ ] Line Items Management
-- [ ] Basic Calculations
-
-**Deliverable:** Functional contracts management system
-
-### Phase 3: Advanced Features (Weeks 5-6) - P1 Tasks
-**Focus:** Change Orders & Billing
-- [ ] Change Order Management
-- [ ] Billing & Payments
-- [ ] Document Management
-- [ ] Budget Integration
-
-**Deliverable:** Full-featured contract management with workflows
-
-### Phase 4: Polish & Testing (Week 7-8) - P0 Tasks
-**Focus:** Quality & Reliability
-- [ ] Unit Tests
-- [ ] Integration Tests
-- [ ] E2E Tests with Playwright
-- [ ] Performance Optimization
-- [ ] UI/UX Refinements
-- [ ] Documentation
-
-**Deliverable:** Production-ready prime contracts module
-
-### Phase 5: Integrations (Week 9+) - P2/P3 Tasks
-**Focus:** Extended Functionality
-- [ ] Accounting Integration
-- [ ] Advanced Workflows
-- [ ] Reporting & Analytics
-
-**Deliverable:** Enhanced contracts system with integrations
+### Supporting Tables
+8. **vendors** - Vendor/subcontractor master list
+9. **contract_views** - Custom view configurations
+10. **contract_approvals** - Approval workflow tracking
 
 ## Key Features to Implement
 
@@ -178,24 +125,6 @@ procore-prime-contracts-crawl/
   - Retention tracking
   - Invoice generation
   - Payment status
-
-## Database Schema Overview
-
-Based on captured data, here are the key tables needed:
-
-### Core Tables
-1. **prime_contracts** - Main contract records
-2. **contract_line_items** - Individual line items
-3. **contract_billing_periods** - Billing schedules
-4. **contract_change_orders** - Change order tracking
-5. **contract_payments** - Payment tracking
-6. **contract_snapshots** - Point-in-time captures
-7. **contract_documents** - Document management
-
-### Supporting Tables
-8. **vendors** - Vendor/subcontractor master list
-9. **contract_views** - Custom view configurations
-10. **contract_approvals** - Approval workflow tracking
 
 ## API Endpoints Needed
 
@@ -442,31 +371,6 @@ These tasks block others - prioritize them:
 - ✅ Documentation complete
 - ✅ User acceptance testing passed
 
----
-
-## 📝 Daily Workflow
-
-### Morning Routine
-1. Pull latest code
-2. Check EXECUTION-PLAN.md for current task
-3. Review acceptance criteria
-4. Check which tests need to be written
-
-### During Development
-1. Write failing Playwright test first
-2. Implement feature
-3. Make test pass
-4. Update task status
-5. Add progress log entry
-
-### End of Day
-1. Run all tests
-2. Update progress log
-3. Commit code
-4. Update EXECUTION-PLAN.md status
-
----
-
 ## 🧪 Testing Requirements
 
 ### Every Task Must Have:
@@ -636,84 +540,6 @@ procore-prime-contracts-crawl/
 ├── pages/                   ← Screenshots & DOM
 └── reports/                 ← Sitemap & analysis
 ```
-
----
-
-## 🎯 Ready to Start?
-
-### Your First Steps:
-
-1. **Open EXECUTION-PLAN.md**
-   ```bash
-   open scripts/screenshot-capture/procore-prime-contracts-crawl/EXECUTION-PLAN.md
-   ```
-
-2. **Review Task 1.1 (Database Schema)**
-   - Read full task description
-   - Review acceptance criteria
-   - Study schema definition
-   - Check E2E test requirements
-
-3. **Set Up Your Environment**
-   ```bash
-   npm install --prefix frontend
-   npx playwright install --prefix frontend
-   ```
-
-4. **Update Task 1.1 Status**
-   - Change status from `to do` to `in progress`
-   - Add progress log entry
-   - Commit the change
-
-5. **Write Your First Test**
-   ```bash
-   # Create test file
-   touch frontend/tests/e2e/prime-contracts/database-schema.spec.ts
-
-   # Write failing test
-   # Implement feature
-   # Make test pass
-   ```
-
-6. **Celebrate First Win! 🎉**
-   - When tests pass, update status to `testing`
-   - Run tests 3+ times for validation
-   - Mark as `validated` then `complete`
-   - Update progress log
-
----
-
-## 📈 Track Your Progress
-
-Keep an eye on the Test Coverage Summary in EXECUTION-PLAN.md:
-
-| Phase | Tasks Complete | Tests Passing | Coverage |
-|-------|----------------|---------------|----------|
-| Phase 1 | 0/8 | 0/8 | 0% |
-| Phase 2 | 0/7 | 0/7 | 0% |
-| Phase 3 | 0/6 | 0/6 | 0% |
-| Phase 4 | 0/6 | 0/6 | 0% |
-| Phase 5 | 0/3 | 0/3 | 0% |
-| **Total** | **0/48** | **0/48** | **0%** |
-
-**Goal:** 48/48 tasks complete, 48/48 tests passing, 100% coverage
-
----
-
-## 🚀 Let's Build This!
-
-You have everything you need:
-- ✅ 48 discrete, actionable tasks
-- ✅ Complete Playwright test specifications
-- ✅ Database schemas defined
-- ✅ API endpoints documented
-- ✅ UI components analyzed
-- ✅ 70+ reference screenshots
-- ✅ Living execution plan
-
-**Start with Task 1.1 in [EXECUTION-PLAN.md](EXECUTION-PLAN.md) and follow the status workflow!**
-
-Good luck! 🎯
 
 ---
 

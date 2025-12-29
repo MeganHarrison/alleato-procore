@@ -1,5 +1,7 @@
 import { test, expect } from '@playwright/test';
 import { createClient } from '@supabase/supabase-js';
+import { withAuth } from '../../helpers/api-auth';
+import { join } from 'node:path';
 
 /**
  * E2E Tests for Contract Line Items API Routes
@@ -9,13 +11,13 @@ import { createClient } from '@supabase/supabase-js';
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const storageStatePath = join(__dirname, '../..', '.auth/user.json');
 
 test.describe('Contract Line Items API CRUD', () => {
   let supabase: ReturnType<typeof createClient>;
   let supabaseAdmin: ReturnType<typeof createClient>;
   let testProjectId: number;
   let testUserId: string;
-  let accessToken: string;
   let testContractId: string;
   let createdLineItemIds: string[] = [];
 
@@ -37,7 +39,6 @@ test.describe('Contract Line Items API CRUD', () => {
     }
 
     testUserId = authData.user.id;
-    accessToken = authData.session.access_token;
 
     // Get test project
     const { data: projects, error } = await supabaseAdmin
@@ -106,11 +107,10 @@ test.describe('Contract Line Items API CRUD', () => {
   });
 
   test('GET /api/projects/[id]/contracts/[contractId]/line-items should return 200 with array', async ({ request }) => {
-    const response = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(200);
 
@@ -127,13 +127,12 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 100.50,
     };
 
-    const response = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: lineItemData,
-    });
+    const response = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      withAuth(storageStatePath, {
+        data: lineItemData,
+      })
+    );
 
     expect(response.status()).toBe(201);
 
@@ -158,13 +157,12 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 25.75,
     };
 
-    const response = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: lineItemData,
-    });
+    const response = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      withAuth(storageStatePath, {
+        data: lineItemData,
+      })
+    );
 
     expect(response.status()).toBe(201);
 
@@ -178,13 +176,12 @@ test.describe('Contract Line Items API CRUD', () => {
       description: 'Missing line number',
     };
 
-    const response = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: invalidData,
-    });
+    const response = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      withAuth(storageStatePath, {
+        data: invalidData,
+      })
+    );
 
     expect(response.status()).toBe(400);
 
@@ -203,26 +200,24 @@ test.describe('Contract Line Items API CRUD', () => {
     };
 
     // Create first line item
-    const firstResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: lineItemData,
-    });
+    const firstResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      withAuth(storageStatePath, {
+        data: lineItemData,
+      })
+    );
 
     expect(firstResponse.status()).toBe(201);
     const firstData = await firstResponse.json();
     createdLineItemIds.push(firstData.id);
 
     // Try to create second line item with same line_number
-    const secondResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: lineItemData,
-    });
+    const secondResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      withAuth(storageStatePath, {
+        data: lineItemData,
+      })
+    );
 
     expect(secondResponse.status()).toBe(400);
 
@@ -239,23 +234,21 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 15.25,
     };
 
-    const createResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: lineItemData,
-    });
+    const createResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      withAuth(storageStatePath, {
+        data: lineItemData,
+      })
+    );
 
     const createdLineItem = await createResponse.json();
     createdLineItemIds.push(createdLineItem.id);
 
     // Now get the line item
-    const response = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(200);
 
@@ -268,11 +261,10 @@ test.describe('Contract Line Items API CRUD', () => {
   test('GET /api/projects/[id]/contracts/[contractId]/line-items/[lineItemId] should return 404 for non-existent line item', async ({ request }) => {
     const fakeLineItemId = '00000000-0000-0000-0000-000000000000';
 
-    const response = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${fakeLineItemId}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${fakeLineItemId}`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(404);
 
@@ -289,13 +281,12 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 20,
     };
 
-    const createResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: lineItemData,
-    });
+    const createResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      withAuth(storageStatePath, {
+        data: lineItemData,
+      })
+    );
 
     const createdLineItem = await createResponse.json();
     createdLineItemIds.push(createdLineItem.id);
@@ -307,13 +298,12 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 30,
     };
 
-    const response = await request.put(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: updateData,
-    });
+    const response = await request.put(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
+      withAuth(storageStatePath, {
+        data: updateData,
+      })
+    );
 
     expect(response.status()).toBe(200);
 
@@ -335,13 +325,12 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 10,
     };
 
-    const createResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: lineItemData,
-    });
+    const createResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      withAuth(storageStatePath, {
+        data: lineItemData,
+      })
+    );
 
     const createdLineItem = await createResponse.json();
     createdLineItemIds.push(createdLineItem.id);
@@ -351,13 +340,12 @@ test.describe('Contract Line Items API CRUD', () => {
       quantity: -5, // Invalid: must be >= 0
     };
 
-    const response = await request.put(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: invalidUpdateData,
-    });
+    const response = await request.put(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
+      withAuth(storageStatePath, {
+        data: invalidUpdateData,
+      })
+    );
 
     expect(response.status()).toBe(400);
 
@@ -374,13 +362,12 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 25,
     };
 
-    const createResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: lineItemData,
-    });
+    const createResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      withAuth(storageStatePath, {
+        data: lineItemData,
+      })
+    );
 
     const createdLineItem = await createResponse.json();
 
@@ -392,11 +379,10 @@ test.describe('Contract Line Items API CRUD', () => {
       .eq('user_id', testUserId);
 
     // Delete the line item
-    const response = await request.delete(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.delete(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(200);
 
@@ -404,11 +390,10 @@ test.describe('Contract Line Items API CRUD', () => {
     expect(data.message).toContain('deleted successfully');
 
     // Verify line item is deleted
-    const verifyResponse = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const verifyResponse = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
+      withAuth(storageStatePath)
+    );
 
     expect(verifyResponse.status()).toBe(404);
 
@@ -430,11 +415,10 @@ test.describe('Contract Line Items API CRUD', () => {
       .eq('project_id', testProjectId)
       .eq('user_id', testUserId);
 
-    const response = await request.delete(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${fakeLineItemId}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.delete(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${fakeLineItemId}`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(404);
 
@@ -455,24 +439,22 @@ test.describe('Contract Line Items API CRUD', () => {
     ];
 
     for (const item of lineItems) {
-      const createResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`, {
-        headers: {
-          'Authorization': `Bearer ${accessToken}`,
-          'Content-Type': 'application/json',
-        },
-        data: item,
-      });
+      const createResponse = await request.post(
+        `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+        withAuth(storageStatePath, {
+          data: item,
+        })
+      );
 
       const createdItem = await createResponse.json();
       createdLineItemIds.push(createdItem.id);
     }
 
     // Get all line items
-    const response = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(200);
 

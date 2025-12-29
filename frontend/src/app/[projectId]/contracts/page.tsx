@@ -23,29 +23,28 @@ import {
 
 import type { ChangeOrder } from '@/hooks/use-change-orders';
 
+// Prime Contract interface matching the new schema
 interface Contract {
-  id: number;
-  contract_number: string | null;
-  title: string | null;
-  client_id: number;
-  project_id: number | null;
-  status: string | null;
-  erp_status: string | null;
-  executed: boolean | null;
-  original_contract_amount: number | null;
-  approved_change_orders: number | null;
-  pending_change_orders: number | null;
-  draft_change_orders: number | null;
-  revised_contract_amount: number | null;
-  invoiced_amount: number | null;
-  client?: {
-    id: number;
-    name: string | null;
-  } | null;
-  project?: {
-    id: number;
-    name: string | null;
-    project_number: string | null;
+  id: string;
+  project_id: number;
+  contract_number: string;
+  title: string;
+  vendor_id: string | null;
+  description: string | null;
+  status: 'draft' | 'active' | 'completed' | 'cancelled' | 'on_hold';
+  original_contract_value: number;
+  revised_contract_value: number;
+  start_date: string | null;
+  end_date: string | null;
+  retention_percentage: number | null;
+  payment_terms: string | null;
+  billing_schedule: string | null;
+  created_by: string | null;
+  created_at: string;
+  updated_at: string;
+  vendor?: {
+    id: string;
+    name: string;
   } | null;
 }
 
@@ -88,7 +87,7 @@ function ContractChangeOrders({ contract, getStatusBadge }: {
   if (loading) {
     return (
       <TableRow>
-        <TableCell colSpan={11} className="px-4 py-3 text-center text-gray-500 bg-gray-50">
+        <TableCell colSpan={7} className="px-4 py-3 text-center text-gray-500 bg-gray-50">
           Loading change orders...
         </TableCell>
       </TableRow>
@@ -98,7 +97,7 @@ function ContractChangeOrders({ contract, getStatusBadge }: {
   if (changeOrders.length === 0) {
     return (
       <TableRow>
-        <TableCell colSpan={11} className="px-4 py-3 text-center text-gray-500 bg-gray-50">
+        <TableCell colSpan={7} className="px-4 py-3 text-center text-gray-500 bg-gray-50">
           No change orders for this contract
         </TableCell>
       </TableRow>
@@ -119,10 +118,6 @@ function ContractChangeOrders({ contract, getStatusBadge }: {
             {co.title || '--'}
           </TableCell>
           <TableCell className="px-4 py-2 text-sm">{getStatusBadge(co.status)}</TableCell>
-          <TableCell className="px-4 py-2 text-sm text-gray-600">{co.approved_at ? 'Yes' : 'No'}</TableCell>
-          <TableCell className="px-4 py-2 text-sm text-right">--</TableCell>
-          <TableCell className="px-4 py-2 text-sm text-right">--</TableCell>
-          <TableCell className="px-4 py-2 text-sm text-right">--</TableCell>
           <TableCell className="px-4 py-2 text-sm text-right">--</TableCell>
           <TableCell className="px-4 py-2 text-sm text-right">--</TableCell>
         </TableRow>
@@ -140,7 +135,7 @@ export default function ProjectContractsPage() {
 
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [loading, setLoading] = useState(true);
-  const [expandedRows, setExpandedRows] = useState<Set<number>>(new Set());
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
   const [sortColumn, setSortColumn] = useState<string | null>(null);
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
 
@@ -149,30 +144,18 @@ export default function ProjectContractsPage() {
       if (!projectId) return;
 
       try {
-        const supabase = createClient();
-        const { data, error } = await supabase
-          .from('contracts')
-          .select(`
-            *,
-            client:clients!contracts_client_id_fkey(id, name),
-            project:projects!contracts_project_id_fkey(id, name, project_number)
-          `)
-          .eq('project_id', projectId)
-          .order('created_at', { ascending: false });
+        // Use the new prime_contracts API
+        const response = await fetch(`/api/projects/${projectId}/contracts`);
 
-        if (error) {
-          console.error('Error fetching contracts:', error);
-          console.error('Error details:', {
-            message: error.message,
-            details: error.details,
-            hint: error.hint,
-            code: error.code
-          });
-        } else {
-          setContracts(data || []);
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
         }
+
+        const data = await response.json();
+        setContracts(data || []);
       } catch (err) {
-        console.error('Error fetching contracts (catch):', err);
+        console.error('Error fetching contracts:', err);
+        toast.error('Failed to load contracts');
       } finally {
         setLoading(false);
       }
@@ -181,7 +164,7 @@ export default function ProjectContractsPage() {
     fetchContracts();
   }, [projectId]);
 
-  const toggleRow = useCallback((contractId: number) => {
+  const toggleRow = useCallback((contractId: string) => {
     setExpandedRows((prev) => {
       const next = new Set(prev);
       if (next.has(contractId)) {
@@ -214,11 +197,13 @@ export default function ProjectContractsPage() {
   const getStatusBadge = (status: string | null) => {
     const statusConfig: Record<string, { bg: string; text: string; label: string }> = {
       draft: { bg: 'bg-gray-100', text: 'text-gray-700', label: 'Draft' },
+      active: { bg: 'bg-green-100', text: 'text-green-700', label: 'Active' },
+      completed: { bg: 'bg-blue-100', text: 'text-blue-700', label: 'Completed' },
+      cancelled: { bg: 'bg-red-100', text: 'text-red-700', label: 'Cancelled' },
+      on_hold: { bg: 'bg-yellow-100', text: 'text-yellow-700', label: 'On Hold' },
+      // Legacy statuses for change orders
       pending: { bg: 'bg-yellow-100', text: 'text-yellow-700', label: 'Pending' },
       approved: { bg: 'bg-green-100', text: 'text-green-700', label: 'Approved' },
-      executed: { bg: 'bg-blue-100', text: 'text-blue-700', label: 'Executed' },
-      closed: { bg: 'bg-purple-100', text: 'text-purple-700', label: 'Closed' },
-      void: { bg: 'bg-red-100', text: 'text-red-700', label: 'Void' },
     };
     const config = statusConfig[status?.toLowerCase() || 'draft'] || statusConfig.draft;
     return (
@@ -233,12 +218,10 @@ export default function ProjectContractsPage() {
     let filtered = contracts.filter((contract) => {
       if (statusFilter === 'all') return true;
       if (statusFilter === 'active') {
-        // Active contracts are those that are approved or executed
-        return contract.status === 'approved' || contract.status === 'executed';
+        return contract.status === 'active';
       }
       if (statusFilter === 'completed') {
-        // Completed contracts are those that are closed
-        return contract.status === 'closed';
+        return contract.status === 'completed';
       }
       return true;
     });
@@ -254,9 +237,9 @@ export default function ProjectContractsPage() {
             aVal = a.contract_number;
             bVal = b.contract_number;
             break;
-          case 'client':
-            aVal = a.client?.name;
-            bVal = b.client?.name;
+          case 'vendor':
+            aVal = a.vendor?.name;
+            bVal = b.vendor?.name;
             break;
           case 'title':
             aVal = a.title;
@@ -266,29 +249,13 @@ export default function ProjectContractsPage() {
             aVal = a.status;
             bVal = b.status;
             break;
-          case 'executed':
-            aVal = a.executed ? 1 : 0;
-            bVal = b.executed ? 1 : 0;
+          case 'original_value':
+            aVal = a.original_contract_value || 0;
+            bVal = b.original_contract_value || 0;
             break;
-          case 'original_amount':
-            aVal = a.original_contract_amount || 0;
-            bVal = b.original_contract_amount || 0;
-            break;
-          case 'approved_cos':
-            aVal = a.approved_change_orders || 0;
-            bVal = b.approved_change_orders || 0;
-            break;
-          case 'pending_cos':
-            aVal = a.pending_change_orders || 0;
-            bVal = b.pending_change_orders || 0;
-            break;
-          case 'draft_cos':
-            aVal = a.draft_change_orders || 0;
-            bVal = b.draft_change_orders || 0;
-            break;
-          case 'revised_amount':
-            aVal = (a.original_contract_amount || 0) + (a.approved_change_orders || 0);
-            bVal = (b.original_contract_amount || 0) + (b.approved_change_orders || 0);
+          case 'revised_value':
+            aVal = a.revised_contract_value || 0;
+            bVal = b.revised_contract_value || 0;
             break;
           default:
             return 0;
@@ -314,14 +281,10 @@ export default function ProjectContractsPage() {
 
   const totals = filteredContracts.reduce(
     (acc, contract) => ({
-      original: acc.original + (contract.original_contract_amount || 0),
-      approved: acc.approved + (contract.approved_change_orders || 0),
-      pending: acc.pending + (contract.pending_change_orders || 0),
-      draft: acc.draft + (contract.draft_change_orders || 0),
-      revised: acc.revised + (contract.revised_contract_amount || 0),
-      invoiced: acc.invoiced + (contract.invoiced_amount || 0),
+      original: acc.original + (contract.original_contract_value || 0),
+      revised: acc.revised + (contract.revised_contract_value || 0),
     }),
-    { original: 0, approved: 0, pending: 0, draft: 0, revised: 0, invoiced: 0 }
+    { original: 0, revised: 0 }
   );
 
   return (
@@ -351,22 +314,18 @@ export default function ProjectContractsPage() {
 
       {/* Summary Cards - Above Tabs */}
       <div className="px-4 sm:px-6 lg:px-12 py-6 bg-white border-b">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           <Card className="p-4">
             <div className="text-xl font-bold">{formatCurrency(totals.original)}</div>
-            <p className="text-xs text-muted-foreground">Original Contract Amount</p>
+            <p className="text-xs text-muted-foreground">Original Contract Value</p>
           </Card>
           <Card className="p-4">
-            <div className="text-xl font-bold">{formatCurrency(totals.approved)}</div>
-            <p className="text-xs text-muted-foreground">Approved Change Orders</p>
+            <div className="text-xl font-bold">{formatCurrency(totals.revised)}</div>
+            <p className="text-xs text-muted-foreground">Revised Contract Value</p>
           </Card>
           <Card className="p-4">
-            <div className="text-xl font-bold">{formatCurrency(totals.original + totals.approved)}</div>
-            <p className="text-xs text-muted-foreground">Revised Contract Amount</p>
-          </Card>
-          <Card className="p-4">
-            <div className="text-xl font-bold">{formatCurrency(totals.pending)}</div>
-            <p className="text-xs text-muted-foreground">Pending Change Orders</p>
+            <div className="text-xl font-bold">{formatCurrency(totals.revised - totals.original)}</div>
+            <p className="text-xs text-muted-foreground">Change Orders Total</p>
           </Card>
         </div>
       </div>
@@ -413,10 +372,10 @@ export default function ProjectContractsPage() {
                   </TableHead>
                   <TableHead
                     className="cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSort('client')}
+                    onClick={() => handleSort('vendor')}
                   >
                     <div className="flex items-center gap-1">
-                      Owner/Client
+                      Vendor
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
@@ -439,56 +398,20 @@ export default function ProjectContractsPage() {
                     </div>
                   </TableHead>
                   <TableHead
-                    className="cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSort('executed')}
+                    className="text-right cursor-pointer hover:bg-gray-100"
+                    onClick={() => handleSort('original_value')}
                   >
-                    <div className="flex items-center gap-1">
-                      Executed
+                    <div className="flex items-center justify-end gap-1">
+                      Original Value
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
                   <TableHead
                     className="text-right cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSort('original_amount')}
+                    onClick={() => handleSort('revised_value')}
                   >
                     <div className="flex items-center justify-end gap-1">
-                      Original Amount
-                      <ArrowUpDown className="h-3 w-3" />
-                    </div>
-                  </TableHead>
-                  <TableHead
-                    className="text-right cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSort('approved_cos')}
-                  >
-                    <div className="flex items-center justify-end gap-1">
-                      Approved COs
-                      <ArrowUpDown className="h-3 w-3" />
-                    </div>
-                  </TableHead>
-                  <TableHead
-                    className="text-right cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSort('pending_cos')}
-                  >
-                    <div className="flex items-center justify-end gap-1">
-                      Pending COs
-                      <ArrowUpDown className="h-3 w-3" />
-                    </div>
-                  </TableHead>
-                  <TableHead
-                    className="text-right cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSort('draft_cos')}
-                  >
-                    <div className="flex items-center justify-end gap-1">
-                      Draft COs
-                      <ArrowUpDown className="h-3 w-3" />
-                    </div>
-                  </TableHead>
-                  <TableHead
-                    className="text-right cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSort('revised_amount')}
-                  >
-                    <div className="flex items-center justify-end gap-1">
-                      Revised Amount
+                      Revised Value
                       <ArrowUpDown className="h-3 w-3" />
                     </div>
                   </TableHead>
@@ -497,7 +420,6 @@ export default function ProjectContractsPage() {
               <TableBody>
                 {filteredContracts.map((contract) => {
                   const isExpanded = expandedRows.has(contract.id);
-                  const revised = (contract.original_contract_amount || 0) + (contract.approved_change_orders || 0);
 
                   return (
                     <Fragment key={contract.id}>
@@ -533,32 +455,22 @@ export default function ProjectContractsPage() {
                             {contract.contract_number || contract.id}
                           </Link>
                         </TableCell>
-                        <TableCell>{contract.client?.name || '--'}</TableCell>
+                        <TableCell>{contract.vendor?.name || '--'}</TableCell>
                         <TableCell>
                           <Link
                             href={`/${projectId}/contracts/${contract.id}`}
                             className="text-blue-600 hover:text-blue-800 hover:underline"
                             onClick={(e) => e.stopPropagation()}
                           >
-                            {contract.title || contract.project?.name || 'Prime Contract'}
+                            {contract.title}
                           </Link>
                         </TableCell>
                         <TableCell>{getStatusBadge(contract.status)}</TableCell>
-                        <TableCell>{contract.executed ? 'Yes' : 'No'}</TableCell>
                         <TableCell className="text-right font-medium">
-                          {formatCurrency(contract.original_contract_amount)}
-                        </TableCell>
-                        <TableCell className="text-right text-green-600">
-                          {formatCurrency(contract.approved_change_orders)}
-                        </TableCell>
-                        <TableCell className="text-right text-yellow-600">
-                          {formatCurrency(contract.pending_change_orders)}
-                        </TableCell>
-                        <TableCell className="text-right text-gray-500">
-                          {formatCurrency(contract.draft_change_orders)}
+                          {formatCurrency(contract.original_contract_value)}
                         </TableCell>
                         <TableCell className="text-right font-medium">
-                          {formatCurrency(revised)}
+                          {formatCurrency(contract.revised_contract_value)}
                         </TableCell>
                       </TableRow>
                       {isExpanded && (
@@ -573,11 +485,8 @@ export default function ProjectContractsPage() {
               </TableBody>
               <tfoot>
                 <TableRow className="bg-gray-100 font-medium">
-                  <TableCell colSpan={6}>Grand Totals</TableCell>
+                  <TableCell colSpan={5}>Grand Totals</TableCell>
                   <TableCell className="text-right">{formatCurrency(totals.original)}</TableCell>
-                  <TableCell className="text-right text-green-600">{formatCurrency(totals.approved)}</TableCell>
-                  <TableCell className="text-right text-yellow-600">{formatCurrency(totals.pending)}</TableCell>
-                  <TableCell className="text-right text-gray-500">{formatCurrency(totals.draft)}</TableCell>
                   <TableCell className="text-right">{formatCurrency(totals.revised)}</TableCell>
                 </TableRow>
               </tfoot>

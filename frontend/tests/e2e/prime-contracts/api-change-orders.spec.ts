@@ -1,14 +1,16 @@
 import { test, expect } from '@playwright/test';
 import { createClient } from '@supabase/supabase-js';
+import { withAuth } from '../../helpers/api-auth';
+import { join } from 'node:path';
 
 test.describe('Prime Contracts - Change Orders API Routes', () => {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+  const storageStatePath = join(__dirname, '../..', '.auth/user.json');
 
   let supabase: ReturnType<typeof createClient>;
   let supabaseAdmin: ReturnType<typeof createClient>;
-  let accessToken: string;
   let userId: string;
   let testProjectId: number;
   let testContractId: string;
@@ -31,7 +33,6 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
       throw new Error('No user or session returned from authentication');
     }
 
-    accessToken = authData.session.access_token;
     userId = authData.user.id;
 
     // Get a test project (assuming project 118 exists)
@@ -78,11 +79,10 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
   });
 
   test('GET should return 200 with empty array when no change orders exist', async ({ request }) => {
-    const response = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(200);
 
@@ -98,13 +98,12 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
       status: 'pending',
     };
 
-    const response = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: changeOrderData,
-    });
+    const response = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders`,
+      withAuth(storageStatePath, {
+        data: changeOrderData,
+      })
+    );
 
     expect(response.status()).toBe(201);
 
@@ -126,13 +125,12 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
       amount: 3000,
     };
 
-    const response = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: changeOrderData,
-    });
+    const response = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders`,
+      withAuth(storageStatePath, {
+        data: changeOrderData,
+      })
+    );
 
     expect(response.status()).toBe(400);
 
@@ -146,13 +144,12 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
       amount: 1000,
     };
 
-    const response = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: invalidData,
-    });
+    const response = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders`,
+      withAuth(storageStatePath, {
+        data: invalidData,
+      })
+    );
 
     expect(response.status()).toBe(400);
 
@@ -163,11 +160,10 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
   test('GET should return 200 with change order data', async ({ request }) => {
     const changeOrderId = createdChangeOrderIds[0];
 
-    const response = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(200);
 
@@ -179,11 +175,10 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
   test('GET should return 404 for non-existent change order', async ({ request }) => {
     const nonExistentId = '00000000-0000-0000-0000-000000000000';
 
-    const response = await request.get(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${nonExistentId}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.get(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${nonExistentId}`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(404);
 
@@ -198,13 +193,12 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
       amount: 5500,
     };
 
-    const response = await request.put(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: updateData,
-    });
+    const response = await request.put(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}`,
+      withAuth(storageStatePath, {
+        data: updateData,
+      })
+    );
 
     expect(response.status()).toBe(200);
 
@@ -219,13 +213,12 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
       change_order_number: '', // Empty string should fail validation
     };
 
-    const response = await request.put(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: invalidData,
-    });
+    const response = await request.put(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}`,
+      withAuth(storageStatePath, {
+        data: invalidData,
+      })
+    );
 
     expect(response.status()).toBe(400);
   });
@@ -240,12 +233,10 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
       .eq('id', testContractId)
       .single();
 
-    const response = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}/approve`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}/approve`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(200);
 
@@ -272,12 +263,10 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
   test('POST /approve should return 400 if already approved', async ({ request }) => {
     const changeOrderId = createdChangeOrderIds[0];
 
-    const response = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}/approve`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-    });
+    const response = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}/approve`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(400);
 
@@ -293,13 +282,12 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
       amount: 2000,
     };
 
-    const createResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: changeOrderData,
-    });
+    const createResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders`,
+      withAuth(storageStatePath, {
+        data: changeOrderData,
+      })
+    );
 
     const createdChangeOrder = await createResponse.json();
     createdChangeOrderIds.push(createdChangeOrder.id);
@@ -309,13 +297,12 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
       rejection_reason: 'Exceeds budget constraints',
     };
 
-    const response = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${createdChangeOrder.id}/reject`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: rejectionData,
-    });
+    const response = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${createdChangeOrder.id}/reject`,
+      withAuth(storageStatePath, {
+        data: rejectionData,
+      })
+    );
 
     expect(response.status()).toBe(200);
 
@@ -333,13 +320,12 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
       rejection_reason: 'Another reason',
     };
 
-    const response = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}/reject`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: rejectionData,
-    });
+    const response = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}/reject`,
+      withAuth(storageStatePath, {
+        data: rejectionData,
+      })
+    );
 
     expect(response.status()).toBe(400);
 
@@ -355,22 +341,20 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
       amount: 1000,
     };
 
-    const createResponse = await request.post(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-        'Content-Type': 'application/json',
-      },
-      data: changeOrderData,
-    });
+    const createResponse = await request.post(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders`,
+      withAuth(storageStatePath, {
+        data: changeOrderData,
+      })
+    );
 
     const createdChangeOrder = await createResponse.json();
     const changeOrderId = createdChangeOrder.id;
 
-    const response = await request.delete(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.delete(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${changeOrderId}`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(200);
 
@@ -390,11 +374,10 @@ test.describe('Prime Contracts - Change Orders API Routes', () => {
   test('DELETE should return 404 for non-existent change order', async ({ request }) => {
     const nonExistentId = '00000000-0000-0000-0000-000000000000';
 
-    const response = await request.delete(`${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${nonExistentId}`, {
-      headers: {
-        'Authorization': `Bearer ${accessToken}`,
-      },
-    });
+    const response = await request.delete(
+      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/change-orders/${nonExistentId}`,
+      withAuth(storageStatePath)
+    );
 
     expect(response.status()).toBe(404);
 

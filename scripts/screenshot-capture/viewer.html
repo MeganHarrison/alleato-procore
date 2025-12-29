@@ -660,6 +660,32 @@
             // Handle images that are already rendered (make them clickable for modal)
             const images = contentDiv.querySelectorAll('img:not(.screenshot-preview)');
             images.forEach(img => {
+                // Fix relative image paths to include project folder
+                let currentSrc = img.getAttribute('src');
+
+                // If it's a full URL, extract just the path
+                if (currentSrc && currentSrc.startsWith('http')) {
+                    try {
+                        const url = new URL(currentSrc);
+                        currentSrc = url.pathname;
+                    } catch (e) {
+                        console.error('Failed to parse URL:', currentSrc);
+                    }
+                }
+
+                // Check if path needs project folder prefix
+                // If it starts with /pages/ or ./pages/ or pages/, it needs the project folder
+                if (currentSrc && (currentSrc.includes('/pages/') || currentSrc.startsWith('pages/') || currentSrc.startsWith('./pages/'))) {
+                    // Extract just the pages/... part
+                    const pagesMatch = currentSrc.match(/(?:\.\/)?pages\/.+/);
+                    if (pagesMatch) {
+                        const relativePath = pagesMatch[0].replace('./', '');
+                        const newSrc = `/${projects[projectKey].folder}/${relativePath}`;
+                        img.src = newSrc;
+                        console.log(`Fixed image path: ${currentSrc} -> ${newSrc}`);
+                    }
+                }
+
                 // Make all images clickable for modal view
                 img.style.cursor = 'pointer';
                 img.style.transition = 'all 0.2s cubic-bezier(0.4, 0, 0.2, 1)';
@@ -677,12 +703,7 @@
 
                 // Add click handler for modal
                 img.addEventListener('click', () => {
-                    // Fix relative paths for modal
-                    let imgSrc = img.src;
-                    if (!imgSrc.startsWith('http') && !imgSrc.startsWith('/')) {
-                        imgSrc = `/${projects[projectKey].folder}/${imgSrc}`;
-                    }
-                    modalImage.src = imgSrc;
+                    modalImage.src = img.src;
                     modal.classList.add('active');
                 });
             });

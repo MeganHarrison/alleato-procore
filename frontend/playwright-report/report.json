@@ -11,7 +11,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 7
+      "actualWorkers": 1
     },
     "preserveOutput": "always",
     "reporter": [
@@ -39,7 +39,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 7
+          "actualWorkers": 1
         },
         "id": "setup",
         "name": "setup",
@@ -55,7 +55,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 7
+          "actualWorkers": 1
         },
         "id": "chromium",
         "name": "chromium",
@@ -102,12 +102,16 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 3801,
+                  "duration": 3099,
                   "errors": [],
-                  "stdout": [],
+                  "stdout": [
+                    {
+                      "text": "Auth setup successful: { cookieCount: \u001b[33m1\u001b[39m, hasAuthCookie: \u001b[33mtrue\u001b[39m }\n"
+                    }
+                  ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-12-28T22:00:04.145Z",
+                  "startTime": "2025-12-29T15:22:45.406Z",
                   "annotations": [],
                   "attachments": []
                 }
@@ -123,21 +127,21 @@
       ]
     },
     {
-      "title": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-      "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
+      "title": "e2e/prime-contracts/api-change-orders.spec.ts",
+      "file": "e2e/prime-contracts/api-change-orders.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Contract Billing & Payments Schema",
-          "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-          "line": 24,
+          "title": "Prime Contracts - Change Orders API Routes",
+          "file": "e2e/prime-contracts/api-change-orders.spec.ts",
+          "line": 6,
           "column": 6,
           "specs": [
             {
-              "title": "should create billing period and verify auto-calculated fields",
-              "ok": true,
+              "title": "POST should create change order and return 201",
+              "ok": false,
               "tags": [],
               "tests": [
                 {
@@ -150,669 +154,47 @@
                     {
                       "workerIndex": 1,
                       "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 174,
-                      "errors": [],
+                      "status": "failed",
+                      "duration": 439,
+                      "error": {
+                        "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m404\u001b[39m",
+                        "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m404\u001b[39m\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/prime-contracts/api-change-orders.spec.ts:108:31",
+                        "location": {
+                          "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/prime-contracts/api-change-orders.spec.ts",
+                          "column": 31,
+                          "line": 108
+                        },
+                        "snippet": "  106 |     );\n  107 |\n> 108 |     expect(response.status()).toBe(201);\n      |                               ^\n  109 |\n  110 |     const data = await response.json();\n  111 |     expect(data.id).toBeDefined();"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/prime-contracts/api-change-orders.spec.ts",
+                            "column": 31,
+                            "line": 108
+                          },
+                          "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mreceived\u001b[39m\u001b[2m).\u001b[22mtoBe\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m) // Object.is equality\u001b[22m\n\nExpected: \u001b[32m201\u001b[39m\nReceived: \u001b[31m404\u001b[39m\n\n  106 |     );\n  107 |\n> 108 |     expect(response.status()).toBe(201);\n      |                               ^\n  109 |\n  110 |     const data = await response.json();\n  111 |     expect(data.id).toBeDefined();\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/prime-contracts/api-change-orders.spec.ts:108:31"
+                        }
+                      ],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-12-28T22:00:08.505Z",
+                      "startTime": "2025-12-29T15:22:49.152Z",
                       "annotations": [],
-                      "attachments": []
+                      "attachments": [],
+                      "errorLocation": {
+                        "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/prime-contracts/api-change-orders.spec.ts",
+                        "column": 31,
+                        "line": 108
+                      }
                     }
                   ],
-                  "status": "expected"
+                  "status": "unexpected"
                 }
               ],
-              "id": "d6677a76c46ae3a8f808-bd7c0d8524782586239f",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 113,
-              "column": 7
-            },
-            {
-              "title": "should recalculate auto-calculated fields when values updated",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 348,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:09.511Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-024a92d7340a84abb23d",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 160,
-              "column": 7
-            },
-            {
-              "title": "should verify unique constraint on period_number per contract",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "passed",
-                      "duration": 241,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:09.864Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-e7cb0a7fd70f6dfdbf25",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 212,
-              "column": 7
-            },
-            {
-              "title": "should verify date range constraint",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 95,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:08.507Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-8cf74b982099949eaa15",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 254,
-              "column": 7
-            },
-            {
-              "title": "should verify billing_date constraint",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 82,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:09.464Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-39ad5dbcec169ab59d29",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 274,
-              "column": 7
-            },
-            {
-              "title": "should create payment and verify all fields",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 2,
-                      "parallelIndex": 1,
-                      "status": "passed",
-                      "duration": 185,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:09.551Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-3a34f5eb9b27a2d8c8cf",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 294,
-              "column": 7
-            },
-            {
-              "title": "should update payment status from pending to approved",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 288,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:08.507Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-e2656528f8f16fec97ef",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 331,
-              "column": 7
-            },
-            {
-              "title": "should update payment status from approved to paid",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 306,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:09.628Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-34c9dbb22fe65294061a",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 373,
-              "column": 7
-            },
-            {
-              "title": "should verify unique constraint on payment_number per contract",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 2,
-                      "status": "passed",
-                      "duration": 281,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:09.940Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-9b8b48cb34adb1c5a111",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 416,
-              "column": 7
-            },
-            {
-              "title": "should link payment to billing period",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 330,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:08.508Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-1c6e8224b47bf016a5ec",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 454,
-              "column": 7
-            },
-            {
-              "title": "should handle billing period delete with SET NULL on payment",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 410,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:09.659Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-54779a95974f2ee15a7c",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 498,
-              "column": 7
-            },
-            {
-              "title": "should verify cascade delete when contract deleted",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "passed",
-                      "duration": 538,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:10.074Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-57dba3c303f2ee047812",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 553,
-              "column": 7
-            },
-            {
-              "title": "should verify RLS policies block unauthorized access",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 492,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:08.508Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-07d3e7609473df8204a9",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 645,
-              "column": 7
-            },
-            {
-              "title": "should verify billing period status check constraint",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 85,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:09.850Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-18804ddc12697a379583",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 706,
-              "column": 7
-            },
-            {
-              "title": "should verify payment status check constraint",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 5,
-                      "parallelIndex": 4,
-                      "status": "passed",
-                      "duration": 99,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:09.941Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-c2c47b365012723b2c13",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 727,
-              "column": 7
-            },
-            {
-              "title": "should verify updated_at trigger works for billing periods",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 5,
-                      "status": "passed",
-                      "duration": 1276,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:08.507Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-bee36cf9e5134cb1fdb5",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 746,
-              "column": 7
-            },
-            {
-              "title": "should verify updated_at trigger works for payments",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 5,
-                      "status": "passed",
-                      "duration": 1286,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:10.603Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-ead624046a855d9ed12f",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 785,
-              "column": 7
-            },
-            {
-              "title": "should support different payment types",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 6,
-                      "parallelIndex": 5,
-                      "status": "passed",
-                      "duration": 669,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:11.895Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-92f2670fe663d0667578",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 822,
-              "column": 7
-            },
-            {
-              "title": "should verify retention percentage constraint",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 7,
-                      "parallelIndex": 6,
-                      "status": "passed",
-                      "duration": 103,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:08.509Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-a05313fe55adfbebbdc7",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 849,
-              "column": 7
-            },
-            {
-              "title": "should verify payment amount constraint",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 30000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 7,
-                      "parallelIndex": 6,
-                      "status": "passed",
-                      "duration": 75,
-                      "errors": [],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2025-12-28T22:00:09.442Z",
-                      "annotations": [],
-                      "attachments": []
-                    }
-                  ],
-                  "status": "expected"
-                }
-              ],
-              "id": "d6677a76c46ae3a8f808-b60b5b52f4e775a3c620",
-              "file": "e2e/prime-contracts/billing-payments-schema.spec.ts",
-              "line": 870,
+              "id": "7ad0a62c54577e26df39-aaa652e497f8f181ad65",
+              "file": "e2e/prime-contracts/api-change-orders.spec.ts",
+              "line": 93,
               "column": 7
             }
           ]
@@ -822,11 +204,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-12-28T22:00:03.844Z",
-    "duration": 8920.864,
-    "expected": 21,
+    "startTime": "2025-12-29T15:22:45.034Z",
+    "duration": 5325.426,
+    "expected": 1,
     "skipped": 0,
-    "unexpected": 0,
+    "unexpected": 1,
     "flaky": 0
   }
 }
