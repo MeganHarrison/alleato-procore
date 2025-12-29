@@ -319,9 +319,9 @@ export default function ProjectContractDetailPage() {
 
         {/* General Tab */}
         <TabsContent value="general" className="mt-0">
-          <div className="grid grid-cols-[240px_1fr] min-h-[calc(100vh-280px)]">
-            {/* Sidebar Navigation */}
-            <div className="border-r bg-muted/30 p-4">
+          <div className="grid grid-cols-1 md:grid-cols-[240px_1fr] min-h-[calc(100vh-280px)]">
+            {/* Sidebar Navigation - Hidden on mobile */}
+            <div className="hidden md:block border-r bg-muted/30 p-4">
               <div className="space-y-1">
                 <h3 className="font-semibold text-sm mb-3 text-foreground">General Information</h3>
                 <a
