@@ -264,7 +264,7 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
       </div>
 
       {/* Cost Codes List */}
-      <div className="space-y-1">
+      <div className="space-y-0.5">
         {filteredDivisions.length === 0 ? (
           <div className="py-8 text-center text-gray-500">
             No cost codes found matching your search
@@ -273,37 +273,41 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
           filteredDivisions.map(([division, codes], index) => {
             const isExpanded = expandedDivisions.has(division);
             const allSelected = codes.every(code => selectedCostCodes.has(code.id));
-            const bgColor = index % 2 === 0 ? 'bg-white' : 'bg-gray-50';
+            const isEvenDivision = index % 2 === 0;
 
             return (
-              <div key={division} className={bgColor}>
-                <div className="flex items-center justify-between p-2 hover:bg-gray-100">
+              <div
+                key={division}
+                className={isEvenDivision ? 'bg-gray-50/50' : 'bg-white'}
+              >
+                <div className="flex items-center justify-between py-2 px-3 hover:bg-gray-100/50">
                   <button
                     className="flex items-center gap-2 cursor-pointer flex-1 text-left"
                     onClick={() => toggleDivision(division)}
                     type="button"
                   >
                     {isExpanded ? (
-                      <ChevronDown className="h-4 w-4" />
+                      <ChevronDown className="h-4 w-4 text-gray-600" />
                     ) : (
-                      <ChevronRight className="h-4 w-4" />
+                      <ChevronRight className="h-4 w-4 text-gray-600" />
                     )}
-                    <span className="text-sm font-medium">{division}</span>
+                    <span className="text-sm font-medium text-gray-900">{division}</span>
                     <span className="text-xs text-gray-500">
-                      ({codes.filter(c => selectedCostCodes.has(c.id)).length}/{codes.length} selected)
+                      ({codes.filter(c => selectedCostCodes.has(c.id)).length}/{codes.length})
                     </span>
                   </button>
                   <Button
                     size="sm"
-                    variant="outline"
+                    variant="ghost"
                     onClick={() => selectAllInDivision(codes, !allSelected)}
+                    className="h-7 text-xs"
                   >
                     {allSelected ? 'Deselect All' : 'Select All'}
                   </Button>
                 </div>
 
                 {isExpanded && (
-                  <div className="px-2 pb-2 space-y-0.5">
+                  <div className="px-3 pb-2 space-y-0.5">
                     {codes.map(code => {
                       const isSelected = selectedCostCodes.has(code.id);
 
@@ -311,17 +315,17 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
                         <button
                           key={code.id}
                           type="button"
-                          className="flex items-center gap-2 py-0.5 px-2 rounded hover:bg-gray-100 cursor-pointer w-full text-left"
+                          className="flex items-center gap-3 py-1.5 px-2 rounded hover:bg-gray-100/70 cursor-pointer w-full text-left"
                           onClick={() => toggleCostCode(code.id)}
                         >
                           <Checkbox
                             checked={isSelected}
                             onCheckedChange={() => toggleCostCode(code.id)}
                           />
-                          <div className="flex-1 text-xs">
-                            <span>{code.id}</span>
+                          <div className="flex-1 text-sm text-gray-700">
+                            <span className="font-medium">{code.id}</span>
                             {code.title && (
-                              <span> - {code.title}</span>
+                              <span className="text-gray-600"> - {code.title}</span>
                             )}
                           </div>
                         </button>
