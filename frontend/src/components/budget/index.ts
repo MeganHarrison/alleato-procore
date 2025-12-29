@@ -11,3 +11,6 @@ export { VerticalMarkupSettings } from './vertical-markup-settings';
 export { CostCodesTab } from './cost-codes-tab';
 export { BudgetViewsModal } from './BudgetViewsModal';
 export { BudgetViewsManager } from './BudgetViewsManager';
+export { ForecastingTab } from './forecasting-tab';
+export { SnapshotsTab } from './snapshots-tab';
+export { ChangeHistoryTab } from './change-history-tab';

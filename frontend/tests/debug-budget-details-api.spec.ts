@@ -1,0 +1,31 @@
+import { test, expect } from '@playwright/test';
+
+test('debug budget details API', async ({ page }) => {
+  // Listen for network responses
+  const apiResponses: { url: string; status: number; body: unknown }[] = [];
+
+  page.on('response', async (response) => {
+    if (response.url().includes('/api/projects/67/budget/details')) {
+      try {
+        const body = await response.json();
+        apiResponses.push({
+          url: response.url(),
+          status: response.status(),
+          body,
+        });
+        console.warn('Budget Details API Response:', JSON.stringify(body, null, 2));
+      } catch (e) {
+        console.warn('Could not parse response body');
+      }
+    }
+  });
+
+  // Navigate to budget details tab
+  await page.goto('http://localhost:3004/67/budget?tab=budget-details');
+
+  // Wait for API call to complete
+  await page.waitForTimeout(3000);
+
+  // Log the API responses
+  console.warn('API Responses:', JSON.stringify(apiResponses, null, 2));
+});

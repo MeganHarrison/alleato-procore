@@ -252,6 +252,15 @@ async function capturePage(page, url, pageName, category = "documentation") {
 async function captureExpandables(page, pageUrl, pageName) {
   console.log(`\n🎯 Looking for expandable sections on: ${pageName}`);
 
+  // Configuration: Set to false to skip expandable captures entirely
+  const CAPTURE_EXPANDABLES = false;
+  const MIN_REVEALED_CONTENT_LENGTH = 100; // Minimum content length to save
+
+  if (!CAPTURE_EXPANDABLES) {
+    console.log(`   ⏭️  Skipping expandables (disabled in config)`);
+    return;
+  }
+
   try {
     // Look for expandable elements
     const expandableSelectors = [
@@ -280,19 +289,7 @@ async function captureExpandables(page, pageUrl, pageName) {
           await element.click();
           await page.waitForTimeout(1000);
 
-          // Capture the expanded state
-          const expandedPageId = generatePageId(pageUrl, `${pageName}_expanded_${i}`);
-          const expandedDir = path.join(SCREENSHOT_DIR, expandedPageId);
-          if (!fs.existsSync(expandedDir)) {
-            fs.mkdirSync(expandedDir, { recursive: true });
-          }
-
-          await page.screenshot({
-            path: path.join(expandedDir, "screenshot.png"),
-            fullPage: true
-          });
-
-          // Extract revealed content
+          // Extract revealed content BEFORE deciding to save
           const revealedContent = await page.evaluate(() => {
             const content = [];
             document.querySelectorAll('[class*="shown"], [class*="expanded"], [open]').forEach(item => {
@@ -305,19 +302,45 @@ async function captureExpandables(page, pageUrl, pageName) {
             return content;
           });
 
-          console.log(`   📋 Found ${revealedContent.length} revealed items`);
+          // Calculate total revealed content length
+          const totalContentLength = revealedContent.reduce((sum, item) => sum + item.text.length, 0);
 
-          // Save expandable metadata
-          fs.writeFileSync(
-            path.join(expandedDir, "metadata.json"),
-            JSON.stringify({
-              parentPage: pageName,
-              parentUrl: pageUrl,
-              expandableIndex: i,
-              revealedContent,
-              timestamp: new Date().toISOString()
-            }, null, 2)
-          );
+          // Only save if there's significant content
+          if (totalContentLength >= MIN_REVEALED_CONTENT_LENGTH && revealedContent.length > 0) {
+            console.log(`   📋 Found ${revealedContent.length} revealed items (${totalContentLength} chars) - saving...`);
+
+            // Capture the expanded state
+            const expandedPageId = generatePageId(pageUrl, `${pageName}_expanded_${i}`);
+            const expandedDir = path.join(SCREENSHOT_DIR, expandedPageId);
+            if (!fs.existsSync(expandedDir)) {
+              fs.mkdirSync(expandedDir, { recursive: true });
+            }
+
+            // Save screenshot
+            await page.screenshot({
+              path: path.join(expandedDir, "screenshot.png"),
+              fullPage: true
+            });
+
+            // Save DOM (THIS WAS MISSING!)
+            const htmlContent = await page.content();
+            fs.writeFileSync(path.join(expandedDir, "dom.html"), htmlContent);
+
+            // Save expandable metadata
+            fs.writeFileSync(
+              path.join(expandedDir, "metadata.json"),
+              JSON.stringify({
+                parentPage: pageName,
+                parentUrl: pageUrl,
+                expandableIndex: i,
+                revealedContent,
+                totalContentLength,
+                timestamp: new Date().toISOString()
+              }, null, 2)
+            );
+          } else {
+            console.log(`   ⏭️  Skipping save - insufficient content (${totalContentLength} chars)`);
+          }
 
           // Collapse it back
           await element.click();

@@ -18,7 +18,8 @@ export default function NewContractPage() {
   const handleSubmit = async (data: ContractFormData) => {
     setIsSaving(true);
     try {
-      const response = await fetch('/api/contracts', {
+      // Use the new prime_contracts API
+      const response = await fetch(`/api/projects/${projectId}/contracts`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -26,25 +27,16 @@ export default function NewContractPage() {
         body: JSON.stringify({
           contract_number: data.number,
           title: data.title,
-          project_id: parseInt(projectId),
-          client_id: data.ownerClientId ? parseInt(data.ownerClientId) : null,
-          owner_client_id: data.ownerClientId ? parseInt(data.ownerClientId) : null,
-          contractor_id: data.contractorId ? parseInt(data.contractorId) : null,
-          architect_engineer_id: data.architectEngineerId ? parseInt(data.architectEngineerId) : null,
-          status: data.status,
-          executed: data.executed,
-          private: data.isPrivate,
-          default_retainage: data.defaultRetainage,
+          vendor_id: data.ownerClientId || null, // Map ownerClientId to vendor_id
           description: data.description,
-          start_date: data.startDate?.toISOString().split('T')[0],
-          estimated_completion_date: data.estimatedCompletionDate?.toISOString().split('T')[0],
-          substantial_completion_date: data.substantialCompletionDate?.toISOString().split('T')[0],
-          actual_completion_date: data.actualCompletionDate?.toISOString().split('T')[0],
-          signed_contract_received_date: data.signedContractReceivedDate?.toISOString().split('T')[0],
-          contract_termination_date: data.contractTerminationDate?.toISOString().split('T')[0],
-          inclusions: data.inclusions,
-          exclusions: data.exclusions,
-          allowed_users: data.allowedUsers,
+          status: data.status || 'draft',
+          original_contract_value: data.originalAmount || 0,
+          revised_contract_value: data.revisedAmount || data.originalAmount || 0,
+          start_date: data.startDate?.toISOString().split('T')[0] || null,
+          end_date: data.estimatedCompletionDate?.toISOString().split('T')[0] || null,
+          retention_percentage: data.defaultRetainage || 0,
+          payment_terms: null, // Not in form yet
+          billing_schedule: null, // Not in form yet
         }),
       });
 

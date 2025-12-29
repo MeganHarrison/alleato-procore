@@ -8,16 +8,21 @@ import { Badge } from '@/components/ui/badge';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Skeleton } from '@/components/ui/skeleton';
 import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import {
   ArrowLeft,
   FileText,
   DollarSign,
   AlertCircle,
-  CheckCircle2,
-  Clock,
   Download,
   Mail,
   History,
-  Settings,
   Plus,
   ChevronDown,
   ChevronRight,
@@ -35,48 +40,37 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { ProjectPageHeader, PageContainer } from '@/components/layout';
 import { useProjectTitle } from '@/hooks/useProjectTitle';
+import type { ContractLineItemWithCostCode } from '@/types/contract-line-items';
+import type { ContractChangeOrder } from '@/types/contract-change-orders';
 
 interface Contract {
-  id: number;
+  id: string;
   contract_number: string | null;
   title: string;
-  status: string | null;
-  executed: boolean | null;
-  original_contract_amount: number | null;
-  revised_contract_amount: number | null;
-  approved_change_orders: number | null;
-  pending_change_orders: number | null;
-  draft_change_orders: number | null;
-  invoiced_amount: number | null;
-  payments_received: number | null;
-  remaining_balance: number | null;
-  retention_percentage: number | null;
-  percent_paid: number | null;
-  notes: string | null;
-  private: boolean | null;
-  apply_vertical_markup: boolean | null;
-  attachment_count: number | null;
-  erp_status: string | null;
+  status: 'draft' | 'active' | 'completed' | 'cancelled' | 'on_hold';
+  original_contract_value: number;
+  revised_contract_value: number;
+  start_date: string | null;
+  end_date: string | null;
+  retention_percentage: number;
+  payment_terms: string | null;
+  billing_schedule: string | null;
+  description: string | null;
   created_at: string;
   created_by: string | null;
-  client_id: number;
+  vendor_id: string | null;
   project_id: number;
-  client?: {
-    id: number;
+  vendor?: {
+    id: string;
     name: string;
-  };
-  project?: {
-    id: number;
-    name: string;
-    project_number: string | null;
-  };
+  } | null;
 }
 
 export default function ProjectContractDetailPage() {
   const router = useRouter();
   const params = useParams();
   const projectId = parseInt(params.projectId as string, 10);
-  const contractId = parseInt(params.id as string, 10);
+  const contractId = params.id as string;
   useProjectTitle('Prime Contract');
 
   const [contract, setContract] = useState<Contract | null>(null);
@@ -85,11 +79,19 @@ export default function ProjectContractDetailPage() {
   const [generalInfoOpen, setGeneralInfoOpen] = useState(true);
   const [contractSummaryOpen, setContractSummaryOpen] = useState(true);
 
+  // Line items state
+  const [lineItems, setLineItems] = useState<ContractLineItemWithCostCode[]>([]);
+  const [lineItemsLoading, setLineItemsLoading] = useState(false);
+
+  // Change orders state
+  const [changeOrders, setChangeOrders] = useState<ContractChangeOrder[]>([]);
+  const [changeOrdersLoading, setChangeOrdersLoading] = useState(false);
+
   useEffect(() => {
     const fetchContract = async () => {
       try {
         setLoading(true);
-        const response = await fetch(`/api/contracts/${contractId}`);
+        const response = await fetch(`/api/projects/${projectId}/contracts/${contractId}`);
 
         if (!response.ok) {
           if (response.status === 404) {
@@ -110,17 +112,69 @@ export default function ProjectContractDetailPage() {
       }
     };
 
-    if (contractId) {
+    if (contractId && projectId) {
       fetchContract();
     }
-  }, [contractId]);
+  }, [contractId, projectId]);
+
+  // Fetch line items when contract is loaded
+  useEffect(() => {
+    const fetchLineItems = async () => {
+      if (!contract) return;
+
+      try {
+        setLineItemsLoading(true);
+        const response = await fetch(`/api/projects/${projectId}/contracts/${contractId}/line-items`);
+
+        if (!response.ok) {
+          console.error('Failed to fetch line items');
+          return;
+        }
+
+        const data = await response.json();
+        setLineItems(data || []);
+      } catch (err) {
+        console.error('Error fetching line items:', err);
+      } finally {
+        setLineItemsLoading(false);
+      }
+    };
+
+    fetchLineItems();
+  }, [contract, projectId, contractId]);
+
+  // Fetch change orders when contract is loaded
+  useEffect(() => {
+    const fetchChangeOrders = async () => {
+      if (!contract) return;
+
+      try {
+        setChangeOrdersLoading(true);
+        const response = await fetch(`/api/projects/${projectId}/contracts/${contractId}/change-orders`);
+
+        if (!response.ok) {
+          console.error('Failed to fetch change orders');
+          return;
+        }
+
+        const data = await response.json();
+        setChangeOrders(data || []);
+      } catch (err) {
+        console.error('Error fetching change orders:', err);
+      } finally {
+        setChangeOrdersLoading(false);
+      }
+    };
+
+    fetchChangeOrders();
+  }, [contract, projectId, contractId]);
 
   const handleBack = () => {
     router.push(`/${projectId}/contracts`);
   };
 
   const handleEdit = () => {
-    router.push(`/form-contract/${contractId}?projectId=${projectId}`);
+    router.push(`/${projectId}/contracts/${contractId}/edit`);
   };
 
   const formatCurrency = (value: number | null | undefined) => {
@@ -144,17 +198,20 @@ export default function ProjectContractDetailPage() {
     });
   };
 
-  const getStatusBadgeVariant = (status: string | null): "default" | "secondary" | "success" | "warning" | "destructive" | "outline" => {
-    switch (status?.toLowerCase()) {
-      case 'approved':
+  const getStatusBadgeVariant = (status: Contract['status']): "default" | "secondary" | "success" | "warning" | "destructive" | "outline" => {
+    switch (status) {
+      case 'active':
         return 'success';
-      case 'pending':
-      case 'pending_approval':
+      case 'completed':
+        return 'default';
+      case 'on_hold':
         return 'warning';
+      case 'cancelled':
+        return 'destructive';
       case 'draft':
         return 'secondary';
       default:
-        return 'outline';
+        return 'secondary';
     }
   };
 
@@ -199,18 +256,19 @@ export default function ProjectContractDetailPage() {
     );
   }
 
-  const changeOrdersCount = (contract.approved_change_orders || 0) +
-    (contract.pending_change_orders || 0) +
-    (contract.draft_change_orders || 0);
+  const changeOrdersCount = changeOrders.length;
+  const invoicesCount = 0; // TODO: Get from API
+  const paymentsCount = 0; // TODO: Get from API
 
-  const invoicesCount = 6; // TODO: Get from API
-  const paymentsCount = 5; // TODO: Get from API
+  const approvedChangeOrders = changeOrders.filter(co => co.status === 'approved');
+  const pendingChangeOrders = changeOrders.filter(co => co.status === 'pending');
+  const rejectedChangeOrders = changeOrders.filter(co => co.status === 'rejected');
 
   return (
     <>
       <ProjectPageHeader
         title={contract.title}
-        description={contract.client?.name || 'No client assigned'}
+        description={contract.vendor?.name || 'No vendor assigned'}
         breadcrumbs={[
           { label: 'Prime Contracts', href: `/${projectId}/contracts` },
           { label: `Contract #${contract.contract_number || contract.id}` }
@@ -294,18 +352,6 @@ export default function ProjectContractDetailPage() {
             >
               Change History
             </TabsTrigger>
-            <TabsTrigger
-              value="financial-markup"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
-            >
-              Financial Markup
-            </TabsTrigger>
-            <TabsTrigger
-              value="settings"
-              className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
-            >
-              Advanced Settings
-            </TabsTrigger>
           </TabsList>
         </div>
 
@@ -339,12 +385,6 @@ export default function ProjectContractDetailPage() {
                   className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
                 >
                   Contract Dates
-                </a>
-                <a
-                  href="#contract-privacy"
-                  className="block px-3 py-2 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
-                >
-                  Contract Privacy
                 </a>
               </div>
             </div>
@@ -394,9 +434,9 @@ export default function ProjectContractDetailPage() {
                         </div>
 
                         <div>
-                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Owner/Client</h4>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Vendor</h4>
                           <p className="text-sm text-primary">
-                            {contract.client?.name || '--'}
+                            {contract.vendor?.name || '--'}
                           </p>
                         </div>
 
@@ -408,40 +448,38 @@ export default function ProjectContractDetailPage() {
                         <div>
                           <h4 className="text-sm font-medium text-muted-foreground mb-2">Status</h4>
                           <Badge variant={getStatusBadgeVariant(contract.status)} className="text-xs">
-                            {contract.status || 'Draft'}
+                            {contract.status.charAt(0).toUpperCase() + contract.status.slice(1).replace('_', ' ')}
                           </Badge>
                         </div>
 
                         <div>
-                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Executed</h4>
-                          <div className="flex items-center gap-2">
-                            {contract.executed ? (
-                              <CheckCircle2 className="h-4 w-4" />
-                            ) : null}
-                            <span className="text-sm">{contract.executed ? '✓' : '--'}</span>
-                          </div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Start Date</h4>
+                          <p className="text-sm">{contract.start_date ? formatDate(contract.start_date) : '--'}</p>
                         </div>
 
                         <div>
-                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Default Retainage</h4>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">End Date</h4>
+                          <p className="text-sm">{contract.end_date ? formatDate(contract.end_date) : '--'}</p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Retention Percentage</h4>
                           <p className="text-sm">{contract.retention_percentage ? `${contract.retention_percentage}%` : '0%'}</p>
                         </div>
 
                         <div>
-                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Contractor</h4>
-                          <p className="text-sm text-primary">
-                            {contract.project?.name || 'Alleato Group'}
-                          </p>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Payment Terms</h4>
+                          <p className="text-sm">{contract.payment_terms || '--'}</p>
                         </div>
 
                         <div>
-                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Architect/Engineer</h4>
-                          <p className="text-sm">--</p>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Billing Schedule</h4>
+                          <p className="text-sm">{contract.billing_schedule || '--'}</p>
                         </div>
 
                         <div className="col-span-3">
                           <h4 className="text-sm font-medium text-muted-foreground mb-2">Description</h4>
-                          <p className="text-sm">{contract.notes || '--'}</p>
+                          <p className="text-sm">{contract.description || '--'}</p>
                         </div>
 
                         <div className="col-span-3">
@@ -473,43 +511,25 @@ export default function ProjectContractDetailPage() {
                     <CardContent className="pt-0">
                       <div className="grid grid-cols-4 gap-6">
                         <div>
-                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Original Contract Amount</h4>
-                          <p className="text-lg font-semibold">{formatCurrency(contract.original_contract_amount)}</p>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Original Contract Value</h4>
+                          <p className="text-lg font-semibold">{formatCurrency(contract.original_contract_value)}</p>
                         </div>
 
                         <div>
-                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Pending Change Orders</h4>
-                          <p className="text-lg font-semibold">{formatCurrency(0)}</p>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Revised Contract Value</h4>
+                          <p className="text-lg font-semibold">{formatCurrency(contract.revised_contract_value)}</p>
+                        </div>
+
+                        <div>
+                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Change Orders</h4>
+                          <p className="text-lg font-semibold">{changeOrdersCount}</p>
+                          <p className="text-xs text-muted-foreground">See Change Orders tab</p>
                         </div>
 
                         <div>
                           <h4 className="text-sm font-medium text-muted-foreground mb-2">Invoices</h4>
-                          <p className="text-lg font-semibold">{formatCurrency(contract.invoiced_amount)}</p>
-                        </div>
-
-                        <div>
-                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Payments Received</h4>
-                          <p className="text-lg font-semibold">{formatCurrency(contract.payments_received)}</p>
-                        </div>
-
-                        <div>
-                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Approved Change Orders</h4>
-                          <p className="text-lg font-semibold">{formatCurrency(contract.approved_change_orders || 0)}</p>
-                        </div>
-
-                        <div>
-                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Pending Revised Contract Amount</h4>
-                          <p className="text-lg font-semibold">{formatCurrency(contract.revised_contract_amount || contract.original_contract_amount)}</p>
-                        </div>
-
-                        <div>
-                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Remaining Balance</h4>
-                          <p className="text-lg font-semibold">{formatCurrency(contract.remaining_balance)}</p>
-                        </div>
-
-                        <div>
-                          <h4 className="text-sm font-medium text-muted-foreground mb-2">Percent Paid</h4>
-                          <p className="text-lg font-semibold">{contract.percent_paid?.toFixed(1) || '0'}%</p>
+                          <p className="text-lg font-semibold">{invoicesCount}</p>
+                          <p className="text-xs text-muted-foreground">See Invoices tab</p>
                         </div>
                       </div>
                     </CardContent>
@@ -517,13 +537,75 @@ export default function ProjectContractDetailPage() {
                 </Card>
               </Collapsible>
 
-              {/* Placeholder sections */}
+              {/* Schedule of Values (Line Items) */}
               <Card id="schedule-of-values">
                 <CardHeader>
-                  <CardTitle className="text-lg">Schedule of Values</CardTitle>
+                  <div className="flex items-center justify-between">
+                    <CardTitle className="text-lg">Schedule of Values</CardTitle>
+                    <Button variant="outline" size="sm">
+                      <Plus className="h-4 w-4 mr-2" />
+                      Add Line Item
+                    </Button>
+                  </div>
+                  <CardDescription>
+                    {lineItems.length} line item{lineItems.length !== 1 ? 's' : ''} • Total: {formatCurrency(lineItems.reduce((sum, item) => sum + item.total_cost, 0))}
+                  </CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-muted-foreground">Schedule of Values will be displayed here</p>
+                  {lineItemsLoading ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <p>Loading line items...</p>
+                    </div>
+                  ) : lineItems.length === 0 ? (
+                    <div className="text-center py-8 text-muted-foreground">
+                      <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                      <p>No line items yet</p>
+                      <p className="text-xs mt-2">Add line items to create a schedule of values</p>
+                    </div>
+                  ) : (
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="w-16">#</TableHead>
+                          <TableHead>Description</TableHead>
+                          <TableHead>Cost Code</TableHead>
+                          <TableHead className="text-right">Quantity</TableHead>
+                          <TableHead>Unit</TableHead>
+                          <TableHead className="text-right">Unit Cost</TableHead>
+                          <TableHead className="text-right">Total</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {lineItems.map((item) => (
+                          <TableRow key={item.id}>
+                            <TableCell className="font-medium">{item.line_number}</TableCell>
+                            <TableCell>{item.description}</TableCell>
+                            <TableCell>
+                              {item.cost_code ? (
+                                <span className="text-xs">
+                                  {item.cost_code.code} - {item.cost_code.name}
+                                </span>
+                              ) : (
+                                '--'
+                              )}
+                            </TableCell>
+                            <TableCell className="text-right">{item.quantity.toLocaleString()}</TableCell>
+                            <TableCell>{item.unit_of_measure || '--'}</TableCell>
+                            <TableCell className="text-right">{formatCurrency(item.unit_cost)}</TableCell>
+                            <TableCell className="text-right font-medium">{formatCurrency(item.total_cost)}</TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                      <tfoot>
+                        <TableRow className="bg-gray-50 font-medium">
+                          <TableCell colSpan={6}>Total</TableCell>
+                          <TableCell className="text-right">
+                            {formatCurrency(lineItems.reduce((sum, item) => sum + item.total_cost, 0))}
+                          </TableCell>
+                        </TableRow>
+                      </tfoot>
+                    </Table>
+                  )}
                 </CardContent>
               </Card>
 
@@ -541,27 +623,19 @@ export default function ProjectContractDetailPage() {
                   <CardTitle className="text-lg">Contract Dates</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-3 gap-4">
                     <div>
                       <h4 className="text-sm font-medium text-muted-foreground mb-2">Created</h4>
                       <p className="text-sm">{formatDate(contract.created_at)}</p>
                     </div>
                     <div>
-                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Executed Date</h4>
-                      <p className="text-sm">--</p>
+                      <h4 className="text-sm font-medium text-muted-foreground mb-2">Start Date</h4>
+                      <p className="text-sm">{contract.start_date ? formatDate(contract.start_date) : '--'}</p>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              <Card id="contract-privacy">
-                <CardHeader>
-                  <CardTitle className="text-lg">Contract Privacy</CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <div>
-                    <h4 className="text-sm font-medium text-muted-foreground mb-2">Private</h4>
-                    <p className="text-sm">{contract.private ? 'Yes' : 'No'}</p>
+                    <div>
+                      <h4 className="text-sm font-medium text-muted-foreground mb-2">End Date</h4>
+                      <p className="text-sm">{contract.end_date ? formatDate(contract.end_date) : '--'}</p>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
@@ -573,40 +647,86 @@ export default function ProjectContractDetailPage() {
         <TabsContent value="change-orders" className="mt-0 p-6">
           <Card>
             <CardHeader>
-              <CardTitle>Change Orders</CardTitle>
-              <CardDescription>
-                {changeOrdersCount} change orders associated with this contract
-              </CardDescription>
+              <div className="flex items-center justify-between">
+                <div>
+                  <CardTitle>Change Orders</CardTitle>
+                  <CardDescription>
+                    {changeOrdersCount} change order{changeOrdersCount !== 1 ? 's' : ''} •
+                    {approvedChangeOrders.length} approved •
+                    {pendingChangeOrders.length} pending •
+                    {rejectedChangeOrders.length} rejected
+                  </CardDescription>
+                </div>
+                <Button variant="outline" size="sm">
+                  <Plus className="h-4 w-4 mr-2" />
+                  New Change Order
+                </Button>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="grid grid-cols-3 gap-4 mb-6">
-                <div className="p-4 bg-green-50 border border-green-200 rounded-lg">
-                  <div className="flex items-center gap-2 mb-1">
-                    <CheckCircle2 className="h-4 w-4 text-green-600" />
-                    <p className="text-sm font-medium text-green-600">Approved</p>
-                  </div>
-                  <p className="text-2xl font-bold">{contract.approved_change_orders || 0}</p>
+              {changeOrdersLoading ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  <p>Loading change orders...</p>
                 </div>
-                <div className="p-4 bg-amber-50 border border-amber-200 rounded-lg">
-                  <div className="flex items-center gap-2 mb-1">
-                    <Clock className="h-4 w-4 text-amber-600" />
-                    <p className="text-sm font-medium text-amber-600">Pending</p>
-                  </div>
-                  <p className="text-2xl font-bold">{contract.pending_change_orders || 0}</p>
+              ) : changeOrders.length === 0 ? (
+                <div className="text-center py-8 text-muted-foreground">
+                  <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
+                  <p>No change orders yet</p>
+                  <p className="text-xs mt-2">Create a change order to track contract modifications</p>
                 </div>
-                <div className="p-4 bg-gray-50 border border-gray-200 rounded-lg">
-                  <div className="flex items-center gap-2 mb-1">
-                    <FileText className="h-4 w-4 text-gray-600" />
-                    <p className="text-sm font-medium text-gray-600">Draft</p>
-                  </div>
-                  <p className="text-2xl font-bold">{contract.draft_change_orders || 0}</p>
-                </div>
-              </div>
-
-              <div className="text-center py-8 text-muted-foreground">
-                <FileText className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                <p>Change orders list will be displayed here</p>
-              </div>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>CO Number</TableHead>
+                      <TableHead>Description</TableHead>
+                      <TableHead className="text-right">Amount</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Requested</TableHead>
+                      <TableHead>Approved/Rejected</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {changeOrders.map((co) => (
+                      <TableRow key={co.id}>
+                        <TableCell className="font-medium">{co.change_order_number}</TableCell>
+                        <TableCell>{co.description}</TableCell>
+                        <TableCell className="text-right">
+                          <span className={co.amount < 0 ? 'text-red-600' : ''}>
+                            {formatCurrency(co.amount)}
+                          </span>
+                        </TableCell>
+                        <TableCell>
+                          <Badge
+                            variant={
+                              co.status === 'approved' ? 'default' :
+                              co.status === 'pending' ? 'secondary' :
+                              'destructive'
+                            }
+                          >
+                            {co.status.charAt(0).toUpperCase() + co.status.slice(1)}
+                          </Badge>
+                        </TableCell>
+                        <TableCell className="text-sm">
+                          {new Date(co.requested_date).toLocaleDateString()}
+                        </TableCell>
+                        <TableCell className="text-sm">
+                          {co.approved_date ? new Date(co.approved_date).toLocaleDateString() : '--'}
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                  <tfoot>
+                    <TableRow className="bg-gray-50 font-medium">
+                      <TableCell colSpan={2}>Total Change Orders</TableCell>
+                      <TableCell className="text-right">
+                        {formatCurrency(changeOrders.reduce((sum, co) => sum + co.amount, 0))}
+                      </TableCell>
+                      <TableCell colSpan={3}></TableCell>
+                    </TableRow>
+                  </tfoot>
+                </Table>
+              )}
             </CardContent>
           </Card>
         </TabsContent>
@@ -670,52 +790,6 @@ export default function ProjectContractDetailPage() {
               <div className="text-center py-8 text-muted-foreground">
                 <History className="h-12 w-12 mx-auto mb-4 opacity-50" />
                 <p>Change history will be displayed here</p>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Financial Markup Tab */}
-        <TabsContent value="financial-markup" className="mt-0 p-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Financial Markup</CardTitle>
-              <CardDescription>Configure markup rates and settings</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                <div>
-                  <h4 className="text-sm font-medium text-muted-foreground mb-2">Apply Vertical Markup</h4>
-                  <p className="text-sm">{contract.apply_vertical_markup ? 'Enabled' : 'Disabled'}</p>
-                </div>
-                <div className="text-center py-8 text-muted-foreground">
-                  <Settings className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>Financial markup configuration will be displayed here</p>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        {/* Advanced Settings Tab */}
-        <TabsContent value="settings" className="mt-0 p-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>Advanced Settings</CardTitle>
-              <CardDescription>Advanced configuration and integrations</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <div className="space-y-4">
-                {contract.erp_status && (
-                  <div>
-                    <h4 className="text-sm font-medium text-muted-foreground mb-2">ERP Status</h4>
-                    <Badge variant="outline">{contract.erp_status}</Badge>
-                  </div>
-                )}
-                <div className="text-center py-8 text-muted-foreground">
-                  <Settings className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>Advanced settings will be displayed here</p>
-                </div>
               </div>
             </CardContent>
           </Card>

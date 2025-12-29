@@ -63,6 +63,12 @@ export async function GET(
       )
       .eq('project_id', projectId);
 
+    if (budgetError) {
+      console.error('Budget lines error:', budgetError);
+    } else {
+      console.warn(`Budget lines query returned ${budgetLines?.length || 0} rows for project ${projectId}`);
+    }
+
     if (!budgetError && budgetLines) {
       budgetLines.forEach((line) => {
         const costCode = line.cost_codes as unknown as { code: string; name: string } | null;
@@ -415,6 +421,8 @@ export async function GET(
         forecastToComplete,
       });
     });
+
+    console.warn(`Budget Details API returning ${details.length} total rows for project ${projectId}`);
 
     return NextResponse.json({
       details,

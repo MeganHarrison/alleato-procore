@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import { Suspense } from 'react';
-import { useParams, useRouter } from 'next/navigation';
+import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { Trash2 } from 'lucide-react';
 import { toast } from 'sonner';
 
@@ -18,6 +18,9 @@ import {
   CostCodesTab,
   OriginalBudgetEditModal,
   BudgetViewsManager,
+  ForecastingTab,
+  SnapshotsTab,
+  ChangeHistoryTab,
 } from '@/components/budget';
 import { ImportBudgetModal } from '@/components/budget/ImportBudgetModal';
 import type { BudgetDetailLineItem } from '@/components/budget/budget-details-table';
@@ -48,13 +51,15 @@ import {
 import type { QuickFilterType } from '@/components/budget/budget-filters';
 import { applyGrouping, type GroupingType } from '@/lib/budget-grouping';
 
-export default function ProjectBudgetPage() {
+function BudgetPageContent() {
   const router = useRouter();
   const params = useParams();
+  const searchParams = useSearchParams();
   const projectId = params.projectId as string;
   useProjectTitle('Budget');
 
-  const [activeTab, setActiveTab] = React.useState('budget');
+  // Get active tab from URL query parameter, default to 'budget'
+  const activeTab = searchParams.get('tab') || 'budget';
   const [selectedView, setSelectedView] = React.useState('procore-standard');
   const [selectedSnapshot, setSelectedSnapshot] = React.useState('current');
   const [selectedGroup, setSelectedGroup] = React.useState('cost-code-tier-1');
@@ -224,7 +229,12 @@ export default function ProjectBudgetPage() {
   };
 
   const handleTabChange = (tabId: string) => {
-    setActiveTab(tabId);
+    // Update URL to reflect tab change
+    if (tabId === 'budget') {
+      router.push(`/${projectId}/budget`);
+    } else {
+      router.push(`/${projectId}/budget?tab=${tabId}`);
+    }
 
     // Fetch budget details when switching to budget-details tab
     if (tabId === 'budget-details' && budgetDetailsData.length === 0) {
@@ -440,6 +450,18 @@ export default function ProjectBudgetPage() {
           <div className="flex-1 rounded-lg border bg-white shadow-sm p-6">
             <CostCodesTab projectId={projectId} />
           </div>
+        ) : activeTab === 'forecasting' ? (
+          <div className="flex-1 rounded-lg border bg-white shadow-sm">
+            <ForecastingTab projectId={projectId} />
+          </div>
+        ) : activeTab === 'snapshots' ? (
+          <div className="flex-1 rounded-lg border bg-white shadow-sm">
+            <SnapshotsTab projectId={projectId} />
+          </div>
+        ) : activeTab === 'change-history' ? (
+          <div className="flex-1 rounded-lg border bg-white shadow-sm">
+            <ChangeHistoryTab projectId={projectId} />
+          </div>
         ) : activeTab === 'budget-details' ? (
           <>
             <div className="flex items-center justify-between gap-4">
@@ -592,5 +614,13 @@ export default function ProjectBudgetPage() {
         </AlertDialogContent>
       </AlertDialog>
     </>
+  );
+}
+
+export default function ProjectBudgetPage() {
+  return (
+    <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading...</div>}>
+      <BudgetPageContent />
+    </Suspense>
   );
 }

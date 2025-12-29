@@ -76,7 +76,7 @@ export function SearchableSelect({
           {required && <span className="text-red-500 ml-1">*</span>}
         </Label>
       )}
-      <div className="flex gap-2">
+      <div className="flex gap-2 min-w-0">
         <Popover open={open} onOpenChange={setOpen}>
           <PopoverTrigger asChild>
             <Button
@@ -84,7 +84,7 @@ export function SearchableSelect({
               role="combobox"
               aria-expanded={open}
               className={cn(
-                "w-full justify-between font-normal",
+                "flex-1 justify-between font-normal min-w-0",
                 !value && "text-muted-foreground",
                 triggerClassName
               )}
@@ -139,7 +139,7 @@ export function SearchableSelect({
             </div>
           </PopoverContent>
         </Popover>
-        {addButton}
+        {addButton && <div className="flex-shrink-0">{addButton}</div>}
       </div>
     </div>
   )

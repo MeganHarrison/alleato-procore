@@ -14,6 +14,26 @@ export { DataTableToolbarResponsive } from './DataTableToolbarResponsive'
 export { MobileFilterModal } from './MobileFilterModal'
 export { DataTablePaginationResponsive } from './DataTablePaginationResponsive'
 
+// Configuration-driven table (GenericDataTable)
+export { GenericDataTable } from './generic-table-factory'
+export type {
+  GenericTableConfig,
+  ColumnConfig,
+  FilterConfig,
+  EditConfig,
+  RenderConfig,
+  BadgeRenderConfig,
+  CurrencyRenderConfig,
+  TruncateRenderConfig,
+  ArrayRenderConfig,
+  JsonRenderConfig,
+  NestedRenderConfig,
+} from './generic-table-factory'
+
+// Note: SimpleTablePage is a Server Component and should be imported directly:
+// import { SimpleTablePage } from '@/components/tables/simple-table-page'
+// Do NOT export it from this barrel file as it breaks client component imports.
+
 // Specialized data tables
 export { MeetingsDataTable } from './meetings-data-table'
 export { EmployeesDataTable } from './employees-data-table'
