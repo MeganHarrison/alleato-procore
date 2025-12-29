@@ -33,6 +33,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { ProjectPageHeader, PageContainer } from '@/components/layout';
+import { useProjectTitle } from '@/hooks/useProjectTitle';
 
 interface Contract {
   id: number;
@@ -75,6 +77,7 @@ export default function ProjectContractDetailPage() {
   const params = useParams();
   const projectId = parseInt(params.projectId as string, 10);
   const contractId = parseInt(params.id as string, 10);
+  useProjectTitle('Prime Contract');
 
   const [contract, setContract] = useState<Contract | null>(null);
   const [loading, setLoading] = useState(true);
@@ -157,35 +160,42 @@ export default function ProjectContractDetailPage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-background">
-        <div className="border-b bg-card px-6 py-4">
-          <Skeleton className="h-8 w-64" />
-        </div>
-        <div className="p-6">
+      <>
+        <ProjectPageHeader
+          title="Prime Contract"
+          description="Loading contract details..."
+        />
+        <PageContainer>
           <Skeleton className="h-96" />
-        </div>
-      </div>
+        </PageContainer>
+      </>
     );
   }
 
   if (error || !contract) {
     return (
-      <div className="min-h-screen bg-background">
-        <div className="border-b bg-card px-6 py-4">
-          <Button variant="ghost" onClick={handleBack}>
-            <ArrowLeft className="h-4 w-4 mr-2" />
-            Prime Contracts
-          </Button>
-        </div>
-        <div className="p-6">
+      <>
+        <ProjectPageHeader
+          title="Prime Contract"
+          description="Unable to load contract"
+          breadcrumbs={[
+            { label: 'Prime Contracts', href: `/${projectId}/contracts` },
+            { label: 'Contract Details' }
+          ]}
+        />
+        <PageContainer>
           <Card className="p-6">
             <div className="flex items-center gap-3 text-destructive">
               <AlertCircle className="h-5 w-5" />
               <p>{error || 'Contract not found'}</p>
             </div>
+            <Button variant="outline" onClick={handleBack} className="mt-4">
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back to Contracts
+            </Button>
           </Card>
-        </div>
-      </div>
+        </PageContainer>
+      </>
     );
   }
 
@@ -197,33 +207,15 @@ export default function ProjectContractDetailPage() {
   const paymentsCount = 5; // TODO: Get from API
 
   return (
-    <div className="min-h-screen bg-background">
-      {/* Breadcrumb Header */}
-      <div className="border-b bg-card px-6 py-3">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <button
-            type="button"
-            onClick={handleBack}
-            className="hover:text-foreground transition-colors"
-          >
-            Prime Contracts
-          </button>
-          <ChevronRight className="h-4 w-4" />
-          <span className="text-foreground font-medium">Prime Contract #{contract.contract_number || contract.id}</span>
-        </div>
-      </div>
-
-      {/* Title Bar */}
-      <div className="border-b bg-card px-6 py-4">
-        <div className="flex items-center justify-between">
-          <div>
-            <h1 className="text-2xl font-semibold text-foreground mb-1">
-              {contract.title}
-            </h1>
-            <p className="text-sm text-muted-foreground">
-              {contract.client?.name || 'No client assigned'}
-            </p>
-          </div>
+    <>
+      <ProjectPageHeader
+        title={contract.title}
+        description={contract.client?.name || 'No client assigned'}
+        breadcrumbs={[
+          { label: 'Prime Contracts', href: `/${projectId}/contracts` },
+          { label: `Contract #${contract.contract_number || contract.id}` }
+        ]}
+        actions={
           <div className="flex items-center gap-2">
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -259,8 +251,8 @@ export default function ProjectContractDetailPage() {
               •••
             </Button>
           </div>
-        </div>
-      </div>
+        }
+      />
 
       {/* Tabs */}
       <Tabs defaultValue="general" className="w-full">
@@ -729,6 +721,6 @@ export default function ProjectContractDetailPage() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </>
   );
 }
