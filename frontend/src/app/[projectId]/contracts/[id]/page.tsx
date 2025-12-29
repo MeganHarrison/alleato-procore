@@ -234,10 +234,6 @@ export default function ProjectContractDetailPage() {
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
-                <DropdownMenuItem onClick={() => router.push(`/form-change-event?projectId=${projectId}&contractId=${contractId}`)}>
-                  <FileText className="h-4 w-4 mr-2" />
-                  Change Event
-                </DropdownMenuItem>
                 <DropdownMenuItem onClick={() => router.push(`/form-change-order?projectId=${projectId}&contractId=${contractId}`)}>
                   <FileText className="h-4 w-4 mr-2" />
                   Prime Contract CO
@@ -245,10 +241,6 @@ export default function ProjectContractDetailPage() {
                 <DropdownMenuItem onClick={() => router.push(`/form-invoice?projectId=${projectId}&contractId=${contractId}`)}>
                   <DollarSign className="h-4 w-4 mr-2" />
                   Invoice
-                </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => router.push(`/form-payment?projectId=${projectId}&contractId=${contractId}`)}>
-                  <DollarSign className="h-4 w-4 mr-2" />
-                  Payment
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
