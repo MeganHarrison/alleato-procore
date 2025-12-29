@@ -203,6 +203,7 @@ export async function GET(
         commitments!inner (
           status,
           commitment_number,
+          project_id,
           vendors (
             name
           )
@@ -213,7 +214,8 @@ export async function GET(
         )
       `
       )
-      .in('commitments.status', ['approved', 'complete']);
+      .in('commitments.status', ['approved', 'complete'])
+      .eq('commitments.project_id', projectId);
 
     if (!commitmentsError && commitmentLines) {
       commitmentLines.forEach((line) => {
@@ -248,8 +250,9 @@ export async function GET(
         commitment_change_orders!inner (
           status,
           change_order_number,
-          commitments (
+          commitments!inner (
             commitment_number,
+            project_id,
             vendors (
               name
             )
@@ -261,7 +264,8 @@ export async function GET(
         )
       `
       )
-      .eq('commitment_change_orders.status', 'approved');
+      .eq('commitment_change_orders.status', 'approved')
+      .eq('commitment_change_orders.commitments.project_id', projectId);
 
     if (!commitmentCOsError && commitmentCOs) {
       commitmentCOs.forEach((co) => {
@@ -298,14 +302,16 @@ export async function GET(
         cost_code_id,
         change_events!inner (
           event_number,
-          title
+          title,
+          project_id
         ),
         cost_codes (
           code,
           name
         )
       `
-      );
+      )
+      .eq('change_events.project_id', projectId);
 
     if (!changeEventsError && changeEventLines) {
       changeEventLines.forEach((line) => {
