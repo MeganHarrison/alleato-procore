@@ -101,9 +101,21 @@ export async function POST(
         }
 
         // Validate cost type is valid
-        const validCostTypes = ['R', 'E', 'X', 'L', 'M', 'S'];
+        const validCostTypes = ['R', 'E', 'X', 'L', 'M', 'S', 'O'];
         if (!validCostTypes.includes(row['Cost Type'])) {
           errors.push(`Row ${rowNum}: Invalid Cost Type "${row['Cost Type']}". Must be one of: ${validCostTypes.join(', ')}`);
+          continue;
+        }
+
+        // Look up the cost_type_id UUID from the code
+        const { data: costType, error: costTypeError } = await supabase
+          .from('cost_code_types')
+          .select('id')
+          .eq('code', row['Cost Type'])
+          .single();
+
+        if (costTypeError || !costType) {
+          errors.push(`Row ${rowNum}: Cost Type "${row['Cost Type']}" not found`);
           continue;
         }
 
@@ -113,7 +125,7 @@ export async function POST(
           .select('id, cost_code_id, cost_type_id')
           .eq('project_id', numericProjectId)
           .eq('cost_code_id', row['Cost Code'])
-          .eq('cost_type_id', row['Cost Type'])
+          .eq('cost_type_id', costType.id)
           .eq('is_active', true)
           .single();
 
@@ -126,7 +138,7 @@ export async function POST(
         const lineItemData = {
           project_id: numericProjectId,
           cost_code_id: row['Cost Code'],
-          cost_type_id: row['Cost Type'],
+          cost_type_id: costType.id,
           description: row.Description || null,
           original_amount: row['Budget Amount'] || 0,
           unit_qty: row['Unit Qty'] || null,
