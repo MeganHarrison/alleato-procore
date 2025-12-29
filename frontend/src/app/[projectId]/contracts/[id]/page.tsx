@@ -228,9 +228,9 @@ export default function ProjectContractDetailPage() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button variant="default" size="sm">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Create
-                  <ChevronDown className="h-4 w-4 ml-2" />
+                  <Plus className="h-4 w-4 sm:mr-2" />
+                  <span className="hidden sm:inline">Create</span>
+                  <ChevronDown className="h-4 w-4 ml-1 sm:ml-2" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end">
@@ -264,8 +264,8 @@ export default function ProjectContractDetailPage() {
 
       {/* Tabs */}
       <Tabs defaultValue="general" className="w-full">
-        <div className="border-b bg-card px-6">
-          <TabsList className="h-auto p-0 bg-transparent border-0">
+        <div className="border-b bg-card px-6 overflow-x-auto">
+          <TabsList className="h-auto p-0 bg-transparent border-0 flex-nowrap">
             <TabsTrigger
               value="general"
               className="rounded-none border-b-2 border-transparent data-[state=active]:border-primary data-[state=active]:bg-transparent data-[state=active]:shadow-none px-4 py-3"
