@@ -36,19 +36,19 @@
     --card-foreground: 0 0% 3.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 0 0% 3.9%;
-    --primary: 24 95% 53%;
+    --primary: 180 1% 38%;
     --primary-foreground: 0 0% 100%;
     --secondary: 0 0% 96.1%;
     --secondary-foreground: 0 0% 9%;
     --muted: 0 0% 96.1%;
     --muted-foreground: 0 0% 45.1%;
-    --accent: 0 0% 96.1%;
-    --accent-foreground: 0 0% 9%;
+    --accent: 29 71% 52%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
     --border: 0 0% 89.8%;
     --input: 0 0% 89.8%;
-    --ring: 24 95% 53%;
+    --ring: 180 1% 38%;
 
     /* Chart Colors */
     --chart-1: 12 76% 61%;
@@ -61,15 +61,15 @@
     --radius: 0.5rem;
 
     /* Procore Brand Colors */
-    --procore-orange: 24 95% 53%;
-    --procore-orange-hover: 24 95% 45%;
-    --procore-header: 0 0% 20%;
+    --procore-orange: 29 71% 52%;
+    --procore-orange-hover: 29 71% 45%;
+    --procore-header: 180 1% 38%;
     --procore-header-text: 0 0% 100%;
     --procore-info-bg: 214 95% 93%;
     --procore-info-text: 214 80% 40%;
     --procore-negative: 0 84% 60%;
 
-    /* Brand color #DB802D */
+    /* Brand color #DB802D - used sparingly as accent */
     --brand: 29 71% 52%;
     --brand-hover: 29 71% 45%;
     --brand-light: 29 71% 95%;
