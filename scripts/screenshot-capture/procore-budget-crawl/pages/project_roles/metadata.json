@@ -3,7 +3,7 @@
   "pageName": "project_roles",
   "category": "budget",
   "pageId": "project_roles",
-  "timestamp": "2025-12-27T16:42:29.172Z",
+  "timestamp": "2025-12-29T22:20:42.792Z",
   "analysis": {
     "components": {
       "buttons": 2,
@@ -398,9 +398,9 @@
     },
     {
       "text": "Minimize Sidebar",
-      "id": "sidebar-toggle-button sidebar-toggle show-footer",
+      "id": "sidebar-toggle-button sidebar-toggle",
       "type": "div",
-      "classes": "sidebar-toggle-button sidebar-toggle show-footer",
+      "classes": "sidebar-toggle-button sidebar-toggle",
       "hasDropdown": false,
       "index": 2
     }

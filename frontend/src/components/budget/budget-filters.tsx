@@ -72,7 +72,11 @@ export function BudgetFilters({
           <span className="text-sm text-gray-500">View</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="h-9 min-w-[200px] justify-between">
+              <Button
+                variant="outline"
+                className="h-9 min-w-[200px] justify-between"
+                aria-label="View"
+              >
                 {selectedViewName}
                 <ChevronDown className="w-4 h-4 ml-2 text-gray-400" />
               </Button>
@@ -96,7 +100,11 @@ export function BudgetFilters({
           <span className="text-sm text-gray-500">Snapshot</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="h-9 min-w-[120px] justify-between">
+              <Button
+                variant="outline"
+                className="h-9 min-w-[120px] justify-between"
+                aria-label="Snapshot"
+              >
                 {selectedSnapshotName}
                 <ChevronDown className="w-4 h-4 ml-2 text-gray-400" />
               </Button>
@@ -120,7 +128,11 @@ export function BudgetFilters({
           <span className="text-sm text-gray-500">Group</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="h-9 min-w-[150px] justify-between">
+              <Button
+                variant="outline"
+                className="h-9 min-w-[150px] justify-between"
+                aria-label="Group"
+              >
                 {selectedGroupName}
                 <ChevronDown className="w-4 h-4 ml-2 text-gray-400" />
               </Button>
@@ -147,6 +159,7 @@ export function BudgetFilters({
               <Button
                 variant={activeQuickFilter !== 'all' ? 'default' : 'outline'}
                 className="h-9 min-w-[140px] justify-between"
+                aria-label="Quick Filter"
               >
                 <Filter className="w-4 h-4 mr-2" />
                 {quickFilterLabels[activeQuickFilter]}

@@ -3,7 +3,7 @@
   "pageName": "copilot",
   "category": "budget",
   "pageId": "copilot",
-  "timestamp": "2025-12-27T16:42:33.745Z",
+  "timestamp": "2025-12-29T22:20:47.399Z",
   "analysis": {
     "components": {
       "buttons": 2,
@@ -381,9 +381,9 @@
     },
     {
       "text": "Minimize Sidebar",
-      "id": "sidebar-toggle-button sidebar-toggle show-footer",
+      "id": "sidebar-toggle-button sidebar-toggle",
       "type": "div",
-      "classes": "sidebar-toggle-button sidebar-toggle show-footer",
+      "classes": "sidebar-toggle-button sidebar-toggle",
       "hasDropdown": false,
       "index": 2
     }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { createServiceClient } from '@/lib/supabase/service';
 import type { BudgetDetailLineItem, DetailType } from '@/components/budget/budget-details-table';
 
 interface BudgetDetailParams {
@@ -26,18 +26,16 @@ export async function GET(
   { params }: BudgetDetailParams
 ) {
   try {
-    const { id: projectId } = await params;
-    const supabase = await createClient();
+    const { id } = await params;
+    const projectId = parseInt(id, 10);
 
-    // Check authentication
-    const {
-      data: { user },
-      error: authError,
-    } = await supabase.auth.getUser();
-
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (Number.isNaN(projectId)) {
+      return NextResponse.json(
+        { error: 'Invalid project ID' },
+        { status: 400 }
+      );
     }
+    const supabase = createServiceClient();
 
     const details: BudgetDetailLineItem[] = [];
 
@@ -52,12 +50,8 @@ export async function GET(
         cost_code_id,
         cost_type_id,
         cost_codes (
-          code,
-          name
-        ),
-        cost_code_types (
-          code,
-          name
+          id,
+          title
         )
       `
       )
@@ -71,12 +65,12 @@ export async function GET(
 
     if (!budgetError && budgetLines) {
       budgetLines.forEach((line) => {
-        const costCode = line.cost_codes as unknown as { code: string; name: string } | null;
+        const costCode = line.cost_codes as unknown as { id: string; title: string | null } | null;
 
         details.push({
           id: `budget-${line.id}`,
-          budgetCode: costCode ? `${costCode.code}` : '',
-          budgetCodeDescription: costCode ? costCode.name : '',
+          budgetCode: line.cost_code_id || costCode?.id || '',
+          budgetCodeDescription: costCode?.title || '',
           detailType: 'original_budget' as DetailType,
           description: line.description || '',
           originalBudgetAmount: Number(line.original_amount) || 0,
@@ -99,8 +93,8 @@ export async function GET(
           title
         ),
         cost_codes (
-          code,
-          name
+          id,
+          title
         )
       `
       )
@@ -109,13 +103,13 @@ export async function GET(
 
     if (!modsError && budgetMods) {
       budgetMods.forEach((mod) => {
-        const costCode = mod.cost_codes as unknown as { code: string; name: string } | null;
+        const costCode = mod.cost_codes as unknown as { id: string; title: string | null } | null;
         const modification = mod.budget_modifications as unknown as { number: string; title: string };
 
         details.push({
           id: `mod-${mod.id}`,
-          budgetCode: costCode ? costCode.code : '',
-          budgetCodeDescription: costCode ? costCode.name : '',
+          budgetCode: mod.cost_code_id || costCode?.id || '',
+          budgetCodeDescription: costCode?.title || '',
           item: modification ? `${modification.number} - ${modification.title}` : '',
           detailType: 'budget_changes' as DetailType,
           description: mod.description || '',
@@ -139,8 +133,8 @@ export async function GET(
           title
         ),
         cost_codes (
-          code,
-          name
+          id,
+          title
         )
       `
       )
@@ -149,13 +143,13 @@ export async function GET(
 
     if (!pendingModsError && pendingMods) {
       pendingMods.forEach((mod) => {
-        const costCode = mod.cost_codes as unknown as { code: string; name: string } | null;
+        const costCode = mod.cost_codes as unknown as { id: string; title: string | null } | null;
         const modification = mod.budget_modifications as unknown as { number: string; title: string };
 
         details.push({
           id: `pending-mod-${mod.id}`,
-          budgetCode: costCode ? costCode.code : '',
-          budgetCodeDescription: costCode ? costCode.name : '',
+          budgetCode: mod.cost_code_id || costCode?.id || '',
+          budgetCodeDescription: costCode?.title || '',
           item: modification ? `${modification.number} - ${modification.title}` : '',
           detailType: 'budget_changes' as DetailType,
           description: mod.description || '',
@@ -215,8 +209,8 @@ export async function GET(
           )
         ),
         cost_codes (
-          code,
-          name
+          id,
+          title
         )
       `
       )
@@ -225,7 +219,7 @@ export async function GET(
 
     if (!commitmentsError && commitmentLines) {
       commitmentLines.forEach((line) => {
-        const costCode = line.cost_codes as unknown as { code: string; name: string } | null;
+        const costCode = line.cost_codes as unknown as { id: string; title: string | null } | null;
         const commitment = line.commitments as unknown as {
           commitment_number: string;
           vendors: { name: string } | null;
@@ -233,8 +227,8 @@ export async function GET(
 
         details.push({
           id: `commitment-${line.id}`,
-          budgetCode: costCode ? costCode.code : '',
-          budgetCodeDescription: costCode ? costCode.name : '',
+          budgetCode: line.cost_code_id || costCode?.id || '',
+          budgetCodeDescription: costCode?.title || '',
           vendor: commitment?.vendors?.name || '',
           item: commitment ? commitment.commitment_number : '',
           detailType: 'commitments' as DetailType,
@@ -265,8 +259,8 @@ export async function GET(
           )
         ),
         cost_codes (
-          code,
-          name
+          id,
+          title
         )
       `
       )
@@ -275,7 +269,7 @@ export async function GET(
 
     if (!commitmentCOsError && commitmentCOs) {
       commitmentCOs.forEach((co) => {
-        const costCode = co.cost_codes as unknown as { code: string; name: string } | null;
+        const costCode = co.cost_codes as unknown as { id: string; title: string | null } | null;
         const changeOrder = co.commitment_change_orders as unknown as {
           change_order_number: string;
           commitments: {
@@ -286,8 +280,8 @@ export async function GET(
 
         details.push({
           id: `commitment-co-${co.id}`,
-          budgetCode: costCode ? costCode.code : '',
-          budgetCodeDescription: costCode ? costCode.name : '',
+          budgetCode: co.cost_code_id || costCode?.id || '',
+          budgetCodeDescription: costCode?.title || '',
           vendor: changeOrder?.commitments?.vendors?.name || '',
           item: `CO ${changeOrder?.change_order_number || ''}`,
           detailType: 'commitment_change_orders' as DetailType,
@@ -303,17 +297,13 @@ export async function GET(
       .select(
         `
         id,
-        amount,
         description,
-        cost_code_id,
+        cost_code,
+        final_amount,
         change_events!inner (
           event_number,
           title,
           project_id
-        ),
-        cost_codes (
-          code,
-          name
         )
       `
       )
@@ -321,13 +311,12 @@ export async function GET(
 
     if (!changeEventsError && changeEventLines) {
       changeEventLines.forEach((line) => {
-        const costCode = line.cost_codes as unknown as { code: string; name: string } | null;
         const event = line.change_events as unknown as { event_number: string; title: string };
 
         details.push({
           id: `change-event-${line.id}`,
-          budgetCode: costCode ? costCode.code : '',
-          budgetCodeDescription: costCode ? costCode.name : '',
+          budgetCode: line.cost_code || '',
+          budgetCodeDescription: '',
           item: event ? `${event.event_number} - ${event.title}` : '',
           detailType: 'change_events' as DetailType,
           description: line.description || '',
@@ -343,29 +332,19 @@ export async function GET(
         id,
         amount,
         description,
-        cost_code_id,
-        vendors (
-          name
-        ),
-        cost_codes (
-          code,
-          name
-        )
+        budget_item_id,
+        vendor_id
       `
       )
-      .eq('project_id', projectId)
-      .eq('status', 'approved');
+      .eq('project_id', projectId);
 
     if (!directCostsError && directCosts) {
       directCosts.forEach((cost) => {
-        const costCode = cost.cost_codes as unknown as { code: string; name: string } | null;
-        const vendor = cost.vendors as unknown as { name: string } | null;
-
         details.push({
           id: `direct-cost-${cost.id}`,
-          budgetCode: costCode ? costCode.code : '',
-          budgetCodeDescription: costCode ? costCode.name : '',
-          vendor: vendor?.name || '',
+          budgetCode: cost.budget_item_id || '',
+          budgetCodeDescription: '',
+          vendor: cost.vendor_id || '',
           detailType: 'direct_costs' as DetailType,
           description: cost.description || '',
           directCosts: Number(cost.amount) || 0,

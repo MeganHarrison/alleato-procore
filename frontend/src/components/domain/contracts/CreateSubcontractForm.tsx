@@ -151,9 +151,8 @@ export function CreateSubcontractForm({
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-8">
-      {/* Page Title */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Create Subcontract</h1>
+      {/* Autofill Test Data Button */}
+      <div className="flex justify-end">
         <Button
           type="button"
           variant="outline"

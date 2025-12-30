@@ -4,7 +4,7 @@ import { useParams, useRouter, useSearchParams } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 
 import { CreatePurchaseOrderForm, CreateSubcontractForm } from '@/components/domain/contracts';
-import { PageContainer, ProjectPageHeader } from '@/components/layout';
+import { FormContainer, ProjectPageHeader } from '@/components/layout';
 import { Button } from '@/components/ui/button';
 import type { CreatePurchaseOrderInput } from '@/lib/schemas/create-purchase-order-schema';
 import type { CreateSubcontractInput } from '@/lib/schemas/create-subcontract-schema';
@@ -18,10 +18,23 @@ export default function NewCommitmentPage() {
 
   const handleSubmitSubcontract = async (data: CreateSubcontractInput) => {
     try {
-      // TODO: Implement API call to create subcontract
-      console.warn('Subcontract submission not yet implemented:', data);
+      const response = await fetch(`/api/projects/${projectId}/subcontracts`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      });
 
-      // For now, just navigate back to commitments page
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create subcontract');
+      }
+
+      const result = await response.json();
+      console.warn('Subcontract created successfully:', result.data);
+
+      // Navigate back to commitments page
       router.push(`/${projectId}/commitments`);
     } catch (err) {
       console.error('Error creating subcontract:', err);
@@ -71,7 +84,7 @@ export default function NewCommitmentPage() {
         }
       />
 
-      <PageContainer>
+      <FormContainer maxWidth="wide">
         {type === 'purchase_order' ? (
           <CreatePurchaseOrderForm
             projectId={projectId}
@@ -85,7 +98,7 @@ export default function NewCommitmentPage() {
             onCancel={handleCancel}
           />
         )}
-      </PageContainer>
+      </FormContainer>
     </>
   );
 }

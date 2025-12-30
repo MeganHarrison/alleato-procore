@@ -70,6 +70,7 @@ function BudgetPageContent() {
   const [grandTotals, setGrandTotals] = React.useState(budgetGrandTotals);
   const [loading, setLoading] = React.useState(true);
   const [detailsLoading, setDetailsLoading] = React.useState(false);
+  const [detailsRequested, setDetailsRequested] = React.useState(false);
   const [showLineItemModal, setShowLineItemModal] = React.useState(false);
   const [showModificationModal, setShowModificationModal] = React.useState(false);
   const [showImportModal, setShowImportModal] = React.useState(false);
@@ -237,7 +238,7 @@ function BudgetPageContent() {
     }
 
     // Fetch budget details when switching to budget-details tab
-    if (tabId === 'budget-details' && budgetDetailsData.length === 0) {
+    if (tabId === 'budget-details' && budgetDetailsData.length === 0 && !detailsRequested) {
       fetchBudgetDetails();
     }
   };
@@ -245,6 +246,7 @@ function BudgetPageContent() {
   // Fetch budget details data
   const fetchBudgetDetails = React.useCallback(async () => {
     try {
+      setDetailsRequested(true);
       setDetailsLoading(true);
       const response = await fetch(`/api/projects/${projectId}/budget/details`);
       if (response.ok) {
@@ -260,6 +262,17 @@ function BudgetPageContent() {
       setDetailsLoading(false);
     }
   }, [projectId]);
+
+  React.useEffect(() => {
+    if (
+      activeTab === 'budget-details' &&
+      budgetDetailsData.length === 0 &&
+      !detailsLoading &&
+      !detailsRequested
+    ) {
+      fetchBudgetDetails();
+    }
+  }, [activeTab, budgetDetailsData.length, detailsLoading, detailsRequested, fetchBudgetDetails]);
 
   const handleAddFilter = () => {
     // TODO: Implement advanced filtering

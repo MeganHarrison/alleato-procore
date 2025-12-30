@@ -3,7 +3,7 @@
   "pageName": "budgets",
   "category": "budget",
   "pageId": "budgets",
-  "timestamp": "2025-12-27T16:34:16.036Z",
+  "timestamp": "2025-12-29T22:11:17.092Z",
   "analysis": {
     "components": {
       "buttons": 12,
@@ -255,7 +255,7 @@
       "index": 5
     },
     {
-      "text": "Procore Standard Budget",
+      "text": "ERP Job Cost Detail",
       "classes": "Select wfieg-QHByb core-dropdown__button  has-value is-searchable Select--single",
       "id": null,
       "hasMenu": false,

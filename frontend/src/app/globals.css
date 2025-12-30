@@ -439,6 +439,61 @@
   }
 }
 
+/* Global input field white background */
+@layer base {
+  input[type="text"],
+  input[type="email"],
+  input[type="password"],
+  input[type="number"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="search"],
+  input[type="date"],
+  input[type="datetime-local"],
+  input[type="month"],
+  input[type="week"],
+  input[type="time"],
+  textarea,
+  select {
+    @apply bg-white;
+  }
+
+  /* Ensure white background persists on focus and disabled states */
+  input[type="text"]:focus,
+  input[type="email"]:focus,
+  input[type="password"]:focus,
+  input[type="number"]:focus,
+  input[type="tel"]:focus,
+  input[type="url"]:focus,
+  input[type="search"]:focus,
+  input[type="date"]:focus,
+  input[type="datetime-local"]:focus,
+  input[type="month"]:focus,
+  input[type="week"]:focus,
+  input[type="time"]:focus,
+  textarea:focus,
+  select:focus {
+    @apply bg-white;
+  }
+
+  input[type="text"]:disabled,
+  input[type="email"]:disabled,
+  input[type="password"]:disabled,
+  input[type="number"]:disabled,
+  input[type="tel"]:disabled,
+  input[type="url"]:disabled,
+  input[type="search"]:disabled,
+  input[type="date"]:disabled,
+  input[type="datetime-local"]:disabled,
+  input[type="month"]:disabled,
+  input[type="week"]:disabled,
+  input[type="time"]:disabled,
+  textarea:disabled,
+  select:disabled {
+    @apply bg-gray-50;
+  }
+}
+
 /* ============================================================================
    7. BADGE & STATUS COMPONENTS
    ============================================================================
@@ -854,5 +909,146 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+/* ============================================================================
+   RESPONSIVE TYPOGRAPHY & COMPONENTS (2025 BEST PRACTICES)
+   ============================================================================
+   Global responsive typography and component styles following modern UX standards.
+   Based on 8px grid system with mobile-first approach.
+   ============================================================================ */
+
+@layer components {
+  /* Headings with responsive sizing */
+  h1 {
+    @apply text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold tracking-tight text-gray-900;
+  }
+
+  h2 {
+    @apply text-xl sm:text-2xl md:text-3xl lg:text-4xl font-semibold tracking-tight text-gray-900;
+  }
+
+  h3 {
+    @apply text-lg sm:text-xl md:text-2xl font-semibold text-gray-900;
+  }
+
+  h4 {
+    @apply text-base sm:text-lg md:text-xl font-semibold text-gray-900;
+  }
+
+  /* Page subtitle/description text */
+  .text-subtitle {
+    @apply text-sm sm:text-base text-gray-600;
+  }
+
+  /* Standard paragraph */
+  p {
+    @apply text-sm sm:text-base text-gray-700 leading-relaxed;
+  }
+
+  /* Table styling */
+  table {
+    @apply w-full border-collapse;
+  }
+
+  thead {
+    @apply bg-gray-100 border-b-2 border-gray-200;
+  }
+
+  th {
+    @apply px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 text-left text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wider;
+  }
+
+  tbody tr {
+    @apply border-b border-gray-200 hover:bg-gray-50 transition-colors;
+  }
+
+  td {
+    @apply px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 text-xs sm:text-sm text-gray-600;
+  }
+
+  /* Button base styling with 44x44px minimum touch target */
+  button {
+    @apply min-h-[44px] min-w-[44px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
+  }
+
+  /* Primary button */
+  .btn-primary {
+    @apply px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800;
+  }
+
+  /* Secondary button */
+  .btn-secondary {
+    @apply px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-300 active:bg-gray-400;
+  }
+
+  /* Danger button */
+  .btn-danger {
+    @apply px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 bg-red-600 text-white rounded-lg hover:bg-red-700 active:bg-red-800;
+  }
+
+  /* Button group with responsive gaps */
+  .button-group {
+    @apply flex flex-col sm:flex-row gap-2 sm:gap-3 md:gap-4;
+  }
+
+  /* Responsive container */
+  .responsive-container {
+    @apply max-w-7xl mx-auto;
+  }
+
+  /* Back button styling */
+  .btn-back {
+    @apply inline-flex items-center gap-2 px-3 py-2 sm:px-4 sm:py-2 text-sm sm:text-base text-gray-600 hover:text-gray-900 hover:bg-gray-100 rounded-lg transition-colors;
+  }
+
+  /* Form inputs */
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  select,
+  textarea {
+    @apply w-full px-3 py-2 sm:px-4 sm:py-2.5 md:px-4 md:py-3 text-sm sm:text-base border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent;
+  }
+
+  /* Card styling */
+  .card {
+    @apply bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-shadow p-4 sm:p-6 md:p-8;
+  }
+
+  /* Section spacing */
+  .section {
+    @apply my-6 sm:my-8 md:my-10 lg:my-12;
+  }
+}
+
+/* Responsive text utilities */
+@layer utilities {
+  /* Text sizing utilities */
+  .text-responsive {
+    @apply text-sm sm:text-base md:text-lg;
+  }
+
+  .text-responsive-lg {
+    @apply text-base sm:text-lg md:text-xl;
+  }
+
+  /* Padding utilities for consistent spacing */
+  .px-responsive {
+    @apply px-4 sm:px-6 md:px-8 lg:px-10;
+  }
+
+  .py-responsive {
+    @apply py-6 sm:py-8 md:py-10 lg:py-12;
+  }
+
+  .gap-responsive {
+    @apply gap-2 sm:gap-3 md:gap-4 lg:gap-6;
+  }
+
+  /* Touch target utilities */
+  .touch-target {
+    @apply min-h-[44px] min-w-[44px];
   }
 }

@@ -3,7 +3,7 @@
   "pageName": "daily_log_types",
   "category": "budget",
   "pageId": "daily_log_types",
-  "timestamp": "2025-12-27T16:44:00.586Z",
+  "timestamp": "2025-12-29T22:23:10.436Z",
   "analysis": {
     "components": {
       "buttons": 1,
@@ -385,9 +385,9 @@
     },
     {
       "text": "Minimize Sidebar",
-      "id": "sidebar-toggle-button sidebar-toggle show-footer",
+      "id": "sidebar-toggle-button sidebar-toggle",
       "type": "div",
-      "classes": "sidebar-toggle-button sidebar-toggle show-footer",
+      "classes": "sidebar-toggle-button sidebar-toggle",
       "hasDropdown": false,
       "index": 1
     }

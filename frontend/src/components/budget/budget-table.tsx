@@ -26,6 +26,7 @@ import { Checkbox } from '@/components/ui/checkbox';
 
 type ColumnTooltip = {
   title: string
+  type?: 'Source Column' | 'Calculated Column' | 'Standard Column'
   formula: string
   details?: readonly string[]
 }
@@ -33,72 +34,100 @@ type ColumnTooltip = {
 const columnTooltips: Record<string, ColumnTooltip> = {
   originalBudgetAmount: {
     title: 'Original Budget Amount',
-    formula: 'Baseline dollars imported from estimating or entered during project setup.',
-    details: ['Starting point for every downstream calculation.'],
+    formula: 'Original Budget Amount entered for this line item'
   },
   budgetModifications: {
     title: 'Budget Modifications',
-    formula: 'Manual transfers and adjustments applied after the baseline budget was published.',
-    details: ['Revised Budget = Original Budget + Budget Modifications + Approved COs.'],
+    formula: 'Sum of all budget transfers to/from this line item'
   },
   approvedCOs: {
-    title: 'Approved Change Orders',
-    formula: 'Sum of all approved owner-facing change orders tied to this cost code.',
-    details: ['Automatically rolls into the revised budget once approved.'],
+    title: 'Approved COs',
+    type: 'Source Column',
+    formula: 'Approved COs (Prime Contract)',
+    details: [
+      'Change Orders',
+      'Status: Approved',
+    ],
   },
   revisedBudget: {
     title: 'Revised Budget',
-    formula: 'Original Budget Amount + Budget Modifications + Approved COs.',
+    type: 'Calculated Column',
+    formula: 'Original Budget Amount + Budget Modifications + Approved COs = Revised Budget',
   },
   jobToDateCostDetail: {
-    title: 'Job-to-Date Cost Detail',
-    formula: 'Direct cost transactions posted to this cost code.',
+    title: 'Job to Date Cost Detail',
+    type: 'Source Column',
+    formula: 'Job to Date Cost Detail (Direct Costs)',
     details: [
-      'Source column: Direct Costs',
-      'Types: Invoice, Expense, Payroll, Subcontractor Invoice',
-      'Status filter: Approved only',
+      'Direct Costs',
+      'Type: Invoice, Expense, Payroll, Subcontractor Invoice',
+      'Status: Approved',
     ],
   },
   directCosts: {
     title: 'Direct Costs',
-    formula: 'Sum of approved invoices, expenses, payroll, and subcontractor invoices.',
-    details: ['Feeds the Job-to-Date Cost Detail and Projected Costs columns.'],
+    type: 'Source Column',
+    formula: 'Direct Costs (Direct Costs)',
+    details: [
+      'Direct Costs',
+      'Type: Invoice, Expense, Payroll',
+      'Status: Pending, Revise and Resubmit, Approved',
+    ],
   },
   pendingChanges: {
     title: 'Pending Budget Changes',
-    formula: 'Total value of pending budget change items not yet approved.',
-    details: ['Projected Budget = Revised Budget + Pending Changes.'],
+    type: 'Source Column',
+    formula: 'Pending Budget Changes (Prime Contract)',
+    details: [
+      'Change Orders',
+      'Status: Pending - In Review; Pending - Not Pricing; Pending - Not Proceeding; Pending - Pricing; Pending - Proceeding; Pending - Revised',
+    ],
   },
   projectedBudget: {
     title: 'Projected Budget',
-    formula: 'Revised Budget + Pending Changes.',
+    type: 'Calculated Column',
+    formula: 'Revised Budget + Pending Budget Changes = Projected Budget',
   },
   committedCosts: {
     title: 'Committed Costs',
-    formula: 'Remaining value of executed subcontracts and purchase orders for this code.',
-    details: ['Excludes pending commitment change orders.'],
+    type: 'Source Column',
+    formula: 'Committed Costs (Commitment)',
+    details: [
+      'Subcontracts — Status: Approved, Complete',
+      'Purchase Order Contracts — Status: Approved',
+      'Change Orders — Status: Approved',
+    ],
   },
   pendingCostChanges: {
     title: 'Pending Cost Changes',
-    formula: 'Sum of pending change orders that will modify commitments once approved.',
+    type: 'Source Column',
+    formula: 'Pending Cost Changes (Commitment)',
+    details: [
+      'Subcontracts — Status: Out For Signature',
+      'Purchase Order Contracts — Status: Processing, Submitted, Partially Received, Received',
+      'Change Orders — Status: Pending - In Review; Pending - Not Pricing; Pending - Not Proceeding; Pending - Pricing; Pending - Proceeding; Pending - Revised',
+    ],
   },
   projectedCosts: {
     title: 'Projected Costs',
-    formula: 'Direct Costs + Committed Costs + Pending Cost Changes.',
+    type: 'Calculated Column',
+    formula: 'Committed Costs + Direct Costs + Pending Cost Changes = Projected Costs',
   },
   forecastToComplete: {
-    title: 'Forecast to Complete',
-    formula: 'Projected Costs - Direct Costs.',
-    details: ['Equivalent to Committed Costs + Pending Cost Changes (remaining spend).'],
+    title: 'Forecast To Complete',
+    type: 'Standard Column',
+    formula: 'Projected Budget - Projected Costs = Forecast To Complete',
+    details: ['If negative, column will show 0.'],
   },
   estimatedCostAtCompletion: {
     title: 'Estimated Cost at Completion',
-    formula: 'Direct Costs + Forecast to Complete (equals Projected Costs).',
+    type: 'Calculated Column',
+    formula: 'Projected Costs + Forecast To Complete = Estimated Cost at Completion',
   },
   projectedOverUnder: {
-    title: 'Projected Over / Under',
-    formula: 'Projected Budget - Estimated Cost at Completion.',
-    details: ['Positive = under budget, Negative = over budget.'],
+    title: 'Projected over Under',
+    type: 'Calculated Column',
+    formula: 'Projected Budget - Estimated Cost at Completion = Projected over Under',
   },
 };
 
@@ -149,7 +178,10 @@ function ColumnHeader({ lines, columnKey }: ColumnHeaderProps) {
       >
         <div>
           <p className="font-semibold text-xs">{tooltip.title}</p>
-          <p className="text-xs">{tooltip.formula}</p>
+          {tooltip.type && (
+            <p className="text-[10px] text-gray-400 mt-0.5">{tooltip.type}</p>
+          )}
+          <p className="text-xs mt-1">{tooltip.formula}</p>
         </div>
         {tooltip.details?.length ? (
           <ul className="list-disc space-y-1 pl-4 text-xs">
@@ -191,6 +223,39 @@ function CurrencyCell({ value }: { value: number }) {
     <span className={cn('tabular-nums', isNegative && 'text-red-600')}>
       {formatCurrency(value)}
     </span>
+  );
+}
+
+function EditableCurrencyCell({
+  value,
+  hasChildren,
+  onEdit,
+  editable = false,
+}: {
+  value: number;
+  hasChildren: boolean;
+  onEdit?: () => void;
+  editable?: boolean;
+}) {
+  const isClickable = !hasChildren && onEdit && editable;
+
+  if (isClickable) {
+    return (
+      <button
+        type="button"
+        aria-label={`Edit ${formatCurrency(value)}`}
+        className="text-right cursor-pointer hover:bg-blue-50 px-1 py-0.5 rounded transition-colors w-full text-blue-600 hover:text-blue-700 underline"
+        onClick={onEdit}
+      >
+        <CurrencyCell value={value} />
+      </button>
+    );
+  }
+
+  return (
+    <div className="text-right">
+      <CurrencyCell value={value} />
+    </div>
   );
 }
 
@@ -331,22 +396,13 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
         const hasChildren = row.original.children && row.original.children.length > 0;
         const value = row.getValue('originalBudgetAmount') as number;
 
-        // Make clickable for leaf nodes
-        if (!hasChildren && onEditLineItem) {
-          return (
-            <div
-              className="text-right cursor-pointer hover:bg-blue-50 hover:text-blue-700 px-1 py-0.5 rounded transition-colors"
-              onClick={() => onEditLineItem(row.original)}
-            >
-              <CurrencyCell value={value} />
-            </div>
-          );
-        }
-
         return (
-          <div className="text-right">
-            <CurrencyCell value={value} />
-          </div>
+          <EditableCurrencyCell
+            value={value}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+            editable={true}
+          />
         );
       },
       size: 130,
@@ -359,11 +415,17 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           lines={['Budget Mods']}
         />
       ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          <CurrencyCell value={row.getValue('budgetModifications')} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hasChildren = row.original.children && row.original.children.length > 0;
+        return (
+          <EditableCurrencyCell
+            value={row.getValue('budgetModifications')}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+            editable={true}
+          />
+        );
+      },
       size: 130,
     },
     {
@@ -371,11 +433,16 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
       header: () => (
         <ColumnHeader columnKey="approvedCOs" lines={['Approved COs']} />
       ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          <CurrencyCell value={row.getValue('approvedCOs')} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hasChildren = row.original.children && row.original.children.length > 0;
+        return (
+          <EditableCurrencyCell
+            value={row.getValue('approvedCOs')}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+          />
+        );
+      },
       size: 120,
     },
     {
@@ -383,11 +450,16 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
       header: () => (
         <ColumnHeader columnKey="revisedBudget" lines={['Revised Budget']} />
       ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          <CurrencyCell value={row.getValue('revisedBudget')} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hasChildren = row.original.children && row.original.children.length > 0;
+        return (
+          <EditableCurrencyCell
+            value={row.getValue('revisedBudget')}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+          />
+        );
+      },
       size: 130,
     },
     {
@@ -398,11 +470,16 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           lines={['JTD Cost Detail']}
         />
       ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          <CurrencyCell value={row.getValue('jobToDateCostDetail')} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hasChildren = row.original.children && row.original.children.length > 0;
+        return (
+          <EditableCurrencyCell
+            value={row.getValue('jobToDateCostDetail')}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+          />
+        );
+      },
       size: 140,
     },
     {
@@ -410,11 +487,16 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
       header: () => (
         <ColumnHeader columnKey="directCosts" lines={['Direct Costs']} />
       ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          <CurrencyCell value={row.getValue('directCosts')} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hasChildren = row.original.children && row.original.children.length > 0;
+        return (
+          <EditableCurrencyCell
+            value={row.getValue('directCosts')}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+          />
+        );
+      },
       size: 120,
     },
     {
@@ -425,11 +507,16 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           lines={['Pending', 'Changes']}
         />
       ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          <CurrencyCell value={row.getValue('pendingChanges')} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hasChildren = row.original.children && row.original.children.length > 0;
+        return (
+          <EditableCurrencyCell
+            value={row.getValue('pendingChanges')}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+          />
+        );
+      },
       size: 110,
     },
     {
@@ -437,11 +524,16 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
       header: () => (
         <ColumnHeader columnKey="projectedBudget" lines={['Projected Budget']} />
       ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          <CurrencyCell value={row.getValue('projectedBudget')} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hasChildren = row.original.children && row.original.children.length > 0;
+        return (
+          <EditableCurrencyCell
+            value={row.getValue('projectedBudget')}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+          />
+        );
+      },
       size: 130,
     },
     {
@@ -449,11 +541,16 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
       header: () => (
         <ColumnHeader columnKey="committedCosts" lines={['Committed Costs']} />
       ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          <CurrencyCell value={row.getValue('committedCosts')} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hasChildren = row.original.children && row.original.children.length > 0;
+        return (
+          <EditableCurrencyCell
+            value={row.getValue('committedCosts')}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+          />
+        );
+      },
       size: 130,
     },
     {
@@ -464,11 +561,16 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           lines={['Pending Cost', 'Changes']}
         />
       ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          <CurrencyCell value={row.getValue('pendingCostChanges')} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hasChildren = row.original.children && row.original.children.length > 0;
+        return (
+          <EditableCurrencyCell
+            value={row.getValue('pendingCostChanges')}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+          />
+        );
+      },
       size: 130,
     },
     {
@@ -476,11 +578,16 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
       header: () => (
         <ColumnHeader columnKey="projectedCosts" lines={['Projected Costs']} />
       ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          <CurrencyCell value={row.getValue('projectedCosts')} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hasChildren = row.original.children && row.original.children.length > 0;
+        return (
+          <EditableCurrencyCell
+            value={row.getValue('projectedCosts')}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+          />
+        );
+      },
       size: 130,
     },
     {
@@ -491,11 +598,16 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           lines={['Forecast to', 'Complete']}
         />
       ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          <CurrencyCell value={row.getValue('forecastToComplete')} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hasChildren = row.original.children && row.original.children.length > 0;
+        return (
+          <EditableCurrencyCell
+            value={row.getValue('forecastToComplete')}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+          />
+        );
+      },
       size: 130,
     },
     {
@@ -506,11 +618,16 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           lines={['Estimated Cost at', 'Completion']}
         />
       ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          <CurrencyCell value={row.getValue('estimatedCostAtCompletion')} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hasChildren = row.original.children && row.original.children.length > 0;
+        return (
+          <EditableCurrencyCell
+            value={row.getValue('estimatedCostAtCompletion')}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+          />
+        );
+      },
       size: 150,
     },
     {
@@ -521,11 +638,16 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           lines={['Projected', 'Over / Under']}
         />
       ),
-      cell: ({ row }) => (
-        <div className="text-right">
-          <CurrencyCell value={row.getValue('projectedOverUnder')} />
-        </div>
-      ),
+      cell: ({ row }) => {
+        const hasChildren = row.original.children && row.original.children.length > 0;
+        return (
+          <EditableCurrencyCell
+            value={row.getValue('projectedOverUnder')}
+            hasChildren={hasChildren}
+            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+          />
+        );
+      },
       size: 130,
     },
   ];

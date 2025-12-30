@@ -1,0 +1,1937 @@
+{
+  "url": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials",
+  "pageName": "tutorials",
+  "category": "commitments",
+  "pageId": "tutorials",
+  "timestamp": "2025-12-29T21:39:12.097Z",
+  "analysis": {
+    "components": {
+      "buttons": 11,
+      "forms": 1,
+      "inputs": 2,
+      "tables": 0,
+      "modals": 0,
+      "navigation": 4,
+      "cards": 0,
+      "lists": 13,
+      "tabs": 0,
+      "dropdowns": 2,
+      "icons": 36,
+      "headings": {
+        "h1": 1,
+        "h2": 1,
+        "h3": 2,
+        "h4": 4
+      },
+      "codeBlocks": 0,
+      "images": 0,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "Commitments",
+      "headings": [
+        {
+          "level": "h4",
+          "text": "Resources",
+          "id": null
+        },
+        {
+          "level": "h4",
+          "text": "United States",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Tutorials",
+          "id": "page-title"
+        },
+        {
+          "level": "h4",
+          "text": "General Tasks",
+          "id": null
+        },
+        {
+          "level": "h4",
+          "text": "Subcontractor invoices",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "About Procore",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "Downloads",
+          "id": null
+        }
+      ],
+      "paragraphs": 9,
+      "sections": 3
+    },
+    "tables": [],
+    "breadcrumbs": [
+      {
+        "text": "Support Home",
+        "href": "https://v2.support.procore.com/"
+      },
+      {
+        "text": "Commitments",
+        "href": "https://v2.support.procore.com/product-manuals/commitments-project/"
+      },
+      {
+        "text": "Tutorials",
+        "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/"
+      }
+    ],
+    "title": "Tutorials",
+    "h1": "Commitments",
+    "metaDescription": "This page includes a list of tutorials for various tasks that can be performed in the project's Commitments tool."
+  },
+  "links": 180,
+  "linkDetails": [
+    {
+      "href": "https://v2.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": "icon",
+      "index": 0,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": "mobile-icon",
+      "index": 1,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/",
+      "text": "Product Manuals",
+      "classes": "",
+      "id": null,
+      "index": 2,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/",
+      "text": "Process Guides",
+      "classes": "",
+      "id": null,
+      "index": 3,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/video-library/",
+      "text": "Training Video Library   Search our library of training videos",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 5,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/",
+      "text": "Permissions Matrix",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 6,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/glossary-of-terms/",
+      "text": "Glossary of Terms",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 7,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/release-notes/",
+      "text": "Release Notes",
+      "classes": "",
+      "id": null,
+      "index": 12,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/",
+      "text": "Product Manuals",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 13,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/",
+      "text": "Process Guides",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 14,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://learn.procore.com/",
+      "text": "Certifications",
+      "classes": "",
+      "id": null,
+      "index": 15,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/video-library/",
+      "text": "Training Video Library",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/",
+      "text": "Permissions Matrix",
+      "classes": "",
+      "id": null,
+      "index": 17,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/glossary-of-terms/",
+      "text": "Glossary of Terms",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://status.procore.com/",
+      "text": "System Status",
+      "classes": "",
+      "id": null,
+      "index": 19,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://community.procore.com/s/",
+      "text": "Community",
+      "classes": "",
+      "id": null,
+      "index": 20,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://www.procore.com/whats-new/en/",
+      "text": "Product Updates",
+      "classes": "",
+      "id": null,
+      "index": 21,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://developers.procore.com%20/",
+      "text": "Developers",
+      "classes": "",
+      "id": null,
+      "index": 22,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/release-notes/",
+      "text": "Release Notes",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 23,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 24,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 25,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 26,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 27,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 28,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 29,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 30,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Latinoamérica (Español)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 31,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://pl-pl.support.procore.com/",
+      "text": "Polska (Polski)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 32,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 33,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/",
+      "text": "United States (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 34,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡 (中文)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 35,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本 (日本語)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 36,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "",
+      "id": null,
+      "index": 37,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "",
+      "id": null,
+      "index": 38,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "",
+      "id": null,
+      "index": 39,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "",
+      "id": null,
+      "index": 40,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "",
+      "id": null,
+      "index": 41,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "",
+      "id": null,
+      "index": 42,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "",
+      "id": null,
+      "index": 43,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Latinoamérica (Español)",
+      "classes": "",
+      "id": null,
+      "index": 44,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://pl-pl.support.procore.com/",
+      "text": "Polska (Polski)",
+      "classes": "",
+      "id": null,
+      "index": 45,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "",
+      "id": null,
+      "index": 46,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/",
+      "text": "United States (English)",
+      "classes": "",
+      "id": null,
+      "index": 47,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡 (中文)",
+      "classes": "",
+      "id": null,
+      "index": 48,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本 (日本語)",
+      "classes": "",
+      "id": null,
+      "index": 49,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/",
+      "text": "Support Home",
+      "classes": "",
+      "id": null,
+      "index": 50,
+      "isCommitments": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/",
+      "text": "Commitments",
+      "classes": "",
+      "id": null,
+      "index": 51,
+      "isCommitments": true,
+      "category": "commitments"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/",
+      "text": "Tutorials",
+      "classes": "current-page",
+      "id": null,
+      "index": 52,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-ios/tutorials",
+      "text": "iOS",
+      "classes": "",
+      "id": null,
+      "index": 54,
+      "isCommitments": true,
+      "category": "commitments"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-android/tutorials",
+      "text": "Android",
+      "classes": "",
+      "id": null,
+      "index": 55,
+      "isCommitments": true,
+      "category": "commitments"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project",
+      "text": "Overview",
+      "classes": "",
+      "id": null,
+      "index": 56,
+      "isCommitments": true,
+      "category": "commitments"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/faq-or-troubleshooting",
+      "text": "FAQ/Troubleshooting",
+      "classes": "",
+      "id": null,
+      "index": 58,
+      "isCommitments": true,
+      "category": "commitments"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/videos",
+      "text": "Videos",
+      "classes": "",
+      "id": null,
+      "index": 59,
+      "isCommitments": true,
+      "category": "commitments"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/permissions",
+      "text": "Permissions",
+      "classes": "",
+      "id": null,
+      "index": 60,
+      "isCommitments": true,
+      "category": "commitments"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/diagrams",
+      "text": "Diagrams",
+      "classes": "",
+      "id": null,
+      "index": 61,
+      "isCommitments": true,
+      "category": "commitments"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project",
+      "text": "Overview",
+      "classes": "",
+      "id": null,
+      "index": 62,
+      "isCommitments": true,
+      "category": "commitments"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/faq-or-troubleshooting",
+      "text": "FAQ/Troubleshooting",
+      "classes": "",
+      "id": null,
+      "index": 64,
+      "isCommitments": true,
+      "category": "commitments"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/videos",
+      "text": "Videos",
+      "classes": "",
+      "id": null,
+      "index": 65,
+      "isCommitments": true,
+      "category": "commitments"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/permissions",
+      "text": "Permissions",
+      "classes": "",
+      "id": null,
+      "index": 66,
+      "isCommitments": true,
+      "category": "commitments"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/diagrams",
+      "text": "Diagrams",
+      "classes": "",
+      "id": null,
+      "index": 67,
+      "isCommitments": true,
+      "category": "commitments"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/workflows-company/tutorials/configure-a-custom-workflow-template-for-correspondence-items-on-a-project/",
+      "text": "(Beta) Configure a Custom Workflow Template for Correspondence Items on a Project",
+      "classes": "",
+      "id": null,
+      "index": 68,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/workflows-company/tutorials/configure-a-custom-workflow-template-for-single-tier-change-orders-on-a-project/",
+      "text": "(Beta) Configure a Custom Workflow Template for Single Tier Change Orders on a Project",
+      "classes": "",
+      "id": null,
+      "index": 69,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/workflows-company/tutorials/plan-a-custom-workflow-template/",
+      "text": "(Beta) Plan a Custom Workflow Template",
+      "classes": "",
+      "id": null,
+      "index": 70,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/workflows-company/tutorials/about-the-workflows-tool/",
+      "text": "About the Workflows Tool",
+      "classes": "",
+      "id": null,
+      "index": 71,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/accept-or-decline-an-invite-to-bill-as-an-invoice-contact/",
+      "text": "Accept or Decline an 'Invite to Bill' as an Invoice Contact",
+      "classes": "",
+      "id": null,
+      "index": 72,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/erp-integrations-company/tutorials/accept-or-reject-a-commitment-for-export-to-erp/",
+      "text": "Accept or Reject a Commitment for Export to ERP",
+      "classes": "",
+      "id": null,
+      "index": 73,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/add-a-change-event-line-item-to-an-unapproved-commitment/",
+      "text": "Add a Change Event Line Item to an Unapproved Commitment",
+      "classes": "",
+      "id": null,
+      "index": 74,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/add-a-change-event-line-item-to-an-unapproved-commitment-co/",
+      "text": "Add a Change Event Line Item to an Unapproved Commitment CO",
+      "classes": "",
+      "id": null,
+      "index": 75,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/add-a-line-item-to-a-schedule-of-values/",
+      "text": "Add a Line Item to a Commitment's Schedule of Values",
+      "classes": "",
+      "id": null,
+      "index": 76,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-project/tutorials/add-a-multi-tiered-location-to-an-item/",
+      "text": "Add a Multi-Tiered Location to an Item",
+      "classes": "",
+      "id": null,
+      "index": 77,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/add-a-new-payment-to-the-payments-issued-tab-of-a-commitment/",
+      "text": "Add a New Payment to the Payments Issued Tab of a Commitment",
+      "classes": "",
+      "id": null,
+      "index": 78,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-orders-project/tutorials/add-a-related-item-to-a-commitment-change-order/",
+      "text": "Add a Related Item to a Commitment Change Order",
+      "classes": "",
+      "id": null,
+      "index": 79,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/add-a-related-item-to-a-purchase-order-or-subcontract/",
+      "text": "Add a Related Item to a Purchase Order or Subcontract (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 80,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/add-a-subcontractor-sov-to-a-commitment/",
+      "text": "Add a Subcontractor SOV to a Commitment",
+      "classes": "",
+      "id": null,
+      "index": 81,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/add-financial-markup-to-ccos/",
+      "text": "Add Financial Markup to Commitment Change Orders",
+      "classes": "",
+      "id": null,
+      "index": 82,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/add-invoice-contacts-to-a-purchase-order-or-subcontract/",
+      "text": "Add Invoice Contacts to a Purchase Order or Subcontract",
+      "classes": "",
+      "id": null,
+      "index": 83,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/allow-collaborators-to-submit-field-initiated-change-orders/",
+      "text": "Allow Collaborators to Submit Field-Initiated Change Orders",
+      "classes": "",
+      "id": null,
+      "index": 84,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/approve-and-sign-a-subcontract/",
+      "text": "Approve and Sign a Subcontract",
+      "classes": "",
+      "id": null,
+      "index": 85,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-orders-project/tutorials/approve-or-reject-commitment-change-orders/",
+      "text": "Approve or Reject Commitment Change Orders",
+      "classes": "",
+      "id": null,
+      "index": 86,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/bidding-project/tutorials/award-a-winning-bid-and-convert-it-into-a-subcontract/",
+      "text": "Award a Winning Bid and Convert it into a Subcontract (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 87,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/bulk-create-commitment-change-orders-from-a-change-event/",
+      "text": "Bulk Create Commitment Change Orders from a Change Event",
+      "classes": "",
+      "id": null,
+      "index": 88,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/change-the-privacy-settings-for-a-commitment/",
+      "text": "Change the Privacy Settings for a Commitment",
+      "classes": "",
+      "id": null,
+      "index": 89,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/complete-a-commitment-change-order-cco-with-docusign/",
+      "text": "Complete a Commitment Change Order with DocuSign®",
+      "classes": "",
+      "id": null,
+      "index": 90,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/complete-a-commitment-contract-with-docusign/",
+      "text": "Complete a Commitment Contract with DocuSign®",
+      "classes": "",
+      "id": null,
+      "index": 91,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/complete-subcontractor-invoices-with-docusign/",
+      "text": "Complete Subcontractor Invoices with DocuSign®",
+      "classes": "",
+      "id": null,
+      "index": 92,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/workflows-company/tutorials/configure-a-workflow-template-on-a-project/",
+      "text": "Configure a Workflow Template on a Project",
+      "classes": "",
+      "id": null,
+      "index": 93,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/configure-advanced-settings-commitments/",
+      "text": "Configure Advanced Settings: Commitments",
+      "classes": "",
+      "id": null,
+      "index": 94,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/configure-the-default-privacy-settings-for-new-commitments/",
+      "text": "Configure the Default Privacy Settings for New Commitments",
+      "classes": "",
+      "id": null,
+      "index": 95,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/configure-the-number-of-commitment-change-order-tiers/",
+      "text": "Configure the Number of Commitment Change Order Tiers",
+      "classes": "",
+      "id": null,
+      "index": 96,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/copy-a-configurable-fieldset/",
+      "text": "Copy a Configurable Fieldset",
+      "classes": "",
+      "id": null,
+      "index": 97,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/create-a-commitment-change-order-cco/",
+      "text": "Create a Commitment Change Order",
+      "classes": "",
+      "id": null,
+      "index": 98,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/create-a-commitment-change-order-from-a-change-event/",
+      "text": "Create a Commitment Change Order from a Change Event",
+      "classes": "",
+      "id": null,
+      "index": 99,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/create-a-commitment-potential-change-order/",
+      "text": "Create a Commitment Potential Change Order",
+      "classes": "",
+      "id": null,
+      "index": 100,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/create-a-commitment-potential-change-order-from-a-change-event/",
+      "text": "Create a Commitment Potential Change Order from a Change Event",
+      "classes": "",
+      "id": null,
+      "index": 101,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/create-a-payment-schedule/",
+      "text": "Create a Payment Schedule",
+      "classes": "",
+      "id": null,
+      "index": 102,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/create-a-purchase-order/",
+      "text": "Create a Purchase Order (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 103,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/create-a-purchase-order-from-a-change-event/",
+      "text": "Create a Purchase Order from a Change Event",
+      "classes": "",
+      "id": null,
+      "index": 104,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/create-a-subcontract/",
+      "text": "Create a Subcontract (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 105,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/create-a-subcontract-from-a-change-event/",
+      "text": "Create a Subcontract from a Change Event",
+      "classes": "",
+      "id": null,
+      "index": 106,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/create-an-invoice-for-release-of-retainage/",
+      "text": "Create a Subcontractor Invoice for Release of Retainage in the Invoicing Tool",
+      "classes": "",
+      "id": null,
+      "index": 107,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/create-a-subcontractor-invoice-for-the-release-of-retainage/",
+      "text": "Create a Subcontractor Invoice for the Release of Retainage (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 108,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/create-an-invoice-on-behalf-of-an-invoice-contact/",
+      "text": "Create a Subcontractor Invoice on Behalf of an Invoice Contact",
+      "classes": "",
+      "id": null,
+      "index": 109,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/workflows-company/tutorials/create-a-workflow-template/",
+      "text": "Create a Workflow Template",
+      "classes": "",
+      "id": null,
+      "index": 110,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/create-an-invoice-on-behalf-of-an-invoice-contact-legacy/",
+      "text": "Create an Invoice on Behalf of an Invoice Contact (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 111,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-pay/tutorials/create-and-apply-manual-hold-on-an-invoice/",
+      "text": "Create and Apply a Manual Hold on an Invoice",
+      "classes": "",
+      "id": null,
+      "index": 112,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-custom-sections/",
+      "text": "Create Custom Sections",
+      "classes": "",
+      "id": null,
+      "index": 113,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-pay/tutorials/create-lien-waiver-templates/",
+      "text": "Create Lien Waiver Templates",
+      "classes": "",
+      "id": null,
+      "index": 114,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-new-configurable-fieldsets/",
+      "text": "Create New Configurable Fieldsets",
+      "classes": "",
+      "id": null,
+      "index": 115,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/create-new-custom-fields/",
+      "text": "Create New Custom Fields",
+      "classes": "",
+      "id": null,
+      "index": 116,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/create-purchase-orders/",
+      "text": "Create Purchase Orders",
+      "classes": "",
+      "id": null,
+      "index": 117,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/create-subcontracts/",
+      "text": "Create Subcontracts",
+      "classes": "",
+      "id": null,
+      "index": 118,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/delete-a-commitment-change-order/",
+      "text": "Delete a Commitment Change Order",
+      "classes": "",
+      "id": null,
+      "index": 119,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/delete-a-commitment-synced-with-an-integrated-erp-system/",
+      "text": "Delete a Commitment Synced with an Integrated ERP System",
+      "classes": "",
+      "id": null,
+      "index": 120,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/erp-integrations-company/tutorials/delete-a-commitment-synced-with-erp/",
+      "text": "Delete a Commitment Synced with ERP",
+      "classes": "",
+      "id": null,
+      "index": 121,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/delete-a-purchase-order-or-subcontract/",
+      "text": "Delete a Purchase Order or Subcontract",
+      "classes": "",
+      "id": null,
+      "index": 122,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/delete-a-subcontractor-invoice/",
+      "text": "Delete a Subcontractor Invoice",
+      "classes": "",
+      "id": null,
+      "index": 123,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/delete-a-subcontractor-invoice-from-the-commitments-tool/",
+      "text": "Delete a Subcontractor Invoice from the Commitments Tool (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 124,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-orders-project/tutorials/determine-the-order-in-which-change-orders-were-approved/",
+      "text": "Determine the Order in Which Change Orders were Approved",
+      "classes": "",
+      "id": null,
+      "index": 125,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/edit-a-commitment/",
+      "text": "Edit a Commitment",
+      "classes": "",
+      "id": null,
+      "index": 126,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/edit-a-commitment-synced-with-an-integrated-erp-system/",
+      "text": "Edit a Commitment Synced with an Integrated ERP System",
+      "classes": "",
+      "id": null,
+      "index": 127,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/erp-integrations-company/tutorials/edit-a-commitment-synced-with-erp/",
+      "text": "Edit a Commitment Synced with ERP",
+      "classes": "",
+      "id": null,
+      "index": 128,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-pay/tutorials/edit-a-manual-hold-on-an-invoice/",
+      "text": "Edit a Manual Hold on a Subcontractor Invoice",
+      "classes": "",
+      "id": null,
+      "index": 129,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/edit-a-purchase-order/",
+      "text": "Edit a Purchase Order (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 130,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/edit-a-subcontract/",
+      "text": "Edit a Subcontract (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 131,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/edit-subcontracts/",
+      "text": "Edit Subcontracts",
+      "classes": "",
+      "id": null,
+      "index": 132,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/edit-the-advanced-settings-on-a-commitment/",
+      "text": "Edit the Advanced Settings Tab on a Commitment",
+      "classes": "",
+      "id": null,
+      "index": 133,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/email-a-purchase-order-or-subcontract/",
+      "text": "Email a Purchase Order or Subcontract",
+      "classes": "",
+      "id": null,
+      "index": 134,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/enable-financial-markup-on-a-commitment/",
+      "text": "Enable Financial Markup on a Commitment",
+      "classes": "",
+      "id": null,
+      "index": 135,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/enable-or-disable-the-ssov-tab-on-a-commitment/",
+      "text": "Enable or Disable the Subcontractor SOV Tab on a Commitment",
+      "classes": "",
+      "id": null,
+      "index": 136,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/enable-retainage-on-a-purchase-order-or-subcontract/",
+      "text": "Enable Retainage on a Purchase Order or Subcontract",
+      "classes": "",
+      "id": null,
+      "index": 137,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/enable-the-payments-issued-tab-on-a-commitment/",
+      "text": "Enable the Payments Issued Tab on a Commitment",
+      "classes": "",
+      "id": null,
+      "index": 138,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/export-a-commitment/",
+      "text": "Export a Commitment",
+      "classes": "",
+      "id": null,
+      "index": 139,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/export-a-cco-to-an-integrated-erp-system/",
+      "text": "Export a Commitment Change Order to an Integrated ERP System",
+      "classes": "",
+      "id": null,
+      "index": 140,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/export-a-commitment-to-an-integrated-erp-system/",
+      "text": "Export a Commitment to an Integrated ERP System",
+      "classes": "",
+      "id": null,
+      "index": 141,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/erp-integrations-company/tutorials/export-a-commitment-to-erp/",
+      "text": "Export a Commitment to ERP",
+      "classes": "",
+      "id": null,
+      "index": 142,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/export-a-commitments-list/",
+      "text": "Export a Commitments List",
+      "classes": "",
+      "id": null,
+      "index": 143,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-pay/tutorials/export-subcontractor-invoices-as-a-payor/",
+      "text": "Export Subcontractor Invoices as a Payor",
+      "classes": "",
+      "id": null,
+      "index": 144,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-orders-project/tutorials/forward-a-change-order-to-a-project-user-by-email/",
+      "text": "Forward a Change Order to a Project User by Email",
+      "classes": "",
+      "id": null,
+      "index": 145,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/forward-a-subcontractor-invoice-by-email/",
+      "text": "Forward a Subcontractor Invoice by Email",
+      "classes": "",
+      "id": null,
+      "index": 146,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/import-commitment-sov-line-items-from-a-csv-file/",
+      "text": "Import Commitment SOV Line Items from a CSV File",
+      "classes": "",
+      "id": null,
+      "index": 147,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/link-a-schedule-of-values-line-item-to-a-change-event-line-item/",
+      "text": "Link a Schedule of Values Line Item to a Change Event Line Item",
+      "classes": "",
+      "id": null,
+      "index": 148,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-pay/tutorials/manage-payment-requirements-as-a-payor/",
+      "text": "Manage Payment Requirements as a Payor",
+      "classes": "",
+      "id": null,
+      "index": 149,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/manage-rows-and-columns-in-the-commitments-tool/",
+      "text": "Manage Rows & Columns in the Commitments Tool",
+      "classes": "",
+      "id": null,
+      "index": 150,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/login-and-account-management/tutorials/navigate-procores-tools/",
+      "text": "Navigate Procore's Tools",
+      "classes": "",
+      "id": null,
+      "index": 151,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-pay/tutorials/open-invoices-in-the-payments-tool/",
+      "text": "Open Invoices in the Payments Tool",
+      "classes": "",
+      "id": null,
+      "index": 152,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/procore-pay/tutorials/release-a-manual-hold-on-an-invoice/",
+      "text": "Release a Manual Hold on Subcontractor Invoices",
+      "classes": "",
+      "id": null,
+      "index": 153,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/request-to-reset-a-commitment-synced-with-an-integrated-erp-system/",
+      "text": "Request to Reset a Commitment Synced with an Integrated ERP System",
+      "classes": "",
+      "id": null,
+      "index": 154,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/erp-integrations-company/tutorials/resend-a-rejected-commitment-to-erp-integrations-for-accounting-acceptance/",
+      "text": "Resend a Rejected Commitment to ERP Integrations for Accounting Acceptance",
+      "classes": "",
+      "id": null,
+      "index": 155,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/erp-integrations-company/tutorials/resend-a-rejected-subcontractor-invoice-to-erp-integrations-for-accounting-acceptance/",
+      "text": "Resend a Rejected Subcontractor Invoice to ERP Integrations for Accounting Acceptance",
+      "classes": "",
+      "id": null,
+      "index": 156,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/erp-integrations-company/tutorials/retrieve-a-cco-from-erp-integrations-before-acceptance/",
+      "text": "Retrieve a CCO from ERP Integrations Before Acceptance",
+      "classes": "",
+      "id": null,
+      "index": 157,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/erp-integrations-company/tutorials/retrieve-a-commitment-from-erp-integrations-before-acceptance/",
+      "text": "Retrieve a Commitment from ERP Integrations Before Acceptance",
+      "classes": "",
+      "id": null,
+      "index": 158,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/erp-integrations-company/tutorials/retrieve-a-subcontractor-invoice-from-erp-integrations-before-acceptance/",
+      "text": "Retrieve a Subcontractor Invoice from ERP Integrations Before Acceptance",
+      "classes": "",
+      "id": null,
+      "index": 159,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/review-a-subcontractor-invoice-as-an-admin/",
+      "text": "Review a Subcontractor Invoice as an Admin (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 160,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/review-a-commitments-subcontractor-schedule-of-values/",
+      "text": "Review a Subcontractor SOV for a Commitment",
+      "classes": "",
+      "id": null,
+      "index": 161,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/revise-and-resubmit-an-invoice-as-an-invoice-contact/",
+      "text": "Revise & Resubmit an Invoice as an Invoice Contact (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 162,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/search-for-and-apply-filters-to-the-commitments-tool/",
+      "text": "Search for and Apply Filters to the Commitments Tool",
+      "classes": "",
+      "id": null,
+      "index": 163,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/erp-integrations-company/tutorials/send-a-commitment-to-erp-integrations-for-accounting-acceptance/",
+      "text": "Send a Commitment to ERP Integrations for Accounting Acceptance",
+      "classes": "",
+      "id": null,
+      "index": 164,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/set-or-release-retainage-on-a-subcontractor-invoice-legacy/",
+      "text": "Set or Release Retainage on a Subcontractor Invoice (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 165,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/sage-300-cre/tutorials/set-up-the-imoprt-sage-300-cre-tax-groups-feature/",
+      "text": "Set Up the Import Sage 300 CRE® Tax Groups Feature",
+      "classes": "",
+      "id": null,
+      "index": 166,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/submit-a-field-initiated-change-order-as-a-collaborator/",
+      "text": "Submit a Field-Initiated Change Order as a Collaborator",
+      "classes": "",
+      "id": null,
+      "index": 167,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/submit-a-new-invoice-as-an-invoice-contact/",
+      "text": "Submit a New Invoice as an Invoice Contact",
+      "classes": "",
+      "id": null,
+      "index": 168,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/change-events-project/tutorials/submit-a-quote-as-a-collaborator/",
+      "text": "Submit a Quote as a Collaborator",
+      "classes": "",
+      "id": null,
+      "index": 169,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/erp-integrations-company/tutorials/unlink-ccos-synced-with-erp/",
+      "text": "Unlink CCOs Synced with ERP",
+      "classes": "",
+      "id": null,
+      "index": 170,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/erp-integrations-company/tutorials/unlink-commitments-synced-with-erp/",
+      "text": "Unlink Commitments Synced with ERP",
+      "classes": "",
+      "id": null,
+      "index": 171,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/update-a-subcontractor-schedule-of-values-as-an-invoice-contact-from-the-commitments-tool/",
+      "text": "Update a Subcontractor Schedule of Values as an Invoice Contact from the Commitments Tool (Legacy)",
+      "classes": "",
+      "id": null,
+      "index": 172,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/update-a-unit-of-measure-on-the-unit-of-measure-master-list/",
+      "text": "Update a Unit of Measure on the Unit of Measure Master List",
+      "classes": "",
+      "id": null,
+      "index": 173,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/update-the-tool-settings-for-contracts/",
+      "text": "Update the Tool Settings for Contracts & Change Orders",
+      "classes": "",
+      "id": null,
+      "index": 174,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/view-a-purchase-order/",
+      "text": "View a Purchase Order",
+      "classes": "",
+      "id": null,
+      "index": 175,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/view-a-subcontract/",
+      "text": "View a Subcontract",
+      "classes": "",
+      "id": null,
+      "index": 176,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/view-commitments/",
+      "text": "View Commitments",
+      "classes": "",
+      "id": null,
+      "index": 177,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/view-inclusions-exclusions-on-a-subcontract/",
+      "text": "View Inclusions/Exclusions on a Subcontract",
+      "classes": "",
+      "id": null,
+      "index": 178,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/view-the-change-history-of-a-commitment/",
+      "text": "View the Change History of a Commitment",
+      "classes": "",
+      "id": null,
+      "index": 179,
+      "isCommitments": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/view-the-summary-preview-for-a-subcontractor-invoice/",
+      "text": "View the Summary Preview for a Subcontractor Invoice",
+      "classes": "",
+      "id": null,
+      "index": 180,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/accept-or-decline-an-invite-to-bill-as-an-invoice-contact/",
+      "text": "Accept or Decline an 'Invite to Bill' as an Invoice Contact",
+      "classes": "",
+      "id": null,
+      "index": 181,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/create-a-payment-schedule/",
+      "text": "Create a Payment Schedule",
+      "classes": "",
+      "id": null,
+      "index": 182,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/create-an-invoice-on-behalf-of-an-invoice-contact/",
+      "text": "Create a Subcontractor Invoice on Behalf of an Invoice Contact",
+      "classes": "",
+      "id": null,
+      "index": 183,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/delete-a-subcontractor-invoice/",
+      "text": "Delete a Subcontractor Invoice",
+      "classes": "",
+      "id": null,
+      "index": 184,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/forward-a-subcontractor-invoice-by-email/",
+      "text": "Forward a Subcontractor Invoice by Email",
+      "classes": "",
+      "id": null,
+      "index": 185,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/view-the-summary-preview-for-a-subcontractor-invoice/",
+      "text": "View the Summary Preview for a Subcontractor Invoice",
+      "classes": "",
+      "id": null,
+      "index": 186,
+      "isCommitments": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/contact-support",
+      "text": "Contact Support",
+      "classes": "",
+      "id": null,
+      "index": 195,
+      "isCommitments": false,
+      "category": "general"
+    }
+  ],
+  "clickables": 11,
+  "clickableDetails": [
+    {
+      "text": "",
+      "id": "banner-close-button",
+      "type": "button",
+      "classes": "banner-close-button",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Menu",
+      "id": "mobile-nav-toggle",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "What do you need help with?",
+      "id": "autocomplete-0-label",
+      "type": "button",
+      "classes": "aa-DetachedSearchButton",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Resources",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": true,
+      "index": 3
+    },
+    {
+      "text": "Resources",
+      "id": "mobile-nav-accordion-button",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "United States",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": true,
+      "index": 5
+    },
+    {
+      "text": "United States",
+      "id": "mobile-nav-accordion-button",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "Table of Contents",
+      "id": "mobile-nav-accordion-button",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "About Procore",
+      "id": "footer-accordion-button",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "Downloads",
+      "id": "footer-accordion-button",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "hasDropdown": false,
+      "index": 10
+    }
+  ],
+  "expandables": 16,
+  "expandableDetails": [
+    {
+      "text": "Product Manuals",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "Product Manuals",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Process Guides",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Process Guides",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Resources",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Resources",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    },
+    {
+      "text": "Release Notes",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 6
+    },
+    {
+      "text": "Release Notes",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 7
+    },
+    {
+      "text": "United States",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 8
+    },
+    {
+      "text": "United States",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 9
+    },
+    {
+      "text": "Table of Contents",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 10
+    },
+    {
+      "text": "Table of Contents",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 11
+    },
+    {
+      "text": "About Procore",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 12
+    },
+    {
+      "text": "About Procore",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 13
+    },
+    {
+      "text": "Downloads",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 14
+    },
+    {
+      "text": "Downloads",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 15
+    }
+  ],
+  "screenshotPath": "pages/tutorials/screenshot.png"
+}

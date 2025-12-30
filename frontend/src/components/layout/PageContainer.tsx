@@ -29,7 +29,8 @@ export function PageContainer({
     <div className={cn(
       "mx-auto w-full",
       maxWidthClasses[maxWidth],
-      // Mobile-first responsive padding: tight on mobile, comfortable on desktop
+      // Mobile-first responsive padding following 8px grid system
+      // Mobile: 16px (comfortable minimum), Tablet: 24px, Desktop: 32px
       padding && "px-4 sm:px-6 lg:px-8 py-4 sm:py-6",
       // Prevent horizontal overflow on all screen sizes
       "overflow-x-hidden",

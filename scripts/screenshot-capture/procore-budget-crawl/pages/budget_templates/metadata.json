@@ -3,7 +3,7 @@
   "pageName": "budget_templates",
   "category": "budget",
   "pageId": "budget_templates",
-  "timestamp": "2025-12-27T16:34:27.096Z",
+  "timestamp": "2025-12-29T22:11:29.821Z",
   "analysis": {
     "components": {
       "buttons": 3,
@@ -450,7 +450,7 @@
       "index": 4
     },
     {
-      "text": "ERP Job Cost Detail Budget\n    \n  \n  Type a description here\n  38 projects selectedAHS MoorsvilleBella VegasBrennan PittsburghCart Cold StorageCart HebronCart MemphisCEVA MemphisCooper RoadCore MarkCraig St office...\n  , \n  06/02/23 at 11:40 am",
+      "text": "ERP Job Cost Detail Budget\n    \n  \n  Type a description here\n  38 projects selectedAHS MoorsvilleBella VegasBrennan PittsburghCart Cold StorageCart HebronCart MemphisCEVA MemphisCooper RoadCore MarkCraig St office...\n  solis, mallory\n  06/02/23 at 11:40 am",
       "id": "clickable",
       "type": "tr",
       "classes": "clickable",

@@ -55,11 +55,13 @@ export function PageHeader({
         )}
 
         {/* Title and Actions */}
-        <div className="flex flex-col gap-4 py-6 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 py-4 sm:py-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0 flex-1">
-            <h1 className="text-2xl font-bold text-gray-900 break-words">{title}</h1>
+            {/* Responsive heading: 24px mobile (1.5rem), 28px tablet (1.75rem), 32px desktop (2rem) */}
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 break-words leading-tight">{title}</h1>
+            {/* 14px mobile, 16px desktop for better readability */}
             {description && (
-              <p className="mt-2 text-sm text-gray-600 break-words">{description}</p>
+              <p className="mt-2 text-sm sm:text-base text-gray-600 break-words leading-relaxed">{description}</p>
             )}
           </div>
           {actions && <div className="flex flex-wrap items-center gap-2 sm:gap-3">{actions}</div>}

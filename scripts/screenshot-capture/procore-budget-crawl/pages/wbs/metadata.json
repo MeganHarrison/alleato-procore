@@ -3,14 +3,14 @@
   "pageName": "wbs",
   "category": "budget",
   "pageId": "wbs",
-  "timestamp": "2025-12-27T16:41:10.260Z",
+  "timestamp": "2025-12-29T22:18:28.079Z",
   "analysis": {
     "components": {
-      "buttons": 4,
-      "forms": 0,
-      "inputs": 0,
+      "buttons": 7,
+      "forms": 2,
+      "inputs": 10,
       "tables": 0,
-      "modals": 0,
+      "modals": 1,
       "navigation": 1,
       "cards": 0,
       "lists": 3,
@@ -88,7 +88,7 @@
       "index": 8
     }
   ],
-  "clickables": 4,
+  "clickables": 7,
   "clickableDetails": [
     {
       "text": "More",
@@ -121,6 +121,30 @@
       "classes": "StyledButton-core-12_20_2__sc-c5bhwh-3 cxIXxj",
       "hasDropdown": false,
       "index": 3
+    },
+    {
+      "text": "×",
+      "id": "pendo-close-guide-4bffbd96",
+      "type": "button",
+      "classes": "_pendo-close-guide",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "Close",
+      "id": "pendo-button-3764cfab",
+      "type": "button",
+      "classes": "bb-button _pendo-button-tertiaryButton _pendo-button",
+      "hasDropdown": false,
+      "index": 5
+    },
+    {
+      "text": "Next (1/2)",
+      "id": "pendo-button-7407cacd",
+      "type": "button",
+      "classes": "bb-button _pendo-button-custom _pendo-button",
+      "hasDropdown": false,
+      "index": 6
     }
   ],
   "dropdowns": 1,

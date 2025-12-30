@@ -3,7 +3,7 @@
   "pageName": "meeting_templates",
   "category": "budget",
   "pageId": "meeting_templates",
-  "timestamp": "2025-12-27T16:48:05.512Z",
+  "timestamp": "2025-12-29T22:27:18.133Z",
   "analysis": {
     "components": {
       "buttons": 4,
@@ -436,9 +436,9 @@
     },
     {
       "text": "Minimize Sidebar",
-      "id": "sidebar-toggle-button sidebar-toggle show-footer",
+      "id": "sidebar-toggle-button sidebar-toggle",
       "type": "div",
-      "classes": "sidebar-toggle-button sidebar-toggle show-footer",
+      "classes": "sidebar-toggle-button sidebar-toggle",
       "hasDropdown": false,
       "index": 8
     }

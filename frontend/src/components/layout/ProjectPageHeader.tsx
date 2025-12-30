@@ -48,7 +48,7 @@ export function ProjectPageHeader({
 
   return (
     <div className={cn(className)}>
-      <div className="px-4 sm:px-6 lg:px-12">
+      <div className="px-4 sm:px-6 lg:px-8">
         {/* Breadcrumbs */}
         {breadcrumbs && breadcrumbs.length > 0 && (
           <nav className="flex py-3" aria-label="Breadcrumb">
@@ -102,16 +102,16 @@ export function ProjectPageHeader({
               </div>
             )}
 
-            {/* Page Title */}
+            {/* Page Title - Responsive typography */}
             {titleContent ? (
               titleContent
             ) : (
-              <h1 className="text-2xl font-bold">{title}</h1>
+              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight">{title}</h1>
             )}
 
-            {/* Description */}
+            {/* Description - Responsive text size */}
             {description && (
-              <p className="mt-2 text-sm">{description}</p>
+              <p className="mt-2 text-sm sm:text-base leading-relaxed">{description}</p>
             )}
           </div>
 
