@@ -3,22 +3,24 @@
 /**
  * PROCORE DOCS CHAT COMPONENT
  *
- * Floating chat interface for asking questions about Procore documentation
+ * Sidebar chat interface for asking questions about Procore documentation
  * Uses RAG (Retrieval Augmented Generation) for accurate answers
  */
 
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from '@/components/ui/dialog';
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetDescription,
+} from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageCircle, Send, ExternalLink, Loader2 } from 'lucide-react';
+import { MessageCircle, Send, ExternalLink, Loader2, X } from 'lucide-react';
+import ReactMarkdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 
 interface Message {
   role: 'user' | 'assistant';
@@ -86,35 +88,64 @@ export function DocsChat() {
       {/* Floating Chat Button */}
       <Button
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50"
+        className="fixed bottom-6 right-6 h-14 w-14 rounded-full shadow-lg z-50 bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
         size="icon"
         title="Ask Procore Docs"
       >
         <MessageCircle className="h-6 w-6" />
       </Button>
 
-      {/* Chat Dialog */}
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="sm:max-w-[600px] h-[600px] flex flex-col p-0">
-          <DialogHeader className="p-6 pb-4">
-            <DialogTitle>Ask Procore Docs</DialogTitle>
-            <DialogDescription>
-              Get answers from Procore documentation using AI
-            </DialogDescription>
-          </DialogHeader>
+      {/* Chat Sidebar */}
+      <Sheet open={isOpen} onOpenChange={setIsOpen}>
+        <SheetContent side="right" className="w-full sm:w-[540px] flex flex-col p-0">
+          <SheetHeader className="px-6 py-5 border-b bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20">
+            <div className="flex items-start justify-between">
+              <div className="space-y-1">
+                <SheetTitle className="text-xl font-semibold text-blue-900 dark:text-blue-100">
+                  Procore Documentation Assistant
+                </SheetTitle>
+                <SheetDescription className="text-sm text-blue-700 dark:text-blue-300">
+                  Ask questions about budgets, commitments, change orders, and more
+                </SheetDescription>
+              </div>
+            </div>
+          </SheetHeader>
 
           {/* Messages Area */}
-          <ScrollArea className="flex-1 px-6">
-            <div className="space-y-4 pb-4">
+          <ScrollArea className="flex-1 px-6 py-4">
+            <div className="space-y-6 pb-4">
               {messages.length === 0 && (
-                <div className="text-center text-muted-foreground py-12">
-                  <MessageCircle className="h-12 w-12 mx-auto mb-4 opacity-20" />
-                  <p className="text-sm">
-                    Ask me anything about Procore!
+                <div className="text-center text-muted-foreground py-16">
+                  <div className="w-16 h-16 mx-auto mb-4 rounded-full bg-gradient-to-br from-blue-100 to-indigo-100 dark:from-blue-900/30 dark:to-indigo-900/30 flex items-center justify-center">
+                    <MessageCircle className="h-8 w-8 text-blue-600 dark:text-blue-400" />
+                  </div>
+                  <p className="text-base font-medium mb-2 text-foreground">
+                    How can I help you today?
                   </p>
-                  <p className="text-xs mt-2">
-                    Examples: &quot;How do I create a budget?&quot; or &quot;What are change orders?&quot;
+                  <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
+                    Ask me anything about Procore features, workflows, or best practices
                   </p>
+                  <div className="mt-6 space-y-2">
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                      Try asking:
+                    </p>
+                    <div className="flex flex-col gap-2">
+                      {[
+                        'How do I create a budget?',
+                        'What are change orders?',
+                        'How do commitments work?',
+                      ].map((example) => (
+                        <button
+                          key={example}
+                          type="button"
+                          onClick={() => setInput(example)}
+                          className="text-xs px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-colors text-left"
+                        >
+                          {example}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 </div>
               )}
 
@@ -124,30 +155,45 @@ export function DocsChat() {
                   className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
                 >
                   <div
-                    className={`max-w-[80%] rounded-lg px-4 py-2 ${
+                    className={`max-w-[85%] rounded-xl ${
                       message.role === 'user'
-                        ? 'bg-primary text-primary-foreground'
-                        : 'bg-muted'
+                        ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-md'
+                        : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm'
                     }`}
                   >
-                    <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                    <div className="px-4 py-3">
+                      {message.role === 'user' ? (
+                        <p className="text-sm leading-relaxed">{message.content}</p>
+                      ) : (
+                        <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed prose-p:my-2 prose-headings:my-3 prose-headings:font-semibold prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-code:text-xs prose-code:bg-gray-100 dark:prose-code:bg-gray-900 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-100 dark:prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700">
+                          <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                            {message.content}
+                          </ReactMarkdown>
+                        </div>
+                      )}
+                    </div>
 
                     {/* Sources */}
                     {message.sources && message.sources.length > 0 && (
-                      <div className="mt-3 pt-3 border-t border-border/50">
-                        <p className="text-xs font-semibold mb-2">Sources:</p>
-                        <div className="space-y-1">
+                      <div className="px-4 pb-3 pt-1 border-t border-gray-100 dark:border-gray-700 mt-2">
+                        <p className="text-xs font-semibold mb-2 text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                          Sources
+                        </p>
+                        <div className="space-y-1.5">
                           {message.sources.map((source, idx) => (
                             <a
                               key={source.id}
                               href={source.url}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="flex items-center gap-1 text-xs text-blue-600 hover:underline"
+                              className="flex items-center gap-2 text-xs text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 hover:underline group transition-colors"
                             >
-                              <ExternalLink className="h-3 w-3" />
-                              <span>
-                                Source {idx + 1} ({Math.round(source.similarity * 100)}% match)
+                              <ExternalLink className="h-3 w-3 flex-shrink-0 group-hover:scale-110 transition-transform" />
+                              <span className="flex-1">
+                                <span className="font-medium">Source {idx + 1}</span>
+                                <span className="text-gray-500 dark:text-gray-400 ml-1.5">
+                                  ({Math.round(source.similarity * 100)}% match)
+                                </span>
                               </span>
                             </a>
                           ))}
@@ -160,8 +206,11 @@ export function DocsChat() {
 
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-muted rounded-lg px-4 py-2">
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                  <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 shadow-sm">
+                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                      <Loader2 className="h-4 w-4 animate-spin" />
+                      <span>Thinking...</span>
+                    </div>
                   </div>
                 </div>
               )}
@@ -169,22 +218,32 @@ export function DocsChat() {
           </ScrollArea>
 
           {/* Input Area */}
-          <form onSubmit={handleSubmit} className="p-6 pt-4 border-t">
-            <div className="flex gap-2">
-              <Input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder="Ask a question..."
-                disabled={isLoading}
-                className="flex-1"
-              />
-              <Button type="submit" disabled={isLoading || !input.trim()}>
-                <Send className="h-4 w-4" />
-              </Button>
-            </div>
-          </form>
-        </DialogContent>
-      </Dialog>
+          <div className="p-4 border-t bg-white dark:bg-gray-950">
+            <form onSubmit={handleSubmit} className="space-y-2">
+              <div className="flex gap-2">
+                <Input
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder="Ask a question about Procore..."
+                  disabled={isLoading}
+                  className="flex-1 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 focus-visible:ring-blue-500"
+                />
+                <Button
+                  type="submit"
+                  disabled={isLoading || !input.trim()}
+                  className="bg-gradient-to-br from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800"
+                  size="icon"
+                >
+                  <Send className="h-4 w-4" />
+                </Button>
+              </div>
+              <p className="text-xs text-center text-muted-foreground">
+                Powered by AI • Answers from official Procore documentation
+              </p>
+            </form>
+          </div>
+        </SheetContent>
+      </Sheet>
     </>
   );
 }
