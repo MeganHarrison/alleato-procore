@@ -45,6 +45,8 @@ export function CreatePurchaseOrderForm({
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [sovLines, setSovLines] = React.useState<PurchaseOrderSovLineItem[]>([]);
   const [accountingMethod, setAccountingMethod] = React.useState<'unit-quantity' | 'amount'>('unit-quantity');
+  const [attachments, setAttachments] = React.useState<File[]>([]);
+  const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   const {
     register,
@@ -132,15 +134,33 @@ export function CreatePurchaseOrderForm({
     };
   };
 
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      setAttachments(prev => [...prev, ...Array.from(files)]);
+    }
+  };
+
+  const handleRemoveAttachment = (index: number) => {
+    setAttachments(prev => prev.filter((_, i) => i !== index));
+  };
+
+  const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+    const files = event.dataTransfer.files;
+    if (files) {
+      setAttachments(prev => [...prev, ...Array.from(files)]);
+    }
+  };
+
+  const handleDragOver = (event: React.DragEvent<HTMLDivElement>) => {
+    event.preventDefault();
+  };
+
   const totals = calculateSOVTotals();
 
   return (
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-8">
-      {/* Page Title */}
-      <div className="flex items-center justify-between">
-        <h1 className="text-2xl font-bold">Create Purchase Order</h1>
-      </div>
-
       {/* General Information Section */}
       <section className="space-y-4">
         <h2 className="text-lg font-semibold border-b pb-2">General Information</h2>
@@ -319,16 +339,28 @@ export function CreatePurchaseOrderForm({
       <section className="space-y-4">
         <h2 className="text-lg font-semibold border-b pb-2">Attachments</h2>
 
-        <div className="border-2 border-dashed rounded-lg p-8 text-center">
+        <input
+          ref={fileInputRef}
+          type="file"
+          multiple
+          onChange={handleFileSelect}
+          className="hidden"
+          accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
+          aria-label="File upload"
+        />
+
+        <div
+          className="border-2 border-dashed rounded-lg p-8 text-center"
+          onDrop={handleDrop}
+          onDragOver={handleDragOver}
+        >
           <div className="flex flex-col items-center gap-3">
             <Upload className="h-8 w-8 text-gray-400" />
             <div className="flex items-center gap-2">
               <Button
                 type="button"
                 variant="outline"
-                onClick={() => {
-                  console.warn('File attachment not yet implemented');
-                }}
+                onClick={() => fileInputRef.current?.click()}
                 disabled={isSubmitting}
               >
                 Attach Files
@@ -337,6 +369,35 @@ export function CreatePurchaseOrderForm({
             </div>
           </div>
         </div>
+
+        {/* Display attached files */}
+        {attachments.length > 0 && (
+          <div className="space-y-2">
+            {attachments.map((file, index) => (
+              <div
+                key={`${file.name}-${index}`}
+                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+              >
+                <div className="flex items-center gap-2">
+                  <Upload className="h-4 w-4 text-gray-600" />
+                  <span className="text-sm">{file.name}</span>
+                  <span className="text-xs text-gray-500">
+                    ({(file.size / 1024).toFixed(1)} KB)
+                  </span>
+                </div>
+                <Button
+                  type="button"
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => handleRemoveAttachment(index)}
+                  disabled={isSubmitting}
+                >
+                  <X className="h-4 w-4" />
+                </Button>
+              </div>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Schedule of Values Section */}

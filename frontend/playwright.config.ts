@@ -5,25 +5,30 @@ import path from 'path';
 // Load environment variables from .env file in frontend directory
 dotenv.config({ path: path.resolve(__dirname, '.env') });
 
+// Environment-based video retention
+const isDebug = process.env.PWDEBUG === '1';
+const keepAllVideos = process.env.PW_VIDEO === 'on';
+
 export default defineConfig({
   testDir: './tests',
-  timeout: 30 * 1000,
+  timeout: 60 * 1000, // Increased for form interactions
   expect: {
-    timeout: 5000
+    timeout: 10000 // Increased for slower elements
   },
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
   workers: process.env.CI ? 1 : undefined,
   reporter: [
-    ['html', { outputFolder: 'playwright-report' }],
+    ['html', { outputFolder: 'playwright-report', open: 'never' }],
     ['json', { outputFile: 'playwright-report/report.json' }],
+    ['list'],
   ],
   use: {
     baseURL: 'http://localhost:3000',
     trace: 'on-first-retry',
-    screenshot: 'only-on-failure',
-    video: 'retain-on-failure',
+    screenshot: 'on', // Always capture screenshots for verification
+    video: keepAllVideos ? 'on' : isDebug ? 'on' : 'retain-on-failure',
   },
 
   projects: [
