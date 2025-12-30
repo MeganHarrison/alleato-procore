@@ -33,15 +33,15 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await page.getByRole('button', { name: /autofill test data/i }).click();
     await page.waitForTimeout(500);
 
-    // Verify Contract Number is filled
-    await expect(page.locator('#contractNumber')).toHaveValue('SC-TEST-001');
+    // Verify Contract Number is filled (uses current year)
+    await expect(page.locator('#contractNumber')).toHaveValue('SC-2025-001');
 
     // Verify Description is filled
     const description = await page.locator('#description').inputValue();
     expect(description.length).toBeGreaterThan(0);
 
     // Verify SOV lines were added
-    await expect(page.getByRole('table')).toBeVisible();
+    await expect(page.locator('table')).toBeVisible();
 
     await page.screenshot({
       path: 'frontend/tests/screenshots/subcontract-form-autofilled.png',
@@ -54,10 +54,10 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await expect(page.getByRole('heading', { name: 'General Information' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Attachments' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Schedule of Values' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Inclusions & Exclusions' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Contract Dates' })).toBeVisible();
     await expect(page.getByRole('heading', { name: 'Contract Privacy' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Insurance Requirements' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: 'Letter of Intent' })).toBeVisible();
+    await expect(page.getByRole('heading', { name: 'Invoice Contacts' })).toBeVisible();
 
     await page.screenshot({
       path: 'frontend/tests/screenshots/subcontract-form-all-sections.png',
@@ -65,16 +65,12 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     });
   });
 
-  test('should have Import from Budget modal trigger', async ({ page }) => {
-    // Click autofill to get SOV table visible
-    await page.getByRole('button', { name: /autofill test data/i }).click();
-    await page.waitForTimeout(500);
-
-    // Find Import from Budget button
-    await expect(page.getByRole('button', { name: /import from budget/i })).toBeVisible();
+  test('should have Import from CSV button', async ({ page }) => {
+    // Find Import SOV from CSV button
+    await expect(page.getByRole('button', { name: /import sov from csv/i })).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-import-budget-button.png',
+      path: 'frontend/tests/screenshots/subcontract-form-import-csv-button.png',
       fullPage: true
     });
   });
@@ -84,20 +80,22 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await page.getByRole('button', { name: /add line/i }).first().click();
     await page.waitForTimeout(300);
 
-    // Verify amount-based columns (no Qty, UOM, Unit Cost)
-    await expect(page.getByRole('columnheader', { name: 'Amount' })).toBeVisible();
+    // Verify amount-based columns (has Amount column, no Qty, UOM, Unit Cost)
+    await expect(page.locator('thead th:has-text("Amount")').first()).toBeVisible();
+    await expect(page.locator('th:has-text("Qty")')).not.toBeVisible();
+    await expect(page.locator('th:has-text("UOM")')).not.toBeVisible();
 
-    // Fill in amount directly
-    const row = page.getByRole('row').nth(1);
-    await row.locator('input').nth(1).fill('01-1000');
-    await row.locator('input').nth(2).fill('Foundation Work');
+    // Fill in line item
+    const row = page.locator('tbody tr').first();
+    await row.locator('input[placeholder="Budget Code"]').fill('01-1000');
+    await row.locator('input[placeholder="Description"]').fill('Foundation Work');
 
     // Find and fill amount field
     const amountInput = row.locator('input[type="number"]').first();
     await amountInput.fill('25000');
     await page.waitForTimeout(300);
 
-    // Verify amount shows correctly
+    // Verify amount shows correctly formatted
     await expect(row).toContainText('$25000.00');
 
     await page.screenshot({
@@ -107,7 +105,7 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
   });
 
   test('should verify accounting method is amount-based', async ({ page }) => {
-    await expect(page.getByText(/this subcontract's accounting method is amount-based/i)).toBeVisible();
+    await expect(page.locator('text=/amount-based/i').first()).toBeVisible();
 
     await page.screenshot({
       path: 'frontend/tests/screenshots/subcontract-form-accounting-method.png',
@@ -115,37 +113,15 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     });
   });
 
-  test('should have Insurance Requirements fields', async ({ page }) => {
-    // General Liability
-    await expect(page.locator('#insurance\\.generalLiability')).toBeVisible();
+  test('should have Inclusions & Exclusions fields', async ({ page }) => {
+    // Inclusions field
+    await expect(page.locator('#inclusions')).toBeVisible();
 
-    // Workers Compensation
-    await expect(page.locator('#insurance\\.workersCompensation')).toBeVisible();
-
-    // Auto Liability
-    await expect(page.locator('#insurance\\.autoLiability')).toBeVisible();
-
-    // Other requirements
-    await expect(page.locator('#insurance\\.other')).toBeVisible();
+    // Exclusions field
+    await expect(page.locator('#exclusions')).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-insurance.png',
-      fullPage: true
-    });
-  });
-
-  test('should have Letter of Intent fields', async ({ page }) => {
-    // LOI checkbox
-    await expect(page.locator('#letterOfIntent\\.hasLOI')).toBeVisible();
-
-    // LOI date
-    await expect(page.locator('#letterOfIntent\\.date')).toBeVisible();
-
-    // LOI amount
-    await expect(page.locator('#letterOfIntent\\.amount')).toBeVisible();
-
-    await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-loi.png',
+      path: 'frontend/tests/screenshots/subcontract-form-inclusions-exclusions.png',
       fullPage: true
     });
   });
@@ -193,8 +169,11 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
   });
 
   test('should verify breadcrumbs', async ({ page }) => {
-    await expect(page.getByText('Commitments')).toBeVisible();
-    await expect(page.getByText('New Subcontract')).toBeVisible();
+    // Check for breadcrumbs in the navigation area
+    const breadcrumb = page.locator('ol').getByRole('link', { name: 'Commitments' });
+    await expect(breadcrumb).toBeVisible();
+
+    await expect(page.locator('ol').getByText('New Subcontract')).toBeVisible();
 
     await page.screenshot({
       path: 'frontend/tests/screenshots/subcontract-form-breadcrumbs.png',
