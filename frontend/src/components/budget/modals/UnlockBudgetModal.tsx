@@ -35,17 +35,17 @@ export function UnlockBudgetModal({
       title="Unlock the Budget"
       size="md"
     >
-      <ModalBody className="py-6">
-        <div className="flex items-start gap-4">
+      <ModalBody className="py-6 bg-white">
+        <div className="rounded-xl border border-amber-200 bg-amber-50/80 px-4 py-3 shadow-sm flex items-start gap-3">
           <div className="flex-shrink-0">
             <AlertTriangle className="h-6 w-6 text-orange-500" />
           </div>
           <div className="flex-1">
-            <p className="text-gray-700">
+            <p className="font-semibold text-amber-900">
               Unlocking the Budget will preserve your Budget Modifications.
             </p>
-            <p className="text-gray-600 text-sm mt-2">
-              Once unlocked, you will be able to edit Original Budget amounts directly.
+            <p className="text-amber-800 text-sm mt-1">
+              You can edit Original Budget amounts after unlocking. Lock again anytime.
             </p>
           </div>
         </div>

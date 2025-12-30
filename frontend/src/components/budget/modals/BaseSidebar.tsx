@@ -1,0 +1,144 @@
+'use client';
+
+import { ReactNode } from 'react';
+import { X } from 'lucide-react';
+import { Sheet, SheetContent } from '@/components/ui/sheet';
+import { cn } from '@/lib/utils';
+
+interface BaseSidebarProps {
+  open: boolean;
+  onClose: () => void;
+  title: string;
+  subtitle?: string;
+  children: ReactNode;
+  size?: 'sm' | 'md' | 'lg' | 'xl';
+}
+
+/**
+ * BaseSidebar - Reusable sidebar component for budget detail views
+ *
+ * Provides a consistent layout with:
+ * - Dark header with title and close button
+ * - Scrollable content area
+ * - Responsive sizing
+ */
+export function BaseSidebar({
+  open,
+  onClose,
+  title,
+  subtitle,
+  children,
+  size = 'lg'
+}: BaseSidebarProps) {
+  const sizeClasses = {
+    sm: 'sm:max-w-md',
+    md: 'sm:max-w-lg',
+    lg: 'sm:max-w-xl',
+    xl: 'sm:max-w-2xl'
+  };
+
+  return (
+    <Sheet open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
+      <SheetContent
+        side="right"
+        className={cn(
+          'w-full p-0 flex flex-col',
+          sizeClasses[size]
+        )}
+      >
+        {/* Header */}
+        <div className="bg-slate-900 text-white px-6 py-4 flex-shrink-0">
+          <div className="flex items-center justify-between">
+            <div>
+              <h2 className="text-lg font-semibold">{title}</h2>
+              {subtitle && (
+                <p className="text-sm text-slate-300 mt-0.5">{subtitle}</p>
+              )}
+            </div>
+            <button
+              onClick={onClose}
+              className="rounded-full p-2 hover:bg-white/10 transition-colors"
+              aria-label="Close"
+            >
+              <X className="h-5 w-5" />
+            </button>
+          </div>
+        </div>
+
+        {/* Content */}
+        {children}
+      </SheetContent>
+    </Sheet>
+  );
+}
+
+/**
+ * SidebarBody - Scrollable content area
+ */
+export function SidebarBody({
+  children,
+  className
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cn('flex-1 overflow-y-auto', className)}>
+      {children}
+    </div>
+  );
+}
+
+/**
+ * SidebarFooter - Fixed footer area
+ */
+export function SidebarFooter({
+  children,
+  className
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
+  return (
+    <div className={cn(
+      'border-t border-slate-200 bg-slate-50 px-6 py-4 flex-shrink-0',
+      className
+    )}>
+      {children}
+    </div>
+  );
+}
+
+/**
+ * SidebarTabs - Tab navigation for sidebar
+ */
+export function SidebarTabs({
+  tabs,
+  activeTab,
+  onTabChange
+}: {
+  tabs: Array<{ id: string; label: string }>;
+  activeTab: string;
+  onTabChange: (tabId: string) => void;
+}) {
+  return (
+    <div className="border-b border-gray-200 px-6 py-2 bg-gray-50 flex-shrink-0">
+      <div className="flex gap-2">
+        {tabs.map((tab) => (
+          <button
+            key={tab.id}
+            onClick={() => onTabChange(tab.id)}
+            className={cn(
+              'px-4 py-2 text-sm font-medium rounded-md transition-all',
+              activeTab === tab.id
+                ? 'bg-white text-orange-600 shadow-sm border border-gray-200'
+                : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
+            )}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}

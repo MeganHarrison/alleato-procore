@@ -1,3 +1,53 @@
+# Budget Modals
+
+
+Original Budget Amount
+Modal with original budget amountand is editable
+
+Budget Modifications
+Modal	Displays budget modifications associated
+
+Approved COs
+(Prime Contract)Source Column
+Change Orders with Status: Approved	Source Column	
+Modal with approved change orders that link to change order. Ex: 007 - CE #019 - Permit Fees
+
+Job to Date Cost Detail
+(Direct Costs)
+Source Column
+Direct CostsType: Invoice, Expense, Payroll, Subcontractor InvoiceStatus: Approved	Source Column
+Modal showing Approved direct costs
+
+Direct Costs
+Direct Costs Type: Invoice, Expense, PayrollStatus: Pending, Revise and Resubmit, Approved	Source Column	
+Modal with direct costs that toggle to show all payments tied to the direct cost
+
+Pending Budget Changes
+	(Prime Contract)
+Source Column
+Change Orders
+Status: Pending - In Review; Pending - Not Pricing; Pending - Not Proceeding; Pending - Pricing; Pending - Proceeding; Pending - Revised	Source Column	Yes	
+Projected Budget	Calculated Column 
+
+Committed Costs
+	(Commitment)Source Column
+Subcontracts — Status: Approved, CompletePurchase Order Contracts — Status: ApprovedChange Orders — Status: Approved
+	Source Column	Yes	
+
+Pending Cost Changes
+	Commitment)Source Column
+
+Subcontracts — Status: Out For SignaturePurchase Order Contracts — Status: Processing, Submitted, Partially Received, ReceivedChange Orders — Status: Pending - In Review; Pending - Not Pricing; Pending - Not Proceeding; Pending - Pricing; Pending - Proceeding; Pending - Revised
+	Source Column	Yes	
+
+Forecast To Complete
+	Standard Column
+Projected Budget - Projected Costs = Forecast To CompleteIf negative, column will show 0.	Standard Column	Yes	
+
+## Original budget
+
+Review screenshot: /Users/meganharrison/Documents/github/alleato-procore/scripts/screenshot-capture/procore-budget-crawl/budget-modals/original-budget.png
+
 ## MODAL #1: APPROVED COS
 
 ### Trigger

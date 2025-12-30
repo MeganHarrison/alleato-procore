@@ -30,58 +30,54 @@ export function BaseModal({
   onClose,
   title,
   children,
-  size = 'lg',
+  size = 'xl',
   className,
   showCloseButton = true
 }: BaseModalProps) {
   const sizeClasses = {
     sm: 'max-w-md',
     md: 'max-w-2xl',
-    lg: 'max-w-4xl', // Default - wider modals
-    xl: 'max-w-6xl',
-    full: 'max-w-[95vw]'
+    lg: 'max-w-4xl',
+    xl: 'max-w-6xl', // Default
+    full: 'max-w-[98vw]'
   };
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent
+        showCloseButton={false}
         className={cn(
-          // Base styles
-          'p-0 gap-0 overflow-hidden',
-          // Width and responsive
+          'relative p-0 gap-0 overflow-hidden',
           sizeClasses[size],
-          'w-[95vw]', // Mobile: 95% of viewport width
-          'sm:w-full', // Desktop: use max-width
-          // Height constraints
-          'max-h-[90vh]',
-          'flex flex-col',
+          'w-[98vw] sm:w-full',
+          'max-h-[92vh] flex flex-col',
+          'rounded-2xl border border-slate-200/80 bg-white/95 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.45)] backdrop-blur',
+          'transition-transform duration-200',
           className
         )}
-        // Prevent close button from showing (we'll add our own)
-        onPointerDownOutside={(e) => {
-          // Allow closing on overlay click
-        }}
       >
-        {/* Header - Dark gray background like Procore */}
-        <DialogHeader className="bg-gray-800 text-white px-6 py-4 flex-shrink-0">
-          <div className="flex items-center justify-between">
-            <DialogTitle className="text-lg font-semibold text-white">
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-orange-500 via-amber-400 to-orange-500 opacity-90" />
+
+        {/* Header */}
+        <DialogHeader className="bg-slate-900/95 text-white px-6 py-4 flex-shrink-0 border-b border-white/10 shadow-sm">
+          <div className="flex items-center justify-between gap-4">
+            <DialogTitle className="text-lg font-semibold tracking-tight text-white">
               {title}
             </DialogTitle>
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="text-white hover:text-gray-300 transition-colors"
+                className="rounded-full border border-white/10 bg-white/5 p-2 text-white hover:border-white/30 hover:bg-white/10 transition-all"
                 aria-label="Close modal"
               >
-                <X className="h-5 w-5" />
+                <X className="h-4 w-4" />
               </button>
             )}
           </div>
         </DialogHeader>
 
         {/* Content - Scrollable */}
-        <div className="flex-1 overflow-y-auto">
+        <div className="flex-1 overflow-y-auto bg-gradient-to-b from-white to-slate-50">
           {children}
         </div>
       </DialogContent>
@@ -99,12 +95,14 @@ interface ModalFooterProps {
 
 export function ModalFooter({ children, className }: ModalFooterProps) {
   return (
-    <div className={cn(
-      'px-6 py-4 bg-gray-50 border-t border-gray-200',
-      'flex items-center justify-end gap-3',
-      'flex-shrink-0',
-      className
-    )}>
+    <div
+      className={cn(
+        'px-6 py-4 bg-slate-50/90 border-t border-slate-200',
+        'flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3',
+        'flex-shrink-0',
+        className
+      )}
+    >
       {children}
     </div>
   );
@@ -120,7 +118,7 @@ interface ModalBodyProps {
 
 export function ModalBody({ children, className }: ModalBodyProps) {
   return (
-    <div className={cn('px-6 py-4', className)}>
+    <div className={cn('px-6 py-5', className)}>
       {children}
     </div>
   );

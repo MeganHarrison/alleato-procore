@@ -1,0 +1,109 @@
+'use client';
+
+import { Trash2 } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { UNITS_OF_MEASURE } from '@/constants/budget';
+import { BudgetCodeSelector } from './BudgetCodeSelector';
+import type { BudgetLineItem, ProjectCostCode } from '../types';
+
+interface BudgetLineItemRowProps {
+  /** The line item data */
+  lineItem: BudgetLineItem;
+  /** Available project cost codes */
+  projectCostCodes: ProjectCostCode[];
+  /** Whether this row's popover is open */
+  isPopoverOpen: boolean;
+  /** Callback to set popover open state */
+  onPopoverOpenChange: (open: boolean) => void;
+  /** Callback when a field changes */
+  onFieldChange: (field: keyof BudgetLineItem, value: string) => void;
+  /** Callback when a budget code is selected */
+  onBudgetCodeSelect: (costCode: ProjectCostCode) => void;
+  /** Callback when "Create New" is clicked */
+  onCreateNew: () => void;
+  /** Callback to remove this row */
+  onRemove: () => void;
+  /** Whether this row can be removed (false if it's the only row) */
+  canRemove: boolean;
+}
+
+export function BudgetLineItemRow({
+  lineItem,
+  projectCostCodes,
+  isPopoverOpen,
+  onPopoverOpenChange,
+  onFieldChange,
+  onBudgetCodeSelect,
+  onCreateNew,
+  onRemove,
+  canRemove,
+}: BudgetLineItemRowProps) {
+  return (
+    <tr>
+      <td className="px-4 py-3">
+        <BudgetCodeSelector
+          projectCostCodes={projectCostCodes}
+          selectedLabel={lineItem.costCodeLabel}
+          onSelect={onBudgetCodeSelect}
+          onCreateNew={onCreateNew}
+          open={isPopoverOpen}
+          onOpenChange={onPopoverOpenChange}
+        />
+      </td>
+      <td className="px-4 py-3">
+        <Input
+          type="number"
+          placeholder="0"
+          value={lineItem.qty}
+          onChange={(e) => onFieldChange('qty', e.target.value)}
+          className="w-24"
+        />
+      </td>
+      <td className="px-4 py-3">
+        <Select value={lineItem.uom} onValueChange={(value) => onFieldChange('uom', value)}>
+          <SelectTrigger className="w-28">
+            <SelectValue placeholder="-" />
+          </SelectTrigger>
+          <SelectContent>
+            {UNITS_OF_MEASURE.map((uom) => (
+              <SelectItem key={uom.code} value={uom.code}>
+                {uom.code} - {uom.label}
+              </SelectItem>
+            ))}
+          </SelectContent>
+        </Select>
+      </td>
+      <td className="px-4 py-3">
+        <Input
+          type="number"
+          placeholder="$0.00"
+          value={lineItem.unitCost}
+          onChange={(e) => onFieldChange('unitCost', e.target.value)}
+          className="w-32"
+        />
+      </td>
+      <td className="px-4 py-3">
+        <Input
+          type="number"
+          placeholder="$0.00"
+          value={lineItem.amount}
+          onChange={(e) => onFieldChange('amount', e.target.value)}
+          className="w-32"
+        />
+      </td>
+      <td className="px-4 py-3">
+        <Button variant="ghost" size="sm" onClick={onRemove} disabled={!canRemove}>
+          <Trash2 className="h-4 w-4 text-gray-500 hover:text-red-600" />
+        </Button>
+      </td>
+    </tr>
+  );
+}

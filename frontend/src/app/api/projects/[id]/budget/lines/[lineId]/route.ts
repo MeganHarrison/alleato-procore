@@ -32,12 +32,12 @@ export async function PATCH(
 
     // Parse request body
     const body = await request.json();
-    const { quantity, unit_cost, description } = body;
+    const { quantity, unit_cost, description, original_amount } = body;
 
     // Validate at least one field is being updated
-    if (quantity === undefined && unit_cost === undefined && description === undefined) {
+    if (quantity === undefined && unit_cost === undefined && description === undefined && original_amount === undefined) {
       return NextResponse.json(
-        { error: 'At least one field (quantity, unit_cost, description) must be provided' },
+        { error: 'At least one field (quantity, unit_cost, description, original_amount) must be provided' },
         { status: 400 }
       );
     }
@@ -114,12 +114,19 @@ export async function PATCH(
       updateData.description = description;
     }
 
-    // Recalculate original_amount if quantity or unit_cost changed
-    const newQuantity = quantity !== undefined ? parseFloat(quantity) : existingLine.quantity;
-    const newUnitCost = unit_cost !== undefined ? parseFloat(unit_cost) : existingLine.unit_cost;
+    // Handle original_amount:
+    // If original_amount is explicitly provided, use it directly (manual mode)
+    // Otherwise, recalculate from quantity * unit_cost if either changed
+    if (original_amount !== undefined) {
+      updateData.original_amount = parseFloat(original_amount);
+    } else if (quantity !== undefined || unit_cost !== undefined) {
+      // Recalculate original_amount if quantity or unit_cost changed
+      const newQuantity = quantity !== undefined ? parseFloat(quantity) : existingLine.quantity;
+      const newUnitCost = unit_cost !== undefined ? parseFloat(unit_cost) : existingLine.unit_cost;
 
-    if (newQuantity !== null && newUnitCost !== null) {
-      updateData.original_amount = newQuantity * newUnitCost;
+      if (newQuantity !== null && newUnitCost !== null) {
+        updateData.original_amount = newQuantity * newUnitCost;
+      }
     }
 
     // Update the budget line

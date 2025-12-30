@@ -22,6 +22,14 @@ import {
   SnapshotsTab,
   ChangeHistoryTab,
 } from '@/components/budget';
+import { BudgetModificationsModal } from '@/components/budget/modals/BudgetModificationsModal';
+import { ApprovedCOsModal } from '@/components/budget/modals/ApprovedCOsModal';
+import { JobToDateCostDetailModal } from '@/components/budget/modals/JobToDateCostDetailModal';
+import { DirectCostsModal } from '@/components/budget/modals/DirectCostsModal';
+import { PendingBudgetChangesModal } from '@/components/budget/modals/PendingBudgetChangesModal';
+import { CommittedCostsModal } from '@/components/budget/modals/CommittedCostsModal';
+import { PendingCostChangesModal } from '@/components/budget/modals/PendingCostChangesModal';
+import { ForecastToCompleteModal } from '@/components/budget/modals/ForecastToCompleteModal';
 import { ImportBudgetModal } from '@/components/budget/ImportBudgetModal';
 import type { BudgetDetailLineItem } from '@/components/budget/budget-details-table';
 import type { BudgetLineItem } from '@/types/budget';
@@ -79,6 +87,16 @@ function BudgetPageContent() {
   const [selectedLineItem, setSelectedLineItem] = React.useState<BudgetLineItem | null>(null);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [deleting, setDeleting] = React.useState(false);
+
+  // New modal states for budget column modals
+  const [showBudgetModificationsModal, setShowBudgetModificationsModal] = React.useState(false);
+  const [showApprovedCOsModal, setShowApprovedCOsModal] = React.useState(false);
+  const [showJobToDateCostDetailModal, setShowJobToDateCostDetailModal] = React.useState(false);
+  const [showDirectCostsModal, setShowDirectCostsModal] = React.useState(false);
+  const [showPendingChangesModal, setShowPendingChangesModal] = React.useState(false);
+  const [showCommittedCostsModal, setShowCommittedCostsModal] = React.useState(false);
+  const [showPendingCostChangesModal, setShowPendingCostChangesModal] = React.useState(false);
+  const [showForecastToCompleteModal, setShowForecastToCompleteModal] = React.useState(false);
 
   // Budget lock state
   const [isLocked, setIsLocked] = React.useState(false);
@@ -354,6 +372,52 @@ function BudgetPageContent() {
     setShowEditModal(true);
   };
 
+  // Modal handlers for budget column clicks
+  const handleBudgetModificationsClick = (lineItem: BudgetLineItem) => {
+    setSelectedLineItem(lineItem);
+    setShowBudgetModificationsModal(true);
+  };
+
+  const handleApprovedCOsClick = (lineItem: BudgetLineItem) => {
+    setSelectedLineItem(lineItem);
+    setShowApprovedCOsModal(true);
+  };
+
+  const handleJobToDateCostDetailClick = (lineItem: BudgetLineItem) => {
+    setSelectedLineItem(lineItem);
+    setShowJobToDateCostDetailModal(true);
+  };
+
+  const handleDirectCostsClick = (lineItem: BudgetLineItem) => {
+    setSelectedLineItem(lineItem);
+    setShowDirectCostsModal(true);
+  };
+
+  const handlePendingChangesClick = (lineItem: BudgetLineItem) => {
+    setSelectedLineItem(lineItem);
+    setShowPendingChangesModal(true);
+  };
+
+  const handleCommittedCostsClick = (lineItem: BudgetLineItem) => {
+    setSelectedLineItem(lineItem);
+    setShowCommittedCostsModal(true);
+  };
+
+  const handlePendingCostChangesClick = (lineItem: BudgetLineItem) => {
+    setSelectedLineItem(lineItem);
+    setShowPendingCostChangesModal(true);
+  };
+
+  const handleForecastToCompleteClick = (lineItem: BudgetLineItem) => {
+    setSelectedLineItem(lineItem);
+    setShowForecastToCompleteModal(true);
+  };
+
+  const handleForecastSave = async (data: { budgetLineId: string; forecastMethod: string; forecastAmount: number }) => {
+    // TODO: Implement API call to save forecast data
+    toast.success('Forecast saved successfully');
+  };
+
   const handleSelectionChange = React.useCallback((ids: string[]) => {
     setSelectedIds(ids);
   }, []);
@@ -415,10 +479,9 @@ function BudgetPageContent() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            unit_qty: data.unitQty,
-            uom: data.uom,
+            quantity: data.unitQty,
             unit_cost: data.unitCost,
-            original_budget_amount: data.originalBudget,
+            original_amount: data.originalBudget,
           }),
         }
       );
@@ -555,6 +618,14 @@ function BudgetPageContent() {
                     grandTotals={grandTotals}
                     onEditLineItem={handleEditLineItem}
                     onSelectionChange={handleSelectionChange}
+                    onBudgetModificationsClick={handleBudgetModificationsClick}
+                    onApprovedCOsClick={handleApprovedCOsClick}
+                    onJobToDateCostDetailClick={handleJobToDateCostDetailClick}
+                    onDirectCostsClick={handleDirectCostsClick}
+                    onPendingChangesClick={handlePendingChangesClick}
+                    onCommittedCostsClick={handleCommittedCostsClick}
+                    onPendingCostChangesClick={handlePendingCostChangesClick}
+                    onForecastToCompleteClick={handleForecastToCompleteClick}
                   />
                 )}
               </Suspense>
@@ -598,10 +669,111 @@ function BudgetPageContent() {
             unitQty: selectedLineItem.unitQty,
             uom: selectedLineItem.uom,
             unitCost: selectedLineItem.unitCost,
+            children: selectedLineItem.children,
           }}
           projectId={projectId}
           onSave={handleEditSave}
         />
+      )}
+
+      {/* Budget Column Detail Modals */}
+      {selectedLineItem && (
+        <>
+          <BudgetModificationsModal
+            open={showBudgetModificationsModal}
+            onClose={() => {
+              setShowBudgetModificationsModal(false);
+              setSelectedLineItem(null);
+            }}
+            costCode={selectedLineItem.costCode}
+            budgetLineId={selectedLineItem.id}
+            projectId={projectId}
+          />
+
+          <ApprovedCOsModal
+            open={showApprovedCOsModal}
+            onClose={() => {
+              setShowApprovedCOsModal(false);
+              setSelectedLineItem(null);
+            }}
+            costCode={selectedLineItem.costCode}
+            budgetLineId={selectedLineItem.id}
+            projectId={projectId}
+          />
+
+          <JobToDateCostDetailModal
+            open={showJobToDateCostDetailModal}
+            onClose={() => {
+              setShowJobToDateCostDetailModal(false);
+              setSelectedLineItem(null);
+            }}
+            costCode={selectedLineItem.costCode}
+            budgetLineId={selectedLineItem.id}
+            projectId={projectId}
+          />
+
+          <DirectCostsModal
+            open={showDirectCostsModal}
+            onClose={() => {
+              setShowDirectCostsModal(false);
+              setSelectedLineItem(null);
+            }}
+            costCode={selectedLineItem.costCode}
+            budgetLineId={selectedLineItem.id}
+            projectId={projectId}
+          />
+
+          <PendingBudgetChangesModal
+            open={showPendingChangesModal}
+            onClose={() => {
+              setShowPendingChangesModal(false);
+              setSelectedLineItem(null);
+            }}
+            costCode={selectedLineItem.costCode}
+            budgetLineId={selectedLineItem.id}
+            projectId={projectId}
+          />
+
+          <CommittedCostsModal
+            open={showCommittedCostsModal}
+            onClose={() => {
+              setShowCommittedCostsModal(false);
+              setSelectedLineItem(null);
+            }}
+            costCode={selectedLineItem.costCode}
+            budgetLineId={selectedLineItem.id}
+            projectId={projectId}
+          />
+
+          <PendingCostChangesModal
+            open={showPendingCostChangesModal}
+            onClose={() => {
+              setShowPendingCostChangesModal(false);
+              setSelectedLineItem(null);
+            }}
+            costCode={selectedLineItem.costCode}
+            budgetLineId={selectedLineItem.id}
+            projectId={projectId}
+          />
+
+          <ForecastToCompleteModal
+            open={showForecastToCompleteModal}
+            onClose={() => {
+              setShowForecastToCompleteModal(false);
+              setSelectedLineItem(null);
+            }}
+            costCode={selectedLineItem.costCode}
+            budgetLineId={selectedLineItem.id}
+            projectId={projectId}
+            currentData={{
+              forecastMethod: 'lump_sum',
+              forecastAmount: selectedLineItem.forecastToComplete || 0,
+              projectedBudget: selectedLineItem.projectedBudget || 0,
+              projectedCosts: selectedLineItem.projectedCosts || 0,
+            }}
+            onSave={handleForecastSave}
+          />
+        </>
       )}
 
       {/* Delete Confirmation Dialog */}

@@ -44,6 +44,13 @@ export default defineConfig({
       },
       dependencies: ['setup'],
     },
+    {
+      name: 'debug',
+      use: {
+        ...devices['Desktop Chrome'],
+        baseURL: 'http://localhost:3002',
+      },
+    },
   ],
 
   webServer: {

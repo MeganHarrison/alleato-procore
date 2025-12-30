@@ -120,15 +120,14 @@ export function OriginalBudgetModal({
     >
       <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as 'budget' | 'history')}>
         {/* Tab Navigation */}
-        <div className="border-b border-gray-200 px-6">
-          <TabsList className="bg-transparent border-0 p-0 h-auto">
+        <div className="border-b border-gray-200/80 px-6 bg-white/70 backdrop-blur-sm">
+          <TabsList className="bg-transparent border-0 p-0 h-auto flex gap-3">
             <TabsTrigger
               value="budget"
               className={cn(
-                'rounded-none border-b-2 px-4 py-3',
-                'data-[state=active]:border-orange-500 data-[state=active]:text-orange-600',
-                'data-[state=inactive]:border-transparent data-[state=inactive]:text-gray-600',
-                'hover:text-gray-900'
+                'rounded-full border px-4 py-2 text-sm font-semibold transition-all',
+                'data-[state=active]:border-orange-500/70 data-[state=active]:text-orange-600 data-[state=active]:bg-orange-50',
+                'data-[state=inactive]:border-transparent data-[state=inactive]:text-gray-600 hover:text-gray-900 hover:border-gray-200'
               )}
             >
               Original Budget
@@ -136,10 +135,9 @@ export function OriginalBudgetModal({
             <TabsTrigger
               value="history"
               className={cn(
-                'rounded-none border-b-2 px-4 py-3',
-                'data-[state=active]:border-orange-500 data-[state=active]:text-orange-600',
-                'data-[state=inactive]:border-transparent data-[state=inactive]:text-gray-600',
-                'hover:text-gray-900'
+                'rounded-full border px-4 py-2 text-sm font-semibold transition-all',
+                'data-[state=active]:border-orange-500/70 data-[state=active]:text-orange-600 data-[state=active]:bg-orange-50',
+                'data-[state=inactive]:border-transparent data-[state=inactive]:text-gray-600 hover:text-gray-900 hover:border-gray-200'
               )}
             >
               History
@@ -149,41 +147,72 @@ export function OriginalBudgetModal({
 
         {/* Original Budget Tab */}
         <TabsContent value="budget" className="m-0">
-          <ModalBody>
+          <ModalBody className="space-y-6 bg-white">
             {/* Calculation Method */}
-            <div className="mb-6">
-              <Label className="text-sm font-medium text-gray-700 mb-3 block">
-                Calculation Method
-              </Label>
+            <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-gradient-to-br from-white via-slate-50 to-white">
+              <div className="flex items-center justify-between flex-wrap gap-3">
+                <div>
+                  <Label className="text-xs uppercase tracking-[0.2em] text-slate-500 block">
+                    Calculation Method
+                  </Label>
+                  <p className="text-sm text-slate-700 mt-1">Choose how this line is calculated.</p>
+                </div>
+                <div className="flex gap-3">
+                  <span className="inline-flex items-center rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-700">
+                    {costCode}
+                  </span>
+                </div>
+              </div>
               <RadioGroup
                 value={calculationMethod}
                 onValueChange={(v) => setCalculationMethod(v as 'unit_price' | 'lump_sum')}
-                className="flex gap-4"
+                className="mt-4 grid gap-3 sm:grid-cols-2"
               >
-                <div className="flex items-center space-x-2 border border-gray-300 rounded px-4 py-2 hover:border-gray-400 cursor-pointer">
-                  <RadioGroupItem value="unit_price" id="unit_price" />
-                  <Label htmlFor="unit_price" className="cursor-pointer flex items-center gap-2">
-                    <Grid className="h-4 w-4" />
-                    <span>Unit Price</span>
-                  </Label>
-                </div>
-                <div className="flex items-center space-x-2 border border-gray-300 rounded px-4 py-2 hover:border-gray-400 cursor-pointer">
-                  <RadioGroupItem value="lump_sum" id="lump_sum" />
-                  <Label htmlFor="lump_sum" className="cursor-pointer flex items-center gap-2">
-                    <AlertTriangle className="h-4 w-4" />
-                    <span>Lump Sum</span>
-                  </Label>
-                </div>
+                <label
+                  htmlFor="unit_price"
+                  className={cn(
+                    'flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm cursor-pointer transition-all',
+                    calculationMethod === 'unit_price' && 'border-orange-400/70 shadow-[0_12px_30px_-18px_rgba(255,115,29,0.55)] bg-orange-50/60'
+                  )}
+                >
+                  <RadioGroupItem value="unit_price" id="unit_price" className="mt-1" />
+                  <div>
+                    <div className="flex items-center gap-2 font-semibold text-slate-900">
+                      <Grid className="h-4 w-4 text-orange-500" />
+                      Unit Price
+                    </div>
+                    <p className="text-sm text-slate-600 mt-1">Qty × Unit Cost, best for repeatable work.</p>
+                  </div>
+                </label>
+
+                <label
+                  htmlFor="lump_sum"
+                  className={cn(
+                    'flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm cursor-pointer transition-all',
+                    calculationMethod === 'lump_sum' && 'border-orange-400/70 shadow-[0_12px_30px_-18px_rgba(255,115,29,0.55)] bg-orange-50/60'
+                  )}
+                >
+                  <RadioGroupItem value="lump_sum" id="lump_sum" className="mt-1" />
+                  <div>
+                    <div className="flex items-center gap-2 font-semibold text-slate-900">
+                      <AlertTriangle className="h-4 w-4 text-orange-500" />
+                      Lump Sum
+                    </div>
+                    <p className="text-sm text-slate-600 mt-1">Single amount, perfect for fixed-scope work.</p>
+                  </div>
+                </label>
               </RadioGroup>
             </div>
 
             {/* Input Fields - Responsive Grid */}
-            <div className={cn(
-              'grid gap-4',
-              calculationMethod === 'unit_price'
-                ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'
-                : 'grid-cols-1 sm:grid-cols-2'
-            )}>
+            <div
+              className={cn(
+                'grid gap-4 rounded-xl border border-slate-200 bg-white shadow-sm p-5',
+                calculationMethod === 'unit_price'
+                  ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-5'
+                  : 'grid-cols-1 sm:grid-cols-2'
+              )}
+            >
               {/* Unit Qty - Only for unit price */}
               {calculationMethod === 'unit_price' && (
                 <div>
@@ -251,7 +280,7 @@ export function OriginalBudgetModal({
                   type="text"
                   value={`$${originalBudget.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
                   disabled
-                  className="mt-1 bg-gray-50 text-gray-900 font-semibold"
+                  className="mt-1 bg-slate-50 text-gray-900 font-semibold"
                   readOnly
                 />
               </div>
@@ -259,9 +288,9 @@ export function OriginalBudgetModal({
 
             {/* Calculation Formula Display */}
             {calculationMethod === 'unit_price' && (
-              <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-md">
-                <p className="text-sm text-blue-800">
-                  <span className="font-medium">Formula:</span> Original Budget = Unit Qty × Unit Cost
+              <div className="mt-2 p-4 bg-orange-50 border border-orange-200 rounded-lg text-orange-900 shadow-sm">
+                <p className="text-sm">
+                  <span className="font-semibold">Formula:</span> Original Budget = Unit Qty × Unit Cost
                   {unitQty && unitCost && (
                     <span className="ml-2">
                       ({unitQty} × ${unitCost} = ${originalBudget.toFixed(2)})
@@ -292,45 +321,43 @@ export function OriginalBudgetModal({
 
         {/* History Tab */}
         <TabsContent value="history" className="m-0">
-          <ModalBody>
-            <div className="space-y-4">
-              <p className="text-sm text-gray-600">
-                View the history of changes to this budget line item.
-              </p>
+          <ModalBody className="space-y-5 bg-white">
+            <p className="text-sm text-gray-600">
+              View the audit trail of every change to this budget line.
+            </p>
 
-              {/* History Table */}
-              <div className="overflow-x-auto">
-                <table className="w-full text-sm">
-                  <thead className="bg-gray-50 border-y border-gray-200">
-                    <tr>
-                      <th className="text-left px-4 py-3 font-medium text-gray-700">Snapshot Name</th>
-                      <th className="text-right px-4 py-3 font-medium text-gray-700">Unit Qty</th>
-                      <th className="text-left px-4 py-3 font-medium text-gray-700">UOM</th>
-                      <th className="text-right px-4 py-3 font-medium text-gray-700">Unit Cost</th>
-                      <th className="text-right px-4 py-3 font-medium text-gray-700">Original Budget</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {/* Current snapshot */}
-                    <tr className="border-b border-gray-200 hover:bg-gray-50">
-                      <td className="px-4 py-3">
-                        Current - {new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' })} at {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
-                      </td>
-                      <td className="px-4 py-3 text-right">{currentData?.unitQty?.toFixed(2) || '0.00'}</td>
-                      <td className="px-4 py-3">{currentData?.uom || '-'}</td>
-                      <td className="px-4 py-3 text-right">${currentData?.unitCost?.toFixed(2) || '0.00'}</td>
-                      <td className="px-4 py-3 text-right font-medium">${currentData?.originalBudget?.toFixed(2) || '0.00'}</td>
-                    </tr>
+            {/* History Table */}
+            <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white">
+              <table className="w-full text-sm">
+                <thead className="bg-slate-50 border-b border-slate-200">
+                  <tr>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Snapshot Name</th>
+                    <th className="text-right px-4 py-3 font-semibold text-slate-800">Unit Qty</th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">UOM</th>
+                    <th className="text-right px-4 py-3 font-semibold text-slate-800">Unit Cost</th>
+                    <th className="text-right px-4 py-3 font-semibold text-slate-800">Original Budget</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {/* Current snapshot */}
+                  <tr className="hover:bg-orange-50/40 transition-colors">
+                    <td className="px-4 py-3">
+                      Current - {new Date().toLocaleDateString('en-US', { month: '2-digit', day: '2-digit', year: '2-digit' })} at {new Date().toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true })}
+                    </td>
+                    <td className="px-4 py-3 text-right">{currentData?.unitQty?.toFixed(2) || '0.00'}</td>
+                    <td className="px-4 py-3">{currentData?.uom || '-'}</td>
+                    <td className="px-4 py-3 text-right">${currentData?.unitCost?.toFixed(2) || '0.00'}</td>
+                    <td className="px-4 py-3 text-right font-semibold">${currentData?.originalBudget?.toFixed(2) || '0.00'}</td>
+                  </tr>
 
-                    {/* Empty state */}
-                    <tr>
-                      <td colSpan={5} className="px-4 py-8 text-center text-gray-500">
-                        No previous snapshots available
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+                  {/* Empty state */}
+                  <tr>
+                    <td colSpan={5} className="px-4 py-10 text-center text-gray-500">
+                      No previous snapshots available
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
             </div>
           </ModalBody>
 

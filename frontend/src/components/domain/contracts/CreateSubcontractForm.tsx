@@ -15,13 +15,15 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Upload, X, Plus, Sparkles } from 'lucide-react';
+import { X, Plus, Sparkles } from 'lucide-react';
 import {
   CreateSubcontractSchema,
   type CreateSubcontractInput,
   type SovLineItem,
 } from '@/lib/schemas/create-subcontract-schema';
 import { generateAutofillData } from '@/lib/utils/autofill-subcontract';
+import { FileUploadField } from '@/components/forms/FileUploadField';
+import { CostCodeSelector } from './CostCodeSelector';
 
 interface CreateSubcontractFormProps {
   projectId: number;
@@ -35,6 +37,7 @@ export function CreateSubcontractForm({
 }: CreateSubcontractFormProps) {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [sovLines, setSovLines] = React.useState<SovLineItem[]>([]);
+  const [attachments, setAttachments] = React.useState<Array<{ name: string; size: number; type: string }>>([]);
 
   const {
     register,
@@ -215,7 +218,7 @@ export function CreateSubcontractForm({
           />
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
             <Label htmlFor="status">Status*</Label>
             <Select
@@ -236,36 +239,37 @@ export function CreateSubcontractForm({
           </div>
 
           <div className="space-y-2">
-            <div className="flex items-center space-x-2 pt-8">
+            <Label htmlFor="defaultRetainagePercent">Default Retainage</Label>
+            <div className="flex items-center gap-2">
+              <Input
+                id="defaultRetainagePercent"
+                type="number"
+                step="0.01"
+                {...register('defaultRetainagePercent', { valueAsNumber: true })}
+                disabled={isSubmitting}
+                className="w-full"
+              />
+              <span className="text-sm text-gray-600">%</span>
+            </div>
+            {errors.defaultRetainagePercent && (
+              <p className="text-sm text-red-600">{errors.defaultRetainagePercent.message}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="executed" className="block">Executed</Label>
+            <div className="flex items-center space-x-2 h-9">
               <Checkbox
                 id="executed"
                 checked={watch('executed')}
                 onCheckedChange={(checked) => setValue('executed', checked as boolean)}
                 disabled={isSubmitting}
               />
-              <Label htmlFor="executed" className="text-sm font-normal">
-                Executed*
+              <Label htmlFor="executed" className="text-sm font-normal cursor-pointer">
+                Mark as Executed*
               </Label>
             </div>
           </div>
-        </div>
-
-        <div className="space-y-2">
-          <Label htmlFor="defaultRetainagePercent">Default Retainage</Label>
-          <div className="flex items-center gap-2">
-            <Input
-              id="defaultRetainagePercent"
-              type="number"
-              step="0.01"
-              {...register('defaultRetainagePercent', { valueAsNumber: true })}
-              disabled={isSubmitting}
-              className="max-w-[200px]"
-            />
-            <span className="text-sm text-gray-600">%</span>
-          </div>
-          {errors.defaultRetainagePercent && (
-            <p className="text-sm text-red-600">{errors.defaultRetainagePercent.message}</p>
-          )}
         </div>
 
         <div className="space-y-2">
@@ -296,25 +300,17 @@ export function CreateSubcontractForm({
       <section className="space-y-4">
         <h2 className="text-lg font-semibold border-b pb-2">Attachments</h2>
 
-        <div className="border-2 border-dashed rounded-lg p-8 text-center">
-          <div className="flex flex-col items-center gap-3">
-            <Upload className="h-8 w-8 text-gray-400" />
-            <div className="flex items-center gap-2">
-              <Button
-                type="button"
-                variant="outline"
-                onClick={() => {
-                  // TODO: Implement file attachment modal
-                  console.warn('File attachment not yet implemented');
-                }}
-                disabled={isSubmitting}
-              >
-                Attach Files
-              </Button>
-              <span className="text-sm text-gray-600">or Drag & Drop</span>
-            </div>
-          </div>
-        </div>
+        <FileUploadField
+          label=""
+          value={attachments}
+          onChange={setAttachments}
+          multiple
+          maxFiles={20}
+          maxSize={50 * 1024 * 1024}
+          accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png"
+          hint="Attach contract documents, plans, or other relevant files"
+          disabled={isSubmitting}
+        />
       </section>
 
       {/* Schedule of Values Section */}
@@ -430,11 +426,11 @@ export function CreateSubcontractForm({
                         />
                       </td>
                       <td className="px-3 py-2">
-                        <Input
-                          className="text-sm"
-                          placeholder="Budget Code"
+                        <CostCodeSelector
                           value={line.budgetCode || ''}
-                          onChange={(e) => updateSOVLine(index, 'budgetCode', e.target.value)}
+                          onChange={(value) => updateSOVLine(index, 'budgetCode', value)}
+                          placeholder="Select budget code"
+                          className="w-full"
                         />
                       </td>
                       <td className="px-3 py-2">

@@ -1,0 +1,211 @@
+{
+  "config": {
+    "configFile": "/Users/meganharrison/Documents/github/alleato-procore/frontend/playwright.config.ts",
+    "rootDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report",
+          "open": "never"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "playwright-report/report.json"
+        }
+      ],
+      [
+        "list",
+        null
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "setup",
+        "name": "setup",
+        "testDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/.*\\.setup\\.ts/"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      },
+      {
+        "outputDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "debug",
+        "name": "debug",
+        "testDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 90000
+      }
+    ],
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.57.0",
+    "workers": 7,
+    "webServer": {
+      "command": "npm run dev",
+      "port": 3000,
+      "reuseExistingServer": true
+    }
+  },
+  "suites": [
+    {
+      "title": "e2e/budget-save-auth-test.spec.ts",
+      "file": "e2e/budget-save-auth-test.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "Original Budget save with authentication",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 90000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "debug",
+              "projectName": "debug",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 14241,
+                  "errors": [],
+                  "stdout": [
+                    {
+                      "text": "Found editable cells count: \u001b[33m45\u001b[39m\n"
+                    },
+                    {
+                      "text": "Initial value: $440,226.00\n"
+                    },
+                    {
+                      "text": "Sidebar visible: \u001b[33mtrue\u001b[39m\n"
+                    },
+                    {
+                      "text": "Text/number input count: \u001b[33m3\u001b[39m\n"
+                    },
+                    {
+                      "text": "Input 0: value=\"1\", disabled=true\n"
+                    },
+                    {
+                      "text": "Input 1: value=\"$440,226.00\", disabled=true\n"
+                    },
+                    {
+                      "text": "Input 2: value=\"$440,226.00\", disabled=false\n"
+                    },
+                    {
+                      "text": "Clicked calculated radio\n"
+                    },
+                    {
+                      "text": "Set quantity to 5\n"
+                    },
+                    {
+                      "text": "Cost input 0: value=\"$440,226.00\", disabled=false\n"
+                    },
+                    {
+                      "text": "Set unit cost to 100\n"
+                    },
+                    {
+                      "text": "Clicked save\n"
+                    },
+                    {
+                      "text": "Response status: \u001b[33m404\u001b[39m\n"
+                    },
+                    {
+                      "text": "Response body: {\"error\":\"Budget line item not found\"}\n"
+                    },
+                    {
+                      "text": "Toast count: \u001b[33m1\u001b[39m\n"
+                    },
+                    {
+                      "text": "Toast 0: Budget line item not found\n"
+                    }
+                  ],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2025-12-30T10:30:56.913Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "screenshot",
+                      "contentType": "image/png",
+                      "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-budget-save-auth-test--bfe54-et-save-with-authentication-debug/test-finished-1.png"
+                    }
+                  ]
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "fdbf05055a222a0c1172-7f1c28a13e7073d97484",
+          "file": "e2e/budget-save-auth-test.spec.ts",
+          "line": 3,
+          "column": 5
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-12-30T10:30:56.565Z",
+    "duration": 14789.714000000002,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

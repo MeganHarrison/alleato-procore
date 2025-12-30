@@ -174,17 +174,17 @@ function ColumnHeader({ lines, columnKey }: ColumnHeaderProps) {
       <TooltipContent
         side="bottom"
         align="center"
-        className="max-w-xs space-y-2 text-left leading-snug"
+        className="max-w-xs space-y-2 text-left leading-snug text-white"
       >
         <div>
-          <p className="font-semibold text-xs">{tooltip.title}</p>
+          <p className="font-semibold text-xs text-white">{tooltip.title}</p>
           {tooltip.type && (
-            <p className="text-[10px] text-gray-400 mt-0.5">{tooltip.type}</p>
+            <p className="text-[10px] text-white/70 mt-0.5">{tooltip.type}</p>
           )}
-          <p className="text-xs mt-1">{tooltip.formula}</p>
+          <p className="text-xs mt-1 text-white">{tooltip.formula}</p>
         </div>
         {tooltip.details?.length ? (
-          <ul className="list-disc space-y-1 pl-4 text-xs">
+          <ul className="list-disc space-y-1 pl-4 text-xs text-white">
             {tooltip.details.map((detail) => (
               <li key={detail}>{detail}</li>
             ))}
@@ -200,6 +200,14 @@ interface BudgetTableProps {
   grandTotals: BudgetGrandTotals;
   onEditLineItem?: (lineItem: BudgetLineItem) => void;
   onSelectionChange?: (selectedIds: string[]) => void;
+  onBudgetModificationsClick?: (lineItem: BudgetLineItem) => void;
+  onApprovedCOsClick?: (lineItem: BudgetLineItem) => void;
+  onJobToDateCostDetailClick?: (lineItem: BudgetLineItem) => void;
+  onDirectCostsClick?: (lineItem: BudgetLineItem) => void;
+  onPendingChangesClick?: (lineItem: BudgetLineItem) => void;
+  onCommittedCostsClick?: (lineItem: BudgetLineItem) => void;
+  onPendingCostChangesClick?: (lineItem: BudgetLineItem) => void;
+  onForecastToCompleteClick?: (lineItem: BudgetLineItem) => void;
 }
 
 function formatCurrency(value: number): string {
@@ -237,14 +245,20 @@ function EditableCurrencyCell({
   onEdit?: () => void;
   editable?: boolean;
 }) {
-  const isClickable = !hasChildren && onEdit && editable;
+  // Allow clicking on both parent and child rows when onEdit is provided
+  const isClickable = onEdit && editable;
 
   if (isClickable) {
     return (
       <button
         type="button"
         aria-label={`Edit ${formatCurrency(value)}`}
-        className="text-right cursor-pointer hover:bg-blue-50 px-1 py-0.5 rounded transition-colors w-full text-blue-600 hover:text-blue-700 underline"
+        className={cn(
+          'text-right cursor-pointer px-1 py-0.5 rounded transition-colors w-full',
+          hasChildren
+            ? 'hover:bg-orange-50 text-orange-600 hover:text-orange-700 font-semibold'
+            : 'hover:bg-blue-50 text-blue-600 hover:text-blue-700 underline'
+        )}
         onClick={onEdit}
       >
         <CurrencyCell value={value} />
@@ -290,7 +304,20 @@ function getDepthPadding(depth: number) {
   return depthPaddingClasses[index];
 }
 
-export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChange }: BudgetTableProps) {
+export function BudgetTable({
+  data,
+  grandTotals,
+  onEditLineItem,
+  onSelectionChange,
+  onBudgetModificationsClick,
+  onApprovedCOsClick,
+  onJobToDateCostDetailClick,
+  onDirectCostsClick,
+  onPendingChangesClick,
+  onCommittedCostsClick,
+  onPendingCostChangesClick,
+  onForecastToCompleteClick,
+}: BudgetTableProps) {
   const [expanded, setExpanded] = React.useState<ExpandedState>({});
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
 
@@ -342,11 +369,13 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
         }
         return (
           <button
+            type="button"
             onClick={(e) => {
               e.stopPropagation();
               row.toggleExpanded();
             }}
             className="p-1 hover:bg-gray-100 rounded"
+            aria-label={row.getIsExpanded() ? `Collapse ${row.original.description}` : `Expand ${row.original.description}`}
           >
             {row.getIsExpanded() ? (
               <ChevronDown className="w-4 h-4 text-gray-500" />
@@ -421,7 +450,7 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           <EditableCurrencyCell
             value={row.getValue('budgetModifications')}
             hasChildren={hasChildren}
-            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+            onEdit={onBudgetModificationsClick ? () => onBudgetModificationsClick(row.original) : undefined}
             editable={true}
           />
         );
@@ -439,7 +468,8 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           <EditableCurrencyCell
             value={row.getValue('approvedCOs')}
             hasChildren={hasChildren}
-            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+            onEdit={onApprovedCOsClick ? () => onApprovedCOsClick(row.original) : undefined}
+            editable={true}
           />
         );
       },
@@ -476,7 +506,8 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           <EditableCurrencyCell
             value={row.getValue('jobToDateCostDetail')}
             hasChildren={hasChildren}
-            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+            onEdit={onJobToDateCostDetailClick ? () => onJobToDateCostDetailClick(row.original) : undefined}
+            editable={true}
           />
         );
       },
@@ -493,7 +524,8 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           <EditableCurrencyCell
             value={row.getValue('directCosts')}
             hasChildren={hasChildren}
-            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+            onEdit={onDirectCostsClick ? () => onDirectCostsClick(row.original) : undefined}
+            editable={true}
           />
         );
       },
@@ -513,7 +545,8 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           <EditableCurrencyCell
             value={row.getValue('pendingChanges')}
             hasChildren={hasChildren}
-            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+            onEdit={onPendingChangesClick ? () => onPendingChangesClick(row.original) : undefined}
+            editable={true}
           />
         );
       },
@@ -547,7 +580,8 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           <EditableCurrencyCell
             value={row.getValue('committedCosts')}
             hasChildren={hasChildren}
-            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+            onEdit={onCommittedCostsClick ? () => onCommittedCostsClick(row.original) : undefined}
+            editable={true}
           />
         );
       },
@@ -567,7 +601,8 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           <EditableCurrencyCell
             value={row.getValue('pendingCostChanges')}
             hasChildren={hasChildren}
-            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+            onEdit={onPendingCostChangesClick ? () => onPendingCostChangesClick(row.original) : undefined}
+            editable={true}
           />
         );
       },
@@ -604,7 +639,8 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
           <EditableCurrencyCell
             value={row.getValue('forecastToComplete')}
             hasChildren={hasChildren}
-            onEdit={onEditLineItem ? () => onEditLineItem(row.original) : undefined}
+            onEdit={onForecastToCompleteClick ? () => onForecastToCompleteClick(row.original) : undefined}
+            editable={true}
           />
         );
       },
@@ -698,22 +734,15 @@ export function BudgetTable({ data, grandTotals, onEditLineItem, onSelectionChan
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row, index) => {
                 const hasChildren = row.original.children && row.original.children.length > 0;
-                const isClickable = !hasChildren && onEditLineItem;
                 const isGroupRow = hasChildren;
 
                 return (
                   <TableRow
                     key={row.id}
-                    onClick={() => {
-                      if (isClickable) {
-                        onEditLineItem(row.original);
-                      }
-                    }}
                     className={cn(
                       "border-b border-gray-100 transition-colors",
                       isGroupRow && "bg-gray-100/80 hover:bg-gray-200/80 font-semibold",
-                      !isGroupRow && isClickable && "cursor-pointer hover:bg-blue-50/50",
-                      !isGroupRow && !isClickable && "hover:bg-gray-100",
+                      !isGroupRow && "hover:bg-gray-50",
                       !isGroupRow && row.depth > 0 && "bg-gray-50",
                       row.getIsSelected() && "bg-blue-50",
                       !row.getIsSelected() && index % 2 === 1 && "bg-gray-100"

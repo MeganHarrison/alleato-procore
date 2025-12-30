@@ -137,7 +137,7 @@
   --sidebar-accent: hsl(240 4.8% 95.9%);
   --sidebar-accent-foreground: hsl(240 5.9% 10%);
   --sidebar-border: hsl(220 13% 91%);
-  --sidebar-ring: hsl(217.2 91.2% 59.8%);
+  --sidebar-ring: hsl(38, 91%, 52%);
 }
 
 .dark {
@@ -397,7 +397,7 @@
 
   /* Dropdown action icon */
   .btn-dropdown-icon {
-    @apply ml-1 h-4 w-4 rounded-full bg-orange-500 p-0.5 text-white;
+    @apply ml-1 h-4 w-4 rounded-full bg-brand p-0.5 text-white;
   }
 }
 
@@ -420,7 +420,7 @@
 
   /* Form label */
   .label-base {
-    @apply text-xs font-semibold tracking-[0.1em] uppercase text-neutral-500;
+    @apply text-xs font-semibold text-neutral-500;
   }
 
   /* Form field group spacing */
@@ -957,7 +957,7 @@
   }
 
   th {
-    @apply px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 text-left text-xs sm:text-sm font-semibold text-gray-700 uppercase tracking-wider;
+    @apply px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 text-left text-xs sm:text-sm font-semibold text-gray-700;
   }
 
   tbody tr {
@@ -968,14 +968,9 @@
     @apply px-3 py-2 sm:px-4 sm:py-3 md:px-6 md:py-4 text-xs sm:text-sm text-gray-600;
   }
 
-  /* Button base styling with 44x44px minimum touch target */
-  button {
-    @apply min-h-[44px] min-w-[44px] transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2;
-  }
-
   /* Primary button */
   .btn-primary {
-    @apply px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 active:bg-blue-800;
+    @apply px-4 py-2 sm:px-5 sm:py-2.5 md:px-6 md:py-3 bg-brand text-white rounded-lg hover:bg-blue-700 active:bg-blue-800;
   }
 
   /* Secondary button */
