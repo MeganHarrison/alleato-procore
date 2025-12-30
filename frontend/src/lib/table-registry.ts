@@ -266,18 +266,32 @@ export const TABLE_REGISTRY = {
       subtitleColumns: ['trade', 'status'],
     },
   },
-  commitments: {
-    label: 'Commitments',
-    description: 'Financial commitments and contracts',
+  subcontracts: {
+    label: 'Subcontracts',
+    description: 'Subcontract commitments',
     primaryKey: 'id',
     defaultSort: { column: 'created_at', direction: 'desc' },
     hiddenColumns: ['updated_at'],
-    searchColumns: ['title', 'description', 'number'],
+    searchColumns: ['title', 'description', 'contract_number'],
     viewsEnabled: ['table', 'list'],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
       titleColumn: 'title',
-      subtitleColumns: ['number', 'status'],
+      subtitleColumns: ['contract_number', 'status'],
+    },
+  },
+  purchase_orders: {
+    label: 'Purchase Orders',
+    description: 'Purchase order commitments',
+    primaryKey: 'id',
+    defaultSort: { column: 'created_at', direction: 'desc' },
+    hiddenColumns: ['updated_at'],
+    searchColumns: ['title', 'description', 'contract_number'],
+    viewsEnabled: ['table', 'list'],
+    permissions: { read: true, create: true, update: true, delete: true },
+    display: {
+      titleColumn: 'title',
+      subtitleColumns: ['contract_number', 'status'],
     },
   },
   direct_costs: {

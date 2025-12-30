@@ -15,12 +15,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { Upload, X, Plus, Sparkles } from 'lucide-react';
+import { Upload, X, Plus, Sparkles, Loader2 } from 'lucide-react';
 import {
   CreatePurchaseOrderSchema,
   type CreatePurchaseOrderInput,
   type PurchaseOrderSovLineItem,
 } from '@/lib/schemas/create-purchase-order-schema';
+import { useCompanies } from '@/hooks/use-companies';
 
 interface CreatePurchaseOrderFormProps {
   projectId: number;
@@ -47,6 +48,9 @@ export function CreatePurchaseOrderForm({
   const [accountingMethod, setAccountingMethod] = React.useState<'unit-quantity' | 'amount'>('unit-quantity');
   const [attachments, setAttachments] = React.useState<File[]>([]);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+
+  // Use the companies hook - returns { value: uuid, label: name } options
+  const { options: companyOptions, isLoading: isLoadingCompanies } = useCompanies();
 
   const {
     register,
@@ -183,15 +187,30 @@ export function CreatePurchaseOrderForm({
             <Select
               value={watch('contractCompanyId') || ''}
               onValueChange={(value) => setValue('contractCompanyId', value)}
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoadingCompanies}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select company" />
+                {isLoadingCompanies ? (
+                  <span className="flex items-center gap-2 text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Loading companies...
+                  </span>
+                ) : (
+                  <SelectValue placeholder="Select company" />
+                )}
               </SelectTrigger>
               <SelectContent>
-                {/* TODO: Load companies from database */}
-                <SelectItem value="company1">Company 1</SelectItem>
-                <SelectItem value="company2">Company 2</SelectItem>
+                {companyOptions.length === 0 ? (
+                  <SelectItem value="_no_companies" disabled>
+                    No companies available
+                  </SelectItem>
+                ) : (
+                  companyOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))
+                )}
               </SelectContent>
             </Select>
           </div>

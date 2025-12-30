@@ -2,7 +2,6 @@
 
 import * as React from 'react';
 import { Settings, ChevronDown, FileText, Plus } from 'lucide-react';
-import Link from 'next/link';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -55,20 +54,22 @@ export function PortfolioHeader({
       </div>
 
       {/* View tabs - Hidden on mobile */}
-      <div className="hidden sm:flex sm:items-center sm:justify-between gap-3 pb-0">
-        <nav className="flex items-center gap-0 sm:gap-1 -mb-px overflow-x-auto">
+      <div className="hidden sm:flex sm:items-center sm:justify-between gap-3 pb-0 border-b bg-white">
+        <nav className="-mb-px flex space-x-8 overflow-x-auto" aria-label="Portfolio tabs">
           {views.map((view) => (
             <button
               key={view.id}
+              type="button"
               onClick={() => onViewChange(view.id)}
               className={cn(
-                'px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium border-b-2 transition-colors whitespace-nowrap',
+                'group inline-flex items-center gap-2 border-b-2 py-4 px-1 text-sm font-medium transition-colors whitespace-nowrap',
                 activeView === view.id
-                  ? 'border-[hsl(var(--procore-orange))] text-[hsl(var(--procore-orange))]'
-                  : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300'
+                  ? 'border-brand text-brand'
+                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
               )}
+              aria-current={activeView === view.id ? 'page' : undefined}
             >
-              {view.name}
+              <span>{view.name}</span>
             </button>
           ))}
 
@@ -77,15 +78,16 @@ export function PortfolioHeader({
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
+                  type="button"
                   className={cn(
-                    'px-2 sm:px-4 py-2 sm:py-3 text-xs sm:text-sm font-medium border-b-2 transition-colors flex items-center gap-1 whitespace-nowrap',
+                    'group inline-flex items-center gap-2 border-b-2 py-4 px-1 text-sm font-medium transition-colors whitespace-nowrap',
                     financialViews.some((v) => v.id === activeView)
-                      ? 'border-[hsl(var(--procore-orange))] text-[hsl(var(--procore-orange))]'
-                      : 'border-transparent text-gray-600 hover:text-gray-900 hover:border-gray-300'
+                      ? 'border-brand text-brand'
+                      : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
                   )}
                 >
                   <span>Financial Views</span>
-                  <ChevronDown className="w-3 h-3 sm:w-4 sm:h-4" />
+                  <ChevronDown className="w-4 h-4" />
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start">
@@ -108,11 +110,14 @@ export function PortfolioHeader({
           {/* Export dropdown */}
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
-              <Button className="bg-brand text-white hover:bg-brand/90 h-9 text-sm px-4">
-                <FileText className="w-4 h-4 mr-2" />
-                Export
-                <ChevronDown className="w-4 h-4 ml-2" />
-              </Button>
+              <button
+                type="button"
+                className="p-2 hover:bg-gray-100 rounded text-gray-600 hover:text-gray-900 transition-colors"
+                title="Export"
+                aria-label="Export"
+              >
+                <FileText className="w-5 h-5" />
+              </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
               <DropdownMenuItem onClick={() => onExport?.('pdf')}>

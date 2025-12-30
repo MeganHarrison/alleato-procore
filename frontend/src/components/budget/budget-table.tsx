@@ -256,7 +256,7 @@ function EditableCurrencyCell({
         className={cn(
           'text-right cursor-pointer px-1 py-0.5 rounded transition-colors w-full',
           hasChildren
-            ? 'hover:bg-orange-50 text-orange-600 hover:text-orange-700 font-semibold'
+            ? 'hover:bg-blue-50 text-blue-600 hover:text-blue-700 font-semibold'
             : 'hover:bg-blue-50 text-blue-600 hover:text-blue-700 underline'
         )}
         onClick={onEdit}

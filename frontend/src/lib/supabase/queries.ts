@@ -33,12 +33,14 @@ export async function getProjectWithDetails(
   supabase: SupabaseClient<Database>,
   projectId: number
 ) {
+  // Note: commitments table no longer exists - use subcontracts and purchase_orders
   return supabase
     .from('projects')
     .select(`
       *,
       project_tasks (count),
-      commitments (count),
+      subcontracts (count),
+      purchase_orders (count),
       contracts (count)
     `)
     .eq('id', projectId)
@@ -141,8 +143,31 @@ export async function getProjectCommitments(
   supabase: SupabaseClient<Database>,
   projectId: number
 ) {
+  // Query from commitments_unified view which combines subcontracts and purchase_orders
   return supabase
-    .from('commitments')
+    .from('commitments_unified')
+    .select('*')
+    .eq('project_id', projectId)
+    .order('created_at', { ascending: false })
+}
+
+export async function getProjectSubcontracts(
+  supabase: SupabaseClient<Database>,
+  projectId: number
+) {
+  return supabase
+    .from('subcontracts')
+    .select('*')
+    .eq('project_id', projectId)
+    .order('created_at', { ascending: false })
+}
+
+export async function getProjectPurchaseOrders(
+  supabase: SupabaseClient<Database>,
+  projectId: number
+) {
+  return supabase
+    .from('purchase_orders')
     .select('*')
     .eq('project_id', projectId)
     .order('created_at', { ascending: false })

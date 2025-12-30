@@ -191,46 +191,83 @@ export async function GET(
       });
     }
 
-    // 5. Fetch Commitments (approved & complete)
-    const { data: commitmentLines, error: commitmentsError } = await supabase
-      .from('commitment_lines')
+    // 5. Fetch Subcontract SOV Items (committed costs)
+    const { data: subcontractSovItems, error: subcontractsError } = await supabase
+      .from('subcontract_sov_items')
       .select(
         `
         id,
         amount,
         description,
-        cost_code_id,
-        commitments!inner (
+        budget_code,
+        subcontracts!inner (
           status,
-          commitment_number,
+          contract_number,
           project_id,
-          vendors (
+          companies (
             name
           )
-        ),
-        cost_codes (
-          id,
-          title
         )
       `
       )
-      .in('commitments.status', ['approved', 'complete'])
-      .eq('commitments.project_id', projectId);
+      .in('subcontracts.status', ['approved', 'complete', 'Draft'])
+      .eq('subcontracts.project_id', projectId);
 
-    if (!commitmentsError && commitmentLines) {
-      commitmentLines.forEach((line) => {
-        const costCode = line.cost_codes as unknown as { id: string; title: string | null } | null;
-        const commitment = line.commitments as unknown as {
-          commitment_number: string;
-          vendors: { name: string } | null;
+    if (!subcontractsError && subcontractSovItems) {
+      subcontractSovItems.forEach((line) => {
+        const subcontract = line.subcontracts as unknown as {
+          contract_number: string;
+          companies: { name: string } | null;
         };
 
         details.push({
-          id: `commitment-${line.id}`,
-          budgetCode: line.cost_code_id || costCode?.id || '',
-          budgetCodeDescription: costCode?.title || '',
-          vendor: commitment?.vendors?.name || '',
-          item: commitment ? commitment.commitment_number : '',
+          id: `subcontract-${line.id}`,
+          budgetCode: line.budget_code || '',
+          budgetCodeDescription: '',
+          vendor: subcontract?.companies?.name || '',
+          item: subcontract ? subcontract.contract_number : '',
+          detailType: 'commitments' as DetailType,
+          description: line.description || '',
+          committedCosts: Number(line.amount) || 0,
+        });
+      });
+    }
+
+    // 5b. Fetch Purchase Order SOV Items (committed costs)
+    const { data: poSovItems, error: poError } = await supabase
+      .from('purchase_order_sov_items')
+      .select(
+        `
+        id,
+        amount,
+        description,
+        budget_code,
+        purchase_orders!inner (
+          status,
+          contract_number,
+          project_id,
+          companies (
+            name
+          )
+        )
+      `
+      )
+      .in('purchase_orders.status', ['approved', 'complete', 'Draft'])
+      .eq('purchase_orders.project_id', projectId);
+
+    if (!poError && poSovItems) {
+      poSovItems.forEach((line) => {
+        const purchaseOrder = line.purchase_orders as unknown as {
+          contract_number: string;
+          companies: { name: string } | null;
+        };
+
+        details.push({
+          id: `po-${line.id}`,
+          budgetCode: line.budget_code || '',
+          budgetCodeDescription: '',
+          vendor: purchaseOrder?.companies?.name || '',
+          item: purchaseOrder ? purchaseOrder.contract_number : '',
           detailType: 'commitments' as DetailType,
           description: line.description || '',
           committedCosts: Number(line.amount) || 0,

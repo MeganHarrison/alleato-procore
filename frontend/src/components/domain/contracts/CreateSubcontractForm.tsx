@@ -15,7 +15,7 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
-import { X, Plus, Sparkles } from 'lucide-react';
+import { X, Plus, Sparkles, AlertCircle, Loader2 } from 'lucide-react';
 import {
   CreateSubcontractSchema,
   type CreateSubcontractInput,
@@ -24,6 +24,8 @@ import {
 import { generateAutofillData } from '@/lib/utils/autofill-subcontract';
 import { FileUploadField } from '@/components/forms/FileUploadField';
 import { CostCodeSelector } from './CostCodeSelector';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import { useCompanies } from '@/hooks/use-companies';
 
 interface CreateSubcontractFormProps {
   projectId: number;
@@ -36,8 +38,13 @@ export function CreateSubcontractForm({
   onCancel,
 }: CreateSubcontractFormProps) {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [submitError, setSubmitError] = React.useState<string | null>(null);
+  const [errorDetails, setErrorDetails] = React.useState<unknown>(null);
   const [sovLines, setSovLines] = React.useState<SovLineItem[]>([]);
   const [attachments, setAttachments] = React.useState<Array<{ name: string; size: number; type: string }>>([]);
+
+  // Use the companies hook - returns { value: uuid, label: name } options
+  const { options: companyOptions, isLoading: isLoadingCompanies } = useCompanies();
 
   const {
     register,
@@ -100,13 +107,21 @@ export function CreateSubcontractForm({
 
   const handleFormSubmit = async (data: CreateSubcontractInput) => {
     setIsSubmitting(true);
+    setSubmitError(null);
+    setErrorDetails(null);
     try {
       // Add SOV lines to submission data
       const submitData = {
         ...data,
         sov: sovLines,
       };
+      console.warn('[Subcontract Form] Submitting data:', JSON.stringify(submitData, null, 2));
       await onSubmit(submitData);
+    } catch (err) {
+      console.error('[Subcontract Form] Submission error:', err);
+      const errorMessage = err instanceof Error ? err.message : 'An unexpected error occurred';
+      setSubmitError(errorMessage);
+      setErrorDetails(err);
     } finally {
       setIsSubmitting(false);
     }
@@ -168,6 +183,25 @@ export function CreateSubcontractForm({
         </Button>
       </div>
 
+      {/* Error Display */}
+      {submitError && (
+        <Alert variant="destructive">
+          <AlertCircle className="h-4 w-4" />
+          <AlertTitle>Submission Failed</AlertTitle>
+          <AlertDescription className="space-y-2">
+            <p>{submitError}</p>
+            {errorDetails && typeof errorDetails === 'object' && 'details' in (errorDetails as Record<string, unknown>) && (
+              <details className="mt-2">
+                <summary className="cursor-pointer text-sm font-medium">View Error Details</summary>
+                <pre className="mt-2 text-xs bg-destructive/10 p-2 rounded overflow-auto max-h-40">
+                  {JSON.stringify((errorDetails as Record<string, unknown>).details, null, 2)}
+                </pre>
+              </details>
+            )}
+          </AlertDescription>
+        </Alert>
+      )}
+
       {/* General Information Section */}
       <section className="space-y-4">
         <h2 className="text-lg font-semibold border-b pb-2">General Information</h2>
@@ -195,15 +229,30 @@ export function CreateSubcontractForm({
             <Select
               value={watch('contractCompanyId') || ''}
               onValueChange={(value) => setValue('contractCompanyId', value)}
-              disabled={isSubmitting}
+              disabled={isSubmitting || isLoadingCompanies}
             >
               <SelectTrigger>
-                <SelectValue placeholder="Select company" />
+                {isLoadingCompanies ? (
+                  <span className="flex items-center gap-2 text-muted-foreground">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    Loading companies...
+                  </span>
+                ) : (
+                  <SelectValue placeholder="Select company" />
+                )}
               </SelectTrigger>
               <SelectContent>
-                {/* TODO: Load companies from database */}
-                <SelectItem value="company1">Company 1</SelectItem>
-                <SelectItem value="company2">Company 2</SelectItem>
+                {companyOptions.length === 0 ? (
+                  <SelectItem value="_no_companies" disabled>
+                    No companies available
+                  </SelectItem>
+                ) : (
+                  companyOptions.map((option) => (
+                    <SelectItem key={option.value} value={option.value}>
+                      {option.label}
+                    </SelectItem>
+                  ))
+                )}
               </SelectContent>
             </Select>
           </div>

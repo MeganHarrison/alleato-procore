@@ -35,7 +35,29 @@ type Meeting = Database['public']['Tables']['document_metadata']['Row']
 type ChangeOrder = Database['public']['Tables']['change_orders']['Row']
 type RFI = Database['public']['Tables']['rfis']['Row']
 type DailyLog = Database['public']['Tables']['daily_logs']['Row']
-type Commitment = Database['public']['Tables']['commitments']['Row']
+// Commitment is from the commitments_unified view (combines subcontracts + purchase_orders)
+interface Commitment {
+  id: string
+  project_id: number
+  number: string
+  contract_company_id: string | null
+  title: string | null
+  status: string
+  executed: boolean
+  type: 'subcontract' | 'purchase_order'
+  contract_amount?: number
+  retention_percentage: number | null
+  start_date: string | null
+  executed_date: string | null
+  description: string | null
+  created_at: string
+  updated_at: string
+  original_amount?: number
+  approved_change_orders?: number
+  revised_contract_amount?: number
+  billed_to_date?: number
+  balance_to_finish?: number
+}
 type Contract = Database['public']['Tables']['financial_contracts']['Row']
 type BudgetItem = Database['public']['Tables']['budget_lines']['Row']
 type ChangeEvent = Database['public']['Tables']['change_events']['Row']

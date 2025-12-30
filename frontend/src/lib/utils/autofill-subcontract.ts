@@ -66,7 +66,8 @@ export function generateAutofillData(): CreateSubcontractInput & { sovLines?: So
 
   return {
     contractNumber: 'SC-2025-001',
-    contractCompanyId: 'company1',
+    // contractCompanyId intentionally left empty - user must select from real companies
+    contractCompanyId: undefined,
     title: 'General Construction Services - Phase 1',
     status: 'Draft',
     executed: false,

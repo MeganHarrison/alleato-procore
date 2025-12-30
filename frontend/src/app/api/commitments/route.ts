@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
-import { commitmentSchema } from '@/lib/schemas/financial-schemas';
-import type { PaginatedResponse, Commitment, ZodError } from '@/app/api/types';
+import type { PaginatedResponse, Commitment } from '@/app/api/types';
 
 export async function GET(request: Request) {
   try {
@@ -9,14 +8,16 @@ export async function GET(request: Request) {
     const { searchParams } = new URL(request.url);
 
     const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '10');
+    const limit = parseInt(searchParams.get('limit') || '100');
     const status = searchParams.get('status');
     const search = searchParams.get('search');
     const companyId = searchParams.get('companyId');
     const projectId = searchParams.get('projectId');
+    const type = searchParams.get('type'); // 'subcontract' or 'purchase_order'
 
+    // Query from commitments_unified view which combines subcontracts and purchase_orders
     let query = supabase
-      .from('commitments')
+      .from('commitments_unified')
       .select('*')
       .order('created_at', { ascending: false });
 
@@ -25,8 +26,13 @@ export async function GET(request: Request) {
       query = query.eq('project_id', projectId);
     }
 
+    // Filter by type (subcontract or purchase_order)
+    if (type) {
+      query = query.eq('type', type);
+    }
+
     if (status) {
-      query = query.eq('status', status);
+      query = query.ilike('status', status);
     }
 
     if (companyId) {
@@ -36,25 +42,49 @@ export async function GET(request: Request) {
     if (search) {
       query = query.or(`number.ilike.%${search}%,title.ilike.%${search}%`);
     }
-    
+
     // Pagination
     const from = (page - 1) * limit;
     const to = from + limit - 1;
     query = query.range(from, to);
-    
+
     const { data, error, count } = await query;
-    
+
     if (error) {
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
-    
+
+    // The unified view already has the correct column names
+    const mappedData: Commitment[] = (data || []).map((row) => ({
+      id: row.id,
+      project_id: row.project_id,
+      number: row.number,
+      title: row.title,
+      status: row.status?.toLowerCase() || 'draft',
+      type: row.type as 'subcontract' | 'purchase_order',
+      executed: row.executed,
+      contract_company_id: row.contract_company_id,
+      contract_company: null, // TODO: join company data if needed
+      description: row.description,
+      original_amount: Number(row.original_amount) || 0,
+      approved_change_orders: Number(row.approved_change_orders) || 0,
+      revised_contract_amount: Number(row.revised_contract_amount) || 0,
+      billed_to_date: Number(row.billed_to_date) || 0,
+      balance_to_finish: Number(row.balance_to_finish) || 0,
+      start_date: row.start_date,
+      executed_date: row.executed_date,
+      retention_percentage: row.retention_percentage,
+      created_at: row.created_at,
+      updated_at: row.updated_at,
+    }));
+
     const response: PaginatedResponse<Commitment> = {
-      data: data || [],
+      data: mappedData,
       meta: {
         page,
         limit,
-        total: count || 0,
-        totalPages: count ? Math.ceil(count / limit) : 0,
+        total: count || mappedData.length,
+        totalPages: count ? Math.ceil(count / limit) : 1,
       }
     };
     return NextResponse.json(response);
@@ -72,60 +102,13 @@ export async function GET(request: Request) {
   }
 }
 
-export async function POST(request: Request) {
-  try {
-    const supabase = await createClient();
-    const body = await request.json();
-    
-    // Validate request body
-    const validatedData = commitmentSchema.parse(body);
-    
-    // Get the current user
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-    
-    // Set calculated fields
-    const commitment = {
-      ...validatedData,
-      approved_change_orders: 0,
-      revised_contract_amount: validatedData.original_amount,
-      billed_to_date: 0,
-      balance_to_finish: validatedData.original_amount,
-      created_by: user.id,
-    };
-    
-    const { data, error } = await supabase
-      .from('commitments')
-      .insert(commitment)
-      .select('*')
-      .single();
-    
-    if (error) {
-      return NextResponse.json({ error: error.message }, { status: 400 });
-    }
-    
-    return NextResponse.json(data, { status: 201 });
-  } catch (error) {
-    if (error instanceof Error && error.name === 'ZodError') {
-      const zodError = error as ZodError;
-      return NextResponse.json(
-        { error: 'Validation error', issues: zodError.errors },
-        { status: 400 }
-      );
-    }
-    
-    if (error instanceof Error) {
-      return NextResponse.json(
-        { error: 'Internal server error', message: error.message },
-        { status: 500 }
-      );
-    }
-    
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
-  }
+// POST is deprecated - use /api/projects/[id]/subcontracts or /api/projects/[id]/purchase-orders instead
+export async function POST() {
+  return NextResponse.json(
+    {
+      error: 'Deprecated endpoint',
+      message: 'Use /api/projects/[id]/subcontracts for subcontracts or /api/projects/[id]/purchase-orders for purchase orders'
+    },
+    { status: 410 }
+  );
 }

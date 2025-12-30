@@ -1,6 +1,7 @@
 'use client';
 
 import * as React from 'react';
+
 import {
   Column,
   ColumnDef,
@@ -28,6 +29,7 @@ import { cn } from '@/lib/utils';
 import { EditableCell } from './editable-cell';
 import { EditProjectDialog } from './edit-project-dialog';
 import { toast } from 'sonner';
+import Link from 'next/link';
 
 interface ProjectsTableProps {
   data: Project[];
@@ -321,64 +323,34 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
             {table.getRowModel().rows?.length ? (
               table.getRowModel().rows.map((row) => {
                 const project = row.original;
+                const projectHref = `/${project.id}/home`;
                 return (
-                  <button
+                  <Link
                     key={row.id}
-                    type="button"
+                    href={projectHref}
+                    className="group block bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md hover:border-[hsl(var(--procore-orange))] transition-all text-left"
                     onClick={() => onProjectClick?.(project)}
-                    className="bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md hover:border-[hsl(var(--procore-orange))] transition-all text-left group"
                   >
                     <div className="mb-2">
-                      <h3 className="font-semibold text-gray-900 group-hover:text-[hsl(var(--procore-orange))] transition-colors line-clamp-1">
+                      <h3 className="text-sm font-semibold text-gray-900 group-hover:text-[hsl(var(--procore-orange))] transition-colors line-clamp-1">
                         {project.name}
                       </h3>
                     </div>
 
-                    <div className="space-y-2 text-sm">
-                      <div className="flex items-center justify-between">
-                        <span className="text-gray-500">Job #:</span>
-                        <span className="font-medium text-gray-700">{project.jobNumber}</span>
+                    <div className="space-y-1 text-xs text-gray-500">
+                      <div className="flex items-center gap-2">
+                        <span className="font-semibold text-[0.65rem] text-gray-500">Job #:</span>
+                        <span className="font-medium text-gray-700 text-[0.75rem]">{project.jobNumber}</span>
                       </div>
 
                       {project.client && (
-                        <div className="flex items-center justify-between">
-                          <span className="text-gray-500">Client:</span>
-                          <span className="text-gray-700 truncate ml-2">{project.client}</span>
-                        </div>
-                      )}
-
-                      {project.state && (
-                        <div className="flex items-center justify-between">
-                          <span className="text-gray-500">State:</span>
-                          <span className="text-gray-700">{project.state}</span>
-                        </div>
-                      )}
-
-                      {project.phase && (
-                        <div className="flex items-center justify-between">
-                          <span className="text-gray-500">Phase:</span>
-                          <span className={cn(
-                            'px-2 py-0.5 text-xs font-medium rounded',
-                            {
-                              'current': 'bg-blue-100 text-blue-700',
-                              'bid': 'bg-purple-100 text-purple-700',
-                              'preconstruction': 'bg-yellow-100 text-yellow-700',
-                              'complete': 'bg-green-100 text-green-700',
-                            }[project.phase.toLowerCase()] || 'bg-gray-100 text-gray-600'
-                          )}>
-                            {project.phase}
-                          </span>
-                        </div>
-                      )}
-
-                      {project.category && (
-                        <div className="flex items-center justify-between">
-                          <span className="text-gray-500">Category:</span>
-                          <span className="text-gray-700 truncate ml-2">{project.category}</span>
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-[0.65rem] text-gray-500">Client:</span>
+                          <span className="text-gray-700 text-[0.75rem] truncate">{project.client}</span>
                         </div>
                       )}
                     </div>
-                  </button>
+                  </Link>
                 );
               })
             ) : (
@@ -391,7 +363,7 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
 
         {/* Pagination Controls for Grid View */}
         <div className="flex flex-col sm:flex-row items-center justify-between px-4 py-3 bg-white border-t border-gray-200 gap-3">
-          <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-700">
+          <div className="flex items-center gap-2 text-xs text-gray-700">
             <span className="hidden sm:inline">Showing</span>
             <select
               value={pagination.pageSize}
@@ -399,7 +371,7 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
                 table.setPageSize(Number(e.target.value));
               }}
               aria-label="Items per page"
-              className="px-2 py-1 text-xs sm:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[hsl(var(--procore-orange))] focus:border-transparent"
+              className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[hsl(var(--procore-orange))] focus:border-transparent"
             >
               {[12, 24, 48, 96].map(pageSize => (
                 <option key={pageSize} value={pageSize}>
@@ -407,7 +379,7 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
                 </option>
               ))}
             </select>
-            <span className="text-xs sm:text-sm">
+            <span className="text-xs">
               <span className="hidden sm:inline">of </span>
               <span className="sm:hidden">/ </span>
               {data.length}<span className="hidden sm:inline"> total cards</span>
@@ -422,7 +394,7 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
               onClick={() => table.setPageIndex(0)}
               disabled={!table.getCanPreviousPage()}
             >
-              <ChevronsLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <ChevronsLeft className="w-3.5 h-3.5" />
             </button>
             <button
               type="button"
@@ -431,9 +403,9 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
-              <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <ChevronLeft className="w-3.5 h-3.5" />
             </button>
-            <span className="text-xs sm:text-sm text-gray-700 px-2">
+            <span className="text-xs text-gray-700 px-2">
               {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
             </span>
             <button
@@ -443,7 +415,7 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
             >
-              <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <ChevronRight className="w-3.5 h-3.5" />
             </button>
             <button
               type="button"
@@ -452,7 +424,7 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}
               disabled={!table.getCanNextPage()}
             >
-              <ChevronsRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+              <ChevronsRight className="w-3.5 h-3.5" />
             </button>
           </div>
         </div>
@@ -523,14 +495,14 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
     
     {/* Pagination Controls */}
     <div className="flex flex-col sm:flex-row items-center justify-between px-4 py-3 bg-white border-t border-gray-200 gap-3">
-      <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-700">
+      <div className="flex items-center gap-2 text-xs text-gray-600">
         <span className="hidden sm:inline">Showing</span>
         <select
           value={pagination.pageSize}
           onChange={e => {
             table.setPageSize(Number(e.target.value));
           }}
-          className="px-2 py-1 text-xs sm:text-sm border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[hsl(var(--procore-orange))] focus:border-transparent"
+          className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[hsl(var(--procore-orange))] focus:border-transparent"
         >
           {[10, 25, 50, 100].map(pageSize => (
             <option key={pageSize} value={pageSize}>
@@ -538,48 +510,48 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
             </option>
           ))}
         </select>
-        <span className="text-xs sm:text-sm">
+        <span className="text-xs">
           <span className="hidden sm:inline">of </span>
           <span className="sm:hidden">/ </span>
           {data.length}<span className="hidden sm:inline"> total rows</span>
         </span>
       </div>
-      
+
       <div className="flex items-center gap-1 sm:gap-2">
         <button
           type="button"
-          className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => table.setPageIndex(0)}
           disabled={!table.getCanPreviousPage()}
         >
-          <ChevronsLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <ChevronsLeft className="w-3.5 h-3.5" />
         </button>
         <button
           type="button"
-          className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          <ChevronLeft className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <ChevronLeft className="w-3.5 h-3.5" />
         </button>
-        <span className="text-xs sm:text-sm text-gray-700 px-2">
+        <span className="text-xs text-gray-600 px-2">
           {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
         </span>
         <button
           type="button"
-          className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          <ChevronRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <ChevronRight className="w-3.5 h-3.5" />
         </button>
         <button
           type="button"
-          className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+          className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
           onClick={() => table.setPageIndex(table.getPageCount() - 1)}
           disabled={!table.getCanNextPage()}
         >
-          <ChevronsRight className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
+          <ChevronsRight className="w-3.5 h-3.5" />
         </button>
       </div>
     </div>

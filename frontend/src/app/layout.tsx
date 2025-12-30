@@ -9,6 +9,7 @@ import { ConditionalLayout } from "@/components/layout/conditional-layout";
 import { Toaster } from "@/components/ui/sonner"
 import { Playfair_Display, Inter } from 'next/font/google'
 import { AIChatWidget } from "@/components/chat/ai-chat-widget";
+import { DocsChat } from "@/components/procore-docs/docs-chat";
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -68,6 +69,7 @@ export default function RootLayout({
         </QueryProvider>
         <Toaster />
         <AIChatWidget />
+        <DocsChat />
       </body>
     </html>
   );

@@ -35,8 +35,32 @@ export type TaskInsert = Database['public']['Tables']['project_tasks']['Insert']
 export type TaskUpdate = Database['public']['Tables']['project_tasks']['Update']
 
 export type Contract = Database['public']['Tables']['contracts']['Row']
-export type Commitment = Database['public']['Tables']['commitments']['Row']
+export type Subcontract = Database['public']['Tables']['subcontracts']['Row']
+export type PurchaseOrder = Database['public']['Tables']['purchase_orders']['Row']
 export type RFI = Database['public']['Tables']['rfis']['Row']
+
+// Commitment is now a derived interface from the commitments_unified view
+export interface Commitment {
+  id: string
+  project_id: number
+  number: string
+  contract_company_id: string | null
+  title: string | null
+  status: string
+  executed: boolean
+  type: 'subcontract' | 'purchase_order'
+  retention_percentage: number | null
+  start_date: string | null
+  executed_date: string | null
+  description: string | null
+  created_at: string
+  updated_at: string
+  original_amount: number
+  approved_change_orders: number
+  revised_contract_amount: number
+  billed_to_date: number
+  balance_to_finish: number
+}
 export type ChangeOrder = Database['public']['Tables']['change_orders']['Row']
 export type DailyLog = Database['public']['Tables']['daily_logs']['Row']
 export type BudgetLine = Database['public']['Tables']['budget_lines']['Row']

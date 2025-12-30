@@ -15,7 +15,8 @@ import type { Database } from './database.types'
 
 // Table Row Types (what you get when fetching data)
 export type Project = Database['public']['Tables']['projects']['Row']
-export type Commitment = Database['public']['Tables']['commitments']['Row']
+export type Subcontract = Database['public']['Tables']['subcontracts']['Row']
+export type PurchaseOrder = Database['public']['Tables']['purchase_orders']['Row']
 export type ChangeOrder = Database['public']['Tables']['change_orders']['Row']
 export type BudgetLine = Database['public']['Tables']['budget_lines']['Row']
 export type Document = Database['public']['Tables']['documents']['Row']
@@ -26,15 +27,40 @@ export type AppUser = Database['public']['Tables']['app_users']['Row']
 export type OwnerInvoice = Database['public']['Tables']['owner_invoices']['Row']
 export type MeetingSegment = Database['public']['Tables']['meeting_segments']['Row']
 
+// Commitment is now a union type representing data from the commitments_unified view
+export interface Commitment {
+  id: string
+  project_id: number
+  number: string
+  contract_company_id: string | null
+  title: string | null
+  status: string
+  executed: boolean
+  type: 'subcontract' | 'purchase_order'
+  retention_percentage: number | null
+  start_date: string | null
+  executed_date: string | null
+  description: string | null
+  created_at: string
+  updated_at: string
+  original_amount: number
+  approved_change_orders: number
+  revised_contract_amount: number
+  billed_to_date: number
+  balance_to_finish: number
+}
+
 // Insert Types (for creating new records)
 export type ProjectInsert = Database['public']['Tables']['projects']['Insert']
-export type CommitmentInsert = Database['public']['Tables']['commitments']['Insert']
+export type SubcontractInsert = Database['public']['Tables']['subcontracts']['Insert']
+export type PurchaseOrderInsert = Database['public']['Tables']['purchase_orders']['Insert']
 export type ChangeOrderInsert = Database['public']['Tables']['change_orders']['Insert']
 export type DocumentInsert = Database['public']['Tables']['documents']['Insert']
 
 // Update Types (for updating records)
 export type ProjectUpdate = Database['public']['Tables']['projects']['Update']
-export type CommitmentUpdate = Database['public']['Tables']['commitments']['Update']
+export type SubcontractUpdate = Database['public']['Tables']['subcontracts']['Update']
+export type PurchaseOrderUpdate = Database['public']['Tables']['purchase_orders']['Update']
 export type DocumentUpdate = Database['public']['Tables']['documents']['Update']
 
 // Meeting data is stored in document_metadata table

@@ -15,6 +15,12 @@
 - [ ] Documentation update
 - [ ] Design system compliance
 
+## Gates & Evidence (required)
+- [ ] Ran `npm run quality --prefix frontend` and fixed all errors
+- [ ] For UI changes: Playwright tests updated/added and evidence (screenshots/videos) saved under `frontend/tests/screenshots/` (list paths)
+- [ ] For DB changes: Supabase types regenerated (`frontend/src/types/database.types.ts`) and schema validated (no invented columns)
+- [ ] Logged any rule violations in `RULE-VIOLATION-LOG.md` (if applicable)
+
 ## Design System Checklist
 
 <!-- If this PR includes UI changes, verify compliance with the design system -->

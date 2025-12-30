@@ -6,11 +6,14 @@
 - https://v2.support.procore.com
 - https://procore.com
 - https://cookbook.openai.com/articles/codex_PLANS_DOCs
-- /Users/meganharrison/Documents/github/alleato-procore/.agents/PLANS.md
+- documentation/CODEX-QUICKSTART.md
+- documentation/REPO-MAP.md
+- .agents/PLANS.md
+- CLAUDE.md
 
 ## Folder Structure
 
-See [FOLDER_STRUCTURE.md](./FOLDER_STRUCTURE.md) for the full breakdown and placement rules.
+See [documentation/REPO-MAP.md](documentation/REPO-MAP.md) for the full breakdown and placement rules.
 
 ### Frontend
 
@@ -26,11 +29,11 @@ See [FOLDER_STRUCTURE.md](./FOLDER_STRUCTURE.md) for the full breakdown and plac
 
 - `backend/` – Python APIs, workers, and tests (`backend/src/api|services|workers`, `backend/tests/{unit,integration}`, `backend/scripts`).
 - `scripts/` – root-level automation and tooling shared across the monorepo.
-- `supabase/` and `migrations/` – database migrations and metadata.
+- `supabase/` – database migrations and metadata.
 
 ### Docs
 
-- `docs/` – architectural/process documentation referenced by CLAUDE.md and the Plans Doc.
+- `documentation/` – architectural/process documentation referenced by CLAUDE.md and the Plans Doc.
 
 ## How to use
 
@@ -57,14 +60,14 @@ load_dotenv()
 Install the dependencies for the backend by running the following commands:
 
 ```bash
-cd python-backend
+cd backend
 python -m venv .venv
 source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
 ```
-cd python-backend
+cd backend
 source .venv/bin/activate
 python -m uvicorn api:app --reload --port 8000
 ```
@@ -86,16 +89,15 @@ The backend will be available at: [http://localhost:8000](http://localhost:8000)
 For the UI, you can run:
 
 ```bash
-cd ui
+cd frontend
 npm install
 ```
 
 #### Run the UI & backend simultaneously
 
-From the `ui` folder, run:
+From the repo root:
 
 ```bash
-cd ui
 npm run dev
 ```
 

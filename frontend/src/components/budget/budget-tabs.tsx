@@ -1,6 +1,7 @@
 'use client';
 
 import { cn } from '@/lib/utils';
+import { AnimatedBackground } from '@/components/ui/animated-background';
 
 interface Tab {
   id: string;
@@ -30,23 +31,39 @@ export function BudgetTabs({
   return (
     <div className="border-b bg-white">
       <div className="px-4 sm:px-6 lg:px-12">
-        <nav className="-mb-px flex space-x-8" aria-label="Budget tabs">
-          {tabs.map((tab) => (
-            <button
-              key={tab.id}
-              type="button"
-              onClick={() => onTabChange?.(tab.id)}
-              className={cn(
-                'group inline-flex items-center gap-2 border-b-2 py-4 px-1 text-sm font-medium transition-colors',
-                activeTab === tab.id
-                  ? 'border-brand text-brand'
-                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
-              )}
-              aria-current={activeTab === tab.id ? 'page' : undefined}
+        <nav className="flex py-3" aria-label="Budget tabs">
+          <div className="rounded-lg bg-gray-100 p-1 dark:bg-zinc-800">
+            <AnimatedBackground
+              defaultValue={activeTab}
+              className="rounded-md bg-white shadow-sm dark:bg-zinc-700"
+              transition={{
+                ease: 'easeInOut',
+                duration: 0.2,
+              }}
+              onValueChange={(value) => {
+                if (value) {
+                  onTabChange?.(value);
+                }
+              }}
             >
-              <span>{tab.label}</span>
-            </button>
-          ))}
+              {tabs.map((tab) => (
+                <button
+                  key={tab.id}
+                  data-id={tab.id}
+                  type="button"
+                  aria-label={tab.label}
+                  className={cn(
+                    'inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-colors',
+                    'text-gray-700 dark:text-gray-200',
+                    'hover:text-gray-900 dark:hover:text-white'
+                  )}
+                  aria-current={activeTab === tab.id ? 'page' : undefined}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </AnimatedBackground>
+          </div>
         </nav>
       </div>
     </div>

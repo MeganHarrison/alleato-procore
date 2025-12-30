@@ -17,42 +17,72 @@ export default function NewCommitmentPage() {
   const type = searchParams.get('type') || 'subcontract'; // 'subcontract' or 'purchase_order'
 
   const handleSubmitSubcontract = async (data: CreateSubcontractInput) => {
-    try {
-      const response = await fetch(`/api/projects/${projectId}/subcontracts`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
+    console.warn('[New Commitment Page] Starting subcontract submission for project:', projectId);
+    console.warn('[New Commitment Page] Payload:', JSON.stringify(data, null, 2));
+
+    const response = await fetch(`/api/projects/${projectId}/subcontracts`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    const responseData = await response.json();
+    console.warn('[New Commitment Page] Response status:', response.status);
+    console.warn('[New Commitment Page] Response data:', JSON.stringify(responseData, null, 2));
+
+    if (!response.ok) {
+      // Create a detailed error with response info
+      const errorMessage = responseData.error || 'Failed to create subcontract';
+      const detailedError = new Error(errorMessage) as Error & { details?: unknown; status?: number };
+      detailedError.details = responseData.details;
+      detailedError.status = response.status;
+      console.error('[New Commitment Page] Submission failed:', {
+        status: response.status,
+        error: errorMessage,
+        details: responseData.details,
       });
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create subcontract');
-      }
-
-      const result = await response.json();
-      console.warn('Subcontract created successfully:', result.data);
-
-      // Navigate back to commitments page
-      router.push(`/${projectId}/commitments`);
-    } catch (err) {
-      console.error('Error creating subcontract:', err);
-      alert(err instanceof Error ? err.message : 'Failed to create subcontract');
+      throw detailedError;
     }
+
+    console.warn('[New Commitment Page] Subcontract created successfully:', responseData.data);
+
+    // Navigate back to commitments page
+    router.push(`/${projectId}/commitments`);
   };
 
   const handleSubmitPurchaseOrder = async (data: CreatePurchaseOrderInput) => {
-    try {
-      // TODO: Implement API call to create purchase order
-      console.warn('Purchase order submission not yet implemented:', data);
+    console.warn('[New Commitment Page] Starting purchase order submission for project:', projectId);
+    console.warn('[New Commitment Page] Payload:', JSON.stringify(data, null, 2));
 
-      // For now, just navigate back to commitments page
-      router.push(`/${projectId}/commitments`);
-    } catch (err) {
-      console.error('Error creating purchase order:', err);
-      alert(err instanceof Error ? err.message : 'Failed to create purchase order');
+    const response = await fetch(`/api/projects/${projectId}/purchase-orders`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    });
+
+    const responseData = await response.json();
+    console.warn('[New Commitment Page] Response status:', response.status);
+    console.warn('[New Commitment Page] Response data:', JSON.stringify(responseData, null, 2));
+
+    if (!response.ok) {
+      const errorMessage = responseData.error || 'Failed to create purchase order';
+      const detailedError = new Error(errorMessage) as Error & { details?: unknown; status?: number };
+      detailedError.details = responseData.details;
+      detailedError.status = response.status;
+      console.error('[New Commitment Page] Submission failed:', {
+        status: response.status,
+        error: errorMessage,
+        details: responseData.details,
+      });
+      throw detailedError;
     }
+
+    console.warn('[New Commitment Page] Purchase order created successfully:', responseData.data);
+    router.push(`/${projectId}/commitments`);
   };
 
   const handleCancel = () => {

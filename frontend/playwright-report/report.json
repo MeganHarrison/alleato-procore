@@ -11,7 +11,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 1
+      "actualWorkers": 7
     },
     "preserveOutput": "always",
     "reporter": [
@@ -44,7 +44,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 7
         },
         "id": "setup",
         "name": "setup",
@@ -53,14 +53,14 @@
         "testMatch": [
           "/.*\\.setup\\.ts/"
         ],
-        "timeout": 90000
+        "timeout": 60000
       },
       {
         "outputDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 7
         },
         "id": "chromium",
         "name": "chromium",
@@ -69,14 +69,14 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 90000
+        "timeout": 60000
       },
       {
         "outputDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 7
         },
         "id": "debug",
         "name": "debug",
@@ -85,7 +85,7 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 90000
+        "timeout": 60000
       }
     ],
     "shard": null,
@@ -102,88 +102,43 @@
   },
   "suites": [
     {
-      "title": "e2e/budget-save-auth-test.spec.ts",
-      "file": "e2e/budget-save-auth-test.spec.ts",
+      "title": "auth.setup.ts",
+      "file": "auth.setup.ts",
       "column": 0,
       "line": 0,
       "specs": [
         {
-          "title": "Original Budget save with authentication",
+          "title": "authenticate",
           "ok": true,
           "tags": [],
           "tests": [
             {
-              "timeout": 90000,
+              "timeout": 60000,
               "annotations": [],
               "expectedStatus": "passed",
-              "projectId": "debug",
-              "projectName": "debug",
+              "projectId": "setup",
+              "projectName": "setup",
               "results": [
                 {
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 14241,
+                  "duration": 5787,
                   "errors": [],
                   "stdout": [
                     {
-                      "text": "Found editable cells count: \u001b[33m45\u001b[39m\n"
-                    },
-                    {
-                      "text": "Initial value: $440,226.00\n"
-                    },
-                    {
-                      "text": "Sidebar visible: \u001b[33mtrue\u001b[39m\n"
-                    },
-                    {
-                      "text": "Text/number input count: \u001b[33m3\u001b[39m\n"
-                    },
-                    {
-                      "text": "Input 0: value=\"1\", disabled=true\n"
-                    },
-                    {
-                      "text": "Input 1: value=\"$440,226.00\", disabled=true\n"
-                    },
-                    {
-                      "text": "Input 2: value=\"$440,226.00\", disabled=false\n"
-                    },
-                    {
-                      "text": "Clicked calculated radio\n"
-                    },
-                    {
-                      "text": "Set quantity to 5\n"
-                    },
-                    {
-                      "text": "Cost input 0: value=\"$440,226.00\", disabled=false\n"
-                    },
-                    {
-                      "text": "Set unit cost to 100\n"
-                    },
-                    {
-                      "text": "Clicked save\n"
-                    },
-                    {
-                      "text": "Response status: \u001b[33m404\u001b[39m\n"
-                    },
-                    {
-                      "text": "Response body: {\"error\":\"Budget line item not found\"}\n"
-                    },
-                    {
-                      "text": "Toast count: \u001b[33m1\u001b[39m\n"
-                    },
-                    {
-                      "text": "Toast 0: Budget line item not found\n"
+                      "text": "Auth setup successful: { cookieCount: \u001b[33m1\u001b[39m, hasAuthCookie: \u001b[33mtrue\u001b[39m }\n"
                     }
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2025-12-30T10:30:56.913Z",
+                  "startTime": "2025-12-30T17:26:30.647Z",
                   "annotations": [],
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-budget-save-auth-test--bfe54-et-save-with-authentication-debug/test-finished-1.png"
+                      "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/auth.setup.ts-authenticate-setup/test-finished-1.png"
                     }
                   ]
                 }
@@ -191,19 +146,396 @@
               "status": "expected"
             }
           ],
-          "id": "fdbf05055a222a0c1172-7f1c28a13e7073d97484",
-          "file": "e2e/budget-save-auth-test.spec.ts",
-          "line": 3,
-          "column": 5
+          "id": "17e3fe6f4d9d8bd79c6b-60f085b113a677673906",
+          "file": "auth.setup.ts",
+          "line": 6,
+          "column": 6
+        }
+      ]
+    },
+    {
+      "title": "e2e/procore-docs-chat.spec.ts",
+      "file": "e2e/procore-docs-chat.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Procore Docs Chat",
+          "file": "e2e/procore-docs-chat.spec.ts",
+          "line": 9,
+          "column": 6,
+          "specs": [
+            {
+              "title": "should show floating chat button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5169,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-30T17:26:37.144Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-procore-docs-chat-Proc-11d93-d-show-floating-chat-button-chromium/test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b0fafe9c698cb03cfa7-41434d8746d1be78c18b",
+              "file": "e2e/procore-docs-chat.spec.ts",
+              "line": 15,
+              "column": 7
+            },
+            {
+              "title": "should open chat dialog when button clicked",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 5270,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-30T17:26:37.132Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-procore-docs-chat-Proc-6361d--dialog-when-button-clicked-chromium/test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b0fafe9c698cb03cfa7-e89d15f1293a6834f3d1",
+              "file": "e2e/procore-docs-chat.spec.ts",
+              "line": 25,
+              "column": 7
+            },
+            {
+              "title": "should show empty state message initially",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 2,
+                      "status": "passed",
+                      "duration": 5217,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-30T17:26:37.115Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-procore-docs-chat-Proc-a1bf7-pty-state-message-initially-chromium/test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b0fafe9c698cb03cfa7-4d48134b32352d458c3b",
+              "file": "e2e/procore-docs-chat.spec.ts",
+              "line": 41,
+              "column": 7
+            },
+            {
+              "title": "should have input field and send button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 5184,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-30T17:26:37.123Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-procore-docs-chat-Proc-56987-input-field-and-send-button-chromium/test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b0fafe9c698cb03cfa7-4394cf885e021be3fb86",
+              "file": "e2e/procore-docs-chat.spec.ts",
+              "line": 53,
+              "column": 7
+            },
+            {
+              "title": "should send a question and receive an answer",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 4,
+                      "status": "passed",
+                      "duration": 11124,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-30T17:26:37.138Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-procore-docs-chat-Proc-1f7c8-stion-and-receive-an-answer-chromium/test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b0fafe9c698cb03cfa7-98accb8667eb64e1c510",
+              "file": "e2e/procore-docs-chat.spec.ts",
+              "line": 69,
+              "column": 7
+            },
+            {
+              "title": "should show sources with links",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 6,
+                      "parallelIndex": 5,
+                      "status": "passed",
+                      "duration": 10269,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-30T17:26:37.139Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-procore-docs-chat-Proc-26571-uld-show-sources-with-links-chromium/test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b0fafe9c698cb03cfa7-d70acc7f4e7405dcb305",
+              "file": "e2e/procore-docs-chat.spec.ts",
+              "line": 98,
+              "column": 7
+            },
+            {
+              "title": "should handle multiple questions in sequence",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 7,
+                      "parallelIndex": 6,
+                      "status": "passed",
+                      "duration": 16143,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-30T17:26:37.204Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-procore-docs-chat-Proc-f64cd-tiple-questions-in-sequence-chromium/test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b0fafe9c698cb03cfa7-7cb19cd4a5de44984f83",
+              "file": "e2e/procore-docs-chat.spec.ts",
+              "line": 125,
+              "column": 7
+            },
+            {
+              "title": "should close dialog when clicking close button",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 3672,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-30T17:26:42.550Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-procore-docs-chat-Proc-0f9a1--when-clicking-close-button-chromium/test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b0fafe9c698cb03cfa7-63da375d2b2645f6d1d9",
+              "file": "e2e/procore-docs-chat.spec.ts",
+              "line": 150,
+              "column": 7
+            },
+            {
+              "title": "should disable send button when input is empty",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "passed",
+                      "duration": 3326,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-12-30T17:26:42.567Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-procore-docs-chat-Proc-c5313--button-when-input-is-empty-chromium/test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "0b0fafe9c698cb03cfa7-3cc89cb6d908c2b82c70",
+              "file": "e2e/procore-docs-chat.spec.ts",
+              "line": 168,
+              "column": 7
+            }
+          ]
         }
       ]
     }
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-12-30T10:30:56.565Z",
-    "duration": 14789.714000000002,
-    "expected": 1,
+    "startTime": "2025-12-30T17:26:29.471Z",
+    "duration": 24151.013,
+    "expected": 10,
     "skipped": 0,
     "unexpected": 0,
     "flaky": 0

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { CreateSubcontractSchema } from '@/lib/schemas/create-subcontract-schema';
+import { mapFormToInsert } from '@/lib/db/subcontracts';
 
 /**
  * GET /api/projects/[id]/subcontracts
@@ -57,8 +58,10 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id: projectId } = await params;
+  console.warn(`[Subcontracts API] POST /api/projects/${projectId}/subcontracts - Starting`);
+
   try {
-    const { id: projectId } = await params;
     const supabase = await createClient();
 
     // Get current user
@@ -67,19 +70,72 @@ export async function POST(
       error: userError,
     } = await supabase.auth.getUser();
 
-    if (userError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    if (userError) {
+      console.error('[Subcontracts API] Auth error:', userError);
+      return NextResponse.json(
+        { error: 'Authentication failed', details: userError.message },
+        { status: 401 }
+      );
     }
+
+    if (!user) {
+      console.error('[Subcontracts API] No authenticated user found');
+      return NextResponse.json(
+        { error: 'Unauthorized - no user session. Please log in again.' },
+        { status: 401 }
+      );
+    }
+
+    console.warn(`[Subcontracts API] Authenticated user: ${user.email} (${user.id})`);
+
+    // Check if user has access to this project
+    const { data: projectAccess, error: accessError } = await supabase
+      .from('project_users')
+      .select('role')
+      .eq('project_id', parseInt(projectId))
+      .eq('user_id', user.id)
+      .single();
+
+    if (accessError || !projectAccess) {
+      console.error('[Subcontracts API] Project access check failed:', accessError);
+      return NextResponse.json(
+        {
+          error: 'Access denied - you do not have permission to create subcontracts for this project',
+          details: `User ${user.email} is not a member of project ${projectId}`,
+        },
+        { status: 403 }
+      );
+    }
+
+    const allowedRoles = ['admin', 'project_manager', 'editor'];
+    if (!allowedRoles.includes(projectAccess.role)) {
+      console.error(`[Subcontracts API] Insufficient role: ${projectAccess.role}`);
+      return NextResponse.json(
+        {
+          error: 'Insufficient permissions - you need admin, project_manager, or editor role to create subcontracts',
+          details: `Your current role is: ${projectAccess.role}`,
+        },
+        { status: 403 }
+      );
+    }
+
+    console.warn(`[Subcontracts API] User role: ${projectAccess.role} - authorized`);
 
     // Parse and validate request body
     const body = await request.json();
+    console.warn('[Subcontracts API] Request body received:', JSON.stringify(body, null, 2));
+
     const validationResult = CreateSubcontractSchema.safeParse(body);
 
     if (!validationResult.success) {
+      console.error('[Subcontracts API] Validation failed:', validationResult.error.issues);
       return NextResponse.json(
         {
-          error: 'Validation failed',
-          details: validationResult.error.issues,
+          error: 'Validation failed - please check your input',
+          details: validationResult.error.issues.map(issue => ({
+            field: issue.path.join('.'),
+            message: issue.message,
+          })),
         },
         { status: 400 }
       );
@@ -87,30 +143,11 @@ export async function POST(
 
     const data = validationResult.data;
 
-    // Start a transaction by creating the subcontract first
-    const subcontractData = {
-      project_id: parseInt(projectId),
-      contract_number: data.contractNumber || undefined,
-      contract_company_id: data.contractCompanyId || null,
-      title: data.title || null,
-      status: data.status || 'Draft',
-      executed: data.executed ?? false,
-      default_retainage_percent: data.defaultRetainagePercent?.toString() || null,
-      description: data.description || null,
-      inclusions: data.inclusions || null,
-      exclusions: data.exclusions || null,
-      start_date: data.dates?.startDate || null,
-      estimated_completion_date: data.dates?.estimatedCompletionDate || null,
-      actual_completion_date: data.dates?.actualCompletionDate || null,
-      contract_date: data.dates?.contractDate || null,
-      signed_contract_received_date: data.dates?.signedContractReceivedDate || null,
-      issued_on_date: data.dates?.issuedOnDate || null,
-      is_private: data.privacy?.isPrivate ?? true,
-      non_admin_user_ids: data.privacy?.nonAdminUserIds || [],
-      allow_non_admin_view_sov_items: data.privacy?.allowNonAdminViewSovItems ?? false,
-      invoice_contact_ids: data.invoiceContacts || [],
-      created_by: user.id,
-    };
+    // Use the typed mapper - this is the ONLY place camelCase -> snake_case happens
+    // If you get schema errors, fix them in src/lib/db/subcontracts.ts
+    const subcontractData = mapFormToInsert(data, parseInt(projectId), user.id);
+
+    console.warn('[Subcontracts API] Inserting subcontract:', JSON.stringify(subcontractData, null, 2));
 
     const { data: subcontract, error: subcontractError } = await supabase
       .from('subcontracts')
@@ -119,15 +156,36 @@ export async function POST(
       .single();
 
     if (subcontractError) {
-      console.error('Error creating subcontract:', subcontractError);
+      console.error('[Subcontracts API] Database insert error:', subcontractError);
+
+      // Provide more helpful error messages based on error code
+      let userMessage = 'Failed to create subcontract';
+      if (subcontractError.code === '23505') {
+        userMessage = 'A subcontract with this contract number already exists for this project';
+      } else if (subcontractError.code === '42501') {
+        userMessage = 'Permission denied - RLS policy blocked the insert. Check your project permissions.';
+      } else if (subcontractError.code === '23503') {
+        userMessage = 'Invalid reference - contract company or other referenced record does not exist';
+      }
+
       return NextResponse.json(
-        { error: 'Failed to create subcontract', details: subcontractError.message },
+        {
+          error: userMessage,
+          details: {
+            code: subcontractError.code,
+            message: subcontractError.message,
+            hint: subcontractError.hint,
+          },
+        },
         { status: 500 }
       );
     }
 
+    console.warn('[Subcontracts API] Subcontract created successfully:', subcontract.id);
+
     // Create SOV line items if provided
     if (data.sov && data.sov.length > 0) {
+      console.warn(`[Subcontracts API] Creating ${data.sov.length} SOV line items`);
       const sovItems = data.sov.map((item, index) => ({
         subcontract_id: subcontract.id,
         line_number: item.lineNumber || index + 1,
@@ -144,14 +202,21 @@ export async function POST(
         .insert(sovItems);
 
       if (sovError) {
-        console.error('Error creating SOV items:', sovError);
+        console.error('[Subcontracts API] Error creating SOV items:', sovError);
         // Rollback: delete the subcontract we just created
         await supabase.from('subcontracts').delete().eq('id', subcontract.id);
         return NextResponse.json(
-          { error: 'Failed to create SOV items', details: sovError.message },
+          {
+            error: 'Failed to create schedule of values line items',
+            details: {
+              code: sovError.code,
+              message: sovError.message,
+            },
+          },
           { status: 500 }
         );
       }
+      console.warn('[Subcontracts API] SOV items created successfully');
     }
 
     // Fetch the complete subcontract with totals
@@ -162,22 +227,27 @@ export async function POST(
       .single();
 
     if (fetchError) {
-      console.error('Error fetching complete subcontract:', fetchError);
+      console.error('[Subcontracts API] Error fetching complete subcontract:', fetchError);
       // Don't fail here, we already created successfully
+      console.warn('[Subcontracts API] Returning basic subcontract data');
       return NextResponse.json({
         data: subcontract,
         message: 'Subcontract created successfully',
       });
     }
 
+    console.warn('[Subcontracts API] Request completed successfully');
     return NextResponse.json({
       data: completeSubcontract,
       message: 'Subcontract created successfully',
     });
   } catch (error) {
-    console.error('Unexpected error:', error);
+    console.error('[Subcontracts API] Unexpected error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      {
+        error: 'Internal server error - an unexpected error occurred',
+        details: error instanceof Error ? error.message : 'Unknown error',
+      },
       { status: 500 }
     );
   }

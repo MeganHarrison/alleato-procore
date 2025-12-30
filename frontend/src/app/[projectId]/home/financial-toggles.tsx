@@ -7,7 +7,27 @@ import { Button } from '@/components/ui/button'
 import { Database } from '@/types/database.types'
 
 type Project = Database['public']['Tables']['projects']['Row']
-type Commitment = Database['public']['Tables']['commitments']['Row']
+// Commitment is from the commitments_unified view (combines subcontracts + purchase_orders)
+interface Commitment {
+  id: string
+  project_id: number
+  number: string
+  contract_company_id: string | null
+  title: string | null
+  status: string
+  executed: boolean
+  type: 'subcontract' | 'purchase_order'
+  contract_amount?: number
+  vendor_id?: string
+  executed_at?: string
+  retention_percentage: number | null
+  start_date: string | null
+  executed_date: string | null
+  description: string | null
+  created_at: string
+  updated_at: string
+  original_amount?: number
+}
 type Contract = Database['public']['Tables']['financial_contracts']['Row']
 
 interface FinancialTogglesProps {

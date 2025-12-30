@@ -87,36 +87,31 @@ export interface Invoice {
   notes?: string;
 }
 
+// Commitment represents data from the commitments_unified view
+// which combines subcontracts and purchase_orders
 export interface Commitment {
   id: string;
+  project_id: number;
   number: string;
-  contract_company_id: string;
-  title: string;
-  description?: string;
-  status: 'draft' | 'sent' | 'pending' | 'approved' | 'executed' | 'closed' | 'void';
+  contract_company_id: string | null;
+  title: string | null;
+  status: string;
+  executed: boolean;
+  type: 'subcontract' | 'purchase_order';
+  retention_percentage: number | null;
+  start_date: string | null;
+  executed_date: string | null;
+  description: string | null;
+  created_at: string;
+  updated_at: string;
   original_amount: number;
-  accounting_method: 'amount' | 'unit' | 'percent';
-  retention_percentage?: number;
-  executed_date?: string;
-  start_date?: string;
-  substantial_completion_date?: string;
-  vendor_invoice_number?: string;
-  signed_received_date?: string;
-  assignee_id?: string;
-  private: boolean;
-  created_by: string;
   approved_change_orders: number;
   revised_contract_amount: number;
   billed_to_date: number;
   balance_to_finish: number;
-  created_at: string;
-  updated_at: string;
-  // Relations
-  contract_company?: Company;
+  // Relations (optional - may be joined)
+  contract_company?: Company | null;
   assignee?: User;
-  line_items?: CommitmentLineItem[];
-  change_orders?: ChangeOrder[];
-  invoices?: Invoice[];
 }
 
 // Response types

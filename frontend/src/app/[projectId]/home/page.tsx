@@ -87,9 +87,9 @@ export default async function ProjectHomePage({
       .order('log_date', { ascending: false })
       .limit(5),
 
-    // Fetch commitments
+    // Fetch commitments from unified view (combines subcontracts + purchase_orders)
     supabase
-      .from('commitments')
+      .from('commitments_unified')
       .select('*')
       .eq('project_id', numericProjectId)
       .order('created_at', { ascending: false }),
@@ -134,7 +134,25 @@ export default async function ProjectHomePage({
   const changeOrders = changeOrdersResult.data || []
   const rfis = rfisResult.data || []
   const dailyLogs = dailyLogsResult.data || []
-  const commitments = commitmentsResult.data || []
+  // Cast to expected format since commitments_unified is a view
+  const commitments = (commitmentsResult.data || []) as Array<{
+    id: string
+    project_id: number
+    number: string
+    contract_company_id: string | null
+    title: string | null
+    status: string
+    executed: boolean
+    type: 'subcontract' | 'purchase_order'
+    contract_amount?: number
+    retention_percentage: number | null
+    start_date: string | null
+    executed_date: string | null
+    description: string | null
+    created_at: string
+    updated_at: string
+    original_amount?: number
+  }>
   const contracts = contractsResult.data || []
   const budget = budgetResult.data || []
   const changeEvents = changeEventsResult.data || []
