@@ -11,6 +11,7 @@ import {
   SidebarSeparator,
 } from "@/components/ui/sidebar"
 import { ProjectSetupStepper, type Step } from "@/components/project-setup-stepper"
+import { SourcesList, type Source } from "@/components/sources-list"
 
 interface ProjectStep {
   id: string
@@ -20,6 +21,7 @@ interface ProjectStep {
 
 interface ProjectSidebarProps extends React.ComponentProps<typeof Sidebar> {
   projectSteps?: ProjectStep[]
+  sources?: Source[]
 }
 
 // Map step IDs to their corresponding routes
@@ -45,6 +47,7 @@ const defaultSteps: ProjectStep[] = [
 
 export function ProjectSidebar({
   projectSteps = defaultSteps,
+  sources = [],
   ...props
 }: ProjectSidebarProps) {
   const router = useRouter()
@@ -116,6 +119,14 @@ export function ProjectSidebar({
             />
           </div>
         </div>
+
+        {/* Sources Section */}
+        {sources.length > 0 && (
+          <>
+            <SidebarSeparator className="mx-0 my-6" />
+            <SourcesList sources={sources} />
+          </>
+        )}
       </SidebarContent>
     </Sidebar>
   )

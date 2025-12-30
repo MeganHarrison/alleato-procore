@@ -11,6 +11,7 @@ import {
   MorphingDialogContainer,
 } from '@/components/ui/morphing-dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import { MorphingDialogBasicOne } from '@/components/morphing-dialog-basic-one';
 
 export default function MorphingDialogDemoPage() {
   return (
@@ -19,11 +20,12 @@ export default function MorphingDialogDemoPage() {
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Morphing Dialog Demo</h1>
           <p className="mt-2 text-gray-600">
-            Click the book card below to see the morphing dialog animation
+            Click the cards below to see the morphing dialog animations
           </p>
         </div>
 
-        <div className="flex items-center justify-center py-20">
+        <div className="flex flex-wrap items-center justify-center gap-8 py-20">
+          <MorphingDialogBasicOne />
           <MorphingDialogBasicTwo />
         </div>
       </div>

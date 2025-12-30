@@ -1,14 +1,15 @@
 "use client"
 
-import { cn } from "@/lib/utils"
+import { forwardRef, type KeyboardEvent } from "react"
+
+import { Textarea } from "@/components/ui/textarea"
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip"
-import { Textarea } from "@/components/ui/textarea"
-import { forwardRef, KeyboardEvent } from "react"
+import { cn } from "@/lib/utils"
 
 interface PromptInputProps extends React.HTMLAttributes<HTMLDivElement> {
   isLoading?: boolean
@@ -18,7 +19,7 @@ interface PromptInputProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const PromptInput = forwardRef<HTMLDivElement, PromptInputProps>(
-  ({ className, children, ...props }, ref) => (
+  ({ className, children, isLoading, value, onValueChange, onSubmit, ...props }, ref) => (
     <div ref={ref} className={cn("relative", className)} {...props}>
       {children}
     </div>

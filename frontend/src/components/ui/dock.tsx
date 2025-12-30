@@ -152,4 +152,45 @@ const DockIcon = ({
 
 DockIcon.displayName = "DockIcon"
 
-export { Dock, DockIcon, dockVariants }
+export interface DockItemProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string
+  children?: React.ReactNode
+}
+
+const DockItem = React.forwardRef<HTMLDivElement, DockItemProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <div ref={ref} className={cn("relative", className)} {...props}>
+        {children}
+      </div>
+    )
+  }
+)
+
+DockItem.displayName = "DockItem"
+
+export interface DockLabelProps extends React.HTMLAttributes<HTMLDivElement> {
+  className?: string
+  children?: React.ReactNode
+}
+
+const DockLabel = React.forwardRef<HTMLDivElement, DockLabelProps>(
+  ({ className, children, ...props }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={cn(
+          "absolute -top-8 left-1/2 -translate-x-1/2 whitespace-nowrap rounded bg-black/75 px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100",
+          className
+        )}
+        {...props}
+      >
+        {children}
+      </div>
+    )
+  }
+)
+
+DockLabel.displayName = "DockLabel"
+
+export { Dock, DockIcon, DockItem, DockLabel, dockVariants }
