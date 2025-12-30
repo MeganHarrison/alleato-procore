@@ -102,13 +102,13 @@ export function ProjectAccordions({
           viewport={{ once: true }}
           transition={{ delay: 0 * 0.1 }}
         >
-        <AccordionItem value="meetings" className="px-2 bg-white">
-          <AccordionTrigger className="hover:no-underline">
+        <AccordionItem value="meetings" className="bg-white border-b border-neutral-100">
+          <AccordionTrigger className="hover:no-underline py-4 px-0">
             <div className="flex items-center justify-between w-full mr-4">
               <div className="flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-brand" />
-                <span className="font-medium">Meetings</span>
-                <Badge variant="secondary">{meetings.length}</Badge>
+                <Calendar className="h-4 w-4 text-brand flex-shrink-0" />
+                <span className="text-sm font-medium text-neutral-900">Meetings</span>
+                <span className="text-sm font-medium tabular-nums text-neutral-400">{meetings.length}</span>
               </div>
               <Link
                 href={`/${projectId}/meetings`}
@@ -153,13 +153,13 @@ export function ProjectAccordions({
           viewport={{ once: true }}
           transition={{ delay: 1 * 0.1 }}
         >
-        <AccordionItem value="budget" className="px-2 bg-white">
-          <AccordionTrigger className="hover:no-underline">
+        <AccordionItem value="budget" className="bg-white border-b border-neutral-100">
+          <AccordionTrigger className="hover:no-underline py-4 px-0">
             <div className="flex items-center justify-between w-full mr-4">
               <div className="flex items-center gap-2">
-                <DollarSign className="h-5 w-5 text-brand" />
-                <span className="font-medium">Budget</span>
-                <Badge variant="secondary">{budget.length} items</Badge>
+                <DollarSign className="h-4 w-4 text-brand flex-shrink-0" />
+                <span className="text-sm font-medium text-neutral-900">Budget</span>
+                <span className="text-sm font-medium tabular-nums text-neutral-400">{budget.length} items</span>
               </div>
               <Link
                 href={`/${projectId}/budget`}
@@ -218,13 +218,13 @@ export function ProjectAccordions({
           viewport={{ once: true }}
           transition={{ delay: 2 * 0.1 }}
         >
-        <AccordionItem value="prime-contracts" className="px-2 bg-white">
-          <AccordionTrigger className="hover:no-underline">
+        <AccordionItem value="prime-contracts" className="bg-white border-b border-neutral-100">
+          <AccordionTrigger className="hover:no-underline py-4 px-0">
             <div className="flex items-center justify-between w-full mr-4">
               <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-brand" />
-                <span className="font-medium">Prime Contracts</span>
-                <Badge variant="secondary">{primeContracts.length}</Badge>
+                <FileText className="h-4 w-4 text-brand flex-shrink-0" />
+                <span className="text-sm font-medium text-neutral-900">Prime Contracts</span>
+                <span className="text-sm font-medium tabular-nums text-neutral-400">{primeContracts.length}</span>
               </div>
               <Link
                 href={`/${projectId}/contracts`}
@@ -275,13 +275,13 @@ export function ProjectAccordions({
           viewport={{ once: true }}
           transition={{ delay: 3 * 0.1 }}
         >
-        <AccordionItem value="change-orders" className="px-2 bg-white">
-          <AccordionTrigger className="hover:no-underline">
+        <AccordionItem value="change-orders" className="bg-white border-b border-neutral-100">
+          <AccordionTrigger className="hover:no-underline py-4 px-0">
             <div className="flex items-center justify-between w-full mr-4">
               <div className="flex items-center gap-2">
-                <AlertCircle className="h-5 w-5 text-brand" />
-                <span className="font-medium">Change Orders</span>
-                <Badge variant="secondary">{changeOrders.length}</Badge>
+                <AlertCircle className="h-4 w-4 text-brand flex-shrink-0" />
+                <span className="text-sm font-medium text-neutral-900">Change Orders</span>
+                <span className="text-sm font-medium tabular-nums text-neutral-400">{changeOrders.length}</span>
               </div>
               <Link
                 href={`/${projectId}/change-orders`}
@@ -329,13 +329,13 @@ export function ProjectAccordions({
           viewport={{ once: true }}
           transition={{ delay: 4 * 0.1 }}
         >
-        <AccordionItem value="change-events" className="border px-2 bg-white">
-          <AccordionTrigger className="hover:no-underline">
+        <AccordionItem value="change-events" className="bg-white border-b border-neutral-100">
+          <AccordionTrigger className="hover:no-underline py-4 px-0">
             <div className="flex items-center justify-between w-full mr-4">
               <div className="flex items-center gap-2">
-                <AlertTriangle className="h-5 w-5 text-brand" />
-                <span className="font-medium">Change Events</span>
-                <Badge variant="secondary">{changeEvents.length}</Badge>
+                <AlertTriangle className="h-4 w-4 text-brand flex-shrink-0" />
+                <span className="text-sm font-medium text-neutral-900">Change Events</span>
+                <span className="text-sm font-medium tabular-nums text-neutral-400">{changeEvents.length}</span>
               </div>
               <Link
                 href={`/${projectId}/change-events`}
@@ -370,13 +370,13 @@ export function ProjectAccordions({
           viewport={{ once: true }}
           transition={{ delay: 5 * 0.1 }}
         >
-        <AccordionItem value="schedule" className="border px-2 bg-white">
-          <AccordionTrigger className="hover:no-underline">
+        <AccordionItem value="schedule" className="bg-white border-b border-neutral-100">
+          <AccordionTrigger className="hover:no-underline py-4 px-0">
             <div className="flex items-center justify-between w-full mr-4">
               <div className="flex items-center gap-2">
-                <Clock className="h-5 w-5 text-brand" />
-                <span className="font-medium">Schedule</span>
-                <Badge variant="secondary">{schedule.length}</Badge>
+                <Clock className="h-4 w-4 text-brand flex-shrink-0" />
+                <span className="text-sm font-medium text-neutral-900">Schedule</span>
+                <span className="text-sm font-medium tabular-nums text-neutral-400">{schedule.length}</span>
               </div>
               <Link
                 href={`/${projectId}/schedule`}
@@ -417,13 +417,13 @@ export function ProjectAccordions({
           viewport={{ once: true }}
           transition={{ delay: 6 * 0.1 }}
         >
-        <AccordionItem value="sov" className="border px-2 bg-white">
-          <AccordionTrigger className="hover:no-underline">
+        <AccordionItem value="sov" className="bg-white border-b border-neutral-100">
+          <AccordionTrigger className="hover:no-underline py-4 px-0">
             <div className="flex items-center justify-between w-full mr-4">
               <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-brand" />
-                <span className="font-medium">Schedule of Values</span>
-                <Badge variant="secondary">{sov.length}</Badge>
+                <FileText className="h-4 w-4 text-brand flex-shrink-0" />
+                <span className="text-sm font-medium text-neutral-900">Schedule of Values</span>
+                <span className="text-sm font-medium tabular-nums text-neutral-400">{sov.length}</span>
               </div>
               <Link
                 href={`/${projectId}/sov`}
@@ -472,13 +472,13 @@ export function ProjectAccordions({
           viewport={{ once: true }}
           transition={{ delay: 7 * 0.1 }}
         >
-        <AccordionItem value="rfis" className="border px-2 bg-white">
-          <AccordionTrigger className="hover:no-underline">
+        <AccordionItem value="rfis" className="bg-white border-b border-neutral-100">
+          <AccordionTrigger className="hover:no-underline py-4 px-0">
             <div className="flex items-center justify-between w-full mr-4">
               <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-brand" />
-                <span className="font-medium">RFIs</span>
-                <Badge variant="secondary">{rfis.length}</Badge>
+                <FileText className="h-4 w-4 text-brand flex-shrink-0" />
+                <span className="text-sm font-medium text-neutral-900">RFIs</span>
+                <span className="text-sm font-medium tabular-nums text-neutral-400">{rfis.length}</span>
                 {rfis.filter(r => r.status === 'open').length > 0 && (
                   <Badge variant="destructive" className="text-xs">
                     {rfis.filter(r => r.status === 'open').length} Open
@@ -533,13 +533,13 @@ export function ProjectAccordions({
           viewport={{ once: true }}
           transition={{ delay: 8 * 0.1 }}
         >
-        <AccordionItem value="tasks" className="border px-2 bg-white">
-          <AccordionTrigger className="hover:no-underline">
+        <AccordionItem value="tasks" className="bg-white border-b border-neutral-100">
+          <AccordionTrigger className="hover:no-underline py-4 px-0">
             <div className="flex items-center justify-between w-full mr-4">
               <div className="flex items-center gap-2">
-                <CheckSquare className="h-5 w-5 text-brand" />
-                <span className="font-medium">Tasks</span>
-                <Badge variant="secondary">{tasks.length}</Badge>
+                <CheckSquare className="h-4 w-4 text-brand flex-shrink-0" />
+                <span className="text-sm font-medium text-neutral-900">Tasks</span>
+                <span className="text-sm font-medium tabular-nums text-neutral-400">{tasks.length}</span>
                 {tasks.filter(t => t.status !== 'completed').length > 0 && (
                   <Badge variant="destructive" className="text-xs">
                     {tasks.filter(t => t.status !== 'completed').length} Active
@@ -596,13 +596,13 @@ export function ProjectAccordions({
           viewport={{ once: true }}
           transition={{ delay: 9 * 0.1 }}
         >
-        <AccordionItem value="insights" className="border px-2 bg-white">
-          <AccordionTrigger className="hover:no-underline">
+        <AccordionItem value="insights" className="bg-white border-b border-neutral-100">
+          <AccordionTrigger className="hover:no-underline py-4 px-0">
             <div className="flex items-center justify-between w-full mr-4">
               <div className="flex items-center gap-2">
-                <Lightbulb className="h-5 w-5 text-brand" />
-                <span className="font-medium">AI Insights</span>
-                <Badge variant="secondary">{insights.length}</Badge>
+                <Lightbulb className="h-4 w-4 text-brand flex-shrink-0" />
+                <span className="text-sm font-medium text-neutral-900">AI Insights</span>
+                <span className="text-sm font-medium tabular-nums text-neutral-400">{insights.length}</span>
               </div>
               <Link
                 href={`/${projectId}/insights`}
@@ -647,13 +647,13 @@ export function ProjectAccordions({
           viewport={{ once: true }}
           transition={{ delay: 10 * 0.1 }}
         >
-        <AccordionItem value="submittals" className="border px-2 bg-white">
-          <AccordionTrigger className="hover:no-underline">
+        <AccordionItem value="submittals" className="bg-white border-b border-neutral-100">
+          <AccordionTrigger className="hover:no-underline py-4 px-0">
             <div className="flex items-center justify-between w-full mr-4">
               <div className="flex items-center gap-2">
-                <Send className="h-5 w-5 text-brand" />
-                <span className="font-medium">Submittals</span>
-                <Badge variant="secondary">{submittals.length}</Badge>
+                <Send className="h-4 w-4 text-brand flex-shrink-0" />
+                <span className="text-sm font-medium text-neutral-900">Submittals</span>
+                <span className="text-sm font-medium tabular-nums text-neutral-400">{submittals.length}</span>
                 {submittals.filter(s => s.status === 'pending').length > 0 && (
                   <Badge variant="destructive" className="text-xs">
                     {submittals.filter(s => s.status === 'pending').length} Pending
@@ -713,13 +713,13 @@ export function ProjectAccordions({
           viewport={{ once: true }}
           transition={{ delay: 11 * 0.1 }}
         >
-        <AccordionItem value="documents" className="border px-2 bg-white">
-          <AccordionTrigger className="hover:no-underline">
+        <AccordionItem value="documents" className="bg-white border-b border-neutral-100">
+          <AccordionTrigger className="hover:no-underline py-4 px-0">
             <div className="flex items-center justify-between w-full mr-4">
               <div className="flex items-center gap-2">
-                <FolderOpen className="h-5 w-5 text-brand" />
-                <span className="font-medium">Documents</span>
-                <Badge variant="secondary">{documents.length}</Badge>
+                <FolderOpen className="h-4 w-4 text-brand flex-shrink-0" />
+                <span className="text-sm font-medium text-neutral-900">Documents</span>
+                <span className="text-sm font-medium tabular-nums text-neutral-400">{documents.length}</span>
               </div>
               <Link
                 href={`/${projectId}/documents`}

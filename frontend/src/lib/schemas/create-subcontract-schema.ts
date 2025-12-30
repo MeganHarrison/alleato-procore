@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { optionalNumber, optionalPercent, optionalPositiveNumber } from "./common";
 
 const dateString = z
   .string()
@@ -10,12 +11,12 @@ const dateString = z
   });
 
 export const SovLineItemSchema = z.object({
-  lineNumber: z.number().int().positive().optional(), // maps to '#'
+  lineNumber: optionalNumber, // maps to '#'
   changeEventLineItem: z.string().trim().optional(),
   budgetCode: z.string().trim().optional(),
   description: z.string().trim().optional(),
-  amount: z.number().nonnegative().optional(),
-  billedToDate: z.number().nonnegative().optional(),
+  amount: optionalPositiveNumber,
+  billedToDate: optionalPositiveNumber,
   // Amount Remaining is displayed as a column but is typically computed:
   // amountRemaining = amount - billedToDate
 });
@@ -28,7 +29,7 @@ export const CreateSubcontractSchema = z.object({
   status: z.enum(["Draft"]).optional(), // only option visible in captured DOM
   executed: z.boolean().optional(), // required (starred)
 
-  defaultRetainagePercent: z.number().nonnegative().optional(),
+  defaultRetainagePercent: optionalPercent,
 
   description: z.string().optional(), // rich text content as string
 

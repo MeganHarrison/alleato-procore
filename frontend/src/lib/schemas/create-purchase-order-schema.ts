@@ -1,16 +1,22 @@
 import { z } from 'zod';
+import {
+  optionalNumber,
+  optionalPercent,
+  optionalPositiveNumber,
+  requiredNumber,
+} from './common';
 
 // SOV Line Item for Purchase Orders (Unit/Quantity-based)
 export const PurchaseOrderSovLineItemSchema = z.object({
-  lineNumber: z.number(),
+  lineNumber: requiredNumber,
   changeEventLineItem: z.string().optional(),
   budgetCode: z.string().optional(),
   description: z.string().optional(),
-  quantity: z.number().optional(),
+  quantity: optionalNumber,
   uom: z.string().optional(), // Unit of Measure: EA, LF, SF, etc.
-  unitCost: z.number().optional(),
-  amount: z.number(),
-  billedToDate: z.number().optional(),
+  unitCost: optionalNumber,
+  amount: requiredNumber,
+  billedToDate: optionalPositiveNumber,
 });
 
 export type PurchaseOrderSovLineItem = z.infer<typeof PurchaseOrderSovLineItemSchema>;
@@ -38,7 +44,7 @@ export const CreatePurchaseOrderSchema = z.object({
   title: z.string().optional(),
   status: z.enum(['Draft', 'Approved', 'Sent', 'Acknowledged', 'Completed']),
   executed: z.boolean(),
-  defaultRetainagePercent: z.number().min(0).max(100).optional(),
+  defaultRetainagePercent: optionalPercent,
   assignedTo: z.string().optional(), // User ID
 
   // Billing & Shipping

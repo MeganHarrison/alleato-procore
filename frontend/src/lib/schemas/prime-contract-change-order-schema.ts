@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { optionalPositiveNumber } from './common';
 
 // Enum for PCO status matching the spec
 export const PcoStatusEnum = z.enum([
@@ -44,8 +45,8 @@ export const PrimeContractChangeOrderSchema = z.object({
   // Execution
   executed: z.boolean().optional().default(false),
 
-  // Schedule impact
-  schedule_impact_days: z.number().int().min(0).nullable(),
+  // Schedule impact (uses NaN-safe helper for form inputs)
+  schedule_impact_days: optionalPositiveNumber.nullable(),
 
   // Potential Change Orders
   potential_change_order_ids: z.array(z.string().uuid()).optional().default([]),

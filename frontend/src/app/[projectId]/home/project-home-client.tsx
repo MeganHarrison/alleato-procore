@@ -2,7 +2,7 @@
 
 import { format } from 'date-fns'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Plus, Pencil, Calendar, FileText, AlertCircle, ChevronDown, Star, CheckCircle2, CalendarClock, FolderKanban, MapPin, Truck, Hammer } from 'lucide-react'
+import { Plus, Calendar, FileText, AlertCircle, ChevronDown, Star } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -122,8 +122,6 @@ export function ProjectHomeClient({
   sov = []
 }: ProjectHomeClientProps) {
   const router = useRouter()
-  const [isEditing, setIsEditing] = useState<string | null>(null)
-  const [editValue, setEditValue] = useState('')
   const [isAddTeamMemberOpen, setIsAddTeamMemberOpen] = useState(false)
   const [newTeamMember, setNewTeamMember] = useState({
     name: '',
@@ -157,23 +155,6 @@ export function ProjectHomeClient({
   // Handle saving summary
   const handleSaveSummary = async (summary: string) => {
     await handleSaveProject({ summary })
-  }
-
-  const handleEditField = (field: string, value: string) => {
-    setIsEditing(field)
-    setEditValue(value)
-  }
-
-  const handleSaveField = async (field: string) => {
-    try {
-      await handleSaveProject({ [field]: editValue })
-      setIsEditing(null)
-      setEditValue('')
-    } catch (error) {
-      console.error(`Error saving field ${field}:`, error)
-      // Keep the field in edit mode if save fails
-      // Optionally, you could show an error message to the user here
-    }
   }
 
   const handleAddTeamMember = async () => {
@@ -313,131 +294,6 @@ export function ProjectHomeClient({
           </DropdownMenu>
         </div>
 
-        {/* Status Row - Clean, Aligned Data Points with Better Spacing */}
-        <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-8">
-          
-          {/* Status */}
-          <button
-            type="button"
-            className="group w-full cursor-pointer hover:opacity-70 transition-opacity duration-200 border-0 bg-transparent text-left p-0"
-            onClick={() => handleEditField('phase', project.phase || project.state || 'Active')}
-          >
-            {isEditing === 'phase' ? (
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-brand flex-shrink-0" />
-                <Input
-                  value={editValue}
-                  onChange={(e) => setEditValue(e.target.value)}
-                  onBlur={() => handleSaveField('phase')}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSaveField('phase')}
-                  className="h-9 w-36 border-neutral-300 focus:border-brand focus:ring-brand/20"
-                  autoFocus
-                />
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <CheckCircle2 className="h-4 w-4 text-brand flex-shrink-0" />
-                <span className={`text-sm font-medium tabular-nums ${project.phase || project.state ? 'text-neutral-900' : 'text-neutral-400'}`}>
-                  {project.phase || project.state || 'Active' || 'Edit'}
-                </span>
-                <Pencil className="h-3 w-3 text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-            )}
-          </button>
-
-          {/* Start Date */}
-          <button
-            type="button"
-            className="group w-full cursor-pointer hover:opacity-70 transition-opacity duration-200 border-0 bg-transparent text-left p-0"
-            onClick={() => handleEditField('start date', project['start date'] ? format(new Date(project['start date']), 'yyyy-MM-dd') : '')}
-          >
-            {isEditing === 'start date' ? (
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-brand flex-shrink-0" />
-                <Input
-                  type="date"
-                  value={editValue}
-                  onChange={(e) => setEditValue(e.target.value)}
-                  onBlur={() => handleSaveField('start date')}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSaveField('start date')}
-                  className="h-9 w-44 border-neutral-300 focus:border-brand focus:ring-brand/20"
-                  autoFocus
-                />
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <Calendar className="h-4 w-4 text-brand flex-shrink-0" />
-                <span className={`text-sm font-medium tabular-nums ${project['start date'] ? 'text-neutral-900' : 'text-neutral-400'}`}>
-                  {project['start date'] ? format(new Date(project['start date']), 'MMM d, yyyy') : 'Start Date'}
-                </span>
-                <Pencil className="h-3 w-3 text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-            )}
-          </button>
-
-          {/* Est Completion */}
-          <button
-            type="button"
-            className="group w-full cursor-pointer hover:opacity-70 transition-opacity duration-200 border-0 bg-transparent text-left p-0"
-            onClick={() => handleEditField('est completion', project['est completion'] ? format(new Date(project['est completion']), 'yyyy-MM-dd') : '')}
-          >
-            {isEditing === 'est completion' ? (
-              <div className="flex items-center gap-2">
-                <CalendarClock className="h-4 w-4 text-brand flex-shrink-0" />
-                <Input
-                  type="date"
-                  value={editValue}
-                  onChange={(e) => setEditValue(e.target.value)}
-                  onBlur={() => handleSaveField('est completion')}
-                  onKeyDown={(e) => e.key === 'Enter' && handleSaveField('est completion')}
-                  className="h-9 w-44 border-neutral-300 focus:border-brand focus:ring-brand/20"
-                  autoFocus
-                />
-              </div>
-            ) : (
-              <div className="flex items-center gap-2">
-                <CalendarClock className="h-4 w-4 text-brand flex-shrink-0" />
-                <span className={`text-sm font-medium tabular-nums ${project['est completion'] ? 'text-neutral-900' : 'text-neutral-400'}`}>
-                  {project['est completion'] ? format(new Date(project['est completion']), 'MMM d, yyyy') : 'Est Completion'}
-                </span>
-                <Pencil className="h-3 w-3 text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-              </div>
-            )}
-          </button>
-
-            {/* State */}
-            <button
-              type="button"
-              className="group w-full cursor-pointer hover:opacity-70 transition-opacity duration-200 border-0 bg-transparent text-left p-0"
-              onClick={() => handleEditField('state', project.state || '')}
-            >
-              {isEditing === 'state' ? (
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-brand flex-shrink-0" />
-                  <Input
-                    value={editValue}
-                    onChange={(e) => setEditValue(e.target.value)}
-                    onBlur={() => handleSaveField('state')}
-                    onKeyDown={(e) => e.key === 'Enter' && handleSaveField('state')}
-                    className="h-9 w-28 border-neutral-300 focus:border-brand focus:ring-brand/20"
-                    placeholder="CA, NY, TX, etc."
-                    maxLength={2}
-                    autoFocus
-                  />
-                </div>
-              ) : (
-                <div className="flex items-center gap-2">
-                  <MapPin className="h-4 w-4 text-brand flex-shrink-0" />
-                  <span className={`text-sm font-medium ${project.state ? 'text-neutral-900' : 'text-neutral-400'}`}>
-                    {project.state || 'State'}
-                  </span>
-                  <Pencil className="h-3 w-3 text-neutral-400 opacity-0 group-hover:opacity-100 transition-opacity" />
-                </div>
-              )}
-            </button>
-
-
-        </div>
       </header>
 
       {/* Hero Metrics - Executive Dashboard KPIs */}
