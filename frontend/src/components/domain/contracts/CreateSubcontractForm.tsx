@@ -1,0 +1,714 @@
+'use client';
+
+import * as React from 'react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Upload, X, Plus, Sparkles } from 'lucide-react';
+import {
+  CreateSubcontractSchema,
+  type CreateSubcontractInput,
+  type SovLineItem,
+} from '@/lib/schemas/create-subcontract-schema';
+import { generateAutofillData } from '@/lib/utils/autofill-subcontract';
+
+interface CreateSubcontractFormProps {
+  projectId: number;
+  onSubmit: (data: CreateSubcontractInput) => Promise<void>;
+  onCancel: () => void;
+}
+
+export function CreateSubcontractForm({
+  onSubmit,
+  onCancel,
+}: CreateSubcontractFormProps) {
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+  const [sovLines, setSovLines] = React.useState<SovLineItem[]>([]);
+
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
+  } = useForm<CreateSubcontractInput>({
+    resolver: zodResolver(CreateSubcontractSchema),
+    defaultValues: {
+      contractNumber: 'SC-002',
+      status: 'Draft',
+      executed: false,
+      sov: [],
+      privacy: {
+        isPrivate: true,
+        allowNonAdminViewSovItems: false,
+      },
+    },
+  });
+
+  const contractCompanyId = watch('contractCompanyId');
+  const privacyIsPrivate = watch('privacy.isPrivate') ?? true;
+
+  const handleAutofill = () => {
+    const autofillData = generateAutofillData();
+
+    // Set all form fields
+    setValue('contractNumber', autofillData.contractNumber || '');
+    setValue('contractCompanyId', autofillData.contractCompanyId || '');
+    setValue('title', autofillData.title || '');
+    setValue('status', autofillData.status || 'Draft');
+    setValue('executed', autofillData.executed || false);
+    setValue('defaultRetainagePercent', autofillData.defaultRetainagePercent);
+    setValue('description', autofillData.description || '');
+    setValue('inclusions', autofillData.inclusions || '');
+    setValue('exclusions', autofillData.exclusions || '');
+
+    // Set dates
+    if (autofillData.dates) {
+      setValue('dates.startDate', autofillData.dates.startDate || '');
+      setValue('dates.estimatedCompletionDate', autofillData.dates.estimatedCompletionDate || '');
+      setValue('dates.actualCompletionDate', autofillData.dates.actualCompletionDate || '');
+      setValue('dates.contractDate', autofillData.dates.contractDate || '');
+      setValue('dates.signedContractReceivedDate', autofillData.dates.signedContractReceivedDate || '');
+      setValue('dates.issuedOnDate', autofillData.dates.issuedOnDate || '');
+    }
+
+    // Set privacy
+    if (autofillData.privacy) {
+      setValue('privacy.isPrivate', autofillData.privacy.isPrivate || false);
+      setValue('privacy.allowNonAdminViewSovItems', autofillData.privacy.allowNonAdminViewSovItems || false);
+    }
+
+    // Set SOV lines
+    if (autofillData.sovLines) {
+      setSovLines(autofillData.sovLines);
+    }
+  };
+
+  const handleFormSubmit = async (data: CreateSubcontractInput) => {
+    setIsSubmitting(true);
+    try {
+      // Add SOV lines to submission data
+      const submitData = {
+        ...data,
+        sov: sovLines,
+      };
+      await onSubmit(submitData);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const addSOVLine = () => {
+    const newLine: SovLineItem & { _id: string } = {
+      _id: `line-${Date.now()}-${Math.random()}`,
+      lineNumber: sovLines.length + 1,
+      amount: 0,
+      billedToDate: 0,
+    };
+    setSovLines([...sovLines, newLine as SovLineItem]);
+  };
+
+  const updateSOVLine = (index: number, field: keyof SovLineItem, value: unknown) => {
+    const updated = [...sovLines];
+    updated[index] = { ...updated[index], [field]: value };
+    setSovLines(updated);
+  };
+
+  const removeSOVLine = (index: number) => {
+    setSovLines(sovLines.filter((_, i) => i !== index));
+  };
+
+  const calculateSOVTotals = () => {
+    const totals = sovLines.reduce(
+      (acc, line) => {
+        const lineAmount = line.amount || 0;
+        const lineBilled = line.billedToDate || 0;
+        return {
+          amount: acc.amount + lineAmount,
+          billedToDate: acc.billedToDate + lineBilled,
+        };
+      },
+      { amount: 0, billedToDate: 0 }
+    );
+    return {
+      ...totals,
+      amountRemaining: totals.amount - totals.billedToDate,
+    };
+  };
+
+  const totals = calculateSOVTotals();
+
+  return (
+    <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-8">
+      {/* Page Title */}
+      <div className="flex items-center justify-between">
+        <h1 className="text-2xl font-bold">Create Subcontract</h1>
+        <Button
+          type="button"
+          variant="outline"
+          onClick={handleAutofill}
+          disabled={isSubmitting}
+          className="gap-2"
+        >
+          <Sparkles className="h-4 w-4" />
+          Autofill Test Data
+        </Button>
+      </div>
+
+      {/* General Information Section */}
+      <section className="space-y-4">
+        <h2 className="text-lg font-semibold border-b pb-2">General Information</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="contractNumber">Contract #</Label>
+            <Input
+              id="contractNumber"
+              {...register('contractNumber')}
+              disabled={isSubmitting}
+            />
+            {errors.contractNumber && (
+              <p className="text-sm text-red-600">{errors.contractNumber.message}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="contractCompanyId">
+              Contract Company
+              <button type="button" className="ml-2 text-xs text-gray-500">
+                Delete field
+              </button>
+            </Label>
+            <Select
+              value={watch('contractCompanyId') || ''}
+              onValueChange={(value) => setValue('contractCompanyId', value)}
+              disabled={isSubmitting}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select company" />
+              </SelectTrigger>
+              <SelectContent>
+                {/* TODO: Load companies from database */}
+                <SelectItem value="company1">Company 1</SelectItem>
+                <SelectItem value="company2">Company 2</SelectItem>
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="title">Title</Label>
+          <Input
+            id="title"
+            {...register('title')}
+            disabled={isSubmitting}
+          />
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="status">Status*</Label>
+            <Select
+              value={watch('status')}
+              onValueChange={(value) => setValue('status', value as 'Draft')}
+              disabled={isSubmitting}
+            >
+              <SelectTrigger>
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="Draft">Draft</SelectItem>
+              </SelectContent>
+            </Select>
+            {errors.status && (
+              <p className="text-sm text-red-600">{errors.status.message}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <div className="flex items-center space-x-2 pt-8">
+              <Checkbox
+                id="executed"
+                checked={watch('executed')}
+                onCheckedChange={(checked) => setValue('executed', checked as boolean)}
+                disabled={isSubmitting}
+              />
+              <Label htmlFor="executed" className="text-sm font-normal">
+                Executed*
+              </Label>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="defaultRetainagePercent">Default Retainage</Label>
+          <div className="flex items-center gap-2">
+            <Input
+              id="defaultRetainagePercent"
+              type="number"
+              step="0.01"
+              {...register('defaultRetainagePercent', { valueAsNumber: true })}
+              disabled={isSubmitting}
+              className="max-w-[200px]"
+            />
+            <span className="text-sm text-gray-600">%</span>
+          </div>
+          {errors.defaultRetainagePercent && (
+            <p className="text-sm text-red-600">{errors.defaultRetainagePercent.message}</p>
+          )}
+        </div>
+
+        <div className="space-y-2">
+          <Label htmlFor="description">Description</Label>
+          <div className="border rounded-md">
+            {/* Rich text toolbar placeholder */}
+            <div className="border-b bg-gray-50 p-2 flex gap-1 text-xs text-gray-600">
+              <button type="button" className="px-2 py-1 hover:bg-gray-200 rounded" title="Bold">B</button>
+              <button type="button" className="px-2 py-1 hover:bg-gray-200 rounded" title="Italic">I</button>
+              <button type="button" className="px-2 py-1 hover:bg-gray-200 rounded" title="Underline">U</button>
+              <span className="text-gray-400">|</span>
+              <button type="button" className="px-2 py-1 hover:bg-gray-200 rounded" title="Align Left">≡</button>
+              <button type="button" className="px-2 py-1 hover:bg-gray-200 rounded" title="Align Center">≣</button>
+              <button type="button" className="px-2 py-1 hover:bg-gray-200 rounded" title="Align Right">≡</button>
+            </div>
+            <Textarea
+              id="description"
+              {...register('description')}
+              disabled={isSubmitting}
+              className="min-h-[100px] border-0 rounded-t-none"
+              placeholder="To open the popup, press Shift+Enter"
+            />
+          </div>
+        </div>
+      </section>
+
+      {/* Attachments Section */}
+      <section className="space-y-4">
+        <h2 className="text-lg font-semibold border-b pb-2">Attachments</h2>
+
+        <div className="border-2 border-dashed rounded-lg p-8 text-center">
+          <div className="flex flex-col items-center gap-3">
+            <Upload className="h-8 w-8 text-gray-400" />
+            <div className="flex items-center gap-2">
+              <Button
+                type="button"
+                variant="outline"
+                onClick={() => {
+                  // TODO: Implement file attachment modal
+                  console.warn('File attachment not yet implemented');
+                }}
+                disabled={isSubmitting}
+              >
+                Attach Files
+              </Button>
+              <span className="text-sm text-gray-600">or Drag & Drop</span>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Schedule of Values Section */}
+      <section className="space-y-4">
+        <h2 className="text-lg font-semibold border-b pb-2">Schedule of Values</h2>
+
+        {/* SOV Accounting Method Banner */}
+        <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
+          <div className="flex items-center justify-between">
+            <p className="text-sm text-blue-900">
+              This contract&apos;s default accounting method is amount-based
+            </p>
+            <Button
+              type="button"
+              variant="outline"
+              size="sm"
+              disabled={isSubmitting}
+            >
+              Change to Unit/Quantity
+            </Button>
+          </div>
+        </div>
+
+        {/* SOV Table */}
+        {sovLines.length === 0 ? (
+          <div className="flex flex-col items-center justify-center py-12 space-y-4">
+            <div className="text-gray-400">
+              {/* Empty state image placeholder */}
+              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center">
+                <span className="text-4xl">📊</span>
+              </div>
+            </div>
+            <p className="text-lg font-medium text-gray-600">You Have No Line Items Yet</p>
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                onClick={addSOVLine}
+                disabled={isSubmitting}
+              >
+                <Plus className="mr-2 h-4 w-4" />
+                Add Line
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isSubmitting}
+              >
+                Add Group
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                disabled={isSubmitting}
+              >
+                Import SOV from CSV
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            <div className="flex gap-2">
+              <Button
+                type="button"
+                onClick={addSOVLine}
+                size="sm"
+                disabled={isSubmitting}
+              >
+                <Plus className="mr-2 h-4 w-4" />
+                Add Line
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={isSubmitting}
+              >
+                Add Group
+              </Button>
+              <Button
+                type="button"
+                variant="outline"
+                size="sm"
+                disabled={isSubmitting}
+              >
+                Import SOV from CSV
+              </Button>
+            </div>
+
+            <div className="overflow-x-auto">
+              <table className="w-full border">
+                <thead className="bg-gray-50">
+                  <tr>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700 w-12">#</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">Change Event Line Item</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">Budget Code</th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">Description</th>
+                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">Amount</th>
+                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">Billed to Date</th>
+                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">Amount Remaining</th>
+                    <th className="px-3 py-2 w-12" aria-label="Actions"></th>
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y">
+                  {sovLines.map((line, index) => (
+                    <tr key={(line as SovLineItem & { _id?: string })._id || `line-${index}`}>
+                      <td className="px-3 py-2 text-sm">{index + 1}</td>
+                      <td className="px-3 py-2">
+                        <Input
+                          className="text-sm"
+                          placeholder="Change Event"
+                          value={line.changeEventLineItem || ''}
+                          onChange={(e) => updateSOVLine(index, 'changeEventLineItem', e.target.value)}
+                        />
+                      </td>
+                      <td className="px-3 py-2">
+                        <Input
+                          className="text-sm"
+                          placeholder="Budget Code"
+                          value={line.budgetCode || ''}
+                          onChange={(e) => updateSOVLine(index, 'budgetCode', e.target.value)}
+                        />
+                      </td>
+                      <td className="px-3 py-2">
+                        <Input
+                          className="text-sm"
+                          placeholder="Description"
+                          value={line.description || ''}
+                          onChange={(e) => updateSOVLine(index, 'description', e.target.value)}
+                        />
+                      </td>
+                      <td className="px-3 py-2">
+                        <Input
+                          className="text-sm text-right"
+                          type="number"
+                          step="0.01"
+                          placeholder="$0.00"
+                          value={line.amount || 0}
+                          onChange={(e) => updateSOVLine(index, 'amount', parseFloat(e.target.value) || 0)}
+                        />
+                      </td>
+                      <td className="px-3 py-2 text-sm text-right">${(line.billedToDate || 0).toFixed(2)}</td>
+                      <td className="px-3 py-2 text-sm text-right">
+                        ${((line.amount || 0) - (line.billedToDate || 0)).toFixed(2)}
+                      </td>
+                      <td className="px-3 py-2">
+                        <Button
+                          type="button"
+                          variant="ghost"
+                          size="sm"
+                          onClick={() => removeSOVLine(index)}
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+                <tfoot className="bg-gray-50 font-semibold">
+                  <tr>
+                    <td colSpan={4} className="px-3 py-2 text-sm">Total:</td>
+                    <td className="px-3 py-2 text-sm text-right">${totals.amount.toFixed(2)}</td>
+                    <td className="px-3 py-2 text-sm text-right">${totals.billedToDate.toFixed(2)}</td>
+                    <td className="px-3 py-2 text-sm text-right">${totals.amountRemaining.toFixed(2)}</td>
+                    <td></td>
+                  </tr>
+                </tfoot>
+              </table>
+            </div>
+          </div>
+        )}
+      </section>
+
+      {/* Inclusions & Exclusions Section */}
+      <section className="space-y-4">
+        <h2 className="text-lg font-semibold border-b pb-2">Inclusions & Exclusions</h2>
+
+        <div className="space-y-4">
+          <div className="space-y-2">
+            <Label htmlFor="inclusions">Inclusions</Label>
+            <div className="border rounded-md">
+              <div className="border-b bg-gray-50 p-2 flex gap-1 text-xs text-gray-600">
+                <button type="button" className="px-2 py-1 hover:bg-gray-200 rounded" title="Bold">B</button>
+                <button type="button" className="px-2 py-1 hover:bg-gray-200 rounded" title="Italic">I</button>
+                <button type="button" className="px-2 py-1 hover:bg-gray-200 rounded" title="Underline">U</button>
+              </div>
+              <Textarea
+                id="inclusions"
+                {...register('inclusions')}
+                disabled={isSubmitting}
+                className="min-h-[100px] border-0 rounded-t-none"
+                placeholder="To open the popup, press Shift+Enter"
+              />
+            </div>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="exclusions">Exclusions</Label>
+            <div className="border rounded-md">
+              <div className="border-b bg-gray-50 p-2 flex gap-1 text-xs text-gray-600">
+                <button type="button" className="px-2 py-1 hover:bg-gray-200 rounded" title="Bold">B</button>
+                <button type="button" className="px-2 py-1 hover:bg-gray-200 rounded" title="Italic">I</button>
+                <button type="button" className="px-2 py-1 hover:bg-gray-200 rounded" title="Underline">U</button>
+              </div>
+              <Textarea
+                id="exclusions"
+                {...register('exclusions')}
+                disabled={isSubmitting}
+                className="min-h-[100px] border-0 rounded-t-none"
+                placeholder="To open the popup, press Shift+Enter"
+              />
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contract Dates Section */}
+      <section className="space-y-4">
+        <h2 className="text-lg font-semibold border-b pb-2">Contract Dates</h2>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="space-y-2">
+            <Label htmlFor="dates.startDate">Start Date</Label>
+            <Input
+              id="dates.startDate"
+              type="text"
+              {...register('dates.startDate')}
+              disabled={isSubmitting}
+              placeholder="mm/dd/yyyy"
+            />
+            {errors.dates?.startDate && (
+              <p className="text-sm text-red-600">{errors.dates.startDate.message}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="dates.estimatedCompletionDate">Estimated Completion Date</Label>
+            <Input
+              id="dates.estimatedCompletionDate"
+              type="text"
+              {...register('dates.estimatedCompletionDate')}
+              disabled={isSubmitting}
+              placeholder="mm/dd/yyyy"
+            />
+            {errors.dates?.estimatedCompletionDate && (
+              <p className="text-sm text-red-600">{errors.dates.estimatedCompletionDate.message}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="dates.actualCompletionDate">Actual Completion Date</Label>
+            <Input
+              id="dates.actualCompletionDate"
+              type="text"
+              {...register('dates.actualCompletionDate')}
+              disabled={isSubmitting}
+              placeholder="mm/dd/yyyy"
+            />
+            {errors.dates?.actualCompletionDate && (
+              <p className="text-sm text-red-600">{errors.dates.actualCompletionDate.message}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="dates.contractDate">Contract Date</Label>
+            <Input
+              id="dates.contractDate"
+              type="text"
+              {...register('dates.contractDate')}
+              disabled={isSubmitting}
+              placeholder="mm/dd/yyyy"
+            />
+            {errors.dates?.contractDate && (
+              <p className="text-sm text-red-600">{errors.dates.contractDate.message}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="dates.signedContractReceivedDate">Signed Contract Received Date</Label>
+            <Input
+              id="dates.signedContractReceivedDate"
+              type="text"
+              {...register('dates.signedContractReceivedDate')}
+              disabled={isSubmitting}
+              placeholder="mm/dd/yyyy"
+            />
+            {errors.dates?.signedContractReceivedDate && (
+              <p className="text-sm text-red-600">{errors.dates.signedContractReceivedDate.message}</p>
+            )}
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="dates.issuedOnDate">Issued On Date</Label>
+            <Input
+              id="dates.issuedOnDate"
+              type="text"
+              {...register('dates.issuedOnDate')}
+              disabled={isSubmitting}
+              placeholder="mm/dd/yyyy"
+            />
+            {errors.dates?.issuedOnDate && (
+              <p className="text-sm text-red-600">{errors.dates.issuedOnDate.message}</p>
+            )}
+          </div>
+        </div>
+      </section>
+
+      {/* Contract Privacy Section */}
+      <section className="space-y-4">
+        <h2 className="text-lg font-semibold border-b pb-2">Contract Privacy</h2>
+
+        <p className="text-sm text-gray-600">
+          Using the privacy setting allows only project admins and the select non-admin users access.
+        </p>
+
+        <div className="space-y-4">
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="privacy.isPrivate"
+              checked={privacyIsPrivate}
+              onCheckedChange={(checked) => setValue('privacy.isPrivate', checked as boolean)}
+              disabled={isSubmitting}
+            />
+            <Label htmlFor="privacy.isPrivate" className="text-sm font-normal">
+              Private
+            </Label>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="privacy.nonAdminUserIds">
+              Access for Non-Admin Users
+              <button type="button" className="ml-2 text-xs text-gray-500">
+                Delete field
+              </button>
+            </Label>
+            <Input
+              id="privacy.nonAdminUserIds"
+              disabled={isSubmitting || !privacyIsPrivate}
+              placeholder={privacyIsPrivate ? 'Select users...' : 'Enable Private to use this field'}
+            />
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="privacy.allowNonAdminViewSovItems"
+              checked={watch('privacy.allowNonAdminViewSovItems')}
+              onCheckedChange={(checked) => setValue('privacy.allowNonAdminViewSovItems', checked as boolean)}
+              disabled={isSubmitting || !privacyIsPrivate}
+            />
+            <Label htmlFor="privacy.allowNonAdminViewSovItems" className="text-sm font-normal">
+              Allow these non-admin users to view the SOV items.
+            </Label>
+          </div>
+        </div>
+      </section>
+
+      {/* Invoice Contacts Section */}
+      <section className="space-y-4">
+        <h2 className="text-lg font-semibold border-b pb-2">Invoice Contacts</h2>
+
+        {!contractCompanyId ? (
+          <p className="text-sm text-gray-600">Please select a Contract Company first</p>
+        ) : (
+          <div className="space-y-2">
+            <Label htmlFor="invoiceContacts">Invoice Contacts</Label>
+            <Input
+              id="invoiceContacts"
+              disabled={isSubmitting}
+              placeholder="Select invoice contacts..."
+            />
+          </div>
+        )}
+      </section>
+
+      {/* Footer Actions */}
+      <div className="flex items-center justify-between pt-6 border-t">
+        <p className="text-sm text-gray-600">*Required fields</p>
+        <div className="flex gap-3">
+          <Button
+            type="button"
+            variant="outline"
+            onClick={onCancel}
+            disabled={isSubmitting}
+          >
+            Cancel
+          </Button>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? 'Creating...' : 'Create'}
+          </Button>
+        </div>
+      </div>
+    </form>
+  );
+}

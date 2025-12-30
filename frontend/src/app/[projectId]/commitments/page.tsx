@@ -19,11 +19,9 @@ import { useFinancialStore } from '@/lib/stores/financial-store'
 import { useProjectTitle } from '@/hooks/useProjectTitle'
 import type { Commitment } from '@/types/financial'
 import {
-  getCommitmentsSummaryCards,
   getCommitmentsTabs,
   commitmentsFilterOptions,
   commitmentsMobileColumns,
-  getCommitmentsStatusCounts,
   formatCurrency,
 } from '@/config/tables'
 
@@ -82,23 +80,23 @@ export default function ProjectCommitmentsPage() {
 
   // Navigation handlers
   const handleCreateSubcontract = useCallback(() => {
-    router.push(`/form-commitments?projectId=${projectId}&type=subcontract`)
+    router.push(`/${projectId}/commitments/new?type=subcontract`)
   }, [router, projectId])
 
   const handleCreatePurchaseOrder = useCallback(() => {
-    router.push(`/form-commitments?projectId=${projectId}&type=purchase_order`)
+    router.push(`/${projectId}/commitments/new?type=purchase_order`)
   }, [router, projectId])
 
   const handleView = useCallback(
     (commitment: Commitment) => {
-      router.push(`/form-commitments/${commitment.id}?projectId=${projectId}`)
+      router.push(`/${projectId}/commitments/${commitment.id}`)
     },
     [router, projectId]
   )
 
   const handleEdit = useCallback(
     (commitment: Commitment) => {
-      router.push(`/form-commitments/${commitment.id}?projectId=${projectId}`)
+      router.push(`/${projectId}/commitments/${commitment.id}`)
     },
     [router, projectId]
   )
@@ -233,19 +231,9 @@ export default function ProjectCommitmentsPage() {
   )
 
   // Generate configuration from data
-  const summaryCards = useMemo(
-    () => getCommitmentsSummaryCards(commitments),
-    [commitments]
-  )
-
   const tabs = useMemo(
     () => getCommitmentsTabs(projectId, commitments.length),
     [projectId, commitments.length]
-  )
-
-  const statusCounts = useMemo(
-    () => getCommitmentsStatusCounts(commitments),
-    [commitments]
   )
 
   // Mobile card renderer
@@ -275,21 +263,6 @@ export default function ProjectCommitmentsPage() {
     []
   )
 
-  // Status overview section (rendered before the table)
-  const statusOverview = (
-    <div className="mb-6">
-      <h2 className="font-semibold mb-4">Status Overview</h2>
-      <div className="flex flex-wrap gap-4">
-        {Object.entries(statusCounts).map(([status, count]) => (
-          <div key={status} className="flex items-center gap-2">
-            <StatusBadge status={status} type="commitment" />
-            <span className="text-sm text-muted-foreground">({count})</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-
   // Create action button
   const createButton = (
     <DropdownMenu>
@@ -317,7 +290,6 @@ export default function ProjectCommitmentsPage() {
     <DataTablePage<Commitment>
       title="Commitments"
       description="Manage purchase orders and subcontracts"
-      summaryCards={summaryCards}
       tabs={tabs}
       actions={createButton}
       columns={columns}
@@ -327,10 +299,25 @@ export default function ProjectCommitmentsPage() {
       onRetry={fetchCommitments}
       emptyMessage="No commitments found"
       emptyAction={
-        <Button onClick={handleCreateSubcontract}>
-          <Plus className="h-4 w-4 mr-2" />
-          Create your first commitment
-        </Button>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button>
+              <Plus className="h-4 w-4 mr-2" />
+              Create your first commitment
+              <ChevronDown className="h-4 w-4 ml-2" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="center">
+            <DropdownMenuItem onClick={handleCreateSubcontract}>
+              <Plus className="h-4 w-4 mr-2" />
+              Subcontract
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={handleCreatePurchaseOrder}>
+              <Plus className="h-4 w-4 mr-2" />
+              Purchase Order
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
       }
       onRowClick={handleView}
       searchKey="title"
@@ -341,7 +328,6 @@ export default function ProjectCommitmentsPage() {
       showExportButton={true}
       onExportCSV={() => toast.info('CSV export coming soon')}
       onExportPDF={() => toast.info('PDF export coming soon')}
-      beforeTable={statusOverview}
     />
   )
 }

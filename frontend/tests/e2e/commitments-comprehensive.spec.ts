@@ -144,7 +144,7 @@ test.describe('Commitments - Create Dropdown', () => {
     await page.waitForTimeout(300);
 
     await page.getByRole('menuitem', { name: /Subcontract/i }).click();
-    await page.waitForURL(`**/form-commitments**type=subcontract**`, { timeout: 10000 });
+    await page.waitForURL(`**/${TEST_PROJECT_ID}/commitments/new?type=subcontract**`, { timeout: 10000 });
 
     await takeScreenshot(page, '08-commitments-subcontract-form-nav');
   });
@@ -155,7 +155,7 @@ test.describe('Commitments - Create Dropdown', () => {
     await page.waitForTimeout(300);
 
     await page.getByRole('menuitem', { name: /Purchase Order/i }).click();
-    await page.waitForURL(`**/form-commitments**type=purchase_order**`, { timeout: 10000 });
+    await page.waitForURL(`**/${TEST_PROJECT_ID}/commitments/new?type=purchase_order**`, { timeout: 10000 });
 
     await takeScreenshot(page, '09-commitments-purchase-order-form-nav');
   });
@@ -275,7 +275,7 @@ test.describe('Commitments - Subcontract Form', () => {
   });
 
   test('should display subcontract form with all fields', async ({ page }) => {
-    await page.goto(`${BASE_URL}/form-commitments?projectId=${TEST_PROJECT_ID}&type=subcontract`);
+    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=subcontract`);
     await page.waitForLoadState('networkidle');
 
     // Verify form fields are visible
@@ -289,7 +289,7 @@ test.describe('Commitments - Subcontract Form', () => {
   });
 
   test('should display commitment number input', async ({ page }) => {
-    await page.goto(`${BASE_URL}/form-commitments?projectId=${TEST_PROJECT_ID}&type=subcontract`);
+    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=subcontract`);
     await page.waitForLoadState('networkidle');
 
     const numberInput = page.locator('#number, input[name="number"]');
@@ -299,7 +299,7 @@ test.describe('Commitments - Subcontract Form', () => {
   });
 
   test('should display company dropdown', async ({ page }) => {
-    await page.goto(`${BASE_URL}/form-commitments?projectId=${TEST_PROJECT_ID}&type=subcontract`);
+    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=subcontract`);
     await page.waitForLoadState('networkidle');
 
     // Find company select
@@ -315,7 +315,7 @@ test.describe('Commitments - Subcontract Form', () => {
   });
 
   test('should display status dropdown with options', async ({ page }) => {
-    await page.goto(`${BASE_URL}/form-commitments?projectId=${TEST_PROJECT_ID}&type=subcontract`);
+    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=subcontract`);
     await page.waitForLoadState('networkidle');
 
     // Find and click status select
@@ -337,7 +337,7 @@ test.describe('Commitments - Subcontract Form', () => {
   });
 
   test('should display accounting method dropdown', async ({ page }) => {
-    await page.goto(`${BASE_URL}/form-commitments?projectId=${TEST_PROJECT_ID}&type=subcontract`);
+    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=subcontract`);
     await page.waitForLoadState('networkidle');
 
     await expect(page.locator('label:has-text("Accounting Method")')).toBeVisible({ timeout: 5000 });
@@ -346,7 +346,7 @@ test.describe('Commitments - Subcontract Form', () => {
   });
 
   test('should display optional date fields', async ({ page }) => {
-    await page.goto(`${BASE_URL}/form-commitments?projectId=${TEST_PROJECT_ID}&type=subcontract`);
+    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=subcontract`);
     await page.waitForLoadState('networkidle');
 
     // Check for date fields
@@ -362,7 +362,7 @@ test.describe('Commitments - Subcontract Form', () => {
   });
 
   test('should display description textarea', async ({ page }) => {
-    await page.goto(`${BASE_URL}/form-commitments?projectId=${TEST_PROJECT_ID}&type=subcontract`);
+    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=subcontract`);
     await page.waitForLoadState('networkidle');
 
     await expect(page.locator('label:has-text("Description")')).toBeVisible({ timeout: 5000 });
@@ -372,7 +372,7 @@ test.describe('Commitments - Subcontract Form', () => {
   });
 
   test('should display private checkbox', async ({ page }) => {
-    await page.goto(`${BASE_URL}/form-commitments?projectId=${TEST_PROJECT_ID}&type=subcontract`);
+    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=subcontract`);
     await page.waitForLoadState('networkidle');
 
     // Look for private checkbox
@@ -383,7 +383,7 @@ test.describe('Commitments - Subcontract Form', () => {
   });
 
   test('should have Cancel and Submit buttons', async ({ page }) => {
-    await page.goto(`${BASE_URL}/form-commitments?projectId=${TEST_PROJECT_ID}&type=subcontract`);
+    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=subcontract`);
     await page.waitForLoadState('networkidle');
 
     await expect(page.getByRole('button', { name: /Cancel/i })).toBeVisible();
@@ -399,7 +399,7 @@ test.describe('Commitments - Purchase Order Form', () => {
   });
 
   test('should display purchase order form', async ({ page }) => {
-    await page.goto(`${BASE_URL}/form-commitments?projectId=${TEST_PROJECT_ID}&type=purchase_order`);
+    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=purchase_order`);
     await page.waitForLoadState('networkidle');
 
     // Verify form is displayed
@@ -409,7 +409,7 @@ test.describe('Commitments - Purchase Order Form', () => {
   });
 
   test('should have same fields as subcontract form', async ({ page }) => {
-    await page.goto(`${BASE_URL}/form-commitments?projectId=${TEST_PROJECT_ID}&type=purchase_order`);
+    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=purchase_order`);
     await page.waitForLoadState('networkidle');
 
     // Verify common fields
@@ -427,7 +427,7 @@ test.describe('Commitments - Form Validation', () => {
   });
 
   test('should show validation errors for required fields', async ({ page }) => {
-    await page.goto(`${BASE_URL}/form-commitments?projectId=${TEST_PROJECT_ID}&type=subcontract`);
+    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=subcontract`);
     await page.waitForLoadState('networkidle');
 
     // Try to submit empty form
@@ -463,7 +463,7 @@ test.describe('Commitments - Edit Commitment', () => {
       const editOption = page.getByRole('menuitem', { name: /Edit/i });
       if (await editOption.isVisible({ timeout: 2000 })) {
         await editOption.click();
-        await page.waitForURL(`**/form-commitments/**`, { timeout: 10000 });
+        await page.waitForURL(`**/**`, { timeout: 10000 });
 
         await takeScreenshot(page, '29-commitment-edit-form');
       }
@@ -657,7 +657,7 @@ test.describe('Commitments - Summary Cards Interaction', () => {
 test.describe('Commitments - Dev AutoFill', () => {
   test('should display Dev AutoFill button in form', async ({ page }) => {
     await login(page);
-    await page.goto(`${BASE_URL}/form-commitments?projectId=${TEST_PROJECT_ID}&type=subcontract`);
+    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=subcontract`);
     await page.waitForLoadState('networkidle');
 
     // Look for Dev AutoFill button (only in dev mode)

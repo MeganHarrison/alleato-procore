@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Form Commitments - Company Dropdown', () => {
   test('should display and populate company dropdown on form-commitments page', async ({ page }) => {
     // Navigate to the form-commitments page with the exact URL from the user
-    await page.goto('http://localhost:3000/form-commitments?projectId=118&type=subcontract');
+    await page.goto('http://localhost:3000/118/commitments/new?type=subcontract');
 
     // Wait for the page to load completely
     await page.waitForLoadState('networkidle');
@@ -71,7 +71,7 @@ test.describe('Form Commitments - Company Dropdown', () => {
   });
 
   test('should check if companies are loaded in the store', async ({ page }) => {
-    await page.goto('http://localhost:3000/form-commitments?projectId=118&type=subcontract');
+    await page.goto('http://localhost:3000/118/commitments/new?type=subcontract');
     await page.waitForLoadState('networkidle');
 
     // Check the state of the financial store via browser console
