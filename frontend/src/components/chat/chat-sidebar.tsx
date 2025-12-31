@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+import { SourcesList, type Source } from "@/components/sources-list"
 
 interface Channel {
   id: string
@@ -15,6 +16,7 @@ interface Channel {
 interface ChatSidebarProps {
   activeChannel: string
   onChannelSelect: (channelId: string) => void
+  sources?: Source[]
 }
 
 const channels: Channel[] = [
@@ -23,9 +25,9 @@ const channels: Channel[] = [
   { id: "support", name: "support" },
 ]
 
-export function ChatSidebar({ activeChannel, onChannelSelect }: ChatSidebarProps) {
+export function ChatSidebar({ activeChannel, onChannelSelect, sources = [] }: ChatSidebarProps) {
   return (
-    <div className="w-64 h-full bg-[hsl(var(--chat-panel))] border-r border-[hsl(var(--chat-border))] flex flex-col">
+    <div className="w-[28rem] h-full bg-[hsl(var(--chat-panel))] border-r border-[hsl(var(--chat-border))] flex flex-col">
       {/* Workspace Header */}
       <div className="p-4 border-b border-[hsl(var(--chat-border))]">
         <div className="flex items-center gap-2">
@@ -79,6 +81,13 @@ export function ChatSidebar({ activeChannel, onChannelSelect }: ChatSidebarProps
             ))}
           </div>
         </div>
+
+        {/* Sources Section */}
+        {sources.length > 0 && (
+          <div className="px-2 py-4 border-t border-[hsl(var(--chat-border))]">
+            <SourcesList sources={sources} />
+          </div>
+        )}
       </ScrollArea>
     </div>
   )
