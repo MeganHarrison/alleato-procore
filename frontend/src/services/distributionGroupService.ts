@@ -32,10 +32,12 @@ export class DistributionGroupService {
   constructor(private supabase: ReturnType<typeof createClient<Database>>) {}
 
   async getGroups(
-    projectId: string, 
+    projectId: string,
     includeMembers = false,
     status: 'active' | 'inactive' | 'all' = 'active'
   ): Promise<DistributionGroupWithMembers[]> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
     let query = this.supabase
       .from('distribution_groups')
       .select(includeMembers ? `
@@ -44,7 +46,7 @@ export class DistributionGroupService {
           person:people(*)
         )
       ` : '*', { count: 'exact' })
-      .eq('project_id', projectId)
+      .eq('project_id', projectIdNum)
       .order('name');
 
     if (status !== 'all') {
@@ -202,13 +204,15 @@ export class DistributionGroupService {
   }
 
   async getPersonGroups(projectId: string, personId: string): Promise<DistributionGroup[]> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
     const { data, error } = await this.supabase
       .from('distribution_groups')
       .select(`
         *,
         distribution_group_members!inner(person_id)
       `)
-      .eq('project_id', projectId)
+      .eq('project_id', projectIdNum)
       .eq('distribution_group_members.person_id', personId)
       .eq('status', 'active');
 
@@ -218,10 +222,12 @@ export class DistributionGroupService {
   }
 
   async searchNonMembers(
-    projectId: string, 
-    groupId: string, 
+    projectId: string,
+    groupId: string,
     search?: string
   ): Promise<Person[]> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
     // Get all active people in the project who are not in the group
     let query = this.supabase
       .from('people')
@@ -229,7 +235,7 @@ export class DistributionGroupService {
         *,
         project_directory_memberships!inner(project_id, status)
       `)
-      .eq('project_directory_memberships.project_id', projectId)
+      .eq('project_directory_memberships.project_id', projectIdNum)
       .eq('project_directory_memberships.status', 'active')
       .not('id', 'in', this.supabase
         .from('distribution_group_members')

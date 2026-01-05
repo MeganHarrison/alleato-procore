@@ -24,6 +24,8 @@ export class InviteService {
   ) {}
 
   async sendInvite(projectId: string, personId: string): Promise<InviteResult> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
     try {
       // Get person and membership details
       const { data: person, error: personError } = await this.supabase
@@ -36,7 +38,7 @@ export class InviteService {
           )
         `)
         .eq('id', personId)
-        .eq('project_directory_memberships.project_id', projectId)
+        .eq('project_directory_memberships.project_id', projectIdNum)
         .single();
 
       if (personError || !person) {
@@ -69,7 +71,7 @@ export class InviteService {
           last_invited_at: new Date().toISOString(),
           invite_status: 'invited'
         })
-        .eq('project_id', projectId)
+        .eq('project_id', projectIdNum)
         .eq('person_id', personId);
 
       if (updateError) {

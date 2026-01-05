@@ -65,19 +65,12 @@ export default function ProjectDirectoryPage() {
         throw new Error('Failed to deactivate person');
       }
 
-      toast({
-        title: 'Person Deactivated',
-        description: `${person.first_name} ${person.last_name} has been deactivated.`,
-      });
+      toast.success(`${person.first_name} ${person.last_name} has been deactivated.`);
 
       // Refresh the table
       setRefreshKey(prev => prev + 1);
     } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to deactivate person. Please try again.',
-        variant: 'destructive',
-      });
+      toast.error('Failed to deactivate person. Please try again.');
     }
   };
 
@@ -92,19 +85,12 @@ export default function ProjectDirectoryPage() {
         throw new Error('Failed to reactivate person');
       }
 
-      toast({
-        title: 'Person Reactivated',
-        description: `${person.first_name} ${person.last_name} has been reactivated.`,
-      });
+      toast.success(`${person.first_name} ${person.last_name} has been reactivated.`);
 
       // Refresh the table
       setRefreshKey(prev => prev + 1);
     } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'Failed to reactivate person. Please try again.',
-        variant: 'destructive',
-      });
+      toast.error('Failed to reactivate person. Please try again.');
     }
   };
 

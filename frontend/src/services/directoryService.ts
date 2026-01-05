@@ -62,9 +62,9 @@ export class DirectoryService {
   constructor(private supabase: ReturnType<typeof createClient<Database>>) {}
 
   async getPeople(projectId: string, filters: DirectoryFilters): Promise<DirectoryResponse> {
-    const { 
-      search, 
-      type = 'all', 
+    const {
+      search,
+      type = 'all',
       status = 'active',
       companyId,
       permissionTemplateId,
@@ -73,6 +73,8 @@ export class DirectoryService {
       page = 1,
       perPage = 50
     } = filters;
+
+    const projectIdNum = Number.parseInt(projectId, 10);
 
     // Base query
     let query = this.supabase
@@ -85,7 +87,7 @@ export class DirectoryService {
           permission_template:permission_templates(*)
         )
       `, { count: 'exact' })
-      .eq('project_directory_memberships.project_id', projectId);
+      .eq('project_directory_memberships.project_id', projectIdNum);
 
     // Apply filters
     if (type !== 'all') {
@@ -224,6 +226,7 @@ export class DirectoryService {
   }
 
   async updatePerson(projectId: string, personId: string, data: PersonUpdateDTO): Promise<PersonWithDetails> {
+    const projectIdNum = Number.parseInt(projectId, 10);
     // Update person fields
     const personUpdate: any = {};
     const personFields = ['first_name', 'last_name', 'email', 'phone_mobile', 'phone_business', 'job_title', 'company_id'];
@@ -256,7 +259,7 @@ export class DirectoryService {
       const { error } = await this.supabase
         .from('project_directory_memberships')
         .update(membershipUpdate)
-        .eq('project_id', projectId)
+        .eq('project_id', projectIdNum)
         .eq('person_id', personId);
       
       if (error) throw error;
@@ -267,7 +270,9 @@ export class DirectoryService {
   }
 
   async getPerson(projectId: string, personId: string): Promise<PersonWithDetails> {
-    const { data, error } = await this.supabase
+    const projectIdNum = Number.parseInt(projectId, 10);
+
+    const { data, error} = await this.supabase
       .from('people')
       .select(`
         *,
@@ -278,7 +283,7 @@ export class DirectoryService {
         )
       `)
       .eq('id', personId)
-      .eq('project_directory_memberships.project_id', projectId)
+      .eq('project_directory_memberships.project_id', projectIdNum)
       .single();
 
     if (error) throw error;
@@ -291,20 +296,24 @@ export class DirectoryService {
   }
 
   async deactivatePerson(projectId: string, personId: string): Promise<void> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
     const { error } = await this.supabase
       .from('project_directory_memberships')
       .update({ status: 'inactive' })
-      .eq('project_id', projectId)
+      .eq('project_id', projectIdNum)
       .eq('person_id', personId);
 
     if (error) throw error;
   }
 
   async reactivatePerson(projectId: string, personId: string): Promise<void> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
     const { error } = await this.supabase
       .from('project_directory_memberships')
       .update({ status: 'active' })
-      .eq('project_id', projectId)
+      .eq('project_id', projectIdNum)
       .eq('person_id', personId);
 
     if (error) throw error;

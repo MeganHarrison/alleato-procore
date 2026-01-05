@@ -28,6 +28,7 @@ type Company = Tables['companies']['Row'];
 type PermissionTemplate = Tables['permission_templates']['Row'];
 
 export interface DirectoryFilters {
+  search?: string;
   type?: 'user' | 'contact' | 'all';
   status?: 'active' | 'inactive' | 'all';
   companyId?: string;

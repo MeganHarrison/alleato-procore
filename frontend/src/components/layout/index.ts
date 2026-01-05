@@ -8,4 +8,4 @@ export { PageHeader } from './PageHeader';
 export { ProjectPageHeader } from './ProjectPageHeader';
 export { PageToolbar } from './PageToolbar';
 export { PageTabs } from './PageTabs';
-export { Footer } from './Footer';
+export { default as Footer } from './Footer';
