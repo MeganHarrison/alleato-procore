@@ -31,12 +31,32 @@ jobs:
       run: npm ci
 
     - name: Run TypeScript type check
+      id: typecheck
       working-directory: ./frontend
-      run: npm run typecheck
+      run: npm run typecheck 2>&1 | tee typecheck-errors.log
+      continue-on-error: true
 
     - name: Run ESLint
+      id: eslint
       working-directory: ./frontend
-      run: npm run lint
+      run: npm run lint 2>&1 | tee lint-errors.log
+      continue-on-error: true
+
+    - name: Upload failure artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: code-quality-failures-${{ github.run_id }}
+        path: |
+          frontend/typecheck-errors.log
+          frontend/lint-errors.log
+        retention-days: 7
+
+    - name: Fail if quality checks failed
+      if: steps.typecheck.outcome == 'failure' || steps.eslint.outcome == 'failure'
+      run: |
+        echo "::error::Quality checks failed. See artifacts for details."
+        exit 1
 
   # Frontend Unit Tests
   frontend-unit-tests:
@@ -181,22 +201,15 @@ jobs:
       working-directory: ./frontend
       run: npx tdpw upload playwright-report --token="trx_production_187735e8bad0ee546a10f1406f3365a03654939be70b37c6b0827602b98d12e7" --upload-html
 
-    - name: Upload Playwright report
+    - name: Upload Playwright failure artifacts
       uses: actions/upload-artifact@v4
       if: always()
       with:
-        name: playwright-report
+        name: playwright-failures-${{ github.run_id }}
         path: |
           frontend/playwright-report
           frontend/tests/screenshots
-        retention-days: 30
-
-    - name: Upload test results
-      uses: actions/upload-artifact@v4
-      if: always()
-      with:
-        name: playwright-test-results
-        path: frontend/test-results
+          frontend/test-results
         retention-days: 7
 
   # Build Test
@@ -220,11 +233,29 @@ jobs:
       run: npm ci
 
     - name: Build application
+      id: build
       working-directory: ./frontend
-      run: npm run build
+      run: npm run build 2>&1 | tee build-errors.log
+      continue-on-error: true
       env:
         NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.SUPABASE_URL || 'https://placeholder.supabase.co' }}
         NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY || 'placeholder-key' }}
+
+    - name: Upload build failure artifacts
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: build-failures-${{ github.run_id }}
+        path: |
+          frontend/build-errors.log
+          frontend/.next/build-manifest.json
+        retention-days: 7
+
+    - name: Fail if build failed
+      if: steps.build.outcome == 'failure'
+      run: |
+        echo "::error::Build failed. See artifacts for details."
+        exit 1
 
   # Test Summary
   test-summary:
