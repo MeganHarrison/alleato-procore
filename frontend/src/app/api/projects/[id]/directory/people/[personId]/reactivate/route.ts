@@ -1,25 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
 import { DirectoryService } from '@/services/directoryService';
 import { PermissionService } from '@/services/permissionService';
-import type { Database } from '@/types/database.types';
+
+interface RouteParams {
+  params: Promise<{ id: string; personId: string }>;
+}
 
 /**
  * Handles POST requests to reactivate a person in a project's directory.
  *
  * @param request - The incoming Next.js request
  * @param params - Route parameters
- * @param params.projectId - ID of the project containing the person
+ * @param params.id - ID of the project containing the person
  * @param params.personId - ID of the person to reactivate
  * @returns A JSON response: on success `{ success: true, message: 'Person reactivated successfully' }`; on authentication failure `{ error: 'Unauthorized' }` with status 401; on permission failure `{ error: 'Forbidden' }` with status 403; on unexpected errors `{ error: 'Internal server error' }` with status 500
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { projectId: string; personId: string } }
+  { params }: RouteParams
 ) {
   try {
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const { id: projectId, personId } = await params;
+    const supabase = await createClient();
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -31,7 +34,7 @@ export async function POST(
     const permissionService = new PermissionService(supabase);
     const hasPermission = await permissionService.hasPermission(
       user.id,
-      params.projectId,
+      projectId,
       'directory',
       'write'
     );
@@ -42,7 +45,7 @@ export async function POST(
 
     // Reactivate person
     const directoryService = new DirectoryService(supabase);
-    await directoryService.reactivatePerson(params.projectId, params.personId);
+    await directoryService.reactivatePerson(projectId, personId);
 
     return NextResponse.json({ 
       success: true,

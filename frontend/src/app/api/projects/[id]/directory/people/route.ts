@@ -1,22 +1,25 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
 import { DirectoryService } from '@/services/directoryService';
 import { PermissionService } from '@/services/permissionService';
-import type { Database } from '@/types/database.types';
+
+interface RouteParams {
+  params: Promise<{ id: string }>;
+}
 
 /**
  * Lists directory people for the specified project, applying query filters and enforcing user permissions.
  *
- * @param params - Route parameters containing `projectId`, the project identifier used to scope the directory query.
+ * @param params - Route parameters containing `id`, the project identifier used to scope the directory query.
  * @returns The directory listing serialized as JSON on success; on failure a JSON object with an `error` message and an appropriate HTTP status code.
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { projectId: string } }
+  { params }: RouteParams
 ) {
   try {
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const { id: projectId } = await params;
+    const supabase = await createClient();
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -28,7 +31,7 @@ export async function GET(
     const permissionService = new PermissionService(supabase);
     const hasPermission = await permissionService.hasPermission(
       user.id,
-      params.projectId,
+      projectId,
       'directory',
       'read'
     );
@@ -53,7 +56,7 @@ export async function GET(
 
     // Get people
     const directoryService = new DirectoryService(supabase);
-    const result = await directoryService.getPeople(params.projectId, filters);
+    const result = await directoryService.getPeople(projectId, filters);
 
     return NextResponse.json(result);
   } catch (error) {
@@ -71,15 +74,16 @@ export async function GET(
  * Validates that `first_name`, `last_name`, and `person_type` are present in the request body,
  * enforces project-level write permission, and returns the created person as JSON.
  *
- * @param params.projectId - ID of the project to which the new person will belong
+ * @param params.id - ID of the project to which the new person will belong
  * @returns The created person object as JSON on success. On error, returns a JSON error with status `400` (missing required fields), `401` (unauthorized), `403` (forbidden), or `500` (internal server error).
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { projectId: string } }
+  { params }: RouteParams
 ) {
   try {
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const { id: projectId } = await params;
+    const supabase = await createClient();
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -91,7 +95,7 @@ export async function POST(
     const permissionService = new PermissionService(supabase);
     const hasPermission = await permissionService.hasPermission(
       user.id,
-      params.projectId,
+      projectId,
       'directory',
       'write'
     );
@@ -102,7 +106,7 @@ export async function POST(
 
     // Parse request body
     const body = await request.json();
-    
+
     // Validate required fields
     if (!body.first_name || !body.last_name || !body.person_type) {
       return NextResponse.json(
@@ -113,7 +117,7 @@ export async function POST(
 
     // Create person
     const directoryService = new DirectoryService(supabase);
-    const person = await directoryService.createPerson(params.projectId, body);
+    const person = await directoryService.createPerson(projectId, body);
 
     return NextResponse.json(person, { status: 201 });
   } catch (error) {

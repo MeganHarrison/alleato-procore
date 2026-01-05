@@ -1,10 +1,12 @@
 import type { NextRequest } from 'next/server';
 import { NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
-import type { Database } from '@/types/database.types';
+import { createClient } from '@/lib/supabase/server';
 import { DistributionGroupService } from '@/services/distributionGroupService';
 import { PermissionService } from '@/services/permissionService';
+
+interface RouteParams {
+  params: Promise<{ id: string; groupId: string }>;
+}
 
 /**
  * Handle POST requests to modify members of a distribution group within a project.
@@ -14,17 +16,17 @@ import { PermissionService } from '@/services/permissionService';
  * `admin` permission on the project's `directory` resource.
  *
  * @param request - The incoming NextRequest for the route
- * @param params.projectId - The project ID from the route parameters
+ * @param params.id - The project ID from the route parameters
  * @param params.groupId - The distribution group ID from the route parameters
  * @returns An HTTP JSON NextResponse describing the result. On success the body is `{ success: true }`. On error the body is `{ error: string }` with an appropriate status code: 400 (bad request), 401 (unauthorized), 403 (forbidden), or 500 (internal server error).
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string; groupId: string }> }
+  { params }: RouteParams
 ) {
   try {
-    const { id, groupId } = await params;
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const { id: projectId, groupId } = await params;
+    const supabase = await createClient();
 
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -36,7 +38,7 @@ export async function POST(
     const permissionService = new PermissionService(supabase);
     const hasPermission = await permissionService.hasPermission(
       user.id,
-      id,
+      projectId,
       'directory',
       'admin'
     );

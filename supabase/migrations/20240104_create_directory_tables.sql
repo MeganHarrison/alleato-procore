@@ -243,7 +243,7 @@ CREATE POLICY "Only system admins can modify permission templates" ON permission
     USING (
         EXISTS (
             SELECT 1 FROM app_users
-            WHERE id = auth.uid()::text
+            WHERE id = auth.uid()
             AND role = 'admin'
         )
     );

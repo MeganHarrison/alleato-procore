@@ -3,7 +3,7 @@
 import { usePathname } from "next/navigation"
 import { SiteHeader } from "@/components/site-header"
 import { AppSidebar } from "@/components/app-sidebar"
-import { Footer } from "@/components/layout/Footer"
+import Footer from "@/components/layout/Footer"
 import {
   SidebarInset,
   SidebarProvider,

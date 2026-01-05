@@ -1,26 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
 import { DirectoryService } from '@/services/directoryService';
 import { PermissionService } from '@/services/permissionService';
-import type { Database } from '@/types/database.types';
+
+interface RouteParams {
+  params: Promise<{ id: string; personId: string }>;
+}
 
 /**
  * Handle POST requests to deactivate a person in a project's directory.
  *
  * @param request - The incoming HTTP request
  * @param params - Route parameters
- * @param params.projectId - The ID of the project containing the person
+ * @param params.id - The ID of the project containing the person
  * @param params.personId - The ID of the person to deactivate
  * @returns A JSON response: on success `{ success: true, message: 'Person deactivated successfully' }`; on failure an object with an `error` message describing the problem
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { id: string; personId: string } }
+  { params }: RouteParams
 ) {
   try {
-    const projectId = params.id;
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const { id: projectId, personId } = await params;
+    const supabase = await createClient();
 
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -43,7 +45,7 @@ export async function POST(
 
     // Deactivate person
     const directoryService = new DirectoryService(supabase);
-    await directoryService.deactivatePerson(projectId, params.personId);
+    await directoryService.deactivatePerson(projectId, personId);
 
     return NextResponse.json({ 
       success: true,

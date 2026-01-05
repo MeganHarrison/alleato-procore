@@ -1,24 +1,27 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
 import { InviteService } from '@/services/inviteService';
 import { PermissionService } from '@/services/permissionService';
-import type { Database } from '@/types/database.types';
+
+interface RouteParams {
+  params: Promise<{ id: string; personId: string }>;
+}
 
 /**
  * Resends an invitation for a specific person within a project after verifying the requester's identity and write permission on the project's directory.
  *
  * @param request - The incoming Next.js request object.
- * @param params.projectId - The ID of the project containing the person to re-invite.
+ * @param params.id - The ID of the project containing the person to re-invite.
  * @param params.personId - The ID of the person whose invite should be resent.
  * @returns A JSON NextResponse: on success contains the invite operation result; on failure contains an `error` message and an appropriate HTTP status (401 for unauthorized, 403 for forbidden, 400 for bad request, 500 for internal server error).
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { projectId: string; personId: string } }
+  { params }: RouteParams
 ) {
   try {
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const { id: projectId, personId } = await params;
+    const supabase = await createClient();
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -30,7 +33,7 @@ export async function POST(
     const permissionService = new PermissionService(supabase);
     const hasPermission = await permissionService.hasPermission(
       user.id,
-      params.projectId,
+      projectId,
       'directory',
       'write'
     );
@@ -41,7 +44,7 @@ export async function POST(
 
     // Resend invite
     const inviteService = new InviteService(supabase);
-    const result = await inviteService.resendInvite(params.projectId, params.personId);
+    const result = await inviteService.resendInvite(projectId, personId);
 
     if (!result.success) {
       return NextResponse.json(

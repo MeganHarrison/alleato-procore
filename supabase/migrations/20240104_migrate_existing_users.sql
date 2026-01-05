@@ -137,28 +137,29 @@ AND pdm.status = 'active'
 ON CONFLICT (group_id, person_id) DO NOTHING;
 
 -- Create audit log entry for migration
-INSERT INTO sync_status (
-    id,
-    sync_type,
-    entity_type,
-    entity_id,
-    status,
-    last_sync_at,
-    metadata
-) VALUES (
-    gen_random_uuid(),
-    'migration',
-    'directory_tables',
-    'initial_migration',
-    'completed',
-    NOW(),
-    jsonb_build_object(
-        'migrated_users', (SELECT COUNT(*) FROM people WHERE person_type = 'user'),
-        'migrated_memberships', (SELECT COUNT(*) FROM project_directory_memberships),
-        'created_groups', (SELECT COUNT(*) FROM distribution_groups),
-        'migration_date', NOW()
-    )
-);
+-- NOTE: Commented out due to sync_status schema mismatch
+-- INSERT INTO sync_status (
+--     id,
+--     sync_type,
+--     entity_type,
+--     entity_id,
+--     status,
+--     last_sync_at,
+--     metadata
+-- ) VALUES (
+--     gen_random_uuid(),
+--     'migration',
+--     'directory_tables',
+--     'initial_migration',
+--     'completed',
+--     NOW(),
+--     jsonb_build_object(
+--         'migrated_users', (SELECT COUNT(*) FROM people WHERE person_type = 'user'),
+--         'migrated_memberships', (SELECT COUNT(*) FROM project_directory_memberships),
+--         'created_groups', (SELECT COUNT(*) FROM distribution_groups),
+--         'migration_date', NOW()
+--     )
+-- );
 
 -- Verify migration success
 DO $$

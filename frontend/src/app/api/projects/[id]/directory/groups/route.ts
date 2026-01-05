@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
 import { DistributionGroupService } from '@/services/distributionGroupService';
 import { PermissionService } from '@/services/permissionService';
-import type { Database } from '@/types/database.types';
+
+interface RouteParams {
+  params: Promise<{ id: string }>;
+}
 
 /**
  * Retrieve distribution groups for the specified project.
@@ -12,16 +14,16 @@ import type { Database } from '@/types/database.types';
  * - `include_members` (boolean): when `true`, include group members in the response.
  * - `status` (`'active' | 'inactive' | 'all'`, default `'active'`): filter groups by status.
  *
- * @param params.projectId - The project identifier to fetch groups for.
+ * @param params.id - The project identifier to fetch groups for.
  * @returns A JSON response containing the retrieved distribution groups, or an error object on failure.
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ projectId: string }> }
+  { params }: RouteParams
 ) {
   try {
-    const { projectId } = await params;
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const { id: projectId } = await params;
+    const supabase = await createClient();
 
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -66,16 +68,16 @@ export async function GET(
  *
  * Expects a JSON request body with a required `name` field and verifies the caller has 'admin' permission on the project's directory.
  *
- * @param params - Route parameters containing `projectId`, the identifier of the project to scope the new group.
+ * @param params - Route parameters containing `id`, the identifier of the project to scope the new group.
  * @returns A NextResponse containing the created distribution group as JSON, or a NextResponse with an error message on failure.
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ projectId: string }> }
+  { params }: RouteParams
 ) {
   try {
-    const { projectId } = await params;
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const { id: projectId } = await params;
+    const supabase = await createClient();
 
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
