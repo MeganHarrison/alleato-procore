@@ -77,16 +77,22 @@ jobs:
         run: |
           mkdir -p ./failure-artifacts
 
-          # Download all failure-related artifacts
-          ARTIFACTS='${{ toJSON(fromJSON(steps.failure_details.outputs.result).artifacts) }}'
-          echo "$ARTIFACTS" | jq -r '.[] | select(.name | contains("failures")) | .name' | while read artifact_name; do
-            echo "Downloading artifact: $artifact_name"
-            gh run download ${{ github.event.workflow_run.id }} -n "$artifact_name" -D "./failure-artifacts/$artifact_name" || echo "Failed to download $artifact_name"
+          # Write artifacts to temporary file to avoid argument list issues
+          cat > /tmp/artifacts.json << 'ARTIFACT_EOF'
+          ${{ toJSON(fromJSON(steps.failure_details.outputs.result).artifacts) }}
+          ARTIFACT_EOF
+
+          # Download each failure artifact
+          jq -r '.[] | select(.name | contains("failures")) | .name' /tmp/artifacts.json | while IFS= read -r artifact_name; do
+            if [ -n "$artifact_name" ]; then
+              echo "Downloading artifact: $artifact_name"
+              gh run download ${{ github.event.workflow_run.id }} -n "$artifact_name" -D "./failure-artifacts/${artifact_name}" 2>&1 || echo "Warning: Failed to download $artifact_name"
+            fi
           done
 
           # List downloaded artifacts
           echo "Downloaded artifacts:"
-          ls -la ./failure-artifacts/
+          find ./failure-artifacts -type f -ls 2>/dev/null || echo "No artifacts downloaded"
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 

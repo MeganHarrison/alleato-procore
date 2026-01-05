@@ -7,11 +7,12 @@ import type { Database } from '@/types/database.types';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { projectId: string } }
+  { params }: { params: Promise<{ projectId: string }> }
 ) {
   try {
+    const { projectId } = await params;
     const supabase = createRouteHandlerClient<Database>({ cookies });
-    
+
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
@@ -22,7 +23,7 @@ export async function GET(
     const permissionService = new PermissionService(supabase);
     const hasPermission = await permissionService.hasPermission(
       user.id,
-      params.projectId,
+      projectId,
       'directory',
       'read'
     );
@@ -38,7 +39,7 @@ export async function GET(
 
     // Get groups
     const groupService = new DistributionGroupService(supabase);
-    const groups = await groupService.getGroups(params.projectId, includeMembers, status);
+    const groups = await groupService.getGroups(projectId, includeMembers, status);
 
     return NextResponse.json(groups);
   } catch (error) {
@@ -52,11 +53,12 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { projectId: string } }
+  { params }: { params: Promise<{ projectId: string }> }
 ) {
   try {
+    const { projectId } = await params;
     const supabase = createRouteHandlerClient<Database>({ cookies });
-    
+
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
@@ -67,7 +69,7 @@ export async function POST(
     const permissionService = new PermissionService(supabase);
     const hasPermission = await permissionService.hasPermission(
       user.id,
-      params.projectId,
+      projectId,
       'directory',
       'admin'
     );
@@ -89,7 +91,7 @@ export async function POST(
 
     // Create group
     const groupService = new DistributionGroupService(supabase);
-    const group = await groupService.createGroup(params.projectId, body);
+    const group = await groupService.createGroup(projectId, body);
 
     return NextResponse.json(group, { status: 201 });
   } catch (error) {
