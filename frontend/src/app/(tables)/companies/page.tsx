@@ -153,7 +153,7 @@ export default function CompanyDirectoryPage() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-4xl md:text-5xl font-serif font-light tracking-tight text-neutral-900">Company Directory</h1>
+            <h1 className="text-4xl md:text-5xl font-sans font-light tracking-tight text-neutral-900">Company Directory</h1>
             <p className="text-sm text-neutral-500 mt-3">Manage your companies and contractors</p>
           </div>
           <Button

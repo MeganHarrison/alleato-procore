@@ -9,7 +9,7 @@ export default function DirectoryPage() {
     <div className="min-h-screen bg-neutral-50">
       <div className="max-w-[1800px] mx-auto px-6 md:px-10 lg:px-12 py-12">
         <div className="mb-12">
-          <h1 className="text-4xl md:text-5xl font-serif font-light tracking-tight text-neutral-900 mb-3">Directory</h1>
+          <h1 className="text-4xl md:text-5xl font-sans font-light tracking-tight text-neutral-900 mb-3">Directory</h1>
           <p className="text-sm text-neutral-500">
             Manage companies, clients, contacts, and users across your organization
           </p>

@@ -117,7 +117,7 @@ export default function AIChat() {
               <Sparkles className="size-5 text-white" />
             </motion.div>
             <div>
-              <h1 className="font-serif text-xl font-semibold tracking-tight text-[#2D2D2D]">
+              <h1 className="font-sans text-xl font-semibold tracking-tight text-[#2D2D2D]">
                 Alleato AI
               </h1>
               <p className="text-xs text-[#6B6B6B]">Construction Intelligence</p>

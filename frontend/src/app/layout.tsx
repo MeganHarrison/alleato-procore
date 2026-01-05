@@ -7,16 +7,10 @@ import { ProjectProvider } from "@/contexts/project-context";
 import { FavoritesProvider } from "@/contexts/favorites-context";
 import { ConditionalLayout } from "@/components/layout/conditional-layout";
 import { Toaster } from "@/components/ui/sonner"
-import { Playfair_Display, Inter } from 'next/font/google'
+import { Inter } from 'next/font/google'
 import { AIChatWidget } from "@/components/chat/ai-chat-widget";
 import { DocsChat } from "@/components/procore-docs/docs-chat";
 import "./globals.css";
-
-const playfair = Playfair_Display({
-  subsets: ['latin'],
-  variable: '--font-serif',
-  display: 'swap',
-})
 
 const inter = Inter({
   subsets: ['latin'],
@@ -45,7 +39,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning className={`${inter.variable} ${playfair.variable}`}>
+    <html lang="en" suppressHydrationWarning className={`${inter.variable}`}>
       <body className="font-sans antialiased text-foreground" suppressHydrationWarning>
         <QueryProvider>
           <ThemeProvider

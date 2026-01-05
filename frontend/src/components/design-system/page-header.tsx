@@ -28,7 +28,7 @@ export function PageHeader({ project, client, title, description, actions }: Pag
       <div>
         <div className="flex items-start justify-between gap-6">
           <div className="flex-1">
-            <h1 className="text-4xl md:text-4xl lg:text-5xl font-serif font-light tracking-tight text-neutral-900 leading-[1.05] mb-6">
+            <h1 className="text-4xl md:text-4xl lg:text-5xl font-sans font-light tracking-tight text-neutral-900 leading-[1.05] mb-6">
               {title}
             </h1>
             {description && (

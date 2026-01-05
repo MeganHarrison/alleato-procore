@@ -36,7 +36,7 @@ export default function StyleGuidePage() {
         {/* Color Palette */}
         <section className="mb-20">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
               Color Palette
             </h2>
             <p className="text-sm text-neutral-500">
@@ -48,7 +48,7 @@ export default function StyleGuidePage() {
             {/* Brand Orange */}
             <div className="border border-neutral-200 bg-white p-6">
               <div className="h-24 bg-brand mb-4 border border-neutral-200"></div>
-              <h3 className="text-lg font-serif font-light text-neutral-900 mb-2">Brand Orange</h3>
+              <h3 className="text-lg font-sans font-light text-neutral-900 mb-2">Brand Orange</h3>
               <p className="text-sm text-neutral-600 font-mono">#DB802D</p>
               <p className="text-xs text-neutral-500 mt-1">text-brand, bg-brand</p>
             </div>
@@ -56,7 +56,7 @@ export default function StyleGuidePage() {
             {/* Neutral */}
             <div className="border border-neutral-200 bg-white p-6">
               <div className="h-24 bg-neutral-900 mb-4 border border-neutral-200"></div>
-              <h3 className="text-lg font-serif font-light text-neutral-900 mb-2">Neutral Gray</h3>
+              <h3 className="text-lg font-sans font-light text-neutral-900 mb-2">Neutral Gray</h3>
               <p className="text-sm text-neutral-600 font-mono">#171717</p>
               <p className="text-xs text-neutral-500 mt-1">text-neutral-900</p>
             </div>
@@ -64,7 +64,7 @@ export default function StyleGuidePage() {
             {/* Green (Decisions) */}
             <div className="border border-neutral-200 bg-white p-6">
               <div className="h-24 bg-green-700 mb-4 border border-neutral-200"></div>
-              <h3 className="text-lg font-serif font-light text-neutral-900 mb-2">Success Green</h3>
+              <h3 className="text-lg font-sans font-light text-neutral-900 mb-2">Success Green</h3>
               <p className="text-sm text-neutral-600 font-mono">#15803d</p>
               <p className="text-xs text-neutral-500 mt-1">text-green-700 (Decisions)</p>
             </div>
@@ -72,7 +72,7 @@ export default function StyleGuidePage() {
             {/* Blue (Action Items) */}
             <div className="border border-neutral-200 bg-white p-6">
               <div className="h-24 bg-blue-700 mb-4 border border-neutral-200"></div>
-              <h3 className="text-lg font-serif font-light text-neutral-900 mb-2">Info Blue</h3>
+              <h3 className="text-lg font-sans font-light text-neutral-900 mb-2">Info Blue</h3>
               <p className="text-sm text-neutral-600 font-mono">#1d4ed8</p>
               <p className="text-xs text-neutral-500 mt-1">text-blue-700 (Actions)</p>
             </div>
@@ -82,7 +82,7 @@ export default function StyleGuidePage() {
         {/* Typography */}
         <section className="mb-20">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
               Typography
             </h2>
             <p className="text-sm text-neutral-500">
@@ -94,7 +94,7 @@ export default function StyleGuidePage() {
             {/* Page Title */}
             <div>
               <p className="text-xs text-neutral-500 mb-2">Page Title (PageHeader)</p>
-              <h1 className="text-4xl md:text-5xl font-serif font-light tracking-tight text-neutral-900">
+              <h1 className="text-4xl md:text-5xl font-sans font-light tracking-tight text-neutral-900">
                 Page Title Example
               </h1>
             </div>
@@ -102,7 +102,7 @@ export default function StyleGuidePage() {
             {/* Section Heading */}
             <div>
               <p className="text-xs text-neutral-500 mb-2">Section Heading</p>
-              <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900">
+              <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900">
                 Section Heading Example
               </h2>
             </div>
@@ -110,7 +110,7 @@ export default function StyleGuidePage() {
             {/* Card Title */}
             <div>
               <p className="text-xs text-neutral-500 mb-2">Card Title</p>
-              <h3 className="text-lg font-serif font-light text-neutral-900">
+              <h3 className="text-lg font-sans font-light text-neutral-900">
                 Card Title Example
               </h3>
             </div>
@@ -142,7 +142,7 @@ export default function StyleGuidePage() {
         {/* Stat Cards */}
         <section className="mb-20">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
               Stat Cards
             </h2>
             <p className="text-sm text-neutral-500">
@@ -178,7 +178,7 @@ export default function StyleGuidePage() {
         {/* Content Cards */}
         <section className="mb-20">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
               Content Cards
             </h2>
             <p className="text-sm text-neutral-500">
@@ -211,7 +211,7 @@ export default function StyleGuidePage() {
         {/* Metadata Cards */}
         <section className="mb-20">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
               Metadata Cards
             </h2>
             <p className="text-sm text-neutral-500">
@@ -265,7 +265,7 @@ export default function StyleGuidePage() {
         {/* Lists with Bullets */}
         <section className="mb-20">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
               Lists with Brand Bullets
             </h2>
             <p className="text-sm text-neutral-500">
@@ -298,7 +298,7 @@ export default function StyleGuidePage() {
         {/* Outcome Badges */}
         <section className="mb-20">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
               Outcome Badges
             </h2>
             <p className="text-sm text-neutral-500">
@@ -352,7 +352,7 @@ export default function StyleGuidePage() {
         {/* Empty States */}
         <section className="mb-20">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
               Empty States
             </h2>
             <p className="text-sm text-neutral-500">
@@ -370,7 +370,7 @@ export default function StyleGuidePage() {
         {/* Spacing Scale */}
         <section className="mb-20">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
               Spacing Scale
             </h2>
             <p className="text-sm text-neutral-500">
@@ -424,7 +424,7 @@ export default function StyleGuidePage() {
         {/* Layout Patterns */}
         <section className="mb-20">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
               Layout Patterns
             </h2>
             <p className="text-sm text-neutral-500">
@@ -469,7 +469,7 @@ export default function StyleGuidePage() {
         {/* Reference Implementation */}
         <section className="mb-20">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
               Reference Implementation
             </h2>
             <p className="text-sm text-neutral-500">

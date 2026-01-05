@@ -326,7 +326,7 @@ export function ProjectHomeClient({
                     </DialogTrigger>
               <DialogContent className="border border-neutral-200">
                 <DialogHeader>
-                  <DialogTitle className="text-2xl font-serif font-light">Add Team Member</DialogTitle>
+                  <DialogTitle className="text-2xl font-sans font-light">Add Team Member</DialogTitle>
                 </DialogHeader>
                 <div className="space-y-5 py-4">
                   <div className="space-y-2">
@@ -950,7 +950,7 @@ export function ProjectHomeClient({
       {/* Budget */}
       <div className="mb-20">
         {/* Heading */}
-          <h2 className="pb-4 text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+          <h2 className="pb-4 text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
             Budget
           </h2>
 
@@ -971,7 +971,7 @@ export function ProjectHomeClient({
 
         {/* Heading */}
         <div>
-          <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+          <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
             Drawings
           </h2>
         </div>
@@ -983,7 +983,7 @@ export function ProjectHomeClient({
 
         {/* Heading */}
         <div>
-          <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+          <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
             Photos
           </h2>
         </div>

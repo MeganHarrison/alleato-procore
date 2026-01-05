@@ -39,12 +39,12 @@ export function FormattedTranscript({ content }: FormattedTranscriptProps) {
         components={{
           // Headings
           h1: ({ children }) => (
-            <h1 className="text-2xl font-serif font-light tracking-tight text-neutral-900 mb-4 mt-8 first:mt-0">
+            <h1 className="text-2xl font-sans font-light tracking-tight text-neutral-900 mb-4 mt-8 first:mt-0">
               {children}
             </h1>
           ),
           h2: ({ children }) => (
-            <h2 className="text-xl font-serif font-light tracking-tight text-neutral-900 mb-3 mt-6 first:mt-0">
+            <h2 className="text-xl font-sans font-light tracking-tight text-neutral-900 mb-3 mt-6 first:mt-0">
               {children}
             </h2>
           ),

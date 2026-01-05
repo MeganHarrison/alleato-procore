@@ -114,9 +114,8 @@ export default {
          TYPOGRAPHY
          ================================================================= */
       fontFamily: {
-        sans: ["var(--font-sans)", "system-ui", "sans-serif"],
-        serif: ["var(--font-serif)", "Georgia", "serif"],
-        mono: ["var(--font-mono)", "Menlo", "monospace"],
+        sans: ["var(--font-sans)", "system-ui", "-apple-system", "BlinkMacSystemFont", "Segoe UI", "Roboto", "sans-serif"],
+        mono: ["ui-monospace", "SFMono-Regular", "Consolas", "Monaco", "Liberation Mono", "monospace"],
       },
       fontSize: {
         "2xs": ["0.625rem", { lineHeight: "0.75rem" }], // 10px

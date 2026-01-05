@@ -36,7 +36,7 @@ export function ContentCard({
         {/* Header */}
         <div className="flex items-start justify-between gap-4">
           <div className="flex-1 min-w-0">
-            <h3 className="text-lg md:text-xl font-serif font-light text-neutral-900 tracking-tight mb-2">
+            <h3 className="text-lg md:text-xl font-sans font-light text-neutral-900 tracking-tight mb-2">
               {title}
             </h3>
             {description && (

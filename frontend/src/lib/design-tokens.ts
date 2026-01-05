@@ -98,9 +98,8 @@ export const colors = {
 
 export const typography = {
   fontFamily: {
-    sans: ['Inter', 'system-ui', 'sans-serif'],
-    serif: ['Georgia', 'Cambria', 'Times New Roman', 'serif'],
-    mono: ['Menlo', 'Monaco', 'Courier New', 'monospace'],
+    sans: ['Inter', 'system-ui', '-apple-system', 'BlinkMacSystemFont', 'Segoe UI', 'Roboto', 'Helvetica Neue', 'Arial', 'sans-serif'],
+    mono: ['ui-monospace', 'SFMono-Regular', 'SF Mono', 'Consolas', 'Liberation Mono', 'Menlo', 'monospace'],
   },
   fontSize: {
     xs: '0.75rem',     // 12px

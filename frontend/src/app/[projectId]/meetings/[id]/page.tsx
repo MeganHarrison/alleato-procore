@@ -214,7 +214,7 @@ export default async function ProjectMeetingDetailPage({ params }: PageProps) {
         {(allDecisions.length > 0 || allTasks.length > 0 || allRisks.length > 0 || allOpportunities.length > 0) && (
           <div className="mb-20">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
               Meeting Outcomes
             </h2>
             <p className="text-sm text-neutral-500">
@@ -228,7 +228,7 @@ export default async function ProjectMeetingDetailPage({ params }: PageProps) {
               <div className="border border-neutral-200 bg-white p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <CheckCircle className="h-5 w-5 text-green-700" />
-                  <h3 className="text-lg font-serif font-light text-neutral-900">
+                  <h3 className="text-lg font-sans font-light text-neutral-900">
                     Decisions ({allDecisions.length})
                   </h3>
                 </div>
@@ -248,7 +248,7 @@ export default async function ProjectMeetingDetailPage({ params }: PageProps) {
               <div className="border border-neutral-200 bg-white p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <ListTodo className="h-5 w-5 text-blue-700" />
-                  <h3 className="text-lg font-serif font-light text-neutral-900">
+                  <h3 className="text-lg font-sans font-light text-neutral-900">
                     Action Items ({allTasks.length})
                   </h3>
                 </div>
@@ -268,7 +268,7 @@ export default async function ProjectMeetingDetailPage({ params }: PageProps) {
               <div className="border border-neutral-200 bg-white p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <AlertTriangle className="h-5 w-5 text-amber-700" />
-                  <h3 className="text-lg font-serif font-light text-neutral-900">
+                  <h3 className="text-lg font-sans font-light text-neutral-900">
                     Risks ({allRisks.length})
                   </h3>
                 </div>
@@ -288,7 +288,7 @@ export default async function ProjectMeetingDetailPage({ params }: PageProps) {
               <div className="border border-neutral-200 bg-white p-8">
                 <div className="flex items-center gap-3 mb-6">
                   <Sparkles className="h-5 w-5 text-purple-700" />
-                  <h3 className="text-lg font-serif font-light text-neutral-900">
+                  <h3 className="text-lg font-sans font-light text-neutral-900">
                     Opportunities ({allOpportunities.length})
                   </h3>
                 </div>
@@ -310,7 +310,7 @@ export default async function ProjectMeetingDetailPage({ params }: PageProps) {
         {segments && segments.length > 0 && (
           <div className="mb-20">
           <div className="mb-8">
-            <h2 className="text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
               Discussion Topics
             </h2>
             <p className="text-sm text-neutral-500">
@@ -322,7 +322,7 @@ export default async function ProjectMeetingDetailPage({ params }: PageProps) {
             {segments.map((segment, index) => (
               <div key={segment.id} className="border border-neutral-200 bg-white p-8">
                 <div className="flex items-start justify-between mb-4">
-                  <h3 className="text-xl font-serif font-light text-neutral-900 flex-1">
+                  <h3 className="text-xl font-sans font-light text-neutral-900 flex-1">
                     {segment.title || `Topic ${index + 1}`}
                   </h3>
                   <span className="px-3 py-1 text-[10px] font-semibold tracking-[0.1em] uppercase bg-neutral-100 text-neutral-700 border border-neutral-200">
@@ -423,7 +423,7 @@ export default async function ProjectMeetingDetailPage({ params }: PageProps) {
         {!transcriptContent && (!segments || segments.length === 0) && (
           <div className="border border-neutral-200 bg-white p-12 md:p-16 text-center">
           <FileText className="h-16 w-16 text-neutral-300 mx-auto mb-6" strokeWidth={1.5} />
-          <h3 className="text-2xl font-serif font-light text-neutral-900 tracking-tight mb-3">
+          <h3 className="text-2xl font-sans font-light text-neutral-900 tracking-tight mb-3">
             No transcript available
           </h3>
           <p className="text-sm text-neutral-500 leading-relaxed max-w-md mx-auto">
