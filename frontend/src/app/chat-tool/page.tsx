@@ -1,6 +1,6 @@
 "use client"
 
-import { getOpenAIApiKey } from "@/app/primitives/demo/input-byok"
+// Removed import for missing input-byok module
 import {
   ChatContainerContent,
   ChatContainerRoot,
@@ -162,7 +162,7 @@ function ToolCallingChatbot() {
         const body = JSON.parse(init?.body as string)
         const updatedBody = {
           ...body,
-          apiKey: getOpenAIApiKey(),
+          // API key removed - should be configured on server side
         }
         return fetch(input, {
           ...init,

@@ -12,7 +12,6 @@ import {
   BudgetFilters,
   BudgetTable,
   BudgetDetailsTable,
-  BudgetLineItemModal,
   BudgetModificationModal,
   VerticalMarkupSettings,
   CostCodesTab,
@@ -22,6 +21,7 @@ import {
   SnapshotsTab,
   ChangeHistoryTab,
 } from '@/components/budget';
+import { BudgetLineItemModalAnimated } from '@/components/budget/budget-line-item-modal-animated';
 import { BudgetModificationsModal } from '@/components/budget/modals/BudgetModificationsModal';
 import { ApprovedCOsModal } from '@/components/budget/modals/ApprovedCOsModal';
 import { JobToDateCostDetailModal } from '@/components/budget/modals/JobToDateCostDetailModal';
@@ -174,8 +174,8 @@ function BudgetPageContent() {
       toast.error('Budget is locked. Unlock to add new line items.');
       return;
     }
-    // Navigate to bulk budget setup page
-    router.push(`/${projectId}/budget/setup`);
+    // Open the budget line item modal
+    setShowLineItemModal(true);
   };
 
   const handleModificationClick = () => {
@@ -634,7 +634,7 @@ function BudgetPageContent() {
         )}
       </div>
 
-      <BudgetLineItemModal
+      <BudgetLineItemModalAnimated
         open={showLineItemModal}
         onOpenChange={setShowLineItemModal}
         projectId={projectId}

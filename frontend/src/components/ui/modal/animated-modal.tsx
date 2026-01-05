@@ -9,7 +9,7 @@ import React, {
   useRef,
   useState,
 } from "react";
-import { useOnClickOutside } from "@repo/hooks";
+import useClickOutside from "@/hooks/useClickOutside";
 
 interface ModalContextType {
   open: boolean;
@@ -80,7 +80,7 @@ export const ModalBody = ({
 
   const modalRef = useRef<HTMLDivElement>(null);
   const { setOpen } = useModal();
-  useOnClickOutside(modalRef as React.RefObject<HTMLElement>, () => setOpen(false));
+  useClickOutside(modalRef, () => setOpen(false));
 
   return (
     <AnimatePresence>

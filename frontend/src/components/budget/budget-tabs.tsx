@@ -32,10 +32,10 @@ export function BudgetTabs({
     <div className="border-b bg-white">
       <div className="px-4 sm:px-6 lg:px-12">
         <nav className="flex py-3" aria-label="Budget tabs">
-          <div className="rounded-lg bg-gray-100 p-1 dark:bg-zinc-800">
+          <div className="flex gap-1">
             <AnimatedBackground
               defaultValue={activeTab}
-              className="rounded-md bg-white shadow-sm dark:bg-zinc-700"
+              className="rounded-md bg-primary"
               transition={{
                 ease: 'easeInOut',
                 duration: 0.2,
@@ -46,22 +46,26 @@ export function BudgetTabs({
                 }
               }}
             >
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  data-id={tab.id}
-                  type="button"
-                  aria-label={tab.label}
-                  className={cn(
-                    'inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-colors',
-                    'text-gray-700 dark:text-gray-200',
-                    'hover:text-gray-900 dark:hover:text-white'
-                  )}
-                  aria-current={activeTab === tab.id ? 'page' : undefined}
-                >
-                  {tab.label}
-                </button>
-              ))}
+              {tabs.map((tab) => {
+                const isActive = activeTab === tab.id;
+                return (
+                  <button
+                    key={tab.id}
+                    data-id={tab.id}
+                    type="button"
+                    aria-label={tab.label}
+                    className={cn(
+                      'inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-colors rounded-md',
+                      isActive
+                        ? 'text-white'
+                        : 'text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white'
+                    )}
+                    aria-current={isActive ? 'page' : undefined}
+                  >
+                    {tab.label}
+                  </button>
+                );
+              })}
             </AnimatedBackground>
           </div>
         </nav>

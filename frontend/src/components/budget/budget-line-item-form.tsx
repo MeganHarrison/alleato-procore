@@ -16,14 +16,6 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalFooter,
-  ModalTrigger,
-  useModal,
-} from '@/components/ui/modal/animated-modal';
-import {
   Dialog,
   DialogContent,
   DialogDescription,
@@ -64,19 +56,17 @@ interface BudgetLineItemRow {
   amount: string;
 }
 
-interface BudgetLineItemModalProps {
-  open: boolean;
-  onOpenChange: (open: boolean) => void;
+interface BudgetLineItemFormProps {
   projectId: string;
   onSuccess?: () => void;
+  onCancel?: () => void;
 }
 
-export function BudgetLineItemModal({
-  open,
-  onOpenChange,
+export function BudgetLineItemForm({
   projectId,
   onSuccess,
-}: BudgetLineItemModalProps) {
+  onCancel,
+}: BudgetLineItemFormProps) {
   const [loading, setLoading] = useState(false);
   const [budgetCodes, setBudgetCodes] = useState<BudgetCode[]>([]);
   const [loadingCodes, setLoadingCodes] = useState(true);
@@ -128,25 +118,6 @@ export function BudgetLineItemModal({
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
 
-  // Reset form when modal closes
-  useEffect(() => {
-    if (!open) {
-      setRows([
-        {
-          id: '1',
-          budgetCodeId: '',
-          budgetCodeLabel: '',
-          qty: '',
-          uom: '',
-          unitCost: '',
-          amount: '0.00',
-        },
-      ]);
-      setSearchQuery('');
-      setOpenPopoverId(null);
-    }
-  }, [open]);
-
   // Fetch cost codes from Supabase when create code modal opens
   useEffect(() => {
     const fetchCostCodes = async () => {
@@ -195,7 +166,7 @@ export function BudgetLineItemModal({
   // Fetch budget codes for the project
   useEffect(() => {
     const fetchBudgetCodes = async () => {
-      if (!projectId || !open) return;
+      if (!projectId) return;
 
       try {
         setLoadingCodes(true);
@@ -220,7 +191,7 @@ export function BudgetLineItemModal({
     };
 
     fetchBudgetCodes();
-  }, [projectId, open]);
+  }, [projectId]);
 
   const getCostTypeLabel = (type: string) => {
     const types: Record<string, string> = {
@@ -411,7 +382,6 @@ export function BudgetLineItemModal({
 
       await response.json();
       toast.success('Budget line items created');
-      onOpenChange(false);
       onSuccess?.();
     } catch (error) {
       console.error('Error creating budget line items:', error);
@@ -431,207 +401,203 @@ export function BudgetLineItemModal({
 
   return (
     <>
-      <Dialog open={open} onOpenChange={onOpenChange}>
-        <DialogContent className="max-w-[1200px] max-h-[90vh] flex flex-col">
-              <div className="mb-6">
-                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
-                  Create Budget Line Items
-                </h2>
-                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                  Add one or more line items to the project budget
-                </p>
-              </div>
+      <div className="mb-6">
+        <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
+          Create Budget Line Items
+        </h2>
+        <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+          Add one or more line items to the project budget
+        </p>
+      </div>
 
-          <form onSubmit={handleSubmit} className="flex flex-col flex-1 overflow-hidden">
-            <div className="flex-1 overflow-y-auto py-4">
-              <div className="bg-white dark:bg-neutral-900 border rounded-lg overflow-hidden">
-                <div className="overflow-x-auto scrollbar-hide">
-                  <table className="w-full">
-                    <thead className="bg-gray-50 border-b">
-                      <tr>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-12">#</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 min-w-[300px]">
-                          Budget Code*
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-24">Qty</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-28">UOM</th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-32">
-                          Unit Cost
-                        </th>
-                        <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-32">
-                          Amount*
-                        </th>
-                        <th className="px-4 py-3 w-12">
-                          <span className="sr-only">Actions</span>
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y">
-                      {rows.map((row, index) => (
-                        <tr key={row.id} className="hover:bg-gray-50">
-                          <td className="px-4 py-3 text-sm text-gray-600">{index + 1}</td>
+      <form onSubmit={handleSubmit} className="flex flex-col">
+        <div className="flex-1 overflow-y-auto py-4">
+          <div className="bg-white dark:bg-neutral-900 border rounded-lg overflow-hidden">
+            <div className="overflow-x-auto scrollbar-hide">
+              <table className="w-full">
+                <thead className="bg-gray-50 border-b">
+                  <tr>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-12">#</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 min-w-[300px]">
+                      Budget Code*
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-24">Qty</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-28">UOM</th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-32">
+                      Unit Cost
+                    </th>
+                    <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-32">
+                      Amount*
+                    </th>
+                    <th className="px-4 py-3 w-12">
+                      <span className="sr-only">Actions</span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y">
+                  {rows.map((row, index) => (
+                    <tr key={row.id} className="hover:bg-gray-50">
+                      <td className="px-4 py-3 text-sm text-gray-600">{index + 1}</td>
 
-                          <td className="px-4 py-3">
-                            <Popover
-                              open={openPopoverId === row.id}
-                              onOpenChange={(open) => setOpenPopoverId(open ? row.id : null)}
+                      <td className="px-4 py-3">
+                        <Popover
+                          open={openPopoverId === row.id}
+                          onOpenChange={(open) => setOpenPopoverId(open ? row.id : null)}
+                        >
+                          <PopoverTrigger asChild>
+                            <Button
+                              variant="outline"
+                              role="combobox"
+                              className="w-full justify-between text-left font-normal h-9"
                             >
-                              <PopoverTrigger asChild>
-                                <Button
-                                  variant="outline"
-                                  role="combobox"
-                                  className="w-full justify-between text-left font-normal h-9"
-                                >
-                                  <span className="truncate">
-                                    {row.budgetCodeLabel || 'Select budget code...'}
-                                  </span>
-                                  <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-                                </Button>
-                              </PopoverTrigger>
-                              <PopoverContent className="w-[400px] p-0" align="start">
-                                <Command>
-                                  <CommandInput
-                                    placeholder="Search budget codes..."
-                                    value={searchQuery}
-                                    onValueChange={setSearchQuery}
-                                  />
-                                  <CommandList>
-                                    <CommandEmpty>
-                                      {loadingCodes ? 'Loading...' : 'No budget codes found.'}
-                                    </CommandEmpty>
-                                    <CommandGroup>
-                                      {filteredCodes.map((code) => (
-                                        <CommandItem
-                                          key={code.id}
-                                          value={code.fullLabel}
-                                          onSelect={() => handleBudgetCodeSelect(row.id, code)}
-                                        >
-                                          {code.fullLabel}
-                                        </CommandItem>
-                                      ))}
-                                    </CommandGroup>
-                                    <CommandSeparator />
-                                    <CommandGroup>
-                                      <CommandItem
-                                        onSelect={() => {
-                                          setOpenPopoverId(null);
-                                          setShowCreateCodeModal(true);
-                                        }}
-                                        className="text-blue-600"
-                                      >
-                                        <Plus className="mr-2 h-4 w-4" />
-                                        Create New Budget Code
-                                      </CommandItem>
-                                    </CommandGroup>
-                                  </CommandList>
-                                </Command>
-                              </PopoverContent>
-                            </Popover>
-                          </td>
+                              <span className="truncate">
+                                {row.budgetCodeLabel || 'Select budget code...'}
+                              </span>
+                              <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                            </Button>
+                          </PopoverTrigger>
+                          <PopoverContent className="w-[400px] p-0" align="start">
+                            <Command>
+                              <CommandInput
+                                placeholder="Search budget codes..."
+                                value={searchQuery}
+                                onValueChange={setSearchQuery}
+                              />
+                              <CommandList>
+                                <CommandEmpty>
+                                  {loadingCodes ? 'Loading...' : 'No budget codes found.'}
+                                </CommandEmpty>
+                                <CommandGroup>
+                                  {filteredCodes.map((code) => (
+                                    <CommandItem
+                                      key={code.id}
+                                      value={code.fullLabel}
+                                      onSelect={() => handleBudgetCodeSelect(row.id, code)}
+                                    >
+                                      {code.fullLabel}
+                                    </CommandItem>
+                                  ))}
+                                </CommandGroup>
+                                <CommandSeparator />
+                                <CommandGroup>
+                                  <CommandItem
+                                    onSelect={() => {
+                                      setOpenPopoverId(null);
+                                      setShowCreateCodeModal(true);
+                                    }}
+                                    className="text-blue-600"
+                                  >
+                                    <Plus className="mr-2 h-4 w-4" />
+                                    Create New Budget Code
+                                  </CommandItem>
+                                </CommandGroup>
+                              </CommandList>
+                            </Command>
+                          </PopoverContent>
+                        </Popover>
+                      </td>
 
-                          <td className="px-4 py-3">
-                            <Input
-                              type="number"
-                              step="0.001"
-                              value={row.qty}
-                              onChange={(e) => handleRowChange(row.id, 'qty', e.target.value)}
-                              placeholder="0"
-                              className="h-9"
-                            />
-                          </td>
+                      <td className="px-4 py-3">
+                        <Input
+                          type="number"
+                          step="0.001"
+                          value={row.qty}
+                          onChange={(e) => handleRowChange(row.id, 'qty', e.target.value)}
+                          placeholder="0"
+                          className="h-9"
+                        />
+                      </td>
 
-                          <td className="px-4 py-3">
-                            <Select
-                              value={row.uom}
-                              onValueChange={(value) => handleRowChange(row.id, 'uom', value)}
-                            >
-                              <SelectTrigger className="h-9">
-                                <SelectValue placeholder="Select UOM" />
-                              </SelectTrigger>
-                              <SelectContent>
-                                <SelectItem value="EA">EA - Each</SelectItem>
-                                <SelectItem value="HR">HR - Hour</SelectItem>
-                                <SelectItem value="DAY">DAY - Day</SelectItem>
-                                <SelectItem value="WK">WK - Week</SelectItem>
-                                <SelectItem value="MO">MO - Month</SelectItem>
-                                <SelectItem value="LS">LS - Lump Sum</SelectItem>
-                                <SelectItem value="LF">LF - Linear Foot</SelectItem>
-                                <SelectItem value="SF">SF - Square Foot</SelectItem>
-                                <SelectItem value="SY">SY - Square Yard</SelectItem>
-                                <SelectItem value="CF">CF - Cubic Foot</SelectItem>
-                                <SelectItem value="CY">CY - Cubic Yard</SelectItem>
-                                <SelectItem value="LB">LB - Pound</SelectItem>
-                                <SelectItem value="TON">TON - Ton</SelectItem>
-                                <SelectItem value="GAL">GAL - Gallon</SelectItem>
-                                <SelectItem value="KG">KG - Kilogram</SelectItem>
-                                <SelectItem value="M">M - Meter</SelectItem>
-                                <SelectItem value="M2">M² - Square Meter</SelectItem>
-                                <SelectItem value="M3">M³ - Cubic Meter</SelectItem>
-                              </SelectContent>
-                            </Select>
-                          </td>
+                      <td className="px-4 py-3">
+                        <Select
+                          value={row.uom}
+                          onValueChange={(value) => handleRowChange(row.id, 'uom', value)}
+                        >
+                          <SelectTrigger className="h-9">
+                            <SelectValue placeholder="Select UOM" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="EA">EA - Each</SelectItem>
+                            <SelectItem value="HR">HR - Hour</SelectItem>
+                            <SelectItem value="DAY">DAY - Day</SelectItem>
+                            <SelectItem value="WK">WK - Week</SelectItem>
+                            <SelectItem value="MO">MO - Month</SelectItem>
+                            <SelectItem value="LS">LS - Lump Sum</SelectItem>
+                            <SelectItem value="LF">LF - Linear Foot</SelectItem>
+                            <SelectItem value="SF">SF - Square Foot</SelectItem>
+                            <SelectItem value="SY">SY - Square Yard</SelectItem>
+                            <SelectItem value="CF">CF - Cubic Foot</SelectItem>
+                            <SelectItem value="CY">CY - Cubic Yard</SelectItem>
+                            <SelectItem value="LB">LB - Pound</SelectItem>
+                            <SelectItem value="TON">TON - Ton</SelectItem>
+                            <SelectItem value="GAL">GAL - Gallon</SelectItem>
+                            <SelectItem value="KG">KG - Kilogram</SelectItem>
+                            <SelectItem value="M">M - Meter</SelectItem>
+                            <SelectItem value="M2">M² - Square Meter</SelectItem>
+                            <SelectItem value="M3">M³ - Cubic Meter</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      </td>
 
-                          <td className="px-4 py-3">
-                            <Input
-                              type="number"
-                              step="0.01"
-                              value={row.unitCost}
-                              onChange={(e) => handleRowChange(row.id, 'unitCost', e.target.value)}
-                              placeholder="0.00"
-                              className="h-9"
-                            />
-                          </td>
+                      <td className="px-4 py-3">
+                        <Input
+                          type="number"
+                          step="0.01"
+                          value={row.unitCost}
+                          onChange={(e) => handleRowChange(row.id, 'unitCost', e.target.value)}
+                          placeholder="0.00"
+                          className="h-9"
+                        />
+                      </td>
 
-                          <td className="px-4 py-3">
-                            <Input
-                              type="number"
-                              step="0.01"
-                              value={row.amount}
-                              onChange={(e) => handleRowChange(row.id, 'amount', e.target.value)}
-                              placeholder="0.00"
-                              className="h-9 font-medium"
-                            />
-                          </td>
+                      <td className="px-4 py-3">
+                        <Input
+                          type="number"
+                          step="0.01"
+                          value={row.amount}
+                          onChange={(e) => handleRowChange(row.id, 'amount', e.target.value)}
+                          placeholder="0.00"
+                          className="h-9 font-medium"
+                        />
+                      </td>
 
-                          <td className="px-4 py-3">
-                            {rows.length > 1 && (
-                              <Button
-                                type="button"
-                                variant="ghost"
-                                size="sm"
-                                onClick={() => removeRow(row.id)}
-                                className="h-9 w-9 p-0 text-gray-400 hover:text-red-600"
-                              >
-                                <Trash2 className="h-4 w-4" />
-                              </Button>
-                            )}
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-
-                <div className="px-4 py-3 border-t bg-gray-50">
-                  <Button type="button" variant="outline" size="sm" onClick={addRow} className="gap-2">
-                    <Plus className="h-4 w-4" />
-                    Add Row
-                  </Button>
-                </div>
-              </div>
+                      <td className="px-4 py-3">
+                        {rows.length > 1 && (
+                          <Button
+                            type="button"
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => removeRow(row.id)}
+                            className="h-9 w-9 p-0 text-gray-400 hover:text-red-600"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </Button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
 
-            <DialogFooter className="flex-shrink-0">
-                  <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-                    Cancel
-                  </Button>
-                  <Button type="submit" disabled={loading}>
-                    {loading ? 'Creating...' : `Create ${rows.length} Line Item${rows.length > 1 ? 's' : ''}`}
-                  </Button>
-            </DialogFooter>
-              </form>
-        </DialogContent>
-      </Dialog>
+            <div className="px-4 py-3 border-t bg-gray-50">
+              <Button type="button" variant="outline" size="sm" onClick={addRow} className="gap-2">
+                <Plus className="h-4 w-4" />
+                Add Row
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        <div className="flex items-center justify-end gap-3 p-4 bg-gray-100 dark:bg-neutral-900">
+          <Button type="button" variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={loading}>
+            {loading ? 'Creating...' : `Create ${rows.length} Line Item${rows.length > 1 ? 's' : ''}`}
+          </Button>
+        </div>
+      </form>
 
       {/* Create Budget Code Modal */}
       <Dialog open={showCreateCodeModal} onOpenChange={setShowCreateCodeModal}>
