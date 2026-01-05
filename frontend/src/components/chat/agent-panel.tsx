@@ -3,9 +3,9 @@
 import { Bot } from "lucide-react";
 import type { Agent, AgentEvent, GuardrailCheck } from "@/lib/types";
 import { AgentsList } from "./agents-list";
-import { Guardrails } from "../guardrails";
+import { Guardrails } from "../misc/guardrails";
 import { ConversationContext } from "./conversation-context";
-import { RunnerOutput } from "../runner-output";
+import { RunnerOutput } from "../misc/runner-output";
 
 interface AgentPanelProps {
   agents: Agent[];

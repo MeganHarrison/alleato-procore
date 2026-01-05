@@ -1,10 +1,10 @@
 import { Suspense } from "react"
 
-import { ChartAreaInteractive } from "@/components/chart-area-interactive"
-import { DataTable } from "@/components/data-table"
+// import { ChartAreaInteractive } from "@/components/chart-area-interactive"
+import { DataTable } from "@/components/misc/data-table"
 import { PageContainer } from "@/components/layout/PageContainer"
 import { PageHeader } from "@/components/layout/PageHeader"
-import { SectionCards } from "@/components/section-cards"
+import { SectionCards } from "@/components/misc/section-cards"
 import { Skeleton } from "@/components/ui/skeleton"
 
 import data from "./data.json"
@@ -28,7 +28,7 @@ export default function Page() {
       />
       <div className="@container/main flex flex-1 flex-col gap-6">
         <SectionCards />
-        <ChartAreaInteractive />
+        {/* <ChartAreaInteractive /> */}
         <Suspense fallback={<DataTableSkeleton />}>
           <DataTable data={data} />
         </Suspense>

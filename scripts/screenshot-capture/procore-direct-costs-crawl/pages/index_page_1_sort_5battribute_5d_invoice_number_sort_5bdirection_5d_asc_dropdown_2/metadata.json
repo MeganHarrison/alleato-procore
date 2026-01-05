@@ -1,0 +1,18 @@
+{
+  "parentPage": "index?page=1&sort%5Battribute%5D=invoice_number&sort%5Bdirection%5D=asc",
+  "parentUrl": "https://us02.procore.com/562949954728542/project/direct_costs/summary/index?page=1&sort%5Battribute%5D=invoice_number&sort%5Bdirection%5D=asc",
+  "dropdownIndex": 2,
+  "menuItems": [
+    {
+      "text": "CSV",
+      "href": "https://us02.procore.com/562949954728542/project/direct_costs/summary_by_cost_code.csv?",
+      "type": "a"
+    },
+    {
+      "text": "PDF",
+      "href": "https://us02.procore.com/562949954728542/project/direct_costs/summary_by_cost_code.pdf?",
+      "type": "a"
+    }
+  ],
+  "timestamp": "2026-01-05T19:35:53.802Z"
+}

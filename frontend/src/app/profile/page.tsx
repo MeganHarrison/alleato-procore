@@ -12,7 +12,7 @@ import { Progress } from "@/components/ui/progress"
 import { Separator } from "@/components/ui/separator"
 import { Switch } from "@/components/ui/switch"
 import { useCurrentUserProfile } from "@/hooks/use-current-user-profile"
-import { ProfileImageUpload } from "@/components/profile-image-upload"
+import { ProfileImageUpload } from "@/components/misc/profile-image-upload"
 import { getBestAvatarUrl } from "@/lib/gravatar"
 
 const notificationPreferences = [

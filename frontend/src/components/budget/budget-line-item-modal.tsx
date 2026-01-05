@@ -16,13 +16,11 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import {
-  Sheet,
-  SheetContent,
-  SheetDescription,
-  SheetFooter,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet';
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+} from '@/components/ui/modal/animated-modal';
 import {
   Dialog,
   DialogContent,
@@ -431,17 +429,23 @@ export function BudgetLineItemModal({
 
   return (
     <>
-      <Sheet open={open} onOpenChange={onOpenChange}>
-        <SheetContent side="right" className="w-[85vw] max-w-[85vw] sm:max-w-[85vw] overflow-y-auto">
-          <SheetHeader>
-            <SheetTitle>Create Budget Line Items</SheetTitle>
-            <SheetDescription>Add one or more line items to the project budget</SheetDescription>
-          </SheetHeader>
+      <Modal>
+        {open && (
+          <ModalBody>
+            <ModalContent className="overflow-y-auto max-h-[80vh]">
+              <div className="mb-6">
+                <h2 className="text-2xl font-semibold text-gray-900 dark:text-white">
+                  Create Budget Line Items
+                </h2>
+                <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+                  Add one or more line items to the project budget
+                </p>
+              </div>
 
-          <form onSubmit={handleSubmit} className="flex flex-col h-full">
-            <div className="flex-1 overflow-y-auto py-4">
+              <form onSubmit={handleSubmit} className="flex flex-col">
+                <div className="flex-1 overflow-y-auto py-4">
               <div className="bg-white border rounded-lg overflow-hidden">
-                <div className="overflow-x-auto">
+                <div className="overflow-x-auto scrollbar-hide">
                   <table className="w-full">
                     <thead className="bg-gray-50 border-b">
                       <tr>
@@ -617,17 +621,19 @@ export function BudgetLineItemModal({
               </div>
             </div>
 
-            <SheetFooter className="flex-shrink-0">
-              <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
-                Cancel
-              </Button>
-              <Button type="submit" disabled={loading}>
-                {loading ? 'Creating...' : `Create ${rows.length} Line Item${rows.length > 1 ? 's' : ''}`}
-              </Button>
-            </SheetFooter>
-          </form>
-        </SheetContent>
-      </Sheet>
+                <ModalFooter className="flex-shrink-0">
+                  <Button type="button" variant="outline" onClick={() => onOpenChange(false)}>
+                    Cancel
+                  </Button>
+                  <Button type="submit" disabled={loading}>
+                    {loading ? 'Creating...' : `Create ${rows.length} Line Item${rows.length > 1 ? 's' : ''}`}
+                  </Button>
+                </ModalFooter>
+              </form>
+            </ModalContent>
+          </ModalBody>
+        )}
+      </Modal>
 
       {/* Create Budget Code Modal */}
       <Dialog open={showCreateCodeModal} onOpenChange={setShowCreateCodeModal}>

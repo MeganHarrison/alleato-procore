@@ -3,7 +3,7 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Bot } from "lucide-react";
-import { PanelSection } from "../panel-section";
+import { PanelSection } from "../misc/panel-section";
 import type { Agent } from "@/lib/types";
 
 interface AgentsListProps {

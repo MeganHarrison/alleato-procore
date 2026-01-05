@@ -6,7 +6,7 @@ Guarantee that every surface relying on `projectId` behaves correctly whether th
 ## Primary Inputs
 - `docs/pages/QUERY_PARAM_PROJECT_SUPPORT.md` – specification describing dual-source context rules.
 - `frontend/src/contexts/project-context.tsx` – authoritative provider that other code must consume.
-- `frontend/src/components/site-header.tsx` – header selector and breadcrumb consumer.
+- `frontend/src/components/layout/site-header.tsx` – header selector and breadcrumb consumer.
 - Any component, hook, or utility that manually parses `window.location`, `pathname`, or `searchParams` to derive `projectId`.
 
 ## Scope of Work

@@ -706,7 +706,8 @@ export function BudgetTable({
 
   return (
     <div className="flex flex-col h-full rounded-md overflow-hidden">
-      <div className="flex-1 overflow-auto">
+      {/* Hide scrollbar while maintaining scroll functionality */}
+      <div className="flex-1 overflow-auto scrollbar-hide">
         <Table className="min-w-[1200px]">
           <TableHeader className="sticky top-0 bg-gray-100/80 backdrop-blur-sm z-10">
             {table.getHeaderGroups().map((headerGroup) => (

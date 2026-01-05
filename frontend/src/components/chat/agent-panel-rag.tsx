@@ -4,10 +4,10 @@ import { useMemo } from "react";
 import { Bot } from "lucide-react";
 import type { Agent, AgentEvent, GuardrailCheck } from "@/lib/types";
 import { AgentsList } from "./agents-list";
-import { Guardrails } from "../guardrails";
+import { Guardrails } from "../misc/guardrails";
 import { ConversationContext } from "./conversation-context";
-import { RunnerOutput } from "../runner-output";
-import { SourcesList, extractSourcesFromToolOutput, type Source } from "../sources-list";
+import { RunnerOutput } from "../misc/runner-output";
+import { SourcesList, extractSourcesFromToolOutput, type Source } from "../misc/sources-list";
 
 interface AgentPanelProps {
   agents: Agent[];

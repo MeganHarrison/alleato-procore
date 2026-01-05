@@ -64,21 +64,21 @@ export function BudgetFilters({
   };
 
   return (
-    <div className="flex items-center justify-between py-4">
+    <div className="flex items-end justify-between py-4">
       {/* Left side - Filter controls */}
-      <div className="flex items-center gap-4">
+      <div className="flex items-end gap-3">
         {/* View Selector */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500">View</span>
+        <div className="flex flex-col gap-1">
+          <span className="text-xs text-gray-500">View</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
-                className="h-9 min-w-[200px] justify-between"
+                className="h-8 min-w-[160px] justify-between text-sm"
                 aria-label="View"
               >
                 {selectedViewName}
-                <ChevronDown className="w-4 h-4 ml-2 text-gray-400" />
+                <ChevronDown className="w-3.5 h-3.5 ml-2 text-gray-400" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-[200px]">
@@ -96,17 +96,17 @@ export function BudgetFilters({
         </div>
 
         {/* Snapshot Selector */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500">Snapshot</span>
+        <div className="flex flex-col gap-1">
+          <span className="text-xs text-gray-500">Snapshot</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
-                className="h-9 min-w-[120px] justify-between"
+                className="h-8 min-w-[110px] justify-between text-sm"
                 aria-label="Snapshot"
               >
                 {selectedSnapshotName}
-                <ChevronDown className="w-4 h-4 ml-2 text-gray-400" />
+                <ChevronDown className="w-3.5 h-3.5 ml-2 text-gray-400" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-[200px]">
@@ -124,17 +124,17 @@ export function BudgetFilters({
         </div>
 
         {/* Group Selector */}
-        <div className="flex items-center gap-2">
-          <span className="text-sm text-gray-500">Group</span>
+        <div className="flex flex-col gap-1">
+          <span className="text-xs text-gray-500">Group</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
-                className="h-9 min-w-[150px] justify-between"
+                className="h-8 min-w-[130px] justify-between text-sm"
                 aria-label="Group"
               >
                 {selectedGroupName}
-                <ChevronDown className="w-4 h-4 ml-2 text-gray-400" />
+                <ChevronDown className="w-3.5 h-3.5 ml-2 text-gray-400" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-[180px]">
@@ -152,18 +152,18 @@ export function BudgetFilters({
         </div>
 
         {/* Quick Filters */}
-        <div className="flex items-center gap-2 border-l pl-4 ml-2">
-          <span className="text-sm text-gray-500">Quick Filter</span>
+        <div className="flex flex-col gap-1 border-l pl-3 ml-2">
+          <span className="text-xs text-gray-500">Quick Filter</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
                 variant={activeQuickFilter !== 'all' ? 'default' : 'outline'}
-                className="h-9 min-w-[140px] justify-between"
+                className="h-8 min-w-[130px] justify-between text-sm"
                 aria-label="Quick Filter"
               >
-                <Filter className="w-4 h-4 mr-2" />
+                <Filter className="w-3.5 h-3.5 mr-2" />
                 {quickFilterLabels[activeQuickFilter]}
-                <ChevronDown className="w-4 h-4 ml-2" />
+                <ChevronDown className="w-3.5 h-3.5 ml-2" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-[180px]">
@@ -200,24 +200,24 @@ export function BudgetFilters({
         </div>
 
         {/* Filter Section */}
-        <div className="flex items-center gap-2">
+        <div className="flex items-end gap-2">
           <Button
             variant="outline"
-            className="h-9"
+            className="h-8 text-sm"
             onClick={onAddFilter}
           >
-            <Plus className="w-4 h-4 mr-1" />
+            <Plus className="w-3.5 h-3.5 mr-1" />
             Add Filter
-            <ChevronDown className="w-4 h-4 ml-1" />
+            <ChevronDown className="w-3.5 h-3.5 ml-1" />
           </Button>
         </div>
       </div>
 
       {/* Right side - Actions */}
-      <div className="flex items-center gap-2 ml-4">
+      <div className="flex items-end gap-2 ml-4">
         <Button
           variant="outline"
-          className="h-9"
+          className="h-8 text-sm"
           onClick={onAnalyzeVariance}
         >
           Analyze Variance
@@ -225,14 +225,14 @@ export function BudgetFilters({
         <Button
           variant="ghost"
           size="icon"
-          className="h-9 w-9"
+          className="h-8 w-8"
           onClick={onToggleFullscreen}
           title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
         >
           {isFullscreen ? (
-            <Minimize2 className="w-4 h-4" />
+            <Minimize2 className="w-3.5 h-3.5" />
           ) : (
-            <Maximize2 className="w-4 h-4" />
+            <Maximize2 className="w-3.5 h-3.5" />
           )}
         </Button>
       </div>

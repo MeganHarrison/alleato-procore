@@ -118,10 +118,13 @@ export class DirectoryService {
       `);
     }
 
-    // Apply sorting
+    // Apply sorting (excluding nested relations which can't be sorted directly)
     for (const sort of sortBy) {
       const [field, direction = 'asc'] = sort.split(':');
-      query = query.order(field, { ascending: direction === 'asc' });
+      // Skip nested fields like 'company.name' - sort these client-side instead
+      if (!field.includes('.')) {
+        query = query.order(field, { ascending: direction === 'asc' });
+      }
     }
 
     // Apply pagination
@@ -138,6 +141,26 @@ export class DirectoryService {
       membership: person.project_directory_memberships?.[0],
       permission_template: person.project_directory_memberships?.[0]?.permission_template
     }));
+
+    // Apply client-side sorting for nested fields
+    const nestedSorts = sortBy.filter(s => s.includes('.'));
+    if (nestedSorts.length > 0) {
+      transformedData.sort((a, b) => {
+        for (const sort of nestedSorts) {
+          const [field, direction = 'asc'] = sort.split(':');
+          const asc = direction === 'asc' ? 1 : -1;
+
+          // Handle company.name sorting
+          if (field === 'company.name') {
+            const aName = a.company?.name || '';
+            const bName = b.company?.name || '';
+            const cmp = aName.localeCompare(bName);
+            if (cmp !== 0) return cmp * asc;
+          }
+        }
+        return 0;
+      });
+    }
 
     // Group if needed
     let groups: DirectoryGroup[] | undefined;

@@ -1,0 +1,90 @@
+'use client'
+
+import Link from 'next/link'
+import { LucideIcon } from 'lucide-react'
+
+interface InfoSectionItem {
+  id: string | number
+  title: string
+  subtitle?: string
+  href?: string
+}
+
+interface InfoSectionProps {
+  title: string
+  icon: LucideIcon
+  items: InfoSectionItem[]
+  viewAllHref?: string
+  emptyMessage?: string
+  maxItems?: number
+}
+
+export function InfoSection({
+  title,
+  icon: Icon,
+  items,
+  viewAllHref,
+  emptyMessage = 'No items',
+  maxItems = 3,
+}: InfoSectionProps) {
+  const displayItems = items.slice(0, maxItems)
+
+  return (
+    <div className="border border-neutral-200 bg-white p-8 mb-6">
+      <div className="flex items-start justify-between mb-6">
+        <div className="flex items-center gap-2">
+          <Icon className="h-5 w-5 text-brand" />
+          <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+            {title}
+          </h3>
+        </div>
+        {viewAllHref && (
+          <Link
+            href={viewAllHref}
+            className="text-xs text-neutral-500 font-medium hover:underline"
+          >
+            View All
+          </Link>
+        )}
+      </div>
+      <div className="space-y-3">
+        {displayItems.length > 0 ? (
+          displayItems.map((item) => {
+            const content = (
+              <>
+                <div className="text-sm font-medium text-neutral-900 group-hover:text-brand truncate transition-colors">
+                  {item.title}
+                </div>
+                {item.subtitle && (
+                  <div className="text-xs text-neutral-500 mt-0.5">
+                    {item.subtitle}
+                  </div>
+                )}
+              </>
+            )
+
+            if (item.href) {
+              return (
+                <Link
+                  key={item.id}
+                  href={item.href}
+                  className="block group"
+                >
+                  {content}
+                </Link>
+              )
+            }
+
+            return (
+              <div key={item.id}>
+                {content}
+              </div>
+            )
+          })
+        ) : (
+          <p className="text-sm text-neutral-400">{emptyMessage}</p>
+        )}
+      </div>
+    </div>
+  )
+}

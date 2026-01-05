@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
-import { SourcesList, type Source } from "@/components/sources-list"
+import { SourcesList, type Source } from "@/components/misc/sources-list"
 
 interface Channel {
   id: string

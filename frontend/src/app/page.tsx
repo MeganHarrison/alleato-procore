@@ -9,7 +9,6 @@ import {
 import { PortfolioViewType, StatusFilter, Project } from '@/types/portfolio';
 import { portfolioViews, financialViews } from '@/config/portfolio';
 import { useRouter } from 'next/navigation';
-import { SegmentedControl } from '@/components/demo/segmented-control-demo';
 
 export default function PortfolioPage() {
   const router = useRouter();
@@ -258,12 +257,6 @@ export default function PortfolioPage() {
 
   return (
     <div className="px-12 sm:px-12 py-6 flex flex-col flex-1 min-h-0 overflow-hidden">
-      {/* Demo: Segmented Control */}
-      <div className="mb-6 flex items-center gap-4">
-        <span className="text-sm font-medium text-gray-700 dark:text-gray-300">Demo:</span>
-        <SegmentedControl />
-      </div>
-
       {/* Portfolio Header with tabs */}
       <PortfolioHeader
         views={portfolioViews}

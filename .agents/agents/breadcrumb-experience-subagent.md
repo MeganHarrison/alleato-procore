@@ -6,7 +6,7 @@ Deliver a consistent, fully navigable breadcrumb experience that matches the req
 ## Primary Inputs
 - `docs/pages/BREADCRUMB_UPDATE.md` – canonical UX goals and helper usage guidance.
 - `frontend/src/lib/breadcrumbs.ts` – helper exports that must stay the single source of truth.
-- `frontend/src/components/site-header.tsx` – top-level breadcrumb rendering.
+- `frontend/src/components/layout/site-header.tsx` – top-level breadcrumb rendering.
 - All files that render `PageHeader` breadcrumbs (search with `rg "breadcrumbs=" frontend/src`).
 
 ## Scope of Work

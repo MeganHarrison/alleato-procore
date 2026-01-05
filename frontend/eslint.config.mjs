@@ -55,9 +55,30 @@ const config = [
       'react/no-unescaped-entities': 'warn', // TODO: Fix escaped quotes in JSX
       'react/display-name': 'warn', // TODO: Add display names to components
 
-      // Design System Enforcement - Warnings for now
+      // Design System Enforcement - Warnings for now, will become errors
       'react/forbid-component-props': ['warn', { forbid: ['style'] }],
       'react/forbid-dom-props': ['warn', { forbid: ['style'] }],
+
+      // Design System - Prevent raw HTML elements that should be components
+      'no-restricted-syntax': [
+        'warn',
+        {
+          selector: 'JSXElement[openingElement.name.name="h1"]:not([openingElement.attributes.length=0])',
+          message: 'Use <Heading level={1}> instead of <h1>. Import from @/components/ui/heading'
+        },
+        {
+          selector: 'JSXElement[openingElement.name.name="h2"]:not([openingElement.attributes.length=0])',
+          message: 'Use <Heading level={2}> instead of <h2>. Import from @/components/ui/heading'
+        },
+        {
+          selector: 'JSXElement[openingElement.name.name="h3"]:not([openingElement.attributes.length=0])',
+          message: 'Use <Heading level={3}> instead of <h3>. Import from @/components/ui/heading'
+        },
+        {
+          selector: 'JSXElement[openingElement.name.name="p"]:not([openingElement.attributes.length=0])',
+          message: 'Use <Text> instead of <p>. Import from @/components/ui/text'
+        }
+      ]
     },
   },
 ]

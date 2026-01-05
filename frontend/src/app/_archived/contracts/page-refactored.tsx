@@ -13,7 +13,7 @@ import {
   TableColumn 
 } from '@/components/shared';
 import { useFormatCurrency } from '@/hooks/use-format-currency';
-import { StatusBadge } from '@/components/financial/shared/status-badge';
+import { StatusBadge } from '@/components/misc/status-badge';
 import { createClient } from '@/lib/supabase/client';
 import {
   DropdownMenu,

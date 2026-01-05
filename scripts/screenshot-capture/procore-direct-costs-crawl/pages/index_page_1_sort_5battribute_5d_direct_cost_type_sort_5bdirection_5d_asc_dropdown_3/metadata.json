@@ -1,0 +1,13 @@
+{
+  "parentPage": "index?page=1&sort%5Battribute%5D=direct_cost_type&sort%5Bdirection%5D=asc",
+  "parentUrl": "https://us02.procore.com/562949954728542/project/direct_costs/summary/index?page=1&sort%5Battribute%5D=direct_cost_type&sort%5Bdirection%5D=asc",
+  "dropdownIndex": 3,
+  "menuItems": [
+    {
+      "text": "Create Direct Cost",
+      "href": "https://us02.procore.com/562949954728542/project/direct_costs/new",
+      "type": "a"
+    }
+  ],
+  "timestamp": "2026-01-05T19:35:41.709Z"
+}

@@ -1,6 +1,6 @@
 "use client";
 
-import { PanelSection } from "../panel-section";
+import { PanelSection } from "../misc/panel-section";
 import { Card, CardContent } from "@/components/ui/card";
 import { BookText } from "lucide-react";
 

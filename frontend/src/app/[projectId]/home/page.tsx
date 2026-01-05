@@ -19,7 +19,6 @@ export default async function ProjectHomePage({
   // Fetch project data with all related information in parallel
   const [
     projectResult,
-    insightsResult,
     tasksResult,
     meetingsResult,
     changeOrdersResult,
@@ -37,14 +36,6 @@ export default async function ProjectHomePage({
       .select('*')
       .eq('id', numericProjectId)
       .single(),
-
-    // Fetch project insights from ai_insights table
-    supabase
-      .from('ai_insights')
-      .select('*')
-      .eq('project_id', numericProjectId)
-      .order('created_at', { ascending: false })
-      .limit(3),
 
     // Fetch tasks
     supabase
@@ -128,7 +119,6 @@ export default async function ProjectHomePage({
   }
 
   const project = projectResult.data
-  const insights = insightsResult.data || []
   const tasks = tasksResult.data || []
   const meetings = meetingsResult.data || []
   const changeOrders = changeOrdersResult.data || []
@@ -161,7 +151,6 @@ export default async function ProjectHomePage({
   return (
     <ProjectHomeClient
       project={project}
-      insights={insights}
       tasks={tasks}
       meetings={meetings}
       changeOrders={changeOrders}

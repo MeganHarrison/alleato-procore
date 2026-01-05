@@ -73,7 +73,7 @@ All dropdown items are now functional Next.js Link components that navigate to t
 ## Files Modified
 
 ### Core Implementation
-- `frontend/src/components/site-header.tsx`
+- `frontend/src/components/layout/site-header.tsx`
   - Updated tool definitions with href properties
   - Converted buttons to Link components
   - Added three-column grid layout

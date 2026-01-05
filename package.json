@@ -21,6 +21,7 @@
     "test:frontend:coverage": "cd frontend && npm run test:unit:coverage",
     "test:backend:coverage": "cd backend && pytest --cov --cov-report=html",
     "watch:docs": "node scripts/watch-docs.js",
+    "docs:serve": "cd documentation/docs && node serve.js",
     "seed:sync": "npx @snaplet/seed sync && node scripts/fix-snaplet-models.cjs",
     "seed:db": "npx tsx scripts/seed-database.ts",
     "seed:db:dry": "npx tsx scripts/seed-database.ts --dry-run",

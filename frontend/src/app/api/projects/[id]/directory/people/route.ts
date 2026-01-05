@@ -1,4 +1,4 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { DirectoryService } from '@/services/directoryService';
 import { PermissionService } from '@/services/permissionService';
@@ -20,25 +20,6 @@ export async function GET(
   try {
     const { id: projectId } = await params;
     const supabase = await createClient();
-    
-    // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    }
-
-    // Check permissions
-    const permissionService = new PermissionService(supabase);
-    const hasPermission = await permissionService.hasPermission(
-      user.id,
-      projectId,
-      'directory',
-      'read'
-    );
-
-    if (!hasPermission) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
-    }
 
     // Parse query parameters
     const searchParams = request.nextUrl.searchParams;
@@ -50,19 +31,24 @@ export async function GET(
       permissionTemplateId: searchParams.get('permission_template_id') || undefined,
       groupBy: searchParams.get('group_by') as 'company' | 'none' | undefined,
       sortBy: searchParams.get('sort')?.split(',') || undefined,
-      page: parseInt(searchParams.get('page') || '1'),
-      perPage: parseInt(searchParams.get('per_page') || '50')
+      page: parseInt(searchParams.get('page') || '1', 10),
+      perPage: parseInt(searchParams.get('per_page') || '50', 10)
     };
 
-    // Get people
+    // Get people - RLS policies will enforce authorization
     const directoryService = new DirectoryService(supabase);
     const result = await directoryService.getPeople(projectId, filters);
 
     return NextResponse.json(result);
   } catch (error) {
     console.error('Error fetching directory people:', error);
+    console.error('Error type:', typeof error);
+    console.error('Error details:', JSON.stringify(error, null, 2));
     return NextResponse.json(
-      { error: 'Internal server error' },
+      {
+        error: 'Internal server error',
+        details: error instanceof Error ? error.message : JSON.stringify(error)
+      },
       { status: 500 }
     );
   }

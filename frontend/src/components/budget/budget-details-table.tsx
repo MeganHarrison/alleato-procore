@@ -94,7 +94,7 @@ export function BudgetDetailsTable({ data, loading }: BudgetDetailsTableProps) {
 
   return (
     <div className="rounded-lg border bg-white shadow-sm">
-      <div className="overflow-x-auto">
+      <div className="overflow-x-auto scrollbar-hide">
         <Table>
           <TableHeader>
             <TableRow className="bg-gray-50">

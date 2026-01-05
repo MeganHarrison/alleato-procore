@@ -1,8 +1,14 @@
 "use client"
 
 import * as React from "react"
+import Link from "next/link"
 import { ChevronRight } from "lucide-react"
 import { cn } from "@/lib/utils"
+import { Container } from "@/components/ui/container"
+import { Stack } from "@/components/ui/stack"
+import { Inline } from "@/components/ui/inline"
+import { Heading } from "@/components/ui/heading"
+import { Text } from "@/components/ui/text"
 
 interface BreadcrumbItem {
   label: string
@@ -26,47 +32,55 @@ export function PageHeader({
 }: PageHeaderProps) {
   return (
     <div className={cn("border-b bg-white", className)}>
-      <div className="px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumbs */}
-        {breadcrumbs && breadcrumbs.length > 0 && (
-          <nav className="flex py-3" aria-label="Breadcrumb">
-            <ol className="flex items-center space-x-2">
-              {breadcrumbs.map((item, index) => (
-                <li key={index} className="flex items-center">
-                  {index > 0 && (
-                    <ChevronRight className="h-4 w-4 text-gray-400 mx-2" />
-                  )}
-                  {item.href ? (
-                    <a
-                      href={item.href}
-                      className="text-sm font-medium text-gray-500 hover:text-gray-700"
-                    >
-                      {item.label}
-                    </a>
-                  ) : (
-                    <span className="text-sm font-medium text-gray-900">
-                      {item.label}
-                    </span>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </nav>
-        )}
+      <Container>
+        <Stack gap="md">
+          {/* Breadcrumbs */}
+          {breadcrumbs && breadcrumbs.length > 0 && (
+            <nav aria-label="Breadcrumb">
+              <ol className="flex items-center gap-1">
+                {breadcrumbs.map((item) => (
+                  <li key={item.href || item.label} className="flex items-center gap-1">
+                    {breadcrumbs.indexOf(item) > 0 && (
+                      <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                    )}
+                    {item.href ? (
+                      <Link
+                        href={item.href}
+                        className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {item.label}
+                      </Link>
+                    ) : (
+                      <Text size="sm" weight="medium" as="span">
+                        {item.label}
+                      </Text>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </nav>
+          )}
 
-        {/* Title and Actions */}
-        <div className="flex flex-col gap-4 py-4 sm:py-6 sm:flex-row sm:items-center sm:justify-between">
-          <div className="min-w-0 flex-1">
-            {/* Responsive heading: 24px mobile (1.5rem), 28px tablet (1.75rem), 32px desktop (2rem) */}
-            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 break-words leading-tight">{title}</h1>
-            {/* 14px mobile, 16px desktop for better readability */}
-            {description && (
-              <p className="mt-2 text-sm sm:text-base text-gray-600 break-words leading-relaxed">{description}</p>
+          {/* Title and Actions */}
+          <Inline justify="between" align="start" wrap className="gap-4">
+            <Stack gap="sm" className="min-w-0 flex-1">
+              <Heading level={1} className="break-words">
+                {title}
+              </Heading>
+              {description && (
+                <Text size="base" tone="muted" className="break-words">
+                  {description}
+                </Text>
+              )}
+            </Stack>
+            {actions && (
+              <Inline gap="sm" wrap className="flex-shrink-0">
+                {actions}
+              </Inline>
             )}
-          </div>
-          {actions && <div className="flex flex-wrap items-center gap-2 sm:gap-3">{actions}</div>}
-        </div>
-      </div>
+          </Inline>
+        </Stack>
+      </Container>
     </div>
   )
 }

@@ -8,11 +8,12 @@ import { DirectoryTable } from '@/components/directory/DirectoryTable';
 import { InviteDialog } from '@/components/directory/InviteDialog';
 import { PersonEditDialog } from '@/components/directory/PersonEditDialog';
 import { Button } from '@/components/ui/button';
-import { 
-  UserPlus, 
-  Users, 
-  UserCheck, 
-  Building2, 
+import { EmptyState } from '@/components/ui/empty-state';
+import {
+  UserPlus,
+  Users,
+  UserCheck,
+  Building2,
   UsersRound,
   UserX,
   UserMinus,
@@ -110,47 +111,45 @@ export default function ProjectDirectoryPage() {
         </Button>
       }
     >
-      {/* Directory Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab} className="space-y-4">
+      <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-7 lg:w-auto lg:grid-cols-none">
           <TabsTrigger value="users" className="gap-2">
             <Users className="h-4 w-4" />
             <span className="hidden sm:inline">Users</span>
           </TabsTrigger>
-          
+
           <TabsTrigger value="contacts" className="gap-2">
             <UserCheck className="h-4 w-4" />
             <span className="hidden sm:inline">Contacts</span>
           </TabsTrigger>
-          
+
           <TabsTrigger value="companies" className="gap-2">
             <Building2 className="h-4 w-4" />
             <span className="hidden sm:inline">Companies</span>
           </TabsTrigger>
-          
+
           <TabsTrigger value="groups" className="gap-2">
             <UsersRound className="h-4 w-4" />
             <span className="hidden sm:inline">Groups</span>
           </TabsTrigger>
-          
+
           <TabsTrigger value="inactive-users" className="gap-2">
             <UserX className="h-4 w-4" />
             <span className="hidden sm:inline">Inactive Users</span>
           </TabsTrigger>
-          
+
           <TabsTrigger value="inactive-contacts" className="gap-2">
             <UserMinus className="h-4 w-4" />
             <span className="hidden sm:inline">Inactive Contacts</span>
           </TabsTrigger>
-          
+
           <TabsTrigger value="inactive-companies" className="gap-2">
             <Building className="h-4 w-4" />
             <span className="hidden sm:inline">Inactive Companies</span>
           </TabsTrigger>
         </TabsList>
 
-        {/* Users Tab */}
-        <TabsContent value="users" className="space-y-4">
+        <TabsContent value="users">
           <DirectoryTable
             key={`users-${refreshKey}`}
             projectId={projectId}
@@ -162,8 +161,7 @@ export default function ProjectDirectoryPage() {
           />
         </TabsContent>
 
-        {/* Contacts Tab */}
-        <TabsContent value="contacts" className="space-y-4">
+        <TabsContent value="contacts">
           <DirectoryTable
             key={`contacts-${refreshKey}`}
             projectId={projectId}
@@ -174,30 +172,23 @@ export default function ProjectDirectoryPage() {
           />
         </TabsContent>
 
-        {/* Companies Tab */}
-        <TabsContent value="companies" className="space-y-4">
-          <div className="rounded-lg border p-8 text-center">
-            <Building2 className="mx-auto h-12 w-12 text-muted-foreground" />
-            <h3 className="mt-2 text-sm font-medium">Companies Directory</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Company management coming soon
-            </p>
-          </div>
+        <TabsContent value="companies">
+          <EmptyState
+            icon={<Building2 />}
+            title="Companies Directory"
+            description="Company management coming soon"
+          />
         </TabsContent>
 
-        {/* Distribution Groups Tab */}
-        <TabsContent value="groups" className="space-y-4">
-          <div className="rounded-lg border p-8 text-center">
-            <UsersRound className="mx-auto h-12 w-12 text-muted-foreground" />
-            <h3 className="mt-2 text-sm font-medium">Distribution Groups</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Group management coming soon
-            </p>
-          </div>
+        <TabsContent value="groups">
+          <EmptyState
+            icon={<UsersRound />}
+            title="Distribution Groups"
+            description="Group management coming soon"
+          />
         </TabsContent>
 
-        {/* Inactive Users Tab */}
-        <TabsContent value="inactive-users" className="space-y-4">
+        <TabsContent value="inactive-users">
           <DirectoryTable
             key={`inactive-users-${refreshKey}`}
             projectId={projectId}
@@ -208,8 +199,7 @@ export default function ProjectDirectoryPage() {
           />
         </TabsContent>
 
-        {/* Inactive Contacts Tab */}
-        <TabsContent value="inactive-contacts" className="space-y-4">
+        <TabsContent value="inactive-contacts">
           <DirectoryTable
             key={`inactive-contacts-${refreshKey}`}
             projectId={projectId}
@@ -220,15 +210,12 @@ export default function ProjectDirectoryPage() {
           />
         </TabsContent>
 
-        {/* Inactive Companies Tab */}
-        <TabsContent value="inactive-companies" className="space-y-4">
-          <div className="rounded-lg border p-8 text-center">
-            <Building className="mx-auto h-12 w-12 text-muted-foreground" />
-            <h3 className="mt-2 text-sm font-medium">Inactive Companies</h3>
-            <p className="mt-1 text-sm text-muted-foreground">
-              Inactive company management coming soon
-            </p>
-          </div>
+        <TabsContent value="inactive-companies">
+          <EmptyState
+            icon={<Building />}
+            title="Inactive Companies"
+            description="Inactive company management coming soon"
+          />
         </TabsContent>
       </Tabs>
 

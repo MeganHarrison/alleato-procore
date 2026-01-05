@@ -3,9 +3,9 @@
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Bot } from "lucide-react";
-import { PanelSection } from "../panel-section";
+import { PanelSection } from "../misc/panel-section";
 import type { Agent } from "@/lib/types";
-import { BackendStatusIndicator } from "@/components/backend-status-indicator";
+import { BackendStatusIndicator } from "@/components/misc/backend-status-indicator";
 
 
 interface AgentsListProps {

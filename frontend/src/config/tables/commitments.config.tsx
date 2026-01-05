@@ -1,6 +1,6 @@
 import { ColumnDef } from "@tanstack/react-table"
 import { Commitment } from "@/types/financial"
-import { StatusBadge } from "@/components/financial/shared/status-badge"
+import { StatusBadge } from "@/components/misc/status-badge"
 import type { SummaryCard } from "@/components/ui/summary-card-grid"
 import type { TabConfig, FilterOption } from "@/components/templates"
 import { formatCurrencyValue } from "@/components/ui/summary-card-grid"

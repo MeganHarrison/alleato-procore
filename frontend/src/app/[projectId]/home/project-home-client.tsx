@@ -2,7 +2,7 @@
 
 import { format } from 'date-fns'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
-import { Plus, Calendar, FileText, AlertCircle, ChevronDown, Star } from 'lucide-react'
+import { Plus, Calendar, FileText, ChevronDown, ChevronUp, Star, CheckSquare, TrendingUp, DollarSign, Upload, Folder } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -18,18 +18,18 @@ import {
 import { Button } from '@/components/ui/button'
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
+import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { useState } from 'react'
 import { HeroMetrics } from './hero-metrics'
 import { EditableSummary } from './editable-summary'
-import { ProjectAccordions } from '@/app/[projectId]/home/project-accordions'
 import type { Database } from '@/types/database.types'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { ProjectSidebar } from './project-sidebar'
+import { InfoSection } from './info-section'
 
 type Project = Database['public']['Tables']['projects']['Row']
-type Insight = Database['public']['Tables']['ai_insights']['Row']
 type Task = Database['public']['Tables']['project_tasks']['Row']
 type Meeting = Database['public']['Tables']['document_metadata']['Row']
 type ChangeOrder = Database['public']['Tables']['change_orders']['Row']
@@ -65,7 +65,6 @@ type SOV = Database['public']['Tables']['schedule_of_values']['Row']
 
 interface ProjectHomeClientProps {
   project: Project
-  insights: Insight[]
   tasks: Task[]
   meetings: Meeting[]
   changeOrders: ChangeOrder[]
@@ -108,7 +107,6 @@ const financialManagementTools: ToolLink[] = [
 
 export function ProjectHomeClient({
   project,
-  insights,
   tasks,
   meetings,
   changeOrders,
@@ -130,6 +128,12 @@ export function ProjectHomeClient({
     phone: ''
   })
   const [currentTool, setCurrentTool] = useState('Tools')
+  const [isTeamOpen, setIsTeamOpen] = useState(true)
+  const [isContractsOpen, setIsContractsOpen] = useState(true)
+  const [isCommitmentsOpen, setIsCommitmentsOpen] = useState(true)
+  const [isBudgetOpen, setIsBudgetOpen] = useState(true)
+  const [isSovOpen, setIsSovOpen] = useState(true)
+  const [isScheduleOpen, setIsScheduleOpen] = useState(true)
 
   // Handle saving project updates
   const handleSaveProject = async (updates: Record<string, string>) => {
@@ -296,71 +300,30 @@ export function ProjectHomeClient({
 
       </header>
 
-      {/* Hero Metrics - Executive Dashboard KPIs */}
-      <HeroMetrics
-        projectId={project.id.toString()}
-        totalBudget={totalBudget}
-        committed={committed}
-        spent={spent}
-        forecastedCost={forecastedCost}
-        changeOrdersTotal={changeOrdersTotal}
-        activeTasks={0}
-      />
-
-      {/* 2 Column - Summary, Team, and Quick Stats */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-4 lg:gap-10">
-
         {/* Project Summary - Takes 2 columns */}
-        <div className="lg:col-span-2">
+        <div className="lg:col-span-2 mb-8">
           <EditableSummary
             summary={project.summary || 'No project summary available.'}
             onSave={handleSaveSummary}
           />
-
-          {/* Project Information Section - Architectural Layout */}
-      <div className="mt-12 mb-6">
-
-        <div className="gap-2">
-          <ProjectAccordions
-            projectId={project.id.toString()}
-            meetings={meetings}
-            budget={budget}
-            primeContracts={contracts}
-            changeOrders={changeOrders}
-            changeEvents={changeEvents}
-            schedule={schedule}
-            sov={sov}
-            rfis={rfis}
-            tasks={tasks}
-            insights={insights}
-            submittals={[]}
-            documents={[]}
-            drawings={[]}
-          />
-        </div>
-      </div>
-
         </div>
 
-        {/* Right Column */}
-        <div className="mb-8">
-
-        {/* Stats */}
-          <div>
-
-          {/* Project Team */}
-        <div className="border border-neutral-200 bg-white p-8 mb-6">
-          <div className="flex items-center justify-between mb-6 pb-4 border-b border-neutral-100">
-            <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
-              Project Team
-            </h3>
-            <Dialog open={isAddTeamMemberOpen} onOpenChange={setIsAddTeamMemberOpen}>
-              <DialogTrigger asChild>
-                <button type="button" className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200">
-                  <Plus className="h-3.5 w-3.5" />
-                  Add
-                </button>
-              </DialogTrigger>
+                  {/* Project Team */}
+        <div className="border border-neutral-200 bg-white mb-6">
+          <Collapsible open={isTeamOpen} onOpenChange={setIsTeamOpen}>
+            <div className="px-8 py-6 pb-4 border-b border-neutral-100">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                  Project Team
+                </h3>
+                <div className="flex items-center gap-3">
+                  <Dialog open={isAddTeamMemberOpen} onOpenChange={setIsAddTeamMemberOpen}>
+                    <DialogTrigger asChild>
+                      <button type="button" className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200">
+                        <Plus className="h-3.5 w-3.5" />
+                        Add
+                      </button>
+                    </DialogTrigger>
               <DialogContent className="border border-neutral-200">
                 <DialogHeader>
                   <DialogTitle className="text-2xl font-serif font-light">Add Team Member</DialogTitle>
@@ -418,132 +381,589 @@ export function ProjectHomeClient({
                 </div>
               </DialogContent>
             </Dialog>
-          </div>
-
-          <div className="space-y-4">
-            {project.team_members && Array.isArray(project.team_members) && project.team_members.length > 0 ? (
-              project.team_members.map((member, index) => {
-                const memberName = typeof member === 'string' ? member : (member as Record<string, unknown>)?.name || 'Team Member'
-                const memberRole = typeof member === 'object' && member !== null && (member as Record<string, unknown>)?.role ? (member as Record<string, unknown>).role : 'Role not specified'
-                const initials = typeof member === 'string' ? member.substring(0, 2).toUpperCase() : 'TM'
-
-                return (
-                  <div key={`team-${project.id}-${index}`} className="flex items-center gap-4 pb-4 border-b border-neutral-100 last:border-0 last:pb-0">
-                    <Avatar className="h-10 w-10 border border-neutral-200">
-                      <AvatarFallback className="bg-neutral-100 text-neutral-600 text-xs font-medium">
-                        {initials}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div className="flex-1 min-w-0">
-                      <p className="font-medium text-sm text-neutral-900 truncate">{String(memberName)}</p>
-                      <p className="text-xs text-neutral-500 truncate">{String(memberRole)}</p>
-                    </div>
-                  </div>
-                )
-              })
-            ) : (
-              <div className="text-center py-12">
-                <p className="text-sm text-neutral-400 mb-2">No team members</p>
-                <p className="text-xs text-neutral-400">Click &quot;Add&quot; to assign team</p>
+                  <CollapsibleTrigger asChild>
+                    <button type="button" className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200">
+                      {isTeamOpen ? (
+                        <ChevronUp className="h-3.5 w-3.5" />
+                      ) : (
+                        <ChevronDown className="h-3.5 w-3.5" />
+                      )}
+                      <span className="sr-only">Toggle team</span>
+                    </button>
+                  </CollapsibleTrigger>
+                </div>
               </div>
-            )}
-          </div>
-        </div>
-
-          {/* Recent Meetings */}
-          <div className="border border-neutral-200 bg-white p-8 mb-6">
-            <div className="flex items-start justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <Calendar className="h-5 w-5 text-brand" />
-                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
-                  Recent Meetings
-                </h3>
-              </div>
-              <Link
-                href={`/${project.id}/meetings`}
-                className="text-xs text-neutral-500 font-medium hover:underline"
-              >
-                View All
-              </Link>
             </div>
-            <div className="space-y-3">
-              {meetings.slice(0, 3).map((meeting) => (
-                <Link
-                  key={meeting.id}
-                  href={`/${project.id}/meetings/${meeting.id}`}
-                  className="block group"
-                >
-                  <div className="text-sm font-medium text-neutral-900 group-hover:text-brand truncate transition-colors">
-                    {meeting.title || 'Untitled Meeting'}
-                  </div>
-                  {meeting.date && (
-                    <div className="text-xs text-neutral-500 mt-0.5">
-                      {format(new Date(meeting.date), 'MMM d, yyyy')}
+            <CollapsibleContent>
+              <div className="px-8 py-4">
+                <div className="space-y-4">
+                  {project.team_members && Array.isArray(project.team_members) && project.team_members.length > 0 ? (
+                    project.team_members.map((member, index) => {
+                      const memberName = typeof member === 'string' ? member : (member as Record<string, unknown>)?.name || 'Team Member'
+                      const memberRole = typeof member === 'object' && member !== null && (member as Record<string, unknown>)?.role ? (member as Record<string, unknown>).role : 'Role not specified'
+                      const initials = typeof member === 'string' ? member.substring(0, 2).toUpperCase() : 'TM'
+
+                      return (
+                        <div key={`team-${project.id}-${index}`} className="flex items-center gap-4 pb-4 border-b border-neutral-100 last:border-0 last:pb-0">
+                          <Avatar className="h-10 w-10 border border-neutral-200">
+                            <AvatarFallback className="bg-neutral-100 text-neutral-600 text-xs font-medium">
+                              {initials}
+                            </AvatarFallback>
+                          </Avatar>
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-sm text-neutral-900 truncate">{String(memberName)}</p>
+                            <p className="text-xs text-neutral-500 truncate">{String(memberRole)}</p>
+                          </div>
+                        </div>
+                      )
+                    })
+                  ) : (
+                    <div className="text-center py-12">
+                      <p className="text-sm text-neutral-400 mb-2">No team members</p>
+                      <p className="text-xs text-neutral-400">Click &quot;Add&quot; to assign team</p>
                     </div>
                   )}
-                </Link>
-              ))}
-              {meetings.length === 0 && (
-                <p className="text-sm text-neutral-400">No recent meetings</p>
-              )}
-            </div>
-          </div>
-
-          {/* Critical Items */}
-          <div className="border border-neutral-200 bg-white p-8 mb-6">
-            <div className="flex items-start justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <AlertCircle className="h-5 w-5 text-brand" />
-                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
-                  Requires Attention
-                </h3>
-              </div>
-
-              <span className="text-2xl font-light tabular-nums text-neutral-900">
-                {tasks.filter(t => t.priority === 'high').length}
-              </span>
-            </div>
-            <div className="space-y-3">
-              {tasks.filter(t => t.priority === 'high').slice(0, 3).map((task) => (
-                <div key={task.id} className="text-sm text-neutral-700 truncate">
-                  {task.task_description}
                 </div>
-              ))}
-              {tasks.filter(t => t.priority === 'high').length === 0 && (
-                <p className="text-sm text-neutral-400">No critical items</p>
-              )}
-            </div>
-          </div>
-
-          {/* RFI's */}
-          <div className="border border-neutral-200 bg-white p-8 mb-6">
-            <div className="flex items-start justify-between mb-6">
-              <div className="flex items-center gap-2">
-                <FileText className="h-5 w-5 text-brand" />
-                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
-                  RFI&apos;s
-                </h3>
               </div>
+            </CollapsibleContent>
+          </Collapsible>
+        </div>
 
-              <span className="text-2xl font-light tabular-nums text-neutral-900">
-                {tasks.filter(t => t.priority === 'high').length}
-              </span>
-            </div>
-            <div className="space-y-3">
-              {rfis.slice(0, 3).map((rfi) => (
-                <div key={rfi.id} className="text-sm text-neutral-700 truncate">
-                  RFI #{rfi.number || rfi.id}
+        {/* Prime Contracts */}
+        <div className="border border-neutral-200 bg-white mb-6">
+          <Collapsible open={isContractsOpen} onOpenChange={setIsContractsOpen}>
+            <div className="px-8 py-6 pb-4 border-b border-neutral-100">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                  Prime Contracts
+                </h3>
+                <div className="flex items-center gap-3">
+                  <Link
+                    href={`/${project.id}/contracts/new`}
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    Add
+                  </Link>
+                  <span className="text-neutral-300">|</span>
+                  <Link
+                    href={`/${project.id}/contracts`}
+                    className="text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                  >
+                    View All
+                  </Link>
+                  <CollapsibleTrigger asChild>
+                    <button type="button" className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200">
+                      {isContractsOpen ? (
+                        <ChevronUp className="h-3.5 w-3.5" />
+                      ) : (
+                        <ChevronDown className="h-3.5 w-3.5" />
+                      )}
+                      <span className="sr-only">Toggle contracts</span>
+                    </button>
+                  </CollapsibleTrigger>
                 </div>
-              ))}
-              {rfis.length === 0 && (
-                <p className="text-sm text-neutral-400">No active RFIs</p>
-              )}
+              </div>
             </div>
-          </div>
+            <CollapsibleContent>
+              <div className="px-8 py-4">
+                <div className="space-y-4">
+                  {contracts.length > 0 ? (
+                    contracts.map((contract) => {
+                      const formatCurrency = (amount: number) => {
+                        return new Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0,
+                        }).format(amount)
+                      }
 
-           </div>
+                      return (
+                        <Link
+                          key={contract.id}
+                          href={`/${project.id}/contracts/${contract.id}`}
+                          className="flex items-start justify-between pb-4 border-b border-neutral-100 last:border-0 last:pb-0 hover:opacity-70 transition-opacity"
+                        >
+                          <div className="flex-1 min-w-0">
+                            <p className="font-medium text-sm text-neutral-900 truncate">
+                              {contract.title || `Contract #${contract.contract_number}`}
+                            </p>
+                            <div className="flex items-center gap-2 mt-1">
+                              <p className="text-xs text-neutral-500">
+                                {contract.contract_number || 'No number'}
+                              </p>
+                              {contract.contract_amount && (
+                                <>
+                                  <span className="text-xs text-neutral-300">•</span>
+                                  <p className="text-xs font-medium text-neutral-900">
+                                    {formatCurrency(contract.contract_amount)}
+                                  </p>
+                                </>
+                              )}
+                            </div>
+                            {contract.status && (
+                              <p className="text-xs text-neutral-500 mt-1 capitalize">{contract.status}</p>
+                            )}
+                          </div>
+                        </Link>
+                      )
+                    })
+                  ) : (
+                    <div className="text-center py-12">
+                      <p className="text-sm text-neutral-400 mb-2">No prime contracts</p>
+                      <p className="text-xs text-neutral-400">Click &quot;Add&quot; to create a contract</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
+        </div>
+
+        {/* Commitments */}
+        <div className="border border-neutral-200 bg-white mb-6">
+          <Collapsible open={isCommitmentsOpen} onOpenChange={setIsCommitmentsOpen}>
+            <div className="px-8 py-6 pb-4 border-b border-neutral-100">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                  Commitments
+                </h3>
+                <div className="flex items-center gap-3">
+                  <Link
+                    href={`/${project.id}/commitments/new`}
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    Add
+                  </Link>
+                  <span className="text-neutral-300">|</span>
+                  <Link
+                    href={`/${project.id}/commitments`}
+                    className="text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                  >
+                    View All
+                  </Link>
+                  <CollapsibleTrigger asChild>
+                    <button type="button" className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200">
+                      {isCommitmentsOpen ? (
+                        <ChevronUp className="h-3.5 w-3.5" />
+                      ) : (
+                        <ChevronDown className="h-3.5 w-3.5" />
+                      )}
+                      <span className="sr-only">Toggle commitments</span>
+                    </button>
+                  </CollapsibleTrigger>
+                </div>
+              </div>
+            </div>
+            <CollapsibleContent>
+              <div className="px-8 py-4">
+                <div className="space-y-4">
+                  {commitments.length > 0 ? (
+                    commitments.slice(0, 5).map((commitment) => {
+                      const formatCurrency = (amount: number) => {
+                        return new Intl.NumberFormat('en-US', {
+                          style: 'currency',
+                          currency: 'USD',
+                          minimumFractionDigits: 0,
+                          maximumFractionDigits: 0,
+                        }).format(amount)
+                      }
+
+                      return (
+                        <Link
+                          key={commitment.id}
+                          href={`/${project.id}/commitments/${commitment.id}`}
+                          className="flex flex-wrap items-center gap-x-4 gap-y-2 pb-4 border-b border-neutral-100 last:border-0 last:pb-0 hover:opacity-70 transition-opacity"
+                        >
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium text-sm text-neutral-900">
+                              {commitment.title || `${commitment.type === 'subcontract' ? 'Subcontract' : 'PO'} #${commitment.number}`}
+                            </p>
+                            <span className="text-[10px] px-2 py-0.5 bg-neutral-100 text-neutral-600 uppercase tracking-wider whitespace-nowrap">
+                              {commitment.type === 'subcontract' ? 'SC' : 'PO'}
+                            </span>
+                          </div>
+                          <p className="text-xs text-neutral-500">
+                            {commitment.number || 'No number'}
+                          </p>
+                          {commitment.contract_amount && (
+                            <p className="text-xs font-medium text-neutral-900">
+                              {formatCurrency(commitment.contract_amount)}
+                            </p>
+                          )}
+                          {commitment.status && (
+                            <p className="text-xs text-neutral-500 capitalize">{commitment.status}</p>
+                          )}
+                        </Link>
+                      )
+                    })
+                  ) : (
+                    <div className="text-center py-12">
+                      <p className="text-sm text-neutral-400 mb-2">No commitments</p>
+                      <p className="text-xs text-neutral-400">Click &quot;Add&quot; to create a commitment</p>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
+        </div>
+
+        {/* Budget */}
+        <div className="border border-neutral-200 bg-white mb-6">
+          <Collapsible open={isBudgetOpen} onOpenChange={setIsBudgetOpen}>
+            <div className="px-8 py-6 pb-4 border-b border-neutral-100">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                  Budget
+                </h3>
+                <div className="flex items-center gap-3">
+                  <Link
+                    href={`/${project.id}/budget/line-item/new`}
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    Add
+                  </Link>
+                  <span className="text-neutral-300">|</span>
+                  <Link
+                    href={`/${project.id}/budget`}
+                    className="text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                  >
+                    View All
+                  </Link>
+                  <CollapsibleTrigger asChild>
+                    <button type="button" className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200">
+                      {isBudgetOpen ? (
+                        <ChevronUp className="h-3.5 w-3.5" />
+                      ) : (
+                        <ChevronDown className="h-3.5 w-3.5" />
+                      )}
+                      <span className="sr-only">Toggle budget</span>
+                    </button>
+                  </CollapsibleTrigger>
+                </div>
+              </div>
+            </div>
+            <CollapsibleContent>
+              <div className="px-8 py-4">
+                {budget.length > 0 ? (
+                  <>
+                    <div className="grid grid-cols-3 gap-4 mb-4">
+                      <div className="p-3 bg-muted/50">
+                        <p className="text-xs text-muted-foreground">Original Budget</p>
+                        <p className="font-semibold">
+                          {new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                          }).format(budget.reduce((sum, item) => sum + (item.original_amount || 0), 0))}
+                        </p>
+                      </div>
+                      <div className="p-3 bg-muted/50">
+                        <p className="text-xs text-muted-foreground">Revised Budget</p>
+                        <p className="font-semibold">
+                          {new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                          }).format(budget.reduce((sum, item) => sum + (item.original_amount || 0), 0))}
+                        </p>
+                      </div>
+                      <div className="p-3 bg-muted/50">
+                        <p className="text-xs text-muted-foreground">Variance</p>
+                        <p className="font-semibold text-green-600">
+                          {new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                          }).format(budget.reduce((sum, item) => sum + (item.original_amount || 0), 0))}
+                        </p>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center py-12">
+                    <p className="text-sm text-neutral-400 mb-2">No budget items</p>
+                    <p className="text-xs text-neutral-400">Click &quot;Add&quot; to create a budget</p>
+                  </div>
+                )}
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
+        </div>
+
+        {/* Schedule of Values */}
+        <div className="border border-neutral-200 bg-white mb-6">
+          <Collapsible open={isSovOpen} onOpenChange={setIsSovOpen}>
+            <div className="px-8 py-6 pb-4 border-b border-neutral-100">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                  Schedule of Values
+                </h3>
+                <div className="flex items-center gap-3">
+                  <Link
+                    href={`/${project.id}/sov/new`}
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    Add
+                  </Link>
+                  <span className="text-neutral-300">|</span>
+                  <Link
+                    href={`/${project.id}/sov`}
+                    className="text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                  >
+                    View All
+                  </Link>
+                  <CollapsibleTrigger asChild>
+                    <button type="button" className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200">
+                      {isSovOpen ? (
+                        <ChevronUp className="h-3.5 w-3.5" />
+                      ) : (
+                        <ChevronDown className="h-3.5 w-3.5" />
+                      )}
+                      <span className="sr-only">Toggle SOV</span>
+                    </button>
+                  </CollapsibleTrigger>
+                </div>
+              </div>
+            </div>
+            <CollapsibleContent>
+              <div className="px-8 py-4">
+                {sov && sov.length > 0 ? (
+                  <>
+                    <div className="grid grid-cols-2 gap-4 mb-4">
+                      <div className="p-3 bg-muted/50">
+                        <p className="text-xs text-muted-foreground">Total Value</p>
+                        <p className="font-semibold">
+                          {new Intl.NumberFormat('en-US', {
+                            style: 'currency',
+                            currency: 'USD',
+                            minimumFractionDigits: 0,
+                            maximumFractionDigits: 0,
+                          }).format(sov.reduce((sum, item) => sum + (item.total_amount || 0), 0))}
+                        </p>
+                      </div>
+                      <div className="p-3 bg-muted/50">
+                        <p className="text-xs text-muted-foreground">Items</p>
+                        <p className="font-semibold">{sov.length}</p>
+                      </div>
+                    </div>
+                    <div className="space-y-2">
+                      {sov.slice(0, 3).map((item) => (
+                        <div key={item.id} className="p-3 bg-muted/50">
+                          <div className="flex justify-between items-start">
+                            <p className="font-medium text-sm">SOV Item #{item.id}</p>
+                            <p className="text-sm font-medium">
+                              {new Intl.NumberFormat('en-US', {
+                                style: 'currency',
+                                currency: 'USD',
+                                minimumFractionDigits: 0,
+                                maximumFractionDigits: 0,
+                              }).format(item.total_amount || 0)}
+                            </p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-center py-12">
+                    <p className="text-sm text-neutral-400 mb-2">No schedule of values</p>
+                    <p className="text-xs text-neutral-400">Click &quot;Add&quot; to create an SOV</p>
+                  </div>
+                )}
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
+        </div>
+
+        {/* Schedule */}
+        <div className="border border-neutral-200 bg-white mb-6">
+          <Collapsible open={isScheduleOpen} onOpenChange={setIsScheduleOpen}>
+            <div className="px-8 py-6 pb-4 border-b border-neutral-100">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                  Schedule
+                </h3>
+                <div className="flex items-center gap-3">
+                  <Link
+                    href={`/${project.id}/schedule/new`}
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    Add
+                  </Link>
+                  <span className="text-neutral-300">|</span>
+                  <Link
+                    href={`/${project.id}/schedule`}
+                    className="text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                  >
+                    View All
+                  </Link>
+                  <CollapsibleTrigger asChild>
+                    <button type="button" className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200">
+                      {isScheduleOpen ? (
+                        <ChevronUp className="h-3.5 w-3.5" />
+                      ) : (
+                        <ChevronDown className="h-3.5 w-3.5" />
+                      )}
+                      <span className="sr-only">Toggle schedule</span>
+                    </button>
+                  </CollapsibleTrigger>
+                </div>
+              </div>
+            </div>
+            <CollapsibleContent>
+              <div className="px-8 py-4">
+                {schedule && schedule.length > 0 ? (
+                  <div className="space-y-2">
+                    {schedule.slice(0, 5).map((item) => (
+                      <div key={item.id} className="flex items-start justify-between p-3 bg-muted/50">
+                        <div className="space-y-1">
+                          <p className="font-medium text-sm">{item.task}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {item.start_date && format(new Date(item.start_date), 'MMM d')} -
+                            {item.end_date && format(new Date(item.end_date), 'MMM d, yyyy')}
+                          </p>
+                        </div>
+                        {item.status && (
+                          <span className="text-xs px-2 py-0.5 bg-neutral-100 text-neutral-600 capitalize">
+                            {item.status}
+                          </span>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="text-center py-12">
+                    <p className="text-sm text-neutral-400 mb-2">No schedule items</p>
+                    <p className="text-xs text-neutral-400">Click &quot;Add&quot; to create a schedule</p>
+                  </div>
+                )}
+              </div>
+            </CollapsibleContent>
+          </Collapsible>
+        </div>
+
+      {/* 2 Column Grid for Info Sections */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+
+          {/* Recent Meetings */}
+          <InfoSection
+            title="Recent Meetings"
+            icon={Calendar}
+            items={meetings.map((meeting) => ({
+              id: meeting.id,
+              title: meeting.title || 'Untitled Meeting',
+              subtitle: meeting.date ? format(new Date(meeting.date), 'MMM d, yyyy') : undefined,
+              href: `/${project.id}/meetings/${meeting.id}`,
+            }))}
+            viewAllHref={`/${project.id}/meetings`}
+            emptyMessage="No recent meetings"
+          />
+
+          {/* Tasks */}
+          <InfoSection
+            title="Tasks"
+            icon={CheckSquare}
+            items={tasks.map((task) => ({
+              id: task.id,
+              title: task.task_description || 'Untitled Task',
+              subtitle: task.due_date ? `Due ${format(new Date(task.due_date), 'MMM d, yyyy')}` : undefined,
+              href: `/${project.id}/tasks/${task.id}`,
+            }))}
+            viewAllHref={`/${project.id}/tasks`}
+            emptyMessage="No tasks"
+          />
+
+          {/* RFIs */}
+          <InfoSection
+            title="RFI's"
+            icon={FileText}
+            items={rfis.map((rfi) => ({
+              id: rfi.id,
+              title: `RFI #${rfi.number || rfi.id}`,
+              subtitle: rfi.subject || undefined,
+              href: `/${project.id}/rfis/${rfi.id}`,
+            }))}
+            viewAllHref={`/${project.id}/rfis`}
+            emptyMessage="No active RFIs"
+          />
+
+          {/* Change Orders */}
+          <InfoSection
+            title="Change Orders"
+            icon={DollarSign}
+            items={changeOrders.map((co) => ({
+              id: co.id,
+              title: `CO #${co.co_number || co.id}`,
+              subtitle: co.title || undefined,
+              href: `/${project.id}/change-orders/${co.id}`,
+            }))}
+            viewAllHref={`/${project.id}/change-orders`}
+            emptyMessage="No change orders"
+          />
+
+          {/* Change Events */}
+          {changeEvents && changeEvents.length > 0 && (
+            <InfoSection
+              title="Change Events"
+              icon={TrendingUp}
+              items={changeEvents.map((ce) => ({
+                id: ce.id,
+                title: ce.title || `Change Event #${ce.id}`,
+                subtitle: ce.created_at ? format(new Date(ce.created_at), 'MMM d, yyyy') : undefined,
+                href: `/${project.id}/change-events/${ce.id}`,
+              }))}
+              viewAllHref={`/${project.id}/change-events`}
+              emptyMessage="No change events"
+            />
+          )}
+
+          {/* Submittals */}
+          <InfoSection
+            title="Submittals"
+            icon={Upload}
+            items={[]}
+            viewAllHref={`/${project.id}/submittals`}
+            emptyMessage="No submittals"
+          />
+
+          {/* Documents */}
+          <InfoSection
+            title="Documents"
+            icon={Folder}
+            items={[]}
+            viewAllHref={`/${project.id}/documents`}
+            emptyMessage="No recent documents"
+          />
 
         </div>
+
+      {/* Budget */}
+      <div className="mb-20">
+        {/* Heading */}
+          <h2 className="pb-4 text-2xl md:text-3xl font-serif font-light tracking-tight text-neutral-900 mb-2">
+            Budget
+          </h2>
+
+        {/* Hero Metrics - Executive Dashboard KPIs */}
+      <HeroMetrics
+        projectId={project.id.toString()}
+        totalBudget={totalBudget}
+        committed={committed}
+        spent={spent}
+        forecastedCost={forecastedCost}
+        changeOrdersTotal={changeOrdersTotal}
+        activeTasks={0}
+      />
       </div>
 
       {/* Drawings */}

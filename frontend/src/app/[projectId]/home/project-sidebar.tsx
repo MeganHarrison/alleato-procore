@@ -3,15 +3,14 @@
 import * as React from "react"
 import { useParams, useRouter } from "next/navigation"
 
-import { NavUser } from "@/components/nav/nav-user"
 import {
   Sidebar,
   SidebarContent,
-  SidebarHeader,
+  SidebarRail,
   SidebarSeparator,
 } from "@/components/ui/sidebar"
-import { ProjectSetupStepper, type Step } from "@/components/project-setup-stepper"
-import { SourcesList, type Source } from "@/components/sources-list"
+import { ProjectSetupStepper, type Step } from "@/components/misc/project-setup-stepper"
+import { SourcesList, type Source } from "@/components/misc/sources-list"
 
 interface ProjectStep {
   id: string
@@ -77,7 +76,7 @@ export function ProjectSidebar({
 
   return (
     <Sidebar
-      collapsible="none"
+      collapsible="icon"
       className="bg-white sticky top-0 hidden h-svh border-l lg:flex"
       {...props}
     >
@@ -98,28 +97,6 @@ export function ProjectSidebar({
         {/* Vertical Stepper */}
         <ProjectSetupStepper steps={convertedSteps} onStepClick={handleStepClick} />
 
-        {/* Progress Summary */}
-        <SidebarSeparator className="mx-0 my-6" />
-
-        <div className="rounded-lg bg-muted/50 p-4">
-          <div className="flex items-center justify-between mb-2">
-            <span className="text-xs font-medium text-muted-foreground">
-              Progress
-            </span>
-            <span className="text-xs font-semibold text-foreground">
-              {projectSteps.filter(s => s.completed).length} / {projectSteps.length}
-            </span>
-          </div>
-          <div className="w-full bg-border rounded-full h-2">
-            <div
-              className="bg-green-600 h-2 rounded-full transition-all duration-300"
-              style={{
-                width: `${(projectSteps.filter(s => s.completed).length / projectSteps.length) * 100}%`
-              }}
-            />
-          </div>
-        </div>
-
         {/* Sources Section */}
         {sources.length > 0 && (
           <>
@@ -128,6 +105,7 @@ export function ProjectSidebar({
           </>
         )}
       </SidebarContent>
+      <SidebarRail />
     </Sidebar>
   )
 }

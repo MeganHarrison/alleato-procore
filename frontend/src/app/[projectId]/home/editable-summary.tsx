@@ -42,7 +42,7 @@ export function EditableSummary({ summary, onSave }: EditableSummaryProps) {
   return (
     <div className="border border-neutral-200 bg-white">
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-        <div className="lg:px-6 px-4 py-6 border-b border-neutral-100">
+        <div className="lg:px-6 px-4 py-2">
           <div className="flex items-center justify-between">
             <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
               Summary
@@ -56,7 +56,6 @@ export function EditableSummary({ summary, onSave }: EditableSummaryProps) {
                     onClick={handleEdit}
                   >
                     <Pencil className="h-3.5 w-3.5" />
-                    Edit
                     <span className="sr-only">Edit summary</span>
                   </button>
                   <CollapsibleTrigger asChild>
@@ -96,7 +95,7 @@ export function EditableSummary({ summary, onSave }: EditableSummaryProps) {
           </div>
         </div>
         <CollapsibleContent>
-          <div className="px-4 py-4 lg:px-8 lg:py-8">
+          <div className="px-4 py-4 lg:px-8 lg:py-4">
             {isEditing ? (
               <Textarea
                 value={editedSummary}

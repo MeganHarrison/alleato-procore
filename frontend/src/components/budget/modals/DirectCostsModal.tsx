@@ -235,7 +235,7 @@ export function DirectCostsModal({
             </div>
 
             {/* Costs Table */}
-            <div className="overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white">
+            <div className="overflow-x-auto scrollbar-hide rounded-xl border border-slate-200 shadow-sm bg-white">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>

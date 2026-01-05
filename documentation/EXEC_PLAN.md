@@ -312,7 +312,7 @@ Successfully updated the Project Tools dropdown in the site header to match the 
 5. Each item now navigates to its respective page when clicked
 
 **Files modified:**
-- `frontend/src/components/site-header.tsx` - Updated dropdown structure, styling, and added navigation links
+- `frontend/src/components/layout/site-header.tsx` - Updated dropdown structure, styling, and added navigation links
 - `frontend/tests/e2e/project-tools-dropdown.spec.ts` - Added E2E test with navigation verification
 - `frontend/tests/manual-test-project-tools-dropdown.md` - Created manual test checklist
 - `frontend/config/playwright/playwright.config.ts` - Updated test configuration

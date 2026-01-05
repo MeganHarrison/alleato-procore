@@ -1,8 +1,8 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { AgentPanel } from "@/components/agent-panel";
-import { ChatKitPanel } from "@/components/chatkit-panel";
+import { AgentPanel } from "@/components/misc/agent-panel";
+import { ChatKitPanel } from "@/components/misc/chatkit-panel";
 import type { Agent, AgentEvent, GuardrailCheck } from "@/lib/types";
 import { fetchBootstrapState, fetchThreadState } from "@/lib/api";
 

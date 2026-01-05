@@ -13,7 +13,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
-import { StatusBadge } from '@/components/financial/shared/status-badge'
+import { StatusBadge } from '@/components/misc/status-badge'
 import { DataTablePage } from '@/components/templates'
 import { useFinancialStore } from '@/lib/stores/financial-store'
 import { useProjectTitle } from '@/hooks/useProjectTitle'
