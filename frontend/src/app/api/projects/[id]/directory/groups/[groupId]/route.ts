@@ -1,9 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import { createClient } from '@/lib/supabase/server';
 import { DistributionGroupService } from '@/services/distributionGroupService';
 import { PermissionService } from '@/services/permissionService';
-import type { Database } from '@/types/database.types';
+
+interface RouteParams {
+  params: Promise<{ id: string; groupId: string }>;
+}
 
 /**
  * Retrieve a distribution group for a project after authenticating the requester and verifying read permission.
@@ -19,10 +21,11 @@ import type { Database } from '@/types/database.types';
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: { projectId: string; groupId: string } }
+  { params }: RouteParams
 ) {
   try {
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const { id: projectId, groupId } = await params;
+    const supabase = await createClient();
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -34,7 +37,7 @@ export async function GET(
     const permissionService = new PermissionService(supabase);
     const hasPermission = await permissionService.hasPermission(
       user.id,
-      params.projectId,
+      projectId,
       'directory',
       'read'
     );
@@ -45,7 +48,7 @@ export async function GET(
 
     // Get group
     const groupService = new DistributionGroupService(supabase);
-    const group = await groupService.getGroup(params.groupId, true);
+    const group = await groupService.getGroup(groupId, true);
 
     return NextResponse.json(group);
   } catch (error) {
@@ -62,16 +65,17 @@ export async function GET(
  *
  * @param request - Incoming request whose JSON body contains the update fields for the group.
  * @param params - Route parameters.
- * @param params.projectId - ID of the project containing the group.
+ * @param params.id - ID of the project containing the group.
  * @param params.groupId - ID of the distribution group to update.
  * @returns The updated distribution group object.
  */
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { projectId: string; groupId: string } }
+  { params }: RouteParams
 ) {
   try {
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const { id: projectId, groupId } = await params;
+    const supabase = await createClient();
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -83,7 +87,7 @@ export async function PATCH(
     const permissionService = new PermissionService(supabase);
     const hasPermission = await permissionService.hasPermission(
       user.id,
-      params.projectId,
+      projectId,
       'directory',
       'admin'
     );
@@ -97,7 +101,7 @@ export async function PATCH(
 
     // Update group
     const groupService = new DistributionGroupService(supabase);
-    const group = await groupService.updateGroup(params.groupId, body);
+    const group = await groupService.updateGroup(groupId, body);
 
     return NextResponse.json(group);
   } catch (error) {
@@ -113,16 +117,17 @@ export async function PATCH(
  * Deletes a distribution group within a project's directory when the authenticated user has admin permission.
  *
  * @param request - The incoming HTTP request
- * @param params.projectId - The ID of the project containing the directory
+ * @param params.id - The ID of the project containing the directory
  * @param params.groupId - The ID of the distribution group to delete
  * @returns A JSON HTTP response: `{ success: true }` on successful deletion, or an error object with status `401` (unauthorized), `403` (forbidden), or `500` (internal server error)
  */
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { projectId: string; groupId: string } }
+  { params }: RouteParams
 ) {
   try {
-    const supabase = createRouteHandlerClient<Database>({ cookies });
+    const { id: projectId, groupId } = await params;
+    const supabase = await createClient();
     
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
@@ -134,7 +139,7 @@ export async function DELETE(
     const permissionService = new PermissionService(supabase);
     const hasPermission = await permissionService.hasPermission(
       user.id,
-      params.projectId,
+      projectId,
       'directory',
       'admin'
     );
@@ -145,7 +150,7 @@ export async function DELETE(
 
     // Delete group
     const groupService = new DistributionGroupService(supabase);
-    await groupService.deleteGroup(params.groupId);
+    await groupService.deleteGroup(groupId);
 
     return NextResponse.json({ success: true });
   } catch (error) {

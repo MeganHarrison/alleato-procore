@@ -17,7 +17,7 @@ test.describe('Budget Setup - Autopopulation and Quantity Default', () => {
 
     // Take initial screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-setup-initial.png',
+      path: 'tests/screenshots/budget-setup-initial.png',
       fullPage: true
     });
 
@@ -45,7 +45,7 @@ test.describe('Budget Setup - Autopopulation and Quantity Default', () => {
     await expect(dialogTitle).toBeVisible({ timeout: 5000 });
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-setup-create-dialog.png',
+      path: 'tests/screenshots/budget-setup-create-dialog.png',
       fullPage: true
     });
 
@@ -78,7 +78,7 @@ test.describe('Budget Setup - Autopopulation and Quantity Default', () => {
     await expect(costTypeButton).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-setup-code-selected.png',
+      path: 'tests/screenshots/budget-setup-code-selected.png',
       fullPage: true
     });
 
@@ -95,7 +95,7 @@ test.describe('Budget Setup - Autopopulation and Quantity Default', () => {
     await page.waitForTimeout(1500);
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-setup-after-creation.png',
+      path: 'tests/screenshots/budget-setup-after-creation.png',
       fullPage: true
     });
 
@@ -123,7 +123,7 @@ test.describe('Budget Setup - Autopopulation and Quantity Default', () => {
 
     // Take final screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-setup-autopopulated-complete.png',
+      path: 'tests/screenshots/budget-setup-autopopulated-complete.png',
       fullPage: true
     });
   });
@@ -157,7 +157,7 @@ test.describe('Budget Setup - Autopopulation and Quantity Default', () => {
 
     // Take screenshot after selection
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-setup-existing-selected.png',
+      path: 'tests/screenshots/budget-setup-existing-selected.png',
       fullPage: true
     });
 
@@ -213,7 +213,7 @@ test.describe('Budget Setup - Autopopulation and Quantity Default', () => {
     console.warn('✅ VERIFIED: Manually entered quantity was preserved');
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-setup-qty-preserved.png',
+      path: 'tests/screenshots/budget-setup-qty-preserved.png',
       fullPage: true
     });
   });
@@ -266,7 +266,7 @@ test.describe('Budget Setup - Autopopulation and Quantity Default', () => {
     console.warn('✅ VERIFIED: Amount recalculated when quantity changed');
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-setup-amount-calculated.png',
+      path: 'tests/screenshots/budget-setup-amount-calculated.png',
       fullPage: true
     });
   });
@@ -296,7 +296,7 @@ test.describe('Budget Setup - Autopopulation and Quantity Default', () => {
     expect(rowsAfterAdd).toBe(2);
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-setup-row-added.png',
+      path: 'tests/screenshots/budget-setup-row-added.png',
       fullPage: true
     });
 

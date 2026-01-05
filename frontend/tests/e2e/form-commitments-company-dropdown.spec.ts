@@ -21,7 +21,7 @@ test.describe('Form Commitments - Company Dropdown', () => {
 
     // Take a screenshot before clicking
     await page.screenshot({
-      path: 'frontend/tests/screenshots/form-commitments-before-click.png',
+      path: 'tests/screenshots/form-commitments-before-click.png',
       fullPage: true
     });
 
@@ -33,7 +33,7 @@ test.describe('Form Commitments - Company Dropdown', () => {
 
     // Take a screenshot after clicking
     await page.screenshot({
-      path: 'frontend/tests/screenshots/form-commitments-after-click.png',
+      path: 'tests/screenshots/form-commitments-after-click.png',
       fullPage: true
     });
 

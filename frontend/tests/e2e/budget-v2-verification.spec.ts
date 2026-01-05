@@ -17,7 +17,7 @@ test.describe('Budget V2 Page', () => {
     await page.waitForTimeout(2000);
 
     // Take initial screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-v2-initial.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-v2-initial.png', fullPage: true });
 
     // VERIFY: Page title is present
     await expect(page.locator('h1:has-text("Budget V2")')).toBeVisible({ timeout: 10000 });
@@ -53,7 +53,7 @@ test.describe('Budget V2 Page', () => {
     expect(count).toBeGreaterThan(0);
 
     // Take screenshot showing auto-populated items
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-v2-autopopulated.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-v2-autopopulated.png', fullPage: true });
 
     console.warn(`✅ VERIFIED: Found ${count} auto-populated budget line items`);
   });
@@ -78,7 +78,7 @@ test.describe('Budget V2 Page', () => {
     await page.waitForTimeout(500);
 
     // Take screenshot showing calculated amount
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-v2-calculation.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-v2-calculation.png', fullPage: true });
 
     // VERIFY: Amount should be auto-calculated (100 * 25.50 = 2550.00)
     const amountInput = page.locator('input[type="number"][placeholder="0.00"]').nth(1);
@@ -107,7 +107,7 @@ test.describe('Budget V2 Page', () => {
     await page.waitForTimeout(300);
 
     // Take screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-v2-uom.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-v2-uom.png', fullPage: true });
 
     // VERIFY: UOM value is entered
     const uomValue = await uomInput.inputValue();
@@ -132,7 +132,7 @@ test.describe('Budget V2 Page', () => {
     await expect(page.locator('text=Add a new budget code that can be used for line items in this project.')).toBeVisible();
 
     // Take screenshot of modal
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-v2-add-modal.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-v2-add-modal.png', fullPage: true });
 
     console.warn('✅ VERIFIED: Add Budget Code modal opens correctly');
   });
@@ -150,7 +150,7 @@ test.describe('Budget V2 Page', () => {
     await page.waitForTimeout(500);
 
     // Take screenshot of dropdown
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-v2-in-dropdown.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-v2-in-dropdown.png', fullPage: true });
 
     // VERIFY: Budget V2 link is present in Financial Management section
     const budgetV2Link = page.locator('a:has-text("Budget V2")');
@@ -183,7 +183,7 @@ test.describe('Budget V2 Page', () => {
     await expect(totalAmount).toBeVisible();
 
     // Take screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-v2-summary.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-v2-summary.png', fullPage: true });
 
     console.warn('✅ VERIFIED: Summary bar displays correctly');
   });

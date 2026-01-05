@@ -31,7 +31,7 @@ test.describe('Verify Cost Codes Load in Create Modal', () => {
 
     // Take screenshot of the modal
     await page.screenshot({
-      path: 'frontend/tests/screenshots/verify-cost-codes-loaded.png',
+      path: 'tests/screenshots/verify-cost-codes-loaded.png',
       fullPage: true
     });
 
@@ -59,7 +59,7 @@ test.describe('Verify Cost Codes Load in Create Modal', () => {
 
     // Take another screenshot after expanding
     await page.screenshot({
-      path: 'frontend/tests/screenshots/verify-cost-codes-expanded.png',
+      path: 'tests/screenshots/verify-cost-codes-expanded.png',
       fullPage: true
     });
 

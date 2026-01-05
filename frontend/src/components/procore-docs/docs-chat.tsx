@@ -7,7 +7,7 @@
  * Uses RAG (Retrieval Augmented Generation) for accurate answers
  */
 
-import { useState } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Sheet,
@@ -18,7 +18,7 @@ import {
 } from '@/components/ui/sheet';
 import { Input } from '@/components/ui/input';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageCircle, Send, ExternalLink, Loader2, X } from 'lucide-react';
+import { MessageCircle, Send, ExternalLink, Loader2, GripVertical } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -33,11 +33,73 @@ interface Message {
   }>;
 }
 
+const MIN_WIDTH = 400;
+const MAX_WIDTH = 1200;
+const DEFAULT_WIDTH = 540;
+
 export function DocsChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [width, setWidth] = useState(DEFAULT_WIDTH);
+  const [isResizing, setIsResizing] = useState(false);
+  const resizeRef = useRef<number>(0);
+
+  // Load saved width from localStorage
+  useEffect(() => {
+    const savedWidth = localStorage.getItem('procore-docs-chat-width');
+    if (savedWidth) {
+      const parsedWidth = parseInt(savedWidth, 10);
+      if (parsedWidth >= MIN_WIDTH && parsedWidth <= MAX_WIDTH) {
+        setWidth(parsedWidth);
+      }
+    }
+  }, []);
+
+  // Handle resize start
+  const handleResizeStart = (e: React.MouseEvent) => {
+    e.preventDefault();
+    setIsResizing(true);
+    resizeRef.current = e.clientX;
+  };
+
+  // Handle resize move
+  useEffect(() => {
+    const handleResizeMove = (e: MouseEvent) => {
+      if (!isResizing) return;
+
+      const delta = resizeRef.current - e.clientX;
+      resizeRef.current = e.clientX;
+
+      setWidth((prevWidth) => {
+        const newWidth = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, prevWidth + delta));
+        return newWidth;
+      });
+    };
+
+    const handleResizeEnd = () => {
+      if (isResizing) {
+        setIsResizing(false);
+        // Save width to localStorage
+        localStorage.setItem('procore-docs-chat-width', width.toString());
+      }
+    };
+
+    if (isResizing) {
+      document.addEventListener('mousemove', handleResizeMove);
+      document.addEventListener('mouseup', handleResizeEnd);
+      document.body.style.cursor = 'col-resize';
+      document.body.style.userSelect = 'none';
+    }
+
+    return () => {
+      document.removeEventListener('mousemove', handleResizeMove);
+      document.removeEventListener('mouseup', handleResizeEnd);
+      document.body.style.cursor = '';
+      document.body.style.userSelect = '';
+    };
+  }, [isResizing, width]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -97,7 +159,23 @@ export function DocsChat() {
 
       {/* Chat Sidebar */}
       <Sheet open={isOpen} onOpenChange={setIsOpen}>
-        <SheetContent side="right" className="w-full sm:w-[540px] flex flex-col p-0">
+        <SheetContent
+          side="right"
+          className="flex flex-col p-0"
+          style={{ width: `${width}px`, maxWidth: '100vw' }}
+        >
+          {/* Resize Handle */}
+          <button
+            type="button"
+            onMouseDown={handleResizeStart}
+            className="absolute left-0 top-0 bottom-0 w-1 cursor-col-resize hover:bg-blue-500 transition-colors group z-50 border-0 bg-transparent"
+            aria-label="Resize sidebar"
+          >
+            <div className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-1/2 bg-border group-hover:bg-blue-500 rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">
+              <GripVertical className="h-4 w-4 text-muted-foreground group-hover:text-white" />
+            </div>
+          </button>
+
           <SheetHeader className="px-6 py-5 border-b bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20">
             <div className="flex items-start justify-between">
               <div className="space-y-1">

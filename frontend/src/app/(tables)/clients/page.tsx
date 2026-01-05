@@ -254,25 +254,6 @@ export default function ClientsPage() {
       />
 
       <PageContainer>
-        {/* Summary Cards */}
-        <div className="grid gap-4 md:grid-cols-3 mb-6">
-          <Card className="p-6">
-            <div className="text-2xl font-bold">{clients.length}</div>
-            <p className="text-xs text-muted-foreground">Total Clients</p>
-          </Card>
-          <Card className="p-6">
-            <div className="text-2xl font-bold text-green-600">
-              {clients.filter(c => c.status === 'active').length}
-            </div>
-            <p className="text-xs text-muted-foreground">Active Clients</p>
-          </Card>
-          <Card className="p-6">
-            <div className="text-2xl font-bold text-gray-500">
-              {clients.filter(c => c.status === 'inactive').length}
-            </div>
-            <p className="text-xs text-muted-foreground">Inactive Clients</p>
-          </Card>
-        </div>
 
         {/* Filters */}
         <Card className="p-4 mb-6">

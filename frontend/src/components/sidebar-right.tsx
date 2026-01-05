@@ -1,7 +1,7 @@
 import * as React from "react"
 import { CheckCircle2, Circle } from "lucide-react"
 
-import { NavUser } from "@/components/nav-user"
+import { NavUser } from "@/components/nav/nav-user"
 import {
   Sidebar,
   SidebarContent,

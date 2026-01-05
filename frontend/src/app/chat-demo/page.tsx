@@ -236,7 +236,7 @@ function ChatContent() {
 
   return (
     <main className="flex h-screen flex-col overflow-hidden">
-      <header className="bg-background z-10 flex h-16 w-full shrink-0 items-center gap-2 border-b px-4">
+      <header className="bg-background relative z-50 flex h-16 w-full shrink-0 items-center gap-2 border-b px-4">
         <SidebarTrigger className="-ml-1" />
         <div className="text-foreground">Project roadmap discussion</div>
       </header>
@@ -430,7 +430,7 @@ export default function ChatDemoPage() {
   return (
     <SidebarProvider>
       <ChatSidebar />
-      <SidebarInset>
+      <SidebarInset className="z-20">
         <ChatContent />
       </SidebarInset>
     </SidebarProvider>

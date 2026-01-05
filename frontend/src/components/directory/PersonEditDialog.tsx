@@ -199,10 +199,7 @@ export function PersonEditDialog({
         throw new Error(result.error || 'Failed to save person');
       }
 
-      toast({
-        title: mode === 'create' ? 'Person Created' : 'Person Updated',
-        description: `${formData.first_name} ${formData.last_name} has been ${mode === 'create' ? 'created' : 'updated'}.`,
-      });
+      toast.success(`${formData.first_name} ${formData.last_name} has been ${mode === 'create' ? 'created' : 'updated'}.`);
 
       onOpenChange(false);
       onSuccess?.();
@@ -210,11 +207,7 @@ export function PersonEditDialog({
       const message = err instanceof Error ? err.message : 'An error occurred';
       setError(message);
       
-      toast({
-        title: `Failed to ${mode} person`,
-        description: message,
-        variant: 'destructive',
-      });
+      toast.error(`Failed to ${mode} person: ${message}`);
     } finally {
       setSaving(false);
     }

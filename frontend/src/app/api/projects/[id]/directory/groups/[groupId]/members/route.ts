@@ -1,9 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
-import { cookies } from 'next/headers';
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
 import { DistributionGroupService } from '@/services/distributionGroupService';
 import { PermissionService } from '@/services/permissionService';
-import type { Database } from '@/types/database.types';
+
+interface RouteParams {
+  params: Promise<{ id: string; groupId: string }>;
+}
 
 /**
  * Handle POST requests to modify members of a distribution group within a project.
@@ -13,17 +16,18 @@ import type { Database } from '@/types/database.types';
  * `admin` permission on the project's `directory` resource.
  *
  * @param request - The incoming NextRequest for the route
- * @param params.projectId - The project ID from the route parameters
+ * @param params.id - The project ID from the route parameters
  * @param params.groupId - The distribution group ID from the route parameters
  * @returns An HTTP JSON NextResponse describing the result. On success the body is `{ success: true }`. On error the body is `{ error: string }` with an appropriate status code: 400 (bad request), 401 (unauthorized), 403 (forbidden), or 500 (internal server error).
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { projectId: string; groupId: string } }
+  { params }: RouteParams
 ) {
   try {
-    const supabase = createRouteHandlerClient<Database>({ cookies });
-    
+    const { id: projectId, groupId } = await params;
+    const supabase = await createClient();
+
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
@@ -34,7 +38,7 @@ export async function POST(
     const permissionService = new PermissionService(supabase);
     const hasPermission = await permissionService.hasPermission(
       user.id,
-      params.projectId,
+      projectId,
       'directory',
       'admin'
     );
@@ -48,19 +52,19 @@ export async function POST(
 
     // Handle bulk operations
     const groupService = new DistributionGroupService(supabase);
-    
+
     if (body.add || body.remove) {
       // Bulk update members
-      await groupService.updateMembers(params.groupId, {
+      await groupService.updateMembers(groupId, {
         add: body.add,
         remove: body.remove
       });
     } else if (body.person_ids) {
       // Add multiple members
-      await groupService.addMembers(params.groupId, body.person_ids);
+      await groupService.addMembers(groupId, body.person_ids);
     } else if (body.person_id) {
       // Add single member
-      await groupService.addMembers(params.groupId, [body.person_id]);
+      await groupService.addMembers(groupId, [body.person_id]);
     } else {
       return NextResponse.json(
         { error: 'No members specified' },

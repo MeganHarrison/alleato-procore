@@ -9,9 +9,9 @@ import {
   MorphingDialogSubtitle,
   MorphingDialogClose,
   MorphingDialogContainer,
-} from '@/components/ui/morphing-dialog';
+} from '@/components/motion/morphing-dialog';
 import { ScrollArea } from '@/components/ui/scroll-area';
-import { MorphingDialogBasicOne } from '@/components/morphing-dialog-basic-one';
+import { MorphingDialogBasicOne } from '@/components/motion/morphing-dialog-basic-one';
 
 export default function MorphingDialogDemoPage() {
   return (

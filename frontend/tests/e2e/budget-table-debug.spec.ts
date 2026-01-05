@@ -35,6 +35,6 @@ test.describe('Budget Table Debug', () => {
     console.log('Total cells:', cells.length);
 
     // Take a screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-table-debug.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-table-debug.png', fullPage: true });
   });
 });

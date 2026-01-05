@@ -11,7 +11,7 @@ test.describe('Budget Line Item Creation', () => {
 
     // Take screenshot of initial state
     await page.screenshot({
-      path: 'frontend/tests/screenshots/line-item-initial.png',
+      path: 'tests/screenshots/line-item-initial.png',
       fullPage: true
     });
 
@@ -23,7 +23,7 @@ test.describe('Budget Line Item Creation', () => {
 
     // Take screenshot of dropdown opened
     await page.screenshot({
-      path: 'frontend/tests/screenshots/line-item-dropdown-opened.png',
+      path: 'tests/screenshots/line-item-dropdown-opened.png',
       fullPage: true
     });
 
@@ -36,7 +36,7 @@ test.describe('Budget Line Item Creation', () => {
 
     // Take screenshot after selecting budget code
     await page.screenshot({
-      path: 'frontend/tests/screenshots/line-item-budget-code-selected.png',
+      path: 'tests/screenshots/line-item-budget-code-selected.png',
       fullPage: true
     });
 
@@ -52,7 +52,7 @@ test.describe('Budget Line Item Creation', () => {
 
     // Take screenshot before submitting
     await page.screenshot({
-      path: 'frontend/tests/screenshots/line-item-before-submit.png',
+      path: 'tests/screenshots/line-item-before-submit.png',
       fullPage: true
     });
 
@@ -66,7 +66,7 @@ test.describe('Budget Line Item Creation', () => {
 
     // Take screenshot after submission
     await page.screenshot({
-      path: 'frontend/tests/screenshots/line-item-after-submit.png',
+      path: 'tests/screenshots/line-item-after-submit.png',
       fullPage: true
     });
 

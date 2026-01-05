@@ -54,7 +54,7 @@ test.describe('Budget Code Creation Flow (Authenticated)', () => {
     await laborOption.click();
 
     // Take screenshot before creating
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-code-before-create.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-code-before-create.png', fullPage: true });
 
     // Click "Create Budget Code" button
     const createBudgetCodeButton = page.locator('button:has-text("Create Budget Code")');
@@ -67,7 +67,7 @@ test.describe('Budget Code Creation Flow (Authenticated)', () => {
     await page.waitForTimeout(1000);
 
     // Take screenshot after creating
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-code-after-create.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-code-after-create.png', fullPage: true });
 
     // Verify the newly created budget code appears in the selector
     const budgetCodeSelectorAfter = page.locator('button[role="combobox"]').first();
@@ -99,7 +99,7 @@ test.describe('Budget Code Creation Flow (Authenticated)', () => {
     expect(parseFloat(amountValue)).toBe(5000);
 
     // Take screenshot before submitting
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-line-filled.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-line-filled.png', fullPage: true });
 
     // Click "Create 1 Line Item" button
     const createLineButton = page.locator('button:has-text("Create 1 Line Item")');
@@ -109,7 +109,7 @@ test.describe('Budget Code Creation Flow (Authenticated)', () => {
     await expect(page.locator('text=Budget line items created')).toBeVisible({ timeout: 5000 });
 
     // Take screenshot of result
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-line-created.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-line-created.png', fullPage: true });
 
     console.warn('✅ SUCCESS: Budget code and line item created successfully');
   });

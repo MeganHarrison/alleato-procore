@@ -9,7 +9,7 @@ test.describe('Project Setup - Budget Creation E2E', () => {
 
     // Take initial screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-e2e-1-initial.png',
+      path: 'tests/screenshots/budget-e2e-1-initial.png',
       fullPage: true
     })
 
@@ -52,7 +52,7 @@ test.describe('Project Setup - Budget Creation E2E', () => {
 
     // Take screenshot of budget setup page
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-e2e-2-budget-page.png',
+      path: 'tests/screenshots/budget-e2e-2-budget-page.png',
       fullPage: true
     })
 
@@ -131,7 +131,7 @@ test.describe('Project Setup - Budget Creation E2E', () => {
 
     // Take screenshot after filling data
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-e2e-3-filled-data.png',
+      path: 'tests/screenshots/budget-e2e-3-filled-data.png',
       fullPage: true
     })
 
@@ -151,7 +151,7 @@ test.describe('Project Setup - Budget Creation E2E', () => {
 
     // Take screenshot of updated summary
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-e2e-4-summary-updated.png',
+      path: 'tests/screenshots/budget-e2e-4-summary-updated.png',
       fullPage: true
     })
 
@@ -185,7 +185,7 @@ test.describe('Project Setup - Budget Creation E2E', () => {
 
     // Take final screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-e2e-5-saved.png',
+      path: 'tests/screenshots/budget-e2e-5-saved.png',
       fullPage: true
     })
 

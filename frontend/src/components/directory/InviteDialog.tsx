@@ -84,10 +84,7 @@ export function InviteDialog({
         throw new Error(result.error || 'Failed to send invitation');
       }
 
-      toast({
-        title: isReinvite ? 'Invitation Resent' : 'Invitation Sent',
-        description: `Invitation ${isReinvite ? 'resent' : 'sent'} to ${person.email}`,
-      });
+      toast.success(`Invitation ${isReinvite ? 'resent' : 'sent'} to ${person.email}`);
 
       onOpenChange(false);
       onSuccess?.();
@@ -95,11 +92,7 @@ export function InviteDialog({
       const message = err instanceof Error ? err.message : 'An error occurred';
       setError(message);
       
-      toast({
-        title: 'Failed to send invitation',
-        description: message,
-        variant: 'destructive',
-      });
+      toast.error(`Failed to send invitation: ${message}`);
     } finally {
       setSending(false);
     }

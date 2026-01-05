@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { ArrowLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ProjectPageHeader, PageHeader, PageContainer } from '@/components/layout';
+import { ProjectPageHeader, FormContainer } from '@/components/layout';
 import { ContractForm } from '@/components/domain/contracts';
 import type { ContractFormData } from '@/components/domain/contracts/ContractForm';
 
@@ -32,8 +32,8 @@ export default function NewContractPage() {
           status: data.status || 'draft',
           original_contract_value: data.originalAmount || 0,
           revised_contract_value: data.revisedAmount || data.originalAmount || 0,
-          start_date: data.startDate?.toISOString().split('T')[0] || null,
-          end_date: data.estimatedCompletionDate?.toISOString().split('T')[0] || null,
+          start_date: data.startDate?.toISOString() || null,
+          end_date: data.estimatedCompletionDate?.toISOString() || null,
           retention_percentage: data.defaultRetainage || 0,
           payment_terms: null, // Not in form yet
           billing_schedule: null, // Not in form yet
@@ -89,7 +89,7 @@ export default function NewContractPage() {
         }
       />
 
-      <PageContainer>
+      <FormContainer maxWidth="lg" className="max-w-[960px]">
         <ContractForm
           initialData={initialData}
           onSubmit={handleSubmit}
@@ -98,7 +98,7 @@ export default function NewContractPage() {
           mode="create"
           projectId={projectId}
         />
-      </PageContainer>
+      </FormContainer>
     </>
   );
 }

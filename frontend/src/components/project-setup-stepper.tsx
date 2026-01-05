@@ -21,71 +21,41 @@ export function ProjectSetupStepper({ steps, onStepClick }: ProjectSetupStepperP
   return (
     <div className="w-full">
       <nav aria-label="Project setup progress">
-        <ol className="space-y-0">
-          {steps.map((step, index) => {
-            const isLast = index === steps.length - 1
+        <ol className="space-y-1">
+          {steps.map((step) => {
             const isCompleted = step.status === "completed"
-            const isCurrent = step.status === "current"
-            const isUpcoming = step.status === "upcoming"
 
             return (
-              <li key={step.id} className="relative">
-                {/* Connecting line */}
-                {!isLast && (
-                  <div
-                    className={cn(
-                      "absolute left-4 top-9 h-full w-0.5 -translate-x-1/2",
-                      isCompleted ? "bg-success" : "bg-border",
-                    )}
-                    aria-hidden="true"
-                  />
-                )}
-
-                {/* Step content */}
+              <li key={step.id}>
                 <button
                   onClick={() => onStepClick?.(step)}
                   className={cn(
-                    "group relative flex w-full items-start gap-3 py-2.5 text-left transition-colors",
-                    onStepClick && "hover:bg-muted/50 rounded-lg px-2 -mx-2",
+                    "flex w-full items-center gap-3 py-2 text-left transition-colors rounded-lg px-2 -mx-2",
+                    onStepClick && "hover:bg-muted/50",
                   )}
                   disabled={!onStepClick}
                 >
-                  {/* Step indicator */}
-                  <div className="relative flex-shrink-0">
-                    <div
-                      className={cn(
-                        "flex h-8 w-8 items-center justify-center rounded-full border-2 transition-all",
-                        isCompleted && "border-success bg-success text-success-foreground",
-                        isCurrent && "border-primary bg-primary text-primary-foreground shadow-sm",
-                        isUpcoming && "border-border bg-card text-muted-foreground",
-                      )}
-                    >
-                      {isCompleted ? (
-                        <Check className="h-4 w-4" strokeWidth={3} />
-                      ) : (
-                        <span className="text-xs font-semibold">{index + 1}</span>
-                      )}
-                    </div>
-
-                    {/* Pulse animation for current step */}
-                    {isCurrent && (
-                      <span className="absolute inset-0 rounded-full border-2 border-primary animate-ping opacity-75" />
+                  {/* Checkbox */}
+                  <div
+                    className={cn(
+                      "flex h-5 w-5 items-center justify-center rounded border-2 transition-all flex-shrink-0",
+                      isCompleted
+                        ? "border-success bg-success text-success-foreground"
+                        : "border-border bg-background"
                     )}
+                  >
+                    {isCompleted && <Check className="h-3.5 w-3.5" strokeWidth={3} />}
                   </div>
 
                   {/* Step text */}
-                  <div className="flex-1 pt-0.5">
-                    <h3
-                      className={cn(
-                        "text-sm font-semibold leading-tight transition-colors",
-                        isCompleted && "text-foreground",
-                        isCurrent && "text-foreground",
-                        isUpcoming && "text-muted-foreground",
-                      )}
-                    >
-                      {step.title}
-                    </h3>
-                  </div>
+                  <span
+                    className={cn(
+                      "text-sm transition-colors",
+                      isCompleted ? "text-foreground font-medium" : "text-muted-foreground"
+                    )}
+                  >
+                    {step.title}
+                  </span>
                 </button>
               </li>
             )

@@ -11,7 +11,7 @@ test.describe('Budget Display and Multiple Line Items', () => {
 
     // Take screenshot of initial budget state
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-initial-state.png',
+      path: 'tests/screenshots/budget-initial-state.png',
       fullPage: true
     });
 
@@ -48,7 +48,7 @@ test.describe('Budget Display and Multiple Line Items', () => {
 
     // Take screenshot before adding second row
     await page.screenshot({
-      path: 'frontend/tests/screenshots/line-item-1-filled.png',
+      path: 'tests/screenshots/line-item-1-filled.png',
       fullPage: true
     });
 
@@ -135,7 +135,7 @@ test.describe('Budget Display and Multiple Line Items', () => {
 
     // Take screenshot with both line items filled
     await page.screenshot({
-      path: 'frontend/tests/screenshots/two-line-items-filled.png',
+      path: 'tests/screenshots/two-line-items-filled.png',
       fullPage: true
     });
 
@@ -154,7 +154,7 @@ test.describe('Budget Display and Multiple Line Items', () => {
 
     // Take screenshot after submission
     await page.screenshot({
-      path: 'frontend/tests/screenshots/after-creating-two-line-items.png',
+      path: 'tests/screenshots/after-creating-two-line-items.png',
       fullPage: true
     });
 
@@ -168,7 +168,7 @@ test.describe('Budget Display and Multiple Line Items', () => {
 
     // Take screenshot of final budget state
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-with-new-line-items.png',
+      path: 'tests/screenshots/budget-with-new-line-items.png',
       fullPage: true
     });
 
@@ -190,7 +190,7 @@ test.describe('Budget Display and Multiple Line Items', () => {
 
       // Take final screenshot
       await page.screenshot({
-        path: 'frontend/tests/screenshots/budget-final-display.png',
+        path: 'tests/screenshots/budget-final-display.png',
         fullPage: true
       });
     } else {

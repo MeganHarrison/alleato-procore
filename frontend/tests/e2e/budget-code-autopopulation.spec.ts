@@ -65,7 +65,7 @@ test.describe('Budget Code Autopopulation and UOM Dropdown', () => {
     await page.waitForTimeout(1000);
 
     // Take screenshot after budget code creation
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-code-autopopulated.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-code-autopopulated.png', fullPage: true });
 
     // VERIFY: The newly created budget code should be autopopulated in the first row
     const budgetCodeSelectorAfter = page.locator('button[role="combobox"]').first();
@@ -98,7 +98,7 @@ test.describe('Budget Code Autopopulation and UOM Dropdown', () => {
     await page.waitForTimeout(500);
 
     // Take screenshot of UOM dropdown
-    await page.screenshot({ path: 'frontend/tests/screenshots/uom-dropdown-enhanced.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/uom-dropdown-enhanced.png', fullPage: true });
 
     // VERIFY: Enhanced UOM options with descriptions are present
     await expect(page.locator('text=EA - Each')).toBeVisible();
@@ -182,7 +182,7 @@ test.describe('Budget Code Autopopulation and UOM Dropdown', () => {
     await page.waitForTimeout(1000);
 
     // Take screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-code-new-row-created.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-code-new-row-created.png', fullPage: true });
 
     // VERIFY: A second row should have been created with the new budget code
     const allBudgetCodeSelectors = page.locator('button[role="combobox"]').filter({ hasText: /.+\./ });

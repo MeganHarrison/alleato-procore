@@ -31,7 +31,7 @@ test.describe('Budget Setup - Debug Cost Code Creation', () => {
 
     // Take screenshot of the modal
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-setup-create-modal.png',
+      path: 'tests/screenshots/budget-setup-create-modal.png',
       fullPage: true
     });
 
@@ -45,7 +45,7 @@ test.describe('Budget Setup - Debug Cost Code Creation', () => {
 
     // Take another screenshot after loading
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-setup-create-modal-after-load.png',
+      path: 'tests/screenshots/budget-setup-create-modal-after-load.png',
       fullPage: true
     });
 

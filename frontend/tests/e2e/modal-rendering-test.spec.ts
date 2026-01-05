@@ -46,7 +46,7 @@ test.describe('Modal Rendering Test', () => {
     console.log('Overlay visible:', overlayVisible);
 
     if (overlayVisible) {
-      await page.screenshot({ path: 'frontend/tests/screenshots/modal-overlay-visible.png', fullPage: true });
+      await page.screenshot({ path: 'tests/screenshots/modal-overlay-visible.png', fullPage: true });
 
       // Check for modal content
       const modalContent = page.locator('[role="dialog"]');

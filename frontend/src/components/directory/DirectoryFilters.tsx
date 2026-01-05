@@ -28,6 +28,7 @@ type Company = Tables['companies']['Row'];
 type PermissionTemplate = Tables['permission_templates']['Row'];
 
 export interface DirectoryFilters {
+  search?: string;
   type?: 'user' | 'contact' | 'all';
   status?: 'active' | 'inactive' | 'all';
   companyId?: string;
@@ -35,6 +36,19 @@ export interface DirectoryFilters {
   groupBy?: 'company' | 'none';
   sortBy?: string[];
 }
+
+// Type-safe union for all possible filter values
+type DirectoryFilterValue =
+  | 'user'
+  | 'contact'
+  | 'all'
+  | 'active'
+  | 'inactive'
+  | 'company'
+  | 'none'
+  | string
+  | string[]
+  | undefined;
 
 export interface PersonWithDetails {
   id: string;
@@ -117,7 +131,7 @@ export function DirectoryFilters({
     loadFilterData();
   }, [supabase]);
 
-  const handleFilterChange = (key: keyof DirectoryFilters, value: any) => {
+  const handleFilterChange = (key: keyof DirectoryFilters, value: DirectoryFilterValue) => {
     onFiltersChange({
       ...filters,
       [key]: value

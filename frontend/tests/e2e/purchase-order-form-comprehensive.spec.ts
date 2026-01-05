@@ -24,7 +24,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-all-sections.png',
+      path: 'tests/screenshots/po-form-all-sections.png',
       fullPage: true
     });
   });
@@ -50,7 +50,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
     await expect(page.locator('#defaultRetainagePercent')).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-general-info.png',
+      path: 'tests/screenshots/po-form-general-info.png',
       fullPage: true
     });
   });
@@ -66,7 +66,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
     await expect(page.getByRole('button', { name: /import sov from csv/i })).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-sov-empty.png',
+      path: 'tests/screenshots/po-form-sov-empty.png',
       fullPage: true
     });
   });
@@ -92,7 +92,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
     await expect(page.locator('th:has-text("Amount Remaining")').first()).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-sov-table-headers.png',
+      path: 'tests/screenshots/po-form-sov-table-headers.png',
       fullPage: true
     });
 
@@ -118,7 +118,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
     await expect(row.getByText('$5000.00').first()).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-sov-line-filled.png',
+      path: 'tests/screenshots/po-form-sov-line-filled.png',
       fullPage: true
     });
   });
@@ -145,7 +145,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
     await expect(options.first()).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-uom-dropdown.png',
+      path: 'tests/screenshots/po-form-uom-dropdown.png',
       fullPage: true
     });
   });
@@ -175,7 +175,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
     await expect(totalRow).toContainText('$10000.00'); // 100*50 + 200*25 = 10000
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-sov-multiple-lines.png',
+      path: 'tests/screenshots/po-form-sov-multiple-lines.png',
       fullPage: true
     });
   });
@@ -187,7 +187,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
     await expect(page.locator('#dates\\.issuedOnDate')).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-contract-dates.png',
+      path: 'tests/screenshots/po-form-contract-dates.png',
       fullPage: true
     });
   });
@@ -203,7 +203,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
     await expect(page.locator('#privacy\\.allowNonAdminViewSovItems')).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-privacy.png',
+      path: 'tests/screenshots/po-form-privacy.png',
       fullPage: true
     });
   });
@@ -215,7 +215,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
     await expect(page.getByText('Please select a Contract Company first')).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-invoice-contacts.png',
+      path: 'tests/screenshots/po-form-invoice-contacts.png',
       fullPage: true
     });
   });
@@ -225,7 +225,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
     await expect(page.getByRole('button', { name: /create purchase order/i })).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-action-buttons.png',
+      path: 'tests/screenshots/po-form-action-buttons.png',
       fullPage: true
     });
   });
@@ -250,7 +250,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
     expect(rows).toBe(3); // Header + 1 data row + footer
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-sov-after-remove.png',
+      path: 'tests/screenshots/po-form-sov-after-remove.png',
       fullPage: true
     });
   });
@@ -260,7 +260,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
     await expect(page.getByRole('button', { name: /change to amount-based/i })).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-accounting-method.png',
+      path: 'tests/screenshots/po-form-accounting-method.png',
       fullPage: true
     });
   });
@@ -285,7 +285,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
 
     // Capture filled form
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-complete-filled.png',
+      path: 'tests/screenshots/po-form-complete-filled.png',
       fullPage: true
     });
 
@@ -299,7 +299,7 @@ test.describe('Purchase Order Form - Comprehensive Verification', () => {
     await expect(page).toHaveURL(new RegExp(`/${TEST_PROJECT_ID}/commitments`));
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/po-form-after-submit.png',
+      path: 'tests/screenshots/po-form-after-submit.png',
       fullPage: true
     });
   });
