@@ -1,8 +1,5 @@
-import { createClient } from '@supabase/supabase-js';
+import type { createClient } from '@supabase/supabase-js';
 import type { Database } from '../types/database.types';
-
-type Tables = Database['public']['Tables'];
-type ProjectDirectoryMembership = Tables['project_directory_memberships']['Row'];
 
 export interface InviteResult {
   success: boolean;
@@ -59,7 +56,7 @@ export class InviteService {
       // Generate secure token
       const token = this.generateInviteToken();
       const expiresAt = new Date();
-      expiresAt.setDays(expiresAt.getDate() + 7); // 7 days expiration
+      expiresAt.setDate(expiresAt.getDate() + 7); // 7 days expiration
 
       // Update membership with invite info
       const { error: updateError } = await this.supabase
@@ -109,12 +106,14 @@ export class InviteService {
   }
 
   async resendInvite(projectId: string, personId: string): Promise<InviteResult> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
     try {
       // Check for existing valid invite
       const { data: membership, error: membershipError } = await this.supabase
         .from('project_directory_memberships')
         .select('*')
-        .eq('project_id', projectId)
+        .eq('project_id', projectIdNum)
         .eq('person_id', personId)
         .single();
 
@@ -183,12 +182,11 @@ export class InviteService {
         return { success: false, error: 'Invalid user data' };
       }
 
-      // Check if auth user exists
-      const { data: authUser } = await this.supabase.auth.admin.getUserByEmail(
-        person.email
-      );
+      // Check if auth user exists by listing users with email filter
+      const { data, error: listError } = await this.supabase.auth.admin.listUsers();
+      const authUser = data?.users?.find((u: { email?: string }) => u.email === person.email);
 
-      if (!authUser) {
+      if (!authUser && !listError) {
         // Create auth user
         const { data: newAuthUser, error: authError } = await this.supabase.auth.admin.createUser({
           email: person.email,
@@ -240,10 +238,12 @@ export class InviteService {
   }
 
   async checkInviteStatus(projectId: string, personId: string): Promise<string> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
     const { data, error } = await this.supabase
       .from('project_directory_memberships')
       .select('invite_status, invite_expires_at')
-      .eq('project_id', projectId)
+      .eq('project_id', projectIdNum)
       .eq('person_id', personId)
       .single();
 
@@ -269,6 +269,8 @@ export class InviteService {
   }
 
   private async sendInviteEmail(projectId: string, personId: string, token: string): Promise<InviteResult> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
     try {
       // Get person and project details
       const { data: person, error } = await this.supabase
@@ -281,7 +283,7 @@ export class InviteService {
           )
         `)
         .eq('id', personId)
-        .eq('project_directory_memberships.project_id', projectId)
+        .eq('project_directory_memberships.project_id', projectIdNum)
         .single();
 
       if (error || !person || !person.email) {
@@ -310,7 +312,7 @@ export class InviteService {
       await this.supabase
         .from('project_directory_memberships')
         .update({ last_invited_at: new Date().toISOString() })
-        .eq('project_id', projectId)
+        .eq('project_id', projectIdNum)
         .eq('person_id', personId);
 
       return { 
@@ -333,6 +335,6 @@ interface EmailService {
   send(options: {
     to: string;
     template: string;
-    data: any;
+    data: Record<string, unknown>;
   }): Promise<void>;
 }

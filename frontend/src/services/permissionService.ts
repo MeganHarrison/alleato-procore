@@ -1,9 +1,8 @@
-import { createClient } from '@supabase/supabase-js';
+import type { createClient } from '@supabase/supabase-js';
 import type { Database } from '../types/database.types';
 
 type Tables = Database['public']['Tables'];
 type PermissionTemplate = Tables['permission_templates']['Row'];
-type ProjectDirectoryMembership = Tables['project_directory_memberships']['Row'];
 
 export type Permission = 'read' | 'write' | 'admin';
 export type Module = 'directory' | 'budget' | 'contracts' | 'documents' | 'schedule' | 'submittals' | 'rfis' | 'change_orders';
@@ -25,8 +24,9 @@ export class PermissionService {
   constructor(private supabase: ReturnType<typeof createClient<Database>>) {}
 
   async getUserPermissions(userId: string, projectId: string): Promise<UserPermissions> {
+    const projectIdNum = Number.parseInt(projectId, 10);
     const cacheKey = `${userId}:${projectId}`;
-    
+
     // Check cache
     if (this.cache.has(cacheKey)) {
       return this.cache.get(cacheKey)!;
@@ -44,7 +44,7 @@ export class PermissionService {
           ),
           permission_template:permission_templates(*)
         `)
-        .eq('project_id', projectId)
+        .eq('project_id', projectIdNum)
         .eq('person.users_auth.auth_user_id', userId)
         .eq('status', 'active')
         .single();
@@ -145,7 +145,7 @@ export class PermissionService {
         name,
         description,
         scope,
-        rules_json: rules as any,
+        rules_json: rules,
         is_system: false
       })
       .select()
@@ -163,7 +163,7 @@ export class PermissionService {
       rules?: PermissionRules;
     }
   ): Promise<PermissionTemplate> {
-    const updateData: any = {};
+    const updateData: Record<string, unknown> = {};
     if (updates.name) updateData.name = updates.name;
     if (updates.description) updateData.description = updates.description;
     if (updates.rules) updateData.rules_json = updates.rules;
@@ -195,10 +195,12 @@ export class PermissionService {
     personId: string,
     templateId: string
   ): Promise<void> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
     const { error } = await this.supabase
       .from('project_directory_memberships')
       .update({ permission_template_id: templateId })
-      .eq('project_id', projectId)
+      .eq('project_id', projectIdNum)
       .eq('person_id', personId);
 
     if (error) throw error;

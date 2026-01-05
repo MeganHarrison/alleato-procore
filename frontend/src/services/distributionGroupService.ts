@@ -1,9 +1,8 @@
-import { createClient } from '@supabase/supabase-js';
+import type { createClient } from '@supabase/supabase-js';
 import type { Database } from '../types/database.types';
 
 type Tables = Database['public']['Tables'];
 type DistributionGroup = Tables['distribution_groups']['Row'];
-type DistributionGroupMember = Tables['distribution_group_members']['Row'];
 type Person = Tables['people']['Row'];
 
 export interface DistributionGroupWithMembers extends DistributionGroup {
@@ -40,12 +39,7 @@ export class DistributionGroupService {
 
     let query = this.supabase
       .from('distribution_groups')
-      .select(includeMembers ? `
-        *,
-        distribution_group_members(
-          person:people(*)
-        )
-      ` : '*', { count: 'exact' })
+      .select('*', { count: 'exact' })
       .eq('project_id', projectIdNum)
       .order('name');
 
@@ -56,45 +50,48 @@ export class DistributionGroupService {
     const { data, error } = await query;
     if (error) throw error;
 
-    // Transform the data to include members array
-    const groups: DistributionGroupWithMembers[] = (data || []).map(group => {
-      const members = includeMembers && group.distribution_group_members
-        ? group.distribution_group_members.map((m: any) => m.person).filter(Boolean)
-        : undefined;
+    if (!includeMembers) {
+      return (data || []).map(group => ({
+        ...group,
+        member_count: 0
+      }));
+    }
 
+    // Fetch members for each group separately
+    const groupsWithMembers = await Promise.all((data || []).map(async (group) => {
+      const members = await this.getGroupMembers(group.id);
       return {
         ...group,
         members,
-        member_count: members?.length || 0
+        member_count: members.length
       };
-    });
+    }));
 
-    return groups;
+    return groupsWithMembers;
   }
 
   async getGroup(groupId: string, includeMembers = true): Promise<DistributionGroupWithMembers> {
-    const query = this.supabase
+    const { data, error } = await this.supabase
       .from('distribution_groups')
-      .select(includeMembers ? `
-        *,
-        distribution_group_members(
-          person:people(*)
-        )
-      ` : '*')
+      .select('*')
       .eq('id', groupId)
       .single();
 
-    const { data, error } = await query;
     if (error) throw error;
 
-    const members = includeMembers && data.distribution_group_members
-      ? data.distribution_group_members.map((m: any) => m.person).filter(Boolean)
-      : undefined;
+    if (!includeMembers) {
+      return {
+        ...data,
+        member_count: 0
+      };
+    }
+
+    const members = await this.getGroupMembers(groupId);
 
     return {
       ...data,
       members,
-      member_count: members?.length || 0
+      member_count: members.length
     };
   }
 
@@ -103,7 +100,7 @@ export class DistributionGroupService {
     const { data: group, error: groupError } = await this.supabase
       .from('distribution_groups')
       .insert({
-        project_id: parseInt(projectId),
+        project_id: Number.parseInt(projectId, 10),
         name: data.name,
         description: data.description
       })
@@ -159,11 +156,10 @@ export class DistributionGroupService {
       person_id: personId
     }));
 
+    // Use upsert to handle duplicates gracefully
     const { error } = await this.supabase
       .from('distribution_group_members')
-      .insert(memberInserts)
-      .onConflict('group_id,person_id') // Ignore duplicates
-      .ignore();
+      .upsert(memberInserts, { onConflict: 'group_id,person_id' });
 
     if (error) throw error;
   }
