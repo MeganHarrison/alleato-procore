@@ -13,7 +13,7 @@ import { Checkbox } from "@/components/ui/checkbox"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Input } from "@/components/ui/input"
-import { Info, Plus, HelpCircle } from "lucide-react"
+import { Info, Plus, HelpCircle, Sparkles } from "lucide-react"
 import {
   Dialog,
   DialogContent,
@@ -38,6 +38,7 @@ import {
 } from "@/components/ui/tooltip"
 import { useClients } from "@/hooks/use-clients"
 import { useUsers } from "@/hooks/use-users"
+import { getAutoFillData, isDevelopment } from "@/lib/dev-autofill"
 
 // ============================================================================
 // Types
@@ -199,6 +200,13 @@ export function ContractForm({
     updateFormData({ sovItems: items.filter((item) => item.id !== id) })
   }
 
+  // Auto-fill handler (development only)
+  const handleAutoFill = () => {
+    if (!isDevelopment) return
+    const autoFillData = getAutoFillData('primeContract')
+    updateFormData(autoFillData)
+  }
+
   // Calculate SOV totals
   const sovTotals = React.useMemo(() => {
     const items = formData.sovItems || []
@@ -214,11 +222,8 @@ export function ContractForm({
       {/* ================================================================ */}
       {/* GENERAL INFORMATION */}
       {/* ================================================================ */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">General Information</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
+          <h4 className="text-lg font-semibold">General Information</h4>
+        <div className="space-y-4">
           {/* Row 1: Contract #, Owner/Client, Title */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <TextField
@@ -360,14 +365,13 @@ export function ContractForm({
               <p className="text-sm text-muted-foreground mt-2">or Drag & Drop</p>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
 
       {/* ================================================================ */}
       {/* SCHEDULE OF VALUES */}
       {/* ================================================================ */}
-      <Card>
-        <CardContent className="pt-6">
+      <div className="pt-8">
           {/* Accounting Method Info Banner */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6 flex items-start gap-3">
             <Info className="h-5 w-5 text-blue-600 mt-0.5 shrink-0" />
@@ -514,17 +518,16 @@ export function ContractForm({
               </SelectContent>
             </Select>
           </div>
-        </CardContent>
-      </Card>
+        </div>
+
 
       {/* ================================================================ */}
       {/* INCLUSIONS & EXCLUSIONS */}
       {/* ================================================================ */}
-      <Card>
-        <CardHeader className="pb-0">
-          <CardTitle className="text-lg font-semibold">Inclusions & Exclusions</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
+      <div className="pt-8">
+          <h4 className="text-lg font-semibold">Inclusions & Exclusions</h4>
+        </div>
+        <div className="space-y-4">
           <RichTextField
             label="Inclusions"
             value={formData.inclusions || ""}
@@ -540,17 +543,17 @@ export function ContractForm({
             placeholder="Enter what is excluded from contract scope..."
             fullWidth
           />
-        </CardContent>
-      </Card>
+        </div>
+
 
       {/* ================================================================ */}
       {/* CONTRACT DATES */}
       {/* ================================================================ */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">Contract Dates</CardTitle>
-        </CardHeader>
-        <CardContent>
+
+        <div className="pt-8">
+          <h4 className="text-lg font-semibold">Contract Dates</h4>
+        </div>
+        <div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <DateField
               label="Start Date"
@@ -609,17 +612,16 @@ export function ContractForm({
               placeholder="mm / dd / yyyy"
             />
           </div>
-        </CardContent>
-      </Card>
+        </div>
 
       {/* ================================================================ */}
       {/* CONTRACT PRIVACY */}
       {/* ================================================================ */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold">Contract Privacy</CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
+
+        <div className="pt-8 text-lg font-semibold">
+          <h4 className="text-lg font-semibold">Contract Privacy</h4>
+        </div>
+        <div className="space-y-4">
           <p className="text-sm text-muted-foreground">
             Using the privacy setting allows only project admins and the select non-admin users access.
           </p>
@@ -665,19 +667,34 @@ export function ContractForm({
               </div>
             </div>
           )}
-        </CardContent>
-      </Card>
+        </div>
 
       {/* ================================================================ */}
       {/* FORM ACTIONS */}
       {/* ================================================================ */}
-      <div className="flex justify-end gap-3 pt-4">
-        <Button type="button" variant="outline" onClick={onCancel}>
-          Cancel
-        </Button>
-        <Button type="submit" disabled={isSubmitting} className="bg-orange-500 hover:bg-orange-600">
-          {isSubmitting ? "Creating..." : mode === "create" ? "Create" : "Update"}
-        </Button>
+      <div className="flex justify-between items-center pt-4">
+        {/* Auto-fill button (development only) */}
+        {isDevelopment && (
+          <Button
+            type="button"
+            variant="outline"
+            onClick={handleAutoFill}
+            className="gap-2"
+          >
+            <Sparkles className="h-4 w-4" />
+            Auto-fill
+          </Button>
+        )}
+
+        {/* Main actions */}
+        <div className="flex gap-3 ml-auto">
+          <Button type="button" variant="outline" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button type="submit" disabled={isSubmitting} className="bg-orange-500 hover:bg-orange-600">
+            {isSubmitting ? "Creating..." : mode === "create" ? "Create" : "Update"}
+          </Button>
+        </div>
       </div>
     </Form>
   )

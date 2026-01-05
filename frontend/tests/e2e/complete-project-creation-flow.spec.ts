@@ -20,7 +20,7 @@ test.describe('Complete Project Creation and Setup Flow', () => {
     console.warn(`On setup page: ${page.url()}`)
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/complete-flow-4-setup-start.png',
+      path: 'tests/screenshots/complete-flow-4-setup-start.png',
       fullPage: true
     })
 
@@ -44,7 +44,7 @@ test.describe('Complete Project Creation and Setup Flow', () => {
     await page.waitForTimeout(1000)
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/complete-flow-5-cost-codes-done.png',
+      path: 'tests/screenshots/complete-flow-5-cost-codes-done.png',
       fullPage: true
     })
 
@@ -60,7 +60,7 @@ test.describe('Complete Project Creation and Setup Flow', () => {
     await page.waitForTimeout(1000)
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/complete-flow-6-directory-skipped.png',
+      path: 'tests/screenshots/complete-flow-6-directory-skipped.png',
       fullPage: true
     })
 
@@ -76,7 +76,7 @@ test.describe('Complete Project Creation and Setup Flow', () => {
     await page.waitForTimeout(1000)
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/complete-flow-7-drawings-skipped.png',
+      path: 'tests/screenshots/complete-flow-7-drawings-skipped.png',
       fullPage: true
     })
 
@@ -92,7 +92,7 @@ test.describe('Complete Project Creation and Setup Flow', () => {
     await page.waitForTimeout(1000)
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/complete-flow-8-specs-skipped.png',
+      path: 'tests/screenshots/complete-flow-8-specs-skipped.png',
       fullPage: true
     })
 
@@ -108,7 +108,7 @@ test.describe('Complete Project Creation and Setup Flow', () => {
     await page.waitForTimeout(1000)
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/complete-flow-9-schedule-skipped.png',
+      path: 'tests/screenshots/complete-flow-9-schedule-skipped.png',
       fullPage: true
     })
 
@@ -171,7 +171,7 @@ test.describe('Complete Project Creation and Setup Flow', () => {
     }
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/complete-flow-10-budget-filled.png',
+      path: 'tests/screenshots/complete-flow-10-budget-filled.png',
       fullPage: true
     })
 
@@ -201,7 +201,7 @@ test.describe('Complete Project Creation and Setup Flow', () => {
     await page.waitForTimeout(2000)
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/complete-flow-11-budget-saved.png',
+      path: 'tests/screenshots/complete-flow-11-budget-saved.png',
       fullPage: true
     })
 
@@ -217,7 +217,7 @@ test.describe('Complete Project Creation and Setup Flow', () => {
     await page.waitForTimeout(1000)
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/complete-flow-12-contract-skipped.png',
+      path: 'tests/screenshots/complete-flow-12-contract-skipped.png',
       fullPage: true
     })
 
@@ -242,7 +242,7 @@ test.describe('Complete Project Creation and Setup Flow', () => {
     }
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/complete-flow-13-final.png',
+      path: 'tests/screenshots/complete-flow-13-final.png',
       fullPage: true
     })
 

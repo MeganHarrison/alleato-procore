@@ -240,24 +240,71 @@ export const autoFillPresets = {
   },
 
   primeContract: {
-    number: () => `PC-${copycat.int(Math.random().toString(), { min: 100, max: 999 })}`,
+    number: () => `${copycat.int(Math.random().toString(), { min: 1, max: 999 })}`,
     title: () => copycat.oneOf(Math.random().toString(), [
       'General Construction Contract',
       'Owner-Contractor Agreement',
       'Design-Build Contract',
       'Construction Management Agreement',
+      'Prime Contract for Office Build-Out',
+      'Commercial Renovation Contract',
     ]),
     description: fakeData.description,
-    status: () => copycat.oneOf(Math.random().toString(), ['draft', 'sent', 'pending', 'approved', 'executed', 'closed']),
-    contract_date: fakeData.recentDate,
-    start_date: fakeData.futureDate,
-    substantial_completion_date: () => {
+    status: () => copycat.oneOf(Math.random().toString(), ['draft', 'active', 'completed', 'on_hold']),
+    executed: () => copycat.bool(Math.random().toString()),
+    defaultRetainage: () => copycat.oneOf(Math.random().toString(), [5, 10, 15]),
+    startDate: () => {
+      const date = new Date();
+      date.setDate(date.getDate() + copycat.int(Math.random().toString(), { min: 1, max: 30 }));
+      return date;
+    },
+    estimatedCompletionDate: () => {
       const date = new Date();
       date.setDate(date.getDate() + copycat.int(Math.random().toString(), { min: 180, max: 730 }));
-      return date.toISOString().split('T')[0];
+      return date;
     },
-    original_amount: () => fakeData.amount(500000, 10000000),
-    retention_percentage: () => copycat.oneOf(Math.random().toString(), [5, 10]),
+    substantialCompletionDate: () => {
+      const date = new Date();
+      date.setDate(date.getDate() + copycat.int(Math.random().toString(), { min: 150, max: 700 }));
+      return date;
+    },
+    signedContractReceivedDate: () => {
+      const date = new Date();
+      date.setDate(date.getDate() - copycat.int(Math.random().toString(), { min: 1, max: 14 }));
+      return date;
+    },
+    originalAmount: () => fakeData.amount(500000, 10000000),
+    revisedAmount: () => fakeData.amount(500000, 10000000),
+    inclusions: () => `• ${copycat.sentence(Math.random().toString())}\n• ${copycat.sentence(Math.random().toString())}\n• ${copycat.sentence(Math.random().toString())}`,
+    exclusions: () => `• ${copycat.sentence(Math.random().toString())}\n• ${copycat.sentence(Math.random().toString())}`,
+    isPrivate: () => false,
+    accountingMethod: () => 'amount' as const,
+    sovItems: () => [
+      {
+        id: `sov-${Date.now()}-1`,
+        budgetCode: '01-1000',
+        description: 'General Requirements',
+        amount: 150000,
+        billedToDate: 0,
+        amountRemaining: 150000,
+      },
+      {
+        id: `sov-${Date.now()}-2`,
+        budgetCode: '03-3000',
+        description: 'Concrete Work',
+        amount: 450000,
+        billedToDate: 0,
+        amountRemaining: 450000,
+      },
+      {
+        id: `sov-${Date.now()}-3`,
+        budgetCode: '09-2000',
+        description: 'Finishes',
+        amount: 300000,
+        billedToDate: 0,
+        amountRemaining: 300000,
+      },
+    ],
   },
 
   invoice: {

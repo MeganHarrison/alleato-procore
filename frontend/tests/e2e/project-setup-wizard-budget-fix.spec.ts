@@ -12,7 +12,7 @@ test.describe('Project Setup Wizard - Budget Save Fix', () => {
     await page.waitForLoadState('networkidle')
 
     // Step 1: Fill out project form using autofill
-    await page.screenshot({ path: 'frontend/tests/screenshots/wizard-budget-fix-01-form.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/wizard-budget-fix-01-form.png', fullPage: true })
 
     const autofillButton = page.locator('button:has-text("Auto-fill")')
     if (await autofillButton.isVisible()) {
@@ -28,7 +28,7 @@ test.describe('Project Setup Wizard - Budget Save Fix', () => {
     }
 
     // Submit project form
-    await page.screenshot({ path: 'frontend/tests/screenshots/wizard-budget-fix-02-form-filled.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/wizard-budget-fix-02-form-filled.png', fullPage: true })
     const submitButton = page.locator('button:has-text("Create Project")')
     await submitButton.click()
     await page.waitForLoadState('networkidle')
@@ -36,7 +36,7 @@ test.describe('Project Setup Wizard - Budget Save Fix', () => {
 
     // Should redirect to project setup wizard
     await expect(page).toHaveURL(/\/project-setup-wizard\?projectId=\d+/)
-    await page.screenshot({ path: 'frontend/tests/screenshots/wizard-budget-fix-03-wizard-start.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/wizard-budget-fix-03-wizard-start.png', fullPage: true })
 
     // Step 2: Cost Codes Setup - Import default codes
     const importButton = page.locator('button:has-text("Import Standard")')
@@ -45,13 +45,13 @@ test.describe('Project Setup Wizard - Budget Save Fix', () => {
       await page.waitForTimeout(1000)
     }
 
-    await page.screenshot({ path: 'frontend/tests/screenshots/wizard-budget-fix-04-cost-codes.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/wizard-budget-fix-04-cost-codes.png', fullPage: true })
 
     // Continue to next step
     let continueButton = page.locator('button:has-text("Continue")')
     await continueButton.click()
     await page.waitForTimeout(1000)
-    await page.screenshot({ path: 'frontend/tests/screenshots/wizard-budget-fix-05-after-cost-codes.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/wizard-budget-fix-05-after-cost-codes.png', fullPage: true })
 
     // Step 3: Directory Setup - Skip
     const skipButton = page.locator('button:has-text("Skip for now")')
@@ -59,7 +59,7 @@ test.describe('Project Setup Wizard - Budget Save Fix', () => {
       await skipButton.click()
       await page.waitForTimeout(1000)
     }
-    await page.screenshot({ path: 'frontend/tests/screenshots/wizard-budget-fix-06-after-directory.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/wizard-budget-fix-06-after-directory.png', fullPage: true })
 
     // Step 4: Documents Setup - Skip
     const skipButton2 = page.locator('button:has-text("Skip for now")')
@@ -67,11 +67,11 @@ test.describe('Project Setup Wizard - Budget Save Fix', () => {
       await skipButton2.click()
       await page.waitForTimeout(1000)
     }
-    await page.screenshot({ path: 'frontend/tests/screenshots/wizard-budget-fix-07-after-documents.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/wizard-budget-fix-07-after-documents.png', fullPage: true })
 
     // Step 5: Budget Setup - Enter amounts for some cost codes
     await page.waitForTimeout(1000)
-    await page.screenshot({ path: 'frontend/tests/screenshots/wizard-budget-fix-08-budget-page.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/wizard-budget-fix-08-budget-page.png', fullPage: true })
 
     // Check that "Add Line Item" button is NOT present (we removed it)
     const addLineItemButton = page.locator('button:has-text("Add Line Item")')
@@ -97,7 +97,7 @@ test.describe('Project Setup Wizard - Budget Save Fix', () => {
       await page.waitForTimeout(300)
     }
 
-    await page.screenshot({ path: 'frontend/tests/screenshots/wizard-budget-fix-09-budget-with-amounts.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/wizard-budget-fix-09-budget-with-amounts.png', fullPage: true })
 
     // Verify budget summary shows total
     const budgetSummary = page.locator('text=/\\$[0-9,]+/').first()
@@ -111,7 +111,7 @@ test.describe('Project Setup Wizard - Budget Save Fix', () => {
 
     // Wait for save operation
     await page.waitForTimeout(2000)
-    await page.screenshot({ path: 'frontend/tests/screenshots/wizard-budget-fix-10-after-budget-save.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/wizard-budget-fix-10-after-budget-save.png', fullPage: true })
 
     // Check for error messages
     const errorAlert = page.locator('[role="alert"]').filter({ hasText: /error|failed/i })
@@ -120,7 +120,7 @@ test.describe('Project Setup Wizard - Budget Save Fix', () => {
     if (hasError) {
       const errorText = await errorAlert.textContent()
       console.log(`❌ ERROR FOUND: ${errorText}`)
-      await page.screenshot({ path: 'frontend/tests/screenshots/wizard-budget-fix-ERROR.png', fullPage: true })
+      await page.screenshot({ path: 'tests/screenshots/wizard-budget-fix-ERROR.png', fullPage: true })
       throw new Error(`Budget save failed: ${errorText}`)
     }
 
@@ -128,7 +128,7 @@ test.describe('Project Setup Wizard - Budget Save Fix', () => {
 
     // Step 6: Contract Setup - Should be on this step now
     await page.waitForTimeout(1000)
-    await page.screenshot({ path: 'frontend/tests/screenshots/wizard-budget-fix-11-contract-page.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/wizard-budget-fix-11-contract-page.png', fullPage: true })
 
     // Verify we're on contract step (presence of contract form elements)
     const contractSection = page.locator('text=/Contract|Prime Contract|Subcontract/i')
@@ -143,7 +143,7 @@ test.describe('Project Setup Wizard - Budget Save Fix', () => {
     }
 
     // Take final screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/wizard-budget-fix-12-final.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/wizard-budget-fix-12-final.png', fullPage: true })
 
     // Final assertion: we should NOT be stuck on budget step
     const budgetHeading = page.locator('h3:has-text("Budget Setup")')

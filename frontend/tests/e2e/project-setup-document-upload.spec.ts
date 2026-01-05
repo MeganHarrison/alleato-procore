@@ -89,7 +89,7 @@ test.describe('Project Setup - Document Upload', () => {
       console.error('Console errors:', consoleLogs);
 
       // Take screenshot for debugging
-      await page.screenshot({ path: 'frontend/tests/screenshots/upload-failure.png', fullPage: true });
+      await page.screenshot({ path: 'tests/screenshots/upload-failure.png', fullPage: true });
 
       throw new Error(`Upload failed: ${error}\nConsole errors: ${consoleLogs.join('\n')}`);
     }

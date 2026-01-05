@@ -16,11 +16,12 @@ import type { Database } from '@/types/database.types';
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: { projectId: string; personId: string } }
+  { params }: { params: { id: string; personId: string } }
 ) {
   try {
+    const projectId = params.id;
     const supabase = createRouteHandlerClient<Database>({ cookies });
-    
+
     // Check authentication
     const { data: { user }, error: authError } = await supabase.auth.getUser();
     if (authError || !user) {
@@ -31,7 +32,7 @@ export async function POST(
     const permissionService = new PermissionService(supabase);
     const hasPermission = await permissionService.hasPermission(
       user.id,
-      params.projectId,
+      projectId,
       'directory',
       'write'
     );
@@ -42,7 +43,7 @@ export async function POST(
 
     // Deactivate person
     const directoryService = new DirectoryService(supabase);
-    await directoryService.deactivatePerson(params.projectId, params.personId);
+    await directoryService.deactivatePerson(projectId, params.personId);
 
     return NextResponse.json({ 
       success: true,

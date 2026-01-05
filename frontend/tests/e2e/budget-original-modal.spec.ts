@@ -14,7 +14,7 @@ test.describe('Original Budget Modal', () => {
 
   test('should display original budget modal when clicking on original budget cell', async ({ page }) => {
     // Take initial screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-before-modal.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-before-modal.png', fullPage: true });
 
     // Wait for table to load
     await page.waitForSelector('table', { timeout: 10000 });
@@ -43,7 +43,7 @@ test.describe('Original Budget Modal', () => {
     await page.waitForTimeout(1000);
 
     // Take screenshot after click
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-after-modal-click.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-after-modal-click.png', fullPage: true });
 
     // Check if overlay is present
     const overlay = page.locator('[data-radix-dialog-overlay]');
@@ -79,7 +79,7 @@ test.describe('Original Budget Modal', () => {
     await expect(originalBudgetTab).toBeVisible();
 
     // Take final screenshot with modal open
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-modal-open.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-modal-open.png', fullPage: true });
   });
 
   test('should debug modal rendering', async ({ page }) => {

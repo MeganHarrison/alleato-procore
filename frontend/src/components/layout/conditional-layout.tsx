@@ -12,9 +12,10 @@ import {
 export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const isAuthRoute = pathname?.startsWith("/auth")
+  const isAIChatRoute = pathname === "/ai-chat"
 
-  // Auth routes get no sidebar/header - just raw content
-  if (isAuthRoute) {
+  // Auth and AI Chat routes get no sidebar/header - just raw content
+  if (isAuthRoute || isAIChatRoute) {
     return <>{children}</>
   }
 

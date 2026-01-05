@@ -31,6 +31,7 @@ jobs:
           ref: ${{ github.event.workflow_run.head_branch }}
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
+          submodules: true
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -124,10 +125,10 @@ jobs:
           Fix ALL errors and ensure all quality checks pass.
           PROMPT_EOF
 
-          codex exec \
-            --prompt-file /tmp/codex_prompt.txt \
-            --workspace ./frontend \
-            --full-auto
+          cat /tmp/codex_prompt.txt | codex exec \
+            --cd ./frontend \
+            --full-auto \
+            -
 
       - name: Verify fixes
         id: verify

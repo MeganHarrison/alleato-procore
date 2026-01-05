@@ -15,7 +15,7 @@ test.describe('Budget Table Styling', () => {
     await page.waitForTimeout(2000);
 
     // Take screenshot of the table
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-table-zebra-stripes.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-table-zebra-stripes.png', fullPage: true });
 
     // Get all table rows in the tbody
     const tableRows = page.locator('tbody tr');

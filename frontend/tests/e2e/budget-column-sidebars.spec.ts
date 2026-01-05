@@ -46,7 +46,7 @@ test.describe('Budget Column Detail Sidebars', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-modifications-sidebar.png',
+      path: 'tests/screenshots/budget-modifications-sidebar.png',
       fullPage: true
     });
 
@@ -82,7 +82,7 @@ test.describe('Budget Column Detail Sidebars', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/approved-cos-sidebar.png',
+      path: 'tests/screenshots/approved-cos-sidebar.png',
       fullPage: true
     });
 
@@ -115,7 +115,7 @@ test.describe('Budget Column Detail Sidebars', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/job-to-date-cost-sidebar.png',
+      path: 'tests/screenshots/job-to-date-cost-sidebar.png',
       fullPage: true
     });
 
@@ -149,7 +149,7 @@ test.describe('Budget Column Detail Sidebars', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/direct-costs-sidebar.png',
+      path: 'tests/screenshots/direct-costs-sidebar.png',
       fullPage: true
     });
 
@@ -179,7 +179,7 @@ test.describe('Budget Column Detail Sidebars', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/pending-budget-changes-sidebar.png',
+      path: 'tests/screenshots/pending-budget-changes-sidebar.png',
       fullPage: true
     });
 
@@ -214,7 +214,7 @@ test.describe('Budget Column Detail Sidebars', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/committed-costs-sidebar.png',
+      path: 'tests/screenshots/committed-costs-sidebar.png',
       fullPage: true
     });
 
@@ -255,7 +255,7 @@ test.describe('Budget Column Detail Sidebars', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/pending-cost-changes-sidebar.png',
+      path: 'tests/screenshots/pending-cost-changes-sidebar.png',
       fullPage: true
     });
 
@@ -291,7 +291,7 @@ test.describe('Budget Column Detail Sidebars', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/forecast-to-complete-sidebar.png',
+      path: 'tests/screenshots/forecast-to-complete-sidebar.png',
       fullPage: true
     });
 
@@ -328,7 +328,7 @@ test.describe('Budget Column Detail Sidebars', () => {
 
     // Take mobile screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-sidebar-mobile.png',
+      path: 'tests/screenshots/budget-sidebar-mobile.png',
       fullPage: true
     });
 
@@ -345,7 +345,7 @@ test.describe('Budget Column Detail Sidebars', () => {
 
     // Take tablet screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-sidebar-tablet.png',
+      path: 'tests/screenshots/budget-sidebar-tablet.png',
       fullPage: true
     });
 

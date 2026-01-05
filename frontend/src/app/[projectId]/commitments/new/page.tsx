@@ -114,7 +114,7 @@ export default function NewCommitmentPage() {
         }
       />
 
-      <FormContainer maxWidth="wide">
+      <FormContainer maxWidth="xl">
         {type === 'purchase_order' ? (
           <CreatePurchaseOrderForm
             projectId={projectId}

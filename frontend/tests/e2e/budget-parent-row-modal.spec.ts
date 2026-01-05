@@ -13,7 +13,7 @@ test.describe('Budget Parent Row Modal', () => {
 
     // Take screenshot before clicking
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-parent-row-before-click.png',
+      path: 'tests/screenshots/budget-parent-row-before-click.png',
       fullPage: true
     });
 
@@ -52,7 +52,7 @@ test.describe('Budget Parent Row Modal', () => {
 
     // Take screenshot with modal open
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-parent-row-modal-open.png',
+      path: 'tests/screenshots/budget-parent-row-modal-open.png',
       fullPage: true
     });
 
@@ -87,7 +87,7 @@ test.describe('Budget Parent Row Modal', () => {
 
       // Take a screenshot showing the styled cells
       await page.screenshot({
-        path: 'frontend/tests/screenshots/budget-cell-styling.png',
+        path: 'tests/screenshots/budget-cell-styling.png',
         fullPage: true
       });
     }

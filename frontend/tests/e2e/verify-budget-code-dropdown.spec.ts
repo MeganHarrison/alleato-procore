@@ -11,7 +11,7 @@ test.describe('Budget Code Dropdown Verification', () => {
 
     // Take screenshot before opening dropdown
     await page.screenshot({
-      path: 'frontend/tests/screenshots/before-dropdown-open.png',
+      path: 'tests/screenshots/before-dropdown-open.png',
       fullPage: true
     });
 
@@ -23,7 +23,7 @@ test.describe('Budget Code Dropdown Verification', () => {
 
     // Take screenshot of opened dropdown
     await page.screenshot({
-      path: 'frontend/tests/screenshots/dropdown-opened-with-codes.png',
+      path: 'tests/screenshots/dropdown-opened-with-codes.png',
       fullPage: true
     });
 

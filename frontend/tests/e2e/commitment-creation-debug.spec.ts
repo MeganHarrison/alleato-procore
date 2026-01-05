@@ -9,7 +9,7 @@ test.describe('Commitment Creation Page Debug', () => {
     await page.waitForLoadState('networkidle');
 
     // Take a screenshot for debugging
-    await page.screenshot({ path: 'frontend/tests/screenshots/commitment-new-subcontract.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/commitment-new-subcontract.png', fullPage: true });
 
     // Check if there are any console errors
     const errors: string[] = [];
@@ -50,7 +50,7 @@ test.describe('Commitment Creation Page Debug', () => {
     await page.waitForLoadState('networkidle');
 
     // Take a screenshot for debugging
-    await page.screenshot({ path: 'frontend/tests/screenshots/commitment-new-po.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/commitment-new-po.png', fullPage: true });
 
     // Check if the page header is visible
     const header = page.locator('h1:has-text("New Purchase Order")');

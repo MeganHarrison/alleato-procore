@@ -16,7 +16,7 @@ test.describe('Budget Save - Direct Test', () => {
     await page.waitForLoadState('networkidle')
     await page.waitForTimeout(2000)
 
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-direct-01-wizard-start.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/budget-direct-01-wizard-start.png', fullPage: true })
 
     // Skip through steps until we get to budget
     // Step 1: Cost Codes - Import or Continue
@@ -32,7 +32,7 @@ test.describe('Budget Save - Direct Test', () => {
       await page.waitForTimeout(1000)
     }
 
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-direct-02-after-cost-codes.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/budget-direct-02-after-cost-codes.png', fullPage: true })
 
     // Step 2: Directory - Skip
     const skipButton1 = page.locator('button:has-text("Skip for now")').first()
@@ -41,7 +41,7 @@ test.describe('Budget Save - Direct Test', () => {
       await page.waitForTimeout(1000)
     }
 
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-direct-03-after-directory.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/budget-direct-03-after-directory.png', fullPage: true })
 
     // Step 3: Documents - Skip
     const skipButton2 = page.locator('button:has-text("Skip for now")').first()
@@ -50,7 +50,7 @@ test.describe('Budget Save - Direct Test', () => {
       await page.waitForTimeout(1000)
     }
 
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-direct-04-budget-page.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/budget-direct-04-budget-page.png', fullPage: true })
 
     // Now we should be on Budget Setup step
     // Verify we're on the budget page
@@ -87,7 +87,7 @@ test.describe('Budget Save - Direct Test', () => {
       console.log('✓ Entered $100,000 in third line item')
     }
 
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-direct-05-amounts-entered.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/budget-direct-05-amounts-entered.png', fullPage: true })
 
     // Verify budget summary updated
     const budgetSummary = page.locator('text=/\\$[0-9,]+/').first()
@@ -104,7 +104,7 @@ test.describe('Budget Save - Direct Test', () => {
     // Wait for save operation
     await page.waitForTimeout(3000)
 
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-direct-06-after-save-attempt.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/budget-direct-06-after-save-attempt.png', fullPage: true })
 
     // Check for ANY error alerts
     const errorAlert = page.locator('[role="alert"]').filter({ hasText: /error|failed/i })
@@ -113,7 +113,7 @@ test.describe('Budget Save - Direct Test', () => {
     if (hasError) {
       const errorText = await errorAlert.textContent()
       console.log(`❌ ERROR FOUND: ${errorText}`)
-      await page.screenshot({ path: 'frontend/tests/screenshots/budget-direct-ERROR.png', fullPage: true })
+      await page.screenshot({ path: 'tests/screenshots/budget-direct-ERROR.png', fullPage: true })
       throw new Error(`Budget save failed: ${errorText}`)
     }
 
@@ -124,14 +124,14 @@ test.describe('Budget Save - Direct Test', () => {
 
     if (stillOnBudget) {
       console.log('⚠ Still on budget page after save - checking for errors...')
-      await page.screenshot({ path: 'frontend/tests/screenshots/budget-direct-STUCK.png', fullPage: true })
+      await page.screenshot({ path: 'tests/screenshots/budget-direct-STUCK.png', fullPage: true })
       throw new Error('Still on budget page after clicking Continue - save may have failed silently')
     }
 
     console.log('✓ Successfully advanced past budget step')
 
     // Take final screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-direct-07-final.png', fullPage: true })
+    await page.screenshot({ path: 'tests/screenshots/budget-direct-07-final.png', fullPage: true })
 
     // Verify we're on a different page (Contract step or Complete step)
     const currentUrl = page.url()

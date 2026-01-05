@@ -14,7 +14,7 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await expect(page.locator('h1')).toContainText('New Subcontract');
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-header.png',
+      path: 'tests/screenshots/subcontract-form-header.png',
       fullPage: false
     });
   });
@@ -23,7 +23,7 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await expect(page.getByRole('button', { name: /autofill test data/i })).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-autofill-button.png',
+      path: 'tests/screenshots/subcontract-form-autofill-button.png',
       fullPage: true
     });
   });
@@ -44,7 +44,7 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await expect(page.locator('table')).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-autofilled.png',
+      path: 'tests/screenshots/subcontract-form-autofilled.png',
       fullPage: true
     });
   });
@@ -60,7 +60,7 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await expect(page.getByRole('heading', { name: 'Invoice Contacts' })).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-all-sections.png',
+      path: 'tests/screenshots/subcontract-form-all-sections.png',
       fullPage: true
     });
   });
@@ -70,7 +70,7 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await expect(page.getByRole('button', { name: /import sov from csv/i })).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-import-csv-button.png',
+      path: 'tests/screenshots/subcontract-form-import-csv-button.png',
       fullPage: true
     });
   });
@@ -99,7 +99,7 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await expect(row).toContainText('$25000.00');
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-sov-amount-based.png',
+      path: 'tests/screenshots/subcontract-form-sov-amount-based.png',
       fullPage: true
     });
   });
@@ -108,7 +108,7 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await expect(page.locator('text=/amount-based/i').first()).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-accounting-method.png',
+      path: 'tests/screenshots/subcontract-form-accounting-method.png',
       fullPage: true
     });
   });
@@ -121,7 +121,7 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await expect(page.locator('#exclusions')).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-inclusions-exclusions.png',
+      path: 'tests/screenshots/subcontract-form-inclusions-exclusions.png',
       fullPage: true
     });
   });
@@ -133,7 +133,7 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
 
     // Capture before submit
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-before-submit.png',
+      path: 'tests/screenshots/subcontract-form-before-submit.png',
       fullPage: true
     });
 
@@ -147,7 +147,7 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await expect(page.url()).toContain(`/${TEST_PROJECT_ID}/commitments`);
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-after-submit.png',
+      path: 'tests/screenshots/subcontract-form-after-submit.png',
       fullPage: true
     });
   });
@@ -163,7 +163,7 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await page.waitForTimeout(1000);
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-back-navigation.png',
+      path: 'tests/screenshots/subcontract-form-back-navigation.png',
       fullPage: true
     });
   });
@@ -176,7 +176,7 @@ test.describe('Subcontract Form - Comprehensive Verification', () => {
     await expect(page.locator('ol').getByText('New Subcontract')).toBeVisible();
 
     await page.screenshot({
-      path: 'frontend/tests/screenshots/subcontract-form-breadcrumbs.png',
+      path: 'tests/screenshots/subcontract-form-breadcrumbs.png',
       fullPage: false
     });
   });

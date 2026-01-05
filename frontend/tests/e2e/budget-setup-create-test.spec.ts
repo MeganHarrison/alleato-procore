@@ -17,7 +17,7 @@ test.describe('Budget Setup - Create Line Item (Authenticated)', () => {
     await page.waitForTimeout(1000);
 
     // Take screenshot of loaded page
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-setup-loaded-auth.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-setup-loaded-auth.png', fullPage: true });
 
     // Click on the budget code dropdown
     const selectButton = page.locator('button:has-text("Select budget code")').first();
@@ -54,7 +54,7 @@ test.describe('Budget Setup - Create Line Item (Authenticated)', () => {
     await page.waitForTimeout(500);
 
     // Take screenshot before submitting
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-setup-filled.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-setup-filled.png', fullPage: true });
 
     // Click create button
     const createButton = page.locator('button:has-text("Create 1 Line Item")');
@@ -64,7 +64,7 @@ test.describe('Budget Setup - Create Line Item (Authenticated)', () => {
     await page.waitForTimeout(3000);
 
     // Take screenshot of result
-    await page.screenshot({ path: 'frontend/tests/screenshots/budget-setup-result.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/budget-setup-result.png', fullPage: true });
 
     // Check for success toast or error
     const successToast = page.locator('text=Successfully created');

@@ -36,6 +36,19 @@ export interface DirectoryFilters {
   sortBy?: string[];
 }
 
+// Type-safe union for all possible filter values
+type DirectoryFilterValue =
+  | 'user'
+  | 'contact'
+  | 'all'
+  | 'active'
+  | 'inactive'
+  | 'company'
+  | 'none'
+  | string
+  | string[]
+  | undefined;
+
 export interface PersonWithDetails {
   id: string;
   first_name: string;
@@ -117,7 +130,7 @@ export function DirectoryFilters({
     loadFilterData();
   }, [supabase]);
 
-  const handleFilterChange = (key: keyof DirectoryFilters, value: any) => {
+  const handleFilterChange = (key: keyof DirectoryFilters, value: DirectoryFilterValue) => {
     onFiltersChange({
       ...filters,
       [key]: value

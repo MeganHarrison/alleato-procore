@@ -70,7 +70,7 @@ test.describe('Budget Column Detail Modals', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-modifications-modal.png',
+      path: 'tests/screenshots/budget-modifications-modal.png',
       fullPage: true
     });
 
@@ -112,7 +112,7 @@ test.describe('Budget Column Detail Modals', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/approved-cos-modal.png',
+      path: 'tests/screenshots/approved-cos-modal.png',
       fullPage: true
     });
 
@@ -148,7 +148,7 @@ test.describe('Budget Column Detail Modals', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/job-to-date-cost-detail-modal.png',
+      path: 'tests/screenshots/job-to-date-cost-detail-modal.png',
       fullPage: true
     });
 
@@ -194,7 +194,7 @@ test.describe('Budget Column Detail Modals', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/direct-costs-modal.png',
+      path: 'tests/screenshots/direct-costs-modal.png',
       fullPage: true
     });
 
@@ -205,7 +205,7 @@ test.describe('Budget Column Detail Modals', () => {
 
     // Take screenshot with payments visible
     await page.screenshot({
-      path: 'frontend/tests/screenshots/direct-costs-modal-with-payments.png',
+      path: 'tests/screenshots/direct-costs-modal-with-payments.png',
       fullPage: true
     });
 
@@ -243,7 +243,7 @@ test.describe('Budget Column Detail Modals', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/pending-budget-changes-modal.png',
+      path: 'tests/screenshots/pending-budget-changes-modal.png',
       fullPage: true
     });
 
@@ -283,7 +283,7 @@ test.describe('Budget Column Detail Modals', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/committed-costs-modal.png',
+      path: 'tests/screenshots/committed-costs-modal.png',
       fullPage: true
     });
 
@@ -297,7 +297,7 @@ test.describe('Budget Column Detail Modals', () => {
 
     // Take screenshot of breakdown
     await page.screenshot({
-      path: 'frontend/tests/screenshots/committed-costs-breakdown.png',
+      path: 'tests/screenshots/committed-costs-breakdown.png',
       fullPage: true
     });
 
@@ -347,7 +347,7 @@ test.describe('Budget Column Detail Modals', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/pending-cost-changes-modal.png',
+      path: 'tests/screenshots/pending-cost-changes-modal.png',
       fullPage: true
     });
 
@@ -407,7 +407,7 @@ test.describe('Budget Column Detail Modals', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/forecast-to-complete-modal.png',
+      path: 'tests/screenshots/forecast-to-complete-modal.png',
       fullPage: true
     });
 
@@ -421,7 +421,7 @@ test.describe('Budget Column Detail Modals', () => {
 
     // Take screenshot with manual method
     await page.screenshot({
-      path: 'frontend/tests/screenshots/forecast-manual-method.png',
+      path: 'tests/screenshots/forecast-manual-method.png',
       fullPage: true
     });
 
@@ -466,7 +466,7 @@ test.describe('Budget Column Detail Modals', () => {
 
     // Take mobile screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-modal-mobile.png',
+      path: 'tests/screenshots/budget-modal-mobile.png',
       fullPage: true
     });
 
@@ -486,7 +486,7 @@ test.describe('Budget Column Detail Modals', () => {
 
     // Take tablet screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-modal-tablet.png',
+      path: 'tests/screenshots/budget-modal-tablet.png',
       fullPage: true
     });
 

@@ -44,7 +44,7 @@ test.describe('Budget Code Creation and Verification', () => {
 
     // Take screenshot before creating
     await page.screenshot({
-      path: 'frontend/tests/screenshots/before-create-budget-code.png',
+      path: 'tests/screenshots/before-create-budget-code.png',
       fullPage: true
     });
 
@@ -58,7 +58,7 @@ test.describe('Budget Code Creation and Verification', () => {
 
     // Take screenshot after creating
     await page.screenshot({
-      path: 'frontend/tests/screenshots/after-create-budget-code.png',
+      path: 'tests/screenshots/after-create-budget-code.png',
       fullPage: true
     });
 
@@ -71,7 +71,7 @@ test.describe('Budget Code Creation and Verification', () => {
 
     // Take screenshot of dropdown
     await page.screenshot({
-      path: 'frontend/tests/screenshots/budget-code-dropdown.png',
+      path: 'tests/screenshots/budget-code-dropdown.png',
       fullPage: true
     });
 
