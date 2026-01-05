@@ -1,0 +1,126 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
+import { DirectoryService } from '@/services/directoryService';
+import { PermissionService } from '@/services/permissionService';
+import type { Database } from '@/types/database.types';
+
+/**
+ * Lists directory people for the specified project, applying query filters and enforcing user permissions.
+ *
+ * @param params - Route parameters containing `projectId`, the project identifier used to scope the directory query.
+ * @returns The directory listing serialized as JSON on success; on failure a JSON object with an `error` message and an appropriate HTTP status code.
+ */
+export async function GET(
+  request: NextRequest,
+  { params }: { params: { projectId: string } }
+) {
+  try {
+    const supabase = createRouteHandlerClient<Database>({ cookies });
+    
+    // Check authentication
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check permissions
+    const permissionService = new PermissionService(supabase);
+    const hasPermission = await permissionService.hasPermission(
+      user.id,
+      params.projectId,
+      'directory',
+      'read'
+    );
+
+    if (!hasPermission) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    // Parse query parameters
+    const searchParams = request.nextUrl.searchParams;
+    const filters = {
+      search: searchParams.get('search') || undefined,
+      type: searchParams.get('type') as 'user' | 'contact' | 'all' | undefined,
+      status: searchParams.get('status') as 'active' | 'inactive' | 'all' | undefined,
+      companyId: searchParams.get('company_id') || undefined,
+      permissionTemplateId: searchParams.get('permission_template_id') || undefined,
+      groupBy: searchParams.get('group_by') as 'company' | 'none' | undefined,
+      sortBy: searchParams.get('sort')?.split(',') || undefined,
+      page: parseInt(searchParams.get('page') || '1'),
+      perPage: parseInt(searchParams.get('per_page') || '50')
+    };
+
+    // Get people
+    const directoryService = new DirectoryService(supabase);
+    const result = await directoryService.getPeople(params.projectId, filters);
+
+    return NextResponse.json(result);
+  } catch (error) {
+    console.error('Error fetching directory people:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * Create a new person in the specified project's directory.
+ *
+ * Validates that `first_name`, `last_name`, and `person_type` are present in the request body,
+ * enforces project-level write permission, and returns the created person as JSON.
+ *
+ * @param params.projectId - ID of the project to which the new person will belong
+ * @returns The created person object as JSON on success. On error, returns a JSON error with status `400` (missing required fields), `401` (unauthorized), `403` (forbidden), or `500` (internal server error).
+ */
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { projectId: string } }
+) {
+  try {
+    const supabase = createRouteHandlerClient<Database>({ cookies });
+    
+    // Check authentication
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check permissions
+    const permissionService = new PermissionService(supabase);
+    const hasPermission = await permissionService.hasPermission(
+      user.id,
+      params.projectId,
+      'directory',
+      'write'
+    );
+
+    if (!hasPermission) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    // Parse request body
+    const body = await request.json();
+    
+    // Validate required fields
+    if (!body.first_name || !body.last_name || !body.person_type) {
+      return NextResponse.json(
+        { error: 'Missing required fields' },
+        { status: 400 }
+      );
+    }
+
+    // Create person
+    const directoryService = new DirectoryService(supabase);
+    const person = await directoryService.createPerson(params.projectId, body);
+
+    return NextResponse.json(person, { status: 201 });
+  } catch (error) {
+    console.error('Error creating person:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}

@@ -1,0 +1,58 @@
+import { NextRequest, NextResponse } from 'next/server';
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs';
+import { cookies } from 'next/headers';
+import { DirectoryService } from '@/services/directoryService';
+import { PermissionService } from '@/services/permissionService';
+import type { Database } from '@/types/database.types';
+
+/**
+ * Handles POST requests to reactivate a person in a project's directory.
+ *
+ * @param request - The incoming Next.js request
+ * @param params - Route parameters
+ * @param params.projectId - ID of the project containing the person
+ * @param params.personId - ID of the person to reactivate
+ * @returns A JSON response: on success `{ success: true, message: 'Person reactivated successfully' }`; on authentication failure `{ error: 'Unauthorized' }` with status 401; on permission failure `{ error: 'Forbidden' }` with status 403; on unexpected errors `{ error: 'Internal server error' }` with status 500
+ */
+export async function POST(
+  request: NextRequest,
+  { params }: { params: { projectId: string; personId: string } }
+) {
+  try {
+    const supabase = createRouteHandlerClient<Database>({ cookies });
+    
+    // Check authentication
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
+
+    // Check permissions
+    const permissionService = new PermissionService(supabase);
+    const hasPermission = await permissionService.hasPermission(
+      user.id,
+      params.projectId,
+      'directory',
+      'write'
+    );
+
+    if (!hasPermission) {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+    }
+
+    // Reactivate person
+    const directoryService = new DirectoryService(supabase);
+    await directoryService.reactivatePerson(params.projectId, params.personId);
+
+    return NextResponse.json({ 
+      success: true,
+      message: 'Person reactivated successfully'
+    });
+  } catch (error) {
+    console.error('Error reactivating person:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
