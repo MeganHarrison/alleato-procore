@@ -5,6 +5,18 @@ import { DistributionGroupService } from '@/services/distributionGroupService';
 import { PermissionService } from '@/services/permissionService';
 import type { Database } from '@/types/database.types';
 
+/**
+ * Retrieve a distribution group for a project after authenticating the requester and verifying read permission.
+ *
+ * Returns a JSON NextResponse containing the requested distribution group on success.
+ *
+ * Possible error responses:
+ * - 401: when the requester is not authenticated
+ * - 403: when the requester lacks read permission for the project's directory
+ * - 500: on unexpected server errors
+ *
+ * @returns A NextResponse with the distribution group object on success, or a JSON error object with an appropriate HTTP status code on failure.
+ */
 export async function GET(
   request: NextRequest,
   { params }: { params: { projectId: string; groupId: string } }
@@ -45,6 +57,15 @@ export async function GET(
   }
 }
 
+/**
+ * Updates a distribution group within a project after verifying the caller's admin permission.
+ *
+ * @param request - Incoming request whose JSON body contains the update fields for the group.
+ * @param params - Route parameters.
+ * @param params.projectId - ID of the project containing the group.
+ * @param params.groupId - ID of the distribution group to update.
+ * @returns The updated distribution group object.
+ */
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { projectId: string; groupId: string } }
@@ -88,6 +109,14 @@ export async function PATCH(
   }
 }
 
+/**
+ * Deletes a distribution group within a project's directory when the authenticated user has admin permission.
+ *
+ * @param request - The incoming HTTP request
+ * @param params.projectId - The ID of the project containing the directory
+ * @param params.groupId - The ID of the distribution group to delete
+ * @returns A JSON HTTP response: `{ success: true }` on successful deletion, or an error object with status `401` (unauthorized), `403` (forbidden), or `500` (internal server error)
+ */
 export async function DELETE(
   request: NextRequest,
   { params }: { params: { projectId: string; groupId: string } }

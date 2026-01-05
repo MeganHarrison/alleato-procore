@@ -5,6 +5,14 @@ import { InviteService } from '@/services/inviteService';
 import { PermissionService } from '@/services/permissionService';
 import type { Database } from '@/types/database.types';
 
+/**
+ * Sends an invitation for a person to a project's directory after authenticating the requester and verifying write permission.
+ *
+ * @param request - The incoming NextRequest
+ * @param params.projectId - The target project's ID
+ * @param params.personId - The ID of the person to invite
+ * @returns On success, JSON containing the invite service result. On failure, JSON with an `error` message and an appropriate HTTP status (401 for unauthorized, 403 for forbidden, 400 for bad request, 500 for server error).
+ */
 export async function POST(
   request: NextRequest,
   { params }: { params: { projectId: string; personId: string } }

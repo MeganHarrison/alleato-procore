@@ -5,6 +5,14 @@ import { InviteService } from '@/services/inviteService';
 import { PermissionService } from '@/services/permissionService';
 import type { Database } from '@/types/database.types';
 
+/**
+ * Resends an invitation for a specific person within a project after verifying the requester's identity and write permission on the project's directory.
+ *
+ * @param request - The incoming Next.js request object.
+ * @param params.projectId - The ID of the project containing the person to re-invite.
+ * @param params.personId - The ID of the person whose invite should be resent.
+ * @returns A JSON NextResponse: on success contains the invite operation result; on failure contains an `error` message and an appropriate HTTP status (401 for unauthorized, 403 for forbidden, 400 for bad request, 500 for internal server error).
+ */
 export async function POST(
   request: NextRequest,
   { params }: { params: { projectId: string; personId: string } }

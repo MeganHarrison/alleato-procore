@@ -5,6 +5,18 @@ import { DistributionGroupService } from '@/services/distributionGroupService';
 import { PermissionService } from '@/services/permissionService';
 import type { Database } from '@/types/database.types';
 
+/**
+ * Handle POST requests to modify members of a distribution group within a project.
+ *
+ * Accepts bulk updates (`add` and/or `remove`), multiple additions (`person_ids`),
+ * or a single addition (`person_id`). Requires an authenticated user with
+ * `admin` permission on the project's `directory` resource.
+ *
+ * @param request - The incoming NextRequest for the route
+ * @param params.projectId - The project ID from the route parameters
+ * @param params.groupId - The distribution group ID from the route parameters
+ * @returns An HTTP JSON NextResponse describing the result. On success the body is `{ success: true }`. On error the body is `{ error: string }` with an appropriate status code: 400 (bad request), 401 (unauthorized), 403 (forbidden), or 500 (internal server error).
+ */
 export async function POST(
   request: NextRequest,
   { params }: { params: { projectId: string; groupId: string } }

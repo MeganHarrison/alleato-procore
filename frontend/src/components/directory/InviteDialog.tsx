@@ -33,6 +33,16 @@ interface InviteDialogProps {
   onSuccess?: () => void;
 }
 
+/**
+ * Render a modal dialog to send or resend a project invitation to a given person.
+ *
+ * @param person - The recipient's details; when `null` the component renders `null`.
+ * @param projectId - ID of the project used to construct the invite API endpoint.
+ * @param open - Whether the dialog is open.
+ * @param onOpenChange - Callback invoked with the new open state when the dialog should close or open.
+ * @param onSuccess - Optional callback invoked after a successful invite or reinvite.
+ * @returns The dialog JSX when `person` is provided; `null` otherwise.
+ */
 export function InviteDialog({ 
   person, 
   projectId,

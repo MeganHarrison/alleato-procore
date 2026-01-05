@@ -5,6 +5,15 @@ import { DirectoryService } from '@/services/directoryService';
 import { PermissionService } from '@/services/permissionService';
 import type { Database } from '@/types/database.types';
 
+/**
+ * Handle POST requests to deactivate a person in a project's directory.
+ *
+ * @param request - The incoming HTTP request
+ * @param params - Route parameters
+ * @param params.projectId - The ID of the project containing the person
+ * @param params.personId - The ID of the person to deactivate
+ * @returns A JSON response: on success `{ success: true, message: 'Person deactivated successfully' }`; on failure an object with an `error` message describing the problem
+ */
 export async function POST(
   request: NextRequest,
   { params }: { params: { projectId: string; personId: string } }
