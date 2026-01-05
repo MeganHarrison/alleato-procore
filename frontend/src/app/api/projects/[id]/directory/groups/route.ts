@@ -5,6 +5,16 @@ import { DistributionGroupService } from '@/services/distributionGroupService';
 import { PermissionService } from '@/services/permissionService';
 import type { Database } from '@/types/database.types';
 
+/**
+ * Retrieve distribution groups for the specified project.
+ *
+ * Accepts query parameters:
+ * - `include_members` (boolean): when `true`, include group members in the response.
+ * - `status` (`'active' | 'inactive' | 'all'`, default `'active'`): filter groups by status.
+ *
+ * @param params.projectId - The project identifier to fetch groups for.
+ * @returns A JSON response containing the retrieved distribution groups, or an error object on failure.
+ */
 export async function GET(
   request: NextRequest,
   { params }: { params: { projectId: string } }
@@ -50,6 +60,14 @@ export async function GET(
   }
 }
 
+/**
+ * Create a new distribution group for the specified project.
+ *
+ * Expects a JSON request body with a required `name` field and verifies the caller has 'admin' permission on the project's directory.
+ *
+ * @param params - Route parameters containing `projectId`, the identifier of the project to scope the new group.
+ * @returns A NextResponse containing the created distribution group as JSON, or a NextResponse with an error message on failure.
+ */
 export async function POST(
   request: NextRequest,
   { params }: { params: { projectId: string } }

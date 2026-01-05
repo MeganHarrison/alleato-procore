@@ -62,6 +62,16 @@ interface DirectoryFiltersProps {
   projectId: string;
 }
 
+/**
+ * Render a directory filter panel and manage loading of company and permission template options.
+ *
+ * Renders controls for type, status, company, permission template, grouping, and sort order; loads company and permission template options on mount and propagates every change via the `onFiltersChange` callback.
+ *
+ * @param filters - Current filter state to drive the control values
+ * @param onFiltersChange - Callback invoked with the updated filters when any control changes
+ * @param projectId - Identifier for the current project (passed to the component but not required for control interaction)
+ * @returns The filter panel JSX element
+ */
 export function DirectoryFilters({ 
   filters, 
   onFiltersChange,

@@ -21,6 +21,13 @@ import {
 import { useToast } from '@/hooks/use-toast';
 import type { PersonWithDetails } from '@/components/directory/DirectoryFilters';
 
+/**
+ * Render the Project Directory page with tabs for active and inactive users, contacts, companies, and distribution groups.
+ *
+ * Provides UI and handlers to create, edit, and invite people, and to deactivate/reactivate people; updates and refreshes the directory tables when changes occur.
+ *
+ * @returns The Project Directory page component.
+ */
 export default function ProjectDirectoryPage() {
   const params = useParams();
   const projectId = params.projectId as string;

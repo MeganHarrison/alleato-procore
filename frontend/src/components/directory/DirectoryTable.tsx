@@ -66,6 +66,22 @@ const defaultColumns: ColumnConfig[] = [
   { id: 'actions', label: '', visible: true, order: 8, width: '80px' }
 ];
 
+/**
+ * Render a configurable directory table for users, contacts, companies, or groups.
+ *
+ * Supports searching, filtering, grouping by company, column customization, row selection,
+ * bulk actions, and per-row actions (invite, edit, deactivate, reactivate) via callbacks.
+ *
+ * @param projectId - The project identifier used to fetch directory data.
+ * @param type - The directory type to display: 'users', 'contacts', 'companies', or 'groups'.
+ * @param status - Filter by membership status; defaults to 'active'.
+ * @param defaultGroupBy - Initial grouping mode, either 'company' or 'none'; defaults to 'company'.
+ * @param onInvite - Optional callback invoked with a person when sending or resending an invite.
+ * @param onEdit - Optional callback invoked with a person when the Edit action is selected.
+ * @param onDeactivate - Optional callback invoked with a person when Deactivate is selected.
+ * @param onReactivate - Optional callback invoked with a person when Reactivate is selected.
+ * @returns The rendered directory table React element.
+ */
 export function DirectoryTable({
   projectId,
   type,

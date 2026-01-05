@@ -51,6 +51,22 @@ interface FormData {
   permission_template_id: string;
 }
 
+/**
+ * Renders a modal dialog for creating or editing a person in a project's directory.
+ *
+ * The dialog displays a form for person details (name, contact info, job title, company, type, and permission template),
+ * validates required fields (first name, last name, and email when the person type is "user"), and submits create or update
+ * requests to the project-scoped directory API. On successful save the dialog closes and an optional callback is invoked;
+ * on failure an inline error message is shown and a destructive toast is emitted.
+ *
+ * @param person - The person to edit, or `null` to open the dialog in create mode.
+ * @param projectId - The project identifier used to scope API requests.
+ * @param open - Whether the dialog is currently open.
+ * @param onOpenChange - Callback invoked when the dialog open state changes.
+ * @param onSuccess - Optional callback invoked after a successful create or update.
+ * @param mode - Explicit mode override, either `"create"` or `"edit"`. Defaults to `"edit"` when `person` is provided, otherwise `"create"`.
+ * @returns The dialog UI element for creating or editing a person.
+ */
 export function PersonEditDialog({ 
   person, 
   projectId,

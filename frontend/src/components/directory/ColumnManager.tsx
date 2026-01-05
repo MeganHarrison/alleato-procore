@@ -56,6 +56,16 @@ interface SortableColumnItemProps {
   disabled?: boolean;
 }
 
+/**
+ * Renders a single draggable column row with a visibility checkbox and label.
+ *
+ * Displays a drag handle, a checkbox bound to the column's `visible` state, and the column label. Interaction is disabled when `disabled` is true; drag interactions are also disabled when the column is hidden.
+ *
+ * @param column - The column configuration to render (id, label, visible, order, optional width).
+ * @param onToggle - Callback invoked with the column `id` when the visibility checkbox is toggled.
+ * @param disabled - When true, disables the checkbox and drag handle for this item.
+ * @returns A JSX element representing the sortable column item.
+ */
 function SortableColumnItem({ column, onToggle, disabled }: SortableColumnItemProps) {
   const {
     attributes,
@@ -115,6 +125,14 @@ function SortableColumnItem({ column, onToggle, disabled }: SortableColumnItemPr
   );
 }
 
+/**
+ * Renders a modal UI for previewing, reordering, and toggling visibility of table columns.
+ *
+ * @param columns - Initial array of column configurations shown in the manager
+ * @param onColumnsChange - Called with the updated column configuration when the user saves changes
+ * @param onClose - Callback invoked to close the dialog (used for both cancel and after save)
+ * @returns The dialog React element that allows users to reset, reorder, toggle, cancel, or save column settings
+ */
 export function ColumnManager({ columns, onColumnsChange, onClose }: ColumnManagerProps) {
   const [localColumns, setLocalColumns] = useState([...columns]);
   

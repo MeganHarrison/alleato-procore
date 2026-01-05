@@ -25,6 +25,20 @@ interface UseDirectoryResult {
   updateFilters: (filters: DirectoryFilters) => void;
 }
 
+/**
+ * React hook that fetches and exposes a project's directory of people with support for filtering, grouping, and pagination metadata.
+ *
+ * @param projectId - The ID of the project whose directory will be fetched
+ * @param initialFilters - Optional initial filters applied to the directory query
+ * @returns An object with:
+ *  - `data`: array of `PersonWithDetails` for the current query
+ *  - `groups`: optional grouped representation of `data`
+ *  - `loading`: boolean indicating an in-flight fetch
+ *  - `error`: an `Error` instance if the last fetch failed, or `null`
+ *  - `meta`: pagination metadata (`total`, `page`, `perPage`, `totalPages`)
+ *  - `refetch`: function to re-run the current fetch
+ *  - `updateFilters`: function to replace the current filters
+ */
 export function useDirectory(
   projectId: string,
   initialFilters: DirectoryFilters = {}

@@ -5,6 +5,12 @@ import { DirectoryService } from '@/services/directoryService';
 import { PermissionService } from '@/services/permissionService';
 import type { Database } from '@/types/database.types';
 
+/**
+ * Lists directory people for the specified project, applying query filters and enforcing user permissions.
+ *
+ * @param params - Route parameters containing `projectId`, the project identifier used to scope the directory query.
+ * @returns The directory listing serialized as JSON on success; on failure a JSON object with an `error` message and an appropriate HTTP status code.
+ */
 export async function GET(
   request: NextRequest,
   { params }: { params: { projectId: string } }
@@ -59,6 +65,15 @@ export async function GET(
   }
 }
 
+/**
+ * Create a new person in the specified project's directory.
+ *
+ * Validates that `first_name`, `last_name`, and `person_type` are present in the request body,
+ * enforces project-level write permission, and returns the created person as JSON.
+ *
+ * @param params.projectId - ID of the project to which the new person will belong
+ * @returns The created person object as JSON on success. On error, returns a JSON error with status `400` (missing required fields), `401` (unauthorized), `403` (forbidden), or `500` (internal server error).
+ */
 export async function POST(
   request: NextRequest,
   { params }: { params: { projectId: string } }
