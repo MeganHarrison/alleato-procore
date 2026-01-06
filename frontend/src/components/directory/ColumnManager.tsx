@@ -48,6 +48,7 @@ interface ColumnManagerProps {
   columns: ColumnConfig[];
   onColumnsChange: (columns: ColumnConfig[]) => void;
   onClose: () => void;
+  defaultColumns?: ColumnConfig[];
 }
 
 interface SortableColumnItemProps {
@@ -133,7 +134,20 @@ function SortableColumnItem({ column, onToggle, disabled }: SortableColumnItemPr
  * @param onClose - Callback invoked to close the dialog (used for both cancel and after save)
  * @returns The dialog React element that allows users to reset, reorder, toggle, cancel, or save column settings
  */
-export function ColumnManager({ columns, onColumnsChange, onClose }: ColumnManagerProps) {
+const fallbackDefaultColumns: ColumnConfig[] = [
+  { id: 'select', label: '', visible: true, order: 0, width: '40px' },
+  { id: 'name', label: 'Name', visible: true, order: 1 },
+  { id: 'email', label: 'Email', visible: true, order: 2 },
+  { id: 'phone', label: 'Phone', visible: true, order: 3 },
+  { id: 'job_title', label: 'Job Title', visible: true, order: 4 },
+  { id: 'company', label: 'Company', visible: true, order: 5 },
+  { id: 'role', label: 'Role', visible: true, order: 6 },
+  { id: 'permission_template', label: 'Permission', visible: true, order: 7 },
+  { id: 'invite_status', label: 'Status', visible: true, order: 8 },
+  { id: 'actions', label: '', visible: true, order: 9, width: '80px' }
+];
+
+export function ColumnManager({ columns, onColumnsChange, onClose, defaultColumns }: ColumnManagerProps) {
   const [localColumns, setLocalColumns] = useState([...columns]);
   
   const sensors = useSensors(
@@ -175,18 +189,7 @@ export function ColumnManager({ columns, onColumnsChange, onClose }: ColumnManag
   };
 
   const handleReset = () => {
-    const defaultColumns: ColumnConfig[] = [
-      { id: 'select', label: '', visible: true, order: 0, width: '40px' },
-      { id: 'name', label: 'Name', visible: true, order: 1 },
-      { id: 'email', label: 'Email', visible: true, order: 2 },
-      { id: 'phone', label: 'Phone', visible: true, order: 3 },
-      { id: 'job_title', label: 'Job Title', visible: true, order: 4 },
-      { id: 'company', label: 'Company', visible: true, order: 5 },
-      { id: 'permission_template', label: 'Permission', visible: true, order: 6 },
-      { id: 'invite_status', label: 'Status', visible: true, order: 7 },
-      { id: 'actions', label: '', visible: true, order: 8, width: '80px' }
-    ];
-    setLocalColumns(defaultColumns);
+    setLocalColumns(defaultColumns ?? fallbackDefaultColumns);
   };
 
   const handleSave = () => {

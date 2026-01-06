@@ -1,45 +1,23 @@
 import { createClient } from '@supabase/supabase-js';
 import type { Database } from '../types/database.types';
+import type {
+  CompanyDirectoryResponse,
+  DirectoryFilterOptions,
+  DirectoryFilters,
+  DirectoryGroup,
+  DirectoryResponse,
+  PersonWithDetails,
+  ProjectDirectoryCompany
+} from '@/types/directory';
 
 type Tables = Database['public']['Tables'];
-type Person = Tables['people']['Row'];
-type ProjectDirectoryMembership = Tables['project_directory_memberships']['Row'];
 type PermissionTemplate = Tables['permission_templates']['Row'];
 type Company = Tables['companies']['Row'];
+type ProjectDirectoryRow = Tables['project_directory']['Row'];
 
-export interface DirectoryFilters {
-  search?: string;
-  type?: 'user' | 'contact' | 'all';
-  status?: 'active' | 'inactive' | 'all';
+interface RequesterVisibility {
+  isInternalUser: boolean;
   companyId?: string;
-  permissionTemplateId?: string;
-  groupBy?: 'company' | 'none';
-  sortBy?: string[];
-  page?: number;
-  perPage?: number;
-}
-
-export interface PersonWithDetails extends Person {
-  company?: Company;
-  membership?: ProjectDirectoryMembership;
-  permission_template?: PermissionTemplate;
-}
-
-export interface DirectoryGroup {
-  key: string;
-  label: string;
-  items: PersonWithDetails[];
-}
-
-export interface DirectoryResponse {
-  data: PersonWithDetails[];
-  groups?: DirectoryGroup[];
-  meta: {
-    total: number;
-    page: number;
-    perPage: number;
-    totalPages: number;
-  };
 }
 
 export interface PersonCreateDTO {
@@ -61,20 +39,30 @@ export interface PersonUpdateDTO extends Partial<PersonCreateDTO> {
 export class DirectoryService {
   constructor(private supabase: ReturnType<typeof createClient<Database>>) {}
 
-  async getPeople(projectId: string, filters: DirectoryFilters): Promise<DirectoryResponse> {
+  async getPeople(
+    projectId: string,
+    filters: DirectoryFilters,
+    visibility?: RequesterVisibility,
+    groupCompanies?: Company[]
+  ): Promise<DirectoryResponse> {
     const {
       search,
       type = 'all',
       status = 'active',
       companyId,
+      role,
       permissionTemplateId,
       groupBy = 'none',
-      sortBy = ['company.name', 'last_name', 'first_name'],
+      sortBy = ['company.name:asc', 'last_name:asc', 'first_name:asc'],
       page = 1,
       perPage = 50
     } = filters;
 
     const projectIdNum = Number.parseInt(projectId, 10);
+    const effectiveStatus = status === 'all' ? undefined : status;
+    const effectiveCompanyId = visibility?.isInternalUser === false && visibility.companyId
+      ? visibility.companyId
+      : companyId;
 
     // Base query
     let query = this.supabase
@@ -94,12 +82,16 @@ export class DirectoryService {
       query = query.eq('person_type', type);
     }
 
-    if (status !== 'all') {
-      query = query.eq('project_directory_memberships.status', status);
+    if (effectiveStatus) {
+      query = query.eq('project_directory_memberships.status', effectiveStatus);
     }
 
-    if (companyId) {
-      query = query.eq('company_id', companyId);
+    if (effectiveCompanyId) {
+      query = query.eq('company_id', effectiveCompanyId);
+    }
+
+    if (role) {
+      query = query.eq('project_directory_memberships.role', role);
     }
 
     if (permissionTemplateId) {
@@ -113,8 +105,7 @@ export class DirectoryService {
         last_name.ilike.%${search}%,
         email.ilike.%${search}%,
         phone_mobile.ilike.%${search}%,
-        phone_business.ilike.%${search}%,
-        company.name.ilike.%${search}%
+        phone_business.ilike.%${search}%
       `);
     }
 
@@ -166,6 +157,14 @@ export class DirectoryService {
     let groups: DirectoryGroup[] | undefined;
     if (groupBy === 'company') {
       const groupMap = new Map<string, PersonWithDetails[]>();
+      const labelMap = new Map<string, string>();
+
+      groupCompanies?.forEach(company => {
+        if (company.id) {
+          groupMap.set(company.id, []);
+          labelMap.set(company.id, company.name);
+        }
+      });
       
       transformedData.forEach(person => {
         const companyId = person.company?.id || 'no-company';
@@ -173,13 +172,17 @@ export class DirectoryService {
         
         if (!groupMap.has(companyId)) {
           groupMap.set(companyId, []);
+          labelMap.set(companyId, companyName);
         }
         groupMap.get(companyId)!.push(person);
+        if (!labelMap.has(companyId)) {
+          labelMap.set(companyId, companyName);
+        }
       });
 
       groups = Array.from(groupMap.entries()).map(([key, items]) => ({
         key,
-        label: items[0]?.company?.name || 'No Company',
+        label: labelMap.get(key) || 'No Company',
         items
       })).sort((a, b) => a.label.localeCompare(b.label));
     }
@@ -187,6 +190,158 @@ export class DirectoryService {
     return {
       data: transformedData,
       groups,
+      meta: {
+        total: count || 0,
+        page,
+        perPage,
+        totalPages: Math.ceil((count || 0) / perPage)
+      }
+    };
+  }
+
+  async getDirectoryFilterOptions(
+    projectId: string,
+    visibility?: RequesterVisibility
+  ): Promise<DirectoryFilterOptions> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
+    const { data: directoryCompanies, error: directoryError } = await this.supabase
+      .from('project_directory')
+      .select('company:companies(*)')
+      .eq('project_id', projectIdNum)
+      .eq('is_active', true);
+
+    if (directoryError) throw directoryError;
+
+    const companies = (directoryCompanies || [])
+      .map(entry => entry.company)
+      .filter((company): company is Company => Boolean(company))
+      .filter(company => {
+        if (visibility?.isInternalUser === false && visibility.companyId) {
+          return company.id === visibility.companyId;
+        }
+        return true;
+      });
+
+    const { data: templates, error: templateError } = await this.supabase
+      .from('permission_templates')
+      .select('*')
+      .eq('scope', 'project')
+      .order('name');
+
+    if (templateError) throw templateError;
+
+    const { data: rolesData, error: rolesError } = await this.supabase
+      .from('project_directory_memberships')
+      .select('role')
+      .eq('project_id', projectIdNum)
+      .not('role', 'is', null);
+
+    if (rolesError) throw rolesError;
+
+    const { data: directoryRoles, error: directoryRolesError } = await this.supabase
+      .from('project_directory')
+      .select('role')
+      .eq('project_id', projectIdNum)
+      .not('role', 'is', null);
+
+    if (directoryRolesError) throw directoryRolesError;
+
+    const roles = Array.from(
+      new Set(
+        [
+          ...(rolesData || []),
+          ...(directoryRoles || [])
+        ]
+          .map(roleRow => roleRow.role)
+          .filter((value): value is string => Boolean(value))
+      )
+    ).sort((a, b) => a.localeCompare(b));
+
+    return {
+      companies,
+      permissionTemplates: templates || [],
+      roles
+    };
+  }
+
+  async getCompanyDirectory(projectId: string, filters: DirectoryFilters): Promise<CompanyDirectoryResponse> {
+    const {
+      search,
+      status = 'active',
+      sortBy = ['company.name:asc'],
+      page = 1,
+      perPage = 50
+    } = filters;
+
+    const projectIdNum = Number.parseInt(projectId, 10);
+
+    let query = this.supabase
+      .from('project_directory')
+      .select(`
+        *,
+        company:companies(*)
+      `, { count: 'exact' })
+      .eq('project_id', projectIdNum);
+
+    if (status !== 'all') {
+      query = query.eq('is_active', status === 'active');
+    }
+
+    if (filters.companyId) {
+      query = query.eq('company_id', filters.companyId);
+    }
+
+    if (filters.role) {
+      query = query.eq('role', filters.role);
+    }
+
+    if (search) {
+      query = query.or(`
+        company.name.ilike.%${search}%,
+        company.city.ilike.%${search}%,
+        company.state.ilike.%${search}%
+      `);
+    }
+
+    for (const sort of sortBy) {
+      const [field, direction = 'asc'] = sort.split(':');
+      if (!field.includes('.')) {
+        query = query.order(field, { ascending: direction === 'asc' });
+      }
+    }
+
+    const offset = (page - 1) * perPage;
+    query = query.range(offset, offset + perPage - 1);
+
+    const { data, error, count } = await query;
+    if (error) throw error;
+
+    const transformedData: ProjectDirectoryCompany[] = (data || []).map(entry => ({
+      ...entry,
+      company: (entry as unknown as { company?: Company }).company ?? null
+    }));
+
+    const nestedSorts = sortBy.filter(s => s.includes('.'));
+    if (nestedSorts.length > 0) {
+      transformedData.sort((a, b) => {
+        for (const sort of nestedSorts) {
+          const [field, direction = 'asc'] = sort.split(':');
+          const asc = direction === 'asc' ? 1 : -1;
+
+          if (field === 'company.name') {
+            const aName = a.company?.name || '';
+            const bName = b.company?.name || '';
+            const cmp = aName.localeCompare(bName);
+            if (cmp !== 0) return cmp * asc;
+          }
+        }
+        return 0;
+      });
+    }
+
+    return {
+      data: transformedData,
       meta: {
         total: count || 0,
         page,
@@ -251,12 +406,12 @@ export class DirectoryService {
   async updatePerson(projectId: string, personId: string, data: PersonUpdateDTO): Promise<PersonWithDetails> {
     const projectIdNum = Number.parseInt(projectId, 10);
     // Update person fields
-    const personUpdate: any = {};
-    const personFields = ['first_name', 'last_name', 'email', 'phone_mobile', 'phone_business', 'job_title', 'company_id'];
+    const personUpdate: Record<string, unknown> = {};
+    const personFields: Array<keyof PersonUpdateDTO> = ['first_name', 'last_name', 'email', 'phone_mobile', 'phone_business', 'job_title', 'company_id'];
     
     for (const field of personFields) {
-      if (field in data) {
-        personUpdate[field] = data[field as keyof PersonUpdateDTO];
+      if (data[field] !== undefined) {
+        personUpdate[field] = data[field];
       }
     }
 
@@ -270,7 +425,7 @@ export class DirectoryService {
     }
 
     // Update membership fields
-    const membershipUpdate: any = {};
+    const membershipUpdate: Record<string, unknown> = {};
     if (data.permission_template_id !== undefined) {
       membershipUpdate.permission_template_id = data.permission_template_id;
     }
@@ -342,7 +497,38 @@ export class DirectoryService {
     if (error) throw error;
   }
 
-  async getCompanies(projectId: string): Promise<Company[]> {
+  async updateCompanyEntry(
+    projectId: string,
+    entryId: string,
+    updates: Partial<ProjectDirectoryRow>
+  ): Promise<ProjectDirectoryCompany> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
+    const { data, error } = await this.supabase
+      .from('project_directory')
+      .update(updates)
+      .eq('project_id', projectIdNum)
+      .eq('id', entryId)
+      .select('*, company:companies(*)')
+      .single();
+
+    if (error) throw error;
+    return { ...data, company: (data as unknown as { company?: Company }).company ?? null };
+  }
+
+  async deleteCompanyEntry(projectId: string, entryId: string): Promise<void> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
+    const { error } = await this.supabase
+      .from('project_directory')
+      .delete()
+      .eq('project_id', projectIdNum)
+      .eq('id', entryId);
+
+    if (error) throw error;
+  }
+
+  async getAllCompanies(_projectId: string): Promise<Company[]> {
     const { data, error } = await this.supabase
       .from('companies')
       .select('*')

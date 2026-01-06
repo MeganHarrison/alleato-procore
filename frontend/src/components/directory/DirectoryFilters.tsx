@@ -20,60 +20,16 @@ import {
 import { Separator } from '@/components/ui/separator';
 import { Switch } from '@/components/ui/switch';
 import { X } from 'lucide-react';
-import { useSupabase } from '@/hooks/useSupabase';
-import type { Database } from '@/types/database.types';
+import type { DirectoryFilterOptions, DirectoryFilters } from '@/types/directory';
 
-type Tables = Database['public']['Tables'];
-type Company = Tables['companies']['Row'];
-type PermissionTemplate = Tables['permission_templates']['Row'];
-
-export interface DirectoryFilters {
-  search?: string;
-  type?: 'user' | 'contact' | 'all';
-  status?: 'active' | 'inactive' | 'all';
-  companyId?: string;
-  permissionTemplateId?: string;
-  groupBy?: 'company' | 'none';
-  sortBy?: string[];
-}
-
-// Type-safe union for all possible filter values
-type DirectoryFilterValue =
-  | 'user'
-  | 'contact'
-  | 'all'
-  | 'active'
-  | 'inactive'
-  | 'company'
-  | 'none'
-  | string
-  | string[]
-  | undefined;
-
-export interface PersonWithDetails {
-  id: string;
-  first_name: string;
-  last_name: string;
-  email?: string | null;
-  phone_mobile?: string | null;
-  phone_business?: string | null;
-  job_title?: string | null;
-  person_type: 'user' | 'contact';
-  status: 'active' | 'inactive';
-  company?: Company | null;
-  membership?: {
-    id: string;
-    status: 'active' | 'inactive';
-    invite_status?: 'not_invited' | 'invited' | 'accepted' | 'expired' | null;
-    permission_template_id?: string | null;
-  } | null;
-  permission_template?: PermissionTemplate | null;
-}
+type DirectoryFilterValue = string | string[] | undefined;
 
 interface DirectoryFiltersProps {
   filters: DirectoryFilters;
   onFiltersChange: (filters: DirectoryFilters) => void;
   projectId: string;
+  options?: DirectoryFilterOptions;
+  loading?: boolean;
 }
 
 /**
@@ -89,47 +45,19 @@ interface DirectoryFiltersProps {
 export function DirectoryFilters({ 
   filters, 
   onFiltersChange,
-  projectId 
+  projectId: _projectId,
+  options,
+  loading = false
 }: DirectoryFiltersProps) {
-  const supabase = useSupabase();
-  const [companies, setCompanies] = useState<Company[]>([]);
-  const [permissionTemplates, setPermissionTemplates] = useState<PermissionTemplate[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [companies, setCompanies] = useState(options?.companies ?? []);
+  const [permissionTemplates, setPermissionTemplates] = useState(options?.permissionTemplates ?? []);
+  const [roles, setRoles] = useState(options?.roles ?? []);
 
-  // Load companies and permission templates
   useEffect(() => {
-    const loadFilterData = async () => {
-      setLoading(true);
-      try {
-        // Load companies
-        const { data: companiesData, error: companiesError } = await supabase
-          .from('companies')
-          .select('*')
-          .order('name');
-        
-        if (!companiesError && companiesData) {
-          setCompanies(companiesData);
-        }
-
-        // Load permission templates
-        const { data: templatesData, error: templatesError } = await supabase
-          .from('permission_templates')
-          .select('*')
-          .eq('scope', 'project')
-          .order('name');
-        
-        if (!templatesError && templatesData) {
-          setPermissionTemplates(templatesData);
-        }
-      } catch (error) {
-        console.error('Error loading filter data:', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    loadFilterData();
-  }, [supabase]);
+    setCompanies(options?.companies ?? []);
+    setPermissionTemplates(options?.permissionTemplates ?? []);
+    setRoles(options?.roles ?? []);
+  }, [options]);
 
   const handleFilterChange = (key: keyof DirectoryFilters, value: DirectoryFilterValue) => {
     onFiltersChange({
@@ -142,7 +70,11 @@ export function DirectoryFilters({
     onFiltersChange({
       type: 'all',
       status: 'active',
-      groupBy: filters.groupBy // Preserve grouping preference
+      groupBy: filters.groupBy, // Preserve grouping preference
+      search: '',
+      companyId: undefined,
+      permissionTemplateId: undefined,
+      role: undefined
     });
   };
 
@@ -179,7 +111,7 @@ export function DirectoryFilters({
       </CardHeader>
       
       <CardContent className="space-y-4">
-        <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
+        <div className="grid grid-cols-2 gap-4 md:grid-cols-5">
           {/* Person Type Filter */}
           <div className="space-y-2">
             <Label htmlFor="type-filter">Type</Label>
@@ -258,6 +190,28 @@ export function DirectoryFilters({
                 {permissionTemplates.map(template => (
                   <SelectItem key={template.id} value={template.id}>
                     {template.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          {/* Role Filter */}
+          <div className="space-y-2">
+            <Label htmlFor="role-filter">Role</Label>
+            <Select
+              value={filters.role || 'all'}
+              onValueChange={(value) => handleFilterChange('role', value === 'all' ? undefined : value)}
+              disabled={loading}
+            >
+              <SelectTrigger id="role-filter">
+                <SelectValue placeholder="All Roles" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">All Roles</SelectItem>
+                {roles.map(roleValue => (
+                  <SelectItem key={roleValue} value={roleValue}>
+                    {roleValue}
                   </SelectItem>
                 ))}
               </SelectContent>

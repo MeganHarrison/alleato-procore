@@ -9,6 +9,7 @@ import { InviteDialog } from '@/components/directory/InviteDialog';
 import { PersonEditDialog } from '@/components/directory/PersonEditDialog';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/ui/empty-state';
+import { CompanyDirectoryTable } from '@/components/directory/CompanyDirectoryTable';
 import {
   UserPlus,
   Users,
@@ -20,7 +21,7 @@ import {
   Building
 } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import type { PersonWithDetails } from '@/components/directory/DirectoryFilters';
+import type { DirectoryPermissions, PersonWithDetails } from '@/types/directory';
 
 /**
  * Render the Project Directory page with tabs for active and inactive users, contacts, companies, and distribution groups.
@@ -39,6 +40,7 @@ export default function ProjectDirectoryPage() {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [selectedPerson, setSelectedPerson] = useState<PersonWithDetails | null>(null);
   const [refreshKey, setRefreshKey] = useState(0);
+  const [directoryPermissions, setDirectoryPermissions] = useState<DirectoryPermissions | null>(null);
 
   const handleInvite = (person: PersonWithDetails) => {
     setSelectedPerson(person);
@@ -58,8 +60,8 @@ export default function ProjectDirectoryPage() {
   const handleDeactivate = async (person: PersonWithDetails) => {
     try {
       const response = await fetch(
-        `/api/projects/${projectId}/directory/people/${person.id}/deactivate`,
-        { method: 'POST' }
+        `/api/projects/${projectId}/directory/users/${person.id}`,
+        { method: 'DELETE' }
       );
 
       if (!response.ok) {
@@ -78,8 +80,14 @@ export default function ProjectDirectoryPage() {
   const handleReactivate = async (person: PersonWithDetails) => {
     try {
       const response = await fetch(
-        `/api/projects/${projectId}/directory/people/${person.id}/reactivate`,
-        { method: 'POST' }
+        `/api/projects/${projectId}/directory/users/${person.id}`,
+        {
+          method: 'PATCH',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ status: 'active' })
+        }
       );
 
       if (!response.ok) {
@@ -105,7 +113,10 @@ export default function ProjectDirectoryPage() {
       title="Project Directory"
       description="Manage project team members, contacts, companies, and distribution groups"
       actions={
-        <Button onClick={handleCreate}>
+        <Button
+          onClick={handleCreate}
+          disabled={directoryPermissions ? !(directoryPermissions.canInvite || directoryPermissions.canEdit) : true}
+        >
           <UserPlus className="mr-2 h-4 w-4" />
           Add Person
         </Button>
@@ -158,6 +169,7 @@ export default function ProjectDirectoryPage() {
             onInvite={handleInvite}
             onEdit={handleEdit}
             onDeactivate={handleDeactivate}
+            onPermissionsChange={setDirectoryPermissions}
           />
         </TabsContent>
 
@@ -169,14 +181,15 @@ export default function ProjectDirectoryPage() {
             status="active"
             onEdit={handleEdit}
             onDeactivate={handleDeactivate}
+            onPermissionsChange={setDirectoryPermissions}
           />
         </TabsContent>
 
         <TabsContent value="companies">
-          <EmptyState
-            icon={<Building2 />}
-            title="Companies Directory"
-            description="Company management coming soon"
+          <CompanyDirectoryTable
+            key={`companies-${refreshKey}`}
+            projectId={projectId}
+            status="active"
           />
         </TabsContent>
 
@@ -196,6 +209,7 @@ export default function ProjectDirectoryPage() {
             status="inactive"
             onEdit={handleEdit}
             onReactivate={handleReactivate}
+            onPermissionsChange={setDirectoryPermissions}
           />
         </TabsContent>
 
@@ -207,14 +221,15 @@ export default function ProjectDirectoryPage() {
             status="inactive"
             onEdit={handleEdit}
             onReactivate={handleReactivate}
+            onPermissionsChange={setDirectoryPermissions}
           />
         </TabsContent>
 
         <TabsContent value="inactive-companies">
-          <EmptyState
-            icon={<Building />}
-            title="Inactive Companies"
-            description="Inactive company management coming soon"
+          <CompanyDirectoryTable
+            key={`inactive-companies-${refreshKey}`}
+            projectId={projectId}
+            status="inactive"
           />
         </TabsContent>
       </Tabs>
