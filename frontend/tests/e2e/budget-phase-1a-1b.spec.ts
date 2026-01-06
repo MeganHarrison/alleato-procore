@@ -57,6 +57,11 @@ async function createModificationViaAPI(
       reason: `Test modification: ${title}`,
     },
   });
+
+  if (!response.ok()) {
+    const errorBody = await response.json().catch(() => ({}));
+    console.error(`createModificationViaAPI failed: ${response.status()} - ${JSON.stringify(errorBody)}`);
+  }
   expect(response.ok()).toBeTruthy();
   const data = await response.json();
   return data.data;
@@ -80,15 +85,28 @@ async function changeModificationStatusViaAPI(
   return data.data;
 }
 
-// Helper function to get budget line items via API
+// Helper function to get budget line items via API with retry
 async function getBudgetLinesViaAPI(
   request: APIRequestContext,
-  projectId: string
+  projectId: string,
+  retries = 3
 ): Promise<{ id: string; costCode: string; description: string }[]> {
-  const response = await request.get(`${BASE_URL}/api/projects/${projectId}/budget`);
-  expect(response.ok()).toBeTruthy();
-  const data = await response.json();
-  return data.lineItems || [];
+  for (let attempt = 1; attempt <= retries; attempt++) {
+    const response = await request.get(`${BASE_URL}/api/projects/${projectId}/budget`);
+    if (response.ok()) {
+      const data = await response.json();
+      return data.lineItems || [];
+    }
+    if (attempt < retries) {
+      // Wait before retry
+      await new Promise((resolve) => setTimeout(resolve, 1000 * attempt));
+    } else {
+      const errorBody = await response.json().catch(() => ({}));
+      console.error(`getBudgetLinesViaAPI failed after ${retries} attempts: ${response.status()} - ${JSON.stringify(errorBody)}`);
+      expect(response.ok()).toBeTruthy();
+    }
+  }
+  return [];
 }
 
 // ============================================================================
