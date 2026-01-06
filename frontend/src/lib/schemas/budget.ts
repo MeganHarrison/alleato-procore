@@ -41,5 +41,12 @@ export const BudgetModificationPayloadSchema = z.object({
   modificationType: optionalString,
 });
 
+// Schema for modification status actions (submit, approve, reject, void)
+export const BudgetModificationActionSchema = z.object({
+  modificationId: z.string().uuid('modificationId must be a valid UUID'),
+  action: z.enum(['submit', 'approve', 'reject', 'void']),
+});
+
 export type BudgetLineItemPayload = z.infer<typeof BudgetLineItemsPayloadSchema>;
 export type BudgetModificationPayload = z.infer<typeof BudgetModificationPayloadSchema>;
+export type BudgetModificationAction = z.infer<typeof BudgetModificationActionSchema>;

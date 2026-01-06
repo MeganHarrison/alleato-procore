@@ -2,6 +2,48 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { BudgetLineItemsPayloadSchema } from '@/lib/schemas/budget';
 
+/**
+ * Cost types that count towards Job to Date Cost Detail (ALL approved types)
+ * Per Procore: Invoice, Expense, Payroll, Subcontractor Invoice
+ */
+const JTD_COST_TYPES = ['Invoice', 'Expense', 'Payroll', 'Subcontractor Invoice'];
+
+/**
+ * Cost types that count towards Direct Costs (EXCLUDES Subcontractor Invoice)
+ * Per Procore: Invoice, Expense, Payroll only
+ */
+const DIRECT_COST_TYPES = ['Invoice', 'Expense', 'Payroll'];
+
+/**
+ * Pending commitment statuses for Pending Cost Changes calculation
+ * Per Procore definitions
+ */
+const PENDING_SUBCONTRACT_STATUSES = ['Out For Signature'];
+const PENDING_PO_STATUSES = ['Processing', 'Submitted', 'Partially Received', 'Received'];
+
+interface CostAggregation {
+  jobToDateCostDetail: number;
+  directCosts: number;
+  pendingCostChanges: number;
+}
+
+interface DirectCostItem {
+  cost_code_id: string | null;
+  amount: number;
+  cost_type: string | null;
+  approved: boolean | null;
+}
+
+interface SOVItem {
+  budget_code: string | null;
+  amount: number | null;
+}
+
+interface ChangeOrderLineItem {
+  cost_code_id: string | null;
+  amount: number | null;
+}
+
 // GET /api/projects/[id]/budget - Fetch budget data for a project
 export async function GET(
   request: NextRequest,
@@ -20,36 +62,147 @@ export async function GET(
 
     const supabase = await createClient();
 
-    // Fetch budget lines from new v_budget_lines view
-    const { data: budgetItems, error } = await supabase
-      .from('v_budget_lines')
-      .select(`
-        *,
-        cost_code:cost_codes(id, title, division_id),
-        cost_type:cost_code_types(code, description),
-        sub_job:sub_jobs(code, name)
-      `)
-      .eq('project_id', projectId)
-      .order('cost_code_id', { ascending: true });
+    // Fetch all data sources in parallel for performance
+    const [
+      budgetLinesRes,
+      directCostsRes,
+      subcontractSovRes,
+      poSovRes,
+      changeOrdersRes,
+    ] = await Promise.all([
+      // Budget lines from materialized view
+      supabase
+        .from('v_budget_lines')
+        .select(`
+          *,
+          cost_code:cost_codes(id, title, division_id),
+          cost_type:cost_code_types(code, description),
+          sub_job:sub_jobs(code, name)
+        `)
+        .eq('project_id', projectId)
+        .order('cost_code_id', { ascending: true }),
 
-    if (error) {
-      console.error('Error fetching budget items:', error);
+      // Direct costs for JTD and Direct Cost calculations
+      supabase
+        .from('direct_cost_line_items')
+        .select('cost_code_id, amount, cost_type, approved')
+        .eq('project_id', projectId),
+
+      // Subcontract SOV items with pending status for Pending Cost Changes
+      supabase
+        .from('subcontract_sov_items')
+        .select('budget_code, amount, subcontracts!inner(status, project_id)')
+        .eq('subcontracts.project_id', projectId)
+        .in('subcontracts.status', PENDING_SUBCONTRACT_STATUSES),
+
+      // PO SOV items with pending statuses for Pending Cost Changes
+      supabase
+        .from('purchase_order_sov_items')
+        .select('budget_code, amount, purchase_orders!inner(status, project_id)')
+        .eq('purchase_orders.project_id', projectId)
+        .in('purchase_orders.status', PENDING_PO_STATUSES),
+
+      // Pending change orders for Pending Cost Changes
+      supabase
+        .from('change_order_lines')
+        .select('cost_code_id, amount, change_orders!inner(status, project_id)')
+        .eq('change_orders.project_id', projectId)
+        .like('change_orders.status', 'Pending%'),
+    ]);
+
+    if (budgetLinesRes.error) {
+      console.error('Error fetching budget items:', budgetLinesRes.error);
       return NextResponse.json(
         { error: 'Failed to fetch budget data' },
         { status: 500 }
       );
     }
 
-    // Transform to frontend format (no calculations, just formatting)
-    const lineItems = (budgetItems || []).map((item: Record<string, unknown>) => {
+    // Build cost aggregation by cost_code_id
+    const costsByCode: Record<string, CostAggregation> = {};
+
+    // Initialize helper function
+    const ensureCostEntry = (codeId: string) => {
+      if (!costsByCode[codeId]) {
+        costsByCode[codeId] = { jobToDateCostDetail: 0, directCosts: 0, pendingCostChanges: 0 };
+      }
+    };
+
+    // SOURCE 1 & 2: Direct Costs (approved only)
+    // Per Procore:
+    // - JTD Cost Detail = ALL approved types including Subcontractor Invoice
+    // - Direct Costs = Approved types EXCLUDING Subcontractor Invoice
+    for (const cost of (directCostsRes.data || []) as DirectCostItem[]) {
+      const codeId = cost.cost_code_id;
+      if (!codeId) continue;
+
+      ensureCostEntry(codeId);
+
+      if (cost.approved !== true) continue;
+
+      const costType = cost.cost_type || 'Invoice';
+      const amount = cost.amount || 0;
+
+      // Job to Date = ALL approved types (includes Subcontractor Invoice)
+      if (JTD_COST_TYPES.includes(costType)) {
+        costsByCode[codeId].jobToDateCostDetail += amount;
+      }
+
+      // Direct Costs = EXCLUDE Subcontractor Invoice
+      if (DIRECT_COST_TYPES.includes(costType)) {
+        costsByCode[codeId].directCosts += amount;
+      }
+    }
+
+    // SOURCE 3: Pending Cost Changes from Subcontracts
+    for (const item of (subcontractSovRes.data || []) as SOVItem[]) {
+      const codeId = item.budget_code; // budget_code references cost code
+      if (!codeId) continue;
+      ensureCostEntry(codeId);
+      costsByCode[codeId].pendingCostChanges += item.amount || 0;
+    }
+
+    // SOURCE 3: Pending Cost Changes from Purchase Orders
+    for (const item of (poSovRes.data || []) as SOVItem[]) {
+      const codeId = item.budget_code;
+      if (!codeId) continue;
+      ensureCostEntry(codeId);
+      costsByCode[codeId].pendingCostChanges += item.amount || 0;
+    }
+
+    // SOURCE 3: Pending Cost Changes from Change Orders
+    for (const item of (changeOrdersRes.data || []) as ChangeOrderLineItem[]) {
+      const codeId = item.cost_code_id;
+      if (!codeId) continue;
+      ensureCostEntry(codeId);
+      costsByCode[codeId].pendingCostChanges += item.amount || 0;
+    }
+
+    // Transform to frontend format with real cost data
+    const lineItems = (budgetLinesRes.data || []).map((item: Record<string, unknown>) => {
       const costCode = item.cost_code as { id?: string; title?: string; division_id?: string } | undefined;
       const costType = item.cost_type as { code?: string; description?: string } | undefined;
       const subJob = item.sub_job as { code?: string; name?: string } | undefined;
+      const costCodeId = item.cost_code_id as string;
+
+      // Get cost data for this line item
+      const costData = costsByCode[costCodeId] || { jobToDateCostDetail: 0, directCosts: 0, pendingCostChanges: 0 };
+
+      // Core budget values
+      const originalBudgetAmount = parseFloat(item.original_amount as string) || 0;
+      const budgetModifications = parseFloat(item.budget_mod_total as string) || 0;
+      const approvedCOs = parseFloat(item.approved_co_total as string) || 0;
+      const revisedBudget = parseFloat(item.revised_budget as string) || 0;
+
+      // Calculated fields
+      const forecastToComplete = Math.max(0, revisedBudget - costData.jobToDateCostDetail);
+      const estimatedCostAtCompletion = costData.jobToDateCostDetail + forecastToComplete;
+      const projectedOverUnder = revisedBudget - estimatedCostAtCompletion;
 
       return {
         id: item.id as string,
-        description: (item.description as string) || `${item.cost_code_id} - ${costCode?.title || ''} ${costType?.code ? `(${costType.code})` : ''}`,
-        costCode: item.cost_code_id as string,
+        description: (item.description as string) || `${costCodeId} - ${costCode?.title || ''} ${costType?.code ? `(${costType.code})` : ''}`,
+        costCode: costCodeId,
         costCodeDescription: costCode?.title || '',
         costType: costType?.code || '',
         division: costCode?.division_id || '',
@@ -57,22 +210,22 @@ export async function GET(
         subJob: subJob?.name || '',
 
         // Core budget values from view
-        originalBudgetAmount: parseFloat(item.original_amount as string) || 0,
-        budgetModifications: parseFloat(item.budget_mod_total as string) || 0,
-        approvedCOs: parseFloat(item.approved_co_total as string) || 0,
-        revisedBudget: parseFloat(item.revised_budget as string) || 0,
+        originalBudgetAmount,
+        budgetModifications,
+        approvedCOs,
+        revisedBudget,
 
-        // Cost tracking fields (placeholder - TODO: implement cost tracking)
-        jobToDateCostDetail: 0,
-        directCosts: 0,
-        pendingChanges: 0,
-        projectedBudget: 0,
-        committedCosts: 0,
-        pendingCostChanges: 0,
-        projectedCosts: 0,
-        forecastToComplete: 0,
-        estimatedCostAtCompletion: 0,
-        projectedOverUnder: 0,
+        // Cost tracking fields with real data
+        jobToDateCostDetail: costData.jobToDateCostDetail,
+        directCosts: costData.directCosts,
+        pendingChanges: costData.pendingCostChanges,
+        projectedBudget: revisedBudget,
+        committedCosts: 0, // TODO: Calculate from executed commitments
+        pendingCostChanges: costData.pendingCostChanges,
+        projectedCosts: costData.directCosts + costData.pendingCostChanges,
+        forecastToComplete,
+        estimatedCostAtCompletion,
+        projectedOverUnder,
       };
     });
 

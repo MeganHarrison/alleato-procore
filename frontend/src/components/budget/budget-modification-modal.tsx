@@ -21,12 +21,21 @@ import {
   SheetTitle,
 } from '@/components/ui/sheet';
 import { toast } from 'sonner';
+import { Badge } from '@/components/ui/badge';
+
+interface BudgetLineItem {
+  id: string;
+  costCode: string;
+  description: string;
+}
 
 interface BudgetModificationModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   projectId: string;
   onSuccess?: () => void;
+  /** Optional: Pre-select a specific budget line item */
+  preselectedLineItem?: BudgetLineItem | null;
 }
 
 export function BudgetModificationModal({
@@ -34,19 +43,31 @@ export function BudgetModificationModal({
   onOpenChange,
   projectId,
   onSuccess,
+  preselectedLineItem,
 }: BudgetModificationModalProps) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     budgetItemId: '',
     title: '',
     description: '',
-    type: 'change_order',
+    type: 'adjustment',
     amount: '',
     reason: '',
-    approver: '',
   });
-  const [budgetItems, setBudgetItems] = useState<Array<{ id: string; label: string }>>([]);
+  const [budgetItems, setBudgetItems] = useState<Array<{ id: string; label: string; costCode: string }>>([]);
   const [loadingItems, setLoadingItems] = useState(false);
+
+  // Reset form when modal opens and set preselected item if provided
+  useEffect(() => {
+    if (open) {
+      if (preselectedLineItem) {
+        setFormData((prev) => ({
+          ...prev,
+          budgetItemId: preselectedLineItem.id,
+        }));
+      }
+    }
+  }, [open, preselectedLineItem]);
 
   useEffect(() => {
     const fetchBudgetItems = async () => {
@@ -58,16 +79,18 @@ export function BudgetModificationModal({
         }
         const data = await response.json();
         const options =
-          data?.lineItems?.map((item: any) => ({
+          data?.lineItems?.map((item: { id: string; description: string; costCode: string }) => ({
             id: item.id,
-            label: item.description,
+            label: item.description || item.costCode,
+            costCode: item.costCode,
           })) ?? [];
         setBudgetItems(options);
-        if (options.length && !formData.budgetItemId) {
+        // Only auto-select first item if no preselection and form is empty
+        if (options.length && !formData.budgetItemId && !preselectedLineItem) {
           setFormData((prev) => ({ ...prev, budgetItemId: options[0].id }));
         }
       } catch (error) {
-        console.error(error);
+        console.error('Error loading budget items:', error);
         toast.error('Unable to load budget items for modifications');
       } finally {
         setLoadingItems(false);
@@ -77,7 +100,7 @@ export function BudgetModificationModal({
     if (open) {
       fetchBudgetItems();
     }
-  }, [open, projectId]);
+  }, [open, projectId, preselectedLineItem]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,12 +114,11 @@ export function BudgetModificationModal({
       }
 
       const payload = {
-        budgetItemId: formData.budgetItemId,
+        budgetLineId: formData.budgetItemId,
         amount: formData.amount,
         title: formData.title,
         description: formData.description,
         reason: formData.reason,
-        approver: formData.approver || null,
         modificationType: formData.type,
       };
 
@@ -111,19 +133,19 @@ export function BudgetModificationModal({
         throw new Error(error.details || error.error || 'Failed to create budget modification');
       }
 
-      toast.success('Budget modification created');
+      const result = await response.json();
+      toast.success(`Budget modification ${result.data?.number || ''} created as draft. Submit for approval when ready.`);
       onOpenChange(false);
       onSuccess?.();
 
       // Reset form
       setFormData({
-        budgetItemId: budgetItems[0]?.id || '',
+        budgetItemId: preselectedLineItem?.id || budgetItems[0]?.id || '',
         title: '',
         description: '',
-        type: 'change_order',
+        type: 'adjustment',
         amount: '',
         reason: '',
-        approver: '',
       });
     } catch (error) {
       console.error('Error creating budget modification:', error);
@@ -248,20 +270,18 @@ export function BudgetModificationModal({
                 />
               </div>
 
-              {/* Approver */}
-              <div className="grid gap-2">
-                <Label htmlFor="approver">Approver</Label>
-                <Select value={formData.approver} onValueChange={(value) => handleChange('approver', value)}>
-                  <SelectTrigger id="approver">
-                    <SelectValue placeholder="Select approver..." />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="project_manager">Project Manager</SelectItem>
-                    <SelectItem value="finance_director">Finance Director</SelectItem>
-                    <SelectItem value="vp_operations">VP of Operations</SelectItem>
-                    <SelectItem value="owner">Owner</SelectItem>
-                  </SelectContent>
-                </Select>
+              {/* Workflow Info */}
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                <div className="flex items-center gap-2 mb-2">
+                  <Badge variant="outline" className="bg-white">Draft</Badge>
+                  <span className="text-sm text-slate-500">→</span>
+                  <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">Pending</Badge>
+                  <span className="text-sm text-slate-500">→</span>
+                  <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Approved</Badge>
+                </div>
+                <p className="text-sm text-slate-600">
+                  Modifications are created as drafts. Submit for approval, then approve to update budget totals.
+                </p>
               </div>
             </div>
           </div>
@@ -276,7 +296,7 @@ export function BudgetModificationModal({
               Cancel
             </Button>
             <Button type="submit" disabled={loading || !formData.budgetItemId}>
-              {loading ? 'Creating...' : 'Create Modification'}
+              {loading ? 'Creating...' : 'Create Draft Modification'}
             </Button>
           </SheetFooter>
         </form>

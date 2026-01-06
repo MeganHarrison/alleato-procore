@@ -2,6 +2,14 @@ import { BudgetModificationPayloadSchema } from '@/lib/schemas/budget';
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 
+// Valid status transitions for the modification workflow
+const VALID_TRANSITIONS: Record<string, string[]> = {
+  draft: ['pending'],           // Submit for approval
+  pending: ['approved', 'draft'], // Approve or reject (back to draft)
+  approved: ['void'],           // Can only void approved modifications
+  void: [],                     // Final state - no transitions allowed
+};
+
 // GET /api/projects/[id]/budget/modifications - Fetch budget modifications
 export async function GET(
   request: NextRequest,
@@ -11,32 +19,77 @@ export async function GET(
     const { id } = await params;
     const projectId = parseInt(id, 10);
 
-    if (isNaN(projectId)) {
+    if (Number.isNaN(projectId)) {
       return NextResponse.json(
         { error: 'Invalid project ID' },
         { status: 400 }
       );
     }
 
+    const { searchParams } = new URL(request.url);
+    const budgetLineId = searchParams.get('budgetLineId');
+    const status = searchParams.get('status');
+
     const supabase = await createClient();
 
-    // Fetch budget modifications with budget item details
-    const { data, error } = await supabase
+    // Build query for budget modifications with their line items
+    let query = supabase
       .from('budget_modifications')
       .select(`
-        *,
-        budget_items (
+        id,
+        number,
+        title,
+        reason,
+        status,
+        effective_date,
+        created_at,
+        updated_at,
+        created_by,
+        budget_mod_lines (
           id,
           cost_code_id,
-          original_budget_amount,
+          cost_type_id,
+          sub_job_id,
+          amount,
+          description,
           cost_codes (
             id,
-            description
+            title
           )
         )
       `)
-      .eq('budget_items.project_id', projectId)
+      .eq('project_id', projectId)
       .order('created_at', { ascending: false });
+
+    // Filter by status if provided
+    if (status && status !== 'all') {
+      query = query.eq('status', status);
+    }
+
+    // If budgetLineId is provided, filter modifications that have matching budget_mod_lines
+    if (budgetLineId) {
+      // First get the budget line details to match against
+      const { data: budgetLine, error: lineError } = await supabase
+        .from('budget_lines')
+        .select('cost_code_id, cost_type_id, sub_job_id')
+        .eq('id', budgetLineId)
+        .single();
+
+      if (lineError || !budgetLine) {
+        return NextResponse.json(
+          { error: 'Budget line not found' },
+          { status: 404 }
+        );
+      }
+
+      // Filter modifications where budget_mod_lines match the budget line's cost code
+      query = query.eq('budget_mod_lines.cost_code_id', budgetLine.cost_code_id);
+      if (budgetLine.cost_type_id) {
+        query = query.eq('budget_mod_lines.cost_type_id', budgetLine.cost_type_id);
+      }
+    }
+
+    const { data, error } = await query;
 
     if (error) {
       console.error('Error fetching budget modifications:', error);
@@ -46,8 +99,53 @@ export async function GET(
       );
     }
 
+    // Transform data to include computed fields
+    interface ModLine {
+      id: unknown;
+      cost_code_id: unknown;
+      cost_type_id: unknown;
+      sub_job_id: unknown;
+      amount: unknown;
+      description: unknown;
+      cost_codes: unknown;
+    }
+
+    const modifications = (data || []).map((mod) => {
+      const lines = (mod.budget_mod_lines || []) as ModLine[];
+      const totalAmount = lines.reduce((sum: number, line) => sum + (Number(line.amount) || 0), 0);
+
+      return {
+        id: mod.id,
+        number: mod.number,
+        title: mod.title,
+        reason: mod.reason,
+        status: mod.status,
+        effectiveDate: mod.effective_date,
+        createdAt: mod.created_at,
+        updatedAt: mod.updated_at,
+        createdBy: mod.created_by,
+        amount: totalAmount,
+        lines: lines.map((line) => {
+          const costCodes = line.cost_codes as { id?: string; title?: string } | { id?: string; title?: string }[] | null;
+          const costCodeTitle = Array.isArray(costCodes)
+            ? costCodes[0]?.title || ''
+            : costCodes?.title || '';
+
+          return {
+            id: String(line.id),
+            costCodeId: String(line.cost_code_id),
+            costTypeId: String(line.cost_type_id),
+            subJobId: line.sub_job_id ? String(line.sub_job_id) : null,
+            amount: Number(line.amount) || 0,
+            description: line.description ? String(line.description) : null,
+            costCodeTitle,
+          };
+        }),
+      };
+    });
+
     return NextResponse.json({
-      modifications: data || [],
+      modifications,
     });
   } catch (error) {
     console.error('Error in budget modifications GET route:', error);
@@ -67,7 +165,7 @@ export async function POST(
     const { id } = await params;
     const projectId = parseInt(id, 10);
 
-    if (isNaN(projectId)) {
+    if (Number.isNaN(projectId)) {
       return NextResponse.json(
         { error: 'Invalid project ID' },
         { status: 400 }
@@ -75,8 +173,12 @@ export async function POST(
     }
 
     const body = await request.json();
+
+    // Support both budgetItemId and budgetLineId for backwards compatibility
+    const budgetLineId = body.budgetLineId ?? body.budgetItemId ?? body.budget_line_id ?? body.budget_item_id;
+
     const parsedPayload = BudgetModificationPayloadSchema.safeParse({
-      budgetItemId: body.budgetItemId ?? body.budget_item_id,
+      budgetItemId: budgetLineId,
       amount: body.amount,
       title: body.title,
       description: body.description,
@@ -98,8 +200,6 @@ export async function POST(
       title,
       description,
       reason,
-      approver,
-      modificationType,
     } = parsedPayload.data;
 
     const parsedAmount = amount ? parseFloat(amount) : 0;
@@ -112,17 +212,26 @@ export async function POST(
 
     const supabase = await createClient();
 
-    // Verify budget item belongs to this project
-    const { data: budgetItem, error: itemError } = await supabase
-      .from('budget_items')
-      .select('id, project_id, budget_modifications, revised_budget, original_budget_amount')
+    // Get current user
+    const { data: { user }, error: userError } = await supabase.auth.getUser();
+    if (userError || !user) {
+      return NextResponse.json(
+        { error: 'Unauthorized - please log in' },
+        { status: 401 }
+      );
+    }
+
+    // Verify budget line belongs to this project and get its details
+    const { data: budgetLine, error: lineError } = await supabase
+      .from('budget_lines')
+      .select('id, project_id, cost_code_id, cost_type_id, sub_job_id, original_amount')
       .eq('id', budgetItemId)
       .eq('project_id', projectId)
       .single();
 
-    if (itemError || !budgetItem) {
+    if (lineError || !budgetLine) {
       return NextResponse.json(
-        { error: 'Budget item not found in this project' },
+        { error: 'Budget line not found in this project' },
         { status: 404 }
       );
     }
@@ -141,24 +250,34 @@ export async function POST(
       );
     }
 
-    const combinedDescription = [
-      title ? `Title: ${title}` : null,
-      description,
-      reason ? `Reason: ${reason}` : null,
-      approver ? `Approver: ${approver}` : null,
-      modificationType ? `Type: ${modificationType}` : null,
-    ]
-      .filter(Boolean)
-      .join(' | ');
+    // Generate the next modification number for this project
+    const { data: lastMod } = await supabase
+      .from('budget_modifications')
+      .select('number')
+      .eq('project_id', projectId)
+      .order('created_at', { ascending: false })
+      .limit(1)
+      .single();
 
-    // Create the modification
+    let nextNumber = 'BM-0001';
+    if (lastMod?.number) {
+      const currentNum = parseInt(lastMod.number.replace('BM-', ''), 10);
+      if (!Number.isNaN(currentNum)) {
+        nextNumber = `BM-${(currentNum + 1).toString().padStart(4, '0')}`;
+      }
+    }
+
+    // Create the parent budget_modifications record
     const { data: modification, error: modError } = await supabase
       .from('budget_modifications')
       .insert({
-        budget_item_id: budgetItemId,
-        amount: parsedAmount,
-        description: combinedDescription || null,
-        approved: false,
+        project_id: projectId,
+        number: nextNumber,
+        title: title || `Budget Modification ${nextNumber}`,
+        reason: reason || description || null,
+        status: 'draft',
+        effective_date: null,
+        created_by: user.id,
       })
       .select()
       .single();
@@ -166,36 +285,45 @@ export async function POST(
     if (modError) {
       console.error('Error creating budget modification:', modError);
       return NextResponse.json(
-        { error: 'Failed to create budget modification' },
+        { error: 'Failed to create budget modification', details: modError.message },
         { status: 500 }
       );
     }
 
-    // Update the budget item's modification total and revised budget
-    const currentModifications = budgetItem.budget_modifications || 0;
-    const newModifications = currentModifications + parsedAmount;
-    const newRevisedBudget = (budgetItem.original_budget_amount || 0) + newModifications;
+    // Create the budget_mod_lines record linking modification to cost code
+    const { error: lineInsertError } = await supabase
+      .from('budget_mod_lines')
+      .insert({
+        budget_modification_id: modification.id,
+        project_id: projectId,
+        cost_code_id: budgetLine.cost_code_id,
+        cost_type_id: budgetLine.cost_type_id,
+        sub_job_id: budgetLine.sub_job_id,
+        amount: parsedAmount,
+        description: description || null,
+      });
 
-    const { error: updateError } = await supabase
-      .from('budget_items')
-      .update({
-        budget_modifications: newModifications,
-        revised_budget: newRevisedBudget,
-      })
-      .eq('id', budgetItemId);
-
-    if (updateError) {
-      console.error('Error updating budget item:', updateError);
-      // Don't fail the request, modification was created
+    if (lineInsertError) {
+      console.error('Error creating budget mod line:', lineInsertError);
+      // Clean up the parent modification if line insert fails
+      await supabase.from('budget_modifications').delete().eq('id', modification.id);
+      return NextResponse.json(
+        { error: 'Failed to create budget modification line', details: lineInsertError.message },
+        { status: 500 }
+      );
     }
-
-    // Refresh materialized view to reflect new modification
-    await supabase.rpc('refresh_budget_rollup', { p_project_id: projectId });
 
     return NextResponse.json({
       success: true,
-      data: modification,
-      message: 'Budget modification created successfully',
+      data: {
+        id: modification.id,
+        number: modification.number,
+        title: modification.title,
+        status: modification.status,
+        amount: parsedAmount,
+        createdAt: modification.created_at,
+      },
+      message: 'Budget modification created as draft',
     });
   } catch (error) {
     console.error('Error in budget modifications POST route:', error);
@@ -206,7 +334,7 @@ export async function POST(
   }
 }
 
-// PATCH /api/projects/[id]/budget/modifications - Approve/reject a modification
+// PATCH /api/projects/[id]/budget/modifications - Update modification status
 export async function PATCH(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -215,7 +343,7 @@ export async function PATCH(
     const { id } = await params;
     const projectId = parseInt(id, 10);
 
-    if (isNaN(projectId)) {
+    if (Number.isNaN(projectId)) {
       return NextResponse.json(
         { error: 'Invalid project ID' },
         { status: 400 }
@@ -223,40 +351,125 @@ export async function PATCH(
     }
 
     const body = await request.json();
-    const { modification_id, approved } = body;
+    const { modification_id, modificationId, action } = body;
+    const modId = modification_id || modificationId;
 
-    if (!modification_id || approved === undefined) {
+    if (!modId) {
       return NextResponse.json(
-        { error: 'modification_id and approved are required' },
+        { error: 'modification_id is required' },
+        { status: 400 }
+      );
+    }
+
+    if (!action || !['submit', 'approve', 'reject', 'void'].includes(action)) {
+      return NextResponse.json(
+        { error: 'action must be one of: submit, approve, reject, void' },
         { status: 400 }
       );
     }
 
     const supabase = await createClient();
 
-    // Update the modification
-    const { data, error } = await supabase
+    // Get current modification status
+    const { data: currentMod, error: fetchError } = await supabase
       .from('budget_modifications')
-      .update({
-        approved,
-        approved_at: approved ? new Date().toISOString() : null,
-      })
-      .eq('id', modification_id)
+      .select('id, status, project_id')
+      .eq('id', modId)
+      .single();
+
+    if (fetchError || !currentMod) {
+      return NextResponse.json(
+        { error: 'Modification not found' },
+        { status: 404 }
+      );
+    }
+
+    // Verify project ownership
+    if (currentMod.project_id !== projectId) {
+      return NextResponse.json(
+        { error: 'Modification not found in this project' },
+        { status: 404 }
+      );
+    }
+
+    // Map action to target status
+    const actionToStatus: Record<string, string> = {
+      submit: 'pending',
+      approve: 'approved',
+      reject: 'draft',
+      void: 'void',
+    };
+    const targetStatus = actionToStatus[action];
+
+    // Validate state transition
+    const validNextStatuses = VALID_TRANSITIONS[currentMod.status] || [];
+    if (!validNextStatuses.includes(targetStatus)) {
+      return NextResponse.json(
+        {
+          error: `Invalid status transition: cannot ${action} a ${currentMod.status} modification`,
+          currentStatus: currentMod.status,
+          validActions: validNextStatuses.map((s: string) => {
+            const reverseMap: Record<string, string> = {
+              pending: 'submit',
+              approved: 'approve',
+              draft: 'reject',
+              void: 'void',
+            };
+            return reverseMap[s];
+          }).filter(Boolean),
+        },
+        { status: 400 }
+      );
+    }
+
+    // Update the modification status
+    const updateData: { status: string; updated_at: string; effective_date?: string | null } = {
+      status: targetStatus,
+      updated_at: new Date().toISOString(),
+    };
+
+    // Set effective_date when approved
+    if (targetStatus === 'approved') {
+      updateData.effective_date = new Date().toISOString();
+    }
+
+    const { data: updatedMod, error: updateError } = await supabase
+      .from('budget_modifications')
+      .update(updateData)
+      .eq('id', modId)
       .select()
       .single();
 
-    if (error) {
-      console.error('Error updating budget modification:', error);
+    if (updateError) {
+      console.error('Error updating budget modification:', updateError);
       return NextResponse.json(
         { error: 'Failed to update budget modification' },
         { status: 500 }
       );
     }
 
+    // Refresh the materialized view when status changes to/from approved
+    // This ensures v_budget_lines.budget_mod_total is recalculated
+    if (targetStatus === 'approved' || currentMod.status === 'approved') {
+      await supabase.rpc('refresh_budget_rollup', { p_project_id: projectId });
+    }
+
+    const actionMessages: Record<string, string> = {
+      submit: 'Modification submitted for approval',
+      approve: 'Modification approved - budget totals updated',
+      reject: 'Modification rejected - returned to draft',
+      void: 'Modification voided - budget totals updated',
+    };
+
     return NextResponse.json({
       success: true,
-      data,
-      message: approved ? 'Modification approved' : 'Modification rejected',
+      data: {
+        id: updatedMod.id,
+        number: updatedMod.number,
+        status: updatedMod.status,
+        effectiveDate: updatedMod.effective_date,
+      },
+      message: actionMessages[action],
     });
   } catch (error) {
     console.error('Error in budget modifications PATCH route:', error);
@@ -267,7 +480,7 @@ export async function PATCH(
   }
 }
 
-// DELETE /api/projects/[id]/budget/modifications - Delete a modification
+// DELETE /api/projects/[id]/budget/modifications - Delete a draft modification
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -276,7 +489,7 @@ export async function DELETE(
     const { id } = await params;
     const projectId = parseInt(id, 10);
 
-    if (isNaN(projectId)) {
+    if (Number.isNaN(projectId)) {
       return NextResponse.json(
         { error: 'Invalid project ID' },
         { status: 400 }
@@ -298,7 +511,7 @@ export async function DELETE(
     // Get the modification details first
     const { data: modification, error: fetchError } = await supabase
       .from('budget_modifications')
-      .select('*, budget_items(id, project_id, budget_modifications, original_budget_amount)')
+      .select('id, status, project_id')
       .eq('id', modificationId)
       .single();
 
@@ -310,14 +523,36 @@ export async function DELETE(
     }
 
     // Verify project ownership
-    if (modification.budget_items?.project_id !== projectId) {
+    if (modification.project_id !== projectId) {
       return NextResponse.json(
         { error: 'Modification not found in this project' },
         { status: 404 }
       );
     }
 
-    // Delete the modification
+    // Only allow deletion of draft modifications
+    if (modification.status !== 'draft') {
+      return NextResponse.json(
+        { error: 'Only draft modifications can be deleted. Use void action for approved modifications.' },
+        { status: 400 }
+      );
+    }
+
+    // Delete the budget_mod_lines first (due to foreign key constraint)
+    const { error: linesDeleteError } = await supabase
+      .from('budget_mod_lines')
+      .delete()
+      .eq('budget_modification_id', modificationId);
+
+    if (linesDeleteError) {
+      console.error('Error deleting budget mod lines:', linesDeleteError);
+      return NextResponse.json(
+        { error: 'Failed to delete modification lines' },
+        { status: 500 }
+      );
+    }
+
+    // Delete the parent modification
     const { error: deleteError } = await supabase
       .from('budget_modifications')
       .delete()
@@ -329,22 +564,6 @@ export async function DELETE(
         { error: 'Failed to delete budget modification' },
         { status: 500 }
       );
-    }
-
-    // Update budget item totals
-    const budgetItem = modification.budget_items;
-    if (budgetItem) {
-      const currentModifications = budgetItem.budget_modifications || 0;
-      const newModifications = currentModifications - modification.amount;
-      const newRevisedBudget = (budgetItem.original_budget_amount || 0) + newModifications;
-
-      await supabase
-        .from('budget_items')
-        .update({
-          budget_modifications: newModifications,
-          revised_budget: newRevisedBudget,
-        })
-        .eq('id', budgetItem.id);
     }
 
     return NextResponse.json({

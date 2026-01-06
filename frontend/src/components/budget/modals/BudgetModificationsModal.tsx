@@ -1,18 +1,34 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { BaseSidebar, SidebarBody, SidebarFooter, SidebarTabs } from './BaseSidebar';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { toast } from 'sonner';
+import { Check, X, Send, Ban, Loader2 } from 'lucide-react';
+
+interface BudgetModificationLine {
+  id: string;
+  costCodeId: string;
+  costTypeId: string;
+  subJobId: string | null;
+  amount: number;
+  description: string | null;
+  costCodeTitle: string;
+}
 
 interface BudgetModification {
   id: string;
   number: string;
   title: string;
+  reason: string | null;
   amount: number;
   status: 'draft' | 'pending' | 'approved' | 'void';
   effectiveDate: string | null;
   createdAt: string;
+  updatedAt: string;
+  createdBy: string | null;
+  lines: BudgetModificationLine[];
 }
 
 interface BudgetModificationsModalProps {
@@ -21,42 +37,82 @@ interface BudgetModificationsModalProps {
   costCode: string;
   budgetLineId: string;
   projectId: string;
+  onModificationChanged?: () => void;
 }
 
+type StatusFilter = 'all' | 'approved' | 'pending' | 'draft' | 'void';
+
 /**
- * BudgetModificationsModal - Shows budget transfers/adjustments in a sidebar
+ * BudgetModificationsModal - Shows budget modifications with workflow actions
  */
 export function BudgetModificationsModal({
   open,
   onClose,
   costCode,
   budgetLineId,
-  projectId
+  projectId,
+  onModificationChanged,
 }: BudgetModificationsModalProps) {
   const [activeTab, setActiveTab] = useState<'summary' | 'details'>('summary');
   const [modifications, setModifications] = useState<BudgetModification[]>([]);
   const [loading, setLoading] = useState(true);
-  const [statusFilter, setStatusFilter] = useState<'all' | 'approved' | 'pending' | 'draft'>('approved');
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const [actionLoading, setActionLoading] = useState<string | null>(null);
 
-  useEffect(() => {
-    if (open) {
-      fetchModifications();
-    }
-  }, [open, budgetLineId, projectId, statusFilter]);
-
-  const fetchModifications = async () => {
+  const fetchModifications = useCallback(async () => {
     setLoading(true);
     try {
-      const url = `/api/projects/${projectId}/budget/modifications?budgetLineId=${budgetLineId}${statusFilter !== 'all' ? `&status=${statusFilter}` : ''}`;
+      const statusParam = statusFilter !== 'all' ? `&status=${statusFilter}` : '';
+      const url = `/api/projects/${projectId}/budget/modifications?budgetLineId=${budgetLineId}${statusParam}`;
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
         setModifications(data.modifications || []);
+      } else {
+        console.error('Failed to fetch modifications');
       }
     } catch (error) {
       console.error('Error fetching budget modifications:', error);
     } finally {
       setLoading(false);
+    }
+  }, [projectId, budgetLineId, statusFilter]);
+
+  useEffect(() => {
+    if (open) {
+      fetchModifications();
+    }
+  }, [open, fetchModifications]);
+
+  const handleAction = async (modificationId: string, action: 'submit' | 'approve' | 'reject' | 'void') => {
+    setActionLoading(modificationId);
+    try {
+      const response = await fetch(`/api/projects/${projectId}/budget/modifications`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ modificationId, action }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || `Failed to ${action} modification`);
+      }
+
+      const result = await response.json();
+      toast.success(result.message);
+
+      // Refresh the list
+      await fetchModifications();
+
+      // Notify parent if budget totals may have changed
+      if (action === 'approve' || action === 'void') {
+        onModificationChanged?.();
+      }
+    } catch (error) {
+      console.error(`Error ${action}ing modification:`, error);
+      toast.error(error instanceof Error ? error.message : `Failed to ${action} modification`);
+    } finally {
+      setActionLoading(null);
     }
   };
 
@@ -100,7 +156,35 @@ export function BudgetModificationsModal({
     );
   };
 
-  const totalAmount = modifications.reduce((sum, m) => sum + m.amount, 0);
+  // Get available actions based on status
+  const getAvailableActions = (status: string): Array<{ action: 'submit' | 'approve' | 'reject' | 'void'; label: string; icon: React.ReactNode; variant: 'default' | 'outline' | 'destructive' }> => {
+    switch (status) {
+      case 'draft':
+        return [
+          { action: 'submit', label: 'Submit', icon: <Send className="h-3 w-3" />, variant: 'default' }
+        ];
+      case 'pending':
+        return [
+          { action: 'approve', label: 'Approve', icon: <Check className="h-3 w-3" />, variant: 'default' },
+          { action: 'reject', label: 'Reject', icon: <X className="h-3 w-3" />, variant: 'outline' }
+        ];
+      case 'approved':
+        return [
+          { action: 'void', label: 'Void', icon: <Ban className="h-3 w-3" />, variant: 'destructive' }
+        ];
+      default:
+        return [];
+    }
+  };
+
+  // Calculate totals for approved modifications only (what affects the budget)
+  const approvedTotal = modifications
+    .filter(m => m.status === 'approved')
+    .reduce((sum, m) => sum + m.amount, 0);
+
+  const pendingTotal = modifications
+    .filter(m => m.status === 'pending')
+    .reduce((sum, m) => sum + m.amount, 0);
 
   const tabs = [
     { id: 'summary', label: 'Summary' },
@@ -126,30 +210,34 @@ export function BudgetModificationsModal({
       <SidebarBody className="bg-white">
         {activeTab === 'summary' ? (
           <div className="p-6 space-y-5">
-            {/* Total Summary */}
-            <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-gradient-to-br from-green-50 via-white to-white">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-gray-600">Total Budget Modifications</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">
-                    {formatCurrency(totalAmount)}
-                  </p>
-                </div>
-                <div className="text-right">
-                  <p className="text-sm text-gray-600">Modifications</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">
-                    {modifications.length}
-                  </p>
-                </div>
+            {/* Totals Summary */}
+            <div className="grid grid-cols-2 gap-4">
+              <div className="rounded-xl border border-green-200 shadow-sm p-4 bg-gradient-to-br from-green-50 via-white to-white">
+                <p className="text-sm text-gray-600">Approved</p>
+                <p className="text-xl font-bold text-green-700 mt-1">
+                  {formatCurrency(approvedTotal)}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Affects budget totals
+                </p>
+              </div>
+              <div className="rounded-xl border border-yellow-200 shadow-sm p-4 bg-gradient-to-br from-yellow-50 via-white to-white">
+                <p className="text-sm text-gray-600">Pending</p>
+                <p className="text-xl font-bold text-yellow-700 mt-1">
+                  {formatCurrency(pendingTotal)}
+                </p>
+                <p className="text-xs text-gray-500 mt-1">
+                  Awaiting approval
+                </p>
               </div>
             </div>
 
             {/* Status Filter */}
             <div className="flex gap-2 flex-wrap">
-              {['all', 'approved', 'pending', 'draft'].map((status) => (
+              {(['all', 'approved', 'pending', 'draft', 'void'] as StatusFilter[]).map((status) => (
                 <button
                   key={status}
-                  onClick={() => setStatusFilter(status as typeof statusFilter)}
+                  onClick={() => setStatusFilter(status)}
                   className={cn(
                     'px-3 py-1.5 text-sm font-medium rounded-full transition-all',
                     statusFilter === status
@@ -166,55 +254,148 @@ export function BudgetModificationsModal({
             <div className="space-y-3">
               {loading ? (
                 <div className="text-center py-10 text-gray-500">
+                  <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
                   Loading modifications...
                 </div>
               ) : modifications.length === 0 ? (
                 <div className="text-center py-10 text-gray-500">
-                  No budget modifications found for this cost code.
+                  No budget modifications found{statusFilter !== 'all' ? ` with status "${statusFilter}"` : ' for this cost code'}.
                 </div>
               ) : (
-                modifications.map((mod) => (
-                  <div
-                    key={mod.id}
-                    className="rounded-xl border border-slate-200 shadow-sm bg-white hover:shadow-md transition-shadow"
-                  >
-                    <div className="p-4">
-                      <div className="flex items-start justify-between mb-2">
-                        <div className="flex-1">
-                          <div className="flex items-center gap-2">
-                            <span className="font-semibold text-blue-600">{mod.number}</span>
-                            {getStatusBadge(mod.status)}
+                modifications.map((mod) => {
+                  const actions = getAvailableActions(mod.status);
+                  const isLoading = actionLoading === mod.id;
+
+                  return (
+                    <div
+                      key={mod.id}
+                      className="rounded-xl border border-slate-200 shadow-sm bg-white hover:shadow-md transition-shadow"
+                    >
+                      <div className="p-4">
+                        <div className="flex items-start justify-between mb-2">
+                          <div className="flex-1">
+                            <div className="flex items-center gap-2">
+                              <span className="font-semibold text-blue-600">{mod.number}</span>
+                              {getStatusBadge(mod.status)}
+                            </div>
+                            <p className="text-sm text-gray-700 mt-1">{mod.title}</p>
+                            {mod.reason && (
+                              <p className="text-xs text-gray-500 mt-1 italic">{mod.reason}</p>
+                            )}
                           </div>
-                          <p className="text-sm text-gray-700 mt-1">{mod.title}</p>
+                          <div className="text-right ml-4">
+                            <p className={cn(
+                              'text-lg font-bold tabular-nums',
+                              mod.amount < 0 ? 'text-red-600' : 'text-green-600'
+                            )}>
+                              {formatCurrency(mod.amount)}
+                            </p>
+                          </div>
                         </div>
-                        <div className="text-right ml-4">
-                          <p className={cn(
-                            'text-lg font-bold tabular-nums',
-                            mod.amount < 0 ? 'text-red-600' : 'text-green-600'
-                          )}>
-                            {formatCurrency(mod.amount)}
-                          </p>
+
+                        <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
+                          <div className="flex items-center gap-4 text-xs text-gray-500">
+                            <span>Effective: {formatDate(mod.effectiveDate)}</span>
+                            <span>Created: {formatDate(mod.createdAt)}</span>
+                          </div>
+
+                          {/* Action Buttons */}
+                          {actions.length > 0 && (
+                            <div className="flex items-center gap-2">
+                              {actions.map(({ action, label, icon, variant }) => (
+                                <Button
+                                  key={action}
+                                  size="sm"
+                                  variant={variant}
+                                  onClick={() => handleAction(mod.id, action)}
+                                  disabled={isLoading}
+                                  className="h-7 text-xs gap-1"
+                                >
+                                  {isLoading ? (
+                                    <Loader2 className="h-3 w-3 animate-spin" />
+                                  ) : (
+                                    icon
+                                  )}
+                                  {label}
+                                </Button>
+                              ))}
+                            </div>
+                          )}
                         </div>
-                      </div>
-                      <div className="flex items-center gap-4 text-xs text-gray-500 mt-2">
-                        <span>Effective: {formatDate(mod.effectiveDate)}</span>
-                        <span>Created: {formatDate(mod.createdAt)}</span>
                       </div>
                     </div>
-                  </div>
-                ))
+                  );
+                })
               )}
             </div>
           </div>
         ) : (
           <div className="p-6 space-y-5">
             <p className="text-sm text-gray-600">
-              Detailed line-item breakdown of budget modifications will be displayed here.
+              Detailed line-item breakdown of budget modifications.
             </p>
 
-            <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center">
-              <p className="text-gray-500">Details view coming soon</p>
-            </div>
+            {loading ? (
+              <div className="text-center py-10 text-gray-500">
+                <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
+                Loading...
+              </div>
+            ) : modifications.length === 0 ? (
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center">
+                <p className="text-gray-500">No modifications found</p>
+              </div>
+            ) : (
+              <div className="space-y-4">
+                {modifications.map((mod) => (
+                  <div key={mod.id} className="rounded-xl border border-slate-200 shadow-sm bg-white">
+                    <div className="p-4 border-b border-slate-100">
+                      <div className="flex items-center justify-between">
+                        <div className="flex items-center gap-2">
+                          <span className="font-semibold text-blue-600">{mod.number}</span>
+                          {getStatusBadge(mod.status)}
+                        </div>
+                        <span className={cn(
+                          'font-bold tabular-nums',
+                          mod.amount < 0 ? 'text-red-600' : 'text-green-600'
+                        )}>
+                          {formatCurrency(mod.amount)}
+                        </span>
+                      </div>
+                      <p className="text-sm text-gray-700 mt-1">{mod.title}</p>
+                    </div>
+
+                    {/* Line Items */}
+                    <div className="p-4">
+                      <table className="w-full text-sm">
+                        <thead>
+                          <tr className="text-left text-gray-500 text-xs">
+                            <th className="pb-2">Cost Code</th>
+                            <th className="pb-2">Description</th>
+                            <th className="pb-2 text-right">Amount</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {mod.lines.map((line) => (
+                            <tr key={line.id} className="border-t border-slate-100">
+                              <td className="py-2 font-medium">{line.costCodeId}</td>
+                              <td className="py-2 text-gray-600">
+                                {line.description || line.costCodeTitle || '-'}
+                              </td>
+                              <td className={cn(
+                                'py-2 text-right font-medium tabular-nums',
+                                line.amount < 0 ? 'text-red-600' : 'text-green-600'
+                              )}>
+                                {formatCurrency(line.amount)}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
         )}
       </SidebarBody>
