@@ -110,3 +110,46 @@ This command will also start the backend.
 ```
 .save-docs.sh
 ```
+
+## Budget Tool Implementation Status
+
+### Phase 1: Core Functionality
+
+**Phase 1A - Budget Modifications System** COMPLETE
+- Budget modification CRUD operations
+- Status workflow (draft -> pending -> approved/rejected/void)
+- Modification tracking with sequential numbering (BM-XXXX)
+- API endpoints: GET, POST, PATCH, DELETE
+- UI components: BudgetModificationModal, BudgetModificationsModal
+- See: `documentation/docs/phases/phase-1a-budget-modifications/`
+
+**Phase 1B - Cost Actuals Integration** COMPLETE
+- Direct costs API endpoint (`/api/projects/[id]/budget/direct-costs`)
+- Real cost aggregation from multiple sources:
+  - Direct cost line items (Invoice, Expense, Payroll, Subcontractor Invoice)
+  - Pending subcontracts (subcontract_sov_items)
+  - Pending purchase orders (purchase_order_sov_items)
+  - Pending change orders (change_order_lines)
+- Procore cost calculation rules implemented:
+  - Job to Date Cost Detail = ALL approved types
+  - Direct Costs = Excludes Subcontractor Invoice
+- See: `documentation/docs/procore/budget/COST_CODE_MAPPING.md`
+
+**Phase 1C - Project Status Snapshots** (Next)
+- Project status snapshots
+- Snapshot comparison and export
+- Historical variance tracking
+
+### Budget Tool Architecture
+
+See `documentation/docs/procore/budget/` for detailed architecture documentation.
+
+Key files:
+- `frontend/src/app/api/projects/[id]/budget/route.ts` - Main budget API
+- `frontend/src/app/api/projects/[id]/budget/modifications/route.ts` - Modifications workflow
+- `frontend/src/app/api/projects/[id]/budget/direct-costs/route.ts` - Cost actuals
+- `frontend/src/components/budget/` - Budget UI components
+
+## Functionality
+
+### Crawl4ai MCP
