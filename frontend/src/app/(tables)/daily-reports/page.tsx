@@ -112,21 +112,11 @@ export default async function DailyRecapsPage() {
   if (error) {
     console.error('Error fetching daily recaps:', error)
     return (
-      <div className="min-h-screen bg-neutral-50">
-        <div className="max-w-[1800px] mx-auto px-6 md:px-10 lg:px-12 py-12">
-          <div className="text-center text-red-600">
-            Error loading daily recaps. Please try again later.
-          </div>
-        </div>
+      <div className="text-center text-red-600">
+        Error loading daily recaps. Please try again later.
       </div>
     )
   }
 
-  return (
-    <div className="min-h-screen bg-neutral-50">
-      <div className="max-w-[1800px] mx-auto px-6 md:px-10 lg:px-12 py-12">
-        <GenericDataTable data={dailyRecaps || []} config={config} />
-      </div>
-    </div>
-  )
+  return <GenericDataTable data={dailyRecaps || []} config={config} />
 }

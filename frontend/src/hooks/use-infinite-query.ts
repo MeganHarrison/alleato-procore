@@ -165,6 +165,13 @@ function createStore<TData extends SupabaseTableData<T>, T extends SupabaseTable
     setState({ isLoading: false, hasInitialFetch: true })
   }
 
+  const refetch = async () => {
+    console.log('refetch: resetting data and fetching from start')
+    setState({ isLoading: true, isSuccess: false, data: [], count: 0 })
+    await fetchPage(0)
+    setState({ isLoading: false, hasInitialFetch: true })
+  }
+
   return {
     getState: () => state,
     subscribe: (listener: Listener) => {
@@ -173,6 +180,7 @@ function createStore<TData extends SupabaseTableData<T>, T extends SupabaseTable
     },
     fetchNextPage,
     initialize,
+    refetch,
   }
 }
 
@@ -230,6 +238,10 @@ function useInfiniteQuery<
     storeRef.current.fetchNextPage()
   }, [])
 
+  const refetch = useCallback(() => {
+    storeRef.current.refetch()
+  }, [])
+
   return {
     data: state.data,
     count: state.count,
@@ -239,6 +251,7 @@ function useInfiniteQuery<
     error: state.error,
     hasMore: state.count > state.data.length,
     fetchNextPage,
+    refetch,
   }
 }
 

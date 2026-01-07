@@ -179,7 +179,7 @@ export function DataTablePage<TData>({
 
       {/* Summary Cards - Above Tabs */}
       {showSummaryCards && summaryCards && summaryCards.length > 0 && (
-        <div className="px-4 sm:px-6 lg:px-8 py-6 bg-white border-b">
+        <div className="px-4 sm:px-6 lg:px-8 py-6 bg-background border-b">
           <SummaryCardGrid cards={summaryCards} />
         </div>
       )}

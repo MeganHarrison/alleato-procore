@@ -21,6 +21,22 @@ const badgeVariants = cva(
           "border-transparent bg-green-600 text-white [a&]:hover:bg-green-600/90",
         warning:
           "border-transparent bg-orange-600 text-white [a&]:hover:bg-orange-600/90",
+        // Semantic status variants
+        active:
+          "border-transparent bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-400 [a&]:hover:bg-green-100",
+        inactive:
+          "border-transparent bg-gray-50 text-gray-700 dark:bg-gray-800 dark:text-gray-400 [a&]:hover:bg-gray-100",
+        // Role-based variants
+        admin:
+          "border-transparent bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-400 [a&]:hover:bg-red-100",
+        "project-manager":
+          "border-transparent bg-blue-50 text-blue-700 dark:bg-blue-950 dark:text-blue-400 [a&]:hover:bg-blue-100",
+        superintendent:
+          "border-transparent bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-400 [a&]:hover:bg-green-100",
+        foreman:
+          "border-transparent bg-yellow-50 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-400 [a&]:hover:bg-yellow-100",
+        viewer:
+          "border-transparent bg-gray-50 text-gray-700 dark:bg-gray-800 dark:text-gray-400 [a&]:hover:bg-gray-100",
       },
     },
     defaultVariants: {

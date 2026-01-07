@@ -44,7 +44,7 @@ export function EditableSummary({ summary, onSave }: EditableSummaryProps) {
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <div className="lg:px-6 px-4 py-2">
           <div className="flex items-center justify-between">
-            <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+            <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
               Summary
             </h3>
             <div className="flex gap-3">

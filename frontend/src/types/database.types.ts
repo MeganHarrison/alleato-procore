@@ -8498,6 +8498,115 @@ export type Database = {
           },
         ]
       }
+      project_companies: {
+        Row: {
+          business_phone: string | null
+          company_id: string
+          company_type: string | null
+          created_at: string | null
+          email_address: string | null
+          erp_vendor_id: string | null
+          id: string
+          logo_url: string | null
+          primary_contact_id: string | null
+          project_id: number
+          status: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          business_phone?: string | null
+          company_id: string
+          company_type?: string | null
+          created_at?: string | null
+          email_address?: string | null
+          erp_vendor_id?: string | null
+          id?: string
+          logo_url?: string | null
+          primary_contact_id?: string | null
+          project_id: number
+          status?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          business_phone?: string | null
+          company_id?: string
+          company_type?: string | null
+          created_at?: string | null
+          email_address?: string | null
+          erp_vendor_id?: string | null
+          id?: string
+          logo_url?: string | null
+          primary_contact_id?: string | null
+          project_id?: number
+          status?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_companies_company_id_fkey"
+            columns: ["company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_companies_primary_contact_id_fkey"
+            columns: ["primary_contact_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_companies_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_activity_view"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "project_companies_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_companies_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard_no_summary"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_companies_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_issue_summary"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "project_companies_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_with_manager"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_companies_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_companies_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "submittal_project_dashboard"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       project_cost_codes: {
         Row: {
           cost_code_id: string
@@ -8686,11 +8795,14 @@ export type Database = {
       project_directory_memberships: {
         Row: {
           created_at: string | null
+          employee_id: string | null
           id: string
           invite_expires_at: string | null
           invite_status: string | null
           invite_token: string | null
           invited_at: string | null
+          is_employee_of_company: boolean | null
+          is_insurance_manager: boolean | null
           last_invited_at: string | null
           permission_template_id: string | null
           person_id: string
@@ -8701,11 +8813,14 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
+          employee_id?: string | null
           id?: string
           invite_expires_at?: string | null
           invite_status?: string | null
           invite_token?: string | null
           invited_at?: string | null
+          is_employee_of_company?: boolean | null
+          is_insurance_manager?: boolean | null
           last_invited_at?: string | null
           permission_template_id?: string | null
           person_id: string
@@ -8716,11 +8831,14 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
+          employee_id?: string | null
           id?: string
           invite_expires_at?: string | null
           invite_status?: string | null
           invite_token?: string | null
           invited_at?: string | null
+          is_employee_of_company?: boolean | null
+          is_insurance_manager?: boolean | null
           last_invited_at?: string | null
           permission_template_id?: string | null
           person_id?: string
@@ -9031,6 +9149,132 @@ export type Database = {
           },
           {
             foreignKeyName: "project_resources_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "submittal_project_dashboard"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_role_members: {
+        Row: {
+          assigned_at: string | null
+          assigned_by: string | null
+          id: string
+          person_id: string
+          project_role_id: string
+        }
+        Insert: {
+          assigned_at?: string | null
+          assigned_by?: string | null
+          id?: string
+          person_id: string
+          project_role_id: string
+        }
+        Update: {
+          assigned_at?: string | null
+          assigned_by?: string | null
+          id?: string
+          person_id?: string
+          project_role_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_role_members_assigned_by_fkey"
+            columns: ["assigned_by"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_role_members_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_role_members_project_role_id_fkey"
+            columns: ["project_role_id"]
+            isOneToOne: false
+            referencedRelation: "project_roles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      project_roles: {
+        Row: {
+          created_at: string | null
+          display_order: number | null
+          id: string
+          project_id: number
+          role_name: string
+          role_type: string | null
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          display_order?: number | null
+          id?: string
+          project_id: number
+          role_name: string
+          role_type?: string | null
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          display_order?: number | null
+          id?: string
+          project_id?: number
+          role_name?: string
+          role_type?: string | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "project_roles_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_activity_view"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "project_roles_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_roles_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard_no_summary"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_roles_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_issue_summary"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "project_roles_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_with_manager"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_roles_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_roles_project_id_fkey"
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "submittal_project_dashboard"
@@ -12526,6 +12770,195 @@ export type Database = {
         }
         Relationships: []
       }
+      user_directory_permissions: {
+        Row: {
+          created_at: string | null
+          id: string
+          permission_level: string
+          person_id: string
+          project_id: number
+          updated_at: string | null
+        }
+        Insert: {
+          created_at?: string | null
+          id?: string
+          permission_level?: string
+          person_id: string
+          project_id: number
+          updated_at?: string | null
+        }
+        Update: {
+          created_at?: string | null
+          id?: string
+          permission_level?: string
+          person_id?: string
+          project_id?: number
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_directory_permissions_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_directory_permissions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_activity_view"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "user_directory_permissions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_directory_permissions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard_no_summary"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_directory_permissions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_issue_summary"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "user_directory_permissions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_with_manager"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_directory_permissions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_directory_permissions_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "submittal_project_dashboard"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      user_email_notifications: {
+        Row: {
+          created_at: string | null
+          daily_log_default: boolean | null
+          delay_log_default: boolean | null
+          emails_default: boolean | null
+          id: string
+          person_id: string
+          project_id: number
+          punchlist_items_default: boolean | null
+          rfis_default: boolean | null
+          submittals_default: boolean | null
+          updated_at: string | null
+          weather_delay_email: boolean | null
+          weather_delay_phone: boolean | null
+        }
+        Insert: {
+          created_at?: string | null
+          daily_log_default?: boolean | null
+          delay_log_default?: boolean | null
+          emails_default?: boolean | null
+          id?: string
+          person_id: string
+          project_id: number
+          punchlist_items_default?: boolean | null
+          rfis_default?: boolean | null
+          submittals_default?: boolean | null
+          updated_at?: string | null
+          weather_delay_email?: boolean | null
+          weather_delay_phone?: boolean | null
+        }
+        Update: {
+          created_at?: string | null
+          daily_log_default?: boolean | null
+          delay_log_default?: boolean | null
+          emails_default?: boolean | null
+          id?: string
+          person_id?: string
+          project_id?: number
+          punchlist_items_default?: boolean | null
+          rfis_default?: boolean | null
+          submittals_default?: boolean | null
+          updated_at?: string | null
+          weather_delay_email?: boolean | null
+          weather_delay_phone?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_email_notifications_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_email_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_activity_view"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "user_email_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_email_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard_no_summary"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_email_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_issue_summary"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "user_email_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_with_manager"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_email_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_email_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "submittal_project_dashboard"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_profiles: {
         Row: {
           created_at: string
@@ -12633,6 +13066,35 @@ export type Database = {
           },
         ]
       }
+      user_project_roles: {
+        Row: {
+          assigned_at: string | null
+          id: string
+          membership_id: string
+          role_name: string
+        }
+        Insert: {
+          assigned_at?: string | null
+          id?: string
+          membership_id: string
+          role_name: string
+        }
+        Update: {
+          assigned_at?: string | null
+          id?: string
+          membership_id?: string
+          role_name?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_project_roles_membership_id_fkey"
+            columns: ["membership_id"]
+            isOneToOne: false
+            referencedRelation: "project_directory_memberships"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       user_projects: {
         Row: {
           company_name: string | null
@@ -12674,6 +13136,109 @@ export type Database = {
           user_email?: string | null
         }
         Relationships: []
+      }
+      user_schedule_notifications: {
+        Row: {
+          all_project_tasks_weekly: boolean | null
+          created_at: string | null
+          id: string
+          person_id: string
+          project_id: number
+          project_schedule_lookahead_weekly: boolean | null
+          resource_tasks_assigned_to_id: string | null
+          updated_at: string | null
+          upon_schedule_change_requests: boolean | null
+          upon_schedule_changes: boolean | null
+        }
+        Insert: {
+          all_project_tasks_weekly?: boolean | null
+          created_at?: string | null
+          id?: string
+          person_id: string
+          project_id: number
+          project_schedule_lookahead_weekly?: boolean | null
+          resource_tasks_assigned_to_id?: string | null
+          updated_at?: string | null
+          upon_schedule_change_requests?: boolean | null
+          upon_schedule_changes?: boolean | null
+        }
+        Update: {
+          all_project_tasks_weekly?: boolean | null
+          created_at?: string | null
+          id?: string
+          person_id?: string
+          project_id?: number
+          project_schedule_lookahead_weekly?: boolean | null
+          resource_tasks_assigned_to_id?: string | null
+          updated_at?: string | null
+          upon_schedule_change_requests?: boolean | null
+          upon_schedule_changes?: boolean | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "user_schedule_notifications_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_schedule_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_activity_view"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "user_schedule_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_schedule_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard_no_summary"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_schedule_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_issue_summary"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "user_schedule_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_with_manager"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_schedule_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_schedule_notifications_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "submittal_project_dashboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "user_schedule_notifications_resource_tasks_assigned_to_id_fkey"
+            columns: ["resource_tasks_assigned_to_id"]
+            isOneToOne: false
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       users: {
         Row: {
@@ -14547,6 +15112,10 @@ export type Database = {
           title: string
         }[]
       }
+      get_distribution_group_member_count: {
+        Args: { p_group_id: string }
+        Returns: number
+      }
       get_document_chunks: {
         Args: { doc_id: string }
         Returns: {
@@ -14700,6 +15269,10 @@ export type Database = {
           title: string
         }[]
       }
+      get_project_company_user_count: {
+        Args: { p_company_id: string; p_project_id: number }
+        Returns: number
+      }
       get_project_documents_page: {
         Args: {
           in_cursor_date: string
@@ -14738,6 +15311,21 @@ export type Database = {
           phase: string
           stakeholders: string[]
           team_members: string[]
+        }[]
+      }
+      get_project_team: {
+        Args: { p_project_id: number }
+        Returns: {
+          company_name: string
+          email: string
+          first_name: string
+          full_name: string
+          id: string
+          last_name: string
+          person_id: string
+          phone_mobile: string
+          phone_office: string
+          role: string
         }[]
       }
       get_projects_needing_summary_update: {

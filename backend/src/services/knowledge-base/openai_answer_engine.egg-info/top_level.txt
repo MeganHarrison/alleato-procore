@@ -1,0 +1,16 @@
+app
+cli
+configs
+data
+docker
+docs
+evals
+extensions
+ingestion
+models
+prompts
+retrieval
+stores
+telemetry
+templates
+tools

@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
+import { Text } from "@/components/ui/text"
 import {
   Sheet,
   SheetClose,
@@ -49,13 +50,13 @@ export function CompanyDetailsSheet({ company, trigger }: CompanyDetailsSheetPro
                 {company.website && (
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Website:</span>
-                    <a 
-                      href={company.website} 
-                      target="_blank" 
+                    <a
+                      href={company.website}
+                      target="_blank"
                       rel="noopener noreferrer"
-                      className="text-blue-500 hover:underline"
+                      className="text-primary hover:underline"
                     >
-                      {company.website}
+                      <Text as="span" size="sm">{company.website}</Text>
                     </a>
                   </div>
                 )}

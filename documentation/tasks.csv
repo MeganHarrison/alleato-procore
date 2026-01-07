@@ -1,0 +1,147 @@
+Phase,Task,Status,Estimated Hours,Dependencies,Notes
+Phase 1A,Implement UsersListView component,Not Started,3,Database schema,Core component showing all users
+Phase 1A,Implement AddUserModal component,Not Started,2,UsersListView,Modal for adding new users
+Phase 1A,Implement EditUserModal component,Not Started,3,UsersListView,Multi-tab modal for editing user details
+Phase 1A,Implement UserDetailView component,Not Started,2,Database schema,Read-only view of user information
+Phase 1A,Implement GET /users endpoint,Not Started,2,Database schema,List all users with pagination
+Phase 1A,Implement GET /users/{id} endpoint,Not Started,1,Database schema,Get specific user details
+Phase 1A,Implement POST /users endpoint,Not Started,2,Database schema,Create new user
+Phase 1A,Implement PATCH /users/{id} endpoint,Not Started,2,Database schema,Update user information
+Phase 1A,Implement DELETE /users/{id} endpoint,Not Started,1,Database schema,Remove user from project
+Phase 1A,Create project_users database table,Not Started,1,,Core table for users
+Phase 1A,Create user_project_roles database table,Not Started,1,project_users table,Join table for roles
+Phase 1A,Implement error handling (400 403 404 500),Not Started,2,All API endpoints,Consistent error responses
+Phase 1A,Write unit tests for user API,Not Started,4,All API endpoints,Target >80% coverage
+Phase 1A,Write unit tests for UsersListView component,Not Started,3,UsersListView,Component testing
+Phase 1A,Write E2E tests for user CRUD,Not Started,3,All components and APIs,Full workflow testing
+Phase 1A,Document API endpoints,Not Started,2,All APIs,OpenAPI/Swagger documentation
+Phase 1B,Create companies database table,Not Started,1,,Core table for companies/vendors
+Phase 1B,Create user_permissions database table,Not Started,1,,Permission grid storage
+Phase 1B,Create user_email_notifications database table,Not Started,1,,Email notification preferences
+Phase 1B,Create user_schedule_notifications database table,Not Started,1,,Schedule notification preferences
+Phase 1B,Create distribution_groups database table,Not Started,1,,Distribution groups storage
+Phase 1B,Create distribution_group_members database table,Not Started,1,distribution_groups,Join table for members
+Phase 1B,Implement CompaniesListView component,Not Started,3,companies table,List of companies with filtering
+Phase 1B,Implement CompanyDetailView component,Not Started,3,companies table,Company detail view with tabs
+Phase 1B,Implement AddCompanyModal component,Not Started,2,CompaniesListView,Modal for creating company
+Phase 1B,Implement EditCompanyModal component,Not Started,2,CompanyDetailView,Modal for editing company
+Phase 1B,Implement UsersListView component (per company),Not Started,3,project_users table,Users within a company
+Phase 1B,Implement EditUserModal with permissions,Not Started,4,user_permissions table,Advanced edit form with permission grid
+Phase 1B,Implement UserPermissionsGrid component,Not Started,3,user_permissions table,Permission grid UI (15 core modules)
+Phase 1B,Implement DistributionGroupsListView component,Not Started,2,distribution_groups table,List distribution groups
+Phase 1B,Implement AddDistributionGroupModal component,Not Started,2,DistributionGroupsListView,Modal for creating group
+Phase 1B,Implement EditDistributionGroupModal component,Not Started,3,distribution_groups table,Modal for editing group and members
+Phase 1B,Implement GET /companies endpoint,Not Started,2,companies table,List companies with pagination
+Phase 1B,Implement GET /companies/{id} endpoint,Not Started,1,companies table,Get company details
+Phase 1B,Implement POST /companies endpoint,Not Started,2,companies table,Create new company
+Phase 1B,Implement PATCH /companies/{id} endpoint,Not Started,2,companies table,Update company
+Phase 1B,Implement GET /companies/{id}/users endpoint,Not Started,2,project_users table,List company users
+Phase 1B,Implement POST /companies/{id}/users endpoint,Not Started,2,project_users table,Add user to company
+Phase 1B,Implement PATCH /users/{id} endpoint,Not Started,2,project_users table,Update user info
+Phase 1B,Implement DELETE /companies/{id}/users/{id} endpoint,Not Started,1,project_users table,Remove user from company
+Phase 1B,Implement GET /users/{id}/permissions endpoint,Not Started,1,user_permissions table,Get user permissions
+Phase 1B,Implement PATCH /users/{id}/permissions endpoint,Not Started,2,user_permissions table,Update user permissions
+Phase 1B,Implement GET /users/{id}/email-notifications endpoint,Not Started,1,user_email_notifications table,Get email prefs
+Phase 1B,Implement PATCH /users/{id}/email-notifications endpoint,Not Started,2,user_email_notifications table,Update email prefs
+Phase 1B,Implement GET /users/{id}/schedule-notifications endpoint,Not Started,1,user_schedule_notifications table,Get schedule prefs
+Phase 1B,Implement PATCH /users/{id}/schedule-notifications endpoint,Not Started,2,user_schedule_notifications table,Update schedule prefs
+Phase 1B,Implement GET /distribution-groups endpoint,Not Started,2,distribution_groups table,List groups with pagination
+Phase 1B,Implement POST /distribution-groups endpoint,Not Started,2,distribution_groups table,Create distribution group
+Phase 1B,Implement GET /distribution-groups/{id} endpoint,Not Started,1,distribution_groups table,Get group details
+Phase 1B,Implement PATCH /distribution-groups/{id} endpoint,Not Started,2,distribution_groups table,Update group
+Phase 1B,Implement PATCH /distribution-groups/{id}/members endpoint,Not Started,2,distribution_group_members table,Add/remove members
+Phase 1B,Implement DELETE /distribution-groups/{id} endpoint,Not Started,1,distribution_groups table,Delete distribution group
+Phase 1B,Implement error handling for all endpoints,Not Started,3,All Phase 1B APIs,Comprehensive error responses
+Phase 1B,Write unit tests for all API endpoints,Not Started,6,All Phase 1B APIs,>80% coverage target
+Phase 1B,Write unit tests for company components,Not Started,4,All Phase 1B components,Component testing
+Phase 1B,Write integration tests for workflows,Not Started,4,All Phase 1B code,Workflow integration testing
+Phase 1B,Write E2E tests for user journeys,Not Started,4,All Phase 1B code,Complete user workflows
+Phase 1B,Update database schema documentation,Not Started,2,All tables,Schema documentation
+Phase 1B,Create completion report,Not Started,2,All implementations,Final status report
+Phase 1C,Create company_licenses database table,Not Started,1,,Licenses storage
+Phase 1C,Create company_certifications database table,Not Started,1,,Certifications storage
+Phase 1C,Create company_insurance_documents database table,Not Started,1,,Insurance docs storage
+Phase 1C,Create change_history database table,Not Started,1,,Change tracking
+Phase 1C,Create audit_trail database table,Not Started,1,,Audit log
+Phase 1C,Create database trigger for companies INSERT,Not Started,1,change_history table,Auto-log company creation
+Phase 1C,Create database trigger for companies UPDATE,Not Started,1,change_history table,Auto-log company updates
+Phase 1C,Create database trigger for project_users UPDATE,Not Started,1,change_history table,Auto-log user updates
+Phase 1C,Implement CompanyBidderInfoView component,Not Started,3,Bidder tables,Bidder info display
+Phase 1C,Implement LicenseManagementModal component,Not Started,2,company_licenses table,License CRUD modal
+Phase 1C,Implement CertificationManagementModal component,Not Started,2,company_certifications table,Certification CRUD modal
+Phase 1C,Implement InsuranceDocumentModal component,Not Started,2,company_insurance_documents table,Insurance document modal
+Phase 1C,Implement ChangeHistoryView component,Not Started,3,change_history table,Timeline view of changes
+Phase 1C,Implement ChangeHistoryDetailModal component,Not Started,2,change_history table,Detailed change view
+Phase 1C,Implement AuditTrailView component,Not Started,3,audit_trail table,Comprehensive audit log
+Phase 1C,Implement CompanyHistoryComparisonView component,Not Started,3,change_history table,Before/after company snapshots
+Phase 1C,Implement UserHistoryComparisonView component,Not Started,3,change_history table,Before/after user snapshots
+Phase 1C,Implement GET /companies/{id}/bidder-info endpoint,Not Started,2,Bidder tables,Get bidder information
+Phase 1C,Implement POST /companies/{id}/bidder-info/licenses endpoint,Not Started,2,company_licenses table,Add license
+Phase 1C,Implement PATCH /companies/{id}/bidder-info/licenses/{id} endpoint,Not Started,2,company_licenses table,Update license
+Phase 1C,Implement DELETE /companies/{id}/bidder-info/licenses/{id} endpoint,Not Started,1,company_licenses table,Delete license
+Phase 1C,Implement POST /companies/{id}/bidder-info/certifications endpoint,Not Started,2,company_certifications table,Add certification
+Phase 1C,Implement PATCH /companies/{id}/bidder-info/certifications/{id} endpoint,Not Started,2,company_certifications table,Update certification
+Phase 1C,Implement DELETE /companies/{id}/bidder-info/certifications/{id} endpoint,Not Started,1,company_certifications table,Delete certification
+Phase 1C,Implement POST /companies/{id}/bidder-info/insurance endpoint,Not Started,2,company_insurance_documents table,Add insurance doc
+Phase 1C,Implement DELETE /companies/{id}/bidder-info/insurance/{id} endpoint,Not Started,1,company_insurance_documents table,Delete insurance doc
+Phase 1C,Implement GET /companies/{id}/change-history endpoint,Not Started,2,change_history table,Company change history
+Phase 1C,Implement GET /users/{id}/change-history endpoint,Not Started,2,change_history table,User change history
+Phase 1C,Implement GET /change-history endpoint (project-wide),Not Started,2,change_history table,All project changes
+Phase 1C,Implement GET /audit-trail endpoint,Not Started,3,audit_trail table,Project audit trail
+Phase 1C,Implement GET /companies/{id}/history-comparison endpoint,Not Started,2,change_history table,Company before/after comparison
+Phase 1C,Implement GET /users/{id}/history-comparison endpoint,Not Started,2,change_history table,User before/after comparison
+Phase 1C,Implement error handling for all new endpoints,Not Started,2,All Phase 1C APIs,Error responses
+Phase 1C,Write unit tests for bidder info CRUD,Not Started,4,Bidder endpoints,API testing
+Phase 1C,Write unit tests for change history retrieval,Not Started,3,Change history endpoints,API testing
+Phase 1C,Write integration tests for change tracking,Not Started,4,All Phase 1C code,Workflow testing
+Phase 1C,Write E2E tests for bidder info management,Not Started,3,All Phase 1C code,User journey testing
+Phase 1C,Write E2E tests for history viewing,Not Started,3,All Phase 1C code,User journey testing
+Phase 1C,Update database schema documentation,Not Started,2,All new tables,Schema docs
+Phase 1C,Create completion report,Not Started,2,All implementations,Final status report
+Phase 2,Implement additional permission modules (10+),Not Started,6,Phase 1B permissions,Extend permission grid
+Phase 2,Implement permission templates management,Not Started,4,,Create/edit permission templates
+Phase 2,Implement bulk import users from CSV,Not Started,5,,CSV upload functionality
+Phase 2,Implement bulk import companies from CSV,Not Started,5,,CSV upload functionality
+Phase 2,Implement export directory to PDF,Not Started,4,,PDF export functionality
+Phase 2,Implement export directory to CSV,Not Started,3,,CSV export functionality
+Phase 2,Implement company logo upload and display,Not Started,3,Phase 1B,File upload handling
+Phase 2,Implement advanced permission templates UI,Not Started,4,,Template management interface
+Phase 2,Implement notification digest scheduling,Not Started,5,,Email digest feature
+Phase 2,Implement user deactivation workflow,Not Started,3,,Deactivation process
+Phase 2,Implement user reactivation workflow,Not Started,2,,Reactivation process
+Phase 2,Implement External Contacts tab,Not Started,4,,Reference contacts system
+Phase 2,Implement Contacts CRUD (reference contacts),Not Started,4,External Contacts,Contact management
+Phase 2,Implement contact import from ERP systems,Not Started,6,,ERP integration
+Phase 2,Implement contact deduplication tool,Not Started,4,,Duplicate detection
+Phase 2,Implement automated contact validation,Not Started,3,,Validation rules
+Phase 2,Implement permission conflict detection,Not Started,3,,Permission validation
+Phase 2,Implement permission recommendation engine,Not Started,5,,AI-powered suggestions
+Phase 2,Implement advanced search and filtering,Not Started,4,,Full-text search
+Phase 2,Implement saved search filters,Not Started,3,,Filter management
+Phase 2,Implement bulk permission updates,Not Started,4,,Batch operations
+Phase 2,Implement bulk notification preference updates,Not Started,3,,Batch operations
+Phase 2,Implement user activity dashboard,Not Started,4,,Analytics dashboard
+Phase 2,Implement company metrics dashboard,Not Started,4,,Analytics dashboard
+Phase 2,Implement compliance reporting,Not Started,5,,Compliance reports
+Phase 2,Implement license/certification expiration alerts,Not Started,4,,Alert system
+Phase 2,Implement insurance coverage validation,Not Started,3,,Validation engine
+Phase 2,Write comprehensive documentation,Not Started,6,,API docs and guides
+Phase 2,Create training materials,Not Started,4,,User guides
+Phase 2,Optimize performance for large datasets,Not Started,8,,Performance tuning
+Phase 3,Implement real-time sync with ERP systems,Not Started,12,,Live data sync
+Phase 3,Implement webhook support,Not Started,8,,Webhook API
+Phase 3,Implement SAML/SSO integration,Not Started,10,,Authentication integration
+Phase 3,Implement mobile app directory,Not Started,15,,Mobile app
+Phase 3,Implement advanced analytics and reporting,Not Started,12,,Analytics platform
+Phase 3,Implement automated compliance checking,Not Started,8,,Compliance automation
+Phase 3,Implement role-based access control (RBAC),Not Started,10,,Advanced permissions
+Phase 3,Implement multi-language support,Not Started,8,,i18n implementation
+Phase 3,Implement data anonymization tools,Not Started,6,,Privacy tools
+Phase 3,Implement directory versioning system,Not Started,8,,Version control
+Phase 3,Implement automated data cleanup,Not Started,6,,Data maintenance
+Phase 3,Implement custom field management,Not Started,10,,Dynamic fields
+Phase 3,Implement workflow automation,Not Started,15,,Automation engine
+Phase 3,Implement advanced reporting builder,Not Started,12,,Report generation
+Phase 3,Implement data integration API,Not Started,10,,Integration layer
+Phase 3,Implement automated backup and recovery,Not Started,6,,Backup system
+Phase 3,Implement disaster recovery procedures,Not Started,4,,DR documentation

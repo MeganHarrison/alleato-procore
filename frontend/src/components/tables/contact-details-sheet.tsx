@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Separator } from "@/components/ui/separator"
 import { Textarea } from "@/components/ui/textarea"
+import { Text } from "@/components/ui/text"
 import {
   Sheet,
   SheetClose,
@@ -59,22 +60,22 @@ export function ContactDetailsSheet({ contact, trigger }: ContactDetailsSheetPro
                 {contact.email && (
                   <div className="flex items-center gap-2">
                     <Mail className="size-4 text-muted-foreground" />
-                    <a 
+                    <a
                       href={`mailto:${contact.email}`}
-                      className="text-blue-500 hover:underline"
+                      className="text-primary hover:underline"
                     >
-                      {contact.email}
+                      <Text as="span" size="sm">{contact.email}</Text>
                     </a>
                   </div>
                 )}
                 {contact.phone && (
                   <div className="flex items-center gap-2">
                     <Phone className="size-4 text-muted-foreground" />
-                    <a 
+                    <a
                       href={`tel:${contact.phone}`}
-                      className="text-blue-500 hover:underline"
+                      className="text-primary hover:underline"
                     >
-                      {contact.phone}
+                      <Text as="span" size="sm">{contact.phone}</Text>
                     </a>
                   </div>
                 )}

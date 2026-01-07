@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server'
-import { MeetingsDataTable } from '@/components/tables/meetings-data-table'
+import { MeetingsDataTable } from '@/app/(tables)/meetings/components/meetings-data-table'
 
 export default async function MeetingsPage() {
   const supabase = await createClient()
@@ -23,10 +23,10 @@ export default async function MeetingsPage() {
   }
 
   return (
-    <div className="container mx-auto py-10">
+    <div>
       <div className="space-y-4">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Meetings</h1>
+          <h1>Meetings</h1>
           <p className="text-muted-foreground">
             View and manage all your meetings
           </p>

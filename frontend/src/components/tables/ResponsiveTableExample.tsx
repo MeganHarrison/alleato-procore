@@ -94,7 +94,7 @@ export const FinancialTableExample = `
     <div className="space-y-2">
       <div className="flex justify-between items-start">
         <div>
-          <div className="font-medium text-blue-600">{item.number}</div>
+          <div className="font-medium text-primary">{item.number}</div>
           <div className="text-sm">{item.title}</div>
         </div>
         <StatusBadge status={item.status} />

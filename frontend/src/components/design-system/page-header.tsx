@@ -1,4 +1,8 @@
+// This component is deprecated - use page-header-unified.tsx instead
+// Keeping for backwards compatibility during migration
+
 import React from 'react'
+import { PageHeader as UnifiedPageHeader } from '../layout/page-header-unified'
 
 interface PageHeaderProps {
   project?: string
@@ -9,41 +13,21 @@ interface PageHeaderProps {
 }
 
 /**
+ * @deprecated Use PageHeader from layout/page-header-unified.tsx with variant="executive"
+ * This is a compatibility wrapper that will be removed in the future
+ * 
  * Executive-level page header component
  * Follows the architectural design system with serif typography and refined spacing
  */
 export function PageHeader({ project, client, title, description, actions }: PageHeaderProps) {
   return (
-    <header className="pb-4 md:pb-6">
-      {/* Client and Project Pre-heading */}
-      {(project || client) && (
-        <div className="mb-3 md:mb-4">
-          <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-neutral-400">
-            {project && client ? `${client} • ${project}` : project || client}
-          </p>
-        </div>
-      )}
-
-      {/* Page Title - Editorial Typography */}
-      <div>
-        <div className="flex items-start justify-between gap-6">
-          <div className="flex-1">
-            <h1 className="text-4xl md:text-4xl lg:text-5xl font-sans font-light tracking-tight text-neutral-900 leading-[1.05] mb-6">
-              {title}
-            </h1>
-            {description && (
-              <p className="text-sm md:text-base text-neutral-600 leading-[2] max-w-4xl">
-                {description}
-              </p>
-            )}
-          </div>
-          {actions && (
-            <div className="flex-shrink-0">
-              {actions}
-            </div>
-          )}
-        </div>
-      </div>
-    </header>
+    <UnifiedPageHeader
+      variant="executive"
+      title={title}
+      description={description}
+      actions={actions}
+      preHeading={{ project, client }}
+      showProjectName={false}
+    />
   )
 }

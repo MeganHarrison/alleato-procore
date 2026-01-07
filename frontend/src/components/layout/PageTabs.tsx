@@ -25,13 +25,13 @@ export function PageTabs({ tabs, className }: PageTabsProps) {
   const activeTab = tabs.find(tab => tab.isActive ?? pathname === tab.href)?.href || tabs[0]?.href
 
   return (
-    <div className={cn("border-b", className)}>
+    <div className={cn(className)}>
       <div className="px-4 sm:px-6 lg:px-12">
         <nav className="flex py-3" aria-label="Tabs">
           <div className="flex gap-1">
             <AnimatedBackground
               defaultValue={activeTab}
-              className="rounded-md bg-primary"
+              className="rounded-sm bg-primary"
               transition={{
                 ease: 'easeInOut',
                 duration: 0.2,
@@ -52,10 +52,10 @@ export function PageTabs({ tabs, className }: PageTabsProps) {
                     onClick={() => router.push(tab.href)}
                     aria-label={tab.label}
                     className={cn(
-                      'inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium transition-colors rounded-md',
+                      'inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium transition-colors rounded-sm',
                       isActive
                         ? 'text-white'
-                        : 'text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white'
+                        : 'text-gray-500 dark:text-gray-200 hover:text-brand dark:hover:text-white'
                     )}
                     aria-current={isActive ? 'page' : undefined}
                   >

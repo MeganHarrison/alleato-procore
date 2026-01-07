@@ -80,7 +80,7 @@ export function DataTableBulkActions<TData>({
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 onClick={() => onDelete(selectedRows)}
-                className="text-red-600"
+                className="text-destructive"
               >
                 <Trash2 className="mr-2 h-4 w-4" />
                 Delete

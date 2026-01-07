@@ -10,9 +10,7 @@
     "grep": {},
     "grepInvert": null,
     "maxFailures": 0,
-    "metadata": {
-      "actualWorkers": 1
-    },
+    "metadata": {},
     "preserveOutput": "always",
     "reporter": [
       [
@@ -43,9 +41,7 @@
         "outputDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "setup",
         "name": "setup",
         "testDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests",
@@ -59,9 +55,7 @@
         "outputDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "chromium",
         "name": "chromium",
         "testDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests",
@@ -75,9 +69,7 @@
         "outputDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
-        "metadata": {
-          "actualWorkers": 1
-        },
+        "metadata": {},
         "id": "debug",
         "name": "debug",
         "testDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests",
@@ -100,107 +92,19 @@
       "reuseExistingServer": true
     }
   },
-  "suites": [
+  "suites": [],
+  "errors": [
     {
-      "title": "auth.setup.ts",
-      "file": "auth.setup.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [
-        {
-          "title": "authenticate",
-          "ok": false,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "setup",
-              "projectName": "setup",
-              "results": [
-                {
-                  "workerIndex": 0,
-                  "parallelIndex": 0,
-                  "status": "timedOut",
-                  "duration": 72518,
-                  "error": {
-                    "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
-                    "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
-                  },
-                  "errors": [
-                    {
-                      "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
-                    },
-                    {
-                      "location": {
-                        "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts",
-                        "column": 14,
-                        "line": 8
-                      },
-                      "message": "Error: page.goto: net::ERR_ABORTED; maybe frame was detached?\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/dev-login?email=test@example.com&password=testpassword123\", waiting until \"load\"\u001b[22m\n\n\n   6 | setup('authenticate', async ({ page }) => {\n   7 |   // Use dev-login for testing\n>  8 |   await page.goto('/dev-login?email=test@example.com&password=testpassword123');\n     |              ^\n   9 |\n  10 |   // Wait for redirect to home page (indicates successful login)\n  11 |   await page.waitForURL('/', { timeout: 10000 });\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts:8:14"
-                    }
-                  ],
-                  "stdout": [],
-                  "stderr": [],
-                  "retry": 0,
-                  "startTime": "2026-01-05T20:18:04.698Z",
-                  "annotations": [],
-                  "attachments": [
-                    {
-                      "name": "video",
-                      "contentType": "video/webm",
-                      "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/auth.setup.ts-authenticate-setup/video.webm"
-                    }
-                  ]
-                }
-              ],
-              "status": "unexpected"
-            }
-          ],
-          "id": "17e3fe6f4d9d8bd79c6b-60f085b113a677673906",
-          "file": "auth.setup.ts",
-          "line": 6,
-          "column": 6
-        }
-      ]
-    },
-    {
-      "title": "e2e/scrollbar-check-no-auth.spec.ts",
-      "file": "e2e/scrollbar-check-no-auth.spec.ts",
-      "column": 0,
-      "line": 0,
-      "specs": [
-        {
-          "title": "check scrollbar HTML classes",
-          "ok": true,
-          "tags": [],
-          "tests": [
-            {
-              "timeout": 60000,
-              "annotations": [],
-              "expectedStatus": "passed",
-              "projectId": "chromium",
-              "projectName": "chromium",
-              "results": [],
-              "status": "skipped"
-            }
-          ],
-          "id": "7a1feac4779c80187fa1-62fec2edb10947748b58",
-          "file": "e2e/scrollbar-check-no-auth.spec.ts",
-          "line": 5,
-          "column": 5
-        }
-      ]
+      "message": "Error: No tests found.\nMake sure that arguments are regular expressions matching test files.\nYou may need to escape symbols like \"$\" or \"*\" and quote the arguments.",
+      "stack": "Error: No tests found.\nMake sure that arguments are regular expressions matching test files.\nYou may need to escape symbols like \"$\" or \"*\" and quote the arguments."
     }
   ],
-  "errors": [],
   "stats": {
-    "startTime": "2026-01-05T20:18:03.962Z",
-    "duration": 73791.247,
+    "startTime": "2026-01-06T17:40:41.359Z",
+    "duration": 18.089999999999975,
     "expected": 0,
-    "skipped": 1,
-    "unexpected": 1,
+    "skipped": 0,
+    "unexpected": 0,
     "flaky": 0
   }
 }

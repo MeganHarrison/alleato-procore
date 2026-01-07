@@ -24,7 +24,7 @@ export function ProjectTeam({ team, projectId }: ProjectTeamProps) {
       <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
         <h2 className="text-base font-semibold text-gray-900">Project Team</h2>
         <Link
-          href={`/projects/${projectId}/directory/configure`}
+          href={`/${projectId}/directory/settings`}
           className="text-sm text-gray-500 hover:text-orange-600 flex items-center gap-1"
         >
           Edit <Edit2 className="w-3 h-3" />

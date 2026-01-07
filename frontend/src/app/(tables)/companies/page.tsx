@@ -28,7 +28,6 @@ interface Company {
 export default function CompanyDirectoryPage() {
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [editingCompany, setEditingCompany] = React.useState<Company | null>(null);
-  const [refreshKey, setRefreshKey] = React.useState(0);
 
   const {
     data,
@@ -39,6 +38,7 @@ export default function CompanyDirectoryPage() {
     error,
     hasMore,
     fetchNextPage,
+    refetch,
   } = useInfiniteQuery<Company>({
     tableName: 'companies',
     columns: '*',
@@ -136,24 +136,19 @@ export default function CompanyDirectoryPage() {
 
   if (error) {
     return (
-      <div className="min-h-screen bg-neutral-50">
-        <div className="max-w-[1800px] mx-auto px-6 md:px-10 lg:px-12 py-12">
-          <div className="text-center">
-            <h1 className="text-2xl font-bold mb-4">Error Loading Companies</h1>
-            <p className="text-red-600">{error.message}</p>
-          </div>
-        </div>
+      <div className="text-center">
+        <h1 className="text-2xl font-bold mb-4">Error Loading Companies</h1>
+        <p className="text-red-600">{error.message}</p>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-neutral-50">
-      <div className="max-w-[1800px] mx-auto px-6 md:px-10 lg:px-12 py-12 space-y-6">
+    <div className="space-y-6">
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-4xl md:text-5xl font-sans font-light tracking-tight text-neutral-900">Company Directory</h1>
+            <h1>Company Directory</h1>
             <p className="text-sm text-neutral-500 mt-3">Manage your companies and contractors</p>
           </div>
           <Button
@@ -173,7 +168,7 @@ export default function CompanyDirectoryPage() {
       )}
 
       {/* Table */}
-      <div className="bg-white rounded-lg shadow">
+      <div>
         {isLoading ? (
           <div className="p-8 space-y-4">
             {[...Array(5)].map((_, i) => (
@@ -205,6 +200,8 @@ export default function CompanyDirectoryPage() {
             columns={columns}
             onUpdate={updateCompany}
             onDelete={deleteCompany}
+            onUpdateSuccess={refetch}
+            onDeleteSuccess={refetch}
             className="border-0"
           />
         )}
@@ -231,7 +228,6 @@ export default function CompanyDirectoryPage() {
         company={editingCompany}
         onSuccess={handleDialogSuccess}
       />
-      </div>
     </div>
   );
 }

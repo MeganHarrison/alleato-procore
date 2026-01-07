@@ -19,6 +19,8 @@ import {
   IconPhoto,
   IconReportMoney,
   IconUsers,
+  IconWorldWww,
+  IconBook,
 } from "@tabler/icons-react"
 
 import { NavDocuments } from "@/components/nav/nav-documents"
@@ -128,9 +130,19 @@ const data = {
   // Secondary navigation - admin and settings
   navSecondary: [
     {
+      title: "Documentation",
+      url: "/docs",
+      icon: IconBook,
+    },
+    {
       title: "Executive",
       url: "/executive",
       icon: IconChartLine,
+    },
+    {
+      title: "Crawled Pages",
+      url: "/crawled-pages",
+      icon: IconWorldWww,
     },
   ],
 }

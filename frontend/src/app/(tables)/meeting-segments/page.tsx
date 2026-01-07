@@ -13,17 +13,25 @@ const config: GenericTableConfig = {
     tableName: 'meeting_segments',
     editableFields: ['title', 'summary', 'segment_index', 'start_time', 'end_time', 'topics', 'participants', 'key_points'],
   },
+  // New features
+  enableViewSwitcher: true,
+  enableRowSelection: true,
+  enableSorting: true,
+  defaultSortColumn: 'created_at',
+  defaultSortDirection: 'desc',
   columns: [
     {
       id: 'title',
       label: 'Title',
       defaultVisible: true,
       type: 'text',
+      isPrimary: true,
     },
     {
       id: 'summary',
       label: 'Summary',
       defaultVisible: true,
+      isSecondary: true,
       renderConfig: {
         type: 'truncate',
         maxLength: 100,
@@ -51,6 +59,7 @@ const config: GenericTableConfig = {
       id: 'decisions',
       label: 'Decisions',
       defaultVisible: true,
+      sortable: false,
       renderConfig: {
         type: 'array',
         itemType: 'text',
@@ -61,6 +70,7 @@ const config: GenericTableConfig = {
       id: 'tasks',
       label: 'Tasks',
       defaultVisible: true,
+      sortable: false,
       renderConfig: {
         type: 'array',
         itemType: 'text',
@@ -71,6 +81,7 @@ const config: GenericTableConfig = {
       id: 'risks',
       label: 'Risks',
       defaultVisible: true,
+      sortable: false,
       renderConfig: {
         type: 'array',
         itemType: 'text',
@@ -104,21 +115,11 @@ export default async function MeetingSegmentsPage() {
   if (error) {
     console.error('Error fetching meeting segments:', error)
     return (
-      <div className="min-h-screen bg-neutral-50">
-        <div className="max-w-[1800px] mx-auto px-6 md:px-10 lg:px-12 py-12">
-          <div className="text-center text-red-600">
-            Error loading meeting segments. Please try again later.
-          </div>
-        </div>
+      <div className="text-center text-red-600">
+        Error loading meeting segments. Please try again later.
       </div>
     )
   }
 
-  return (
-    <div className="min-h-screen bg-neutral-50">
-      <div className="max-w-[1800px] mx-auto px-6 md:px-10 lg:px-12 py-12">
-        <GenericDataTable data={meetingSegments || []} config={config} />
-      </div>
-    </div>
-  )
+  return <GenericDataTable data={meetingSegments || []} config={config} />
 }

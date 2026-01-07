@@ -1,5 +1,10 @@
+// This component is deprecated - use empty-state from ui folder instead
+// Keeping for backwards compatibility during migration
+
 import React from 'react'
 import { LucideIcon } from 'lucide-react'
+import { EmptyState as UnifiedEmptyState } from '@/components/ui/empty-state'
+import { Button } from '@/components/ui/button'
 
 interface EmptyStateProps {
   icon: LucideIcon
@@ -12,28 +17,31 @@ interface EmptyStateProps {
 }
 
 /**
+ * @deprecated Use EmptyState from @/components/ui/empty-state with variant="executive"
+ * This is a compatibility wrapper that will be removed in the future
+ * 
  * Empty state component for when no data is available
  * Maintains the executive design system aesthetic
  */
 export function EmptyState({ icon: Icon, title, description, action }: EmptyStateProps) {
   return (
-    <div className="border border-neutral-200 bg-white p-12 md:p-16 text-center">
-      <Icon className="h-12 w-12 md:h-16 md:w-16 text-neutral-300 mx-auto mb-6" strokeWidth={1.5} />
-      <h3 className="text-xl md:text-2xl font-sans font-light text-neutral-900 tracking-tight mb-3">
-        {title}
-      </h3>
-      <p className="text-sm text-neutral-500 leading-relaxed max-w-md mx-auto mb-6">
-        {description}
-      </p>
-      {action && (
-        <button
-          type="button"
-          onClick={action.onClick}
-          className="inline-flex items-center gap-2 px-6 py-3 border border-neutral-300 bg-white hover:border-brand hover:bg-brand/5 transition-all duration-300 text-sm font-medium text-neutral-900"
-        >
-          {action.label}
-        </button>
-      )}
-    </div>
+    <UnifiedEmptyState
+      variant="executive"
+      size="lg"
+      icon={<Icon className="h-16 w-16" strokeWidth={1.5} />}
+      title={title}
+      description={description}
+      action={
+        action && (
+          <button
+            type="button"
+            onClick={action.onClick}
+            className="inline-flex items-center gap-2 px-6 py-3 border border-neutral-300 bg-white hover:border-brand hover:bg-brand/5 transition-all duration-300 text-sm font-medium text-neutral-900"
+          >
+            {action.label}
+          </button>
+        )
+      }
+    />
   )
 }

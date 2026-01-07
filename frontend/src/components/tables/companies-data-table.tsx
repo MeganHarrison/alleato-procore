@@ -50,6 +50,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Text } from "@/components/ui/text"
 import type { Database } from "@/types/database.types"
 import { CompanyDetailsSheet } from "./company-details-sheet"
 
@@ -114,18 +115,18 @@ const columns: ColumnDef<Company>[] = [
     header: "Website",
     cell: ({ row }) => {
       const website = row.original.website
-      
+
       return website ? (
-        <a 
+        <a
           href={website}
           target="_blank"
           rel="noopener noreferrer"
-          className="text-blue-500 hover:underline"
+          className="text-primary hover:underline"
         >
-          {website}
+          <Text as="span" size="sm">{website}</Text>
         </a>
       ) : (
-        <span className="text-muted-foreground">N/A</span>
+        <Text as="span" tone="muted" size="sm">N/A</Text>
       )
     },
   },
@@ -134,15 +135,15 @@ const columns: ColumnDef<Company>[] = [
     header: "Location",
     cell: ({ row }) => {
       const company = row.original
-      
+
       if (!company.city && !company.state) {
-        return <span className="text-muted-foreground">N/A</span>
+        return <Text as="span" tone="muted" size="sm">N/A</Text>
       }
-      
+
       return (
-        <div>
+        <Text as="div" size="sm">
           {company.city}{company.city && company.state && ", "}{company.state}
-        </div>
+        </Text>
       )
     },
   },
@@ -151,8 +152,12 @@ const columns: ColumnDef<Company>[] = [
     header: "Title",
     cell: ({ row }) => {
       const title = row.original.title
-      
-      return title || <span className="text-muted-foreground">N/A</span>
+
+      return title ? (
+        <Text as="span" size="sm">{title}</Text>
+      ) : (
+        <Text as="span" tone="muted" size="sm">N/A</Text>
+      )
     },
   },
   {
@@ -160,7 +165,7 @@ const columns: ColumnDef<Company>[] = [
     header: "Created",
     cell: ({ row }) => {
       const date = row.original.created_at
-      return new Date(date).toLocaleDateString()
+      return <Text as="span" size="sm" tone="muted">{new Date(date).toLocaleDateString()}</Text>
     },
   },
   {

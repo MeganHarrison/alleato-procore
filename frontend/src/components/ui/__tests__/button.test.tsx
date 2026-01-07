@@ -1,6 +1,10 @@
-import React from 'react'
-import { render, screen, fireEvent } from '@testing-library/react'
-import { Button } from '../button'
+/**
+ * @jest-environment jsdom
+ */
+import React from 'react';
+import { render, screen, fireEvent } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { Button } from '../button';
 
 describe('Button', () => {
   it('renders correctly with default props', () => {
@@ -35,7 +39,8 @@ describe('Button', () => {
     expect(screen.getByRole('button')).toHaveClass('h-10')
 
     rerender(<Button size="icon">Icon</Button>)
-    expect(screen.getByRole('button')).toHaveClass('h-9', 'w-9')
+    // Icon size uses size-9 (Tailwind shorthand for h-9 w-9)
+    expect(screen.getByRole('button')).toHaveClass('size-9')
   })
 
   it('handles click events', () => {

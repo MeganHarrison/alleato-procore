@@ -50,6 +50,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Text } from "@/components/ui/text"
 import type { Database } from "@/types/database.types"
 import { ContactDetailsSheet } from "./contact-details-sheet"
 
@@ -126,13 +127,13 @@ const columns: ColumnDef<ContactWithCompany>[] = [
     header: "Email",
     cell: ({ row }) => {
       const email = row.original.email
-      
+
       return email ? (
-        <a href={`mailto:${email}`} className="text-blue-500 hover:underline">
-          {email}
+        <a href={`mailto:${email}`} className="text-primary hover:underline">
+          <Text as="span" size="sm">{email}</Text>
         </a>
       ) : (
-        <span className="text-muted-foreground">N/A</span>
+        <Text as="span" tone="muted" size="sm">N/A</Text>
       )
     },
   },
@@ -141,11 +142,11 @@ const columns: ColumnDef<ContactWithCompany>[] = [
     header: "Company",
     cell: ({ row }) => {
       const company = row.original.company
-      
+
       return company ? (
-        <div>{company.name}</div>
+        <Text as="div" size="sm">{company.name}</Text>
       ) : (
-        <span className="text-muted-foreground">No company</span>
+        <Text as="span" tone="muted" size="sm">No company</Text>
       )
     },
   },
@@ -154,13 +155,13 @@ const columns: ColumnDef<ContactWithCompany>[] = [
     header: "Phone",
     cell: ({ row }) => {
       const phone = row.original.phone
-      
+
       return phone ? (
-        <a href={`tel:${phone}`} className="text-blue-500 hover:underline">
-          {phone}
+        <a href={`tel:${phone}`} className="text-primary hover:underline">
+          <Text as="span" size="sm">{phone}</Text>
         </a>
       ) : (
-        <span className="text-muted-foreground">N/A</span>
+        <Text as="span" tone="muted" size="sm">N/A</Text>
       )
     },
   },
@@ -169,7 +170,7 @@ const columns: ColumnDef<ContactWithCompany>[] = [
     header: "Created",
     cell: ({ row }) => {
       const date = row.original.created_at
-      return new Date(date).toLocaleDateString()
+      return <Text as="span" size="sm" tone="muted">{new Date(date).toLocaleDateString()}</Text>
     },
   },
   {

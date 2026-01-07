@@ -27,7 +27,7 @@ export async function SimpleTablePage({ tableName, config }: SimpleTablePageProp
     return (
       <>
         <PageHeader title={config.title} description={config.description} />
-        <div className="text-center text-red-600 p-6">
+        <div className="text-center text-destructive p-6">
           Error loading data. Please try again later.
         </div>
       </>

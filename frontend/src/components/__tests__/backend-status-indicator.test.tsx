@@ -1,104 +1,122 @@
-import React from 'react'
-import { render, screen, waitFor } from '@testing-library/react'
-import { BackendStatusIndicator } from '../backend-status-indicator'
-import { mockApiResponses } from '@/test-utils/mocks'
+/**
+ * @jest-environment jsdom
+ */
+import React from 'react';
+import { render, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom';
+import { BackendStatusIndicator } from '../misc/backend-status-indicator';
 
 // Mock fetch
-global.fetch = jest.fn()
+global.fetch = jest.fn();
 
 describe('BackendStatusIndicator', () => {
   beforeEach(() => {
-    jest.clearAllMocks()
-  })
+    jest.clearAllMocks();
+  });
+
+  afterEach(() => {
+    jest.useRealTimers();
+  });
 
   it('shows loading state initially', () => {
-    (global.fetch as jest.Mock).mockImplementation(() => 
-      new Promise(() => {}) // Never resolves
-    )
-    
-    render(<BackendStatusIndicator />)
-    expect(screen.getByLabelText('Checking connection')).toBeInTheDocument()
-  })
+    (global.fetch as jest.Mock).mockImplementation(
+      () => new Promise(() => {}) // Never resolves
+    );
+
+    render(<BackendStatusIndicator />);
+    // There are two "Checking..." texts (one for Backend, one for OpenAI)
+    const checkingTexts = screen.getAllByText('Checking...');
+    expect(checkingTexts.length).toBeGreaterThan(0);
+  });
 
   it('shows connected state when backend is healthy', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
-      json: async () => mockApiResponses.health,
-    })
+      json: async () => ({
+        status: 'healthy',
+        backend: true,
+        openai_configured: true,
+        timestamp: new Date().toISOString(),
+      }),
+    });
 
-    render(<BackendStatusIndicator />)
-    
+    render(<BackendStatusIndicator />);
+
     await waitFor(() => {
-      expect(screen.getByText('Backend Connected')).toBeInTheDocument()
-    })
-    
-    expect(screen.getByRole('img', { name: 'Backend connected' })).toHaveClass('text-green-500')
-  })
+      expect(screen.getByText('Connected')).toBeInTheDocument();
+    });
+  });
 
-  it('shows disconnected state when backend is not responding', async () => {
-    (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'))
+  it('shows disconnected state when fetch fails', async () => {
+    (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
 
-    render(<BackendStatusIndicator />)
-    
+    render(<BackendStatusIndicator />);
+
     await waitFor(() => {
-      expect(screen.getByText('Backend Disconnected')).toBeInTheDocument()
-    })
-    
-    expect(screen.getByRole('img', { name: 'Backend disconnected' })).toHaveClass('text-destructive')
-  })
+      expect(screen.getByText('Disconnected')).toBeInTheDocument();
+    });
+  });
 
   it('shows OpenAI not configured when openai_configured is false', async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => ({
-        ...mockApiResponses.health,
-        backend: {
-          ...mockApiResponses.health.backend,
-          openai_configured: false,
-        },
+        status: 'healthy',
+        backend: true,
+        openai_configured: false,
+        timestamp: new Date().toISOString(),
       }),
-    })
+    });
 
-    render(<BackendStatusIndicator />)
-    
+    render(<BackendStatusIndicator />);
+
     await waitFor(() => {
-      expect(screen.getByText(/OpenAI API key not configured/)).toBeInTheDocument()
-    })
-  })
+      expect(screen.getByText('Not configured')).toBeInTheDocument();
+    });
+  });
 
-  it('retries connection check periodically', async () => {
-    jest.useFakeTimers()
-    
+  it('shows error message when backend returns error', async () => {
+    (global.fetch as jest.Mock).mockResolvedValueOnce({
+      ok: true,
+      json: async () => ({
+        status: 'error',
+        backend: false,
+        openai_configured: false,
+        timestamp: new Date().toISOString(),
+        error: 'Backend unavailable',
+      }),
+    });
+
+    render(<BackendStatusIndicator />);
+
+    await waitFor(() => {
+      expect(screen.getByText('Backend unavailable')).toBeInTheDocument();
+    });
+  });
+
+  it('polls health check periodically', async () => {
+    jest.useFakeTimers();
+
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
-      json: async () => mockApiResponses.health,
-    })
+      json: async () => ({
+        status: 'healthy',
+        backend: true,
+        openai_configured: true,
+        timestamp: new Date().toISOString(),
+      }),
+    });
 
-    render(<BackendStatusIndicator />)
-    
+    render(<BackendStatusIndicator />);
+
     // Initial call
-    expect(global.fetch).toHaveBeenCalledTimes(1)
-    
-    // Fast forward 15 seconds
-    jest.advanceTimersByTime(15000)
-    
-    await waitFor(() => {
-      expect(global.fetch).toHaveBeenCalledTimes(2)
-    })
-    
-    jest.useRealTimers()
-  })
+    expect(global.fetch).toHaveBeenCalledTimes(1);
 
-  it('handles non-ok response status', async () => {
-    (global.fetch as jest.Mock).mockResolvedValueOnce({
-      ok: false,
-      status: 500,
-    })
+    // Fast forward 30 seconds (poll interval)
+    jest.advanceTimersByTime(30000);
 
-    render(<BackendStatusIndicator />)
-    
     await waitFor(() => {
-      expect(screen.getByText('Backend Disconnected')).toBeInTheDocument()
-    })
-  })
-})
+      expect(global.fetch).toHaveBeenCalledTimes(2);
+    });
+  });
+});

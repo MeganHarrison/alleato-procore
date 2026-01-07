@@ -4,20 +4,11 @@ import { format } from 'date-fns'
 import { Avatar, AvatarFallback } from '@/components/ui/avatar'
 import { Plus, Calendar, FileText, ChevronDown, ChevronUp, Star, CheckSquare, TrendingUp, DollarSign, Upload, Folder } from 'lucide-react'
 import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu'
 import { Button } from '@/components/ui/button'
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
 import { useState } from 'react'
 import { HeroMetrics } from './hero-metrics'
@@ -120,13 +111,6 @@ export function ProjectHomeClient({
   sov = []
 }: ProjectHomeClientProps) {
   const router = useRouter()
-  const [isAddTeamMemberOpen, setIsAddTeamMemberOpen] = useState(false)
-  const [newTeamMember, setNewTeamMember] = useState({
-    name: '',
-    role: '',
-    email: '',
-    phone: ''
-  })
   const [currentTool, setCurrentTool] = useState('Tools')
   const [isTeamOpen, setIsTeamOpen] = useState(true)
   const [isContractsOpen, setIsContractsOpen] = useState(true)
@@ -161,12 +145,6 @@ export function ProjectHomeClient({
     await handleSaveProject({ summary })
   }
 
-  const handleAddTeamMember = async () => {
-    // TODO: Implement team member addition logic
-    console.log('Adding team member:', newTeamMember)
-    setIsAddTeamMemberOpen(false)
-    setNewTeamMember({ name: '', role: '', email: '', phone: '' })
-  }
 
   // Calculate financial metrics for hero section
   const totalBudget = budget.reduce((sum, item) => sum + (item.original_amount || 0), 0)
@@ -195,17 +173,17 @@ export function ProjectHomeClient({
         <div className="flex-1 overflow-auto">
           <div className="min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-2 sm:py-6 max-w-[1800px] mx-auto">
       {/* Header Section - Refined Architectural Hierarchy */}
-      <header className="mb-4 pb-4 sm:mb-8 sm:pb-8">
+      <header className="mb-4 sm:mb-6">
         {/* Client Pre-heading */}
-        <div className="mb-2 sm:mb-4">
+        <div className="mb-1 sm:mb-2">
           <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-neutral-400">
             {project.client || ''}
           </p>
         </div>
 
         {/* Project Title - Editorial Typography with Enhanced Scale */}
-        <div className="mb-4 sm:mb-10 flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
-          <h1 className="text-2xl md:text-4xl lg:text-4xl font-bold tracking-tight text-neutral-900 leading-[1.05]">
+        <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
+          <h1>
             {project.name || project['job number']}
           </h1>
 
@@ -300,87 +278,39 @@ export function ProjectHomeClient({
 
       </header>
 
-        {/* Project Summary - Takes 2 columns */}
-        <div className="lg:col-span-2 mb-8">
+      {/* 2 Columns */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+        {/* Project Summary */}
+        <div className="col-span-2">
           <EditableSummary
             summary={project.summary || 'No project summary available.'}
             onSave={handleSaveSummary}
           />
         </div>
-
-                  {/* Project Team */}
-        <div className="border border-neutral-200 bg-white mb-6">
+          
+        {/* Project Team */}
+        <div className="rounded-sm border border-neutral-200 bg-white mb-6">
           <Collapsible open={isTeamOpen} onOpenChange={setIsTeamOpen}>
             <div className="px-8 py-6 pb-4 border-b border-neutral-100">
               <div className="flex items-center justify-between">
-                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
                   Project Team
                 </h3>
                 <div className="flex items-center gap-3">
-                  <Dialog open={isAddTeamMemberOpen} onOpenChange={setIsAddTeamMemberOpen}>
-                    <DialogTrigger asChild>
-                      <button type="button" className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200">
-                        <Plus className="h-3.5 w-3.5" />
-                        Add
-                      </button>
-                    </DialogTrigger>
-              <DialogContent className="border border-neutral-200">
-                <DialogHeader>
-                  <DialogTitle className="text-2xl font-sans font-light">Add Team Member</DialogTitle>
-                </DialogHeader>
-                <div className="space-y-5 py-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="name" className="text-xs font-semibold tracking-[0.1em] uppercase text-neutral-500">Name</Label>
-                    <Input
-                      id="name"
-                      value={newTeamMember.name}
-                      onChange={(e) => setNewTeamMember({ ...newTeamMember, name: e.target.value })}
-                      placeholder="John Doe"
-                      className="border-neutral-300 focus:border-brand focus:ring-brand/20"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="role" className="text-xs font-semibold tracking-[0.1em] uppercase text-neutral-500">Role</Label>
-                    <Input
-                      id="role"
-                      value={newTeamMember.role}
-                      onChange={(e) => setNewTeamMember({ ...newTeamMember, role: e.target.value })}
-                      placeholder="Project Manager"
-                      className="border-neutral-300 focus:border-brand focus:ring-brand/20"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="email" className="text-xs font-semibold tracking-[0.1em] uppercase text-neutral-500">Email</Label>
-                    <Input
-                      id="email"
-                      type="email"
-                      value={newTeamMember.email}
-                      onChange={(e) => setNewTeamMember({ ...newTeamMember, email: e.target.value })}
-                      placeholder="john@example.com"
-                      className="border-neutral-300 focus:border-brand focus:ring-brand/20"
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="phone" className="text-xs font-semibold tracking-[0.1em] uppercase text-neutral-500">Phone</Label>
-                    <Input
-                      id="phone"
-                      value={newTeamMember.phone}
-                      onChange={(e) => setNewTeamMember({ ...newTeamMember, phone: e.target.value })}
-                      placeholder="(555) 123-4567"
-                      className="border-neutral-300 focus:border-brand focus:ring-brand/20"
-                    />
-                  </div>
-                </div>
-                <div className="flex justify-end gap-3 pt-4 border-t border-neutral-100">
-                  <button type="button" onClick={() => setIsAddTeamMemberOpen(false)} className="px-5 py-2.5 text-sm font-medium text-neutral-600 hover:text-neutral-900 transition-colors">
-                    Cancel
-                  </button>
-                  <button type="button" onClick={handleAddTeamMember} className="px-5 py-2.5 text-sm font-medium bg-brand text-white hover:bg-brand-dark transition-colors">
-                    Add Member
-                  </button>
-                </div>
-              </DialogContent>
-            </Dialog>
+                  <Link
+                    href={`/${project.id}/directory/users`}
+                    className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                  >
+                    <Plus className="h-3.5 w-3.5" />
+                    Add
+                  </Link>
+                  <span className="text-neutral-300">|</span>
+                  <Link
+                    href={`/${project.id}/directory/users`}
+                    className="text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                  >
+                    View All
+                  </Link>
                   <CollapsibleTrigger asChild>
                     <button type="button" className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200">
                       {isTeamOpen ? (
@@ -429,12 +359,14 @@ export function ProjectHomeClient({
           </Collapsible>
         </div>
 
+        </div>
+
         {/* Prime Contracts */}
-        <div className="border border-neutral-200 bg-white mb-6">
+        <div className="rounded-sm border border-neutral-200 bg-white mb-6">
           <Collapsible open={isContractsOpen} onOpenChange={setIsContractsOpen}>
             <div className="px-8 py-6 pb-4 border-b border-neutral-100">
               <div className="flex items-center justify-between">
-                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
                   Prime Contracts
                 </h3>
                 <div className="flex items-center gap-3">
@@ -522,11 +454,11 @@ export function ProjectHomeClient({
         </div>
 
         {/* Commitments */}
-        <div className="border border-neutral-200 bg-white mb-6">
+        <div className="rounded-sm border border-neutral-200 bg-white mb-6">
           <Collapsible open={isCommitmentsOpen} onOpenChange={setIsCommitmentsOpen}>
             <div className="px-8 py-6 pb-4 border-b border-neutral-100">
               <div className="flex items-center justify-between">
-                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
                   Commitments
                 </h3>
                 <div className="flex items-center gap-3">
@@ -612,7 +544,7 @@ export function ProjectHomeClient({
         </div>
 
         {/* Budget */}
-        <div className="border border-neutral-200 bg-white mb-6">
+        <div className="rounded-sm border border-neutral-200 bg-white mb-6">
           <Collapsible open={isBudgetOpen} onOpenChange={setIsBudgetOpen}>
             <div className="px-8 py-6 pb-4 border-b border-neutral-100">
               <div className="flex items-center justify-between">
@@ -699,11 +631,11 @@ export function ProjectHomeClient({
         </div>
 
         {/* Schedule of Values */}
-        <div className="border border-neutral-200 bg-white mb-6">
+        <div className="rounded-sm border border-neutral-200 bg-white mb-6">
           <Collapsible open={isSovOpen} onOpenChange={setIsSovOpen}>
             <div className="px-8 py-6 pb-4 border-b border-neutral-100">
               <div className="flex items-center justify-between">
-                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
                   Schedule of Values
                 </h3>
                 <div className="flex items-center gap-3">
@@ -785,11 +717,11 @@ export function ProjectHomeClient({
         </div>
 
         {/* Schedule */}
-        <div className="border border-neutral-200 bg-white mb-6">
+        <div className="rounded-sm border border-neutral-200 bg-white mb-6">
           <Collapsible open={isScheduleOpen} onOpenChange={setIsScheduleOpen}>
             <div className="px-8 py-6 pb-4 border-b border-neutral-100">
               <div className="flex items-center justify-between">
-                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
                   Schedule
                 </h3>
                 <div className="flex items-center gap-3">

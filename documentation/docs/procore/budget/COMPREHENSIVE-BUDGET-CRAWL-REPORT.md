@@ -4,6 +4,10 @@
 **Generated:** 2025-12-29
 **Target:** Procore Budget Tool (Project #562949955214786)
 
+Procore Documentation/Tutorials: https://support.procore.com/products/online/user-guide/project-level/budget#chapt2
+
+Procore Application Example: https://us02.procore.com/webclients/host/companies/562949953443325/projects/562949954728542/tools/budgets
+
 ---
 
 ## Executive Summary

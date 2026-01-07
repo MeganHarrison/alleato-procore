@@ -26,7 +26,7 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
       <SidebarInset className="flex flex-col min-h-screen overflow-x-hidden">
         <SiteHeader />
         {/* Main content container with bottom padding for breathing room */}
-        <main className="flex-1 flex flex-col min-h-0 bg-neutral-50 w-full overflow-x-hidden pb-8 sm:pb-12 lg:pb-16">
+        <main className="flex-1 flex flex-col min-h-0 bg-background w-full overflow-x-hidden pb-8 sm:pb-12 lg:pb-16">
           {children}
         </main>
         <Footer />

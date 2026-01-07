@@ -50,6 +50,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table"
+import { Badge } from "@/components/ui/badge"
 import type { Database } from "@/types/database.types"
 import { cn } from "@/lib/utils"
 
@@ -125,16 +126,16 @@ const columns: ColumnDef<ProjectTaskWithProject>[] = [
     header: "Status",
     cell: ({ row }) => {
       const status = row.getValue("status") as string
+      const variant = status === "completed"
+        ? "success"
+        : status === "in_progress"
+        ? "default"
+        : "secondary"
+
       return (
-        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-          status === "completed" 
-            ? "bg-green-100 text-green-800" 
-            : status === "in_progress"
-            ? "bg-blue-100 text-blue-800"
-            : "bg-gray-100 text-gray-800"
-        }`}>
+        <Badge variant={variant}>
           {status?.replace("_", " ").toUpperCase() || "PENDING"}
-        </span>
+        </Badge>
       )
     },
   },
@@ -143,16 +144,16 @@ const columns: ColumnDef<ProjectTaskWithProject>[] = [
     header: "Priority",
     cell: ({ row }) => {
       const priority = row.getValue("priority") as string
+      const variant = priority === "high"
+        ? "destructive"
+        : priority === "medium"
+        ? "warning"
+        : "secondary"
+
       return (
-        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-          priority === "high" 
-            ? "bg-red-100 text-red-800" 
-            : priority === "medium"
-            ? "bg-yellow-100 text-yellow-800"
-            : "bg-gray-100 text-gray-800"
-        }`}>
+        <Badge variant={variant}>
           {priority?.toUpperCase() || "LOW"}
-        </span>
+        </Badge>
       )
     },
   },
@@ -187,7 +188,7 @@ const columns: ColumnDef<ProjectTaskWithProject>[] = [
             <DropdownMenuSeparator />
             <DropdownMenuItem>View details</DropdownMenuItem>
             <DropdownMenuItem>Edit task</DropdownMenuItem>
-            <DropdownMenuItem className="text-red-600">
+            <DropdownMenuItem className="text-destructive">
               Delete task
             </DropdownMenuItem>
           </DropdownMenuContent>

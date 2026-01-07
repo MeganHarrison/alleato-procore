@@ -110,21 +110,11 @@ export default async function OpportunitiesPage() {
   if (error) {
     console.error('Error fetching opportunities:', error)
     return (
-      <div className="min-h-screen bg-neutral-50">
-        <div className="max-w-[1800px] mx-auto px-6 md:px-10 lg:px-12 py-12">
-          <div className="text-center text-red-600">
-            Error loading opportunities. Please try again later.
-          </div>
-        </div>
+      <div className="text-center text-red-600">
+        Error loading opportunities. Please try again later.
       </div>
     )
   }
 
-  return (
-    <div className="min-h-screen bg-neutral-50">
-      <div className="max-w-[1800px] mx-auto px-6 md:px-10 lg:px-12 py-12">
-        <GenericDataTable data={opportunities || []} config={config} />
-      </div>
-    </div>
-  )
+  return <GenericDataTable data={opportunities || []} config={config} />
 }

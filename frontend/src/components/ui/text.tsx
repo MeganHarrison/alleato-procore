@@ -35,6 +35,13 @@ const weightMap = {
   bold: 'font-bold'
 } as const;
 
+const transformMap = {
+  none: '',
+  capitalize: 'capitalize',
+  uppercase: 'uppercase',
+  lowercase: 'lowercase'
+} as const;
+
 export interface TextProps {
   /** Size of text */
   size?: keyof typeof sizeMap;
@@ -42,6 +49,8 @@ export interface TextProps {
   tone?: keyof typeof toneMap;
   /** Font weight */
   weight?: keyof typeof weightMap;
+  /** Text transformation */
+  transform?: keyof typeof transformMap;
   /** Render as a different element */
   as?: 'p' | 'span' | 'div' | 'label';
   /** Additional CSS classes */
@@ -54,6 +63,7 @@ export function Text({
   size = 'base',
   tone = 'default',
   weight = 'normal',
+  transform = 'none',
   as: Component = 'p',
   className,
   children
@@ -64,6 +74,7 @@ export function Text({
         sizeMap[size],
         toneMap[tone],
         weightMap[weight],
+        transformMap[transform],
         className
       )}
     >

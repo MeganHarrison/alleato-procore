@@ -1,29 +1,57 @@
 import { NextRequest } from 'next/server'
 import { GET, POST } from '../route'
-import { mockSupabaseClient, mockProject } from '@/test-utils/mocks'
+import { mockProject } from '@/test-utils/mocks'
 
-// Mock Supabase
-jest.mock('@/lib/supabase/server', () => ({
-  createClient: jest.fn(() => mockSupabaseClient),
+// Create a thenable mock that can be both chained and awaited
+const createMockQuery = (resolveValue: { data: unknown; error: unknown; count: unknown }) => {
+  // Create a base object that is thenable
+  const mockObj = {
+    from: jest.fn(),
+    select: jest.fn(),
+    insert: jest.fn(),
+    order: jest.fn(),
+    range: jest.fn(),
+    ilike: jest.fn(),
+    not: jest.fn(),
+    or: jest.fn(),
+    eq: jest.fn(),
+    single: jest.fn(),
+    // Make the object thenable so it can be awaited
+    then: jest.fn((resolve: (value: unknown) => void) => resolve(resolveValue)),
+  }
+
+  // Make all methods chainable and return the mock itself
+  Object.keys(mockObj).forEach(key => {
+    if (key !== 'then') {
+      (mockObj as Record<string, jest.Mock>)[key].mockReturnValue(mockObj)
+    }
+  })
+
+  return mockObj
+}
+
+type MockQuery = ReturnType<typeof createMockQuery>
+let mockQuery: MockQuery
+
+// Mock Supabase - the route uses createServiceClient from @/lib/supabase/service
+jest.mock('@/lib/supabase/service', () => ({
+  createServiceClient: jest.fn(() => mockQuery),
 }))
 
 describe('/api/projects', () => {
   beforeEach(() => {
     jest.clearAllMocks()
-    // Reset mock implementations
-    mockSupabaseClient.select.mockReturnThis()
-    mockSupabaseClient.from.mockReturnThis()
-    mockSupabaseClient.order.mockReturnThis()
-    mockSupabaseClient.range.mockReturnThis()
   })
 
   describe('GET', () => {
     it('returns projects with default pagination', async () => {
-      mockSupabaseClient.range.mockResolvedValueOnce({
+      mockQuery = createMockQuery({
         data: [mockProject],
         error: null,
         count: 1,
       })
+      const { createServiceClient } = require('@/lib/supabase/service')
+      createServiceClient.mockReturnValue(mockQuery)
 
       const request = new NextRequest('http://localhost:3000/api/projects')
       const response = await GET(request)
@@ -40,18 +68,20 @@ describe('/api/projects', () => {
         },
       })
 
-      expect(mockSupabaseClient.from).toHaveBeenCalledWith('projects')
-      expect(mockSupabaseClient.select).toHaveBeenCalledWith('*', { count: 'exact' })
-      expect(mockSupabaseClient.order).toHaveBeenCalledWith('name', { ascending: true })
-      expect(mockSupabaseClient.range).toHaveBeenCalledWith(0, 99)
+      expect(mockQuery.from).toHaveBeenCalledWith('projects')
+      expect(mockQuery.select).toHaveBeenCalledWith('*', { count: 'exact' })
+      expect(mockQuery.order).toHaveBeenCalledWith('name', { ascending: true })
+      expect(mockQuery.range).toHaveBeenCalledWith(0, 99)
     })
 
     it('handles pagination parameters', async () => {
-      mockSupabaseClient.range.mockResolvedValueOnce({
+      mockQuery = createMockQuery({
         data: [],
         error: null,
         count: 50,
       })
+      const { createServiceClient } = require('@/lib/supabase/service')
+      createServiceClient.mockReturnValue(mockQuery)
 
       const request = new NextRequest('http://localhost:3000/api/projects?page=2&limit=20')
       const response = await GET(request)
@@ -65,59 +95,64 @@ describe('/api/projects', () => {
         totalPages: 3,
       })
 
-      expect(mockSupabaseClient.range).toHaveBeenCalledWith(20, 39)
+      expect(mockQuery.range).toHaveBeenCalledWith(20, 39)
     })
 
     it('applies search filter', async () => {
-      mockSupabaseClient.or.mockReturnThis()
-      mockSupabaseClient.range.mockResolvedValueOnce({
+      mockQuery = createMockQuery({
         data: [mockProject],
         error: null,
         count: 1,
       })
+      const { createServiceClient } = require('@/lib/supabase/service')
+      createServiceClient.mockReturnValue(mockQuery)
 
       const request = new NextRequest('http://localhost:3000/api/projects?search=test')
       await GET(request)
 
-      expect(mockSupabaseClient.or).toHaveBeenCalledWith(
+      expect(mockQuery.or).toHaveBeenCalledWith(
         'name.ilike.%test%,"job number".ilike.%test%'
       )
     })
 
     it('applies state filter', async () => {
-      mockSupabaseClient.ilike.mockReturnThis()
-      mockSupabaseClient.range.mockResolvedValueOnce({
+      mockQuery = createMockQuery({
         data: [mockProject],
         error: null,
         count: 1,
       })
+      const { createServiceClient } = require('@/lib/supabase/service')
+      createServiceClient.mockReturnValue(mockQuery)
 
       const request = new NextRequest('http://localhost:3000/api/projects?state=construction')
       await GET(request)
 
-      expect(mockSupabaseClient.ilike).toHaveBeenCalledWith('state', 'construction')
+      expect(mockQuery.ilike).toHaveBeenCalledWith('state', 'construction')
     })
 
     it('excludes specific state', async () => {
-      mockSupabaseClient.not.mockReturnThis()
-      mockSupabaseClient.range.mockResolvedValueOnce({
+      mockQuery = createMockQuery({
         data: [mockProject],
         error: null,
         count: 1,
       })
+      const { createServiceClient } = require('@/lib/supabase/service')
+      createServiceClient.mockReturnValue(mockQuery)
 
       const request = new NextRequest('http://localhost:3000/api/projects?excludeState=completed')
       await GET(request)
 
-      expect(mockSupabaseClient.not).toHaveBeenCalledWith('state', 'ilike', 'completed')
+      expect(mockQuery.not).toHaveBeenCalledWith('state', 'ilike', 'completed')
     })
 
     it('handles database errors', async () => {
-      mockSupabaseClient.range.mockResolvedValueOnce({
+      mockQuery = createMockQuery({
         data: null,
         error: { message: 'Database error' },
         count: null,
       })
+      const { createServiceClient } = require('@/lib/supabase/service')
+      createServiceClient.mockReturnValue(mockQuery)
 
       const request = new NextRequest('http://localhost:3000/api/projects')
       const response = await GET(request)
@@ -128,7 +163,12 @@ describe('/api/projects', () => {
     })
 
     it('handles unexpected errors', async () => {
-      mockSupabaseClient.range.mockRejectedValueOnce(new Error('Unexpected error'))
+      mockQuery = createMockQuery({ data: null, error: null, count: null })
+      mockQuery.from.mockImplementation(() => {
+        throw new Error('Unexpected error')
+      })
+      const { createServiceClient } = require('@/lib/supabase/service')
+      createServiceClient.mockReturnValue(mockQuery)
 
       const request = new NextRequest('http://localhost:3000/api/projects')
       const response = await GET(request)
@@ -147,10 +187,13 @@ describe('/api/projects', () => {
         state: 'pre-construction',
       }
 
-      mockSupabaseClient.single.mockResolvedValueOnce({
+      mockQuery = createMockQuery({
         data: { ...newProject, id: 2 },
         error: null,
+        count: null,
       })
+      const { createServiceClient } = require('@/lib/supabase/service')
+      createServiceClient.mockReturnValue(mockQuery)
 
       const request = new NextRequest('http://localhost:3000/api/projects', {
         method: 'POST',
@@ -163,17 +206,20 @@ describe('/api/projects', () => {
       expect(response.status).toBe(201)
       expect(data).toEqual({ ...newProject, id: 2 })
 
-      expect(mockSupabaseClient.from).toHaveBeenCalledWith('projects')
-      expect(mockSupabaseClient.insert).toHaveBeenCalledWith(newProject)
-      expect(mockSupabaseClient.select).toHaveBeenCalled()
-      expect(mockSupabaseClient.single).toHaveBeenCalled()
+      expect(mockQuery.from).toHaveBeenCalledWith('projects')
+      expect(mockQuery.insert).toHaveBeenCalledWith(newProject)
+      expect(mockQuery.select).toHaveBeenCalled()
+      expect(mockQuery.single).toHaveBeenCalled()
     })
 
     it('handles creation errors', async () => {
-      mockSupabaseClient.single.mockResolvedValueOnce({
+      mockQuery = createMockQuery({
         data: null,
         error: { message: 'Duplicate project name' },
+        count: null,
       })
+      const { createServiceClient } = require('@/lib/supabase/service')
+      createServiceClient.mockReturnValue(mockQuery)
 
       const request = new NextRequest('http://localhost:3000/api/projects', {
         method: 'POST',
@@ -188,6 +234,10 @@ describe('/api/projects', () => {
     })
 
     it('handles invalid JSON', async () => {
+      mockQuery = createMockQuery({ data: null, error: null, count: null })
+      const { createServiceClient } = require('@/lib/supabase/service')
+      createServiceClient.mockReturnValue(mockQuery)
+
       const request = new NextRequest('http://localhost:3000/api/projects', {
         method: 'POST',
         body: 'invalid json',

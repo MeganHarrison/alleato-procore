@@ -15,6 +15,11 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { StatusBadge } from '@/components/misc/status-badge'
 import { DataTablePage } from '@/components/templates'
+import { Stack } from '@/components/ui/stack'
+import { Inline } from '@/components/ui/inline'
+import { Text } from '@/components/ui/text'
+import { Link } from '@/components/ui/link'
+import { MobileCard } from '@/components/ui/mobile-card'
 import { useFinancialStore } from '@/lib/stores/financial-store'
 import { useProjectTitle } from '@/hooks/useProjectTitle'
 import type { Commitment } from '@/types/financial'
@@ -135,15 +140,14 @@ export default function ProjectCommitmentsPage() {
         accessorKey: 'number',
         header: 'Number',
         cell: ({ row }) => (
-          <div
-            className="font-medium text-blue-600 hover:text-blue-800 cursor-pointer"
+          <Link
             onClick={(e) => {
               e.stopPropagation()
               handleView(row.original)
             }}
           >
             {row.getValue('number')}
-          </div>
+          </Link>
         ),
       },
       {
@@ -170,7 +174,7 @@ export default function ProjectCommitmentsPage() {
         header: 'Type',
         cell: ({ row }) => {
           const type = row.getValue('type') as string | undefined
-          return <span className="capitalize">{type?.replace(/_/g, ' ') || '—'}</span>
+          return <Text as="span" transform="capitalize">{type?.replace(/_/g, ' ') || '—'}</Text>
         },
       },
       {
@@ -198,7 +202,8 @@ export default function ProjectCommitmentsPage() {
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  className="h-8 w-8 p-0"
+                  size="icon"
+                  className="h-8 w-8"
                   onClick={(e) => e.stopPropagation()}
                 >
                   <span className="sr-only">Open menu</span>
@@ -216,7 +221,7 @@ export default function ProjectCommitmentsPage() {
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() => handleDelete(commitment)}
-                  className="text-red-600"
+                  className="text-destructive"
                 >
                   <Trash2 className="mr-2 h-4 w-4" />
                   Delete
@@ -239,26 +244,26 @@ export default function ProjectCommitmentsPage() {
   // Mobile card renderer
   const mobileCardRenderer = useCallback(
     (commitment: Commitment) => (
-      <div className="space-y-2">
-        <div className="flex justify-between items-start">
-          <div>
-            <div className="font-medium text-blue-600">{commitment.number}</div>
-            <div className="text-sm text-muted-foreground">{commitment.title}</div>
+      <MobileCard>
+        <MobileCard.Header>
+          <Stack gap="xs">
+            <Link>{commitment.number}</Link>
+            <Text size="sm" tone="muted">{commitment.title}</Text>
             {commitment.contract_company && (
-              <div className="text-sm text-muted-foreground">
+              <Text size="sm" tone="muted">
                 {commitment.contract_company.name}
-              </div>
+              </Text>
             )}
-          </div>
+          </Stack>
           <StatusBadge status={commitment.status} type="commitment" />
-        </div>
-        <div className="flex justify-between items-center pt-2 border-t">
-          <span className="text-sm text-muted-foreground">Revised Amount</span>
-          <span className="font-medium">
+        </MobileCard.Header>
+        <MobileCard.Footer>
+          <Text size="sm" tone="muted">Revised Amount</Text>
+          <Text weight="medium">
             {formatCurrency(commitment.revised_contract_amount || 0)}
-          </span>
-        </div>
-      </div>
+          </Text>
+        </MobileCard.Footer>
+      </MobileCard>
     ),
     []
   )

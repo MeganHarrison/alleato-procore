@@ -28,6 +28,10 @@ export interface EmptyStateProps {
   action?: React.ReactNode;
   /** Size variant */
   size?: 'sm' | 'md' | 'lg';
+  /** Visual variant */
+  variant?: 'default' | 'executive' | 'table' | 'compact';
+  /** Show icon with background circle (for table variant) */
+  iconWithBackground?: boolean;
   /** Additional CSS classes */
   className?: string;
 }
@@ -59,34 +63,71 @@ export function EmptyState({
   description,
   action,
   size = 'md',
+  variant = 'default',
+  iconWithBackground = false,
   className
 }: EmptyStateProps) {
   const config = sizeMap[size];
+  
+  // Adjust size for compact variant
+  const effectiveConfig = variant === 'compact' ? sizeMap.sm : config;
+
+  // Apply variant styles
+  const variantStyles = {
+    default: 'rounded-lg border bg-card',
+    executive: 'bg-neutral-50 border border-neutral-200',
+    table: 'rounded-lg border bg-card',
+    compact: 'rounded-lg border bg-card'
+  };
+
+  // Icon wrapper styles
+  const iconWrapperStyles = iconWithBackground || variant === 'table'
+    ? 'rounded-full bg-muted p-3'
+    : '';
 
   return (
     <div
       className={cn(
-        'rounded-lg border bg-card text-center',
-        config.container,
+        'text-center',
+        variantStyles[variant],
+        effectiveConfig.container,
         className
       )}
     >
       <Stack gap="md" align="center">
         {icon && (
-          <div className={cn('text-muted-foreground', config.iconSize)}>
+          <div 
+            className={cn(
+              variant === 'executive' ? 'text-neutral-400' : 'text-muted-foreground',
+              effectiveConfig.iconSize,
+              iconWrapperStyles
+            )}
+          >
             {icon}
           </div>
         )}
 
         <Stack gap="sm" align="center">
-          <Heading level={config.titleLevel as 3 | 4 | 5}>
-            {title}
-          </Heading>
+          {variant === 'executive' ? (
+            <h3 className="text-lg font-medium text-neutral-900">
+              {title}
+            </h3>
+          ) : (
+            <Heading level={effectiveConfig.titleLevel as 3 | 4 | 5}>
+              {title}
+            </Heading>
+          )}
 
           {description && (
-            <Text size={config.descSize as 'sm' | 'base' | 'lg'} tone="muted">
-              {description}
-            </Text>
+            variant === 'executive' ? (
+              <p className="text-sm text-neutral-600 max-w-sm mx-auto">
+                {description}
+              </p>
+            ) : (
+              <Text size={effectiveConfig.descSize as 'sm' | 'base' | 'lg'} tone="muted">
+                {description}
+              </Text>
+            )
           )}
         </Stack>
 

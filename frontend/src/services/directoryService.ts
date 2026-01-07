@@ -7,6 +7,31 @@ type ProjectDirectoryMembership = Tables['project_directory_memberships']['Row']
 type PermissionTemplate = Tables['permission_templates']['Row'];
 type Company = Tables['companies']['Row'];
 
+// Manual type definitions for new tables until types are regenerated
+export interface UserPermission {
+  id: string;
+  person_id: string;
+  project_id: number;
+  tool_name: string;
+  permission_type: 'read' | 'write' | 'admin' | 'approve';
+  is_granted: boolean;
+  created_at: string;
+  updated_at: string;
+}
+
+export interface UserActivityLog {
+  id: string;
+  project_id: number;
+  person_id: string;
+  action: string;
+  action_description?: string;
+  changes?: Record<string, unknown>;
+  performed_by?: string;
+  performed_at: string;
+  ip_address?: string;
+  user_agent?: string;
+}
+
 export interface DirectoryFilters {
   search?: string;
   type?: 'user' | 'contact' | 'all';
@@ -361,5 +386,188 @@ export class DirectoryService {
 
     if (error) throw error;
     return data || [];
+  }
+
+  async bulkAddUsers(
+    projectId: string,
+    users: PersonCreateDTO[]
+  ): Promise<{ created_count: number; failed_count: number; results: Array<{ email: string; status: 'success' | 'error'; user_id?: string; message: string }> }> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+    const results: Array<{ email: string; status: 'success' | 'error'; user_id?: string; message: string }> = [];
+    let created_count = 0;
+    let failed_count = 0;
+
+    for (const userData of users) {
+      try {
+        const person = await this.createPerson(projectId, userData);
+        results.push({
+          email: userData.email || '',
+          status: 'success',
+          user_id: person.id,
+          message: 'User added successfully'
+        });
+        created_count++;
+      } catch (error) {
+        results.push({
+          email: userData.email || '',
+          status: 'error',
+          message: error instanceof Error ? error.message : 'Unknown error'
+        });
+        failed_count++;
+      }
+    }
+
+    return { created_count, failed_count, results };
+  }
+
+  async resendInvite(projectId: string, personId: string): Promise<ProjectDirectoryMembership> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
+    // Generate new invite token (simple implementation - should use crypto.randomBytes in production)
+    const invite_token = `invite_${Date.now()}_${Math.random().toString(36).substring(7)}`;
+    const invite_expires_at = new Date();
+    invite_expires_at.setDate(invite_expires_at.getDate() + 7); // 7 days expiry
+
+    const { data, error } = await this.supabase
+      .from('project_directory_memberships')
+      .update({
+        invite_token,
+        invite_expires_at: invite_expires_at.toISOString(),
+        invite_status: 'invited',
+        last_invited_at: new Date().toISOString()
+      })
+      .eq('project_id', projectIdNum)
+      .eq('person_id', personId)
+      .select()
+      .single();
+
+    if (error) throw error;
+
+    // Log activity
+    await this.logActivity(projectId, personId, 'invitation_resent', 'User invitation resent', {}, personId);
+
+    return data;
+  }
+
+  async getUserPermissions(projectId: string, personId: string): Promise<{
+    template_permissions: Record<string, string[]>;
+    override_permissions: UserPermission[];
+    effective_permissions: Record<string, string[]>;
+  }> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
+    // Get person with template
+    const person = await this.getPerson(projectId, personId);
+
+    // Get template permissions
+    const template_permissions: Record<string, string[]> = {};
+    if (person.permission_template?.rules_json) {
+      const rules = person.permission_template.rules_json as Record<string, string[]>;
+      Object.assign(template_permissions, rules);
+    }
+
+    // Get override permissions
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data: overrides, error } = await (this.supabase as any)
+      .from('user_permissions')
+      .select('*')
+      .eq('project_id', projectIdNum)
+      .eq('person_id', personId);
+
+    if (error) throw error;
+
+    // Calculate effective permissions (template + overrides)
+    const effective_permissions = { ...template_permissions };
+    (overrides || []).forEach((override: UserPermission) => {
+      if (!effective_permissions[override.tool_name]) {
+        effective_permissions[override.tool_name] = [];
+      }
+      if (override.is_granted && !effective_permissions[override.tool_name].includes(override.permission_type)) {
+        effective_permissions[override.tool_name].push(override.permission_type);
+      } else if (!override.is_granted) {
+        effective_permissions[override.tool_name] = effective_permissions[override.tool_name].filter(
+          p => p !== override.permission_type
+        );
+      }
+    });
+
+    return {
+      template_permissions,
+      override_permissions: (overrides || []) as UserPermission[],
+      effective_permissions
+    };
+  }
+
+  async updateUserPermissions(
+    projectId: string,
+    personId: string,
+    permissions: Array<{ tool_name: string; permission_type: string; is_granted: boolean }>,
+    performedBy: string
+  ): Promise<void> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
+    // Delete existing overrides
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    await (this.supabase as any)
+      .from('user_permissions')
+      .delete()
+      .eq('project_id', projectIdNum)
+      .eq('person_id', personId);
+
+    // Insert new overrides
+    if (permissions.length > 0) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      const { error } = await (this.supabase as any)
+        .from('user_permissions')
+        .insert(
+          permissions.map(p => ({
+            person_id: personId,
+            project_id: projectIdNum,
+            tool_name: p.tool_name,
+            permission_type: p.permission_type,
+            is_granted: p.is_granted
+          }))
+        );
+
+      if (error) throw error;
+    }
+
+    // Log activity
+    await this.logActivity(
+      projectId,
+      personId,
+      'permissions_updated',
+      'User permissions updated',
+      { permissions },
+      performedBy
+    );
+  }
+
+  async logActivity(
+    projectId: string,
+    personId: string,
+    action: string,
+    description: string,
+    changes: Record<string, unknown>,
+    performedBy?: string
+  ): Promise<void> {
+    const projectIdNum = Number.parseInt(projectId, 10);
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { error } = await (this.supabase as any)
+      .from('user_activity_log')
+      .insert({
+        project_id: projectIdNum,
+        person_id: personId,
+        action,
+        action_description: description,
+        changes,
+        performed_by: performedBy || personId
+      });
+
+    if (error) {
+      // Log error but don't throw - activity logging is not critical
+      console.warn('Failed to log activity:', error);
+    }
   }
 }

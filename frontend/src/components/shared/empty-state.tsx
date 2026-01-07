@@ -1,7 +1,10 @@
+// This component is deprecated - use empty-state from ui folder instead
+// Keeping for backwards compatibility during migration
+
 import React from 'react'
 import { Button } from '@/components/ui/button'
 import { LucideIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
+import { EmptyState as UnifiedEmptyState } from '@/components/ui/empty-state'
 
 interface EmptyStateProps {
   icon?: LucideIcon
@@ -13,6 +16,10 @@ interface EmptyStateProps {
   variant?: 'default' | 'compact'
 }
 
+/**
+ * @deprecated Use EmptyState from @/components/ui/empty-state
+ * This is a compatibility wrapper that will be removed in the future
+ */
 export function EmptyState({
   icon: Icon,
   title,
@@ -22,44 +29,26 @@ export function EmptyState({
   className,
   variant = 'default'
 }: EmptyStateProps) {
-  const isCompact = variant === 'compact'
-  
   return (
-    <div className={cn(
-      "flex flex-col items-center justify-center text-center",
-      isCompact ? "py-8" : "py-12",
-      className
-    )}>
-      {Icon && (
-        <Icon className={cn(
-          "text-muted-foreground mb-4",
-          isCompact ? "h-8 w-8" : "h-12 w-12"
-        )} />
-      )}
-      {title && (
-        <h3 className={cn(
-          "font-medium mb-1",
-          isCompact ? "text-sm" : "text-base"
-        )}>
-          {title}
-        </h3>
-      )}
-      <p className={cn(
-        "text-muted-foreground mb-4",
-        isCompact ? "text-xs" : "text-sm"
-      )}>
-        {message}
-      </p>
-      {actionLabel && onAction && (
-        <Button 
-          onClick={onAction}
-          variant="default"
-          size={isCompact ? "sm" : "default"}
-          className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange-hover))]"
-        >
-          {actionLabel}
-        </Button>
-      )}
-    </div>
+    <UnifiedEmptyState
+      variant={variant}
+      size={variant === 'compact' ? 'sm' : 'md'}
+      icon={Icon && <Icon />}
+      title={title || message} // Use message as title if no title provided
+      description={title ? message : undefined} // Use message as description if title exists
+      action={
+        actionLabel && onAction && (
+          <Button 
+            onClick={onAction}
+            variant="default"
+            size={variant === 'compact' ? 'sm' : 'default'}
+            className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange-hover))]"
+          >
+            {actionLabel}
+          </Button>
+        )
+      }
+      className={className}
+    />
   )
 }

@@ -30,11 +30,11 @@ export function InfoSection({
   const displayItems = items.slice(0, maxItems)
 
   return (
-    <div className="border border-neutral-200 bg-white p-8 mb-6">
+    <div className="rounded-sm border border-neutral-200 bg-white p-8 mb-6">
       <div className="flex items-start justify-between mb-6">
         <div className="flex items-center gap-2">
           <Icon className="h-5 w-5 text-brand" />
-          <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
+          <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
             {title}
           </h3>
         </div>

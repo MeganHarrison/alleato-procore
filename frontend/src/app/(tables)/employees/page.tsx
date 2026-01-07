@@ -22,16 +22,14 @@ export default async function EmployeesPage() {
   }
 
   return (
-    <div className="container mx-auto py-10">
-      <div className="space-y-4">
-        <div>
-          <h1 className="text-3xl font-bold tracking-tight">Employees</h1>
+    <div>
+        <div className="pb-8">
+          <h1>Employees</h1>
           <p className="text-muted-foreground">
             View and manage all your employees
           </p>
         </div>
         <EmployeesDataTable employees={employees || []} />
-      </div>
     </div>
   )
 }
