@@ -1,17 +1,15 @@
 "use client";
 
-import { useState, useEffect, useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import type {
   DirectoryFilterOptions,
   DirectoryFilters,
-  DirectoryGroup,
   DirectoryPermissions,
-  PersonWithDetails
+  ProjectDirectoryCompany
 } from '@/types/directory';
 
-interface UseDirectoryResult {
-  data: PersonWithDetails[];
-  groups?: DirectoryGroup[];
+interface UseDirectoryCompaniesResult {
+  data: ProjectDirectoryCompany[];
   loading: boolean;
   error: Error | null;
   meta: {
@@ -26,26 +24,18 @@ interface UseDirectoryResult {
   updateFilters: (filters: DirectoryFilters) => void;
 }
 
-/**
- * React hook that fetches and exposes a project's directory of people with support for filtering, grouping, and pagination metadata.
- *
- * @param projectId - The ID of the project whose directory will be fetched
- * @param initialFilters - Optional initial filters applied to the directory query
- * @returns An object with:
- *  - `data`: array of `PersonWithDetails` for the current query
- *  - `groups`: optional grouped representation of `data`
- *  - `loading`: boolean indicating an in-flight fetch
- *  - `error`: an `Error` instance if the last fetch failed, or `null`
- *  - `meta`: pagination metadata (`total`, `page`, `perPage`, `totalPages`)
- *  - `refetch`: function to re-run the current fetch
- *  - `updateFilters`: function to replace the current filters
- */
-export function useDirectory(
+const defaultPermissions: DirectoryPermissions = {
+  canRead: false,
+  canInvite: false,
+  canEdit: false,
+  canRemove: false
+};
+
+export function useDirectoryCompanies(
   projectId: string,
   initialFilters: DirectoryFilters = {}
-): UseDirectoryResult {
-  const [data, setData] = useState<PersonWithDetails[]>([]);
-  const [groups, setGroups] = useState<DirectoryGroup[]>();
+): UseDirectoryCompaniesResult {
+  const [data, setData] = useState<ProjectDirectoryCompany[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);
   const [filters, setFilters] = useState<DirectoryFilters>(initialFilters);
@@ -60,46 +50,34 @@ export function useDirectory(
     permissionTemplates: [],
     roles: []
   });
-  const [permissions, setPermissions] = useState<DirectoryPermissions>({
-    canRead: false,
-    canInvite: false,
-    canEdit: false,
-    canRemove: false
-  });
+  const [permissions, setPermissions] = useState<DirectoryPermissions>(defaultPermissions);
 
   const fetchData = useCallback(async () => {
     if (!projectId) return;
-    
+
     setLoading(true);
     setError(null);
 
     try {
-      // Build query parameters
       const params = new URLSearchParams();
-      
+      params.append('entity', 'companies');
       if (filters.search) params.append('search', filters.search);
-      if (filters.type) params.append('type', filters.type);
       if (filters.status) params.append('status', filters.status);
-      if (filters.companyId) params.append('company_id', filters.companyId);
       if (filters.role) params.append('role', filters.role);
-      if (filters.permissionTemplateId) params.append('permission_template_id', filters.permissionTemplateId);
-      if (filters.groupBy) params.append('group_by', filters.groupBy);
+      if (filters.companyId) params.append('company_id', filters.companyId);
       if (filters.sortBy?.length) params.append('sort', filters.sortBy.join(','));
-      params.append('entity', 'people');
       params.append('page', (filters.page ?? 1).toString());
       params.append('per_page', (filters.perPage ?? 50).toString());
 
-      // Fetch from API
       const response = await fetch(`/api/projects/${projectId}/directory?${params.toString()}`);
-      
+
       if (!response.ok) {
-        throw new Error(`Failed to fetch directory: ${response.statusText}`);
+        throw new Error(`Failed to fetch companies: ${response.statusText}`);
       }
 
       const result = await response.json();
-      
+
       setData(result.data || []);
-      setGroups(result.groups);
       setMeta(result.meta || {
         total: 0,
         page: 1,
@@ -107,19 +85,13 @@ export function useDirectory(
         totalPages: 0
       });
       setFilterOptions(result.filters || { companies: [], permissionTemplates: [], roles: [] });
-      setPermissions(result.permissions || {
-        canRead: false,
-        canInvite: false,
-        canEdit: false,
-        canRemove: false
-      });
+      setPermissions(result.permissions || defaultPermissions);
     } catch (err) {
-      console.error('Error fetching directory:', err);
       setError(err instanceof Error ? err : new Error('Unknown error'));
     } finally {
       setLoading(false);
     }
-  }, [projectId, filters]);
+  }, [filters, projectId]);
 
   useEffect(() => {
     fetchData();
@@ -131,7 +103,6 @@ export function useDirectory(
 
   return {
     data,
-    groups,
     loading,
     error,
     meta,

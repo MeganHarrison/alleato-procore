@@ -23,7 +23,7 @@ import {
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, Mail, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
-import type { PersonWithDetails } from '@/components/directory/DirectoryFilters';
+import type { PersonWithDetails } from '@/types/directory';
 
 interface InviteDialogProps {
   person: PersonWithDetails | null;

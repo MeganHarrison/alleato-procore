@@ -1,13 +1,13 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { 
+import React, { useEffect, useMemo, useState } from 'react';
+import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow 
+  TableRow
 } from '@/components/ui/table';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,7 +18,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
-  DropdownMenuTrigger,
+  DropdownMenuTrigger
 } from '@/components/ui/dropdown-menu';
 import {
   ChevronDown,
@@ -37,11 +37,20 @@ import {
   Upload,
   Settings2
 } from 'lucide-react';
-import { DirectoryFilters, type PersonWithDetails } from '@/components/directory/DirectoryFilters';
+import { DirectoryFilters } from '@/components/directory/DirectoryFilters';
 import { ColumnManager, type ColumnConfig } from '@/components/directory/ColumnManager';
 import { useDirectory } from '@/hooks/useDirectory';
 import { cn } from '@/lib/utils';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Skeleton } from '@/components/ui/skeleton';
+import { useToast } from '@/hooks/use-toast';
+import type {
+  DirectoryFilterOptions,
+  DirectoryFilters as DirectoryFilterState,
+  DirectoryPermissions,
+  PersonWithDetails
+} from '@/types/directory';
 
 interface DirectoryTableProps {
   projectId: string;
@@ -52,6 +61,7 @@ interface DirectoryTableProps {
   onEdit?: (person: PersonWithDetails) => void;
   onDeactivate?: (person: PersonWithDetails) => void;
   onReactivate?: (person: PersonWithDetails) => void;
+  onPermissionsChange?: (permissions: DirectoryPermissions) => void;
 }
 
 const defaultColumns: ColumnConfig[] = [
@@ -61,9 +71,10 @@ const defaultColumns: ColumnConfig[] = [
   { id: 'phone', label: 'Phone', visible: true, order: 3 },
   { id: 'job_title', label: 'Job Title', visible: true, order: 4 },
   { id: 'company', label: 'Company', visible: true, order: 5 },
-  { id: 'permission_template', label: 'Permission', visible: true, order: 6 },
-  { id: 'invite_status', label: 'Status', visible: true, order: 7 },
-  { id: 'actions', label: '', visible: true, order: 8, width: '80px' }
+  { id: 'role', label: 'Role', visible: true, order: 6 },
+  { id: 'permission_template', label: 'Permission', visible: true, order: 7 },
+  { id: 'invite_status', label: 'Status', visible: true, order: 8 },
+  { id: 'actions', label: '', visible: true, order: 9, width: '80px' }
 ];
 
 /**
@@ -90,31 +101,108 @@ export function DirectoryTable({
   onInvite,
   onEdit,
   onDeactivate,
-  onReactivate
+  onReactivate,
+  onPermissionsChange
 }: DirectoryTableProps) {
-  const [search, setSearch] = useState('');
+  const [filters, setFilters] = useState<DirectoryFilterState>(() => ({
+    type: type === 'users' ? 'user' : type === 'contacts' ? 'contact' : 'all',
+    status,
+    groupBy: defaultGroupBy,
+    search: ''
+  }));
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
   const [showFilters, setShowFilters] = useState(false);
   const [showColumnManager, setShowColumnManager] = useState(false);
   const [columns, setColumns] = useState(defaultColumns);
-  const [filters, setFilters] = useState<DirectoryFilters>({
-    type: type === 'users' ? 'user' : type === 'contacts' ? 'contact' : 'all',
-    status,
-    groupBy: defaultGroupBy
+  const [rowHeight, setRowHeight] = useState<'cozy' | 'compact'>('cozy');
+  const [preferencesLoaded, setPreferencesLoaded] = useState(false);
+  const [filterOptions, setFilterOptions] = useState<DirectoryFilterOptions>({
+    companies: [],
+    permissionTemplates: [],
+    roles: []
   });
+  const [permissions, setPermissions] = useState<DirectoryPermissions>({
+    canRead: false,
+    canInvite: false,
+    canEdit: false,
+    canRemove: false
+  });
+  const storageKey = `directory-people-${projectId}-${type}-${status}`;
+  const { toast } = useToast();
 
   const {
     data,
     groups,
     loading,
     error,
+    meta,
+    filterOptions: apiFilterOptions,
+    permissions: apiPermissions,
     refetch,
     updateFilters
-  } = useDirectory(projectId, {
-    ...filters,
-    search
-  });
+  } = useDirectory(projectId, filters);
+
+  useEffect(() => {
+    setFilterOptions(apiFilterOptions);
+  }, [apiFilterOptions]);
+
+  useEffect(() => {
+    setPermissions(apiPermissions);
+    onPermissionsChange?.(apiPermissions);
+  }, [apiPermissions, onPermissionsChange]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const stored = window.localStorage.getItem(storageKey);
+    if (stored) {
+      try {
+        const parsed = JSON.parse(stored) as {
+          filters?: DirectoryFilterState;
+          columns?: ColumnConfig[];
+          rowHeight?: 'cozy' | 'compact';
+        };
+        if (parsed.filters) {
+          setFilters(prev => ({ ...prev, ...parsed.filters }));
+        }
+        if (parsed.columns) {
+          setColumns(parsed.columns);
+        }
+        if (parsed.rowHeight) {
+          setRowHeight(parsed.rowHeight);
+        }
+      } catch {
+        // Ignore malformed preferences
+      }
+    }
+    setPreferencesLoaded(true);
+  }, [storageKey]);
+
+  useEffect(() => {
+    if (!preferencesLoaded) return;
+    updateFilters(filters);
+  }, [filters, preferencesLoaded, updateFilters]);
+
+  useEffect(() => {
+    if (!preferencesLoaded || typeof window === 'undefined') return;
+    window.localStorage.setItem(
+      storageKey,
+      JSON.stringify({ filters, columns, rowHeight })
+    );
+  }, [filters, columns, rowHeight, storageKey, preferencesLoaded]);
+
+  useEffect(() => {
+    setFilters(prev => ({
+      ...prev,
+      type: type === 'users' ? 'user' : type === 'contacts' ? 'contact' : 'all',
+      status,
+      groupBy: prev.groupBy ?? defaultGroupBy
+    }));
+  }, [type, status, defaultGroupBy]);
+
+  useEffect(() => {
+    setSelectedIds(new Set());
+  }, [filters.status, filters.companyId, filters.permissionTemplateId, filters.role, filters.type]);
 
   // Sort columns by order
   const sortedColumns = useMemo(() => {
@@ -171,12 +259,106 @@ export function DirectoryTable({
     return `${person.first_name?.[0] || ''}${person.last_name?.[0] || ''}`.toUpperCase();
   };
 
+  const handleFiltersChange = (updated: DirectoryFilterState) => {
+    setFilters(prev => ({
+      ...prev,
+      ...updated
+    }));
+  };
+
+  const handleBulkInvite = async () => {
+    const targets = data.filter(person => selectedIds.has(person.id) && person.person_type === 'user');
+    if (targets.length === 0) return;
+
+    try {
+      await Promise.all(
+        targets.map(person =>
+          fetch(`/api/projects/${projectId}/directory/invite`, {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+              personId: person.id,
+              reinvite: person.membership?.invite_status === 'invited'
+            })
+          }).then(response => {
+            if (!response.ok) {
+              throw new Error('Invite failed');
+            }
+          })
+        )
+      );
+      toast.success(`Invited ${targets.length} ${targets.length === 1 ? 'person' : 'people'}`);
+      setSelectedIds(new Set());
+      refetch();
+    } catch {
+      toast.error('Failed to send invitations. Please try again.');
+    }
+  };
+
+  const handleBulkDeactivate = async () => {
+    const targets = data.filter(person => selectedIds.has(person.id));
+    if (targets.length === 0) return;
+
+    try {
+      await Promise.all(
+        targets.map(person =>
+          fetch(`/api/projects/${projectId}/directory/users/${person.id}`, {
+            method: 'DELETE'
+          }).then(response => {
+            if (!response.ok) {
+              throw new Error('Remove failed');
+            }
+          })
+        )
+      );
+      toast.success(`Removed ${targets.length} ${targets.length === 1 ? 'person' : 'people'}`);
+      setSelectedIds(new Set());
+      refetch();
+    } catch {
+      toast.error('Failed to remove selected people.');
+    }
+  };
+
+  const handleBulkReactivate = async () => {
+    const targets = data.filter(person => selectedIds.has(person.id));
+    if (targets.length === 0) return;
+
+    try {
+      await Promise.all(
+        targets.map(person =>
+          fetch(`/api/projects/${projectId}/directory/users/${person.id}`, {
+            method: 'PATCH',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ status: 'active' })
+          }).then(response => {
+            if (!response.ok) {
+              throw new Error('Reactivate failed');
+            }
+          })
+        )
+      );
+      toast.success(`Reactivated ${targets.length} ${targets.length === 1 ? 'person' : 'people'}`);
+      setSelectedIds(new Set());
+      refetch();
+    } catch {
+      toast.error('Failed to reactivate selected people.');
+    }
+  };
+
+  const rowClassName = rowHeight === 'compact' ? 'h-11' : 'h-14';
+  const visibleColumns = useMemo(
+    () => sortedColumns.filter(c => c.visible),
+    [sortedColumns]
+  );
+
   // Render person row
   const renderPersonRow = (person: PersonWithDetails) => {
-    const visibleColumns = sortedColumns.filter(c => c.visible);
-    
     return (
-      <TableRow key={person.id} className="hover:bg-muted/50">
+      <TableRow key={person.id} className={cn('hover:bg-muted/50', rowClassName)}>
         {visibleColumns.map(column => {
           switch (column.id) {
             case 'select':
@@ -254,6 +436,13 @@ export function DirectoryTable({
                   )}
                 </TableCell>
               );
+
+            case 'role':
+              return (
+                <TableCell key={column.id}>
+                  {person.membership?.role}
+                </TableCell>
+              );
             
             case 'invite_status':
               return (
@@ -283,13 +472,15 @@ export function DirectoryTable({
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       {onEdit && (
+                        permissions.canEdit && (
                         <DropdownMenuItem onClick={() => onEdit(person)}>
                           <Edit className="mr-2 h-4 w-4" />
                           Edit
                         </DropdownMenuItem>
+                        )
                       )}
                       
-                      {person.person_type === 'user' && person.membership?.invite_status !== 'accepted' && onInvite && (
+                      {person.person_type === 'user' && person.membership?.invite_status !== 'accepted' && onInvite && permissions.canInvite && (
                         <DropdownMenuItem onClick={() => onInvite(person)}>
                           <Mail className="mr-2 h-4 w-4" />
                           {person.membership?.invite_status === 'invited' ? 'Resend Invite' : 'Send Invite'}
@@ -298,7 +489,7 @@ export function DirectoryTable({
                       
                       <DropdownMenuSeparator />
                       
-                      {status === 'active' && onDeactivate && (
+                      {status === 'active' && onDeactivate && permissions.canRemove && (
                         <DropdownMenuItem 
                           onClick={() => onDeactivate(person)}
                           className="text-destructive"
@@ -308,7 +499,7 @@ export function DirectoryTable({
                         </DropdownMenuItem>
                       )}
                       
-                      {status === 'inactive' && onReactivate && (
+                      {status === 'inactive' && onReactivate && permissions.canRemove && (
                         <DropdownMenuItem onClick={() => onReactivate(person)}>
                           <UserPlus className="mr-2 h-4 w-4" />
                           Reactivate
@@ -327,16 +518,6 @@ export function DirectoryTable({
     );
   };
 
-  if (loading) {
-    return <div className="p-8 text-center">Loading...</div>;
-  }
-
-  if (error) {
-    return <div className="p-8 text-center text-destructive">Error: {error.message}</div>;
-  }
-
-  const visibleColumns = sortedColumns.filter(c => c.visible);
-
   return (
     <div className="space-y-4">
       {/* Search and Actions Bar */}
@@ -346,8 +527,8 @@ export function DirectoryTable({
             <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               placeholder="Search by name, email, phone, or company..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
+              value={filters.search || ''}
+              onChange={(e) => setFilters(prev => ({ ...prev, search: e.target.value }))}
               className="pl-9"
             />
           </div>
@@ -370,6 +551,14 @@ export function DirectoryTable({
           <Button variant="outline" size="icon">
             <Download className="h-4 w-4" />
           </Button>
+
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setRowHeight(prev => prev === 'cozy' ? 'compact' : 'cozy')}
+          >
+            Row height: {rowHeight === 'compact' ? 'Compact' : 'Comfortable'}
+          </Button>
           
           <Button
             variant="outline"
@@ -380,7 +569,7 @@ export function DirectoryTable({
           </Button>
           
           {type === 'users' && (
-            <Button>
+            <Button disabled={!permissions.canInvite && !permissions.canEdit}>
               <UserPlus className="mr-2 h-4 w-4" />
               Add User
             </Button>
@@ -388,15 +577,24 @@ export function DirectoryTable({
         </div>
       </div>
 
+      <div className="text-xs text-muted-foreground">
+        Showing {data.length} of {meta.total} people
+      </div>
+
+      {error && (
+        <Alert variant="destructive">
+          <AlertDescription>{error.message}</AlertDescription>
+        </Alert>
+      )}
+
       {/* Filters */}
       {showFilters && (
         <DirectoryFilters
           filters={filters}
-          onFiltersChange={(newFilters) => {
-            setFilters(newFilters);
-            updateFilters(newFilters);
-          }}
+          onFiltersChange={handleFiltersChange}
           projectId={projectId}
+          options={filterOptions}
+          loading={loading}
         />
       )}
 
@@ -406,14 +604,21 @@ export function DirectoryTable({
           <span className="text-sm">
             {selectedIds.size} {selectedIds.size === 1 ? 'item' : 'items'} selected
           </span>
-          <Button variant="outline" size="sm">
+          <Button variant="outline" size="sm" onClick={handleBulkInvite} disabled={!permissions.canInvite}>
             <Mail className="mr-2 h-4 w-4" />
             Bulk Invite
           </Button>
-          <Button variant="outline" size="sm">
-            <UserX className="mr-2 h-4 w-4" />
-            Bulk Deactivate
-          </Button>
+          {status === 'active' ? (
+            <Button variant="outline" size="sm" onClick={handleBulkDeactivate} disabled={!permissions.canRemove}>
+              <UserX className="mr-2 h-4 w-4" />
+              Bulk Remove
+            </Button>
+          ) : (
+            <Button variant="outline" size="sm" onClick={handleBulkReactivate} disabled={!permissions.canRemove}>
+              <UserPlus className="mr-2 h-4 w-4" />
+              Bulk Reactivate
+            </Button>
+          )}
         </div>
       )}
 
@@ -459,12 +664,21 @@ export function DirectoryTable({
           </TableHeader>
           
           <TableBody>
-            {filters.groupBy === 'company' && groups ? (
-              // Grouped view
+            {loading ? (
+              Array.from({ length: 4 }).map((_, index) => (
+                <TableRow key={`skeleton-${index}`}>
+                  {visibleColumns.map(column => (
+                    <TableCell key={column.id}>
+                      <Skeleton className="h-4 w-full" />
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : filters.groupBy === 'company' && groups ? (
               groups.map(group => (
                 <React.Fragment key={group.key}>
-                  <TableRow 
-                    className="hover:bg-muted/50 cursor-pointer"
+                  <TableRow
+                    className={cn('cursor-pointer hover:bg-muted/50', rowClassName)}
                     onClick={() => toggleGroup(group.key)}
                   >
                     <TableCell colSpan={visibleColumns.length}>
@@ -484,14 +698,13 @@ export function DirectoryTable({
                       </div>
                     </TableCell>
                   </TableRow>
-                  
+
                   {expandedGroups.has(group.key) && (
                     <>
-                      {/* Sub-header */}
                       <TableRow className="bg-muted/30">
                         {visibleColumns.map(column => (
-                          <TableHead 
-                            key={column.id} 
+                          <TableHead
+                            key={column.id}
                             style={{ width: column.width }}
                             className="h-8 text-xs"
                           >
@@ -520,19 +733,25 @@ export function DirectoryTable({
                           </TableHead>
                         ))}
                       </TableRow>
-                      
-                      {/* Group items */}
+
+                      {group.items.length === 0 && (
+                        <TableRow>
+                          <TableCell colSpan={visibleColumns.length} className="text-center text-sm text-muted-foreground">
+                            No people in this company yet
+                          </TableCell>
+                        </TableRow>
+                      )}
+
                       {group.items.map(person => renderPersonRow(person))}
                     </>
                   )}
                 </React.Fragment>
               ))
             ) : (
-              // Flat view
               data.map(person => renderPersonRow(person))
             )}
-            
-            {data.length === 0 && (
+
+            {!loading && data.length === 0 && (
               <TableRow>
                 <TableCell colSpan={visibleColumns.length} className="text-center py-8">
                   No {type} found
@@ -547,6 +766,7 @@ export function DirectoryTable({
       {showColumnManager && (
         <ColumnManager
           columns={columns}
+          defaultColumns={defaultColumns}
           onColumnsChange={setColumns}
           onClose={() => setShowColumnManager(false)}
         />

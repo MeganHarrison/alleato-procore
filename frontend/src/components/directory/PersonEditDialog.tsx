@@ -23,7 +23,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Loader2, Save, AlertCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useSupabase } from '@/hooks/useSupabase';
-import type { PersonWithDetails } from '@/components/directory/DirectoryFilters';
+import type { PersonWithDetails } from '@/types/directory';
 import type { Database } from '@/types/database.types';
 
 type Tables = Database['public']['Tables'];
@@ -104,7 +104,7 @@ export function PersonEditDialog({
         phone_business: person.phone_business || '',
         job_title: person.job_title || '',
         company_id: person.company?.id || '',
-        person_type: person.person_type,
+        person_type: person.person_type === 'contact' ? 'contact' : 'user',
         permission_template_id: person.permission_template?.id || person.membership?.permission_template_id || ''
       });
     } else {
