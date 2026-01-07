@@ -60,9 +60,14 @@
 
 'use client'
 
-import { useState, useMemo } from 'react'
+import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { format } from 'date-fns'
+import { useVirtualizer } from '@tanstack/react-virtual'
+import Fuse from 'fuse.js'
+import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core'
+import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
+import { CSS } from '@dnd-kit/utilities'
 import {
   Table,
   TableBody,
@@ -119,6 +124,15 @@ import {
   LayoutGrid,
   List,
   Loader2,
+  Pin,
+  PinOff,
+  GripVertical,
+  Save,
+  Plus,
+  BarChart3,
+  Calendar,
+  Filter,
+  X,
 } from 'lucide-react'
 import { cn } from '@/lib/utils'
 
@@ -127,6 +141,84 @@ import { cn } from '@/lib/utils'
 // ============================================================================
 
 export type ViewMode = 'table' | 'card' | 'list'
+
+// ============================================================================
+// TYPE DEFINITIONS - Advanced Features
+// ============================================================================
+
+/**
+ * Advanced Filter Types
+ */
+export type AdvancedFilterType = 'date-range' | 'number-range' | 'multi-select' | 'single-select'
+
+export interface AdvancedFilterConfig {
+  id: string
+  label: string
+  field: string
+  type: AdvancedFilterType
+  options?: { value: string; label: string }[]
+}
+
+/**
+ * Sort Configuration for Multi-Column Sorting
+ */
+export interface SortConfig {
+  columnId: string
+  direction: 'asc' | 'desc'
+}
+
+/**
+ * Saved View Configuration
+ */
+export interface SavedView {
+  id: string
+  name: string
+  description?: string
+  isDefault?: boolean
+  config: {
+    visibleColumns: string[]
+    sortConfigs: SortConfig[]
+    filters: Record<string, unknown>
+    columnWidths?: Record<string, number>
+    pinnedColumns?: string[]
+  }
+  createdAt: string
+  updatedAt: string
+}
+
+/**
+ * Bulk Action Configuration
+ */
+export interface BulkAction {
+  id: string
+  label: string
+  icon?: React.ReactNode
+  variant?: 'default' | 'destructive'
+  onClick: (selectedIds: (string | number)[]) => Promise<void>
+  disabled?: (selectedIds: (string | number)[]) => boolean
+}
+
+/**
+ * Column Statistics Configuration
+ */
+export type ColumnStatType = 'sum' | 'avg' | 'count' | 'min' | 'max'
+
+export interface ColumnStatConfig {
+  type: ColumnStatType
+  format?: 'currency' | 'number' | 'percentage'
+}
+
+/**
+ * Keyboard Shortcut Configuration
+ */
+export interface KeyboardShortcut {
+  key: string
+  ctrlKey?: boolean
+  shiftKey?: boolean
+  altKey?: boolean
+  description: string
+  handler: () => void
+}
 
 // ============================================================================
 // TYPE DEFINITIONS - Render Configuration
@@ -281,6 +373,13 @@ export type RenderConfig =
  * - sortable: Whether column can be sorted (default: true)
  * - isPrimary: Used for card/list view to determine primary display
  * - isSecondary: Used for card/list view to determine secondary display
+ * - resizable: Whether column width can be resized (default: false)
+ * - pinnable: Whether column can be pinned to left/right (default: false)
+ * - defaultWidth: Default column width in pixels
+ * - minWidth: Minimum column width in pixels
+ * - maxWidth: Maximum column width in pixels
+ * - tooltip: Tooltip text for column header
+ * - stat: Column statistics configuration (sum, avg, count, min, max)
  */
 export interface ColumnConfig {
   id: string
@@ -291,6 +390,13 @@ export interface ColumnConfig {
   sortable?: boolean
   isPrimary?: boolean
   isSecondary?: boolean
+  resizable?: boolean
+  pinnable?: boolean
+  defaultWidth?: number
+  minWidth?: number
+  maxWidth?: number
+  tooltip?: string
+  stat?: ColumnStatConfig
 }
 
 /**
@@ -357,7 +463,7 @@ export interface RowActionConfig {
  * - columns: Array of column definitions
  * - searchFields: Which fields to include in text search
  *
- * Optional Fields:
+ * Optional Fields (Basic):
  * - title: Table title (h1)
  * - description: Subtitle text
  * - filters: Dropdown filters
@@ -372,6 +478,29 @@ export interface RowActionConfig {
  * - defaultSortDirection: Initial sort direction
  * - rowActions: Custom row actions
  * - onDelete: Enable delete functionality
+ *
+ * Optional Fields (Advanced Features):
+ * - enableVirtualScroll: Enable virtual scrolling for large datasets (10,000+ rows)
+ * - virtualScrollHeight: Height of virtual scroll container in pixels (default: 600)
+ * - enableMultiColumnSort: Enable Shift+Click for multi-column sorting
+ * - advancedFilters: Advanced filter configurations (date range, number range, multi-select)
+ * - enableFuzzySearch: Enable fuzzy search with Fuse.js for better search results
+ * - fuzzySearchThreshold: Fuse.js threshold (0.0 = exact, 1.0 = match anything, default: 0.3)
+ * - enableSavedViews: Enable saved view presets
+ * - savedViews: Array of saved view configurations
+ * - bulkActions: Array of bulk action configurations
+ * - enableColumnResize: Enable column resizing
+ * - enableColumnPin: Enable column pinning (left/right)
+ * - enableRowExpansion: Enable expandable rows
+ * - rowExpansionContent: Function to render expanded row content
+ * - enableRowDragDrop: Enable drag & drop row reordering
+ * - onRowReorder: Callback when rows are reordered
+ * - enableInlineCellEdit: Enable double-click to edit cells
+ * - enableKeyboardNav: Enable keyboard shortcuts (/, Ctrl+A, arrow keys)
+ * - keyboardShortcuts: Custom keyboard shortcuts
+ * - enableColumnStats: Show column statistics summary row
+ * - exportFormats: Export formats ['csv', 'json', 'xlsx']
+ * - stateStorageKey: LocalStorage key for persistent state (filters, sort, column visibility)
  */
 export interface GenericTableConfig {
   title?: string
@@ -390,6 +519,29 @@ export interface GenericTableConfig {
   defaultSortDirection?: 'asc' | 'desc'
   rowActions?: RowActionConfig[]
   onDelete?: boolean
+
+  // Advanced Features (All Optional - Backward Compatible)
+  enableVirtualScroll?: boolean
+  virtualScrollHeight?: number
+  enableMultiColumnSort?: boolean
+  advancedFilters?: AdvancedFilterConfig[]
+  enableFuzzySearch?: boolean
+  fuzzySearchThreshold?: number
+  enableSavedViews?: boolean
+  savedViews?: SavedView[]
+  bulkActions?: BulkAction[]
+  enableColumnResize?: boolean
+  enableColumnPin?: boolean
+  enableRowExpansion?: boolean
+  rowExpansionContent?: (row: Record<string, unknown>) => React.ReactNode
+  enableRowDragDrop?: boolean
+  onRowReorder?: (reorderedData: Record<string, unknown>[]) => void
+  enableInlineCellEdit?: boolean
+  enableKeyboardNav?: boolean
+  keyboardShortcuts?: KeyboardShortcut[]
+  enableColumnStats?: boolean
+  exportFormats?: ('csv' | 'json' | 'xlsx')[]
+  stateStorageKey?: string
 }
 
 /**
@@ -427,6 +579,9 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
   // Active filter values (key: filter.id, value: selected option)
   const [filters, setFilters] = useState<Record<string, string>>({})
 
+  // Advanced filter values
+  const [advancedFilters, setAdvancedFilters] = useState<Record<string, unknown>>({})
+
   // Which columns are currently visible (Set for O(1) lookup)
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
     new Set(config.columns.filter(col => col.defaultVisible).map(col => col.id))
@@ -444,7 +599,13 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
   // View mode state
   const [viewMode, setViewMode] = useState<ViewMode>(config.defaultViewMode || 'table')
 
-  // Sorting state
+  // Sorting state - now supports multi-column sorting
+  const [sortConfigs, setSortConfigs] = useState<SortConfig[]>(
+    config.defaultSortColumn
+      ? [{ columnId: config.defaultSortColumn, direction: config.defaultSortDirection || 'asc' }]
+      : []
+  )
+  // Legacy single-column sort state (for backward compatibility)
   const [sortColumn, setSortColumn] = useState<string | null>(config.defaultSortColumn || null)
   const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(config.defaultSortDirection || 'asc')
 
@@ -454,6 +615,35 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
   // Deleting state
   const [deletingId, setDeletingId] = useState<string | number | null>(null)
 
+  // Column widths state
+  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({})
+
+  // Pinned columns state
+  const [pinnedColumns, setPinnedColumns] = useState<string[]>([])
+
+  // Expanded rows state
+  const [expandedRows, setExpandedRows] = useState<Set<string | number>>(new Set())
+
+  // Saved views state
+  const [currentView, setCurrentView] = useState<SavedView | null>(null)
+  const [showSavedViewsDialog, setShowSavedViewsDialog] = useState(false)
+
+  // Inline editing state
+  const [editingCell, setEditingCell] = useState<{ rowId: string | number; columnId: string } | null>(null)
+
+  // Virtual scroll container ref
+  const tableContainerRef = useRef<HTMLDivElement>(null)
+
+  // Fuse.js instance for fuzzy search
+  const fuseInstance = useMemo(() => {
+    if (!config.enableFuzzySearch) return null
+    return new Fuse(data, {
+      keys: config.searchFields,
+      threshold: config.fuzzySearchThreshold || 0.3,
+      includeScore: true,
+    })
+  }, [data, config.enableFuzzySearch, config.searchFields, config.fuzzySearchThreshold])
+
   // ============================================================================
   // FILTERING, SEARCH & SORTING LOGIC
   // ============================================================================
@@ -462,19 +652,31 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
    * Memoized filtered and sorted data
    */
   const processedData = useMemo(() => {
-    // Step 1: Filter data
-    let result = data.filter(row => {
-      // Search filter: Check if any searchField contains searchTerm
-      const matchesSearch = config.searchFields.some(field => {
-        const value = row[field]
-        if (value === null || value === undefined) return false
-        return String(value).toLowerCase().includes(searchTerm.toLowerCase())
-      })
+    let result = data
 
-      if (searchTerm && !matchesSearch) return false
+    // Step 1: Search filter (with optional fuzzy search)
+    if (searchTerm) {
+      if (config.enableFuzzySearch && fuseInstance) {
+        // Fuzzy search with Fuse.js
+        const fuzzyResults = fuseInstance.search(searchTerm)
+        const matchedIds = new Set(fuzzyResults.map(r => r.item.id))
+        result = result.filter(row => matchedIds.has(row.id))
+      } else {
+        // Standard substring search
+        result = result.filter(row => {
+          const matchesSearch = config.searchFields.some(field => {
+            const value = row[field]
+            if (value === null || value === undefined) return false
+            return String(value).toLowerCase().includes(searchTerm.toLowerCase())
+          })
+          return matchesSearch
+        })
+      }
+    }
 
-      // Custom filters: Check if row matches all active filters
-      if (config.filters) {
+    // Step 2: Basic filters
+    if (config.filters) {
+      result = result.filter(row => {
         for (const filter of config.filters) {
           const filterValue = filters[filter.id]
           if (filterValue && filterValue !== 'all') {
@@ -482,56 +684,168 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
             if (rowValue !== filterValue) return false
           }
         }
-      }
-
-      return true
-    })
-
-    // Step 2: Sort data
-    if (sortColumn && config.enableSorting !== false) {
-      result = [...result].sort((a, b) => {
-        const valueA = a[sortColumn]
-        const valueB = b[sortColumn]
-
-        // Handle null/undefined
-        if (valueA == null && valueB == null) return 0
-        if (valueA == null) return sortDirection === 'asc' ? 1 : -1
-        if (valueB == null) return sortDirection === 'asc' ? -1 : 1
-
-        // Handle different types
-        if (typeof valueA === 'number' && typeof valueB === 'number') {
-          return sortDirection === 'asc' ? valueA - valueB : valueB - valueA
-        }
-
-        // String comparison
-        const strA = String(valueA).toLowerCase()
-        const strB = String(valueB).toLowerCase()
-        return sortDirection === 'asc'
-          ? strA.localeCompare(strB)
-          : strB.localeCompare(strA)
+        return true
       })
     }
 
+    // Step 3: Advanced filters
+    if (config.advancedFilters) {
+      result = result.filter(row => {
+        for (const filter of config.advancedFilters) {
+          const filterValue = advancedFilters[filter.id]
+          if (!filterValue) continue
+
+          const rowValue = row[filter.field]
+
+          switch (filter.type) {
+            case 'date-range': {
+              const range = filterValue as { start?: string; end?: string }
+              if (range.start && rowValue && new Date(rowValue as string) < new Date(range.start)) return false
+              if (range.end && rowValue && new Date(rowValue as string) > new Date(range.end)) return false
+              break
+            }
+            case 'number-range': {
+              const range = filterValue as { min?: number; max?: number }
+              const numValue = Number(rowValue)
+              if (range.min !== undefined && numValue < range.min) return false
+              if (range.max !== undefined && numValue > range.max) return false
+              break
+            }
+            case 'multi-select': {
+              const selected = filterValue as string[]
+              if (selected.length > 0 && !selected.includes(String(rowValue))) return false
+              break
+            }
+            case 'single-select': {
+              if (filterValue !== 'all' && rowValue !== filterValue) return false
+              break
+            }
+          }
+        }
+        return true
+      })
+    }
+
+    // Step 4: Sort data
+    if (config.enableSorting !== false) {
+      // Multi-column sorting (if enabled and configured)
+      if (config.enableMultiColumnSort && sortConfigs.length > 0) {
+        result = [...result].sort((a, b) => {
+          for (const sortConfig of sortConfigs) {
+            const valueA = a[sortConfig.columnId]
+            const valueB = b[sortConfig.columnId]
+
+            // Handle null/undefined
+            if (valueA == null && valueB == null) continue
+            if (valueA == null) return sortConfig.direction === 'asc' ? 1 : -1
+            if (valueB == null) return sortConfig.direction === 'asc' ? -1 : 1
+
+            // Handle different types
+            let comparison = 0
+            if (typeof valueA === 'number' && typeof valueB === 'number') {
+              comparison = valueA - valueB
+            } else {
+              // String comparison
+              const strA = String(valueA).toLowerCase()
+              const strB = String(valueB).toLowerCase()
+              comparison = strA.localeCompare(strB)
+            }
+
+            if (comparison !== 0) {
+              return sortConfig.direction === 'asc' ? comparison : -comparison
+            }
+          }
+          return 0
+        })
+      }
+      // Single-column sorting (legacy/default)
+      else if (sortColumn) {
+        result = [...result].sort((a, b) => {
+          const valueA = a[sortColumn]
+          const valueB = b[sortColumn]
+
+          // Handle null/undefined
+          if (valueA == null && valueB == null) return 0
+          if (valueA == null) return sortDirection === 'asc' ? 1 : -1
+          if (valueB == null) return sortDirection === 'asc' ? -1 : 1
+
+          // Handle different types
+          if (typeof valueA === 'number' && typeof valueB === 'number') {
+            return sortDirection === 'asc' ? valueA - valueB : valueB - valueA
+          }
+
+          // String comparison
+          const strA = String(valueA).toLowerCase()
+          const strB = String(valueB).toLowerCase()
+          return sortDirection === 'asc'
+            ? strA.localeCompare(strB)
+            : strB.localeCompare(strA)
+        })
+      }
+    }
+
     return result
-  }, [data, searchTerm, filters, config.searchFields, config.filters, sortColumn, sortDirection, config.enableSorting])
+  }, [
+    data,
+    searchTerm,
+    filters,
+    advancedFilters,
+    config.searchFields,
+    config.filters,
+    config.advancedFilters,
+    config.enableFuzzySearch,
+    config.enableMultiColumnSort,
+    config.enableSorting,
+    sortColumn,
+    sortDirection,
+    sortConfigs,
+    fuseInstance,
+  ])
 
   // ============================================================================
   // SORTING HANDLERS
   // ============================================================================
 
-  const handleSort = (columnId: string) => {
+  const handleSort = useCallback((columnId: string, shiftKey = false) => {
     if (config.enableSorting === false) return
 
     const column = config.columns.find(c => c.id === columnId)
     if (column?.sortable === false) return
 
-    if (sortColumn === columnId) {
-      setSortDirection(prev => (prev === 'asc' ? 'desc' : 'asc'))
-    } else {
-      setSortColumn(columnId)
-      setSortDirection('asc')
+    // Multi-column sorting with Shift key
+    if (config.enableMultiColumnSort && shiftKey) {
+      setSortConfigs(prev => {
+        const existingIndex = prev.findIndex(sc => sc.columnId === columnId)
+
+        if (existingIndex >= 0) {
+          // Toggle direction for existing sort
+          const newConfigs = [...prev]
+          newConfigs[existingIndex] = {
+            ...newConfigs[existingIndex],
+            direction: newConfigs[existingIndex].direction === 'asc' ? 'desc' : 'asc',
+          }
+          return newConfigs
+        } else {
+          // Add new sort column
+          return [...prev, { columnId, direction: 'asc' }]
+        }
+      })
     }
-  }
+    // Single-column sorting (default)
+    else {
+      if (sortColumn === columnId) {
+        setSortDirection(prev => (prev === 'asc' ? 'desc' : 'asc'))
+      } else {
+        setSortColumn(columnId)
+        setSortDirection('asc')
+      }
+      // Also update sortConfigs for consistency
+      if (config.enableMultiColumnSort) {
+        const newDirection = sortColumn === columnId && sortDirection === 'asc' ? 'desc' : 'asc'
+        setSortConfigs([{ columnId, direction: newDirection }])
+      }
+    }
+  }, [config.enableSorting, config.enableMultiColumnSort, config.columns, sortColumn, sortDirection])
 
   const renderSortIcon = (columnId: string) => {
     if (config.enableSorting === false) return null
@@ -539,6 +853,28 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
     const column = config.columns.find(c => c.id === columnId)
     if (column?.sortable === false) return null
 
+    // Multi-column sort indicators
+    if (config.enableMultiColumnSort && sortConfigs.length > 0) {
+      const sortConfig = sortConfigs.find(sc => sc.columnId === columnId)
+      if (sortConfig) {
+        const sortIndex = sortConfigs.findIndex(sc => sc.columnId === columnId)
+        return (
+          <div className="ml-1 flex items-center gap-0.5">
+            {sortConfig.direction === 'asc' ? (
+              <ChevronUp className="h-3.5 w-3.5" />
+            ) : (
+              <ChevronDown className="h-3.5 w-3.5" />
+            )}
+            {sortConfigs.length > 1 && (
+              <span className="text-[10px] font-medium">{sortIndex + 1}</span>
+            )}
+          </div>
+        )
+      }
+      return <ArrowUpDown className="ml-1 h-3.5 w-3.5 text-muted-foreground" />
+    }
+
+    // Single-column sort indicator (legacy)
     if (sortColumn !== columnId) {
       return <ArrowUpDown className="ml-1 h-3.5 w-3.5 text-muted-foreground" />
     }
@@ -1007,9 +1343,142 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
     )
   }
 
+  // Virtual scrolling setup
+  const rowVirtualizer = useVirtualizer({
+    count: processedData.length,
+    getScrollElement: () => tableContainerRef.current,
+    estimateSize: () => 53, // Approximate row height in pixels
+    enabled: config.enableVirtualScroll,
+    overscan: 5,
+  })
+
   const renderTableView = () => {
     const hasActions = config.editConfig || onDeleteRow || config.onDelete || config.rowActions?.length
 
+    // Virtual scrolling enabled
+    if (config.enableVirtualScroll) {
+      return (
+        <div className="rounded-sm border">
+          <Table>
+            <TableHeader>
+              <TableRow>
+                {config.enableRowSelection && (
+                  <TableHead className="w-[50px]">
+                    <div className="flex items-center justify-center">
+                      <Checkbox
+                        checked={isAllSelected}
+                        ref={(el) => {
+                          if (el) {
+                            (el as HTMLButtonElement & { indeterminate?: boolean }).indeterminate = isSomeSelected
+                          }
+                        }}
+                        onCheckedChange={(checked) => handleSelectAll(!!checked)}
+                        aria-label="Select all"
+                      />
+                    </div>
+                  </TableHead>
+                )}
+                {config.columns
+                  .filter(col => visibleColumns.has(col.id))
+                  .map(col => {
+                    const isSortable = config.enableSorting !== false && col.sortable !== false
+                    return (
+                      <TableHead
+                        key={col.id}
+                        className={cn(
+                          isSortable && 'cursor-pointer select-none hover:bg-muted/50'
+                        )}
+                        onClick={(e) => isSortable && handleSort(col.id, e.shiftKey)}
+                      >
+                        <div className="flex items-center">
+                          {col.label}
+                          {renderSortIcon(col.id)}
+                        </div>
+                      </TableHead>
+                    )
+                  })}
+                {hasActions && <TableHead className="w-[70px] text-right">Actions</TableHead>}
+              </TableRow>
+            </TableHeader>
+          </Table>
+          <div
+            ref={tableContainerRef}
+            style={{ height: `${config.virtualScrollHeight || 600}px`, overflow: 'auto' }}
+          >
+            <Table>
+              <TableBody style={{ height: `${rowVirtualizer.getTotalSize()}px`, position: 'relative' }}>
+                {processedData.length === 0 ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={
+                        config.columns.filter(col => visibleColumns.has(col.id)).length +
+                        (config.enableRowSelection ? 1 : 0) +
+                        (hasActions ? 1 : 0)
+                      }
+                      className="h-24 text-center"
+                    >
+                      No {config.title?.toLowerCase() || 'items'} found.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  rowVirtualizer.getVirtualItems().map((virtualRow) => {
+                    const row = processedData[virtualRow.index]
+                    return (
+                      <TableRow
+                        key={row.id as string || virtualRow.index}
+                        className={cn(
+                          config.rowClickPath ? "cursor-pointer hover:bg-muted/50 transition-colors" : "",
+                          selectedIds.has(row.id as string | number) && 'bg-muted/30'
+                        )}
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          left: 0,
+                          width: '100%',
+                          height: `${virtualRow.size}px`,
+                          transform: `translateY(${virtualRow.start}px)`,
+                        }}
+                        onClick={() => handleRowClick(row)}
+                        data-state={selectedIds.has(row.id as string | number) ? 'selected' : undefined}
+                      >
+                        {config.enableRowSelection && (
+                          <TableCell>
+                            <div className="flex items-center justify-center">
+                              <Checkbox
+                                checked={selectedIds.has(row.id as string | number)}
+                                onCheckedChange={(checked) => {
+                                  handleSelectRow(row.id as string | number, !!checked)
+                                }}
+                                onClick={(e) => e.stopPropagation()}
+                                aria-label="Select row"
+                              />
+                            </div>
+                          </TableCell>
+                        )}
+                        {config.columns
+                          .filter(col => visibleColumns.has(col.id))
+                          .map(col => (
+                            <TableCell key={col.id}>
+                              {renderCellContent(col, row)}
+                            </TableCell>
+                          ))}
+                        {hasActions && (
+                          <TableCell className="text-right">
+                            {renderRowActions(row)}
+                          </TableCell>
+                        )}
+                      </TableRow>
+                    )
+                  })
+                )}
+              </TableBody>
+            </Table>
+          </div>
+        </div>
+      )
+    }
+
+    // Standard rendering (no virtual scroll)
     return (
       <div className="rounded-sm border">
         <Table>
@@ -1041,7 +1510,7 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
                       className={cn(
                         isSortable && 'cursor-pointer select-none hover:bg-muted/50'
                       )}
-                      onClick={() => isSortable && handleSort(col.id)}
+                      onClick={(e) => isSortable && handleSort(col.id, e.shiftKey)}
                     >
                       <div className="flex items-center">
                         {col.label}
@@ -1136,6 +1605,50 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
             )}
             <span>{processedData.length} of {data.length} {config.title?.toLowerCase() || 'items'}</span>
           </div>
+        </div>
+      )}
+
+      {/* ========================================
+          BULK ACTIONS (Shown when rows selected)
+          ======================================== */}
+      {config.bulkActions && selectedIds.size > 0 && (
+        <div className="flex items-center gap-2 p-3 bg-primary/10 border rounded-lg">
+          <span className="text-sm font-medium">
+            {selectedIds.size} row{selectedIds.size === 1 ? '' : 's'} selected
+          </span>
+          <div className="flex items-center gap-2 ml-4">
+            {config.bulkActions.map((action) => {
+              const isDisabled = action.disabled?.(Array.from(selectedIds)) ?? false
+              return (
+                <Button
+                  key={action.id}
+                  variant={action.variant || 'default'}
+                  size="sm"
+                  disabled={isDisabled}
+                  onClick={async () => {
+                    await action.onClick(Array.from(selectedIds))
+                    // Optionally clear selection after action
+                    setSelectedIds(new Set())
+                    onSelectionChange?.([])
+                  }}
+                >
+                  {action.icon}
+                  {action.label}
+                </Button>
+              )
+            })}
+          </div>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => {
+              setSelectedIds(new Set())
+              onSelectionChange?.([])
+            }}
+            className="ml-auto"
+          >
+            Clear selection
+          </Button>
         </div>
       )}
 
