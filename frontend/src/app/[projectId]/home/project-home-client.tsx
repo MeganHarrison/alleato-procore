@@ -19,6 +19,13 @@ import Link from 'next/link'
 import { SidebarProvider } from '@/components/ui/sidebar'
 import { ProjectSidebar } from './project-sidebar'
 import { InfoSection } from './info-section'
+import { InlineTeamMemberForm } from '@/components/project-home/inline-team-member-form'
+
+interface TeamMember {
+  name: string
+  role: string
+  personId?: string
+}
 
 type Project = Database['public']['Tables']['projects']['Row']
 type Task = Database['public']['Tables']['project_tasks']['Row']
@@ -118,6 +125,46 @@ export function ProjectHomeClient({
   const [isBudgetOpen, setIsBudgetOpen] = useState(true)
   const [isSovOpen, setIsSovOpen] = useState(true)
   const [isScheduleOpen, setIsScheduleOpen] = useState(true)
+  const [showAddTeamMemberForm, setShowAddTeamMemberForm] = useState(false)
+
+  // Parse existing team members to ensure consistent format
+  const parseTeamMembers = (): TeamMember[] => {
+    if (!project.team_members || !Array.isArray(project.team_members)) {
+      return []
+    }
+    return project.team_members.map((member) => {
+      if (typeof member === 'string') {
+        return { name: member, role: 'Role not specified' }
+      }
+      const memberObj = member as Record<string, unknown>
+      return {
+        name: String(memberObj?.name || 'Team Member'),
+        role: String(memberObj?.role || 'Role not specified'),
+        personId: memberObj?.personId as string | undefined,
+      }
+    })
+  }
+
+  // Handle saving team members
+  const handleSaveTeamMembers = async (members: TeamMember[]) => {
+    try {
+      const response = await fetch(`/api/projects/${project.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ team_members: members })
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to update team members')
+      }
+
+      setShowAddTeamMemberForm(false)
+      router.refresh()
+    } catch (error) {
+      console.error('Error updating team members:', error)
+      throw error
+    }
+  }
 
   // Handle saving project updates
   const handleSaveProject = async (updates: Record<string, string>) => {
@@ -279,9 +326,9 @@ export function ProjectHomeClient({
       </header>
 
       {/* 2 Columns */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
         {/* Project Summary */}
-        <div className="col-span-2">
+        <div>
           <EditableSummary
             summary={project.summary || 'No project summary available.'}
             onSave={handleSaveSummary}
@@ -297,13 +344,14 @@ export function ProjectHomeClient({
                   Project Team
                 </h3>
                 <div className="flex items-center gap-3">
-                  <Link
-                    href={`/${project.id}/directory/users`}
+                  <button
+                    type="button"
+                    onClick={() => setShowAddTeamMemberForm(true)}
                     className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
                   >
                     <Plus className="h-3.5 w-3.5" />
                     Add
-                  </Link>
+                  </button>
                   <span className="text-neutral-300">|</span>
                   <Link
                     href={`/${project.id}/directory/users`}
@@ -325,7 +373,7 @@ export function ProjectHomeClient({
               </div>
             </div>
             <CollapsibleContent>
-              <div className="px-8 py-4">
+              <div className="px-8">
                 <div className="space-y-4">
                   {project.team_members && Array.isArray(project.team_members) && project.team_members.length > 0 ? (
                     project.team_members.map((member, index) => {
@@ -347,13 +395,39 @@ export function ProjectHomeClient({
                         </div>
                       )
                     })
+                  ) : showAddTeamMemberForm ? (
+                    <InlineTeamMemberForm
+                      projectId={project.id}
+                      existingMembers={parseTeamMembers()}
+                      onSave={handleSaveTeamMembers}
+                      onCancel={() => setShowAddTeamMemberForm(false)}
+                      directoryUrl={`/${project.id}/directory/users`}
+                    />
                   ) : (
                     <div className="text-center py-12">
                       <p className="text-sm text-neutral-400 mb-2">No team members</p>
-                      <p className="text-xs text-neutral-400">Click &quot;Add&quot; to assign team</p>
+                      <button
+                        type="button"
+                        onClick={() => setShowAddTeamMemberForm(true)}
+                        className="text-xs text-brand hover:text-brand/80 underline transition-colors"
+                      >
+                        Click here to assign team
+                      </button>
                     </div>
                   )}
                 </div>
+                {/* Show inline form below existing members when there are members */}
+                {project.team_members && Array.isArray(project.team_members) && project.team_members.length > 0 && showAddTeamMemberForm && (
+                  <div className="mt-4">
+                    <InlineTeamMemberForm
+                      projectId={project.id}
+                      existingMembers={parseTeamMembers()}
+                      onSave={handleSaveTeamMembers}
+                      onCancel={() => setShowAddTeamMemberForm(false)}
+                      directoryUrl={`/${project.id}/directory/users`}
+                    />
+                  </div>
+                )}
               </div>
             </CollapsibleContent>
           </Collapsible>

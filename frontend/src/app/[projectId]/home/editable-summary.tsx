@@ -95,21 +95,21 @@ export function EditableSummary({ summary, onSave }: EditableSummaryProps) {
           </div>
         </div>
         <CollapsibleContent>
-          <div className="px-4 py-4 lg:px-8 lg:py-4">
+          <div className="px-4 py-4 lg:px-6 lg:py-2">
             {isEditing ? (
               <Textarea
                 value={editedSummary}
                 onChange={(e) => setEditedSummary(e.target.value)}
-                className="min-h-[240px] text-sm leading-relaxed border-neutral-300 focus:border-brand focus:ring-brand/20 font-light"
+                className="min-h-[240px] text-sm  border-neutral-300 focus:border-brand focus:ring-brand/20 font-light"
                 disabled={isSaving}
               />
             ) : (
-              <div className="text-sm text-neutral-700 leading-[1.75] space-y-4 font-light">
+              <div className="text-sm">
                 {summary
                   .split('\n')
                   .filter(paragraph => paragraph.trim())
                   .map((paragraph) => (
-                    <p key={paragraph.substring(0, 50)} className="text-neutral-800">
+                    <p key={paragraph.substring(0, 50)} className="text-neutral-800 text-sm">
                       {paragraph.trim()}
                     </p>
                   ))}
