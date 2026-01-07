@@ -28,7 +28,8 @@
     "seed:db:reset": "npx tsx scripts/seed-database.ts --reset",
     "seed:financial": "npx tsx scripts/seed-financial-data.ts",
     "seed:project": "npx tsx scripts/seed-project-financial-data.ts",
-    "schema:docs": "node scripts/generate-schema-docs.js",
+    "schema:extract": "node scripts/database/generate-schema-from-types.js",
+    "schema:docs": "npm run schema:extract && node scripts/database/generate-schema-docs.js",
     "prepare": "husky"
   },
   "devDependencies": {
