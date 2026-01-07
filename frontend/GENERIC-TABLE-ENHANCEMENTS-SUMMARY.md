@@ -108,6 +108,32 @@ Successfully enhanced the `generic-table-factory.tsx` component with advanced fe
   ```
 - **UI**: Shows bulk action bar when rows are selected with action buttons
 
+#### 6. **Inline Cell Editing** ⭐ NEW
+
+- **Feature**: Double-click cells to edit them directly in the table
+- **How to Enable**: Set `enableInlineCellEdit: true` in config (requires `editConfig`)
+- **Configuration**:
+
+  ```typescript
+  {
+    enableInlineCellEdit: true,
+    editConfig: {
+      tableName: 'risks',
+      editableFields: ['description', 'status', 'owner_name']
+    }
+  }
+  ```
+
+- **User Experience**:
+  - Double-click any editable cell to start editing
+  - Tab/Shift+Tab to navigate between cells (auto-saves before moving)
+  - Enter to save and exit edit mode
+  - Escape to cancel without saving
+  - Blur (click away) to save and exit
+- **Benefits**: Faster editing workflow, no modal dialogs needed for single-field updates
+- **Implementation**: Custom InlineCellEditor component with keyboard navigation and auto-save
+- **Documentation**: See [INLINE-EDITING-GUIDE.md](INLINE-EDITING-GUIDE.md) for complete guide
+
 ## New Type Definitions
 
 ### Extended Interfaces

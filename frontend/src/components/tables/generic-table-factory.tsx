@@ -630,6 +630,9 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
 
   // Inline editing state
   const [editingCell, setEditingCell] = useState<{ rowId: string | number; columnId: string } | null>(null)
+  const [editingValue, setEditingValue] = useState<string>('')
+  const [isSavingCell, setIsSavingCell] = useState(false)
+  const editInputRef = useRef<HTMLInputElement>(null)
 
   // Virtual scroll container ref
   const tableContainerRef = useRef<HTMLDivElement>(null)
@@ -1157,6 +1160,123 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
   }
 
   // ============================================================================
+  // INLINE CELL EDITING HANDLERS
+  // ============================================================================
+
+  const handleCellDoubleClick = useCallback((rowId: string | number, columnId: string, currentValue: unknown) => {
+    if (!config.enableInlineCellEdit) return
+
+    const column = config.columns.find(c => c.id === columnId)
+    const isEditable = !config.editConfig?.editableFields ||
+                       config.editConfig.editableFields.includes(columnId)
+
+    // Prevent editing of system fields
+    if (columnId === 'id' || columnId === 'created_at' || columnId === 'updated_at') return
+
+    if (isEditable && column) {
+      setEditingCell({ rowId, columnId })
+      setEditingValue(String(currentValue || ''))
+      // Focus input after state update
+      setTimeout(() => editInputRef.current?.focus(), 0)
+    }
+  }, [config.enableInlineCellEdit, config.columns, config.editConfig?.editableFields])
+
+  const handleCellSave = useCallback(async (rowId: string | number, columnId: string, newValue: string) => {
+    if (!config.editConfig) return
+
+    setIsSavingCell(true)
+    try {
+      const response = await fetch('/api/table-update', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          table: config.editConfig.tableName,
+          id: rowId,
+          data: { [columnId]: newValue },
+        }),
+      })
+
+      if (!response.ok) {
+        throw new Error('Failed to save changes')
+      }
+
+      // Update local data
+      setData(prevData =>
+        prevData.map(row =>
+          row.id === rowId ? { ...row, [columnId]: newValue } : row
+        )
+      )
+
+      toast.success('Cell updated successfully')
+      setEditingCell(null)
+      setEditingValue('')
+    } catch (error) {
+      console.error('Error saving cell:', error)
+      toast.error('Failed to save changes. Please try again.')
+    } finally {
+      setIsSavingCell(false)
+    }
+  }, [config.editConfig])
+
+  const handleCellCancel = useCallback(() => {
+    setEditingCell(null)
+    setEditingValue('')
+  }, [])
+
+  const handleTabNavigation = useCallback((currentRowId: string | number, currentColumnId: string, direction: 'next' | 'prev') => {
+    const visibleCols = config.columns.filter(col => visibleColumns.has(col.id))
+    const editableCols = visibleCols.filter(col => {
+      const isEditable = !config.editConfig?.editableFields ||
+                         config.editConfig.editableFields.includes(col.id)
+      return isEditable && col.id !== 'id' && col.id !== 'created_at' && col.id !== 'updated_at'
+    })
+
+    const currentColIndex = editableCols.findIndex(col => col.id === currentColumnId)
+    const currentRowIndex = processedData.findIndex(row => row.id === currentRowId)
+
+    if (direction === 'next') {
+      // Move to next cell
+      if (currentColIndex < editableCols.length - 1) {
+        const nextCol = editableCols[currentColIndex + 1]
+        const currentRow = processedData[currentRowIndex]
+        setEditingCell({ rowId: currentRowId, columnId: nextCol.id })
+        setEditingValue(String(currentRow[nextCol.id] || ''))
+      } else if (currentRowIndex < processedData.length - 1) {
+        // Move to first cell of next row
+        const nextRow = processedData[currentRowIndex + 1]
+        const firstCol = editableCols[0]
+        setEditingCell({ rowId: nextRow.id as string | number, columnId: firstCol.id })
+        setEditingValue(String(nextRow[firstCol.id] || ''))
+      }
+    } else {
+      // Move to previous cell
+      if (currentColIndex > 0) {
+        const prevCol = editableCols[currentColIndex - 1]
+        const currentRow = processedData[currentRowIndex]
+        setEditingCell({ rowId: currentRowId, columnId: prevCol.id })
+        setEditingValue(String(currentRow[prevCol.id] || ''))
+      } else if (currentRowIndex > 0) {
+        // Move to last cell of previous row
+        const prevRow = processedData[currentRowIndex - 1]
+        const lastCol = editableCols[editableCols.length - 1]
+        setEditingCell({ rowId: prevRow.id as string | number, columnId: lastCol.id })
+        setEditingValue(String(prevRow[lastCol.id] || ''))
+      }
+    }
+
+    // Focus input after state update
+    setTimeout(() => editInputRef.current?.focus(), 0)
+  }, [config.columns, config.editConfig?.editableFields, visibleColumns, processedData])
+
+  // Focus input when editing cell changes
+  useEffect(() => {
+    if (editingCell && editInputRef.current) {
+      editInputRef.current.focus()
+      editInputRef.current.select()
+    }
+  }, [editingCell])
+
+  // ============================================================================
   // ROW ACTIONS RENDERER
   // ============================================================================
 
@@ -1343,6 +1463,57 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
     )
   }
 
+  // ============================================================================
+  // INLINE CELL EDITOR COMPONENT
+  // ============================================================================
+
+  const InlineCellEditor = ({ rowId, columnId, value }: { rowId: string | number; columnId: string; value: unknown }) => {
+    const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === 'Enter') {
+        e.preventDefault()
+        handleCellSave(rowId, columnId, editingValue)
+      } else if (e.key === 'Escape') {
+        e.preventDefault()
+        handleCellCancel()
+      } else if (e.key === 'Tab') {
+        e.preventDefault()
+        // Save current value before navigating
+        handleCellSave(rowId, columnId, editingValue).then(() => {
+          handleTabNavigation(rowId, columnId, e.shiftKey ? 'prev' : 'next')
+        })
+      }
+    }
+
+    return (
+      <div className="relative">
+        <input
+          ref={editInputRef}
+          type="text"
+          value={editingValue}
+          onChange={(e) => setEditingValue(e.target.value)}
+          onKeyDown={handleKeyDown}
+          onBlur={() => {
+            // Save on blur
+            if (editingValue !== String(value || '')) {
+              handleCellSave(rowId, columnId, editingValue)
+            } else {
+              handleCellCancel()
+            }
+          }}
+          className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-primary"
+          disabled={isSavingCell}
+          aria-label="Edit cell value"
+          placeholder="Enter value"
+        />
+        {isSavingCell && (
+          <div className="absolute inset-0 flex items-center justify-center bg-background/50">
+            <div className="h-4 w-4 animate-spin rounded-full border-2 border-primary border-t-transparent" />
+          </div>
+        )}
+      </div>
+    )
+  }
+
   // Virtual scrolling setup
   const rowVirtualizer = useVirtualizer({
     count: processedData.length,
@@ -1458,8 +1629,16 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
                         {config.columns
                           .filter(col => visibleColumns.has(col.id))
                           .map(col => (
-                            <TableCell key={col.id}>
-                              {renderCellContent(col, row)}
+                            <TableCell
+                              key={col.id}
+                              onDoubleClick={() => handleCellDoubleClick(row.id as string | number, col.id, row[col.id])}
+                              className={config.enableInlineCellEdit ? 'cursor-text' : ''}
+                            >
+                              {editingCell?.rowId === row.id && editingCell?.columnId === col.id ? (
+                                <InlineCellEditor rowId={row.id as string | number} columnId={col.id} value={row[col.id]} />
+                              ) : (
+                                renderCellContent(col, row)
+                              )}
                             </TableCell>
                           ))}
                         {hasActions && (
@@ -1564,8 +1743,16 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
                   {config.columns
                     .filter(col => visibleColumns.has(col.id))
                     .map(col => (
-                      <TableCell key={col.id}>
-                        {renderCellContent(col, row)}
+                      <TableCell
+                        key={col.id}
+                        onDoubleClick={() => handleCellDoubleClick(row.id as string | number, col.id, row[col.id])}
+                        className={config.enableInlineCellEdit ? 'cursor-text' : ''}
+                      >
+                        {editingCell?.rowId === row.id && editingCell?.columnId === col.id ? (
+                          <InlineCellEditor rowId={row.id as string | number} columnId={col.id} value={row[col.id]} />
+                        ) : (
+                          renderCellContent(col, row)
+                        )}
                       </TableCell>
                     ))}
                   {hasActions && (
