@@ -6,7 +6,7 @@ import { GenericEditableTable, type EditableColumn } from '@/components/tables/g
 import { updateCompany, deleteCompany } from '@/app/actions/table-actions';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Plus, Building2, ExternalLink } from 'lucide-react';
+import { Plus, ExternalLink } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { CompanyFormDialog } from '@/components/domain/companies/CompanyFormDialog';
 
@@ -55,10 +55,7 @@ export default function CompanyDirectoryPage() {
       type: 'text',
       width: 'w-[250px]',
       render: (value) => (
-        <div className="flex items-center gap-2">
-          <Building2 className="h-4 w-4 text-gray-400" />
-          <span className="font-medium">{value || 'Unnamed Company'}</span>
-        </div>
+        <span className="font-medium">{value || 'Unnamed Company'}</span>
       ),
     },
     {
@@ -183,7 +180,6 @@ export default function CompanyDirectoryPage() {
           </div>
         ) : data.length === 0 ? (
           <div className="p-12 text-center">
-            <Building2 className="mx-auto h-12 w-12 text-gray-400 mb-4" />
             <h3 className="text-lg font-semibold mb-2">No companies found</h3>
             <p className="text-gray-500 mb-4">Get started by adding your first company.</p>
             <Button

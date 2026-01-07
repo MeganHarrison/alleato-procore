@@ -1,5 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 import { EmployeesDataTable } from '@/components/tables/employees-data-table'
+import { TablePageWrapper } from '@/components/tables/table-page-wrapper'
+
+const PAGE_TITLE = 'Employees'
+const PAGE_DESCRIPTION = 'View and manage all your employees'
 
 export default async function EmployeesPage() {
   const supabase = await createClient()
@@ -13,23 +17,17 @@ export default async function EmployeesPage() {
   if (error) {
     console.error('Error fetching employees:', error)
     return (
-      <div className="container mx-auto py-10">
-        <div className="text-center text-red-600">
+      <TablePageWrapper title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+        <div className="text-center text-red-600 p-6">
           Error loading employees. Please try again later.
         </div>
-      </div>
+      </TablePageWrapper>
     )
   }
 
   return (
-    <div>
-        <div className="pb-8">
-          <h1>Employees</h1>
-          <p className="text-muted-foreground">
-            View and manage all your employees
-          </p>
-        </div>
-        <EmployeesDataTable employees={employees || []} />
-    </div>
+    <TablePageWrapper title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+      <EmployeesDataTable employees={employees || []} />
+    </TablePageWrapper>
   )
 }

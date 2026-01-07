@@ -1,5 +1,9 @@
 import { createClient } from '@/lib/supabase/server'
 import { MeetingsDataTable } from '@/app/(tables)/meetings/components/meetings-data-table'
+import { TablePageWrapper } from '@/components/tables/table-page-wrapper'
+
+const PAGE_TITLE = 'Meetings'
+const PAGE_DESCRIPTION = 'View and manage all your meetings'
 
 export default async function MeetingsPage() {
   const supabase = await createClient()
@@ -14,25 +18,17 @@ export default async function MeetingsPage() {
   if (error) {
     console.error('Error fetching meetings:', error)
     return (
-      <div className="container mx-auto py-10">
-        <div className="text-center text-red-600">
+      <TablePageWrapper title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+        <div className="text-center text-red-600 p-6">
           Error loading meetings. Please try again later.
         </div>
-      </div>
+      </TablePageWrapper>
     )
   }
 
   return (
-    <div>
-      <div className="space-y-4">
-        <div>
-          <h1>Meetings</h1>
-          <p className="text-muted-foreground">
-            View and manage all your meetings
-          </p>
-        </div>
-        <MeetingsDataTable meetings={meetings || []} />
-      </div>
-    </div>
+    <TablePageWrapper title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+      <MeetingsDataTable meetings={meetings || []} />
+    </TablePageWrapper>
   )
 }

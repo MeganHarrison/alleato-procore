@@ -142,3 +142,33 @@ export async function updateClient(id: number, data: Record<string, any>) {
 export async function deleteClient(id: number) {
   return deleteTableRow('clients', id, ['/clients', '/directory/clients']);
 }
+
+export async function createContact(data: Record<string, any>) {
+  try {
+    const supabase = await createSupabaseClient();
+
+    const { data: contact, error } = await supabase
+      .from('contacts')
+      .insert(data)
+      .select()
+      .single();
+
+    if (error) {
+      return { error: error.message };
+    }
+
+    revalidatePath('/contacts');
+    revalidatePath('/directory/contacts');
+    return { success: true, data: contact };
+  } catch (error) {
+    return { error: 'Failed to create contact' };
+  }
+}
+
+export async function updateContact(id: string, data: Record<string, any>) {
+  return updateTableRow('contacts', id, data, ['/contacts', '/directory/contacts']);
+}
+
+export async function deleteContact(id: string) {
+  return deleteTableRow('contacts', id, ['/contacts', '/directory/contacts']);
+}

@@ -1,5 +1,9 @@
 import { createClient } from '@/lib/supabase/server';
 import { ContactsDataTable } from '@/components/tables/contacts-data-table';
+import { TablePageWrapper } from '@/components/tables/table-page-wrapper';
+
+const PAGE_TITLE = 'Contacts'
+const PAGE_DESCRIPTION = 'View and manage your contacts'
 
 export default async function ContactsPage() {
   const supabase = await createClient();
@@ -16,12 +20,17 @@ export default async function ContactsPage() {
   if (error) {
     console.error('Error fetching contacts:', error);
     return (
-      <div className="text-center">
-        <h1 className="text-2xl font-bold mb-4">Error Loading Contacts</h1>
-        <p className="text-red-600">{error.message}</p>
-      </div>
+      <TablePageWrapper title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+        <div className="text-center text-red-600 p-6">
+          Error loading contacts: {error.message}
+        </div>
+      </TablePageWrapper>
     );
   }
 
-  return <ContactsDataTable contacts={contacts || []} />;
+  return (
+    <TablePageWrapper title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
+      <ContactsDataTable contacts={contacts || []} />
+    </TablePageWrapper>
+  );
 }

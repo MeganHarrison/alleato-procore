@@ -3,14 +3,17 @@
 import * as React from 'react';
 import { usePathname } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
-import { ContactsDataTable } from '@/components/tables/contacts-data-table';
 import { ProjectPageHeader } from '@/components/layout/ProjectPageHeader';
 import { PageContainer } from '@/components/layout/PageContainer';
 import { PageTabs } from '@/components/layout/PageTabs';
 import { Text } from '@/components/ui/text';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Button } from '@/components/ui/button';
+import { Plus } from 'lucide-react';
 import { getDirectoryTabs } from '@/config/directory-tabs';
 import type { Database } from '@/types/database.types';
+import { GenericDataTable, type GenericTableConfig } from '@/components/tables/generic-table-factory';
+import { ContactFormDialog } from '@/components/domain/contacts/ContactFormDialog';
 
 type Contact = Database['public']['Tables']['contacts']['Row'];
 type Company = Database['public']['Tables']['companies']['Row'];
@@ -24,30 +27,98 @@ export default function DirectoryContactsPage() {
   const [contacts, setContacts] = React.useState<ContactWithCompany[]>([]);
   const [isLoading, setIsLoading] = React.useState(true);
   const [error, setError] = React.useState<Error | null>(null);
+  const [dialogOpen, setDialogOpen] = React.useState(false);
+
+  const fetchContacts = React.useCallback(async () => {
+    try {
+      const supabase = createClient();
+      const { data, error } = await supabase
+        .from('contacts')
+        .select(`
+          *,
+          company:companies(*)
+        `)
+        .order('last_name', { ascending: true });
+
+      if (error) throw error;
+      setContacts(data || []);
+    } catch (err) {
+      setError(err as Error);
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
   React.useEffect(() => {
-    const fetchContacts = async () => {
-      try {
-        const supabase = createClient();
-        const { data, error } = await supabase
-          .from('contacts')
-          .select(`
-            *,
-            company:companies(*)
-          `)
-          .order('last_name', { ascending: true });
-
-        if (error) throw error;
-        setContacts(data || []);
-      } catch (err) {
-        setError(err as Error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchContacts();
-  }, []);
+  }, [fetchContacts]);
+
+  const handleAddContact = () => {
+    setDialogOpen(true);
+  };
+
+  const handleDialogSuccess = () => {
+    fetchContacts();
+  };
+
+  const tableData = React.useMemo(() => {
+    return contacts.map(contact => ({
+      id: contact.id,
+      full_name: `${contact.first_name || ''} ${contact.last_name || ''}`.trim() || 'Unnamed Contact',
+      first_name: contact.first_name,
+      last_name: contact.last_name,
+      email: contact.email || '',
+      phone: contact.phone || '',
+      company: contact.company?.name || '',
+      created_at: contact.created_at,
+    }));
+  }, [contacts]);
+
+  const tableConfig: GenericTableConfig = {
+    columns: [
+      {
+        id: 'full_name',
+        label: 'Name',
+        defaultVisible: true,
+        isPrimary: true,
+        type: 'text',
+      },
+      {
+        id: 'email',
+        label: 'Email',
+        defaultVisible: true,
+        type: 'email',
+      },
+      {
+        id: 'company',
+        label: 'Company',
+        defaultVisible: true,
+        type: 'text',
+      },
+      {
+        id: 'phone',
+        label: 'Phone',
+        defaultVisible: true,
+        type: 'text',
+      },
+      {
+        id: 'created_at',
+        label: 'Created',
+        defaultVisible: true,
+        type: 'date',
+      },
+    ],
+    searchFields: ['full_name', 'email', 'phone', 'company'],
+    exportFilename: 'contacts.csv',
+    enableViewSwitcher: false,
+    defaultViewMode: 'table',
+    enableRowSelection: true,
+    editConfig: {
+      tableName: 'contacts',
+      editableFields: ['first_name', 'last_name', 'email', 'phone'],
+    },
+    onDelete: true,
+  };
 
   const tabs = getDirectoryTabs(pathname);
 
@@ -76,7 +147,7 @@ export default function DirectoryContactsPage() {
     return (
       <>
         <ProjectPageHeader
-          title="Directory"
+          title="Company Directory"
           description="Manage companies, clients, contacts, users, and employees across your organization"
           showProjectName={false}
         />
@@ -93,14 +164,29 @@ export default function DirectoryContactsPage() {
   return (
     <>
       <ProjectPageHeader
-        title="Directory"
+        title="Company Directory: Contacts"
         description="Manage companies, clients, contacts, users, and employees across your organization"
         showProjectName={false}
+        actions={
+          <Button
+            onClick={handleAddContact}
+            className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange))]/90"
+          >
+            <Plus className="mr-2 h-4 w-4" />
+            New Contact
+          </Button>
+        }
       />
       <PageTabs tabs={tabs} />
       <PageContainer>
-          <ContactsDataTable contacts={contacts} />
+        <GenericDataTable data={tableData} config={tableConfig} />
       </PageContainer>
+
+      <ContactFormDialog
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+        onSuccess={handleDialogSuccess}
+      />
     </>
   );
 }
