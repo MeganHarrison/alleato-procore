@@ -4,7 +4,7 @@ import { createContractSchema } from "./validation";
 import { ZodError } from "zod";
 
 interface RouteParams {
-  params: Promise<{ id: string }>;
+  params: Promise<{ projectId: string }>;
 }
 
 /**
@@ -13,7 +13,7 @@ interface RouteParams {
  */
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
     const { searchParams } = new URL(request.url);
 
@@ -69,7 +69,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
  */
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
     const body = await request.json();
 

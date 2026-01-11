@@ -20,7 +20,15 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# 2. Run documentation structure validation
+# 2. Check for dangerous code patterns
+echo ""
+.husky/pre-commit-dangerous-patterns
+if [ $? -ne 0 ]; then
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  exit 1
+fi
+
+# 3. Run documentation structure validation
 echo ""
 .husky/pre-commit-docs
 if [ $? -ne 0 ]; then
@@ -29,7 +37,8 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# Run lint-staged to check and fix staged files
+# 4. Run lint-staged to check and fix staged files
+echo ""
 npx lint-staged
 
 # If lint-staged fails, block the commit

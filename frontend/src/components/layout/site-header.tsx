@@ -8,7 +8,6 @@ import {
   MessageSquare,
   Search,
   Star,
-  Plus,
   Menu,
   StarOff,
 } from "lucide-react";
@@ -47,19 +46,13 @@ import { usePathname, useRouter, useSearchParams } from "next/navigation";
 const coreTools: Array<{
   name: string;
   path: string;
-  badge?: string;
   requiresProject?: boolean;
 }> = [
   { name: "Home", path: "home", requiresProject: true },
   { name: "360 Reporting", path: "reporting", requiresProject: true },
   { name: "Documents", path: "documents", requiresProject: true },
   { name: "Directory", path: "directory", requiresProject: true },
-  {
-    name: "Tables Directory",
-    path: "tables-directory",
-    requiresProject: false,
-    badge: "New",
-  },
+  { name: "Tables Directory", path: "tables-directory", requiresProject: false },
   { name: "Settings", path: "settings/plugins", requiresProject: false },
   { name: "Tasks", path: "tasks", requiresProject: true },
   { name: "Admin", path: "admin", requiresProject: true },
@@ -68,25 +61,14 @@ const coreTools: Array<{
 const projectManagementTools: Array<{
   name: string;
   path: string;
-  hasCreateAction?: boolean;
   isFavorite?: boolean;
   requiresProject?: boolean;
 }> = [
   { name: "Emails", path: "emails", requiresProject: true },
-  { name: "RFIs", path: "rfis", hasCreateAction: true, requiresProject: true },
-  {
-    name: "Submittals",
-    path: "submittals",
-    hasCreateAction: true,
-    requiresProject: true,
-  },
+  { name: "RFIs", path: "rfis", requiresProject: true },
+  { name: "Submittals", path: "submittals", requiresProject: true },
   { name: "Transmittals", path: "transmittals", requiresProject: true },
-  {
-    name: "Punch List",
-    path: "punch-list",
-    hasCreateAction: true,
-    requiresProject: true,
-  },
+  { name: "Punch List", path: "punch-list", requiresProject: true },
   { name: "Meetings", path: "meetings", requiresProject: true },
   { name: "Schedule", path: "schedule", requiresProject: true },
   { name: "Daily Log", path: "daily-log", requiresProject: true },
@@ -98,7 +80,6 @@ const projectManagementTools: Array<{
 const financialManagementTools: Array<{
   name: string;
   path: string;
-  hasCreateAction?: boolean;
   requiresProject?: boolean;
 }> = [
   { name: "Prime Contracts", path: "contracts", requiresProject: true },
@@ -106,12 +87,7 @@ const financialManagementTools: Array<{
   { name: "Budget V2", path: "budget-v2", requiresProject: true },
   { name: "Commitments", path: "commitments", requiresProject: true },
   { name: "Change Orders", path: "change-orders", requiresProject: true },
-  {
-    name: "Change Events",
-    path: "change-events",
-    hasCreateAction: true,
-    requiresProject: true,
-  },
+  { name: "Change Events", path: "change-events", requiresProject: true },
   { name: "Direct Costs", path: "direct-costs", requiresProject: true },
   { name: "Invoicing", path: "invoices", requiresProject: true },
 ];
@@ -599,11 +575,6 @@ export function SiteHeader({
                               aria-disabled={isDisabled}
                             >
                               <span>{tool.name}</span>
-                              {tool.badge && (
-                                <span className="rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
-                                  {tool.badge}
-                                </span>
-                              )}
                             </Link>
                           );
                         })}
@@ -646,9 +617,6 @@ export function SiteHeader({
                                   <Star className="h-3.5 w-3.5 text-gray-400" />
                                 )}
                                 {tool.name}
-                                {tool.hasCreateAction && (
-                                  <Plus className="h-4 w-4 rounded-full bg-orange-500 p-0.5 text-white ml-1" />
-                                )}
                               </span>
                             </Link>
                           );
@@ -687,12 +655,7 @@ export function SiteHeader({
                               }`}
                               aria-disabled={isDisabled}
                             >
-                              <span className="flex items-center gap-2">
-                                {tool.name}
-                                {tool.hasCreateAction && (
-                                  <Plus className="h-4 w-4 rounded-full bg-orange-500 p-0.5 text-white ml-1" />
-                                )}
-                              </span>
+                              <span>{tool.name}</span>
                             </Link>
                           );
                         })}

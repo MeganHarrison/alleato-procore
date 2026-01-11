@@ -655,6 +655,79 @@ export function DirectCostForm({
                   )}
                 />
 
+                {/* Additional Dates Grid */}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Received Date */}
+                  <FormField
+                    control={form.control}
+                    name="received_date"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Received Date</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              type="date"
+                              {...field}
+                              value={
+                                field.value instanceof Date
+                                  ? field.value.toISOString().split('T')[0]
+                                  : field.value || ''
+                              }
+                              onChange={(e) => {
+                                if (e.target.value) {
+                                  field.onChange(new Date(e.target.value))
+                                } else {
+                                  field.onChange(null)
+                                }
+                              }}
+                              className="pl-10"
+                            />
+                          </div>
+                        </FormControl>
+                        <FormDescription>Date cost was received</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  {/* Paid Date */}
+                  <FormField
+                    control={form.control}
+                    name="paid_date"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Paid Date</FormLabel>
+                        <FormControl>
+                          <div className="relative">
+                            <Calendar className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                            <Input
+                              type="date"
+                              {...field}
+                              value={
+                                field.value instanceof Date
+                                  ? field.value.toISOString().split('T')[0]
+                                  : field.value || ''
+                              }
+                              onChange={(e) => {
+                                if (e.target.value) {
+                                  field.onChange(new Date(e.target.value))
+                                } else {
+                                  field.onChange(null)
+                                }
+                              }}
+                              className="pl-10"
+                            />
+                          </div>
+                        </FormControl>
+                        <FormDescription>Date payment was made</FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+
                 {/* Grand Total Preview */}
                 {grandTotal > 0 && (
                   <Alert>

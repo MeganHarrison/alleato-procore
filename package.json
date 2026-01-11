@@ -30,6 +30,7 @@
     "seed:project": "npx tsx scripts/seed-project-financial-data.ts",
     "schema:extract": "node scripts/database/generate-schema-from-types.js",
     "schema:docs": "npm run schema:extract && node scripts/database/generate-schema-docs.js",
+    "check:routes": "bash scripts/check-route-conflicts.sh",
     "prepare": "husky"
   },
   "devDependencies": {

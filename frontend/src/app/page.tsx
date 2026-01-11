@@ -167,10 +167,6 @@ export default function PortfolioPage() {
     setActiveView(viewId);
   };
 
-  const handleSettingsClick = () => {
-    // Settings functionality to be implemented
-  };
-
   const handleExport = (format: "pdf" | "csv") => {
     // Export to CSV
     if (format === "csv") {
@@ -306,7 +302,6 @@ export default function PortfolioPage() {
         financialViews={financialViews}
         activeView={activeView}
         onViewChange={handleViewChange}
-        onSettingsClick={handleSettingsClick}
         onExport={handleExport}
         onCreateProject={handleCreateProject}
       />

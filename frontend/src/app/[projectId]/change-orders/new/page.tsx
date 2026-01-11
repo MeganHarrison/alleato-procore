@@ -34,7 +34,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
-import { createChangeOrderSchema } from "@/app/api/projects/[id]/contracts/[contractId]/change-orders/validation";
+import { createChangeOrderSchema } from "@/app/api/projects/[projectId]/contracts/[contractId]/change-orders/validation";
 
 interface PrimeContractOption {
   id: string;

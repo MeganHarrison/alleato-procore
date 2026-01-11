@@ -123,31 +123,31 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "failed",
-                  "duration": 322,
+                  "duration": 10927,
                   "error": {
-                    "message": "Error: page.goto: net::ERR_EMPTY_RESPONSE at http://localhost:3000/dev-login?email=test@example.com&password=testpassword123\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/dev-login?email=test@example.com&password=testpassword123\", waiting until \"load\"\u001b[22m\n",
-                    "stack": "Error: page.goto: net::ERR_EMPTY_RESPONSE at http://localhost:3000/dev-login?email=test@example.com&password=testpassword123\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/dev-login?email=test@example.com&password=testpassword123\", waiting until \"load\"\u001b[22m\n\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts:8:14",
+                    "message": "TimeoutError: page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"/\" until \"load\"\n============================================================",
+                    "stack": "TimeoutError: page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"/\" until \"load\"\n============================================================\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts:11:14",
                     "location": {
                       "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts",
                       "column": 14,
-                      "line": 8
+                      "line": 11
                     },
-                    "snippet": "   6 | setup('authenticate', async ({ page }) => {\n   7 |   // Use dev-login for testing\n>  8 |   await page.goto('/dev-login?email=test@example.com&password=testpassword123');\n     |              ^\n   9 |\n  10 |   // Wait for redirect to home page (indicates successful login)\n  11 |   await page.waitForURL('/', { timeout: 10000 });"
+                    "snippet": "   9 |\n  10 |   // Wait for redirect to home page (indicates successful login)\n> 11 |   await page.waitForURL('/', { timeout: 10000 });\n     |              ^\n  12 |\n  13 |   // Wait for auth cookies to be set\n  14 |   await page.waitForTimeout(1000);"
                   },
                   "errors": [
                     {
                       "location": {
                         "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts",
                         "column": 14,
-                        "line": 8
+                        "line": 11
                       },
-                      "message": "Error: page.goto: net::ERR_EMPTY_RESPONSE at http://localhost:3000/dev-login?email=test@example.com&password=testpassword123\nCall log:\n\u001b[2m  - navigating to \"http://localhost:3000/dev-login?email=test@example.com&password=testpassword123\", waiting until \"load\"\u001b[22m\n\n\n   6 | setup('authenticate', async ({ page }) => {\n   7 |   // Use dev-login for testing\n>  8 |   await page.goto('/dev-login?email=test@example.com&password=testpassword123');\n     |              ^\n   9 |\n  10 |   // Wait for redirect to home page (indicates successful login)\n  11 |   await page.waitForURL('/', { timeout: 10000 });\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts:8:14"
+                      "message": "TimeoutError: page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"/\" until \"load\"\n============================================================\n\n   9 |\n  10 |   // Wait for redirect to home page (indicates successful login)\n> 11 |   await page.waitForURL('/', { timeout: 10000 });\n     |              ^\n  12 |\n  13 |   // Wait for auth cookies to be set\n  14 |   await page.waitForTimeout(1000);\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts:11:14"
                     }
                   ],
                   "stdout": [],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-01-10T22:21:33.453Z",
+                  "startTime": "2026-01-11T06:15:25.794Z",
                   "annotations": [],
                   "attachments": [
                     {
@@ -159,12 +159,17 @@
                       "name": "video",
                       "contentType": "video/webm",
                       "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/auth.setup.ts-authenticate-setup/video.webm"
+                    },
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/auth.setup.ts-authenticate-setup/error-context.md"
                     }
                   ],
                   "errorLocation": {
                     "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts",
                     "column": 14,
-                    "line": 8
+                    "line": 11
                   }
                 }
               ],
@@ -179,119 +184,105 @@
       ]
     },
     {
-      "title": "e2e/direct-costs.spec.ts",
-      "file": "e2e/direct-costs.spec.ts",
+      "title": "e2e/dropdown-hover-simple.spec.ts",
+      "file": "e2e/dropdown-hover-simple.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Direct Costs Feature",
-          "file": "e2e/direct-costs.spec.ts",
-          "line": 110,
+          "title": "Dropdown Hover Colors - Simple Check",
+          "file": "e2e/dropdown-hover-simple.spec.ts",
+          "line": 11,
           "column": 6,
-          "specs": [],
-          "suites": [
+          "specs": [
             {
-              "title": "3. View Detail Page",
-              "file": "e2e/direct-costs.spec.ts",
-              "line": 230,
-              "column": 8,
-              "specs": [
+              "title": "Portfolio page filters have neutral gray hover (no auth)",
+              "ok": true,
+              "tags": [],
+              "tests": [
                 {
-                  "title": "should load detail page for existing direct cost",
-                  "ok": true,
-                  "tags": [],
-                  "tests": [
-                    {
-                      "timeout": 60000,
-                      "annotations": [],
-                      "expectedStatus": "passed",
-                      "projectId": "chromium",
-                      "projectName": "chromium",
-                      "results": [],
-                      "status": "skipped"
-                    }
-                  ],
-                  "id": "eb0bbd79441596facbcf-a2f3a537fce0965bd6dc",
-                  "file": "e2e/direct-costs.spec.ts",
-                  "line": 254,
-                  "column": 9
-                },
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [],
+                  "status": "skipped"
+                }
+              ],
+              "id": "c2d2305692bcc718c1d9-e8121217bd794010b403",
+              "file": "e2e/dropdown-hover-simple.spec.ts",
+              "line": 14,
+              "column": 7
+            },
+            {
+              "title": "Portfolio page filters have neutral gray hover (no auth)",
+              "ok": true,
+              "tags": [],
+              "tests": [
                 {
-                  "title": "should load detail page for existing direct cost",
-                  "ok": false,
-                  "tags": [],
-                  "tests": [
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "debug",
+                  "projectName": "debug",
+                  "results": [
                     {
-                      "timeout": 60000,
-                      "annotations": [],
-                      "expectedStatus": "passed",
-                      "projectId": "debug",
-                      "projectName": "debug",
-                      "results": [
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "passed",
+                      "duration": 3950,
+                      "errors": [],
+                      "stdout": [
                         {
-                          "workerIndex": 1,
-                          "parallelIndex": 1,
-                          "status": "failed",
-                          "duration": 292,
-                          "error": {
-                            "message": "Error: apiRequestContext.post: socket hang up\nCall log:\n\u001b[2m  - → POST http://localhost:3000/api/projects/60/direct-costs\u001b[22m\n\u001b[2m    - user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.7499.4 Safari/537.36\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\u001b[2m    - Authorization: Bearer eyJhbGciOiJIUzI1NiIsImtpZCI6ImF3a21FTWNyQzc2QURLOVIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2xndmVxZm5wa3h2emJubnd1bGVkLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI2YWU0Mjk5Zi02YzIxLTRlOTktYjZhMS1jY2IxZmU1YWE3ZjYiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzY4MDg2NTA3LCJpYXQiOjE3NjgwODI5MDcsImVtYWlsIjoidGVzdDFAbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImVtYWlsIjoidGVzdDFAbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZnVsbF9uYW1lIjoidGVzdDEiLCJwaG9uZV92ZXJpZmllZCI6ZmFsc2UsInN1YiI6IjZhZTQyOTlmLTZjMjEtNGU5OS1iNmExLWNjYjFmZTVhYTdmNiJ9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzY4MDgyOTA3fV0sInNlc3Npb25faWQiOiJiMzA0NzRjNi0zNDgwLTRmNDctYjhiNS01NzY1NDE3ZDZkNzUiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.0QVQdyavSDHfK1mLcZrA41Ea8y-E7e9a0eElJwiuHjc\u001b[22m\n\u001b[2m    - Content-Type: application/json\u001b[22m\n\u001b[2m    - content-length: 324\u001b[22m\n",
-                            "stack": "Error: apiRequestContext.post: socket hang up\nCall log:\n\u001b[2m  - → POST http://localhost:3000/api/projects/60/direct-costs\u001b[22m\n\u001b[2m    - user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.7499.4 Safari/537.36\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\u001b[2m    - Authorization: Bearer eyJhbGciOiJIUzI1NiIsImtpZCI6ImF3a21FTWNyQzc2QURLOVIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2xndmVxZm5wa3h2emJubnd1bGVkLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI2YWU0Mjk5Zi02YzIxLTRlOTktYjZhMS1jY2IxZmU1YWE3ZjYiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzY4MDg2NTA3LCJpYXQiOjE3NjgwODI5MDcsImVtYWlsIjoidGVzdDFAbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImVtYWlsIjoidGVzdDFAbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZnVsbF9uYW1lIjoidGVzdDEiLCJwaG9uZV92ZXJpZmllZCI6ZmFsc2UsInN1YiI6IjZhZTQyOTlmLTZjMjEtNGU5OS1iNmExLWNjYjFmZTVhYTdmNiJ9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzY4MDgyOTA3fV0sInNlc3Npb25faWQiOiJiMzA0NzRjNi0zNDgwLTRmNDctYjhiNS01NzY1NDE3ZDZkNzUiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.0QVQdyavSDHfK1mLcZrA41Ea8y-E7e9a0eElJwiuHjc\u001b[22m\n\u001b[2m    - Content-Type: application/json\u001b[22m\n\u001b[2m    - content-length: 324\u001b[22m\n\n    at createTestDirectCost (/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/direct-costs.spec.ts:61:39)\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/direct-costs.spec.ts:235:32",
-                            "location": {
-                              "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/direct-costs.spec.ts",
-                              "column": 39,
-                              "line": 61
-                            },
-                            "snippet": "  59 |   };\n  60 |\n> 61 |   const response = await page.request.post(\n     |                                       ^\n  62 |     `http://localhost:3000/api/projects/${projectId}/direct-costs`,\n  63 |     {\n  64 |       headers: {"
-                          },
-                          "errors": [
-                            {
-                              "location": {
-                                "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/direct-costs.spec.ts",
-                                "column": 39,
-                                "line": 61
-                              },
-                              "message": "Error: apiRequestContext.post: socket hang up\nCall log:\n\u001b[2m  - → POST http://localhost:3000/api/projects/60/direct-costs\u001b[22m\n\u001b[2m    - user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/143.0.7499.4 Safari/537.36\u001b[22m\n\u001b[2m    - accept: */*\u001b[22m\n\u001b[2m    - accept-encoding: gzip,deflate,br\u001b[22m\n\u001b[2m    - Authorization: Bearer eyJhbGciOiJIUzI1NiIsImtpZCI6ImF3a21FTWNyQzc2QURLOVIiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL2xndmVxZm5wa3h2emJubnd1bGVkLnN1cGFiYXNlLmNvL2F1dGgvdjEiLCJzdWIiOiI2YWU0Mjk5Zi02YzIxLTRlOTktYjZhMS1jY2IxZmU1YWE3ZjYiLCJhdWQiOiJhdXRoZW50aWNhdGVkIiwiZXhwIjoxNzY4MDg2NTA3LCJpYXQiOjE3NjgwODI5MDcsImVtYWlsIjoidGVzdDFAbWFpbC5jb20iLCJwaG9uZSI6IiIsImFwcF9tZXRhZGF0YSI6eyJwcm92aWRlciI6ImVtYWlsIiwicHJvdmlkZXJzIjpbImVtYWlsIl19LCJ1c2VyX21ldGFkYXRhIjp7ImVtYWlsIjoidGVzdDFAbWFpbC5jb20iLCJlbWFpbF92ZXJpZmllZCI6dHJ1ZSwiZnVsbF9uYW1lIjoidGVzdDEiLCJwaG9uZV92ZXJpZmllZCI6ZmFsc2UsInN1YiI6IjZhZTQyOTlmLTZjMjEtNGU5OS1iNmExLWNjYjFmZTVhYTdmNiJ9LCJyb2xlIjoiYXV0aGVudGljYXRlZCIsImFhbCI6ImFhbDEiLCJhbXIiOlt7Im1ldGhvZCI6InBhc3N3b3JkIiwidGltZXN0YW1wIjoxNzY4MDgyOTA3fV0sInNlc3Npb25faWQiOiJiMzA0NzRjNi0zNDgwLTRmNDctYjhiNS01NzY1NDE3ZDZkNzUiLCJpc19hbm9ueW1vdXMiOmZhbHNlfQ.0QVQdyavSDHfK1mLcZrA41Ea8y-E7e9a0eElJwiuHjc\u001b[22m\n\u001b[2m    - Content-Type: application/json\u001b[22m\n\u001b[2m    - content-length: 324\u001b[22m\n\n\n  59 |   };\n  60 |\n> 61 |   const response = await page.request.post(\n     |                                       ^\n  62 |     `http://localhost:3000/api/projects/${projectId}/direct-costs`,\n  63 |     {\n  64 |       headers: {\n    at createTestDirectCost (/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/direct-costs.spec.ts:61:39)\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/direct-costs.spec.ts:235:32"
-                            }
-                          ],
-                          "stdout": [
-                            {
-                              "text": "\n🧪 Test Project ID: 60\n"
-                            }
-                          ],
-                          "stderr": [],
-                          "retry": 0,
-                          "startTime": "2026-01-10T22:21:33.450Z",
-                          "annotations": [],
-                          "attachments": [
-                            {
-                              "name": "screenshot",
-                              "contentType": "image/png",
-                              "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-direct-costs-Direct-Co-332e7-ge-for-existing-direct-cost-debug/test-failed-1.png"
-                            },
-                            {
-                              "name": "video",
-                              "contentType": "video/webm",
-                              "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-direct-costs-Direct-Co-332e7-ge-for-existing-direct-cost-debug/video.webm"
-                            }
-                          ],
-                          "errorLocation": {
-                            "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/direct-costs.spec.ts",
-                            "column": 39,
-                            "line": 61
-                          }
+                          "text": "Found 3 potential dropdown/select elements\n"
+                        },
+                        {
+                          "text": "Found 11 dropdown options\n"
+                        },
+                        {
+                          "text": "Dropdown option hover background color: rgb(245, 245, 245)\n"
+                        },
+                        {
+                          "text": "RGB values: R=245, G=245, B=245\n"
+                        },
+                        {
+                          "text": "Max RGB difference: 0 (should be < 30 for neutral gray)\n"
+                        },
+                        {
+                          "text": "✅ PASS: Dropdown hover is neutral light gray, NOT orange!\n"
+                        },
+                        {
+                          "text": "\n--- Checking Select Component Styling ---\n"
+                        },
+                        {
+                          "text": "Found 1 filter buttons\n"
+                        },
+                        {
+                          "text": "Filter 1: All Clients\n"
                         }
                       ],
-                      "status": "unexpected"
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-11T06:15:25.794Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-dropdown-hover-simple--60802-neutral-gray-hover-no-auth--debug/test-finished-1.png"
+                        }
+                      ]
                     }
                   ],
-                  "id": "eb0bbd79441596facbcf-31bfe77126d965df2d83",
-                  "file": "e2e/direct-costs.spec.ts",
-                  "line": 254,
-                  "column": 9
+                  "status": "expected"
                 }
-              ]
+              ],
+              "id": "c2d2305692bcc718c1d9-c18257e0b5436767bab8",
+              "file": "e2e/dropdown-hover-simple.spec.ts",
+              "line": 14,
+              "column": 7
             }
           ]
         }
@@ -300,11 +291,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-01-10T22:21:32.253Z",
-    "duration": 1869.813,
-    "expected": 0,
+    "startTime": "2026-01-11T06:15:25.412Z",
+    "duration": 12044.127999999999,
+    "expected": 1,
     "skipped": 1,
-    "unexpected": 2,
+    "unexpected": 1,
     "flaky": 0
   }
 }

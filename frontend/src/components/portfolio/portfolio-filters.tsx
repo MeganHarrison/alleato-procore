@@ -3,13 +3,13 @@
 import * as React from "react";
 import {
   Search,
-  ChevronDown,
   List,
   LayoutGrid,
   BarChart3,
   Map as MapIcon,
   X,
   SlidersHorizontal,
+  ChevronDown,
   FileText,
   Plus,
 } from "lucide-react";
@@ -22,6 +22,13 @@ import {
   DropdownMenuTrigger,
   DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
   Sheet,
   SheetContent,
@@ -347,38 +354,26 @@ export function PortfolioFilters({
           />
         </div>
 
-        {/* Client Filter Dropdown */}
+        {/* Client Filter Select */}
         {onClientFilterChange && (
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="h-9 text-sm">
-                {clientFilter || "Client"}
-                <ChevronDown className="w-4 h-4 ml-2 shrink-0" />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="start" className="min-w-[12rem]">
-              {clientOptions?.length ? (
-                clientOptions.map((client) => (
-                  <DropdownMenuItem
-                    key={client}
-                    onClick={() => onClientFilterChange(client)}
-                  >
-                    {client}
-                  </DropdownMenuItem>
-                ))
-              ) : (
-                <DropdownMenuItem disabled>No clients found</DropdownMenuItem>
-              )}
-              {clientFilter && (
-                <>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => onClientFilterChange(null)}>
-                    Clear filter
-                  </DropdownMenuItem>
-                </>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <Select
+            value={clientFilter || "all"}
+            onValueChange={(value) =>
+              onClientFilterChange(value === "all" ? null : value)
+            }
+          >
+            <SelectTrigger className="h-9 w-[180px] text-sm">
+              <SelectValue placeholder="Client" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All Clients</SelectItem>
+              {clientOptions?.map((client) => (
+                <SelectItem key={client} value={client}>
+                  {client}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         )}
 
         {/* Phase Filter Dropdown */}
@@ -449,41 +444,6 @@ export function PortfolioFilters({
           </DropdownMenu>
         )}
 
-        {/* Active filter pills */}
-        {(clientFilter || phaseFilter || categoryFilter) && (
-          <div className="flex items-center gap-2 border-l pl-3 ml-1">
-            {clientFilter && (
-              <button
-                type="button"
-                onClick={() => onClientFilterChange?.(null)}
-                className="flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700 hover:bg-gray-200"
-              >
-                Client: {clientFilter}
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-            {phaseFilter && (
-              <button
-                type="button"
-                onClick={() => onPhaseFilterChange?.(null)}
-                className="flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700 hover:bg-gray-200 capitalize"
-              >
-                Phase: {phaseFilter}
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-            {categoryFilter && (
-              <button
-                type="button"
-                onClick={() => onCategoryFilterChange?.(null)}
-                className="flex items-center gap-1 rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-700 hover:bg-gray-200"
-              >
-                Category: {categoryFilter}
-                <X className="w-3.5 h-3.5" />
-              </button>
-            )}
-          </div>
-        )}
 
         {/* Clear all button */}
         {(activeFiltersCount > 0 || searchQuery) && (

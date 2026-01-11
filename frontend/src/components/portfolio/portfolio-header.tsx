@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Settings, ChevronDown, FileText, Plus } from "lucide-react";
+import { ChevronDown, FileText, Plus, ArrowUpFromLine } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
@@ -17,7 +17,6 @@ interface PortfolioHeaderProps {
   financialViews: PortfolioView[];
   activeView: string;
   onViewChange: (viewId: string) => void;
-  onSettingsClick?: () => void;
   onExport?: (format: "pdf" | "csv") => void;
   onCreateProject?: () => void;
   onCreateTestProject?: () => void;
@@ -28,7 +27,6 @@ export function PortfolioHeader({
   financialViews,
   activeView,
   onViewChange,
-  onSettingsClick,
   onExport,
   onCreateProject,
   onCreateTestProject,
@@ -38,19 +36,7 @@ export function PortfolioHeader({
       {/* Title row */}
       <div className="flex items-center justify-between py-3 sm:py-4">
         <div className="flex flex-col gap-2">
-          <div className="flex items-center gap-2 sm:gap-3">
-            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
-              Portfolio
-            </h1>
-            <button
-              onClick={onSettingsClick}
-              className="p-1.5 hover:bg-gray-100 rounded text-gray-500"
-              title="Settings"
-              aria-label="Settings"
-            >
-              <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
-          </div>
+          <h1>Portfolio</h1>
         </div>
       </div>
 
@@ -116,11 +102,11 @@ export function PortfolioHeader({
             <DropdownMenuTrigger asChild>
               <button
                 type="button"
-                className="p-2 hover:bg-gray-100 rounded text-gray-600 hover:text-gray-900 transition-colors"
+                className="p-2 hover:bg-gray-100 rounded transition-colors"
                 title="Export"
                 aria-label="Export"
               >
-                <FileText className="w-5 h-5" />
+                <ArrowUpFromLine className="w-5 h-5" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">

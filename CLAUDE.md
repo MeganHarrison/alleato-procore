@@ -15,6 +15,33 @@ This is a **real production system**. Accuracy, verification, and correctness ar
 
 ---
 
+## 🚨 CRITICAL: Next.js Dynamic Route Naming (READ THIS FIRST)
+
+**BEFORE creating or modifying ANY dynamic routes (`[param]` folders), you MUST:**
+
+1. **Read:** `.agents/rules/CRITICAL-NEXTJS-ROUTING-RULES.md` (MANDATORY)
+2. **Check existing routes:** `find frontend/src/app -type d -name "[*]" | grep <resource>`
+3. **Use consistent naming:** Same parameter name everywhere for each resource
+4. **Verify immediately:** Start dev server after creating route
+
+**❌ FATAL ERROR (Application-Breaking):**
+```
+[Error: You cannot use different slug names for the same dynamic path ('id' !== 'projectId').]
+```
+
+**This error has occurred THREE TIMES. It MUST NOT happen again.**
+
+**Example Violations:**
+- ❌ `api/projects/[id]` + `[projectId]/home` → **ERROR**
+- ❌ `admin/tables/[table]/[id]` + `[table]/[recordId]` → **ERROR**
+
+**Correct Pattern:**
+- ✅ `api/projects/[projectId]` + `[projectId]/home` → **WORKS**
+
+**Full documentation:** `.agents/rules/CRITICAL-NEXTJS-ROUTING-RULES.md`
+
+---
+
 ## 📁 CRITICAL: FILE LOCATION RULES (NO EXCEPTIONS)
 
 **ALL project documentation MUST go in `documentation/`, NOT in `.claude/`.**
@@ -141,7 +168,7 @@ claude -p "VERIFIER TASK [task-id]:
     ├── worker-done.md
     └── verified.md
 
-documentation/1-project-mgmt/
+documentation/*project-mgmt/
 └── in-progress/[feature-name]/
     └── VERIFICATION-[name].md   # Verification reports (documentation)
 ```
@@ -309,8 +336,6 @@ npm test -- --grep "auth"
 - [ ] Tests pass
 - [ ] Quality check passes
 - [ ] Browser verification complete
-EOF
-```
 
 **Step 2: Main Agent Spawns Worker via Task Tool**
 
@@ -319,6 +344,7 @@ EOF
 Task({
   subagent_type: "backend-architect",
   prompt: `WORKER AGENT MODE
+  ```
 
 Task File: .claude/tasks/${TASK_ID}.md
 

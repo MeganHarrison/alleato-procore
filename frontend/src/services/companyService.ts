@@ -294,7 +294,7 @@ export class CompanyService {
     if (companyError) throw companyError;
 
     // Then, create the project company association
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+     
     const { data: projectCompany, error: pcError } = await (
       this.supabase as any
     )

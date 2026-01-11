@@ -165,6 +165,7 @@ export function DirectCostTable({
         label: 'Vendor',
         type: 'text' as const,
         defaultVisible: true,
+        sortable: true,
         renderConfig: {
           type: 'nested' as const,
           path: 'vendor.vendor_name',
@@ -176,6 +177,7 @@ export function DirectCostTable({
         label: 'Employee',
         type: 'text' as const,
         defaultVisible: false,
+        sortable: true,
         renderConfig: {
           type: 'nested' as const,
           path: 'employee.full_name',
@@ -187,6 +189,7 @@ export function DirectCostTable({
         label: 'Type',
         type: 'badge' as const,
         defaultVisible: true,
+        sortable: true,
         renderConfig: {
           type: 'badge' as const,
           variantMap: {
@@ -201,6 +204,7 @@ export function DirectCostTable({
         label: 'Invoice #',
         type: 'text' as const,
         defaultVisible: true,
+        sortable: true,
       },
       {
         id: 'status',
@@ -208,16 +212,18 @@ export function DirectCostTable({
         type: 'badge' as const,
         defaultVisible: true,
         isSecondary: true,
+        sortable: true,
         renderConfig: {
           type: 'badge' as const,
           variantMap: {
             Draft: 'secondary',
+            Pending: 'outline',
             Approved: 'success',
             Rejected: 'destructive',
             Paid: 'default',
           } as Record<
             DirectCostStatus,
-            'secondary' | 'success' | 'destructive' | 'default'
+            'secondary' | 'outline' | 'success' | 'destructive' | 'default'
           >,
         },
       },
@@ -226,6 +232,7 @@ export function DirectCostTable({
         label: 'Amount',
         type: 'number' as const,
         defaultVisible: true,
+        sortable: true,
         renderConfig: {
           type: 'currency' as const,
           prefix: '$',
@@ -241,12 +248,14 @@ export function DirectCostTable({
         label: 'Line Items',
         type: 'number' as const,
         defaultVisible: true,
+        sortable: true,
       },
       {
         id: 'description',
         label: 'Description',
         type: 'text' as const,
         defaultVisible: false,
+        sortable: true,
         renderConfig: {
           type: 'truncate' as const,
           maxLength: 100,
@@ -257,6 +266,7 @@ export function DirectCostTable({
         label: 'Received',
         type: 'date' as const,
         defaultVisible: true,
+        sortable: true,
         renderConfig: {
           type: 'nested' as const,
           path: 'received_date',
@@ -268,6 +278,7 @@ export function DirectCostTable({
         label: 'Paid',
         type: 'date' as const,
         defaultVisible: false,
+        sortable: true,
         renderConfig: {
           type: 'nested' as const,
           path: 'paid_date',

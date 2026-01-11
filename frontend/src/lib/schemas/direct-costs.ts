@@ -21,7 +21,7 @@ import { Database } from '@/types/database.types';
 export const CostTypes = ['Expense', 'Invoice', 'Subcontractor Invoice'] as const;
 export type CostType = (typeof CostTypes)[number];
 
-export const CostStatuses = ['Draft', 'Approved', 'Rejected', 'Paid'] as const;
+export const CostStatuses = ['Draft', 'Pending', 'Approved', 'Rejected', 'Paid'] as const;
 export type DirectCostStatus = (typeof CostStatuses)[number];
 
 export const UnitTypes = [
@@ -119,7 +119,13 @@ export const DirectCostCreateSchema = z.object({
   terms: z.string().trim().max(255).optional().nullable(),
   received_date: z.coerce.date().optional().nullable(),
   paid_date: z.coerce.date().optional().nullable(),
-});
+}).refine(
+  (data) => data.vendor_id || data.employee_id,
+  {
+    message: 'Either vendor or employee must be selected',
+    path: ['vendor_id'],
+  }
+);
 
 export const DirectCostUpdateSchema = DirectCostCreateSchema.extend({
   id: uuidSchema,

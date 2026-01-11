@@ -26,15 +26,15 @@ This is the shared workflow template for implementing Procore features. Variable
 - `plugins/` - Claude Code plugins
 - `settings.local.json` - Local settings
 
-**Project management files go in `documentation/1-project-mgmt/`:**
+**Project management files go in `documentation/*1-*project-mgmt/`:**
 - `shared/` - Cross-feature files (logs, research, workflow signals)
-- `in-progress/{feature}/` - Feature-specific files
+- `active/{feature}/` - Feature-specific files
 
 **Workflow signal files:**
-- Research: `documentation/1-project-mgmt/shared/research/{feature}.md`
-- Worker signals: `documentation/1-project-mgmt/in-progress/{feature}/worker-done-*.md`
-- Test signals: `documentation/1-project-mgmt/in-progress/{feature}/tests-passing-*.md`
-- Session log: `documentation/1-project-mgmt/shared/logs/task-log.md`
+- Research: `documentation/*project-mgmt/shared/research/{feature}.md`
+- Worker signals: `documentation/*project-mgmt/in-progress/{feature}/worker-done-*.md`
+- Test signals: `documentation/*project-mgmt/in-progress/{feature}/tests-passing-*.md`
+- Session log: `documentation/*project-mgmt/shared/logs/task-log.md`
 
 ---
 
