@@ -1,16 +1,16 @@
-'use client'
+"use client";
 
-import { TrendingUp, TrendingDown, ArrowRight } from 'lucide-react'
-import Link from 'next/link'
+import { TrendingUp, TrendingDown, ArrowRight } from "lucide-react";
+import Link from "next/link";
 
 interface HeroMetricsProps {
-  projectId: string
-  totalBudget: number
-  committed: number
-  spent: number
-  forecastedCost: number
-  changeOrdersTotal: number
-  activeTasks: number
+  projectId: string;
+  totalBudget: number;
+  committed: number;
+  spent: number;
+  forecastedCost: number;
+  changeOrdersTotal: number;
+  activeTasks: number;
 }
 
 export function HeroMetrics({
@@ -20,22 +20,22 @@ export function HeroMetrics({
   spent,
   forecastedCost,
   changeOrdersTotal,
-  activeTasks
+  activeTasks,
 }: HeroMetricsProps) {
   // Calculate key metrics
-  const remainingBudget = totalBudget - spent
-  const budgetUtilization = totalBudget > 0 ? (spent / totalBudget) * 100 : 0
-  const variance = totalBudget - forecastedCost
-  const variancePercent = totalBudget > 0 ? (variance / totalBudget) * 100 : 0
+  const remainingBudget = totalBudget - spent;
+  const budgetUtilization = totalBudget > 0 ? (spent / totalBudget) * 100 : 0;
+  const variance = totalBudget - forecastedCost;
+  const variancePercent = totalBudget > 0 ? (variance / totalBudget) * 100 : 0;
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
-    }).format(amount)
-  }
+    }).format(amount);
+  };
 
   return (
     <div className="flex flex-col gap-4 md:flex-row md:gap-6 lg:mb-12 mb-8">
@@ -78,10 +78,13 @@ export function HeroMetrics({
             Forecast Variance
           </p>
           <div className="space-y-2">
-            <p className={`text-3xl md:text-4xl font-light tabular-nums tracking-tight ${
-              variance >= 0 ? 'text-green-700' : 'text-red-700'
-            }`}>
-              {variance >= 0 ? '+' : ''}{formatCurrency(variance)}
+            <p
+              className={`text-3xl md:text-4xl font-light tabular-nums tracking-tight ${
+                variance >= 0 ? "text-green-700" : "text-red-700"
+              }`}
+            >
+              {variance >= 0 ? "+" : ""}
+              {formatCurrency(variance)}
             </p>
             <div className="flex items-center gap-1.5">
               {variance >= 0 ? (
@@ -114,14 +117,10 @@ export function HeroMetrics({
             <p className="text-3xl md:text-4xl font-light tabular-nums tracking-tight text-neutral-900">
               {changeOrdersTotal}
             </p>
-            <p className="text-xs text-neutral-500">
-              Approved
-            </p>
+            <p className="text-xs text-neutral-500">Approved</p>
           </div>
         </div>
       </div>
-
-
     </div>
-  )
+  );
 }

@@ -1,20 +1,27 @@
-"use client"
+"use client";
 
-import { Menu, Hash, Search, Users, MoreVertical, MessageSquare } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { ChatHeader } from "./chat-header"
-import { MessageList } from "./message-list"
-import { Composer } from "./composer"
-import { useRealtimeChat } from "@/hooks/use-realtime-chat"
-import { useMemo } from "react"
+import {
+  Menu,
+  Hash,
+  Search,
+  Users,
+  MoreVertical,
+  MessageSquare,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ChatHeader } from "./chat-header";
+import { MessageList } from "./message-list";
+import { Composer } from "./composer";
+import { useRealtimeChat } from "@/hooks/use-realtime-chat";
+import { useMemo } from "react";
 
 interface ChatMainProps {
-  channelId: string
-  username: string
-  onUsernameChange?: (username: string) => void
-  onToggleSidebar: () => void
-  onToggleRightPanel: () => void
-  onMessageSelect?: (messageId: string) => void
+  channelId: string;
+  username: string;
+  onUsernameChange?: (username: string) => void;
+  onToggleSidebar: () => void;
+  onToggleRightPanel: () => void;
+  onMessageSelect?: (messageId: string) => void;
 }
 
 const channelInfo: Record<string, { name: string; topic: string }> = {
@@ -30,7 +37,7 @@ const channelInfo: Record<string, { name: string; topic: string }> = {
     name: "support",
     topic: "Get help and support from the team",
   },
-}
+};
 
 export function ChatMain({
   channelId,
@@ -40,14 +47,17 @@ export function ChatMain({
   onToggleRightPanel,
   onMessageSelect,
 }: ChatMainProps) {
-  const roomName = `${channelId}-channel`
-  const { messages, sendMessage, isConnected } = useRealtimeChat({ roomName, username })
+  const roomName = `${channelId}-channel`;
+  const { messages, sendMessage, isConnected } = useRealtimeChat({
+    roomName,
+    username,
+  });
 
-  const channel = channelInfo[channelId] || { name: channelId, topic: "" }
+  const channel = channelInfo[channelId] || { name: channelId, topic: "" };
 
   const handleSend = (content: string) => {
-    sendMessage(content)
-  }
+    sendMessage(content);
+  };
 
   return (
     <div className="flex flex-col h-full">
@@ -77,5 +87,5 @@ export function ChatMain({
         disabled={!isConnected}
       />
     </div>
-  )
+  );
 }

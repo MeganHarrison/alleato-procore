@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { PageHeader, PageContainer } from '@/components/layout';
-import { PurchaseOrderForm } from '@/components/domain/contracts';
-import { useCommitments } from '@/hooks/use-commitments';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { PageHeader, PageContainer } from "@/components/layout";
+import { PurchaseOrderForm } from "@/components/domain/contracts";
+import { useCommitments } from "@/hooks/use-commitments";
 
 export default function NewPurchaseOrderPage() {
   const router = useRouter();
@@ -28,33 +28,33 @@ export default function NewPurchaseOrderPage() {
         number: data.number,
         title: data.description || `Purchase Order ${data.number}`,
         contract_company_id: data.vendorId,
-        status: data.status || 'draft',
-        type: 'purchase_order',
+        status: data.status || "draft",
+        type: "purchase_order",
         original_amount: data.amount || 0,
       });
 
       if (newCommitment) {
         // Navigate back to commitments list
-        router.push('/commitments');
+        router.push("/commitments");
       } else {
-        alert('Failed to create purchase order. Please try again.');
+        alert("Failed to create purchase order. Please try again.");
       }
     } catch (error) {
-      console.error('Error creating purchase order:', error);
-      alert('An error occurred while creating the purchase order.');
+      console.error("Error creating purchase order:", error);
+      alert("An error occurred while creating the purchase order.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = () => {
-    router.push('/commitments');
+    router.push("/commitments");
   };
 
   // Initial data for a new purchase order
   const initialData = {
-    number: 'PO-005',
-    status: 'draft',
+    number: "PO-005",
+    status: "draft",
   };
 
   return (
@@ -63,9 +63,9 @@ export default function NewPurchaseOrderPage() {
         title="Create Purchase Order"
         description="Set up a new purchase order for your project"
         breadcrumbs={[
-          { label: 'Financial', href: '/financial' },
-          { label: 'Commitments', href: '/commitments' },
-          { label: 'New Purchase Order' },
+          { label: "Financial", href: "/financial" },
+          { label: "Commitments", href: "/commitments" },
+          { label: "New Purchase Order" },
         ]}
         actions={
           <Button

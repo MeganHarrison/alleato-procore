@@ -7,21 +7,21 @@
  * SECURITY: All operations validate table names against the registry before execution.
  */
 
-import { createServiceClient } from '@/lib/supabase/service';
+import { createServiceClient } from "@/lib/supabase/service";
 import {
   assertTableAllowed,
   getTableConfig,
   hasPermission,
   type TableName,
-} from '@/lib/table-registry';
-import { filterValidColumns, getPrimaryKey } from './introspection';
+} from "@/lib/table-registry";
+import { filterValidColumns, getPrimaryKey } from "./introspection";
 
 export interface ListRowsParams {
   table: TableName;
   limit?: number;
   offset?: number;
   sort?: string;
-  dir?: 'asc' | 'desc';
+  dir?: "asc" | "desc";
   search?: string;
   filters?: Record<string, string>;
 }
@@ -75,13 +75,15 @@ function getQueryBuilder(tableName: string): any {
 /**
  * List rows from a table with pagination, sorting, search, and filters
  */
-export async function listRows(params: ListRowsParams): Promise<CrudResult<ListRowsResult>> {
+export async function listRows(
+  params: ListRowsParams,
+): Promise<CrudResult<ListRowsResult>> {
   const {
     table,
     limit: requestedLimit = DEFAULT_LIMIT,
     offset = 0,
     sort,
-    dir = 'desc',
+    dir = "desc",
     search,
     filters = {},
   } = params;
@@ -91,8 +93,8 @@ export async function listRows(params: ListRowsParams): Promise<CrudResult<ListR
     assertTableAllowed(table);
 
     // Permission check
-    if (!hasPermission(table, 'read')) {
-      return { success: false, error: 'Read permission denied for this table' };
+    if (!hasPermission(table, "read")) {
+      return { success: false, error: "Read permission denied for this table" };
     }
 
     const config = getTableConfig(table);
@@ -106,17 +108,22 @@ export async function listRows(params: ListRowsParams): Promise<CrudResult<ListR
 
     // Build search condition
     const searchCondition =
-      search && search.trim() && config.searchColumns && config.searchColumns.length > 0
-        ? config.searchColumns.map((col) => `${col}.ilike.%${search.trim()}%`).join(',')
+      search &&
+      search.trim() &&
+      config.searchColumns &&
+      config.searchColumns.length > 0
+        ? config.searchColumns
+            .map((col) => `${col}.ilike.%${search.trim()}%`)
+            .join(",")
         : null;
 
     // Build filter object
     const filterEntries = Object.entries(filters).filter(
-      ([, value]) => value !== undefined && value !== ''
+      ([, value]) => value !== undefined && value !== "",
     );
 
     // Build and execute query
-    let query = getQueryBuilder(table).select('*', { count: 'exact' });
+    let query = getQueryBuilder(table).select("*", { count: "exact" });
 
     if (searchCondition) {
       query = query.or(searchCondition);
@@ -128,7 +135,7 @@ export async function listRows(params: ListRowsParams): Promise<CrudResult<ListR
     }
 
     const result = await query
-      .order(sortColumn, { ascending: sortDir === 'asc' })
+      .order(sortColumn, { ascending: sortDir === "asc" })
       .range(offset, offset + limit - 1);
 
     if (result.error) {
@@ -145,7 +152,7 @@ export async function listRows(params: ListRowsParams): Promise<CrudResult<ListR
       },
     };
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
+    const message = err instanceof Error ? err.message : "Unknown error";
     return { success: false, error: message };
   }
 }
@@ -153,7 +160,9 @@ export async function listRows(params: ListRowsParams): Promise<CrudResult<ListR
 /**
  * Get a single row by primary key
  */
-export async function getRow(params: GetRowParams): Promise<CrudResult<Record<string, unknown>>> {
+export async function getRow(
+  params: GetRowParams,
+): Promise<CrudResult<Record<string, unknown>>> {
   const { table, id } = params;
 
   try {
@@ -161,20 +170,17 @@ export async function getRow(params: GetRowParams): Promise<CrudResult<Record<st
     assertTableAllowed(table);
 
     // Permission check
-    if (!hasPermission(table, 'read')) {
-      return { success: false, error: 'Read permission denied for this table' };
+    if (!hasPermission(table, "read")) {
+      return { success: false, error: "Read permission denied for this table" };
     }
 
     const pk = getPrimaryKey(table);
 
-    const result = await getQueryBuilder(table)
-      .select('*')
-      .eq(pk, id)
-      .single();
+    const result = await getQueryBuilder(table).select("*").eq(pk, id).single();
 
     if (result.error) {
-      if (result.error.code === 'PGRST116') {
-        return { success: false, error: 'Row not found' };
+      if (result.error.code === "PGRST116") {
+        return { success: false, error: "Row not found" };
       }
       return { success: false, error: result.error.message };
     }
@@ -184,7 +190,7 @@ export async function getRow(params: GetRowParams): Promise<CrudResult<Record<st
       data: result.data as Record<string, unknown>,
     };
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
+    const message = err instanceof Error ? err.message : "Unknown error";
     return { success: false, error: message };
   }
 }
@@ -193,7 +199,7 @@ export async function getRow(params: GetRowParams): Promise<CrudResult<Record<st
  * Create a new row in a table
  */
 export async function createRow(
-  params: CreateRowParams
+  params: CreateRowParams,
 ): Promise<CrudResult<Record<string, unknown>>> {
   const { table, data } = params;
 
@@ -202,8 +208,11 @@ export async function createRow(
     assertTableAllowed(table);
 
     // Permission check
-    if (!hasPermission(table, 'create')) {
-      return { success: false, error: 'Create permission denied for this table' };
+    if (!hasPermission(table, "create")) {
+      return {
+        success: false,
+        error: "Create permission denied for this table",
+      };
     }
 
     // Filter out invalid columns and identity columns
@@ -212,12 +221,12 @@ export async function createRow(
 
     // Remove primary key and auto-generated fields from insert data
     delete filteredData[pk];
-    delete filteredData['created_at'];
-    delete filteredData['updated_at'];
+    delete filteredData["created_at"];
+    delete filteredData["updated_at"];
 
     // Remove null/undefined values for required fields
     const cleanData = Object.fromEntries(
-      Object.entries(filteredData).filter(([, value]) => value !== undefined)
+      Object.entries(filteredData).filter(([, value]) => value !== undefined),
     );
 
     const result = await getQueryBuilder(table)
@@ -234,7 +243,7 @@ export async function createRow(
       data: result.data as Record<string, unknown>,
     };
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
+    const message = err instanceof Error ? err.message : "Unknown error";
     return { success: false, error: message };
   }
 }
@@ -243,7 +252,7 @@ export async function createRow(
  * Update an existing row by primary key
  */
 export async function updateRow(
-  params: UpdateRowParams
+  params: UpdateRowParams,
 ): Promise<CrudResult<Record<string, unknown>>> {
   const { table, id, data } = params;
 
@@ -252,8 +261,11 @@ export async function updateRow(
     assertTableAllowed(table);
 
     // Permission check
-    if (!hasPermission(table, 'update')) {
-      return { success: false, error: 'Update permission denied for this table' };
+    if (!hasPermission(table, "update")) {
+      return {
+        success: false,
+        error: "Update permission denied for this table",
+      };
     }
 
     // Filter out invalid columns
@@ -262,15 +274,15 @@ export async function updateRow(
 
     // Never allow updating primary key or created_at
     delete filteredData[pk];
-    delete filteredData['created_at'];
+    delete filteredData["created_at"];
 
     // Remove undefined values but keep null (for clearing fields)
     const cleanData = Object.fromEntries(
-      Object.entries(filteredData).filter(([, value]) => value !== undefined)
+      Object.entries(filteredData).filter(([, value]) => value !== undefined),
     );
 
     if (Object.keys(cleanData).length === 0) {
-      return { success: false, error: 'No valid fields to update' };
+      return { success: false, error: "No valid fields to update" };
     }
 
     const result = await getQueryBuilder(table)
@@ -280,8 +292,8 @@ export async function updateRow(
       .single();
 
     if (result.error) {
-      if (result.error.code === 'PGRST116') {
-        return { success: false, error: 'Row not found' };
+      if (result.error.code === "PGRST116") {
+        return { success: false, error: "Row not found" };
       }
       return { success: false, error: result.error.message };
     }
@@ -291,7 +303,7 @@ export async function updateRow(
       data: result.data as Record<string, unknown>,
     };
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
+    const message = err instanceof Error ? err.message : "Unknown error";
     return { success: false, error: message };
   }
 }
@@ -299,7 +311,9 @@ export async function updateRow(
 /**
  * Delete a row by primary key
  */
-export async function deleteRow(params: DeleteRowParams): Promise<CrudResult<void>> {
+export async function deleteRow(
+  params: DeleteRowParams,
+): Promise<CrudResult<void>> {
   const { table, id } = params;
 
   try {
@@ -307,15 +321,16 @@ export async function deleteRow(params: DeleteRowParams): Promise<CrudResult<voi
     assertTableAllowed(table);
 
     // Permission check
-    if (!hasPermission(table, 'delete')) {
-      return { success: false, error: 'Delete permission denied for this table' };
+    if (!hasPermission(table, "delete")) {
+      return {
+        success: false,
+        error: "Delete permission denied for this table",
+      };
     }
 
     const pk = getPrimaryKey(table);
 
-    const result = await getQueryBuilder(table)
-      .delete()
-      .eq(pk, id);
+    const result = await getQueryBuilder(table).delete().eq(pk, id);
 
     if (result.error) {
       return { success: false, error: result.error.message };
@@ -323,7 +338,7 @@ export async function deleteRow(params: DeleteRowParams): Promise<CrudResult<voi
 
     return { success: true };
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
+    const message = err instanceof Error ? err.message : "Unknown error";
     return { success: false, error: message };
   }
 }
@@ -332,7 +347,7 @@ export async function deleteRow(params: DeleteRowParams): Promise<CrudResult<voi
  * Duplicate a row (creates a copy with a new ID)
  */
 export async function duplicateRow(
-  params: GetRowParams
+  params: GetRowParams,
 ): Promise<CrudResult<Record<string, unknown>>> {
   const { table, id } = params;
 
@@ -340,20 +355,20 @@ export async function duplicateRow(
     // First get the existing row
     const getResult = await getRow({ table, id });
     if (!getResult.success || !getResult.data) {
-      return { success: false, error: getResult.error ?? 'Row not found' };
+      return { success: false, error: getResult.error ?? "Row not found" };
     }
 
     // Remove identity fields
     const pk = getPrimaryKey(table);
     const rowData = { ...getResult.data };
     delete rowData[pk];
-    delete rowData['created_at'];
-    delete rowData['updated_at'];
+    delete rowData["created_at"];
+    delete rowData["updated_at"];
 
     // Create the duplicate
     return createRow({ table, data: rowData });
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
+    const message = err instanceof Error ? err.message : "Unknown error";
     return { success: false, error: message };
   }
 }
@@ -363,20 +378,23 @@ export async function duplicateRow(
  */
 export async function getRowCount(
   table: TableName,
-  filters?: Record<string, string>
+  filters?: Record<string, string>,
 ): Promise<CrudResult<number>> {
   try {
     assertTableAllowed(table);
 
-    if (!hasPermission(table, 'read')) {
-      return { success: false, error: 'Read permission denied for this table' };
+    if (!hasPermission(table, "read")) {
+      return { success: false, error: "Read permission denied for this table" };
     }
 
-    let query = getQueryBuilder(table).select('*', { count: 'exact', head: true });
+    let query = getQueryBuilder(table).select("*", {
+      count: "exact",
+      head: true,
+    });
 
     if (filters) {
       const filterEntries = Object.entries(filters).filter(
-        ([, value]) => value !== undefined && value !== ''
+        ([, value]) => value !== undefined && value !== "",
       );
       if (filterEntries.length > 0) {
         query = query.match(Object.fromEntries(filterEntries));
@@ -391,7 +409,7 @@ export async function getRowCount(
 
     return { success: true, data: (result.count ?? 0) as number };
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
+    const message = err instanceof Error ? err.message : "Unknown error";
     return { success: false, error: message };
   }
 }

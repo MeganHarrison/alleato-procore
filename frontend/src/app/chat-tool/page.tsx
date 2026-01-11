@@ -1,61 +1,61 @@
-"use client"
+"use client";
 
 // Removed import for missing input-byok module
 import {
   ChatContainerContent,
   ChatContainerRoot,
-} from "@/components/prompt-kit/chat-container"
-import { DotsLoader } from "@/components/prompt-kit/loader"
+} from "@/components/prompt-kit/chat-container";
+import { DotsLoader } from "@/components/prompt-kit/loader";
 import {
   Message,
   MessageAction,
   MessageActions,
   MessageContent,
-} from "@/components/prompt-kit/message"
+} from "@/components/prompt-kit/message";
 import {
   PromptInput,
   PromptInputActions,
   PromptInputTextarea,
-} from "@/components/prompt-kit/prompt-input"
-import { Tool } from "@/components/prompt-kit/tool"
-import type { ToolPart } from "@/components/prompt-kit/tool"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
-import { useChat } from "@ai-sdk/react"
-import { DefaultChatTransport } from "ai"
-import type { UIMessage, UIMessagePart } from "ai"
+} from "@/components/prompt-kit/prompt-input";
+import { Tool } from "@/components/prompt-kit/tool";
+import type { ToolPart } from "@/components/prompt-kit/tool";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { useChat } from "@ai-sdk/react";
+import { DefaultChatTransport } from "ai";
+import type { UIMessage, UIMessagePart } from "ai";
 import {
   AlertTriangle,
   ArrowUp,
   Copy,
   ThumbsDown,
   ThumbsUp,
-} from "lucide-react"
-import { memo, useState } from "react"
+} from "lucide-react";
+import { memo, useState } from "react";
 
 type MessageComponentProps = {
-  message: UIMessage
-  isLastMessage: boolean
-}
+  message: UIMessage;
+  isLastMessage: boolean;
+};
 
 const renderToolPart = (
   part: UIMessagePart<any, any>,
-  index: number
+  index: number,
 ): React.ReactNode => {
-  if (!part.type?.startsWith("tool-")) return null
+  if (!part.type?.startsWith("tool-")) return null;
 
-  return <Tool key={`${part.type}-${index}`} toolPart={part as ToolPart} />
-}
+  return <Tool key={`${part.type}-${index}`} toolPart={part as ToolPart} />;
+};
 
 export const MessageComponent = memo(
   ({ message, isLastMessage }: MessageComponentProps) => {
-    const isAssistant = message?.role === "assistant"
+    const isAssistant = message?.role === "assistant";
 
     return (
       <Message
         className={cn(
           "mx-auto flex w-full max-w-3xl flex-col gap-2 px-2 md:px-10",
-          isAssistant ? "items-start" : "items-end"
+          isAssistant ? "items-start" : "items-end",
         )}
       >
         {isAssistant ? (
@@ -63,7 +63,7 @@ export const MessageComponent = memo(
             <div className="w-full">
               {message?.parts
                 .filter(
-                  (part: any) => part.type && part.type.startsWith("tool-")
+                  (part: any) => part.type && part.type.startsWith("tool-"),
                 )
                 .map((part: any, index: number) => renderToolPart(part, index))}
             </div>
@@ -80,7 +80,7 @@ export const MessageComponent = memo(
             <MessageActions
               className={cn(
                 "-ml-2.5 flex gap-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100",
-                isLastMessage && "opacity-100"
+                isLastMessage && "opacity-100",
               )}
             >
               <MessageAction tooltip="Copy" delayDuration={100}>
@@ -109,7 +109,7 @@ export const MessageComponent = memo(
             </MessageContent>
             <MessageActions
               className={cn(
-                "flex gap-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100"
+                "flex gap-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100",
               )}
             >
               <MessageAction tooltip="Copy" delayDuration={100}>
@@ -121,11 +121,11 @@ export const MessageComponent = memo(
           </div>
         )}
       </Message>
-    )
-  }
-)
+    );
+  },
+);
 
-MessageComponent.displayName = "MessageComponent"
+MessageComponent.displayName = "MessageComponent";
 
 const LoadingMessage = memo(() => (
   <Message className="mx-auto flex w-full max-w-3xl flex-col items-start gap-2 px-2 md:px-10">
@@ -135,9 +135,9 @@ const LoadingMessage = memo(() => (
       </div>
     </div>
   </Message>
-))
+));
 
-LoadingMessage.displayName = "LoadingMessage"
+LoadingMessage.displayName = "LoadingMessage";
 
 const ErrorMessage = memo(({ error }: { error: Error }) => (
   <Message className="not-prose mx-auto flex w-full max-w-3xl flex-col items-start gap-2 px-0 md:px-10">
@@ -148,36 +148,36 @@ const ErrorMessage = memo(({ error }: { error: Error }) => (
       </div>
     </div>
   </Message>
-))
+));
 
-ErrorMessage.displayName = "ErrorMessage"
+ErrorMessage.displayName = "ErrorMessage";
 
 function ToolCallingChatbot() {
-  const [input, setInput] = useState("")
+  const [input, setInput] = useState("");
 
   const { messages, sendMessage, status, error } = useChat({
     transport: new DefaultChatTransport({
       api: "/api/tool-calling",
       fetch: async (input: RequestInfo | URL, init?: RequestInit) => {
-        const body = JSON.parse(init?.body as string)
+        const body = JSON.parse(init?.body as string);
         const updatedBody = {
           ...body,
           // API key removed - should be configured on server side
-        }
+        };
         return fetch(input, {
           ...init,
           body: JSON.stringify(updatedBody),
-        })
+        });
       },
     }),
-  })
+  });
 
   const handleSubmit = () => {
-    if (!input.trim()) return
+    if (!input.trim()) return;
 
-    sendMessage({ text: input })
-    setInput("")
-  }
+    sendMessage({ text: input });
+    setInput("");
+  };
 
   return (
     <div className="flex h-screen flex-col overflow-hidden">
@@ -197,7 +197,7 @@ function ToolCallingChatbot() {
           )}
 
           {messages?.map((message, index) => {
-            const isLastMessage = index === messages.length - 1
+            const isLastMessage = index === messages.length - 1;
 
             return (
               <MessageComponent
@@ -205,7 +205,7 @@ function ToolCallingChatbot() {
                 message={message}
                 isLastMessage={isLastMessage}
               />
-            )
+            );
           })}
 
           {status === "submitted" && <LoadingMessage />}
@@ -250,7 +250,7 @@ function ToolCallingChatbot() {
         </PromptInput>
       </div>
     </div>
-  )
+  );
 }
 
-export default ToolCallingChatbot
+export default ToolCallingChatbot;

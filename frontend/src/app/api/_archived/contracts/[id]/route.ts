@@ -1,5 +1,5 @@
-import { createClient } from '@/lib/supabase/server';
-import { NextResponse } from 'next/server';
+import { createClient } from "@/lib/supabase/server";
+import { NextResponse } from "next/server";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -11,18 +11,23 @@ export async function GET(request: Request, { params }: RouteParams) {
     const supabase = await createClient();
 
     const { data, error } = await supabase
-      .from('contracts')
-      .select(`
+      .from("contracts")
+      .select(
+        `
         *,
         client:clients!contracts_client_id_fkey(id, name),
         project:projects!contracts_project_id_fkey(id, name, project_number)
-      `)
-      .eq('id', id)
+      `,
+      )
+      .eq("id", id)
       .single();
 
     if (error) {
-      if (error.code === 'PGRST116') {
-        return NextResponse.json({ error: 'Contract not found' }, { status: 404 });
+      if (error.code === "PGRST116") {
+        return NextResponse.json(
+          { error: "Contract not found" },
+          { status: 404 },
+        );
       }
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
@@ -31,13 +36,13 @@ export async function GET(request: Request, { params }: RouteParams) {
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
-        { error: 'Internal server error', message: error.message },
-        { status: 500 }
+        { error: "Internal server error", message: error.message },
+        { status: 500 },
       );
     }
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -51,18 +56,18 @@ export async function PUT(request: Request, { params }: RouteParams) {
     const updateData: Record<string, unknown> = {};
 
     const allowedFields = [
-      'contract_number',
-      'title',
-      'client_id',
-      'project_id',
-      'status',
-      'original_contract_amount',
-      'revised_contract_amount',
-      'retention_percentage',
-      'executed',
-      'notes',
-      'private',
-      'apply_vertical_markup',
+      "contract_number",
+      "title",
+      "client_id",
+      "project_id",
+      "status",
+      "original_contract_amount",
+      "revised_contract_amount",
+      "retention_percentage",
+      "executed",
+      "notes",
+      "private",
+      "apply_vertical_markup",
     ];
 
     for (const field of allowedFields) {
@@ -72,19 +77,24 @@ export async function PUT(request: Request, { params }: RouteParams) {
     }
 
     const { data, error } = await supabase
-      .from('contracts')
+      .from("contracts")
       .update(updateData)
-      .eq('id', id)
-      .select(`
+      .eq("id", id)
+      .select(
+        `
         *,
         client:clients!contracts_client_id_fkey(id, name),
         project:projects!contracts_project_id_fkey(id, name, project_number)
-      `)
+      `,
+      )
       .single();
 
     if (error) {
-      if (error.code === 'PGRST116') {
-        return NextResponse.json({ error: 'Contract not found' }, { status: 404 });
+      if (error.code === "PGRST116") {
+        return NextResponse.json(
+          { error: "Contract not found" },
+          { status: 404 },
+        );
       }
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
@@ -93,13 +103,13 @@ export async function PUT(request: Request, { params }: RouteParams) {
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
-        { error: 'Internal server error', message: error.message },
-        { status: 500 }
+        { error: "Internal server error", message: error.message },
+        { status: 500 },
       );
     }
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -111,41 +121,44 @@ export async function DELETE(request: Request, { params }: RouteParams) {
 
     // Check for related records before deletion
     const { data: relatedChangeOrders } = await supabase
-      .from('change_orders')
-      .select('id')
-      .eq('contract_id', id)
+      .from("change_orders")
+      .select("id")
+      .eq("contract_id", id)
       .limit(1);
 
     if (relatedChangeOrders && relatedChangeOrders.length > 0) {
       return NextResponse.json(
-        { error: 'Cannot delete contract with existing change orders. Please delete related change orders first.' },
-        { status: 400 }
+        {
+          error:
+            "Cannot delete contract with existing change orders. Please delete related change orders first.",
+        },
+        { status: 400 },
       );
     }
 
-    const { error } = await supabase
-      .from('contracts')
-      .delete()
-      .eq('id', id);
+    const { error } = await supabase.from("contracts").delete().eq("id", id);
 
     if (error) {
-      if (error.code === 'PGRST116') {
-        return NextResponse.json({ error: 'Contract not found' }, { status: 404 });
+      if (error.code === "PGRST116") {
+        return NextResponse.json(
+          { error: "Contract not found" },
+          { status: 404 },
+        );
       }
       return NextResponse.json({ error: error.message }, { status: 400 });
     }
 
-    return NextResponse.json({ message: 'Contract deleted successfully' });
+    return NextResponse.json({ message: "Contract deleted successfully" });
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
-        { error: 'Internal server error', message: error.message },
-        { status: 500 }
+        { error: "Internal server error", message: error.message },
+        { status: 500 },
       );
     }
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

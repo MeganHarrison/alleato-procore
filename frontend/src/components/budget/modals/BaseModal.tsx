@@ -1,15 +1,20 @@
-'use client';
+"use client";
 
-import { X } from 'lucide-react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { cn } from '@/lib/utils';
+import { X } from "lucide-react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 interface BaseModalProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   children: React.ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl' | 'full';
+  size?: "sm" | "md" | "lg" | "xl" | "full";
   className?: string;
   showCloseButton?: boolean;
 }
@@ -30,16 +35,16 @@ export function BaseModal({
   onClose,
   title,
   children,
-  size = 'xl',
+  size = "xl",
   className,
-  showCloseButton = true
+  showCloseButton = true,
 }: BaseModalProps) {
   const sizeClasses = {
-    sm: 'max-w-md',
-    md: 'max-w-2xl',
-    lg: 'max-w-4xl',
-    xl: 'max-w-6xl', // Default
-    full: 'max-w-[98vw]'
+    sm: "max-w-md",
+    md: "max-w-2xl",
+    lg: "max-w-4xl",
+    xl: "max-w-6xl", // Default
+    full: "max-w-[98vw]",
   };
 
   return (
@@ -47,13 +52,13 @@ export function BaseModal({
       <DialogContent
         showCloseButton={false}
         className={cn(
-          'relative p-0 gap-0 overflow-hidden',
+          "relative p-0 gap-0 overflow-hidden",
           sizeClasses[size],
-          'w-[98vw] sm:w-full',
-          'max-h-[92vh] flex flex-col',
-          'rounded-2xl border border-slate-200/80 bg-white/95 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.45)] backdrop-blur',
-          'transition-transform duration-200',
-          className
+          "w-[98vw] sm:w-full",
+          "max-h-[92vh] flex flex-col",
+          "rounded-2xl border border-slate-200/80 bg-white/95 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.45)] backdrop-blur",
+          "transition-transform duration-200",
+          className,
         )}
       >
         <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-orange-500 via-amber-400 to-orange-500 opacity-90" />
@@ -97,10 +102,10 @@ export function ModalFooter({ children, className }: ModalFooterProps) {
   return (
     <div
       className={cn(
-        'px-6 py-4 bg-slate-50/90 border-t border-slate-200',
-        'flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3',
-        'flex-shrink-0',
-        className
+        "px-6 py-4 bg-slate-50/90 border-t border-slate-200",
+        "flex flex-col sm:flex-row sm:items-center sm:justify-end gap-3",
+        "flex-shrink-0",
+        className,
       )}
     >
       {children}
@@ -117,9 +122,5 @@ interface ModalBodyProps {
 }
 
 export function ModalBody({ children, className }: ModalBodyProps) {
-  return (
-    <div className={cn('px-6 py-5', className)}>
-      {children}
-    </div>
-  );
+  return <div className={cn("px-6 py-5", className)}>{children}</div>;
 }

@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
 
 interface ForecastParams {
   params: Promise<{
@@ -17,10 +17,7 @@ interface ForecastParams {
  * - Projected variance
  * - Forecast by cost code
  */
-export async function GET(
-  request: NextRequest,
-  { params }: ForecastParams
-) {
+export async function GET(request: NextRequest, { params }: ForecastParams) {
   try {
     const { id: projectId } = await params;
     const supabase = await createClient();
@@ -32,12 +29,12 @@ export async function GET(
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Fetch budget summary data
     const { data: budgetLines, error: budgetError } = await supabase
-      .from('budget_lines')
+      .from("budget_lines")
       .select(
         `
         id,
@@ -50,15 +47,15 @@ export async function GET(
           code,
           name
         )
-      `
+      `,
       )
-      .eq('project_id', projectId);
+      .eq("project_id", projectId);
 
     if (budgetError) {
-      console.error('Error fetching budget lines:', budgetError);
+      console.error("Error fetching budget lines:", budgetError);
       return NextResponse.json(
-        { error: 'Failed to fetch budget data' },
-        { status: 500 }
+        { error: "Failed to fetch budget data" },
+        { status: 500 },
       );
     }
 
@@ -96,7 +93,10 @@ export async function GET(
       totalProjectedBudget += projectedBudget;
       totalProjectedCosts += projectedCosts;
 
-      const costCode = line.cost_codes as unknown as { code: string; name: string } | null;
+      const costCode = line.cost_codes as unknown as {
+        code: string;
+        name: string;
+      } | null;
 
       if (costCode) {
         forecastByCostCode.push({
@@ -127,10 +127,10 @@ export async function GET(
       generatedAt: new Date().toISOString(),
     });
   } catch (error) {
-    console.error('Error generating forecast:', error);
+    console.error("Error generating forecast:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

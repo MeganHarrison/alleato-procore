@@ -1,12 +1,18 @@
-import Link from 'next/link';
-import { Database, Table2, ChevronRight } from 'lucide-react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { TABLE_REGISTRY, getRegisteredTables } from '@/lib/table-registry';
+import Link from "next/link";
+import { Database, Table2, ChevronRight } from "lucide-react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { TABLE_REGISTRY, getRegisteredTables } from "@/lib/table-registry";
 
 export const metadata = {
-  title: 'Admin Table Explorer',
-  description: 'Browse and manage database tables',
+  title: "Admin Table Explorer",
+  description: "Browse and manage database tables",
 };
 
 export default function AdminTablesPage() {
@@ -19,7 +25,9 @@ export default function AdminTablesPage() {
           <div className="rounded-lg bg-primary/10 p-2">
             <Database className="h-6 w-6 text-primary" />
           </div>
-          <h1 className="text-3xl font-bold tracking-tight">Admin Table Explorer</h1>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Admin Table Explorer
+          </h1>
         </div>
         <p className="text-muted-foreground">
           Browse, search, and manage data across your database tables
@@ -53,19 +61,27 @@ export default function AdminTablesPage() {
                 <CardContent>
                   <div className="flex flex-wrap gap-1.5">
                     {config.permissions.read && (
-                      <Badge variant="secondary" className="text-xs">Read</Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Read
+                      </Badge>
                     )}
                     {config.permissions.create && (
-                      <Badge variant="secondary" className="text-xs">Create</Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Create
+                      </Badge>
                     )}
                     {config.permissions.update && (
-                      <Badge variant="secondary" className="text-xs">Update</Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Update
+                      </Badge>
                     )}
                     {config.permissions.delete && (
-                      <Badge variant="secondary" className="text-xs">Delete</Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        Delete
+                      </Badge>
                     )}
                     <Badge variant="outline" className="text-xs ml-auto">
-                      {viewCount} view{viewCount !== 1 ? 's' : ''}
+                      {viewCount} view{viewCount !== 1 ? "s" : ""}
                     </Badge>
                   </div>
                 </CardContent>

@@ -1,0 +1,372 @@
+import { createClient } from "@/lib/supabase/server";
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+
+interface RouteParams {
+  params: Promise<{ id: string }>;
+}
+
+// Validation schema for attachment upload
+const createAttachmentSchema = z.object({
+  fileName: z.string().max(255),
+  filePath: z.string(),
+  fileSize: z.number().positive(),
+  mimeType: z.string().max(100),
+});
+
+/**
+ * GET /api/commitments/[id]/attachments
+ * Returns all attachments for a commitment
+ */
+export async function GET(request: NextRequest, { params }: RouteParams) {
+  try {
+    const { id: commitmentId } = await params;
+    const supabase = await createClient();
+
+    // Verify commitment exists and get project_id
+    const { data: commitment, error: commitmentError } = await supabase
+      .from("commitments")
+      .select("id, project_id")
+      .eq("id", commitmentId)
+      .is("deleted_at", null)
+      .single();
+
+    if (commitmentError || !commitment) {
+      return NextResponse.json(
+        { error: "Commitment not found" },
+        { status: 404 },
+      );
+    }
+
+    // Get attachments using the generic attachments table
+    const { data: attachments, error } = await supabase
+      .from("attachments")
+      .select(
+        `
+        *,
+        uploader:users!attachments_uploaded_by_fkey(id, email)
+      `,
+      )
+      .eq("attached_to_id", commitmentId)
+      .eq("attached_to_table", "commitments")
+      .order("uploaded_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching attachments:", error);
+      return NextResponse.json(
+        { error: "Failed to fetch attachments", details: error.message },
+        { status: 400 },
+      );
+    }
+
+    // Format response
+    const formattedAttachments = (attachments || []).map((attachment) => ({
+      id: attachment.id,
+      commitmentId: attachment.attached_to_id,
+      fileName: attachment.file_name,
+      url: attachment.url,
+      uploadedBy: attachment.uploader,
+      uploadedAt: attachment.uploaded_at,
+      downloadUrl: `/api/commitments/${commitmentId}/attachments/${attachment.id}/download`,
+      _links: {
+        self: `/api/commitments/${commitmentId}/attachments/${attachment.id}`,
+        download: `/api/commitments/${commitmentId}/attachments/${attachment.id}/download`,
+      },
+    }));
+
+    return NextResponse.json({
+      data: formattedAttachments,
+      _links: {
+        self: `/api/commitments/${commitmentId}/attachments`,
+        commitment: `/api/commitments/${commitmentId}`,
+      },
+    });
+  } catch (error) {
+    console.error(
+      "Error in GET /api/commitments/[id]/attachments:",
+      error,
+    );
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}
+
+/**
+ * POST /api/commitments/[id]/attachments
+ * Uploads a new attachment to a commitment
+ */
+export async function POST(request: NextRequest, { params }: RouteParams) {
+  try {
+    const { id: commitmentId } = await params;
+    const supabase = await createClient();
+
+    // Get current user
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Verify commitment exists and get project_id
+    const { data: commitment, error: commitmentError } = await supabase
+      .from("commitments")
+      .select("id, project_id, commitment_number")
+      .eq("id", commitmentId)
+      .is("deleted_at", null)
+      .single();
+
+    if (commitmentError || !commitment) {
+      return NextResponse.json(
+        { error: "Commitment not found" },
+        { status: 404 },
+      );
+    }
+
+    // Parse multipart form data
+    const formData = await request.formData();
+    const file = formData.get("file") as File;
+
+    if (!file) {
+      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+    }
+
+    // Validate file metadata
+    const attachmentData = createAttachmentSchema.parse({
+      fileName: file.name,
+      filePath: "", // Will be set after upload
+      fileSize: file.size,
+      mimeType: file.type,
+    });
+
+    // Upload file to Supabase Storage
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+    const storagePath = `commitments/${commitment.project_id}/${commitmentId}/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("project-files")
+      .upload(storagePath, file, {
+        contentType: file.type,
+        upsert: false,
+      });
+
+    if (uploadError) {
+      console.error("Error uploading file:", uploadError);
+      return NextResponse.json(
+        { error: "Failed to upload file", details: uploadError.message },
+        { status: 400 },
+      );
+    }
+
+    // Get public URL for the file
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("project-files").getPublicUrl(storagePath);
+
+    // Create attachment record in generic attachments table
+    const { data: attachment, error: dbError } = await supabase
+      .from("attachments")
+      .insert({
+        attached_to_id: commitmentId,
+        attached_to_table: "commitments",
+        project_id: commitment.project_id,
+        file_name: attachmentData.fileName,
+        url: publicUrl,
+        uploaded_by: user.id,
+        uploaded_at: new Date().toISOString(),
+      })
+      .select()
+      .single();
+
+    if (dbError) {
+      // Clean up uploaded file
+      await supabase.storage.from("project-files").remove([storagePath]);
+
+      console.error("Error creating attachment record:", dbError);
+      return NextResponse.json(
+        {
+          error: "Failed to create attachment record",
+          details: dbError.message,
+        },
+        { status: 400 },
+      );
+    }
+
+    // Update commitment modification timestamp
+    await supabase
+      .from("commitments")
+      .update({
+        updated_at: new Date().toISOString(),
+        updated_by: user.id,
+      })
+      .eq("id", commitmentId);
+
+    // Format response
+    const response = {
+      id: attachment.id,
+      commitmentId: attachment.attached_to_id,
+      fileName: attachment.file_name,
+      url: attachment.url,
+      uploadedBy: {
+        id: user.id,
+        email: user.email,
+      },
+      uploadedAt: attachment.uploaded_at,
+      publicUrl,
+      downloadUrl: `/api/commitments/${commitmentId}/attachments/${attachment.id}/download`,
+      _links: {
+        self: `/api/commitments/${commitmentId}/attachments/${attachment.id}`,
+        download: `/api/commitments/${commitmentId}/attachments/${attachment.id}/download`,
+        commitment: `/api/commitments/${commitmentId}`,
+      },
+    };
+
+    return NextResponse.json(response, { status: 201 });
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      return NextResponse.json(
+        {
+          error: "Validation error",
+          details: error.issues.map((e) => ({
+            field: e.path.join("."),
+            message: e.message,
+          })),
+        },
+        { status: 400 },
+      );
+    }
+
+    console.error(
+      "Error in POST /api/commitments/[id]/attachments:",
+      error,
+    );
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}
+
+/**
+ * DELETE /api/commitments/[id]/attachments
+ * Deletes multiple attachments (bulk delete)
+ */
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
+  try {
+    const { id: commitmentId } = await params;
+    const supabase = await createClient();
+    const body = await request.json();
+
+    // Get current user
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Verify commitment exists
+    const { data: commitment, error: commitmentError } = await supabase
+      .from("commitments")
+      .select("id, project_id")
+      .eq("id", commitmentId)
+      .is("deleted_at", null)
+      .single();
+
+    if (commitmentError || !commitment) {
+      return NextResponse.json(
+        { error: "Commitment not found" },
+        { status: 404 },
+      );
+    }
+
+    // Expect array of attachment IDs
+    if (!Array.isArray(body.attachmentIds)) {
+      return NextResponse.json(
+        { error: "Request body must contain an array of attachment IDs" },
+        { status: 400 },
+      );
+    }
+
+    // Get attachment details before deletion
+    const { data: attachments, error: fetchError } = await supabase
+      .from("attachments")
+      .select("id, url, file_name")
+      .in("id", body.attachmentIds)
+      .eq("attached_to_id", commitmentId)
+      .eq("attached_to_table", "commitments");
+
+    if (fetchError) {
+      return NextResponse.json(
+        { error: "Failed to fetch attachments", details: fetchError.message },
+        { status: 400 },
+      );
+    }
+
+    // Delete from storage (extract path from URL)
+    if (attachments && attachments.length > 0) {
+      const filePaths = attachments
+        .map((a) => {
+          // Extract storage path from public URL
+          const urlObj = new URL(a.url);
+          const pathMatch = urlObj.pathname.match(/\/storage\/v1\/object\/public\/[^/]+\/(.+)$/);
+          return pathMatch ? pathMatch[1] : null;
+        })
+        .filter((path): path is string => path !== null);
+
+      if (filePaths.length > 0) {
+        const { error: storageError } = await supabase.storage
+          .from("project-files")
+          .remove(filePaths);
+
+        if (storageError) {
+          console.error("Error deleting files from storage:", storageError);
+        }
+      }
+    }
+
+    // Delete database records
+    const { error: deleteError } = await supabase
+      .from("attachments")
+      .delete()
+      .in("id", body.attachmentIds)
+      .eq("attached_to_id", commitmentId)
+      .eq("attached_to_table", "commitments");
+
+    if (deleteError) {
+      return NextResponse.json(
+        { error: "Failed to delete attachments", details: deleteError.message },
+        { status: 400 },
+      );
+    }
+
+    // Update commitment modification timestamp
+    await supabase
+      .from("commitments")
+      .update({
+        updated_at: new Date().toISOString(),
+        updated_by: user.id,
+      })
+      .eq("id", commitmentId);
+
+    return NextResponse.json({
+      message: `${attachments?.length || 0} attachment(s) deleted successfully`,
+    });
+  } catch (error) {
+    console.error(
+      "Error in DELETE /api/commitments/[id]/attachments:",
+      error,
+    );
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}

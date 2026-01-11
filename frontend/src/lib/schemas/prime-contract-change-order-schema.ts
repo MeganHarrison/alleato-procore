@@ -1,19 +1,19 @@
-import { z } from 'zod';
-import { optionalPositiveNumber } from './common';
+import { z } from "zod";
+import { optionalPositiveNumber } from "./common";
 
 // Enum for PCO status matching the spec
 export const PcoStatusEnum = z.enum([
-  'approved',
-  'draft',
-  'no_charge',
-  'pending_in_review',
-  'pending_not_pricing',
-  'pending_not_proceeding',
-  'pending_pricing',
-  'pending_proceeding',
-  'pending_revised',
-  'rejected',
-  'void',
+  "approved",
+  "draft",
+  "no_charge",
+  "pending_in_review",
+  "pending_not_pricing",
+  "pending_not_proceeding",
+  "pending_pricing",
+  "pending_proceeding",
+  "pending_revised",
+  "rejected",
+  "void",
 ]);
 
 export type PcoStatus = z.infer<typeof PcoStatusEnum>;
@@ -26,7 +26,7 @@ export const PrimeContractChangeOrderSchema = z.object({
   title: z.string().nullable(),
 
   // Status and privacy
-  status: PcoStatusEnum.optional().default('draft'),
+  status: PcoStatusEnum.optional().default("draft"),
   is_private: z.boolean().optional().default(false),
 
   // Dates
@@ -58,19 +58,21 @@ export const PrimeContractChangeOrderSchema = z.object({
   send_email: z.boolean().optional().default(false),
 });
 
-export type PrimeContractChangeOrderFormData = z.infer<typeof PrimeContractChangeOrderSchema>;
+export type PrimeContractChangeOrderFormData = z.infer<
+  typeof PrimeContractChangeOrderSchema
+>;
 
 // Status display labels matching Procore
 export const PCO_STATUS_LABELS: Record<PcoStatus, string> = {
-  approved: 'Approved',
-  draft: 'Draft',
-  no_charge: 'No Charge',
-  pending_in_review: 'Pending - In Review',
-  pending_not_pricing: 'Pending - Not Pricing',
-  pending_not_proceeding: 'Pending - Not Proceeding',
-  pending_pricing: 'Pending - Pricing',
-  pending_proceeding: 'Pending - Proceeding',
-  pending_revised: 'Pending - Revised',
-  rejected: 'Rejected',
-  void: 'Void',
+  approved: "Approved",
+  draft: "Draft",
+  no_charge: "No Charge",
+  pending_in_review: "Pending - In Review",
+  pending_not_pricing: "Pending - Not Pricing",
+  pending_not_proceeding: "Pending - Not Proceeding",
+  pending_pricing: "Pending - Pricing",
+  pending_proceeding: "Pending - Proceeding",
+  pending_revised: "Pending - Revised",
+  rejected: "Rejected",
+  void: "Void",
 };

@@ -1,58 +1,62 @@
-"use client"
+"use client";
 
-import { useEffect, useRef, useMemo } from "react"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import { MessageGroup } from "./message-group"
-import { DateDivider } from "./date-divider"
-import { format, isToday, isYesterday, isSameDay, parseISO } from "date-fns"
+import { useEffect, useRef, useMemo } from "react";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { MessageGroup } from "./message-group";
+import { DateDivider } from "./date-divider";
+import { format, isToday, isYesterday, isSameDay, parseISO } from "date-fns";
 
 interface Message {
-  id: string
-  content: string
-  user: { name: string }
-  createdAt: string
+  id: string;
+  content: string;
+  user: { name: string };
+  createdAt: string;
 }
 
 interface MessageListProps {
-  messages: Message[]
-  currentUsername: string
-  onMessageSelect?: (messageId: string) => void
+  messages: Message[];
+  currentUsername: string;
+  onMessageSelect?: (messageId: string) => void;
 }
 
 interface GroupedMessage extends Message {
-  isFirstInGroup?: boolean
-  showDate?: boolean
-  dateLabel?: string
+  isFirstInGroup?: boolean;
+  showDate?: boolean;
+  dateLabel?: string;
 }
 
-export function MessageList({ messages, currentUsername, onMessageSelect }: MessageListProps) {
-  const scrollRef = useRef<HTMLDivElement>(null)
-  const prevMessageCount = useRef(messages.length)
+export function MessageList({
+  messages,
+  currentUsername,
+  onMessageSelect,
+}: MessageListProps) {
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const prevMessageCount = useRef(messages.length);
 
   // Group messages and add date dividers
   const groupedMessages = useMemo(() => {
-    if (messages.length === 0) return []
+    if (messages.length === 0) return [];
 
-    const grouped: GroupedMessage[] = []
-    let currentDate: Date | null = null
-    let previousUser: string | null = null
-    let previousTime: Date | null = null
+    const grouped: GroupedMessage[] = [];
+    let currentDate: Date | null = null;
+    let previousUser: string | null = null;
+    let previousTime: Date | null = null;
 
     messages.forEach((message, index) => {
-      const messageDate = parseISO(message.createdAt)
-      const messageTime = messageDate.getTime()
+      const messageDate = parseISO(message.createdAt);
+      const messageTime = messageDate.getTime();
 
       // Check if we need a date divider
       if (!currentDate || !isSameDay(currentDate, messageDate)) {
-        currentDate = messageDate
-        let dateLabel: string
+        currentDate = messageDate;
+        let dateLabel: string;
 
         if (isToday(messageDate)) {
-          dateLabel = "Today"
+          dateLabel = "Today";
         } else if (isYesterday(messageDate)) {
-          dateLabel = "Yesterday"
+          dateLabel = "Yesterday";
         } else {
-          dateLabel = format(messageDate, "MMMM d, yyyy")
+          dateLabel = format(messageDate, "MMMM d, yyyy");
         }
 
         grouped.push({
@@ -60,40 +64,44 @@ export function MessageList({ messages, currentUsername, onMessageSelect }: Mess
           showDate: true,
           dateLabel,
           isFirstInGroup: true,
-        })
-        previousUser = message.user.name
-        previousTime = messageDate
+        });
+        previousUser = message.user.name;
+        previousTime = messageDate;
       } else {
         // Check if message should start a new group
         // Group if same user and within 5 minutes
-        const timeDiff = previousTime ? (messageTime - previousTime.getTime()) / 1000 / 60 : Infinity
-        const isNewGroup = previousUser !== message.user.name || timeDiff > 5
+        const timeDiff = previousTime
+          ? (messageTime - previousTime.getTime()) / 1000 / 60
+          : Infinity;
+        const isNewGroup = previousUser !== message.user.name || timeDiff > 5;
 
         grouped.push({
           ...message,
           isFirstInGroup: isNewGroup,
-        })
+        });
 
         if (isNewGroup) {
-          previousUser = message.user.name
+          previousUser = message.user.name;
         }
-        previousTime = messageDate
+        previousTime = messageDate;
       }
-    })
+    });
 
-    return grouped
-  }, [messages])
+    return grouped;
+  }, [messages]);
 
   // Auto-scroll to bottom on new messages
   useEffect(() => {
     if (messages.length > prevMessageCount.current && scrollRef.current) {
-      const scrollElement = scrollRef.current.querySelector('[data-radix-scroll-area-viewport]')
+      const scrollElement = scrollRef.current.querySelector(
+        "[data-radix-scroll-area-viewport]",
+      );
       if (scrollElement) {
-        scrollElement.scrollTop = scrollElement.scrollHeight
+        scrollElement.scrollTop = scrollElement.scrollHeight;
       }
     }
-    prevMessageCount.current = messages.length
-  }, [messages.length])
+    prevMessageCount.current = messages.length;
+  }, [messages.length]);
 
   if (messages.length === 0) {
     return (
@@ -104,7 +112,7 @@ export function MessageList({ messages, currentUsername, onMessageSelect }: Mess
           </p>
         </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -125,5 +133,5 @@ export function MessageList({ messages, currentUsername, onMessageSelect }: Mess
         ))}
       </div>
     </ScrollArea>
-  )
+  );
 }

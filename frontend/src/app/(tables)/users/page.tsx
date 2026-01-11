@@ -1,28 +1,37 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from '@/components/tables/DataTable';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Plus, MoreHorizontal, Eye, Edit, Trash2, Mail, Phone, Loader2 } from 'lucide-react';
+import * as React from "react";
+import { ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "@/components/tables/DataTable";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import {
+  Plus,
+  MoreHorizontal,
+  Eye,
+  Edit,
+  Trash2,
+  Mail,
+  Phone,
+  Loader2,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useUsers } from '@/hooks/use-users';
+} from "@/components/ui/dropdown-menu";
+import { useUsers } from "@/hooks/use-users";
 
 interface User {
   id: string;
   name: string;
   email: string;
   phone: string;
-  role: 'admin' | 'project_manager' | 'superintendent' | 'foreman' | 'viewer';
+  role: "admin" | "project_manager" | "superintendent" | "foreman" | "viewer";
   company: string;
-  status: 'active' | 'inactive';
+  status: "active" | "inactive";
   lastLogin: string | null;
 }
 
@@ -34,15 +43,22 @@ export default function UserDirectoryPage() {
   const data: User[] = React.useMemo(() => {
     return dbUsers.map((user) => {
       // Handle both app_users and employees format
-      const appUser = user as { id: string; email: string; full_name: string | null; name: string | null; role: string; created_at: string | null };
+      const appUser = user as {
+        id: string;
+        email: string;
+        full_name: string | null;
+        name: string | null;
+        role: string;
+        created_at: string | null;
+      };
       return {
         id: appUser.id,
         name: appUser.full_name || appUser.name || appUser.email,
         email: appUser.email,
-        phone: '', // Phone not available in app_users table
-        role: (appUser.role || 'viewer') as User['role'],
-        company: '', // Company association not directly available
-        status: 'active' as const,
+        phone: "", // Phone not available in app_users table
+        role: (appUser.role || "viewer") as User["role"],
+        company: "", // Company association not directly available
+        status: "active" as const,
         lastLogin: appUser.created_at, // Using created_at as proxy for now
       };
     });
@@ -50,15 +66,20 @@ export default function UserDirectoryPage() {
 
   const columns: ColumnDef<User>[] = [
     {
-      accessorKey: 'name',
-      header: 'Name',
+      accessorKey: "name",
+      header: "Name",
       cell: ({ row }) => {
-        const name = row.getValue('name') as string;
-        const initials = name.split(' ').map(n => n[0]).join('');
+        const name = row.getValue("name") as string;
+        const initials = name
+          .split(" ")
+          .map((n) => n[0])
+          .join("");
         return (
           <div className="flex items-center gap-3">
             <Avatar className="h-8 w-8">
-              <AvatarFallback className="bg-blue-100 text-blue-700">{initials}</AvatarFallback>
+              <AvatarFallback className="bg-blue-100 text-blue-700">
+                {initials}
+              </AvatarFallback>
             </Avatar>
             <button
               type="button"
@@ -71,66 +92,72 @@ export default function UserDirectoryPage() {
       },
     },
     {
-      accessorKey: 'email',
-      header: 'Email',
+      accessorKey: "email",
+      header: "Email",
       cell: ({ row }) => (
         <div className="flex items-center gap-1 text-sm text-gray-600">
           <Mail className="h-3 w-3" />
-          {row.getValue('email')}
+          {row.getValue("email")}
         </div>
       ),
     },
     {
-      accessorKey: 'phone',
-      header: 'Phone',
+      accessorKey: "phone",
+      header: "Phone",
       cell: ({ row }) => (
         <div className="flex items-center gap-1 text-sm text-gray-600">
           <Phone className="h-3 w-3" />
-          {row.getValue('phone')}
+          {row.getValue("phone")}
         </div>
       ),
     },
     {
-      accessorKey: 'role',
-      header: 'Role',
+      accessorKey: "role",
+      header: "Role",
       cell: ({ row }) => {
-        const role = row.getValue('role') as string;
+        const role = row.getValue("role") as string;
         const roleColors: Record<string, string> = {
-          admin: 'bg-red-100 text-red-700',
-          project_manager: 'bg-blue-100 text-blue-700',
-          superintendent: 'bg-green-100 text-green-700',
-          foreman: 'bg-yellow-100 text-yellow-700',
-          viewer: 'bg-gray-100 text-gray-700',
+          admin: "bg-red-100 text-red-700",
+          project_manager: "bg-blue-100 text-blue-700",
+          superintendent: "bg-green-100 text-green-700",
+          foreman: "bg-yellow-100 text-yellow-700",
+          viewer: "bg-gray-100 text-gray-700",
         };
         return (
-          <Badge className={roleColors[role] || 'bg-gray-100 text-gray-700'}>
-            {role.replace('_', ' ')}
+          <Badge className={roleColors[role] || "bg-gray-100 text-gray-700"}>
+            {role.replace("_", " ")}
           </Badge>
         );
       },
     },
     {
-      accessorKey: 'company',
-      header: 'Company',
+      accessorKey: "company",
+      header: "Company",
     },
     {
-      accessorKey: 'status',
-      header: 'Status',
+      accessorKey: "status",
+      header: "Status",
       cell: ({ row }) => {
-        const status = row.getValue('status') as string;
+        const status = row.getValue("status") as string;
         return (
-          <Badge className={status === 'active' ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-gray-700'}>
+          <Badge
+            className={
+              status === "active"
+                ? "bg-green-100 text-green-700"
+                : "bg-gray-100 text-gray-700"
+            }
+          >
             {status}
           </Badge>
         );
       },
     },
     {
-      accessorKey: 'lastLogin',
-      header: 'Last Login',
+      accessorKey: "lastLogin",
+      header: "Last Login",
       cell: ({ row }) => {
-        const date = row.getValue('lastLogin') as string | null;
-        if (!date) return '-';
+        const date = row.getValue("lastLogin") as string | null;
+        if (!date) return "-";
         const loginDate = new Date(date);
         const now = new Date();
         const diffMs = now.getTime() - loginDate.getTime();
@@ -145,7 +172,7 @@ export default function UserDirectoryPage() {
       },
     },
     {
-      id: 'actions',
+      id: "actions",
       cell: ({ row }) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -184,7 +211,9 @@ export default function UserDirectoryPage() {
   if (error) {
     return (
       <div className="flex flex-col h-full p-6 items-center justify-center">
-        <p className="text-sm text-red-500">Error loading users: {error.message}</p>
+        <p className="text-sm text-red-500">
+          Error loading users: {error.message}
+        </p>
       </div>
     );
   }
@@ -195,7 +224,9 @@ export default function UserDirectoryPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">User Directory</h1>
-          <p className="text-sm text-gray-500 mt-1">Manage project users and permissions</p>
+          <p className="text-sm text-gray-500 mt-1">
+            Manage project users and permissions
+          </p>
         </div>
         <Button className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange))]/90">
           <Plus className="h-4 w-4 mr-2" />
@@ -207,24 +238,28 @@ export default function UserDirectoryPage() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-white rounded-lg border p-4">
           <div className="text-sm font-medium text-gray-500">Total Users</div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">{data.length}</div>
+          <div className="text-2xl font-bold text-gray-900 mt-1">
+            {data.length}
+          </div>
         </div>
         <div className="bg-white rounded-lg border p-4">
           <div className="text-sm font-medium text-gray-500">Active</div>
           <div className="text-2xl font-bold text-gray-900 mt-1">
-            {data.filter(u => u.status === 'active').length}
+            {data.filter((u) => u.status === "active").length}
           </div>
         </div>
         <div className="bg-white rounded-lg border p-4">
           <div className="text-sm font-medium text-gray-500">Admins</div>
           <div className="text-2xl font-bold text-gray-900 mt-1">
-            {data.filter(u => u.role === 'admin').length}
+            {data.filter((u) => u.role === "admin").length}
           </div>
         </div>
         <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm font-medium text-gray-500">Project Managers</div>
+          <div className="text-sm font-medium text-gray-500">
+            Project Managers
+          </div>
           <div className="text-2xl font-bold text-gray-900 mt-1">
-            {data.filter(u => u.role === 'project_manager').length}
+            {data.filter((u) => u.role === "project_manager").length}
           </div>
         </div>
       </div>

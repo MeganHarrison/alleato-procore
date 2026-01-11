@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { type DistributionGroupWithMembers } from '@/services/distributionGroupService';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { MoreVertical, Users } from 'lucide-react';
+import { type DistributionGroupWithMembers } from "@/services/distributionGroupService";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { MoreVertical, Users } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
 interface ResponsiveDistributionGroupsTableProps {
   groups: DistributionGroupWithMembers[];
@@ -24,7 +24,7 @@ export function ResponsiveDistributionGroupsTable({
   onEdit,
   onDelete,
   onViewDetails,
-  onManageMembers
+  onManageMembers,
 }: ResponsiveDistributionGroupsTableProps) {
   return (
     <div className="space-y-3">
@@ -34,8 +34,12 @@ export function ResponsiveDistributionGroupsTable({
           <table className="w-full">
             <thead>
               <tr className="border-b bg-muted/50">
-                <th className="p-3 text-left text-sm font-medium">Group Name</th>
-                <th className="p-3 text-left text-sm font-medium">Description</th>
+                <th className="p-3 text-left text-sm font-medium">
+                  Group Name
+                </th>
+                <th className="p-3 text-left text-sm font-medium">
+                  Description
+                </th>
                 <th className="p-3 text-left text-sm font-medium">Members</th>
                 <th className="p-3 text-left text-sm font-medium">Status</th>
                 <th className="p-3 text-right text-sm font-medium">Actions</th>
@@ -43,12 +47,15 @@ export function ResponsiveDistributionGroupsTable({
             </thead>
             <tbody>
               {groups.map((group) => (
-                <tr key={group.id} className="border-b last:border-0 hover:bg-muted/50">
+                <tr
+                  key={group.id}
+                  className="border-b last:border-0 hover:bg-muted/50"
+                >
                   <td className="p-3">
                     <div className="font-medium">{group.name}</div>
                   </td>
                   <td className="p-3 text-sm text-muted-foreground">
-                    {group.description || '-'}
+                    {group.description || "-"}
                   </td>
                   <td className="p-3">
                     <Badge variant="secondary">
@@ -56,8 +63,12 @@ export function ResponsiveDistributionGroupsTable({
                     </Badge>
                   </td>
                   <td className="p-3">
-                    <Badge variant={group.status === 'active' ? 'default' : 'secondary'}>
-                      {group.status === 'active' ? 'Active' : 'Inactive'}
+                    <Badge
+                      variant={
+                        group.status === "active" ? "default" : "secondary"
+                      }
+                    >
+                      {group.status === "active" ? "Active" : "Inactive"}
                     </Badge>
                   </td>
                   <td className="p-3 text-right">
@@ -69,12 +80,16 @@ export function ResponsiveDistributionGroupsTable({
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         {onViewDetails && (
-                          <DropdownMenuItem onClick={() => onViewDetails(group)}>
+                          <DropdownMenuItem
+                            onClick={() => onViewDetails(group)}
+                          >
                             View Details
                           </DropdownMenuItem>
                         )}
                         {onManageMembers && (
-                          <DropdownMenuItem onClick={() => onManageMembers(group)}>
+                          <DropdownMenuItem
+                            onClick={() => onManageMembers(group)}
+                          >
                             Manage Members
                           </DropdownMenuItem>
                         )}
@@ -101,15 +116,14 @@ export function ResponsiveDistributionGroupsTable({
       {/* Mobile View - Card layout */}
       <div className="md:hidden space-y-3">
         {groups.map((group) => (
-          <div
-            key={group.id}
-            className="border rounded-lg p-4 space-y-3"
-          >
+          <div key={group.id} className="border rounded-lg p-4 space-y-3">
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <h3 className="font-medium">{group.name}</h3>
                 {group.description && (
-                  <p className="text-sm text-muted-foreground mt-1">{group.description}</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {group.description}
+                  </p>
                 )}
               </div>
               <DropdownMenu>
@@ -148,8 +162,10 @@ export function ResponsiveDistributionGroupsTable({
               <Badge variant="secondary">
                 {group.members?.length || 0} members
               </Badge>
-              <Badge variant={group.status === 'active' ? 'default' : 'secondary'}>
-                {group.status === 'active' ? 'Active' : 'Inactive'}
+              <Badge
+                variant={group.status === "active" ? "default" : "secondary"}
+              >
+                {group.status === "active" ? "Active" : "Inactive"}
               </Badge>
             </div>
           </div>

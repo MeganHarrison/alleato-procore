@@ -113,21 +113,27 @@ export function extractSourcesFromToolOutput(toolOutput: string): Source[] {
   const sources: Source[] = [];
 
   // Look for the Sources section
-  const sourcesMatch = toolOutput.match(/---\s*\n\*\*Sources:\*\*\n([\s\S]*?)(?:\n\n|$)/);
+  const sourcesMatch = toolOutput.match(
+    /---\s*\n\*\*Sources:\*\*\n([\s\S]*?)(?:\n\n|$)/,
+  );
   if (!sourcesMatch) return sources;
 
   const sourcesText = sourcesMatch[1];
-  const sourceLines = sourcesText.split('\n').filter(line => line.trim().startsWith('-'));
+  const sourceLines = sourcesText
+    .split("\n")
+    .filter((line) => line.trim().startsWith("-"));
 
   sourceLines.forEach((line, idx) => {
     // Parse lines like: - [Source 1]: Meeting - "Title here" (2024-01-15) - 85% relevance
-    const match = line.match(/\[Source (\d+)\]:\s*(\w+(?:\s+\w+)?)\s*-\s*"([^"]+)"\s*(?:\(([^)]+)\))?\s*-?\s*(\d+%)?/);
+    const match = line.match(
+      /\[Source (\d+)\]:\s*(\w+(?:\s+\w+)?)\s*-\s*"([^"]+)"\s*(?:\(([^)]+)\))?\s*-?\s*(\d+%)?/,
+    );
     if (match) {
       const [, sourceNum, type, title, date, relevance] = match;
       sources.push({
         id: `source-${sourceNum}`,
         ref: `[Source ${sourceNum}]`,
-        type: type.toLowerCase().replace(/\s+/g, '_'),
+        type: type.toLowerCase().replace(/\s+/g, "_"),
         title: title,
         date: date || undefined,
         relevance: relevance || undefined,

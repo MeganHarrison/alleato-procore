@@ -1,31 +1,41 @@
-import type { LucideIcon } from 'lucide-react'
+import type { LucideIcon } from "lucide-react";
 
 interface StatCardProps {
-  label: string
-  value: string | number
-  icon?: LucideIcon
+  label: string;
+  value: string | number;
+  icon?: LucideIcon;
   trend?: {
-    value: string
-    positive: boolean
-  }
-  onClick?: () => void
-  href?: string
+    value: string;
+    positive: boolean;
+  };
+  onClick?: () => void;
+  href?: string;
 }
 
 /**
  * Statistical card component for displaying metrics
  * Features brand color accents and hover effects
  */
-export function StatCard({ label, value, icon: Icon, trend, onClick, href }: StatCardProps) {
-  const baseClasses = "border border-neutral-200 bg-white p-8 transition-all duration-300 hover:border-brand hover:shadow-sm"
-  const interactiveClasses = onClick || href ? "cursor-pointer" : ""
+export function StatCard({
+  label,
+  value,
+  icon: Icon,
+  trend,
+  onClick,
+  href,
+}: StatCardProps) {
+  const baseClasses =
+    "border border-neutral-200 bg-white p-8 transition-all duration-300 hover:border-brand hover:shadow-sm";
+  const interactiveClasses = onClick || href ? "cursor-pointer" : "";
 
   const content = (
     <>
       <div className="flex items-center justify-between mb-2">
         {Icon && <Icon className="h-4 w-4 text-brand" />}
         {trend && (
-          <span className={`text-xs ${trend.positive ? 'text-green-600' : 'text-red-600'}`}>
+          <span
+            className={`text-xs ${trend.positive ? "text-green-600" : "text-red-600"}`}
+          >
             {trend.value}
           </span>
         )}
@@ -37,7 +47,7 @@ export function StatCard({ label, value, icon: Icon, trend, onClick, href }: Sta
         {label}
       </p>
     </>
-  )
+  );
 
   if (onClick) {
     return (
@@ -48,12 +58,8 @@ export function StatCard({ label, value, icon: Icon, trend, onClick, href }: Sta
       >
         {content}
       </button>
-    )
+    );
   }
 
-  return (
-    <div className={baseClasses}>
-      {content}
-    </div>
-  )
+  return <div className={baseClasses}>{content}</div>;
 }

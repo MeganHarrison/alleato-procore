@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useParams, usePathname } from 'next/navigation';
-import { UserPlus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { ProjectPageHeader } from '@/components/layout/ProjectPageHeader';
-import { PageContainer } from '@/components/layout/PageContainer';
-import { PageTabs } from '@/components/layout/PageTabs';
-import { Text } from '@/components/ui/text';
-import { getProjectDirectoryTabs } from '@/config/directory-tabs';
+import * as React from "react";
+import { useParams, usePathname } from "next/navigation";
+import { UserPlus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ProjectPageHeader } from "@/components/layout/ProjectPageHeader";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { PageTabs } from "@/components/layout/PageTabs";
+import { Text } from "@/components/ui/text";
+import { getProjectDirectoryTabs } from "@/config/directory-tabs";
 
 export default function ProjectDirectoryContactsPage() {
   const params = useParams();
@@ -17,7 +17,7 @@ export default function ProjectDirectoryContactsPage() {
 
   const handleAddContact = () => {
     // TODO: Open add contact modal
-    console.warn('Add contact functionality not yet implemented');
+    console.warn("Add contact functionality not yet implemented");
   };
 
   const tabs = getProjectDirectoryTabs(projectId, pathname);
@@ -46,7 +46,9 @@ export default function ProjectDirectoryContactsPage() {
           </div>
 
           <div className="text-center py-12">
-            <Text tone="muted">Contact management functionality will be available soon.</Text>
+            <Text tone="muted">
+              Contact management functionality will be available soon.
+            </Text>
           </div>
         </div>
       </PageContainer>

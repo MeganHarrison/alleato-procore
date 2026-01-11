@@ -1,10 +1,15 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { BaseSidebar, SidebarBody, SidebarFooter, SidebarTabs } from './BaseSidebar';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { DollarSign } from 'lucide-react';
+import { useState, useEffect } from "react";
+import {
+  BaseSidebar,
+  SidebarBody,
+  SidebarFooter,
+  SidebarTabs,
+} from "./BaseSidebar";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { DollarSign } from "lucide-react";
 
 interface DirectCostItem {
   id: string;
@@ -39,9 +44,9 @@ export function JobToDateCostDetailModal({
   onClose,
   costCode,
   budgetLineId,
-  projectId
+  projectId,
 }: JobToDateCostDetailModalProps) {
-  const [activeTab, setActiveTab] = useState<'costs' | 'breakdown'>('costs');
+  const [activeTab, setActiveTab] = useState<"costs" | "breakdown">("costs");
   const [costs, setCosts] = useState<DirectCostItem[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -61,7 +66,7 @@ export function JobToDateCostDetailModal({
         setCosts(data.costs || []);
       }
     } catch (error) {
-      console.error('Error fetching job to date costs:', error);
+      console.error("Error fetching job to date costs:", error);
     } finally {
       setLoading(false);
     }
@@ -69,7 +74,7 @@ export function JobToDateCostDetailModal({
 
   const formatCurrency = (value: number): string => {
     const isNegative = value < 0;
-    const formatted = new Intl.NumberFormat('en-US', {
+    const formatted = new Intl.NumberFormat("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(Math.abs(value));
@@ -81,30 +86,33 @@ export function JobToDateCostDetailModal({
   };
 
   const formatDate = (dateString: string | null): string => {
-    if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric'
+    if (!dateString) return "-";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
     });
   };
 
   const totalAmount = costs.reduce((sum, cost) => sum + cost.amount, 0);
 
   // Group by cost type for breakdown
-  const costsByType = costs.reduce((acc, cost) => {
-    const type = cost.costType || 'Uncategorized';
-    if (!acc[type]) {
-      acc[type] = { count: 0, total: 0 };
-    }
-    acc[type].count += 1;
-    acc[type].total += cost.amount;
-    return acc;
-  }, {} as Record<string, { count: number; total: number }>);
+  const costsByType = costs.reduce(
+    (acc, cost) => {
+      const type = cost.costType || "Uncategorized";
+      if (!acc[type]) {
+        acc[type] = { count: 0, total: 0 };
+      }
+      acc[type].count += 1;
+      acc[type].total += cost.amount;
+      return acc;
+    },
+    {} as Record<string, { count: number; total: number }>,
+  );
 
   const tabs = [
-    { id: 'costs', label: 'Direct Costs' },
-    { id: 'breakdown', label: 'Breakdown' }
+    { id: "costs", label: "Direct Costs" },
+    { id: "breakdown", label: "Breakdown" },
   ];
 
   return (
@@ -119,18 +127,20 @@ export function JobToDateCostDetailModal({
       <SidebarTabs
         tabs={tabs}
         activeTab={activeTab}
-        onTabChange={(id) => setActiveTab(id as 'costs' | 'breakdown')}
+        onTabChange={(id) => setActiveTab(id as "costs" | "breakdown")}
       />
 
       {/* Content */}
       <SidebarBody className="bg-white">
-        {activeTab === 'costs' ? (
+        {activeTab === "costs" ? (
           <div className="p-6 space-y-5">
             {/* Total Summary */}
             <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-gradient-to-br from-blue-50 via-white to-white">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Total Job to Date Costs</p>
+                  <p className="text-sm text-gray-600">
+                    Total Job to Date Costs
+                  </p>
                   <p className="text-2xl font-bold text-gray-900 mt-1">
                     {formatCurrency(totalAmount)}
                   </p>
@@ -151,8 +161,9 @@ export function JobToDateCostDetailModal({
                 <div className="text-sm text-blue-900">
                   <p className="font-semibold">About Job to Date Costs</p>
                   <p className="mt-1">
-                    These are approved direct costs including invoices, expenses, payroll, and subcontractor invoices
-                    that have been incurred and approved for this cost code.
+                    These are approved direct costs including invoices,
+                    expenses, payroll, and subcontractor invoices that have been
+                    incurred and approved for this cost code.
                   </p>
                 </div>
               </div>
@@ -163,44 +174,74 @@ export function JobToDateCostDetailModal({
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Description</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Type</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Vendor</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Invoice #</th>
-                    <th className="text-right px-4 py-3 font-semibold text-slate-800">Amount</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Date</th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Description
+                    </th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Type
+                    </th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Vendor
+                    </th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Invoice #
+                    </th>
+                    <th className="text-right px-4 py-3 font-semibold text-slate-800">
+                      Amount
+                    </th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Date
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {loading ? (
                     <tr>
-                      <td colSpan={6} className="px-4 py-10 text-center text-gray-500">
+                      <td
+                        colSpan={6}
+                        className="px-4 py-10 text-center text-gray-500"
+                      >
                         Loading costs...
                       </td>
                     </tr>
                   ) : costs.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="px-4 py-10 text-center text-gray-500">
+                      <td
+                        colSpan={6}
+                        className="px-4 py-10 text-center text-gray-500"
+                      >
                         No approved costs found for this cost code.
                       </td>
                     </tr>
                   ) : (
                     costs.map((cost) => (
-                      <tr key={cost.id} className="hover:bg-blue-50/40 transition-colors">
-                        <td className="px-4 py-3 text-gray-700 max-w-xs truncate" title={cost.description || '-'}>
-                          {cost.description || '-'}
+                      <tr
+                        key={cost.id}
+                        className="hover:bg-blue-50/40 transition-colors"
+                      >
+                        <td
+                          className="px-4 py-3 text-gray-700 max-w-xs truncate"
+                          title={cost.description || "-"}
+                        >
+                          {cost.description || "-"}
                         </td>
                         <td className="px-4 py-3 text-gray-600 text-xs">
                           <span className="inline-flex items-center px-2 py-1 rounded-full bg-slate-100 text-slate-700 font-medium">
-                            {cost.costType || 'Other'}
+                            {cost.costType || "Other"}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-gray-600 text-xs">{cost.vendor || '-'}</td>
-                        <td className="px-4 py-3 text-gray-600 text-xs font-mono">{cost.invoiceNumber || '-'}</td>
+                        <td className="px-4 py-3 text-gray-600 text-xs">
+                          {cost.vendor || "-"}
+                        </td>
+                        <td className="px-4 py-3 text-gray-600 text-xs font-mono">
+                          {cost.invoiceNumber || "-"}
+                        </td>
                         <td className="px-4 py-3 text-right font-semibold tabular-nums text-gray-900">
                           {formatCurrency(cost.amount)}
                         </td>
-                        <td className="px-4 py-3 text-gray-600">{formatDate(cost.incurredDate)}</td>
+                        <td className="px-4 py-3 text-gray-600">
+                          {formatDate(cost.incurredDate)}
+                        </td>
                       </tr>
                     ))
                   )}
@@ -218,22 +259,40 @@ export function JobToDateCostDetailModal({
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Cost Type</th>
-                    <th className="text-right px-4 py-3 font-semibold text-slate-800">Count</th>
-                    <th className="text-right px-4 py-3 font-semibold text-slate-800">Total Amount</th>
-                    <th className="text-right px-4 py-3 font-semibold text-slate-800">% of Total</th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Cost Type
+                    </th>
+                    <th className="text-right px-4 py-3 font-semibold text-slate-800">
+                      Count
+                    </th>
+                    <th className="text-right px-4 py-3 font-semibold text-slate-800">
+                      Total Amount
+                    </th>
+                    <th className="text-right px-4 py-3 font-semibold text-slate-800">
+                      % of Total
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {Object.entries(costsByType).map(([type, data]) => (
-                    <tr key={type} className="hover:bg-blue-50/40 transition-colors">
-                      <td className="px-4 py-3 font-medium text-gray-900">{type}</td>
-                      <td className="px-4 py-3 text-right text-gray-600">{data.count}</td>
+                    <tr
+                      key={type}
+                      className="hover:bg-blue-50/40 transition-colors"
+                    >
+                      <td className="px-4 py-3 font-medium text-gray-900">
+                        {type}
+                      </td>
+                      <td className="px-4 py-3 text-right text-gray-600">
+                        {data.count}
+                      </td>
                       <td className="px-4 py-3 text-right font-semibold tabular-nums text-gray-900">
                         {formatCurrency(data.total)}
                       </td>
                       <td className="px-4 py-3 text-right text-gray-600">
-                        {totalAmount > 0 ? ((data.total / totalAmount) * 100).toFixed(1) : '0.0'}%
+                        {totalAmount > 0
+                          ? ((data.total / totalAmount) * 100).toFixed(1)
+                          : "0.0"}
+                        %
                       </td>
                     </tr>
                   ))}

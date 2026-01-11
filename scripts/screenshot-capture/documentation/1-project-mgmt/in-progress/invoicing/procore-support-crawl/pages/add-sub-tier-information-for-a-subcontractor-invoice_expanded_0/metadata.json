@@ -1,0 +1,18 @@
+{
+  "parentPage": "add-sub-tier-information-for-a-subcontractor-invoice",
+  "parentUrl": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/add-sub-tier-information-for-a-subcontractor-invoice",
+  "expandableIndex": 0,
+  "revealedContent": [
+    {
+      "text": "Welcome           Get Started as an Invoice Administrator    What is Pay?    What is an invoice administrator?",
+      "type": "details",
+      "classes": "toc-subNav-desktop"
+    },
+    {
+      "text": "Manage Sub-Tier Waivers           What is a sub-tier subcontractor?    Enable Sub-Tier Waivers on a Subcontractor Invoice    Add Sub-Tier Information for a Subcontractor Invoice    View Sub-Tier Infor",
+      "type": "details",
+      "classes": "toc-subNav-desktop"
+    }
+  ],
+  "timestamp": "2026-01-10T20:26:40.704Z"
+}

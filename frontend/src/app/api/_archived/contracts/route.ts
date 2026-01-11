@@ -1,47 +1,51 @@
-import { createClient } from '@/lib/supabase/server';
-import { NextResponse } from 'next/server';
+import { createClient } from "@/lib/supabase/server";
+import { NextResponse } from "next/server";
 
 export async function GET(request: Request) {
   try {
     const supabase = await createClient();
     const { searchParams } = new URL(request.url);
 
-    const search = searchParams.get('search');
-    const status = searchParams.get('status');
-    const projectId = searchParams.get('project_id');
-    const clientId = searchParams.get('client_id');
-    const executedOnly = searchParams.get('executed_only') === 'true';
+    const search = searchParams.get("search");
+    const status = searchParams.get("status");
+    const projectId = searchParams.get("project_id");
+    const clientId = searchParams.get("client_id");
+    const executedOnly = searchParams.get("executed_only") === "true";
 
     let query = supabase
-      .from('contracts')
-      .select(`
+      .from("contracts")
+      .select(
+        `
         *,
         client:clients!client_id(id, name),
         owner_client:clients!owner_client_id(id, name),
         contractor:clients!contractor_id(id, name),
         architect_engineer:clients!architect_engineer_id(id, name),
         project:projects(id, name, project_number)
-      `)
-      .order('contract_number', { ascending: true });
+      `,
+      )
+      .order("contract_number", { ascending: true });
 
     if (search) {
-      query = query.or(`contract_number.ilike.%${search}%,title.ilike.%${search}%,notes.ilike.%${search}%`);
+      query = query.or(
+        `contract_number.ilike.%${search}%,title.ilike.%${search}%,notes.ilike.%${search}%`,
+      );
     }
 
     if (status) {
-      query = query.eq('status', status);
+      query = query.eq("status", status);
     }
 
     if (projectId) {
-      query = query.eq('project_id', parseInt(projectId));
+      query = query.eq("project_id", parseInt(projectId));
     }
 
     if (clientId) {
-      query = query.eq('client_id', parseInt(clientId));
+      query = query.eq("client_id", parseInt(clientId));
     }
 
     if (executedOnly) {
-      query = query.eq('executed', true);
+      query = query.eq("executed", true);
     }
 
     const { data, error } = await query;
@@ -54,13 +58,13 @@ export async function GET(request: Request) {
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
-        { error: 'Internal server error', message: error.message },
-        { status: 500 }
+        { error: "Internal server error", message: error.message },
+        { status: 500 },
       );
     }
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -75,7 +79,7 @@ export async function POST(request: Request) {
       contract_number: body.contract_number,
       title: body.title,
       project_id: body.project_id,
-      status: body.status || 'draft',
+      status: body.status || "draft",
       executed: body.executed || false,
       private: body.private || false,
     };
@@ -113,13 +117,15 @@ export async function POST(request: Request) {
       contractData.estimated_completion_date = body.estimated_completion_date;
     }
     if (body.substantial_completion_date) {
-      contractData.substantial_completion_date = body.substantial_completion_date;
+      contractData.substantial_completion_date =
+        body.substantial_completion_date;
     }
     if (body.actual_completion_date) {
       contractData.actual_completion_date = body.actual_completion_date;
     }
     if (body.signed_contract_received_date) {
-      contractData.signed_contract_received_date = body.signed_contract_received_date;
+      contractData.signed_contract_received_date =
+        body.signed_contract_received_date;
     }
     if (body.contract_termination_date) {
       contractData.contract_termination_date = body.contract_termination_date;
@@ -141,16 +147,18 @@ export async function POST(request: Request) {
 
     // Insert the contract
     const { data, error } = await supabase
-      .from('contracts')
+      .from("contracts")
       .insert(contractData)
-      .select(`
+      .select(
+        `
         *,
         client:clients!client_id(id, name),
         owner_client:clients!owner_client_id(id, name),
         contractor:clients!contractor_id(id, name),
         architect_engineer:clients!architect_engineer_id(id, name),
         project:projects(id, name, project_number)
-      `)
+      `,
+      )
       .single();
 
     if (error) {
@@ -158,7 +166,11 @@ export async function POST(request: Request) {
     }
 
     // Handle allowed users for private contracts
-    if (body.private && body.allowed_users && Array.isArray(body.allowed_users)) {
+    if (
+      body.private &&
+      body.allowed_users &&
+      Array.isArray(body.allowed_users)
+    ) {
       const allowedUsersData = body.allowed_users.map((userId: string) => ({
         contract_id: data.id,
         user_id: userId,
@@ -167,11 +179,11 @@ export async function POST(request: Request) {
 
       if (allowedUsersData.length > 0) {
         const { error: usersError } = await supabase
-          .from('contract_allowed_users')
+          .from("contract_allowed_users")
           .insert(allowedUsersData);
 
         if (usersError) {
-          console.error('Error inserting allowed users:', usersError);
+          console.error("Error inserting allowed users:", usersError);
         }
       }
     }
@@ -180,13 +192,13 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
-        { error: 'Internal server error', message: error.message },
-        { status: 500 }
+        { error: "Internal server error", message: error.message },
+        { status: 500 },
       );
     }
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

@@ -1,5 +1,5 @@
-import { TablePageConfig } from "./types"
-import { Project } from "@/types/project"
+import { TablePageConfig } from "./types";
+import { Project } from "@/types/project";
 
 export const projectsTableConfig: TablePageConfig<Project> = {
   title: "Projects",
@@ -53,11 +53,11 @@ export const projectsTableConfig: TablePageConfig<Project> = {
       header: "Phase",
       format: "badge",
       badgeColors: {
-        "Planning": "bg-blue-100 text-blue-800",
+        Planning: "bg-blue-100 text-blue-800",
         "Pre-Construction": "bg-yellow-100 text-yellow-800",
-        "Construction": "bg-orange-100 text-orange-800",
-        "Closeout": "bg-purple-100 text-purple-800",
-        "Complete": "bg-green-100 text-green-800",
+        Construction: "bg-orange-100 text-orange-800",
+        Closeout: "bg-purple-100 text-purple-800",
+        Complete: "bg-green-100 text-green-800",
       },
     },
     {
@@ -84,4 +84,4 @@ export const projectsTableConfig: TablePageConfig<Project> = {
     phase: "Current",
   },
   defaultPageSize: 20,
-}
+};

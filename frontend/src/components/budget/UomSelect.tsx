@@ -1,17 +1,17 @@
-import * as React from "react"
+import * as React from "react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { UNITS_OF_MEASURE } from "@/constants/budget"
+} from "@/components/ui/select";
+import { UNITS_OF_MEASURE } from "@/constants/budget";
 
 interface UomSelectProps {
-  value: string
-  onValueChange: (value: string) => void
-  className?: string
+  value: string;
+  onValueChange: (value: string) => void;
+  className?: string;
 }
 
 /**
@@ -32,5 +32,5 @@ export function UomSelect({ value, onValueChange, className }: UomSelectProps) {
         ))}
       </SelectContent>
     </Select>
-  )
+  );
 }

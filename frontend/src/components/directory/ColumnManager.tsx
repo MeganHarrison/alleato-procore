@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,12 +8,12 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Label } from '@/components/ui/label';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Separator } from '@/components/ui/separator';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Label } from "@/components/ui/label";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Separator } from "@/components/ui/separator";
 import {
   DndContext,
   DragEndEvent,
@@ -22,19 +22,17 @@ import {
   closestCenter,
   useSensor,
   useSensors,
-} from '@dnd-kit/core';
+} from "@dnd-kit/core";
 import {
   SortableContext,
   arrayMove,
   sortableKeyboardCoordinates,
   verticalListSortingStrategy,
-} from '@dnd-kit/sortable';
-import {
-  useSortable,
-} from '@dnd-kit/sortable';
-import { CSS } from '@dnd-kit/utilities';
-import { GripVertical } from 'lucide-react';
-import { cn } from '@/lib/utils';
+} from "@dnd-kit/sortable";
+import { useSortable } from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
+import { GripVertical } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface ColumnConfig {
   id: string;
@@ -66,7 +64,11 @@ interface SortableColumnItemProps {
  * @param disabled - When true, disables the checkbox and drag handle for this item.
  * @returns A JSX element representing the sortable column item.
  */
-function SortableColumnItem({ column, onToggle, disabled }: SortableColumnItemProps) {
+function SortableColumnItem({
+  column,
+  onToggle,
+  disabled,
+}: SortableColumnItemProps) {
   const {
     attributes,
     listeners,
@@ -74,9 +76,9 @@ function SortableColumnItem({ column, onToggle, disabled }: SortableColumnItemPr
     transform,
     transition,
     isDragging,
-  } = useSortable({ 
+  } = useSortable({
     id: column.id,
-    disabled: disabled || !column.visible 
+    disabled: disabled || !column.visible,
   });
 
   const style = {
@@ -91,7 +93,7 @@ function SortableColumnItem({ column, onToggle, disabled }: SortableColumnItemPr
       className={cn(
         "flex items-center gap-3 rounded-md p-3",
         isDragging && "opacity-50",
-        !column.visible && "opacity-60"
+        !column.visible && "opacity-60",
       )}
     >
       <div
@@ -99,24 +101,24 @@ function SortableColumnItem({ column, onToggle, disabled }: SortableColumnItemPr
         {...listeners}
         className={cn(
           "cursor-grab touch-none",
-          !column.visible && "cursor-not-allowed opacity-30"
+          !column.visible && "cursor-not-allowed opacity-30",
         )}
       >
         <GripVertical className="h-4 w-4 text-muted-foreground" />
       </div>
-      
+
       <Checkbox
         id={column.id}
         checked={column.visible}
         onCheckedChange={() => onToggle(column.id)}
         disabled={disabled}
       />
-      
+
       <Label
         htmlFor={column.id}
         className={cn(
           "flex-1 cursor-pointer select-none",
-          !column.visible && "text-muted-foreground line-through"
+          !column.visible && "text-muted-foreground line-through",
         )}
       >
         {column.label}
@@ -133,9 +135,13 @@ function SortableColumnItem({ column, onToggle, disabled }: SortableColumnItemPr
  * @param onClose - Callback invoked to close the dialog (used for both cancel and after save)
  * @returns The dialog React element that allows users to reset, reorder, toggle, cancel, or save column settings
  */
-export function ColumnManager({ columns, onColumnsChange, onClose }: ColumnManagerProps) {
+export function ColumnManager({
+  columns,
+  onColumnsChange,
+  onClose,
+}: ColumnManagerProps) {
   const [localColumns, setLocalColumns] = useState([...columns]);
-  
+
   const sensors = useSensors(
     useSensor(PointerSensor, {
       activationConstraint: {
@@ -144,7 +150,7 @@ export function ColumnManager({ columns, onColumnsChange, onClose }: ColumnManag
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const handleDragEnd = (event: DragEndEvent) => {
@@ -154,13 +160,13 @@ export function ColumnManager({ columns, onColumnsChange, onClose }: ColumnManag
       setLocalColumns((items) => {
         const oldIndex = items.findIndex((item) => item.id === active.id);
         const newIndex = items.findIndex((item) => item.id === over.id);
-        
+
         const newItems = arrayMove(items, oldIndex, newIndex);
-        
+
         // Update order values
         return newItems.map((item, index) => ({
           ...item,
-          order: index
+          order: index,
         }));
       });
     }
@@ -169,22 +175,27 @@ export function ColumnManager({ columns, onColumnsChange, onClose }: ColumnManag
   const handleToggle = (id: string) => {
     setLocalColumns((items) =>
       items.map((item) =>
-        item.id === id ? { ...item, visible: !item.visible } : item
-      )
+        item.id === id ? { ...item, visible: !item.visible } : item,
+      ),
     );
   };
 
   const handleReset = () => {
     const defaultColumns: ColumnConfig[] = [
-      { id: 'select', label: '', visible: true, order: 0, width: '40px' },
-      { id: 'name', label: 'Name', visible: true, order: 1 },
-      { id: 'email', label: 'Email', visible: true, order: 2 },
-      { id: 'phone', label: 'Phone', visible: true, order: 3 },
-      { id: 'job_title', label: 'Job Title', visible: true, order: 4 },
-      { id: 'company', label: 'Company', visible: true, order: 5 },
-      { id: 'permission_template', label: 'Permission', visible: true, order: 6 },
-      { id: 'invite_status', label: 'Status', visible: true, order: 7 },
-      { id: 'actions', label: '', visible: true, order: 8, width: '80px' }
+      { id: "select", label: "", visible: true, order: 0, width: "40px" },
+      { id: "name", label: "Name", visible: true, order: 1 },
+      { id: "email", label: "Email", visible: true, order: 2 },
+      { id: "phone", label: "Phone", visible: true, order: 3 },
+      { id: "job_title", label: "Job Title", visible: true, order: 4 },
+      { id: "company", label: "Company", visible: true, order: 5 },
+      {
+        id: "permission_template",
+        label: "Permission",
+        visible: true,
+        order: 6,
+      },
+      { id: "invite_status", label: "Status", visible: true, order: 7 },
+      { id: "actions", label: "", visible: true, order: 8, width: "80px" },
     ];
     setLocalColumns(defaultColumns);
   };
@@ -194,8 +205,8 @@ export function ColumnManager({ columns, onColumnsChange, onClose }: ColumnManag
     onClose();
   };
 
-  const visibleCount = localColumns.filter(c => c.visible).length;
-  const requiredColumns = ['select', 'name', 'actions'];
+  const visibleCount = localColumns.filter((c) => c.visible).length;
+  const requiredColumns = ["select", "name", "actions"];
 
   return (
     <Dialog open onOpenChange={onClose}>
@@ -212,11 +223,7 @@ export function ColumnManager({ columns, onColumnsChange, onClose }: ColumnManag
             <p className="text-sm text-muted-foreground">
               {visibleCount} of {localColumns.length} columns visible
             </p>
-            <Button
-              variant="ghost"
-              size="sm"
-              onClick={handleReset}
-            >
+            <Button variant="ghost" size="sm" onClick={handleReset}>
               Reset to default
             </Button>
           </div>
@@ -230,7 +237,7 @@ export function ColumnManager({ columns, onColumnsChange, onClose }: ColumnManag
               onDragEnd={handleDragEnd}
             >
               <SortableContext
-                items={localColumns.map(c => c.id)}
+                items={localColumns.map((c) => c.id)}
                 strategy={verticalListSortingStrategy}
               >
                 <div className="space-y-1">
@@ -258,9 +265,7 @@ export function ColumnManager({ columns, onColumnsChange, onClose }: ColumnManag
           <Button variant="outline" onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={handleSave}>
-            Save Changes
-          </Button>
+          <Button onClick={handleSave}>Save Changes</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

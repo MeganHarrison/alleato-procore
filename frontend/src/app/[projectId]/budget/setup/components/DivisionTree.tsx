@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { ChevronRight, ChevronDown } from 'lucide-react';
-import { cn } from '@/lib/utils';
+import { ChevronRight, ChevronDown } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface DivisionItem {
   id: string;
@@ -53,7 +53,12 @@ export function DivisionTree<T extends DivisionItem>({
   }
 
   return (
-    <div className={cn('border rounded-md max-h-[400px] overflow-y-auto', className)}>
+    <div
+      className={cn(
+        "border rounded-md max-h-[400px] overflow-y-auto",
+        className,
+      )}
+    >
       {sortedDivisions.map((division) => (
         <div key={division} className="border-b last:border-b-0">
           <button
@@ -84,10 +89,10 @@ export function DivisionTree<T extends DivisionItem>({
                   type="button"
                   onClick={() => onSelectItem(item)}
                   className={cn(
-                    'w-full text-left px-6 py-2 text-sm hover:bg-gray-100 transition-colors',
+                    "w-full text-left px-6 py-2 text-sm hover:bg-gray-100 transition-colors",
                     selectedId === item.id
-                      ? 'bg-blue-50 text-blue-700 font-medium'
-                      : 'text-gray-700'
+                      ? "bg-blue-50 text-blue-700 font-medium"
+                      : "text-gray-700",
                   )}
                 >
                   {renderItem ? renderItem(item) : item.label}
@@ -106,7 +111,7 @@ export function DivisionTree<T extends DivisionItem>({
  */
 export function toggleDivisionInSet(
   expandedDivisions: Set<string>,
-  division: string
+  division: string,
 ): Set<string> {
   const next = new Set(expandedDivisions);
   if (next.has(division)) {

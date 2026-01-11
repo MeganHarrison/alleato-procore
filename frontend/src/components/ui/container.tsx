@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { cn } from '@/lib/utils';
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 /**
  * Container component for consistent page width constraints.
@@ -15,11 +15,11 @@ import { cn } from '@/lib/utils';
  */
 
 const sizeMap = {
-  sm: 'max-w-2xl',    // 672px
-  md: 'max-w-4xl',    // 896px
-  lg: 'max-w-6xl',    // 1152px
-  xl: 'max-w-7xl',    // 1280px
-  full: 'max-w-full'  // 100%
+  sm: "max-w-2xl", // 672px
+  md: "max-w-4xl", // 896px
+  lg: "max-w-6xl", // 1152px
+  xl: "max-w-7xl", // 1280px
+  full: "max-w-full", // 100%
 } as const;
 
 export interface ContainerProps {
@@ -30,7 +30,7 @@ export interface ContainerProps {
   /** Center the container */
   center?: boolean;
   /** Render as a different element */
-  as?: 'div' | 'section' | 'article' | 'main';
+  as?: "div" | "section" | "article" | "main";
   /** Additional CSS classes */
   className?: string;
   /** Child elements */
@@ -38,21 +38,21 @@ export interface ContainerProps {
 }
 
 export function Container({
-  size = 'lg',
+  size = "lg",
   padding = true,
   center = true,
-  as: Component = 'div',
+  as: Component = "div",
   className,
-  children
+  children,
 }: ContainerProps) {
   return (
     <Component
       className={cn(
-        'w-full',
+        "w-full",
         sizeMap[size],
-        center && 'mx-auto',
-        padding && 'px-4 sm:px-6 lg:px-8',
-        className
+        center && "mx-auto",
+        padding && "px-4 sm:px-6 lg:px-8",
+        className,
       )}
     >
       {children}

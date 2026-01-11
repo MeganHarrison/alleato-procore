@@ -1,12 +1,12 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { Textarea } from "@/components/ui/textarea"
-import { Text } from "@/components/ui/text"
+import * as React from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
+import { Text } from "@/components/ui/text";
 import {
   Sheet,
   SheetClose,
@@ -16,21 +16,27 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import type { Database } from "@/types/database.types"
+} from "@/components/ui/sheet";
+import type { Database } from "@/types/database.types";
 
-type Company = Database["public"]["Tables"]["companies"]["Row"]
+type Company = Database["public"]["Tables"]["companies"]["Row"];
 
 interface CompanyDetailsSheetProps {
-  company: Company
-  trigger: React.ReactNode
+  company: Company;
+  trigger: React.ReactNode;
 }
 
-export function CompanyDetailsSheet({ company, trigger }: CompanyDetailsSheetProps) {
+export function CompanyDetailsSheet({
+  company,
+  trigger,
+}: CompanyDetailsSheetProps) {
   return (
     <Sheet>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
-      <SheetContent side="right" className="flex flex-col w-[400px] sm:w-[540px]">
+      <SheetContent
+        side="right"
+        className="flex flex-col w-[400px] sm:w-[540px]"
+      >
         <SheetHeader className="gap-1">
           <SheetTitle>{company.name}</SheetTitle>
           <SheetDescription>
@@ -56,7 +62,9 @@ export function CompanyDetailsSheet({ company, trigger }: CompanyDetailsSheetPro
                       rel="noopener noreferrer"
                       className="text-primary hover:underline"
                     >
-                      <Text as="span" size="sm">{company.website}</Text>
+                      <Text as="span" size="sm">
+                        {company.website}
+                      </Text>
                     </a>
                   </div>
                 )}
@@ -85,9 +93,13 @@ export function CompanyDetailsSheet({ company, trigger }: CompanyDetailsSheetPro
                     )}
                     {(company.city || company.state) && (
                       <div className="flex justify-between">
-                        <span className="text-muted-foreground">City/State:</span>
+                        <span className="text-muted-foreground">
+                          City/State:
+                        </span>
                         <span>
-                          {company.city}{company.city && company.state && ", "}{company.state}
+                          {company.city}
+                          {company.city && company.state && ", "}
+                          {company.state}
                         </span>
                       </div>
                     )}
@@ -115,13 +127,17 @@ export function CompanyDetailsSheet({ company, trigger }: CompanyDetailsSheetPro
                 {company.created_at && (
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Created:</span>
-                    <span>{new Date(company.created_at).toLocaleDateString()}</span>
+                    <span>
+                      {new Date(company.created_at).toLocaleDateString()}
+                    </span>
                   </div>
                 )}
                 {company.updated_at && (
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Updated:</span>
-                    <span>{new Date(company.updated_at).toLocaleDateString()}</span>
+                    <span>
+                      {new Date(company.updated_at).toLocaleDateString()}
+                    </span>
                   </div>
                 )}
               </div>
@@ -159,9 +175,9 @@ export function CompanyDetailsSheet({ company, trigger }: CompanyDetailsSheetPro
               </div>
               <div className="flex flex-col gap-3">
                 <Label htmlFor="notes">Notes</Label>
-                <Textarea 
-                  id="notes" 
-                  defaultValue={company.notes || ""} 
+                <Textarea
+                  id="notes"
+                  defaultValue={company.notes || ""}
                   className="min-h-[100px]"
                 />
               </div>
@@ -178,5 +194,5 @@ export function CompanyDetailsSheet({ company, trigger }: CompanyDetailsSheetPro
         </SheetFooter>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

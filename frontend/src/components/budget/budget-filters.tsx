@@ -1,18 +1,22 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { ChevronDown, Plus, Maximize2, Minimize2, Filter } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import * as React from "react";
+import { ChevronDown, Plus, Maximize2, Minimize2, Filter } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
-import { BudgetView, BudgetSnapshot, BudgetGroup } from '@/types/budget';
+} from "@/components/ui/dropdown-menu";
+import { BudgetView, BudgetSnapshot, BudgetGroup } from "@/types/budget";
 
-export type QuickFilterType = 'over-budget' | 'under-budget' | 'no-activity' | 'all';
+export type QuickFilterType =
+  | "over-budget"
+  | "under-budget"
+  | "no-activity"
+  | "all";
 
 interface BudgetFiltersProps {
   views: BudgetView[];
@@ -46,21 +50,21 @@ export function BudgetFilters({
   onAnalyzeVariance,
   onToggleFullscreen,
   onQuickFilterChange,
-  activeQuickFilter = 'all',
+  activeQuickFilter = "all",
   isFullscreen = false,
 }: BudgetFiltersProps) {
   const selectedViewName =
-    views.find((v) => v.id === selectedView)?.name || 'Select View';
+    views.find((v) => v.id === selectedView)?.name || "Select View";
   const selectedSnapshotName =
-    snapshots.find((s) => s.id === selectedSnapshot)?.name || 'Select Snapshot';
+    snapshots.find((s) => s.id === selectedSnapshot)?.name || "Select Snapshot";
   const selectedGroupName =
-    groups.find((g) => g.id === selectedGroup)?.name || 'Select Group';
+    groups.find((g) => g.id === selectedGroup)?.name || "Select Group";
 
   const quickFilterLabels = {
-    'all': 'All Items',
-    'over-budget': 'Over Budget',
-    'under-budget': 'Under Budget',
-    'no-activity': 'No Activity',
+    all: "All Items",
+    "over-budget": "Over Budget",
+    "under-budget": "Under Budget",
+    "no-activity": "No Activity",
   };
 
   return (
@@ -86,7 +90,7 @@ export function BudgetFilters({
                 <DropdownMenuItem
                   key={view.id}
                   onClick={() => onViewChange(view.id)}
-                  className={selectedView === view.id ? 'bg-accent' : ''}
+                  className={selectedView === view.id ? "bg-accent" : ""}
                 >
                   {view.name}
                 </DropdownMenuItem>
@@ -114,7 +118,9 @@ export function BudgetFilters({
                 <DropdownMenuItem
                   key={snapshot.id}
                   onClick={() => onSnapshotChange(snapshot.id)}
-                  className={selectedSnapshot === snapshot.id ? 'bg-accent' : ''}
+                  className={
+                    selectedSnapshot === snapshot.id ? "bg-accent" : ""
+                  }
                 >
                   {snapshot.name}
                 </DropdownMenuItem>
@@ -142,7 +148,7 @@ export function BudgetFilters({
                 <DropdownMenuItem
                   key={group.id}
                   onClick={() => onGroupChange(group.id)}
-                  className={selectedGroup === group.id ? 'bg-accent' : ''}
+                  className={selectedGroup === group.id ? "bg-accent" : ""}
                 >
                   {group.name}
                 </DropdownMenuItem>
@@ -157,7 +163,7 @@ export function BudgetFilters({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
-                variant={activeQuickFilter !== 'all' ? 'default' : 'outline'}
+                variant={activeQuickFilter !== "all" ? "default" : "outline"}
                 className="h-8 min-w-[130px] justify-between text-sm"
                 aria-label="Quick Filter"
               >
@@ -168,29 +174,35 @@ export function BudgetFilters({
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-[180px]">
               <DropdownMenuItem
-                onClick={() => onQuickFilterChange?.('all')}
-                className={activeQuickFilter === 'all' ? 'bg-accent' : ''}
+                onClick={() => onQuickFilterChange?.("all")}
+                className={activeQuickFilter === "all" ? "bg-accent" : ""}
               >
                 All Items
               </DropdownMenuItem>
               <DropdownMenuSeparator />
               <DropdownMenuItem
-                onClick={() => onQuickFilterChange?.('over-budget')}
-                className={activeQuickFilter === 'over-budget' ? 'bg-accent' : ''}
+                onClick={() => onQuickFilterChange?.("over-budget")}
+                className={
+                  activeQuickFilter === "over-budget" ? "bg-accent" : ""
+                }
               >
                 <span className="text-red-600 mr-2">●</span>
                 Over Budget
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => onQuickFilterChange?.('under-budget')}
-                className={activeQuickFilter === 'under-budget' ? 'bg-accent' : ''}
+                onClick={() => onQuickFilterChange?.("under-budget")}
+                className={
+                  activeQuickFilter === "under-budget" ? "bg-accent" : ""
+                }
               >
                 <span className="text-green-600 mr-2">●</span>
                 Under Budget
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => onQuickFilterChange?.('no-activity')}
-                className={activeQuickFilter === 'no-activity' ? 'bg-accent' : ''}
+                onClick={() => onQuickFilterChange?.("no-activity")}
+                className={
+                  activeQuickFilter === "no-activity" ? "bg-accent" : ""
+                }
               >
                 <span className="text-gray-400 mr-2">●</span>
                 No Activity
@@ -227,7 +239,7 @@ export function BudgetFilters({
           size="icon"
           className="h-8 w-8"
           onClick={onToggleFullscreen}
-          title={isFullscreen ? 'Exit fullscreen' : 'Enter fullscreen'}
+          title={isFullscreen ? "Exit fullscreen" : "Enter fullscreen"}
         >
           {isFullscreen ? (
             <Minimize2 className="w-3.5 h-3.5" />

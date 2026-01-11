@@ -1,10 +1,16 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Camera, Calendar, Download, History, Loader2 } from 'lucide-react';
-import { toast } from 'sonner';
+import * as React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Camera, Calendar, Download, History, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface SnapshotsTabProps {
   projectId: string;
@@ -34,23 +40,26 @@ interface SnapshotsData {
 
 export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
   const [loading, setLoading] = React.useState(true);
-  const [snapshotsData, setSnapshotsData] = React.useState<SnapshotsData | null>(null);
+  const [snapshotsData, setSnapshotsData] =
+    React.useState<SnapshotsData | null>(null);
   const [creating, setCreating] = React.useState(false);
 
   const fetchSnapshots = React.useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/projects/${projectId}/budget/snapshots`);
+      const response = await fetch(
+        `/api/projects/${projectId}/budget/snapshots`,
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to fetch snapshots');
+        throw new Error("Failed to fetch snapshots");
       }
 
       const data = await response.json();
       setSnapshotsData(data);
     } catch (error) {
-      console.error('Error fetching snapshots:', error);
-      toast.error('Failed to load snapshots');
+      console.error("Error fetching snapshots:", error);
+      toast.error("Failed to load snapshots");
     } finally {
       setLoading(false);
     }
@@ -59,26 +68,29 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
   const createSnapshot = React.useCallback(async () => {
     try {
       setCreating(true);
-      const response = await fetch(`/api/projects/${projectId}/budget/snapshots`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+      const response = await fetch(
+        `/api/projects/${projectId}/budget/snapshots`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            name: `Snapshot ${new Date().toLocaleDateString()}`,
+            description: "Manual snapshot",
+          }),
         },
-        body: JSON.stringify({
-          name: `Snapshot ${new Date().toLocaleDateString()}`,
-          description: 'Manual snapshot',
-        }),
-      });
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to create snapshot');
+        throw new Error("Failed to create snapshot");
       }
 
-      toast.success('Snapshot created successfully');
+      toast.success("Snapshot created successfully");
       fetchSnapshots();
     } catch (error) {
-      console.error('Error creating snapshot:', error);
-      toast.error('Failed to create snapshot');
+      console.error("Error creating snapshot:", error);
+      toast.error("Failed to create snapshot");
     } finally {
       setCreating(false);
     }
@@ -89,17 +101,17 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
   }, [fetchSnapshots]);
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 2,
     }).format(amount);
   };
 
   const getVarianceColor = (variance: number) => {
-    if (variance > 0) return 'text-green-600';
-    if (variance < 0) return 'text-red-600';
-    return 'text-gray-600';
+    if (variance > 0) return "text-green-600";
+    if (variance < 0) return "text-red-600";
+    return "text-gray-600";
   };
 
   if (loading) {
@@ -117,7 +129,9 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
     <div className="space-y-6 p-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Project Status Snapshots</h2>
+          <h2 className="text-2xl font-bold tracking-tight">
+            Project Status Snapshots
+          </h2>
           <p className="text-muted-foreground">
             Capture and compare budget states at different project milestones
           </p>
@@ -129,7 +143,7 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
           </Button>
           <Button onClick={createSnapshot} disabled={creating}>
             <Camera className="mr-2 h-4 w-4" />
-            {creating ? 'Creating...' : 'Create Snapshot'}
+            {creating ? "Creating..." : "Create Snapshot"}
           </Button>
         </div>
       </div>
@@ -152,20 +166,31 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
             <div className="space-y-2">
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Total Budget:</span>
-                <span className="font-medium">{formatCurrency(current?.totalBudget || 0)}</span>
+                <span className="font-medium">
+                  {formatCurrency(current?.totalBudget || 0)}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Total Costs:</span>
-                <span className="font-medium">{formatCurrency(current?.totalCosts || 0)}</span>
+                <span className="font-medium">
+                  {formatCurrency(current?.totalCosts || 0)}
+                </span>
               </div>
               <div className="flex justify-between text-sm">
                 <span className="text-muted-foreground">Variance:</span>
-                <span className={`font-medium ${getVarianceColor(current?.variance || 0)}`}>
+                <span
+                  className={`font-medium ${getVarianceColor(current?.variance || 0)}`}
+                >
                   {formatCurrency(current?.variance || 0)}
                 </span>
               </div>
             </div>
-            <Button variant="ghost" size="sm" className="w-full mt-4" onClick={() => toast.info('Export functionality coming soon')}>
+            <Button
+              variant="ghost"
+              size="sm"
+              className="w-full mt-4"
+              onClick={() => toast.info("Export functionality coming soon")}
+            >
               <Download className="mr-2 h-3 w-3" />
               Export
             </Button>
@@ -191,7 +216,10 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
           </Card>
         ) : (
           snapshots.slice(0, 5).map((snapshot) => (
-            <Card key={snapshot.id} className="hover:shadow-lg transition-shadow cursor-pointer">
+            <Card
+              key={snapshot.id}
+              className="hover:shadow-lg transition-shadow cursor-pointer"
+            >
               <CardHeader>
                 <div className="flex items-center justify-between">
                   <CardTitle className="text-base">{snapshot.name}</CardTitle>
@@ -205,20 +233,31 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
                 <div className="space-y-2">
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Total Budget:</span>
-                    <span className="font-medium">{formatCurrency(snapshot.total_budget)}</span>
+                    <span className="font-medium">
+                      {formatCurrency(snapshot.total_budget)}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Total Costs:</span>
-                    <span className="font-medium">{formatCurrency(snapshot.total_costs)}</span>
+                    <span className="font-medium">
+                      {formatCurrency(snapshot.total_costs)}
+                    </span>
                   </div>
                   <div className="flex justify-between text-sm">
                     <span className="text-muted-foreground">Variance:</span>
-                    <span className={`font-medium ${getVarianceColor(snapshot.variance)}`}>
+                    <span
+                      className={`font-medium ${getVarianceColor(snapshot.variance)}`}
+                    >
                       {formatCurrency(snapshot.variance)}
                     </span>
                   </div>
                 </div>
-                <Button variant="ghost" size="sm" className="w-full mt-4" onClick={() => toast.info('Export functionality coming soon')}>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="w-full mt-4"
+                  onClick={() => toast.info("Export functionality coming soon")}
+                >
                   <Download className="mr-2 h-3 w-3" />
                   Export
                 </Button>
@@ -241,7 +280,9 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
               <div className="text-center">
                 <History className="h-12 w-12 mx-auto mb-4" />
                 <p className="text-lg font-medium">No Snapshots to Compare</p>
-                <p className="text-sm">Create at least two snapshots to enable comparison</p>
+                <p className="text-sm">
+                  Create at least two snapshots to enable comparison
+                </p>
               </div>
             </div>
           ) : (
@@ -249,12 +290,16 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
               {snapshots.map((snapshot, index) => {
                 if (index === 0) return null;
                 const previous = snapshots[index - 1];
-                const budgetChange = snapshot.total_budget - previous.total_budget;
+                const budgetChange =
+                  snapshot.total_budget - previous.total_budget;
                 const costChange = snapshot.total_costs - previous.total_costs;
                 const varianceChange = snapshot.variance - previous.variance;
 
                 return (
-                  <div key={snapshot.id} className="flex items-center justify-between p-3 border rounded-lg">
+                  <div
+                    key={snapshot.id}
+                    className="flex items-center justify-between p-3 border rounded-lg"
+                  >
                     <div className="flex-1">
                       <div className="font-medium">{snapshot.name}</div>
                       <div className="text-sm text-muted-foreground">
@@ -268,19 +313,26 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
                       <div className="text-xs">
                         <span className="text-muted-foreground">Budget: </span>
                         <span className={getVarianceColor(budgetChange)}>
-                          {budgetChange > 0 ? '+' : ''}{formatCurrency(budgetChange)}
+                          {budgetChange > 0 ? "+" : ""}
+                          {formatCurrency(budgetChange)}
                         </span>
                       </div>
                       <div className="text-xs">
                         <span className="text-muted-foreground">Costs: </span>
                         <span className={getVarianceColor(-costChange)}>
-                          {costChange > 0 ? '+' : ''}{formatCurrency(costChange)}
+                          {costChange > 0 ? "+" : ""}
+                          {formatCurrency(costChange)}
                         </span>
                       </div>
                       <div className="text-xs">
-                        <span className="text-muted-foreground">Variance: </span>
-                        <span className={`font-bold ${getVarianceColor(varianceChange)}`}>
-                          {varianceChange > 0 ? '+' : ''}{formatCurrency(varianceChange)}
+                        <span className="text-muted-foreground">
+                          Variance:{" "}
+                        </span>
+                        <span
+                          className={`font-bold ${getVarianceColor(varianceChange)}`}
+                        >
+                          {varianceChange > 0 ? "+" : ""}
+                          {formatCurrency(varianceChange)}
                         </span>
                       </div>
                     </div>
@@ -294,8 +346,9 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
 
       <div className="text-sm text-muted-foreground">
         <p>
-          <strong>Tip:</strong> Create snapshots at key project milestones (e.g., design completion,
-          permit approval, construction start) to track how your budget evolves throughout the project lifecycle.
+          <strong>Tip:</strong> Create snapshots at key project milestones
+          (e.g., design completion, permit approval, construction start) to
+          track how your budget evolves throughout the project lifecycle.
         </p>
       </div>
     </div>

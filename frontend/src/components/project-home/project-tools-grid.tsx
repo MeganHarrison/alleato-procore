@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import Link from 'next/link';
+import * as React from "react";
+import Link from "next/link";
 import {
   Home,
   Users,
@@ -19,9 +19,9 @@ import {
   Receipt,
   FileEdit,
   LucideIcon,
-} from 'lucide-react';
-import { ProjectTool } from '@/types/project-home';
-import { cn } from '@/lib/utils';
+} from "lucide-react";
+import { ProjectTool } from "@/types/project-home";
+import { cn } from "@/lib/utils";
 
 interface ProjectToolsGridProps {
   tools: ProjectTool[];
@@ -47,23 +47,27 @@ const iconMap: Record<string, LucideIcon> = {
   FileEdit,
 };
 
-export function ProjectToolsGrid({ tools, projectId, title }: ProjectToolsGridProps) {
+export function ProjectToolsGrid({
+  tools,
+  projectId,
+  title,
+}: ProjectToolsGridProps) {
   return (
     <div className="bg-white rounded-md border border-gray-200 p-6">
       <h3 className="text-sm font-semibold text-gray-900 mb-4">{title}</h3>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {tools.map((tool) => {
           const Icon = iconMap[tool.icon] || FileText;
-          const href = tool.href.replace('[projectId]', projectId);
+          const href = tool.href.replace("[projectId]", projectId);
 
           return (
             <Link
               key={tool.id}
               href={href}
               className={cn(
-                'flex flex-col items-center gap-2 p-4 rounded-md border border-gray-100',
-                'hover:border-[hsl(var(--procore-orange))] hover:bg-orange-50/50 transition-colors',
-                'group'
+                "flex flex-col items-center gap-2 p-4 rounded-md border border-gray-100",
+                "hover:border-[hsl(var(--procore-orange))] hover:bg-orange-50/50 transition-colors",
+                "group",
               )}
             >
               <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-[hsl(var(--procore-orange))]/10">
@@ -74,7 +78,9 @@ export function ProjectToolsGrid({ tools, projectId, title }: ProjectToolsGridPr
                   {tool.name}
                 </p>
                 {tool.itemCount !== undefined && (
-                  <p className="text-xs text-gray-500">{tool.itemCount} items</p>
+                  <p className="text-xs text-gray-500">
+                    {tool.itemCount} items
+                  </p>
                 )}
               </div>
             </Link>

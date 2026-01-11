@@ -1,19 +1,19 @@
 // This component is deprecated - use empty-state from ui folder instead
 // Keeping for backwards compatibility during migration
 
-import React from 'react'
-import { Button } from '@/components/ui/button'
-import { LucideIcon } from 'lucide-react'
-import { EmptyState as UnifiedEmptyState } from '@/components/ui/empty-state'
+import React from "react";
+import { Button } from "@/components/ui/button";
+import { LucideIcon } from "lucide-react";
+import { EmptyState as UnifiedEmptyState } from "@/components/ui/empty-state";
 
 interface EmptyStateProps {
-  icon?: LucideIcon
-  title?: string
-  message: string
-  actionLabel?: string
-  onAction?: () => void
-  className?: string
-  variant?: 'default' | 'compact'
+  icon?: LucideIcon;
+  title?: string;
+  message: string;
+  actionLabel?: string;
+  onAction?: () => void;
+  className?: string;
+  variant?: "default" | "compact";
 }
 
 /**
@@ -27,21 +27,22 @@ export function EmptyState({
   actionLabel,
   onAction,
   className,
-  variant = 'default'
+  variant = "default",
 }: EmptyStateProps) {
   return (
     <UnifiedEmptyState
       variant={variant}
-      size={variant === 'compact' ? 'sm' : 'md'}
+      size={variant === "compact" ? "sm" : "md"}
       icon={Icon && <Icon />}
       title={title || message} // Use message as title if no title provided
       description={title ? message : undefined} // Use message as description if title exists
       action={
-        actionLabel && onAction && (
-          <Button 
+        actionLabel &&
+        onAction && (
+          <Button
             onClick={onAction}
             variant="default"
-            size={variant === 'compact' ? 'sm' : 'default'}
+            size={variant === "compact" ? "sm" : "default"}
             className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange-hover))]"
           >
             {actionLabel}
@@ -50,5 +51,5 @@ export function EmptyState({
       }
       className={className}
     />
-  )
+  );
 }

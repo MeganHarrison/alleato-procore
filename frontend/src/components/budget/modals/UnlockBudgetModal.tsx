@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { BaseModal, ModalBody, ModalFooter } from './BaseModal';
-import { Button } from '@/components/ui/button';
-import { AlertTriangle } from 'lucide-react';
+import { BaseModal, ModalBody, ModalFooter } from "./BaseModal";
+import { Button } from "@/components/ui/button";
+import { AlertTriangle } from "lucide-react";
 
 interface UnlockBudgetModalProps {
   isOpen: boolean;
@@ -21,7 +21,7 @@ interface UnlockBudgetModalProps {
 export function UnlockBudgetModal({
   isOpen,
   onClose,
-  onConfirm
+  onConfirm,
 }: UnlockBudgetModalProps) {
   const handleConfirm = async () => {
     await onConfirm();
@@ -45,7 +45,8 @@ export function UnlockBudgetModal({
               Unlocking the Budget will preserve your Budget Modifications.
             </p>
             <p className="text-amber-800 text-sm mt-1">
-              You can edit Original Budget amounts after unlocking. Lock again anytime.
+              You can edit Original Budget amounts after unlocking. Lock again
+              anytime.
             </p>
           </div>
         </div>

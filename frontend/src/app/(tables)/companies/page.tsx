@@ -1,14 +1,17 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useInfiniteQuery } from '@/hooks/use-infinite-query';
-import { GenericEditableTable, type EditableColumn } from '@/components/tables/generic-editable-table';
-import { updateCompany, deleteCompany } from '@/app/actions/table-actions';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Plus, ExternalLink } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { CompanyFormDialog } from '@/components/domain/companies/CompanyFormDialog';
+import * as React from "react";
+import { useInfiniteQuery } from "@/hooks/use-infinite-query";
+import {
+  GenericEditableTable,
+  type EditableColumn,
+} from "@/components/tables/generic-editable-table";
+import { updateCompany, deleteCompany } from "@/app/actions/table-actions";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Plus, ExternalLink } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { CompanyFormDialog } from "@/components/domain/companies/CompanyFormDialog";
 
 interface Company {
   id: string;
@@ -27,7 +30,9 @@ interface Company {
 
 export default function CompanyDirectoryPage() {
   const [dialogOpen, setDialogOpen] = React.useState(false);
-  const [editingCompany, setEditingCompany] = React.useState<Company | null>(null);
+  const [editingCompany, setEditingCompany] = React.useState<Company | null>(
+    null,
+  );
 
   const {
     data,
@@ -40,85 +45,106 @@ export default function CompanyDirectoryPage() {
     fetchNextPage,
     refetch,
   } = useInfiniteQuery<Company>({
-    tableName: 'companies',
-    columns: '*',
+    tableName: "companies",
+    columns: "*",
     pageSize: 20,
     trailingQuery: (query) => {
-      return query.order('name', { ascending: true });
+      return query.order("name", { ascending: true });
     },
   });
 
   const columns: EditableColumn<Company>[] = [
     {
-      key: 'name',
-      header: 'Company Name',
-      type: 'text',
-      width: 'w-[250px]',
+      key: "name",
+      header: "Company Name",
+      type: "text",
+      width: "w-[250px]",
       render: (value) => (
-        <span className="font-medium">{value || 'Unnamed Company'}</span>
+        <span className="font-medium">{value || "Unnamed Company"}</span>
       ),
     },
     {
-      key: 'title',
-      header: 'Title/Type',
-      type: 'text',
-      render: (value) => value ? (
-        <Badge variant="outline">{value}</Badge>
-      ) : <span className="text-muted-foreground">-</span>,
+      key: "title",
+      header: "Title/Type",
+      type: "text",
+      render: (value) =>
+        value ? (
+          <Badge variant="outline">{value}</Badge>
+        ) : (
+          <span className="text-muted-foreground">-</span>
+        ),
     },
     {
-      key: 'address',
-      header: 'Address',
-      type: 'text',
+      key: "address",
+      header: "Address",
+      type: "text",
       render: (value, row) => {
-        if (!value && !row.city && !row.state) return <span className="text-muted-foreground">-</span>;
+        if (!value && !row.city && !row.state)
+          return <span className="text-muted-foreground">-</span>;
         const parts = [value, row.city, row.state].filter(Boolean);
-        return <span className="text-sm">{parts.join(', ')}</span>;
+        return <span className="text-sm">{parts.join(", ")}</span>;
       },
     },
     {
-      key: 'city',
-      header: 'City',
-      type: 'text',
+      key: "city",
+      header: "City",
+      type: "text",
     },
     {
-      key: 'state',
-      header: 'State',
-      type: 'text',
-      width: 'w-[100px]',
+      key: "state",
+      header: "State",
+      type: "text",
+      width: "w-[100px]",
     },
     {
-      key: 'website',
-      header: 'Website',
-      type: 'text',
-      render: (value) => value ? (
-        <a
-          href={value.startsWith('http') ? value : `https://${value}`}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
-        >
-          {new URL(value.startsWith('http') ? value : `https://${value}`).hostname}
-          <ExternalLink className="h-3 w-3" />
-        </a>
-      ) : <span className="text-muted-foreground">-</span>,
+      key: "website",
+      header: "Website",
+      type: "text",
+      render: (value) =>
+        value ? (
+          <a
+            href={value.startsWith("http") ? value : `https://${value}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+          >
+            {
+              new URL(value.startsWith("http") ? value : `https://${value}`)
+                .hostname
+            }
+            <ExternalLink className="h-3 w-3" />
+          </a>
+        ) : (
+          <span className="text-muted-foreground">-</span>
+        ),
     },
     {
-      key: 'currency_code',
-      header: 'Currency',
-      type: 'text',
-      width: 'w-[100px]',
-      render: (value, row) => value ? (
-        <span className="text-sm">{row.currency_symbol || ''}{value}</span>
-      ) : <span className="text-muted-foreground">-</span>,
+      key: "currency_code",
+      header: "Currency",
+      type: "text",
+      width: "w-[100px]",
+      render: (value, row) =>
+        value ? (
+          <span className="text-sm">
+            {row.currency_symbol || ""}
+            {value}
+          </span>
+        ) : (
+          <span className="text-muted-foreground">-</span>
+        ),
     },
     {
-      key: 'notes',
-      header: 'Notes',
-      type: 'textarea',
-      render: (value) => value ? (
-        <span className="text-sm text-muted-foreground line-clamp-2">{value}</span>
-      ) : <span className="text-muted-foreground">-</span>,
+      key: "notes",
+      header: "Notes",
+      type: "textarea",
+      render: (value) =>
+        value ? (
+          <span className="text-sm text-muted-foreground line-clamp-2">
+            {value}
+          </span>
+        ) : (
+          <span className="text-muted-foreground">-</span>
+        ),
     },
   ];
 
@@ -142,25 +168,28 @@ export default function CompanyDirectoryPage() {
 
   return (
     <div className="space-y-6">
-        {/* Header */}
-        <div className="flex items-center justify-between">
-          <div>
-            <h1>Company Directory</h1>
-            <p className="text-sm text-neutral-500 mt-3">Manage your companies and contractors</p>
-          </div>
-          <Button
-            onClick={handleAddCompany}
-            className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange))]/90"
-          >
-            <Plus className="mr-2 h-4 w-4" />
-            Add Company
-          </Button>
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1>Company Directory</h1>
+          <p className="text-sm text-neutral-500 mt-3">
+            Manage your companies and contractors
+          </p>
         </div>
+        <Button
+          onClick={handleAddCompany}
+          className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange))]/90"
+        >
+          <Plus className="mr-2 h-4 w-4" />
+          Add Company
+        </Button>
+      </div>
 
       {/* Count */}
       {isSuccess && (
         <div className="text-sm text-gray-600">
-          <span className="font-medium">{data.length}</span> of <span className="font-medium">{count}</span> companies loaded
+          <span className="font-medium">{data.length}</span> of{" "}
+          <span className="font-medium">{count}</span> companies loaded
         </div>
       )}
 
@@ -181,7 +210,9 @@ export default function CompanyDirectoryPage() {
         ) : data.length === 0 ? (
           <div className="p-12 text-center">
             <h3 className="text-lg font-semibold mb-2">No companies found</h3>
-            <p className="text-gray-500 mb-4">Get started by adding your first company.</p>
+            <p className="text-gray-500 mb-4">
+              Get started by adding your first company.
+            </p>
             <Button
               onClick={handleAddCompany}
               className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange))]/90"
@@ -212,7 +243,7 @@ export default function CompanyDirectoryPage() {
             variant="outline"
             size="lg"
           >
-            {isFetching ? 'Loading...' : 'Load More Companies'}
+            {isFetching ? "Loading..." : "Load More Companies"}
           </Button>
         </div>
       )}

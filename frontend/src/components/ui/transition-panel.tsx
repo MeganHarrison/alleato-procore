@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import React from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import type { Transition, Variants } from 'motion/react';
+import React from "react";
+import { motion, AnimatePresence } from "motion/react";
+import type { Transition, Variants } from "motion/react";
 
 export interface TransitionPanelProps {
   activeIndex: number;

@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 /**
  * PROCORE DOCS CHAT COMPONENT
@@ -7,23 +7,29 @@
  * Uses RAG (Retrieval Augmented Generation) for accurate answers
  */
 
-import { useState, useEffect, useRef } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState, useEffect, useRef } from "react";
+import { Button } from "@/components/ui/button";
 import {
   Sheet,
   SheetContent,
   SheetHeader,
   SheetTitle,
   SheetDescription,
-} from '@/components/ui/sheet';
-import { Input } from '@/components/ui/input';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { MessageCircle, Send, ExternalLink, Loader2, GripVertical } from 'lucide-react';
-import ReactMarkdown from 'react-markdown';
-import remarkGfm from 'remark-gfm';
+} from "@/components/ui/sheet";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import {
+  MessageCircle,
+  Send,
+  ExternalLink,
+  Loader2,
+  GripVertical,
+} from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
 
 interface Message {
-  role: 'user' | 'assistant';
+  role: "user" | "assistant";
   content: string;
   sources?: Array<{
     id: number;
@@ -40,7 +46,7 @@ const DEFAULT_WIDTH = 540;
 export function DocsChat() {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [width, setWidth] = useState(DEFAULT_WIDTH);
   const [isResizing, setIsResizing] = useState(false);
@@ -48,7 +54,7 @@ export function DocsChat() {
 
   // Load saved width from localStorage
   useEffect(() => {
-    const savedWidth = localStorage.getItem('procore-docs-chat-width');
+    const savedWidth = localStorage.getItem("procore-docs-chat-width");
     if (savedWidth) {
       const parsedWidth = parseInt(savedWidth, 10);
       if (parsedWidth >= MIN_WIDTH && parsedWidth <= MAX_WIDTH) {
@@ -73,7 +79,10 @@ export function DocsChat() {
       resizeRef.current = e.clientX;
 
       setWidth((prevWidth) => {
-        const newWidth = Math.min(MAX_WIDTH, Math.max(MIN_WIDTH, prevWidth + delta));
+        const newWidth = Math.min(
+          MAX_WIDTH,
+          Math.max(MIN_WIDTH, prevWidth + delta),
+        );
         return newWidth;
       });
     };
@@ -82,22 +91,22 @@ export function DocsChat() {
       if (isResizing) {
         setIsResizing(false);
         // Save width to localStorage
-        localStorage.setItem('procore-docs-chat-width', width.toString());
+        localStorage.setItem("procore-docs-chat-width", width.toString());
       }
     };
 
     if (isResizing) {
-      document.addEventListener('mousemove', handleResizeMove);
-      document.addEventListener('mouseup', handleResizeEnd);
-      document.body.style.cursor = 'col-resize';
-      document.body.style.userSelect = 'none';
+      document.addEventListener("mousemove", handleResizeMove);
+      document.addEventListener("mouseup", handleResizeEnd);
+      document.body.style.cursor = "col-resize";
+      document.body.style.userSelect = "none";
     }
 
     return () => {
-      document.removeEventListener('mousemove', handleResizeMove);
-      document.removeEventListener('mouseup', handleResizeEnd);
-      document.body.style.cursor = '';
-      document.body.style.userSelect = '';
+      document.removeEventListener("mousemove", handleResizeMove);
+      document.removeEventListener("mouseup", handleResizeEnd);
+      document.body.style.cursor = "";
+      document.body.style.userSelect = "";
     };
   }, [isResizing, width]);
 
@@ -106,37 +115,37 @@ export function DocsChat() {
 
     if (!input.trim() || isLoading) return;
 
-    const userMessage: Message = { role: 'user', content: input };
+    const userMessage: Message = { role: "user", content: input };
     setMessages((prev) => [...prev, userMessage]);
-    setInput('');
+    setInput("");
     setIsLoading(true);
 
     try {
-      const response = await fetch('/api/procore-docs/ask', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/procore-docs/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ query: input }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to get response');
+        throw new Error("Failed to get response");
       }
 
       const data = await response.json();
 
       const assistantMessage: Message = {
-        role: 'assistant',
+        role: "assistant",
         content: data.answer,
         sources: data.sources,
       };
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-      console.error('Error:', error);
+      console.error("Error:", error);
 
       const errorMessage: Message = {
-        role: 'assistant',
-        content: 'Sorry, I encountered an error. Please try again.',
+        role: "assistant",
+        content: "Sorry, I encountered an error. Please try again.",
       };
 
       setMessages((prev) => [...prev, errorMessage]);
@@ -162,7 +171,7 @@ export function DocsChat() {
         <SheetContent
           side="right"
           className="flex flex-col p-0"
-          style={{ width: `${width}px`, maxWidth: '100vw' }}
+          style={{ width: `${width}px`, maxWidth: "100vw" }}
         >
           {/* Resize Handle */}
           <button
@@ -183,7 +192,8 @@ export function DocsChat() {
                   Procore Documentation Assistant
                 </SheetTitle>
                 <SheetDescription className="text-sm text-blue-700 dark:text-blue-300">
-                  Ask questions about budgets, commitments, change orders, and more
+                  Ask questions about budgets, commitments, change orders, and
+                  more
                 </SheetDescription>
               </div>
             </div>
@@ -201,7 +211,8 @@ export function DocsChat() {
                     How can I help you today?
                   </p>
                   <p className="text-sm text-muted-foreground max-w-sm mx-auto leading-relaxed">
-                    Ask me anything about Procore features, workflows, or best practices
+                    Ask me anything about Procore features, workflows, or best
+                    practices
                   </p>
                   <div className="mt-6 space-y-2">
                     <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
@@ -209,9 +220,9 @@ export function DocsChat() {
                     </p>
                     <div className="flex flex-col gap-2">
                       {[
-                        'How do I create a budget?',
-                        'What are change orders?',
-                        'How do commitments work?',
+                        "How do I create a budget?",
+                        "What are change orders?",
+                        "How do commitments work?",
                       ].map((example) => (
                         <button
                           key={example}
@@ -230,18 +241,20 @@ export function DocsChat() {
               {messages.map((message, index) => (
                 <div
                   key={index}
-                  className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+                  className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
                 >
                   <div
                     className={`max-w-[85%] rounded-xl ${
-                      message.role === 'user'
-                        ? 'bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-md'
-                        : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm'
+                      message.role === "user"
+                        ? "bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-md"
+                        : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm"
                     }`}
                   >
                     <div className="px-4 py-3">
-                      {message.role === 'user' ? (
-                        <p className="text-sm leading-relaxed">{message.content}</p>
+                      {message.role === "user" ? (
+                        <p className="text-sm leading-relaxed">
+                          {message.content}
+                        </p>
                       ) : (
                         <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed prose-p:my-2 prose-headings:my-3 prose-headings:font-semibold prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-code:text-xs prose-code:bg-gray-100 dark:prose-code:bg-gray-900 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-100 dark:prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700">
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>
@@ -268,7 +281,9 @@ export function DocsChat() {
                             >
                               <ExternalLink className="h-3 w-3 flex-shrink-0 group-hover:scale-110 transition-transform" />
                               <span className="flex-1">
-                                <span className="font-medium">Source {idx + 1}</span>
+                                <span className="font-medium">
+                                  Source {idx + 1}
+                                </span>
                                 <span className="text-gray-500 dark:text-gray-400 ml-1.5">
                                   ({Math.round(source.similarity * 100)}% match)
                                 </span>

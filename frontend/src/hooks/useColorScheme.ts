@@ -9,9 +9,9 @@ function getInitialScheme(): ColorScheme {
     return "light";
   }
 
-  const stored = window.localStorage.getItem(THEME_STORAGE_KEY) as
-    | ColorScheme
-    | null;
+  const stored = window.localStorage.getItem(
+    THEME_STORAGE_KEY,
+  ) as ColorScheme | null;
 
   if (stored === "light" || stored === "dark") {
     return stored;

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 import {
   Plus,
   Trash2,
@@ -8,13 +8,19 @@ import {
   Info,
   Calculator,
   AlertCircle,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Switch } from '@/components/ui/switch';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 import {
   Dialog,
   DialogContent,
@@ -22,21 +28,21 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from '@/components/ui/tooltip';
-import { toast } from 'sonner';
+} from "@/components/ui/tooltip";
+import { toast } from "sonner";
 
 interface VerticalMarkup {
   id: string;
@@ -62,18 +68,21 @@ interface VerticalMarkupSettingsProps {
 }
 
 const COMMON_MARKUP_TYPES = [
-  'Overhead',
-  'Profit',
-  'General Liability Insurance',
-  'Workers Comp Insurance',
-  'Bond',
-  'Contingency',
-  'Fee',
-  'Sales Tax',
-  'Other',
+  "Overhead",
+  "Profit",
+  "General Liability Insurance",
+  "Workers Comp Insurance",
+  "Bond",
+  "Contingency",
+  "Fee",
+  "Sales Tax",
+  "Other",
 ];
 
-export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSettingsProps) {
+export function VerticalMarkupSettings({
+  projectId,
+  onClose,
+}: VerticalMarkupSettingsProps) {
   const [markups, setMarkups] = React.useState<VerticalMarkup[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [saving, setSaving] = React.useState(false);
@@ -81,12 +90,12 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
   const [showCalculator, setShowCalculator] = React.useState(false);
 
   // New markup form state
-  const [newMarkupType, setNewMarkupType] = React.useState('');
-  const [newPercentage, setNewPercentage] = React.useState('');
+  const [newMarkupType, setNewMarkupType] = React.useState("");
+  const [newPercentage, setNewPercentage] = React.useState("");
   const [newCompound, setNewCompound] = React.useState(true);
 
   // Calculator state
-  const [calculatorAmount, setCalculatorAmount] = React.useState('100000');
+  const [calculatorAmount, setCalculatorAmount] = React.useState("100000");
   const [calculationResults, setCalculationResults] = React.useState<{
     calculations: CalculationResult[];
     totalMarkup: number;
@@ -101,16 +110,18 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
   const fetchMarkups = async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/projects/${projectId}/vertical-markup`);
+      const response = await fetch(
+        `/api/projects/${projectId}/vertical-markup`,
+      );
       if (response.ok) {
         const data = await response.json();
         setMarkups(data.markups || []);
       } else {
-        toast.error('Failed to load markup settings');
+        toast.error("Failed to load markup settings");
       }
     } catch (error) {
-      console.error('Error fetching markups:', error);
-      toast.error('Failed to load markup settings');
+      console.error("Error fetching markups:", error);
+      toast.error("Failed to load markup settings");
     } finally {
       setLoading(false);
     }
@@ -118,42 +129,45 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
 
   const handleAddMarkup = async () => {
     if (!newMarkupType || !newPercentage) {
-      toast.error('Please fill in all fields');
+      toast.error("Please fill in all fields");
       return;
     }
 
     const percentage = parseFloat(newPercentage);
     if (isNaN(percentage) || percentage < 0 || percentage > 100) {
-      toast.error('Percentage must be between 0 and 100');
+      toast.error("Percentage must be between 0 and 100");
       return;
     }
 
     try {
       setSaving(true);
-      const response = await fetch(`/api/projects/${projectId}/vertical-markup`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          markup_type: newMarkupType,
-          percentage,
-          compound: newCompound,
-        }),
-      });
+      const response = await fetch(
+        `/api/projects/${projectId}/vertical-markup`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            markup_type: newMarkupType,
+            percentage,
+            compound: newCompound,
+          }),
+        },
+      );
 
       if (response.ok) {
-        toast.success('Markup added successfully');
+        toast.success("Markup added successfully");
         setShowAddDialog(false);
-        setNewMarkupType('');
-        setNewPercentage('');
+        setNewMarkupType("");
+        setNewPercentage("");
         setNewCompound(true);
         fetchMarkups();
       } else {
         const error = await response.json();
-        toast.error(error.error || 'Failed to add markup');
+        toast.error(error.error || "Failed to add markup");
       }
     } catch (error) {
-      console.error('Error adding markup:', error);
-      toast.error('Failed to add markup');
+      console.error("Error adding markup:", error);
+      toast.error("Failed to add markup");
     } finally {
       setSaving(false);
     }
@@ -163,42 +177,48 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
     try {
       const response = await fetch(
         `/api/projects/${projectId}/vertical-markup?markupId=${markupId}`,
-        { method: 'DELETE' }
+        { method: "DELETE" },
       );
 
       if (response.ok) {
-        toast.success('Markup deleted');
+        toast.success("Markup deleted");
         fetchMarkups();
       } else {
-        toast.error('Failed to delete markup');
+        toast.error("Failed to delete markup");
       }
     } catch (error) {
-      console.error('Error deleting markup:', error);
-      toast.error('Failed to delete markup');
+      console.error("Error deleting markup:", error);
+      toast.error("Failed to delete markup");
     }
   };
 
-  const handleUpdateMarkup = async (markupId: string, updates: Partial<VerticalMarkup>) => {
+  const handleUpdateMarkup = async (
+    markupId: string,
+    updates: Partial<VerticalMarkup>,
+  ) => {
     const updatedMarkups = markups.map((m) =>
-      m.id === markupId ? { ...m, ...updates } : m
+      m.id === markupId ? { ...m, ...updates } : m,
     );
     setMarkups(updatedMarkups);
 
     // Debounced save
     try {
-      const response = await fetch(`/api/projects/${projectId}/vertical-markup`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ markups: updatedMarkups }),
-      });
+      const response = await fetch(
+        `/api/projects/${projectId}/vertical-markup`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ markups: updatedMarkups }),
+        },
+      );
 
       if (!response.ok) {
-        toast.error('Failed to save changes');
+        toast.error("Failed to save changes");
         fetchMarkups(); // Revert on error
       }
     } catch (error) {
-      console.error('Error updating markup:', error);
-      toast.error('Failed to save changes');
+      console.error("Error updating markup:", error);
+      toast.error("Failed to save changes");
       fetchMarkups();
     }
   };
@@ -206,16 +226,19 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
   const handleCalculate = async () => {
     const amount = parseFloat(calculatorAmount);
     if (isNaN(amount) || amount < 0) {
-      toast.error('Please enter a valid amount');
+      toast.error("Please enter a valid amount");
       return;
     }
 
     try {
-      const response = await fetch(`/api/projects/${projectId}/vertical-markup/calculate`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ baseAmount: amount }),
-      });
+      const response = await fetch(
+        `/api/projects/${projectId}/vertical-markup/calculate`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ baseAmount: amount }),
+        },
+      );
 
       if (response.ok) {
         const data = await response.json();
@@ -225,18 +248,18 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
           finalAmount: data.finalAmount,
         });
       } else {
-        toast.error('Failed to calculate');
+        toast.error("Failed to calculate");
       }
     } catch (error) {
-      console.error('Error calculating:', error);
-      toast.error('Failed to calculate');
+      console.error("Error calculating:", error);
+      toast.error("Failed to calculate");
     }
   };
 
   const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
     }).format(value);
   };
 
@@ -266,15 +289,17 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
                   </TooltipTrigger>
                   <TooltipContent className="max-w-xs">
                     <p>
-                      Vertical markup adds percentages like overhead, profit, and insurance
-                      to your costs. Compound markups calculate on the running total.
+                      Vertical markup adds percentages like overhead, profit,
+                      and insurance to your costs. Compound markups calculate on
+                      the running total.
                     </p>
                   </TooltipContent>
                 </Tooltip>
               </TooltipProvider>
             </CardTitle>
             <CardDescription>
-              Configure markup percentages applied to contracts and change orders
+              Configure markup percentages applied to contracts and change
+              orders
             </CardDescription>
           </div>
           <div className="flex gap-2">
@@ -294,7 +319,9 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
           <div className="text-center py-8 text-muted-foreground">
             <AlertCircle className="h-12 w-12 mx-auto mb-4 opacity-50" />
             <p>No vertical markup configured</p>
-            <p className="text-sm mt-1">Add markup items to calculate overhead, profit, and insurance</p>
+            <p className="text-sm mt-1">
+              Add markup items to calculate overhead, profit, and insurance
+            </p>
           </div>
         ) : (
           <div className="space-y-3">
@@ -315,12 +342,18 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
               >
                 <div className="col-span-1 flex items-center gap-2">
                   <GripVertical className="h-4 w-4 text-muted-foreground cursor-grab" />
-                  <span className="text-sm text-muted-foreground">{index + 1}</span>
+                  <span className="text-sm text-muted-foreground">
+                    {index + 1}
+                  </span>
                 </div>
                 <div className="col-span-4">
                   <Input
                     value={markup.markup_type}
-                    onChange={(e) => handleUpdateMarkup(markup.id, { markup_type: e.target.value })}
+                    onChange={(e) =>
+                      handleUpdateMarkup(markup.id, {
+                        markup_type: e.target.value,
+                      })
+                    }
                     className="h-9"
                   />
                 </div>
@@ -333,7 +366,9 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
                       max="100"
                       value={markup.percentage}
                       onChange={(e) =>
-                        handleUpdateMarkup(markup.id, { percentage: parseFloat(e.target.value) || 0 })
+                        handleUpdateMarkup(markup.id, {
+                          percentage: parseFloat(e.target.value) || 0,
+                        })
                       }
                       className="h-9 pr-8"
                     />
@@ -345,7 +380,9 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
                 <div className="col-span-3 flex items-center gap-2">
                   <Switch
                     checked={markup.compound}
-                    onCheckedChange={(checked) => handleUpdateMarkup(markup.id, { compound: checked })}
+                    onCheckedChange={(checked) =>
+                      handleUpdateMarkup(markup.id, { compound: checked })
+                    }
                   />
                   <span className="text-sm">
                     {markup.compound ? (
@@ -375,13 +412,16 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
           <h4 className="font-medium mb-2">How Vertical Markup Works</h4>
           <ul className="text-sm text-muted-foreground space-y-1">
             <li>
-              <strong>Simple Markup:</strong> Calculated on the original base amount only
+              <strong>Simple Markup:</strong> Calculated on the original base
+              amount only
             </li>
             <li>
-              <strong>Compound Markup:</strong> Calculated on the running total (base + previous markups)
+              <strong>Compound Markup:</strong> Calculated on the running total
+              (base + previous markups)
             </li>
             <li>
-              <strong>Order matters:</strong> Markups are applied in the order shown above
+              <strong>Order matters:</strong> Markups are applied in the order
+              shown above
             </li>
           </ul>
         </div>
@@ -393,7 +433,8 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
           <DialogHeader>
             <DialogTitle>Add Vertical Markup</DialogTitle>
             <DialogDescription>
-              Add a new markup percentage to apply to contracts and change orders
+              Add a new markup percentage to apply to contracts and change
+              orders
             </DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-4">
@@ -445,7 +486,7 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
               Cancel
             </Button>
             <Button onClick={handleAddMarkup} disabled={saving}>
-              {saving ? 'Adding...' : 'Add Markup'}
+              {saving ? "Adding..." : "Add Markup"}
             </Button>
           </DialogFooter>
         </DialogContent>
@@ -486,10 +527,18 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
                   <table className="w-full">
                     <thead className="bg-muted">
                       <tr>
-                        <th className="text-left p-3 text-sm font-medium">Markup</th>
-                        <th className="text-right p-3 text-sm font-medium">%</th>
-                        <th className="text-right p-3 text-sm font-medium">Amount</th>
-                        <th className="text-right p-3 text-sm font-medium">Running Total</th>
+                        <th className="text-left p-3 text-sm font-medium">
+                          Markup
+                        </th>
+                        <th className="text-right p-3 text-sm font-medium">
+                          %
+                        </th>
+                        <th className="text-right p-3 text-sm font-medium">
+                          Amount
+                        </th>
+                        <th className="text-right p-3 text-sm font-medium">
+                          Running Total
+                        </th>
                       </tr>
                     </thead>
                     <tbody>
@@ -508,12 +557,17 @@ export function VerticalMarkupSettings({ projectId, onClose }: VerticalMarkupSet
                           <td className="p-3 text-sm">
                             {calc.markup_type}
                             {calc.compound && (
-                              <Badge variant="secondary" className="ml-2 text-xs">
+                              <Badge
+                                variant="secondary"
+                                className="ml-2 text-xs"
+                              >
                                 C
                               </Badge>
                             )}
                           </td>
-                          <td className="p-3 text-sm text-right">{calc.percentage}%</td>
+                          <td className="p-3 text-sm text-right">
+                            {calc.percentage}%
+                          </td>
                           <td className="p-3 text-sm text-right text-green-600">
                             +{formatCurrency(calc.markupAmount)}
                           </td>

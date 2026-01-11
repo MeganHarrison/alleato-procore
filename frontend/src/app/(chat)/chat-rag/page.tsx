@@ -63,13 +63,13 @@ export default function RagHome() {
         setIsOffline(true);
         setOfflineMessage(
           data?.context?.notice ||
-            "The realtime AI backend is offline. Showing demo mode instead."
+            "The realtime AI backend is offline. Showing demo mode instead.",
         );
         return;
       }
       if (!data) return;
     },
-    [isOffline]
+    [isOffline],
   );
 
   useEffect(() => {
@@ -81,11 +81,15 @@ export default function RagHome() {
   useEffect(() => {
     (async () => {
       const { data: bootstrap, offline } = await fetchRagBootstrapState();
-      if (!bootstrap || offline || bootstrap?.context?.backend_status === "offline") {
+      if (
+        !bootstrap ||
+        offline ||
+        bootstrap?.context?.backend_status === "offline"
+      ) {
         setIsOffline(true);
         setOfflineMessage(
           bootstrap?.context?.notice ||
-            "The Alleato AI backend is currently offline. You can continue in demo mode below."
+            "The Alleato AI backend is currently offline. You can continue in demo mode below.",
         );
         setBootstrapReady(true);
         return;
@@ -109,7 +113,10 @@ export default function RagHome() {
 
   if (isOffline) {
     return (
-      <div className="flex w-full -mx-4 sm:-mx-6 lg:-mx-8 -my-6" style={{ height: "calc(100vh - 64px)" }}>
+      <div
+        className="flex w-full -mx-4 sm:-mx-6 lg:-mx-8 -my-6"
+        style={{ height: "calc(100vh - 64px)" }}
+      >
         <div className="flex flex-col flex-1 w-full px-4 sm:px-6 lg:px-8 py-6 gap-4">
           <Alert>
             <AlertTitle>Alleato AI backend unavailable</AlertTitle>
@@ -135,7 +142,10 @@ export default function RagHome() {
   }
 
   return (
-    <div className="flex w-full -mx-4 sm:-mx-6 lg:-mx-8 -my-6" style={{ height: 'calc(100vh - 64px)' }}>
+    <div
+      className="flex w-full -mx-4 sm:-mx-6 lg:-mx-8 -my-6"
+      style={{ height: "calc(100vh - 64px)" }}
+    >
       <RagChatKitPanel
         initialThreadId={initialThreadId}
         onThreadChange={handleThreadChange}

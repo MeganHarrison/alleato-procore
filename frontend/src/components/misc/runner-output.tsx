@@ -39,7 +39,11 @@ function EventIcon({ type, icon }: { type: string; icon?: string }) {
 
 function inlineValue(value: any) {
   if (value === null || value === undefined || value === "") return "null";
-  if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+  if (
+    typeof value === "string" ||
+    typeof value === "number" ||
+    typeof value === "boolean"
+  ) {
     return String(value);
   }
   try {
@@ -89,7 +93,10 @@ function groupRunnerEvents(events: AgentEvent[]) {
 function buildEventText(event: AgentEvent) {
   switch (event.type) {
     case "handoff":
-      return event.content || `${event.metadata?.source_agent ?? ""} -> ${event.metadata?.target_agent ?? ""}`.trim();
+      return (
+        event.content ||
+        `${event.metadata?.source_agent ?? ""} -> ${event.metadata?.target_agent ?? ""}`.trim()
+      );
     case "tool_call": {
       const args = event.metadata?.tool_args;
       const argsText = args !== undefined ? ` - ${inlineValue(args)}` : "";
@@ -124,9 +131,17 @@ function EventDetails({ event }: { event: AgentEvent }) {
   const isJsonResult = parsedResult !== null;
 
   const collapsedArgsText =
-    toolArgs !== undefined ? (parsedArgs ? JSON.stringify(parsedArgs) : inlineValue(toolArgs)) : null;
+    toolArgs !== undefined
+      ? parsedArgs
+        ? JSON.stringify(parsedArgs)
+        : inlineValue(toolArgs)
+      : null;
   const collapsedResultText =
-    toolResult !== undefined ? (isJsonResult ? JSON.stringify(parsedResult) : inlineValue(toolResult)) : null;
+    toolResult !== undefined
+      ? isJsonResult
+        ? JSON.stringify(parsedResult)
+        : inlineValue(toolResult)
+      : null;
 
   const text =
     event.type === "tool_call"
@@ -135,7 +150,11 @@ function EventDetails({ event }: { event: AgentEvent }) {
         ? collapsedResultText
         : buildEventText(event);
   const clampStyle = !expanded
-    ? { display: "-webkit-box", WebkitLineClamp: 1, WebkitBoxOrient: "vertical" as const }
+    ? {
+        display: "-webkit-box",
+        WebkitLineClamp: 1,
+        WebkitBoxOrient: "vertical" as const,
+      }
     : undefined;
 
   return (
@@ -177,11 +196,16 @@ function EventDetails({ event }: { event: AgentEvent }) {
                     {collapsedResultText}
                   </span>
                 ) : (
-                  <span className="text-sm text-gray-800">{collapsedResultText}</span>
+                  <span className="text-sm text-gray-800">
+                    {collapsedResultText}
+                  </span>
                 )
               ) : event.type === "context_update" && contextChanges ? (
                 Object.entries(contextChanges).map(([key, value]) => (
-                  <span key={key} className="font-mono text-[12px] text-gray-800">
+                  <span
+                    key={key}
+                    className="font-mono text-[12px] text-gray-800"
+                  >
                     {key}: {inlineValue(value)}
                   </span>
                 ))
@@ -201,15 +225,18 @@ function EventDetails({ event }: { event: AgentEvent }) {
             {JSON.stringify(parsedArgs ?? toolArgs, null, 2)}
           </pre>
         )}
-        {expanded && event.type === "tool_output" && toolResult !== undefined && (
-          isJsonResult ? (
+        {expanded &&
+          event.type === "tool_output" &&
+          toolResult !== undefined &&
+          (isJsonResult ? (
             <pre className="mt-2 bg-gray-100 border border-gray-200 font-mono text-xs text-gray-800 p-2 rounded-md whitespace-pre-wrap break-words">
               {JSON.stringify(parsedResult, null, 2)}
             </pre>
           ) : (
-            <div className="mt-2 text-sm text-gray-800 whitespace-pre-wrap">{inlineValue(toolResult)}</div>
-          )
-        )}
+            <div className="mt-2 text-sm text-gray-800 whitespace-pre-wrap">
+              {inlineValue(toolResult)}
+            </div>
+          ))}
         {expanded && event.type === "context_update" && contextChanges && (
           <pre className="mt-2 bg-gray-100 border border-gray-200 font-mono text-xs text-gray-800 p-2 rounded-md whitespace-pre-wrap break-words">
             {JSON.stringify(parsedContext ?? contextChanges, null, 2)}
@@ -245,7 +272,9 @@ export function RunnerOutput({ runnerEvents }: RunnerOutputProps) {
                     className="border border-gray-200 bg-white shadow-sm rounded-lg"
                   >
                     <CardHeader className="flex flex-row items-center px-3 py-2">
-                      <span className="text-sm text-gray-800 font-medium">{agentName}</span>
+                      <span className="text-sm text-gray-800 font-medium">
+                        {agentName}
+                      </span>
                     </CardHeader>
 
                     <CardContent className="p-3 pt-0 space-y-2">

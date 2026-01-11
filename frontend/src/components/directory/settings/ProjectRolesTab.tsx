@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { X, ChevronDown, Loader2 } from 'lucide-react';
-import { useProjectRoles, ProjectRole } from '@/hooks/use-project-roles';
-import { useProjectUsers } from '@/hooks/use-project-users';
+import * as React from "react";
+import { X, ChevronDown, Loader2 } from "lucide-react";
+import { useProjectRoles, ProjectRole } from "@/hooks/use-project-roles";
+import { useProjectUsers } from "@/hooks/use-project-users";
 import {
   Table,
   TableBody,
@@ -11,9 +11,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { cn } from "@/lib/utils";
 
 interface ProjectRolesTabProps {
   projectId: string;
@@ -26,7 +26,8 @@ interface PersonOption {
 }
 
 export function ProjectRolesTab({ projectId }: ProjectRolesTabProps) {
-  const { roles, isLoading, error, updateRoleMembers } = useProjectRoles(projectId);
+  const { roles, isLoading, error, updateRoleMembers } =
+    useProjectRoles(projectId);
   const { users } = useProjectUsers(projectId);
 
   // Create person options from users
@@ -75,7 +76,9 @@ export function ProjectRolesTab({ projectId }: ProjectRolesTabProps) {
               key={role.id}
               role={role}
               personOptions={personOptions}
-              onUpdateMembers={(memberIds) => updateRoleMembers(role.id, memberIds)}
+              onUpdateMembers={(memberIds) =>
+                updateRoleMembers(role.id, memberIds)
+              }
             />
           ))}
           {roles.length === 0 && (
@@ -99,14 +102,14 @@ interface RoleRowProps {
 
 function RoleRow({ role, personOptions, onUpdateMembers }: RoleRowProps) {
   const [isOpen, setIsOpen] = React.useState(false);
-  const [searchValue, setSearchValue] = React.useState('');
+  const [searchValue, setSearchValue] = React.useState("");
   const [isUpdating, setIsUpdating] = React.useState(false);
   const dropdownRef = React.useRef<HTMLDivElement>(null);
 
   // Get current member IDs
   const selectedIds = React.useMemo(
     () => role.members.map((m) => m.person_id),
-    [role.members]
+    [role.members],
   );
 
   // Filter options based on search
@@ -116,7 +119,7 @@ function RoleRow({ role, personOptions, onUpdateMembers }: RoleRowProps) {
     return personOptions.filter(
       (p) =>
         p.name.toLowerCase().includes(search) ||
-        p.company?.toLowerCase().includes(search)
+        p.company?.toLowerCase().includes(search),
     );
   }, [personOptions, searchValue]);
 
@@ -128,12 +131,12 @@ function RoleRow({ role, personOptions, onUpdateMembers }: RoleRowProps) {
         !dropdownRef.current.contains(event.target as Node)
       ) {
         setIsOpen(false);
-        setSearchValue('');
+        setSearchValue("");
       }
     };
 
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
   const handleSelect = async (personId: string) => {
@@ -168,9 +171,11 @@ function RoleRow({ role, personOptions, onUpdateMembers }: RoleRowProps) {
           {/* Selected members + dropdown trigger */}
           <div
             className={cn(
-              'min-h-[38px] border rounded-md px-2 py-1 flex flex-wrap items-center gap-1 cursor-pointer',
-              isOpen ? 'border-orange-500 ring-1 ring-orange-500' : 'border-gray-300',
-              isUpdating && 'opacity-50'
+              "min-h-[38px] border rounded-md px-2 py-1 flex flex-wrap items-center gap-1 cursor-pointer",
+              isOpen
+                ? "border-orange-500 ring-1 ring-orange-500"
+                : "border-gray-300",
+              isUpdating && "opacity-50",
             )}
             onClick={() => !isUpdating && setIsOpen(true)}
           >
@@ -186,12 +191,12 @@ function RoleRow({ role, personOptions, onUpdateMembers }: RoleRowProps) {
                   className="bg-blue-100 text-blue-800 hover:bg-blue-200 flex items-center gap-1 pr-1"
                 >
                   <span className="max-w-[150px] truncate">
-                    {member.person?.full_name || 'Unknown'}
+                    {member.person?.full_name || "Unknown"}
                     {member.person?.company_name && (
                       <span className="text-blue-600">
-                        {' '}
+                        {" "}
                         ({member.person.company_name.substring(0, 10)}
-                        {member.person.company_name.length > 10 ? '...' : ''})
+                        {member.person.company_name.length > 10 ? "..." : ""})
                       </span>
                     )}
                   </span>
@@ -236,15 +241,18 @@ function RoleRow({ role, personOptions, onUpdateMembers }: RoleRowProps) {
                       <button
                         key={person.id}
                         className={cn(
-                          'w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center justify-between',
-                          isSelected && 'bg-orange-50'
+                          "w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center justify-between",
+                          isSelected && "bg-orange-50",
                         )}
                         onClick={() => handleSelect(person.id)}
                       >
                         <span>
                           {person.name}
                           {person.company && (
-                            <span className="text-gray-500"> ({person.company})</span>
+                            <span className="text-gray-500">
+                              {" "}
+                              ({person.company})
+                            </span>
                           )}
                         </span>
                         {isSelected && (

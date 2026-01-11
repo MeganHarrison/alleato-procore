@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
-import SupabaseAuthManager from "./auth"
-import SupabaseDatabaseManager from "./database"
+import SupabaseAuthManager from "./auth";
+import SupabaseDatabaseManager from "./database";
 
 export function SupabaseManager() {
   return (
@@ -15,7 +15,8 @@ export function SupabaseManager() {
           <p className="text-muted-foreground text-sm">Internal tooling</p>
           <h1 className="text-3xl font-semibold">Supabase Manager</h1>
           <p className="text-muted-foreground">
-            Prototype console for reviewing authentication, database health, and cluster automation.
+            Prototype console for reviewing authentication, database health, and
+            cluster automation.
           </p>
         </div>
         <div className="flex flex-wrap gap-3">
@@ -44,7 +45,7 @@ export function SupabaseManager() {
         </TabsContent>
       </Tabs>
     </section>
-  )
+  );
 }
 
-export default SupabaseManager
+export default SupabaseManager;

@@ -1,5 +1,5 @@
-import crypto from 'crypto'
-import { md5 } from 'js-md5'
+import crypto from "crypto";
+import { md5 } from "js-md5";
 
 /**
  * Generate a Gravatar URL for an email address (server-side)
@@ -11,11 +11,11 @@ import { md5 } from 'js-md5'
 export function getGravatarUrl(
   email: string,
   size: number = 200,
-  defaultImage: string = 'mp' // Mystery Person default
+  defaultImage: string = "mp", // Mystery Person default
 ): string {
-  const trimmedEmail = email.trim().toLowerCase()
-  const hash = crypto.createHash('md5').update(trimmedEmail).digest('hex')
-  return `https://www.gravatar.com/avatar/${hash}?s=${size}&d=${defaultImage}`
+  const trimmedEmail = email.trim().toLowerCase();
+  const hash = crypto.createHash("md5").update(trimmedEmail).digest("hex");
+  return `https://www.gravatar.com/avatar/${hash}?s=${size}&d=${defaultImage}`;
 }
 
 /**
@@ -25,11 +25,11 @@ export function getGravatarUrl(
 export function getGravatarUrlClient(
   email: string,
   size: number = 200,
-  defaultImage: string = 'identicon' // Use identicon for better visual fallback
+  defaultImage: string = "identicon", // Use identicon for better visual fallback
 ): string {
-  const trimmedEmail = email.trim().toLowerCase()
-  const hash = md5(trimmedEmail)
-  return `https://www.gravatar.com/avatar/${hash}?s=${size}&d=${defaultImage}`
+  const trimmedEmail = email.trim().toLowerCase();
+  const hash = md5(trimmedEmail);
+  return `https://www.gravatar.com/avatar/${hash}?s=${size}&d=${defaultImage}`;
 }
 
 /**
@@ -39,9 +39,9 @@ export function getGravatarUrlClient(
 export function getBestAvatarUrl(
   customAvatar: string | undefined,
   email: string,
-  size?: number
+  size?: number,
 ): string | undefined {
-  if (customAvatar) return customAvatar
-  if (email) return getGravatarUrlClient(email, size)
-  return undefined
+  if (customAvatar) return customAvatar;
+  if (email) return getGravatarUrlClient(email, size);
+  return undefined;
 }

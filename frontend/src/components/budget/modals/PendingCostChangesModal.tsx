@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { BaseSidebar, SidebarBody, SidebarFooter } from './BaseSidebar';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { AlertCircle } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { BaseSidebar, SidebarBody, SidebarFooter } from "./BaseSidebar";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { AlertCircle } from "lucide-react";
 
 interface PendingCostChange {
   id: string;
@@ -12,8 +12,8 @@ interface PendingCostChange {
   description: string;
   amount: number;
   status: string;
-  type: 'commitment' | 'commitment_change_order';
-  commitmentType?: 'subcontract' | 'purchase_order';
+  type: "commitment" | "commitment_change_order";
+  commitmentType?: "subcontract" | "purchase_order";
   requestedDate: string;
 }
 
@@ -40,12 +40,14 @@ export function PendingCostChangesModal({
   onClose,
   costCode,
   budgetLineId,
-  projectId
+  projectId,
 }: PendingCostChangesModalProps) {
-  const [activeTab, setActiveTab] = useState<'pending' | 'summary'>('pending');
+  const [activeTab, setActiveTab] = useState<"pending" | "summary">("pending");
   const [changes, setChanges] = useState<PendingCostChange[]>([]);
   const [loading, setLoading] = useState(true);
-  const [typeFilter, setTypeFilter] = useState<'all' | 'commitment' | 'change_order'>('all');
+  const [typeFilter, setTypeFilter] = useState<
+    "all" | "commitment" | "change_order"
+  >("all");
 
   useEffect(() => {
     if (open) {
@@ -56,14 +58,14 @@ export function PendingCostChangesModal({
   const fetchPendingCostChanges = async () => {
     setLoading(true);
     try {
-      const url = `/api/projects/${projectId}/budget/pending-cost-changes?budgetLineId=${budgetLineId}${typeFilter !== 'all' ? `&type=${typeFilter}` : ''}`;
+      const url = `/api/projects/${projectId}/budget/pending-cost-changes?budgetLineId=${budgetLineId}${typeFilter !== "all" ? `&type=${typeFilter}` : ""}`;
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
         setChanges(data.changes || []);
       }
     } catch (error) {
-      console.error('Error fetching pending cost changes:', error);
+      console.error("Error fetching pending cost changes:", error);
     } finally {
       setLoading(false);
     }
@@ -71,7 +73,7 @@ export function PendingCostChangesModal({
 
   const formatCurrency = (value: number): string => {
     const isNegative = value < 0;
-    const formatted = new Intl.NumberFormat('en-US', {
+    const formatted = new Intl.NumberFormat("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(Math.abs(value));
@@ -83,16 +85,16 @@ export function PendingCostChangesModal({
   };
 
   const formatDate = (dateString: string | null): string => {
-    if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric'
+    if (!dateString) return "-";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
     });
   };
 
   const getTypeBadge = (change: PendingCostChange) => {
-    if (change.type === 'commitment_change_order') {
+    if (change.type === "commitment_change_order") {
       return (
         <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full border bg-orange-100 text-orange-800 border-orange-200">
           CO
@@ -100,16 +102,19 @@ export function PendingCostChangesModal({
       );
     }
 
-    const config = change.commitmentType === 'subcontract'
-      ? 'bg-blue-100 text-blue-800 border-blue-200'
-      : 'bg-purple-100 text-purple-800 border-purple-200';
+    const config =
+      change.commitmentType === "subcontract"
+        ? "bg-blue-100 text-blue-800 border-blue-200"
+        : "bg-purple-100 text-purple-800 border-purple-200";
 
     return (
-      <span className={cn(
-        'inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full border',
-        config
-      )}>
-        {change.commitmentType === 'subcontract' ? 'SUB' : 'PO'}
+      <span
+        className={cn(
+          "inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full border",
+          config,
+        )}
+      >
+        {change.commitmentType === "subcontract" ? "SUB" : "PO"}
       </span>
     );
   };
@@ -117,7 +122,7 @@ export function PendingCostChangesModal({
   const getStatusBadge = (status: string) => {
     return (
       <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full border bg-yellow-100 text-yellow-800 border-yellow-200">
-        {status.replace(/_/g, ' ').toUpperCase()}
+        {status.replace(/_/g, " ").toUpperCase()}
       </span>
     );
   };
@@ -125,14 +130,22 @@ export function PendingCostChangesModal({
   const totalAmount = changes.reduce((sum, c) => sum + c.amount, 0);
 
   // Summary breakdowns
-  const commitmentChanges = changes.filter(c => c.type === 'commitment');
-  const changeOrderChanges = changes.filter(c => c.type === 'commitment_change_order');
-  const commitmentTotal = commitmentChanges.reduce((sum, c) => sum + c.amount, 0);
-  const changeOrderTotal = changeOrderChanges.reduce((sum, c) => sum + c.amount, 0);
+  const commitmentChanges = changes.filter((c) => c.type === "commitment");
+  const changeOrderChanges = changes.filter(
+    (c) => c.type === "commitment_change_order",
+  );
+  const commitmentTotal = commitmentChanges.reduce(
+    (sum, c) => sum + c.amount,
+    0,
+  );
+  const changeOrderTotal = changeOrderChanges.reduce(
+    (sum, c) => sum + c.amount,
+    0,
+  );
 
   const tabs = [
-    { id: 'pending', label: 'Pending Changes' },
-    { id: 'summary', label: 'Summary' }
+    { id: "pending", label: "Pending Changes" },
+    { id: "summary", label: "Summary" },
   ];
 
   return (
@@ -151,12 +164,12 @@ export function PendingCostChangesModal({
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setActiveTab(tab.id as 'pending' | 'summary')}
+                onClick={() => setActiveTab(tab.id as "pending" | "summary")}
                 className={cn(
-                  'px-4 py-2 text-sm font-medium rounded-md transition-all',
+                  "px-4 py-2 text-sm font-medium rounded-md transition-all",
                   activeTab === tab.id
-                    ? 'bg-white text-orange-600 shadow-sm border border-gray-200'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
+                    ? "bg-white text-orange-600 shadow-sm border border-gray-200"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-white/50",
                 )}
               >
                 {tab.label}
@@ -166,19 +179,23 @@ export function PendingCostChangesModal({
 
           {/* Type Filter */}
           <div className="flex gap-2">
-            {['all', 'commitment', 'change_order'].map((type) => (
+            {["all", "commitment", "change_order"].map((type) => (
               <button
                 key={type}
                 type="button"
                 onClick={() => setTypeFilter(type as typeof typeFilter)}
                 className={cn(
-                  'px-3 py-1 text-xs font-medium rounded-full transition-all',
+                  "px-3 py-1 text-xs font-medium rounded-full transition-all",
                   typeFilter === type
-                    ? 'bg-orange-500 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? "bg-orange-500 text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200",
                 )}
               >
-                {type === 'all' ? 'All' : type === 'commitment' ? 'Commitments' : 'COs'}
+                {type === "all"
+                  ? "All"
+                  : type === "commitment"
+                    ? "Commitments"
+                    : "COs"}
               </button>
             ))}
           </div>
@@ -187,13 +204,15 @@ export function PendingCostChangesModal({
 
       {/* Content */}
       <SidebarBody className="bg-white">
-        {activeTab === 'pending' ? (
+        {activeTab === "pending" ? (
           <div className="p-6 space-y-5">
             {/* Total Summary */}
             <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-gradient-to-br from-orange-50 via-white to-white">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Total Pending Cost Changes</p>
+                  <p className="text-sm text-gray-600">
+                    Total Pending Cost Changes
+                  </p>
                   <p className="text-2xl font-bold text-gray-900 mt-1">
                     {formatCurrency(totalAmount)}
                   </p>
@@ -214,8 +233,10 @@ export function PendingCostChangesModal({
                 <div className="text-sm text-orange-900">
                   <p className="font-semibold">About Pending Cost Changes</p>
                   <p className="mt-1">
-                    These include pending commitments (Out For Signature, Processing, Submitted, etc.) and
-                    pending change orders on commitments. They impact projected costs but not committed costs until approved.
+                    These include pending commitments (Out For Signature,
+                    Processing, Submitted, etc.) and pending change orders on
+                    commitments. They impact projected costs but not committed
+                    costs until approved.
                   </p>
                 </div>
               </div>
@@ -226,43 +247,77 @@ export function PendingCostChangesModal({
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Number</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Type</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Description</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Status</th>
-                    <th className="text-right px-4 py-3 font-semibold text-slate-800">Amount</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Requested</th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Number
+                    </th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Type
+                    </th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Description
+                    </th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Status
+                    </th>
+                    <th className="text-right px-4 py-3 font-semibold text-slate-800">
+                      Amount
+                    </th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Requested
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {loading ? (
                     <tr>
-                      <td colSpan={6} className="px-4 py-10 text-center text-gray-500">
+                      <td
+                        colSpan={6}
+                        className="px-4 py-10 text-center text-gray-500"
+                      >
                         Loading pending cost changes...
                       </td>
                     </tr>
                   ) : changes.length === 0 ? (
                     <tr>
-                      <td colSpan={6} className="px-4 py-10 text-center text-gray-500">
+                      <td
+                        colSpan={6}
+                        className="px-4 py-10 text-center text-gray-500"
+                      >
                         No pending cost changes found for this cost code.
                       </td>
                     </tr>
                   ) : (
                     changes.map((change) => (
-                      <tr key={change.id} className="hover:bg-orange-50/40 transition-colors">
-                        <td className="px-4 py-3 font-medium text-blue-600">{change.number}</td>
+                      <tr
+                        key={change.id}
+                        className="hover:bg-orange-50/40 transition-colors"
+                      >
+                        <td className="px-4 py-3 font-medium text-blue-600">
+                          {change.number}
+                        </td>
                         <td className="px-4 py-3">{getTypeBadge(change)}</td>
-                        <td className="px-4 py-3 text-gray-700 max-w-xs truncate" title={change.description}>
+                        <td
+                          className="px-4 py-3 text-gray-700 max-w-xs truncate"
+                          title={change.description}
+                        >
                           {change.description}
                         </td>
-                        <td className="px-4 py-3">{getStatusBadge(change.status)}</td>
-                        <td className={cn(
-                          'px-4 py-3 text-right font-semibold tabular-nums',
-                          change.amount < 0 ? 'text-red-600' : 'text-orange-600'
-                        )}>
+                        <td className="px-4 py-3">
+                          {getStatusBadge(change.status)}
+                        </td>
+                        <td
+                          className={cn(
+                            "px-4 py-3 text-right font-semibold tabular-nums",
+                            change.amount < 0
+                              ? "text-red-600"
+                              : "text-orange-600",
+                          )}
+                        >
                           {formatCurrency(change.amount)}
                         </td>
-                        <td className="px-4 py-3 text-gray-600">{formatDate(change.requestedDate)}</td>
+                        <td className="px-4 py-3 text-gray-600">
+                          {formatDate(change.requestedDate)}
+                        </td>
                       </tr>
                     ))
                   )}
@@ -287,7 +342,10 @@ export function PendingCostChangesModal({
                   {formatCurrency(commitmentTotal)}
                 </p>
                 <p className="text-sm text-gray-600 mt-1">
-                  {commitmentChanges.length} {commitmentChanges.length === 1 ? 'commitment' : 'commitments'}
+                  {commitmentChanges.length}{" "}
+                  {commitmentChanges.length === 1
+                    ? "commitment"
+                    : "commitments"}
                 </p>
               </div>
 
@@ -301,7 +359,10 @@ export function PendingCostChangesModal({
                   {formatCurrency(changeOrderTotal)}
                 </p>
                 <p className="text-sm text-gray-600 mt-1">
-                  {changeOrderChanges.length} {changeOrderChanges.length === 1 ? 'change order' : 'change orders'}
+                  {changeOrderChanges.length}{" "}
+                  {changeOrderChanges.length === 1
+                    ? "change order"
+                    : "change orders"}
                 </p>
               </div>
             </div>

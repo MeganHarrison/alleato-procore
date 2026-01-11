@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Table } from "@tanstack/react-table"
-import { Settings2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { Table } from "@tanstack/react-table";
+import { Settings2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -11,10 +11,10 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 interface DataTableColumnToggleProps<TData> {
-  table: Table<TData>
+  table: Table<TData>;
 }
 
 export function DataTableColumnToggle<TData>({
@@ -39,7 +39,7 @@ export function DataTableColumnToggle<TData>({
           .getAllColumns()
           .filter(
             (column) =>
-              typeof column.accessorFn !== "undefined" && column.getCanHide()
+              typeof column.accessorFn !== "undefined" && column.getCanHide(),
           )
           .map((column) => {
             return (
@@ -51,9 +51,9 @@ export function DataTableColumnToggle<TData>({
               >
                 {column.id}
               </DropdownMenuCheckboxItem>
-            )
+            );
           })}
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 }

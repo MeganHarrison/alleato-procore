@@ -1,12 +1,12 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 export const companySchema = z.object({
-  name: z.string().min(1, 'Company name is required'),
+  name: z.string().min(1, "Company name is required"),
   title: z.string().optional(),
   address: z.string().optional(),
   city: z.string().optional(),
   state: z.string().optional(),
-  website: z.string().url().optional().or(z.literal('')),
+  website: z.string().url().optional().or(z.literal("")),
   currency_code: z.string().optional(),
   currency_symbol: z.string().optional(),
   notes: z.string().optional(),
@@ -17,9 +17,9 @@ export const companyUpdateSchema = companySchema.partial().extend({
 });
 
 export const clientSchema = z.object({
-  name: z.string().min(1, 'Client name is required'),
+  name: z.string().min(1, "Client name is required"),
   company_id: z.string().uuid().optional().nullable(),
-  status: z.enum(['active', 'inactive']).default('active'),
+  status: z.enum(["active", "inactive"]).default("active"),
 });
 
 export const clientUpdateSchema = clientSchema.partial().extend({
@@ -27,13 +27,21 @@ export const clientUpdateSchema = clientSchema.partial().extend({
 });
 
 export const commitmentSchema = z.object({
-  number: z.string().min(1, 'Commitment number is required'),
-  contract_company_id: z.string().uuid('Valid company ID required'),
-  title: z.string().min(1, 'Title is required'),
+  number: z.string().min(1, "Commitment number is required"),
+  contract_company_id: z.string().uuid("Valid company ID required"),
+  title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
-  status: z.enum(['draft', 'sent', 'pending', 'approved', 'executed', 'closed', 'void']),
-  original_amount: z.number().min(0, 'Amount must be positive'),
-  accounting_method: z.enum(['amount', 'unit', 'percent']),
+  status: z.enum([
+    "draft",
+    "sent",
+    "pending",
+    "approved",
+    "executed",
+    "closed",
+    "void",
+  ]),
+  original_amount: z.number().min(0, "Amount must be positive"),
+  accounting_method: z.enum(["amount", "unit", "percent"]),
   retention_percentage: z.number().min(0).max(100).optional(),
   executed_date: z.string().optional(),
   start_date: z.string().optional(),
@@ -45,47 +53,54 @@ export const commitmentSchema = z.object({
 });
 
 export const changeEventSchema = z.object({
-  number: z.string().min(1, 'Change event number is required'),
-  title: z.string().min(1, 'Title is required'),
+  number: z.string().min(1, "Change event number is required"),
+  title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
-  status: z.enum(['open', 'pending', 'approved', 'closed']),
+  status: z.enum(["open", "pending", "approved", "closed"]),
   commitment_id: z.string().uuid().optional(),
   rom_cost_impact: z.number().optional(),
   rom_schedule_impact: z.number().optional(),
 });
 
 export const changeOrderSchema = z.object({
-  change_event_id: z.string().uuid('Valid change event ID required'),
-  number: z.string().min(1, 'Change order number is required'),
-  title: z.string().min(1, 'Title is required'),
+  change_event_id: z.string().uuid("Valid change event ID required"),
+  number: z.string().min(1, "Change order number is required"),
+  title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
-  status: z.enum(['draft', 'pending', 'approved', 'executed', 'void']),
-  commitment_id: z.string().uuid('Valid commitment ID required'),
+  status: z.enum(["draft", "pending", "approved", "executed", "void"]),
+  commitment_id: z.string().uuid("Valid commitment ID required"),
   amount: z.number(),
   executed_date: z.string().optional(),
 });
 
 export const primeContractSchema = z.object({
-  number: z.string().min(1, 'Contract number is required'),
-  title: z.string().min(1, 'Title is required'),
+  number: z.string().min(1, "Contract number is required"),
+  title: z.string().min(1, "Title is required"),
   description: z.string().optional(),
-  owner_id: z.string().uuid('Valid owner ID required'),
-  status: z.enum(['draft', 'sent', 'pending', 'approved', 'executed', 'closed']),
+  owner_id: z.string().uuid("Valid owner ID required"),
+  status: z.enum([
+    "draft",
+    "sent",
+    "pending",
+    "approved",
+    "executed",
+    "closed",
+  ]),
   contract_date: z.string().optional(),
   start_date: z.string().optional(),
   substantial_completion_date: z.string().optional(),
-  original_amount: z.number().min(0, 'Amount must be positive'),
+  original_amount: z.number().min(0, "Amount must be positive"),
   retention_percentage: z.number().min(0).max(100).optional(),
 });
 
 export const invoiceSchema = z.object({
-  commitment_id: z.string().uuid('Valid commitment ID required'),
-  number: z.string().min(1, 'Invoice number is required'),
+  commitment_id: z.string().uuid("Valid commitment ID required"),
+  number: z.string().min(1, "Invoice number is required"),
   billing_period_start: z.string(),
   billing_period_end: z.string(),
   invoice_date: z.string(),
   due_date: z.string().optional(),
-  status: z.enum(['draft', 'submitted', 'approved', 'paid', 'void']),
+  status: z.enum(["draft", "submitted", "approved", "paid", "void"]),
   notes: z.string().optional(),
 });
 

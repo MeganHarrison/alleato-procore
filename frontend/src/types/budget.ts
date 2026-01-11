@@ -45,7 +45,7 @@ export interface BudgetGroup {
 export interface BudgetFilter {
   id: string;
   field: string;
-  operator: 'equals' | 'contains' | 'greaterThan' | 'lessThan';
+  operator: "equals" | "contains" | "greaterThan" | "lessThan";
   value: string | number;
 }
 

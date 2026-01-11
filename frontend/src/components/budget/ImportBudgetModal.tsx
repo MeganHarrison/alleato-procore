@@ -1,8 +1,14 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Upload, X, FileSpreadsheet, AlertCircle, CheckCircle2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import * as React from "react";
+import {
+  Upload,
+  X,
+  FileSpreadsheet,
+  AlertCircle,
+  CheckCircle2,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -10,9 +16,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dialog";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 interface ImportBudgetModalProps {
   open: boolean;
@@ -46,33 +52,36 @@ export function ImportBudgetModal({
   const handleDownloadTemplate = async () => {
     try {
       // Use the static template file
-      const link = document.createElement('a');
-      link.href = '/alleato-budget-template.xlsx';
+      const link = document.createElement("a");
+      link.href = "/alleato-budget-template.xlsx";
       link.download = `budget-template-project-${projectId}.xlsx`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
-      toast.success('Template downloaded successfully');
+      toast.success("Template downloaded successfully");
     } catch (err) {
-      console.error('Error downloading template:', err);
-      toast.error('Failed to download template');
+      console.error("Error downloading template:", err);
+      toast.error("Failed to download template");
     }
   };
 
   const validateFile = (selectedFile: File): string | null => {
     // Check file type
     const validTypes = [
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
-      'application/vnd.ms-excel',
+      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+      "application/vnd.ms-excel",
     ];
-    if (!validTypes.includes(selectedFile.type) && !selectedFile.name.endsWith('.xlsx')) {
-      return 'Please upload a valid Excel file (.xlsx)';
+    if (
+      !validTypes.includes(selectedFile.type) &&
+      !selectedFile.name.endsWith(".xlsx")
+    ) {
+      return "Please upload a valid Excel file (.xlsx)";
     }
 
     // Check file size (10MB max)
     const maxSize = 10 * 1024 * 1024; // 10MB
     if (selectedFile.size > maxSize) {
-      return 'File size must be less than 10MB';
+      return "File size must be less than 10MB";
     }
 
     return null;
@@ -90,7 +99,9 @@ export function ImportBudgetModal({
     setError(null);
   };
 
-  const handleFileInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFileInputChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
     const selectedFile = event.target.files?.[0];
     if (selectedFile) {
       handleFileSelect(selectedFile);
@@ -121,7 +132,7 @@ export function ImportBudgetModal({
     setFile(null);
     setError(null);
     if (fileInputRef.current) {
-      fileInputRef.current.value = '';
+      fileInputRef.current.value = "";
     }
   };
 
@@ -133,21 +144,21 @@ export function ImportBudgetModal({
 
     try {
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append("file", file);
 
       const response = await fetch(`/api/projects/${projectId}/budget/import`, {
-        method: 'POST',
+        method: "POST",
         body: formData,
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Failed to import budget');
+        throw new Error(result.error || "Failed to import budget");
       }
 
       toast.success(
-        `Budget imported successfully! ${result.importedCount || 0} line item(s) added.`
+        `Budget imported successfully! ${result.importedCount || 0} line item(s) added.`,
       );
 
       // Call success callback to refresh budget data
@@ -156,8 +167,9 @@ export function ImportBudgetModal({
       // Close modal
       onOpenChange(false);
     } catch (err) {
-      console.error('Error importing budget:', err);
-      const errorMessage = err instanceof Error ? err.message : 'Failed to import budget';
+      console.error("Error importing budget:", err);
+      const errorMessage =
+        err instanceof Error ? err.message : "Failed to import budget";
       setError(errorMessage);
       toast.error(errorMessage);
     } finally {
@@ -182,8 +194,14 @@ export function ImportBudgetModal({
               <div className="text-sm">
                 <p className="font-medium">Important Notes:</p>
                 <ul className="list-disc list-inside mt-1 space-y-1">
-                  <li>The budget uses the project currency and will not be converted on import</li>
-                  <li>Consider taking a snapshot before importing to preserve current budget state</li>
+                  <li>
+                    The budget uses the project currency and will not be
+                    converted on import
+                  </li>
+                  <li>
+                    Consider taking a snapshot before importing to preserve
+                    current budget state
+                  </li>
                 </ul>
               </div>
             </div>
@@ -242,16 +260,20 @@ export function ImportBudgetModal({
                 onDragLeave={handleDragLeave}
                 onDrop={handleDrop}
                 className={cn(
-                  'border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors',
+                  "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors",
                   isDragging
-                    ? 'border-blue-500 bg-blue-50'
-                    : 'border-gray-300 hover:border-gray-400 hover:bg-gray-50'
+                    ? "border-blue-500 bg-blue-50"
+                    : "border-gray-300 hover:border-gray-400 hover:bg-gray-50",
                 )}
               >
                 <Upload className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                <p className="text-sm font-medium text-gray-700 mb-1">Upload File</p>
+                <p className="text-sm font-medium text-gray-700 mb-1">
+                  Upload File
+                </p>
                 <p className="text-xs text-gray-500">or Drag & Drop</p>
-                <p className="text-xs text-gray-400 mt-2">Excel files only (.xlsx), max 10MB</p>
+                <p className="text-xs text-gray-400 mt-2">
+                  Excel files only (.xlsx), max 10MB
+                </p>
               </div>
             ) : (
               <div className="border rounded-lg p-4 bg-green-50 border-green-200">
@@ -259,8 +281,12 @@ export function ImportBudgetModal({
                   <div className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5" />
                     <div>
-                      <p className="text-sm font-medium text-gray-900">{file.name}</p>
-                      <p className="text-xs text-gray-500">{formatFileSize(file.size)}</p>
+                      <p className="text-sm font-medium text-gray-900">
+                        {file.name}
+                      </p>
+                      <p className="text-xs text-gray-500">
+                        {formatFileSize(file.size)}
+                      </p>
                     </div>
                   </div>
                   <Button

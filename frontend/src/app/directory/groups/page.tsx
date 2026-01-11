@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { usePathname } from 'next/navigation';
+import * as React from "react";
+import { usePathname } from "next/navigation";
 import {
   Users,
   Plus,
@@ -10,23 +10,23 @@ import {
   Trash2,
   UserPlus,
   UserMinus,
-} from 'lucide-react';
-import { ColumnDef } from '@tanstack/react-table';
-import { ProjectPageHeader } from '@/components/layout/ProjectPageHeader';
-import { PageContainer } from '@/components/layout/PageContainer';
-import { PageTabs } from '@/components/layout/PageTabs';
-import { Text } from '@/components/ui/text';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { DataTable } from '@/components/tables/DataTable';
+} from "lucide-react";
+import { ColumnDef } from "@tanstack/react-table";
+import { ProjectPageHeader } from "@/components/layout/ProjectPageHeader";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { PageTabs } from "@/components/layout/PageTabs";
+import { Text } from "@/components/ui/text";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { DataTable } from "@/components/tables/DataTable";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -34,7 +34,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -44,25 +44,33 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { getDirectoryTabs } from '@/config/directory-tabs';
-import { useDistributionGroups, useCreateGroup, useUpdateGroup, useDeleteGroup } from '@/hooks/use-distribution-groups';
-import type { DistributionGroupWithMembers } from '@/services/distributionGroupService';
+} from "@/components/ui/alert-dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { getDirectoryTabs } from "@/config/directory-tabs";
+import {
+  useDistributionGroups,
+  useCreateGroup,
+  useUpdateGroup,
+  useDeleteGroup,
+} from "@/hooks/use-distribution-groups";
+import type { DistributionGroupWithMembers } from "@/services/distributionGroupService";
 
 export default function DistributionGroupsPage() {
   const pathname = usePathname();
-  const [projectId] = React.useState('1'); // TODO: Get from router params
+  const [projectId] = React.useState("1"); // TODO: Get from router params
 
   const [isAddDialogOpen, setIsAddDialogOpen] = React.useState(false);
-  const [editingGroup, setEditingGroup] = React.useState<DistributionGroupWithMembers | null>(null);
-  const [deletingGroup, setDeletingGroup] = React.useState<DistributionGroupWithMembers | null>(null);
-  const [newGroupName, setNewGroupName] = React.useState('');
-  const [newGroupDescription, setNewGroupDescription] = React.useState('');
+  const [editingGroup, setEditingGroup] =
+    React.useState<DistributionGroupWithMembers | null>(null);
+  const [deletingGroup, setDeletingGroup] =
+    React.useState<DistributionGroupWithMembers | null>(null);
+  const [newGroupName, setNewGroupName] = React.useState("");
+  const [newGroupDescription, setNewGroupDescription] = React.useState("");
 
-  const { groups, isLoading, error, refetch } = useDistributionGroups(projectId);
+  const { groups, isLoading, error, refetch } =
+    useDistributionGroups(projectId);
   const createMutation = useCreateGroup(projectId);
   const updateMutation = useUpdateGroup(projectId);
   const deleteMutation = useDeleteGroup(projectId);
@@ -75,8 +83,8 @@ export default function DistributionGroupsPage() {
       description: newGroupDescription.trim() || undefined,
     });
 
-    setNewGroupName('');
-    setNewGroupDescription('');
+    setNewGroupName("");
+    setNewGroupDescription("");
     setIsAddDialogOpen(false);
     refetch();
   };
@@ -92,8 +100,8 @@ export default function DistributionGroupsPage() {
       },
     });
 
-    setNewGroupName('');
-    setNewGroupDescription('');
+    setNewGroupName("");
+    setNewGroupDescription("");
     setEditingGroup(null);
     refetch();
   };
@@ -108,14 +116,14 @@ export default function DistributionGroupsPage() {
 
   const openEditDialog = (group: DistributionGroupWithMembers) => {
     setNewGroupName(group.name);
-    setNewGroupDescription(group.description || '');
+    setNewGroupDescription(group.description || "");
     setEditingGroup(group);
   };
 
   const columns: ColumnDef<DistributionGroupWithMembers>[] = [
     {
-      accessorKey: 'name',
-      header: 'Group Name',
+      accessorKey: "name",
+      header: "Group Name",
       cell: ({ row }) => {
         const group = row.original;
         return (
@@ -123,53 +131,61 @@ export default function DistributionGroupsPage() {
             <div className="flex h-8 w-8 items-center justify-center rounded-full bg-primary/10">
               <Users className="h-4 w-4 text-primary" />
             </div>
-            <Text as="span" weight="medium">{group.name}</Text>
+            <Text as="span" weight="medium">
+              {group.name}
+            </Text>
           </div>
         );
       },
     },
     {
-      accessorKey: 'description',
-      header: 'Description',
+      accessorKey: "description",
+      header: "Description",
       cell: ({ row }) => {
         const group = row.original;
         return (
           <Text as="span" size="sm" tone="muted">
-            {group.description || '-'}
+            {group.description || "-"}
           </Text>
         );
       },
     },
     {
-      accessorKey: 'member_count',
-      header: 'Members',
+      accessorKey: "member_count",
+      header: "Members",
       cell: ({ row }) => {
         const group = row.original;
         return (
           <Badge variant="outline">
-            {group.member_count || 0} member{(group.member_count || 0) !== 1 ? 's' : ''}
+            {group.member_count || 0} member
+            {(group.member_count || 0) !== 1 ? "s" : ""}
           </Badge>
         );
       },
     },
     {
-      accessorKey: 'status',
-      header: 'Status',
+      accessorKey: "status",
+      header: "Status",
       cell: ({ row }) => {
         const group = row.original;
         return (
-          <Badge variant={group.status === 'active' ? 'active' : 'inactive'}>
+          <Badge variant={group.status === "active" ? "active" : "inactive"}>
             {group.status}
           </Badge>
         );
       },
     },
     {
-      accessorKey: 'created_at',
-      header: 'Created',
+      accessorKey: "created_at",
+      header: "Created",
       cell: ({ row }) => {
         const group = row.original;
-        if (!group.created_at) return <Text as="span" tone="muted">-</Text>;
+        if (!group.created_at)
+          return (
+            <Text as="span" tone="muted">
+              -
+            </Text>
+          );
         return (
           <Text as="span" size="sm" tone="muted">
             {new Date(group.created_at).toLocaleDateString()}
@@ -178,7 +194,7 @@ export default function DistributionGroupsPage() {
       },
     },
     {
-      id: 'actions',
+      id: "actions",
       cell: ({ row }) => {
         const group = row.original;
         return (
@@ -250,7 +266,9 @@ export default function DistributionGroupsPage() {
         <PageTabs tabs={tabs} />
         <PageContainer>
           <div className="text-center py-12">
-            <Text tone="destructive">Error loading groups: {error.message}</Text>
+            <Text tone="destructive">
+              Error loading groups: {error.message}
+            </Text>
           </div>
         </PageContainer>
       </>
@@ -271,7 +289,10 @@ export default function DistributionGroupsPage() {
           <div className="flex items-center justify-between">
             <div>
               <Text as="p" size="sm" tone="muted">
-                <Text as="span" weight="medium">{groups.length}</Text> distribution group{groups.length !== 1 ? 's' : ''}
+                <Text as="span" weight="medium">
+                  {groups.length}
+                </Text>{" "}
+                distribution group{groups.length !== 1 ? "s" : ""}
               </Text>
             </div>
             <Button onClick={() => setIsAddDialogOpen(true)}>
@@ -284,9 +305,12 @@ export default function DistributionGroupsPage() {
           {groups.length === 0 ? (
             <div className="p-12 text-center border border-dashed rounded-lg">
               <Users className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-              <h3 className="text-lg font-semibold mb-2">No distribution groups found</h3>
+              <h3 className="text-lg font-semibold mb-2">
+                No distribution groups found
+              </h3>
               <Text tone="muted" className="mb-4">
-                Create distribution groups to easily send communications to multiple users at once.
+                Create distribution groups to easily send communications to
+                multiple users at once.
               </Text>
               <Button onClick={() => setIsAddDialogOpen(true)}>
                 <Plus className="mr-2 h-4 w-4" />
@@ -344,14 +368,17 @@ export default function DistributionGroupsPage() {
               onClick={handleCreateGroup}
               disabled={!newGroupName.trim() || createMutation.isPending}
             >
-              {createMutation.isPending ? 'Creating...' : 'Create Group'}
+              {createMutation.isPending ? "Creating..." : "Create Group"}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
       {/* Edit Group Dialog */}
-      <Dialog open={!!editingGroup} onOpenChange={(open) => !open && setEditingGroup(null)}>
+      <Dialog
+        open={!!editingGroup}
+        onOpenChange={(open) => !open && setEditingGroup(null)}
+      >
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Edit Distribution Group</DialogTitle>
@@ -388,20 +415,24 @@ export default function DistributionGroupsPage() {
               onClick={handleUpdateGroup}
               disabled={!newGroupName.trim() || updateMutation.isPending}
             >
-              {updateMutation.isPending ? 'Saving...' : 'Save Changes'}
+              {updateMutation.isPending ? "Saving..." : "Save Changes"}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
       {/* Delete Confirmation Dialog */}
-      <AlertDialog open={!!deletingGroup} onOpenChange={(open) => !open && setDeletingGroup(null)}>
+      <AlertDialog
+        open={!!deletingGroup}
+        onOpenChange={(open) => !open && setDeletingGroup(null)}
+      >
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Distribution Group</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete "{deletingGroup?.name}"? This action cannot be undone.
-              All members will be removed from this group.
+              Are you sure you want to delete "{deletingGroup?.name}"? This
+              action cannot be undone. All members will be removed from this
+              group.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -410,7 +441,7 @@ export default function DistributionGroupsPage() {
               onClick={handleDeleteGroup}
               className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
             >
-              {deleteMutation.isPending ? 'Deleting...' : 'Delete Group'}
+              {deleteMutation.isPending ? "Deleting..." : "Delete Group"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>

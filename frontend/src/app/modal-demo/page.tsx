@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Button } from '@/components/ui/button';
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
 import {
   OriginalBudgetModal,
   UnlockBudgetModal,
-  CreateBudgetLineItemsModal
-} from '@/components/budget/modals';
+  CreateBudgetLineItemsModal,
+} from "@/components/budget/modals";
 
 /**
  * Modal Demo Page
@@ -19,41 +19,41 @@ export default function ModalDemoPage() {
   const [openModal, setOpenModal] = useState<string | null>(null);
 
   const mockData = {
-    calculationMethod: 'unit_price' as const,
+    calculationMethod: "unit_price" as const,
     unitQty: 100,
-    uom: 'SF',
-    unitCost: 25.50,
-    originalBudget: 2550.00
+    uom: "SF",
+    unitCost: 25.5,
+    originalBudget: 2550.0,
   };
 
   const mockCostCodes = [
-    { code: '01-1000', description: 'General Conditions' },
-    { code: '01-3126', description: 'Foundation Work' },
-    { code: '01-3127', description: 'Framing Labor' },
-    { code: '01-3128', description: 'Concrete Work' },
-    { code: '03-1000', description: 'Concrete' },
-    { code: '04-2000', description: 'Masonry' },
-    { code: '05-1200', description: 'Structural Steel' }
+    { code: "01-1000", description: "General Conditions" },
+    { code: "01-3126", description: "Foundation Work" },
+    { code: "01-3127", description: "Framing Labor" },
+    { code: "01-3128", description: "Concrete Work" },
+    { code: "03-1000", description: "Concrete" },
+    { code: "04-2000", description: "Masonry" },
+    { code: "05-1200", description: "Structural Steel" },
   ];
 
   const handleSaveOriginalBudget = async (data: any) => {
-    console.log('Saving original budget:', data);
+    console.log("Saving original budget:", data);
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
-    alert('Budget saved successfully!');
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    alert("Budget saved successfully!");
   };
 
   const handleUnlockBudget = async () => {
-    console.log('Unlocking budget...');
+    console.log("Unlocking budget...");
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 500));
-    alert('Budget unlocked successfully!');
+    await new Promise((resolve) => setTimeout(resolve, 500));
+    alert("Budget unlocked successfully!");
   };
 
   const handleCreateLineItems = async (items: any) => {
-    console.log('Creating line items:', items);
+    console.log("Creating line items:", items);
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     alert(`Created ${items.length} budget line items!`);
   };
 
@@ -64,7 +64,8 @@ export default function ModalDemoPage() {
           Budget Modals Demo
         </h1>
         <p className="text-gray-600 mb-8">
-          Test the budget modals on different screen sizes. Resize your browser to see mobile responsiveness.
+          Test the budget modals on different screen sizes. Resize your browser
+          to see mobile responsiveness.
         </p>
 
         <div className="bg-white rounded-lg shadow p-6 space-y-6">
@@ -80,7 +81,7 @@ export default function ModalDemoPage() {
                   Edit budget amount with calculation methods
                 </p>
                 <Button
-                  onClick={() => setOpenModal('original-budget')}
+                  onClick={() => setOpenModal("original-budget")}
                   className="w-full bg-orange-500 hover:bg-orange-600"
                 >
                   Open Modal
@@ -94,7 +95,7 @@ export default function ModalDemoPage() {
                   Confirmation dialog for unlocking
                 </p>
                 <Button
-                  onClick={() => setOpenModal('unlock-budget')}
+                  onClick={() => setOpenModal("unlock-budget")}
                   className="w-full bg-orange-500 hover:bg-orange-600"
                 >
                   Open Modal
@@ -108,7 +109,7 @@ export default function ModalDemoPage() {
                   Add multiple budget line items
                 </p>
                 <Button
-                  onClick={() => setOpenModal('create-line-items')}
+                  onClick={() => setOpenModal("create-line-items")}
                   className="w-full bg-orange-500 hover:bg-orange-600"
                 >
                   Open Modal
@@ -124,35 +125,56 @@ export default function ModalDemoPage() {
             <ul className="space-y-2 text-sm text-gray-600">
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span><strong>Wider modals:</strong> Default max-w-4xl for better content display</span>
+                <span>
+                  <strong>Wider modals:</strong> Default max-w-4xl for better
+                  content display
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span><strong>Mobile responsive:</strong> Adapts layout for small screens</span>
+                <span>
+                  <strong>Mobile responsive:</strong> Adapts layout for small
+                  screens
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span><strong>Procore design:</strong> Dark header with white text</span>
+                <span>
+                  <strong>Procore design:</strong> Dark header with white text
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span><strong>Keyboard navigation:</strong> ESC to close, TAB to navigate</span>
+                <span>
+                  <strong>Keyboard navigation:</strong> ESC to close, TAB to
+                  navigate
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span><strong>Real-time calculations:</strong> Original Budget = Qty × Cost</span>
+                <span>
+                  <strong>Real-time calculations:</strong> Original Budget = Qty
+                  × Cost
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span><strong>Validation:</strong> Form validation before submission</span>
+                <span>
+                  <strong>Validation:</strong> Form validation before submission
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span><strong>Loading states:</strong> Disabled buttons during save</span>
+                <span>
+                  <strong>Loading states:</strong> Disabled buttons during save
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                <span><strong>Unsaved changes warning:</strong> Confirmation before closing</span>
+                <span>
+                  <strong>Unsaved changes warning:</strong> Confirmation before
+                  closing
+                </span>
               </li>
             </ul>
           </div>
@@ -163,7 +185,10 @@ export default function ModalDemoPage() {
             </h2>
             <ol className="space-y-2 text-sm text-gray-600 list-decimal list-inside">
               <li>Open each modal to verify appearance</li>
-              <li>Resize browser to test responsive behavior (mobile, tablet, desktop)</li>
+              <li>
+                Resize browser to test responsive behavior (mobile, tablet,
+                desktop)
+              </li>
               <li>Test keyboard navigation (ESC to close)</li>
               <li>Test form validation in editable modals</li>
               <li>Verify calculation updates in Original Budget modal</li>
@@ -175,7 +200,7 @@ export default function ModalDemoPage() {
 
       {/* Modals */}
       <OriginalBudgetModal
-        isOpen={openModal === 'original-budget'}
+        isOpen={openModal === "original-budget"}
         onClose={() => setOpenModal(null)}
         costCode="01-3126"
         budgetLineId="test-123"
@@ -184,13 +209,13 @@ export default function ModalDemoPage() {
       />
 
       <UnlockBudgetModal
-        isOpen={openModal === 'unlock-budget'}
+        isOpen={openModal === "unlock-budget"}
         onClose={() => setOpenModal(null)}
         onConfirm={handleUnlockBudget}
       />
 
       <CreateBudgetLineItemsModal
-        isOpen={openModal === 'create-line-items'}
+        isOpen={openModal === "create-line-items"}
         onClose={() => setOpenModal(null)}
         onSave={handleCreateLineItems}
         availableCostCodes={mockCostCodes}

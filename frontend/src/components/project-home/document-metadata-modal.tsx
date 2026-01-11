@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { ExternalLink, FileText, Calendar, Clock } from 'lucide-react';
+import * as React from "react";
+import { ExternalLink, FileText, Calendar, Clock } from "lucide-react";
 import {
   Dialog,
   DialogContent,
   DialogHeader,
   DialogTitle,
   DialogDescription,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -16,11 +16,12 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { createClient } from '@/lib/supabase/client';
-import { Database } from '@/types/database.types';
+} from "@/components/ui/table";
+import { createClient } from "@/lib/supabase/client";
+import { Database } from "@/types/database.types";
 
-type DocumentMetadata = Database['public']['Tables']['document_metadata']['Row'];
+type DocumentMetadata =
+  Database["public"]["Tables"]["document_metadata"]["Row"];
 
 interface DocumentMetadataModalProps {
   open: boolean;
@@ -30,16 +31,16 @@ interface DocumentMetadataModalProps {
 }
 
 function formatDate(date: string | null): string {
-  if (!date) return '-';
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
+  if (!date) return "-";
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
   }).format(new Date(date));
 }
 
 function formatDuration(minutes: number | null): string {
-  if (!minutes) return '-';
+  if (!minutes) return "-";
   const hours = Math.floor(minutes / 60);
   const mins = minutes % 60;
   if (hours > 0) {
@@ -69,14 +70,14 @@ export function DocumentMetadataModal({
         const supabase = createClient();
 
         let query = supabase
-          .from('document_metadata')
-          .select('*')
-          .order('date', { ascending: false });
+          .from("document_metadata")
+          .select("*")
+          .order("date", { ascending: false });
 
         // Filter by project if projectId is a number
         const projectIdNum = parseInt(projectId, 10);
         if (!isNaN(projectIdNum)) {
-          query = query.eq('project_id', projectIdNum);
+          query = query.eq("project_id", projectIdNum);
         }
 
         const { data, error: fetchError } = await query.limit(50);
@@ -87,8 +88,10 @@ export function DocumentMetadataModal({
 
         setDocuments(data || []);
       } catch (err) {
-        console.error('Error fetching documents:', err);
-        setError(err instanceof Error ? err.message : 'Failed to load documents');
+        console.error("Error fetching documents:", err);
+        setError(
+          err instanceof Error ? err.message : "Failed to load documents",
+        );
       } finally {
         setIsLoading(false);
       }
@@ -157,14 +160,16 @@ export function DocumentMetadataModal({
                 {documents.map((doc) => (
                   <TableRow key={doc.id}>
                     <TableCell className="font-medium max-w-[200px] truncate">
-                      {doc.title || 'Untitled'}
+                      {doc.title || "Untitled"}
                     </TableCell>
                     <TableCell>{formatDate(doc.date)}</TableCell>
-                    <TableCell>{formatDuration(doc.duration_minutes)}</TableCell>
+                    <TableCell>
+                      {formatDuration(doc.duration_minutes)}
+                    </TableCell>
                     <TableCell>
                       {(doc.url || doc.fireflies_link) && (
                         <a
-                          href={doc.url || doc.fireflies_link || '#'}
+                          href={doc.url || doc.fireflies_link || "#"}
                           target="_blank"
                           rel="noopener noreferrer"
                           className="text-blue-600 hover:text-blue-800"
@@ -182,7 +187,8 @@ export function DocumentMetadataModal({
 
         {!isLoading && documents.length > 0 && (
           <div className="pt-4 border-t text-sm text-gray-500">
-            Showing {documents.length} document{documents.length !== 1 ? 's' : ''}
+            Showing {documents.length} document
+            {documents.length !== 1 ? "s" : ""}
           </div>
         )}
       </DialogContent>

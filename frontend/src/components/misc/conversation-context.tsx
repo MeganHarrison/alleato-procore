@@ -11,13 +11,17 @@ interface ConversationContextProps {
 export function ConversationContext({ context }: ConversationContextProps) {
   const formatValue = (value: any) => {
     if (value === null || value === undefined || value === "") return "null";
-    if (typeof value === "string" || typeof value === "number" || typeof value === "boolean") {
+    if (
+      typeof value === "string" ||
+      typeof value === "number" ||
+      typeof value === "boolean"
+    ) {
       return String(value);
     }
     if (Array.isArray(value)) {
       if (value.length === 0) return "[]";
-      const primitives = value.every(
-        (item) => ["string", "number", "boolean"].includes(typeof item)
+      const primitives = value.every((item) =>
+        ["string", "number", "boolean"].includes(typeof item),
       );
       if (primitives && value.length <= 3) {
         return value.join(", ");
@@ -54,7 +58,9 @@ export function ConversationContext({ context }: ConversationContextProps) {
                         <div className="text-zinc-500 font-light">{key}:</div>
                         <span
                           className={
-                            value ? "text-zinc-900 font-light break-words" : "text-gray-400 italic"
+                            value
+                              ? "text-zinc-900 font-light break-words"
+                              : "text-gray-400 italic"
                           }
                         >
                           {rendered}

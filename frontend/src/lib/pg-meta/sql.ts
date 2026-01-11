@@ -108,7 +108,7 @@ WHERE
       'SELECT, INSERT, UPDATE, REFERENCES'
     )
   )
-`
+`;
 
 export const tablesSql = `
 SELECT
@@ -209,7 +209,7 @@ group by
   c.relreplident,
   nc.nspname,
   pk.primary_keys
-`
+`;
 
 export const extensionsSql = `
 SELECT
@@ -222,4 +222,4 @@ FROM
   pg_available_extensions() e(name, default_version, comment)
   LEFT JOIN pg_extension x ON e.name = x.extname
   LEFT JOIN pg_namespace n ON x.extnamespace = n.oid
-`
+`;

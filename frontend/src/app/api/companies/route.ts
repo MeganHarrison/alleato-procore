@@ -1,28 +1,28 @@
-import { createClient } from '@/lib/supabase/server';
-import { NextResponse } from 'next/server';
-import type { Company } from '@/app/api/types';
+import { createClient } from "@/lib/supabase/server";
+import { NextResponse } from "next/server";
+import type { Company } from "@/app/api/types";
 
 export async function GET(request: Request) {
   try {
     const supabase = await createClient();
     const { searchParams } = new URL(request.url);
 
-    const type = searchParams.get('type');
-    const search = searchParams.get('search');
+    const type = searchParams.get("type");
+    const search = searchParams.get("search");
 
     let query = supabase
-      .from('companies')
-      .select('*')
-      .order('name', { ascending: true });
+      .from("companies")
+      .select("*")
+      .order("name", { ascending: true });
 
     if (type) {
       // Allow filtering by multiple types using comma separation
-      const types = type.split(',');
-      query = query.in('type', types);
+      const types = type.split(",");
+      query = query.in("type", types);
     }
 
     if (search) {
-      query = query.ilike('name', `%${search}%`);
+      query = query.ilike("name", `%${search}%`);
     }
 
     const { data, error } = await query;
@@ -36,13 +36,13 @@ export async function GET(request: Request) {
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
-        { error: 'Internal server error', message: error.message },
-        { status: 500 }
+        { error: "Internal server error", message: error.message },
+        { status: 500 },
       );
     }
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -53,7 +53,7 @@ export async function POST(request: Request) {
     const body = await request.json();
 
     const { data, error } = await supabase
-      .from('companies')
+      .from("companies")
       .insert({
         name: body.name,
         address: body.address,
@@ -73,13 +73,13 @@ export async function POST(request: Request) {
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
-        { error: 'Internal server error', message: error.message },
-        { status: 500 }
+        { error: "Internal server error", message: error.message },
+        { status: 500 },
       );
     }
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

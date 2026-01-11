@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { FormField } from "./FormField"
-import { cn } from "@/lib/utils"
-import { Bold, Italic, Underline, List, ListOrdered, Link } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Separator } from "@/components/ui/separator"
+import * as React from "react";
+import { FormField } from "./FormField";
+import { cn } from "@/lib/utils";
+import { Bold, Italic, Underline, List, ListOrdered, Link } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
 
 interface RichTextFieldProps {
-  label: string
-  value?: string
-  onChange?: (value: string) => void
-  error?: string
-  hint?: string
-  required?: boolean
-  fullWidth?: boolean
-  className?: string
-  disabled?: boolean
-  placeholder?: string
+  label: string;
+  value?: string;
+  onChange?: (value: string) => void;
+  error?: string;
+  hint?: string;
+  required?: boolean;
+  fullWidth?: boolean;
+  className?: string;
+  disabled?: boolean;
+  placeholder?: string;
 }
 
 export function RichTextField({
@@ -32,24 +32,24 @@ export function RichTextField({
   disabled = false,
   placeholder,
 }: RichTextFieldProps) {
-  const editorRef = React.useRef<HTMLDivElement>(null)
+  const editorRef = React.useRef<HTMLDivElement>(null);
 
   const execCommand = (command: string, value?: string) => {
-    document.execCommand(command, false, value)
-    editorRef.current?.focus()
-  }
+    document.execCommand(command, false, value);
+    editorRef.current?.focus();
+  };
 
   const handleInput = () => {
     if (editorRef.current) {
-      onChange?.(editorRef.current.innerHTML)
+      onChange?.(editorRef.current.innerHTML);
     }
-  }
+  };
 
   React.useEffect(() => {
     if (editorRef.current && editorRef.current.innerHTML !== value) {
-      editorRef.current.innerHTML = value
+      editorRef.current.innerHTML = value;
     }
-  }, [value])
+  }, [value]);
 
   return (
     <FormField
@@ -59,12 +59,14 @@ export function RichTextField({
       required={required}
       fullWidth={fullWidth}
     >
-      <div className={cn(
-        "rounded-md border",
-        error && "border-red-300",
-        disabled && "opacity-50",
-        className
-      )}>
+      <div
+        className={cn(
+          "rounded-md border",
+          error && "border-red-300",
+          disabled && "opacity-50",
+          className,
+        )}
+      >
         <div className="flex items-center gap-1 border-b p-2">
           <Button
             size="sm"
@@ -123,5 +125,5 @@ export function RichTextField({
         />
       </div>
     </FormField>
-  )
+  );
 }

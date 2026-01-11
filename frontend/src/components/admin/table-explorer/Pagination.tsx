@@ -1,16 +1,21 @@
-'use client';
+"use client";
 
-import { useCallback, useTransition } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useCallback, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import {
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 
 interface PaginationProps {
   totalCount: number;
@@ -20,7 +25,11 @@ interface PaginationProps {
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 
-export function Pagination({ totalCount, pageSize, currentPage }: PaginationProps) {
+export function Pagination({
+  totalCount,
+  pageSize,
+  currentPage,
+}: PaginationProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
@@ -45,7 +54,7 @@ export function Pagination({ totalCount, pageSize, currentPage }: PaginationProp
         router.push(`?${params.toString()}`);
       });
     },
-    [router, searchParams]
+    [router, searchParams],
   );
 
   const goToPage = (page: number) => {
@@ -58,7 +67,7 @@ export function Pagination({ totalCount, pageSize, currentPage }: PaginationProp
 
   const handlePageSizeChange = (newSize: string) => {
     updateParams({
-      limit: newSize === '25' ? null : newSize,
+      limit: newSize === "25" ? null : newSize,
       page: null, // Reset to first page
     });
   };

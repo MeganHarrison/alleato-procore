@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 import {
   Search,
   ChevronDown,
@@ -12,16 +12,16 @@ import {
   SlidersHorizontal,
   FileText,
   Plus,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   Sheet,
   SheetContent,
@@ -29,9 +29,9 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet';
-import { PortfolioViewType } from '@/types/portfolio';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/sheet";
+import { PortfolioViewType } from "@/types/portfolio";
+import { cn } from "@/lib/utils";
 
 interface PortfolioFiltersProps {
   searchQuery: string;
@@ -52,7 +52,7 @@ interface PortfolioFiltersProps {
   onClientFilterChange?: (value: string | null) => void;
   clientOptions?: string[];
   // Action buttons for mobile
-  onExport?: (format: 'pdf' | 'csv') => void;
+  onExport?: (format: "pdf" | "csv") => void;
   onCreateProject?: () => void;
   // Legacy props for backwards compatibility
   statusFilter?: any;
@@ -89,15 +89,20 @@ export function PortfolioFilters({
 }: PortfolioFiltersProps) {
   const [filterSheetOpen, setFilterSheetOpen] = React.useState(false);
 
-  const viewTypes: { value: PortfolioViewType; icon: React.ElementType; label: string }[] = [
-    { value: 'list', icon: List, label: 'List View' },
-    { value: 'thumbnails', icon: LayoutGrid, label: 'Thumbnails View' },
-    { value: 'overview', icon: BarChart3, label: 'Overview' },
-    { value: 'map', icon: MapIcon, label: 'Map View' },
+  const viewTypes: {
+    value: PortfolioViewType;
+    icon: React.ElementType;
+    label: string;
+  }[] = [
+    { value: "list", icon: List, label: "List View" },
+    { value: "thumbnails", icon: LayoutGrid, label: "Thumbnails View" },
+    { value: "overview", icon: BarChart3, label: "Overview" },
+    { value: "map", icon: MapIcon, label: "Map View" },
   ];
 
-  const activeFiltersCount =
-    [phaseFilter, categoryFilter, clientFilter].filter((value) => value && value.length > 0).length;
+  const activeFiltersCount = [phaseFilter, categoryFilter, clientFilter].filter(
+    (value) => value && value.length > 0,
+  ).length;
 
   return (
     <div className="flex items-center justify-between py-3 gap-2">
@@ -117,7 +122,11 @@ export function PortfolioFilters({
         {/* Filter Sheet Trigger */}
         <Sheet open={filterSheetOpen} onOpenChange={setFilterSheetOpen}>
           <SheetTrigger asChild>
-            <Button variant="outline" size="sm" className="relative h-9 shrink-0 px-2">
+            <Button
+              variant="outline"
+              size="sm"
+              className="relative h-9 shrink-0 px-2"
+            >
               <SlidersHorizontal className="w-4 h-4" />
               {activeFiltersCount > 0 && (
                 <span className="absolute -top-1 -right-1 flex h-5 w-5 items-center justify-center rounded-full bg-brand text-[10px] font-bold text-white">
@@ -138,7 +147,9 @@ export function PortfolioFilters({
               {/* View Type Selection */}
               {!hideViewToggle && (
                 <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-gray-900">View Type</h3>
+                  <h3 className="text-sm font-semibold text-gray-900">
+                    View Type
+                  </h3>
                   <div className="grid grid-cols-2 gap-2">
                     {viewTypes.map((type) => {
                       const Icon = type.icon;
@@ -150,14 +161,16 @@ export function PortfolioFilters({
                             onViewTypeChange(type.value);
                           }}
                           className={cn(
-                            'flex items-center gap-3 p-3 rounded-lg border-2 transition-all',
+                            "flex items-center gap-3 p-3 rounded-lg border-2 transition-all",
                             viewType === type.value
-                              ? 'border-brand bg-brand/5 text-brand'
-                              : 'border-gray-200 text-gray-600 hover:border-gray-300'
+                              ? "border-brand bg-brand/5 text-brand"
+                              : "border-gray-200 text-gray-600 hover:border-gray-300",
                           )}
                         >
                           <Icon className="w-5 h-5" />
-                          <span className="text-sm font-medium">{type.label}</span>
+                          <span className="text-sm font-medium">
+                            {type.label}
+                          </span>
                         </button>
                       );
                     })}
@@ -168,20 +181,24 @@ export function PortfolioFilters({
               {/* Client Filter */}
               {onClientFilterChange && (
                 <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-gray-900">Client</h3>
+                  <h3 className="text-sm font-semibold text-gray-900">
+                    Client
+                  </h3>
                   <div className="space-y-2">
                     {clientOptions?.map((client) => (
                       <button
                         type="button"
                         key={client}
                         onClick={() => {
-                          onClientFilterChange(client === clientFilter ? null : client);
+                          onClientFilterChange(
+                            client === clientFilter ? null : client,
+                          );
                         }}
                         className={cn(
-                          'w-full flex items-center justify-between p-3 rounded-lg border transition-all',
+                          "w-full flex items-center justify-between p-3 rounded-lg border transition-all",
                           clientFilter === client
-                            ? 'border-brand bg-brand/5 text-brand font-medium'
-                            : 'border-gray-200 text-gray-700 hover:border-gray-300'
+                            ? "border-brand bg-brand/5 text-brand font-medium"
+                            : "border-gray-200 text-gray-700 hover:border-gray-300",
                         )}
                       >
                         <span>{client}</span>
@@ -203,14 +220,16 @@ export function PortfolioFilters({
                       type="button"
                       onClick={() => onPhaseFilterChange(null)}
                       className={cn(
-                        'w-full flex items-center justify-between p-3 rounded-lg border transition-all',
+                        "w-full flex items-center justify-between p-3 rounded-lg border transition-all",
                         !phaseFilter
-                          ? 'border-brand bg-brand/5 text-brand font-medium'
-                          : 'border-gray-200 text-gray-700 hover:border-gray-300'
+                          ? "border-brand bg-brand/5 text-brand font-medium"
+                          : "border-gray-200 text-gray-700 hover:border-gray-300",
                       )}
                     >
                       <span>All Phases</span>
-                      {!phaseFilter && <div className="w-2 h-2 rounded-full bg-brand" />}
+                      {!phaseFilter && (
+                        <div className="w-2 h-2 rounded-full bg-brand" />
+                      )}
                     </button>
                     {phaseOptions?.map((phase) => (
                       <button
@@ -218,10 +237,10 @@ export function PortfolioFilters({
                         key={phase}
                         onClick={() => onPhaseFilterChange(phase)}
                         className={cn(
-                          'w-full flex items-center justify-between p-3 rounded-lg border transition-all capitalize',
+                          "w-full flex items-center justify-between p-3 rounded-lg border transition-all capitalize",
                           phaseFilter === phase
-                            ? 'border-brand bg-brand/5 text-brand font-medium'
-                            : 'border-gray-200 text-gray-700 hover:border-gray-300'
+                            ? "border-brand bg-brand/5 text-brand font-medium"
+                            : "border-gray-200 text-gray-700 hover:border-gray-300",
                         )}
                       >
                         <span>{phase}</span>
@@ -237,20 +256,24 @@ export function PortfolioFilters({
               {/* Category Filter */}
               {onCategoryFilterChange && (
                 <div className="space-y-3">
-                  <h3 className="text-sm font-semibold text-gray-900">Category</h3>
+                  <h3 className="text-sm font-semibold text-gray-900">
+                    Category
+                  </h3>
                   <div className="space-y-2">
                     {categoryOptions?.map((category) => (
                       <button
                         type="button"
                         key={category}
                         onClick={() => {
-                          onCategoryFilterChange(category === categoryFilter ? null : category);
+                          onCategoryFilterChange(
+                            category === categoryFilter ? null : category,
+                          );
                         }}
                         className={cn(
-                          'w-full flex items-center justify-between p-3 rounded-lg border transition-all',
+                          "w-full flex items-center justify-between p-3 rounded-lg border transition-all",
                           categoryFilter === category
-                            ? 'border-brand bg-brand/5 text-brand font-medium'
-                            : 'border-gray-200 text-gray-700 hover:border-gray-300'
+                            ? "border-brand bg-brand/5 text-brand font-medium"
+                            : "border-gray-200 text-gray-700 hover:border-gray-300",
                         )}
                       >
                         <span>{category}</span>
@@ -277,7 +300,6 @@ export function PortfolioFilters({
                   Clear All Filters
                 </Button>
               )}
-              
             </div>
           </SheetContent>
         </Sheet>
@@ -291,10 +313,10 @@ export function PortfolioFilters({
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => onExport('pdf')}>
+              <DropdownMenuItem onClick={() => onExport("pdf")}>
                 Export to PDF
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onExport('csv')}>
+              <DropdownMenuItem onClick={() => onExport("csv")}>
                 Export to CSV
               </DropdownMenuItem>
             </DropdownMenuContent>
@@ -303,7 +325,10 @@ export function PortfolioFilters({
 
         {/* Create Project - Mobile */}
         {onCreateProject && (
-          <Button onClick={onCreateProject} className="bg-brand text-white hover:bg-brand/90 h-9 px-2 shrink-0">
+          <Button
+            onClick={onCreateProject}
+            className="bg-brand text-white hover:bg-brand/90 h-9 px-2 shrink-0"
+          >
             <Plus className="w-4 h-4" />
           </Button>
         )}
@@ -327,14 +352,17 @@ export function PortfolioFilters({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="h-9 text-sm">
-                {clientFilter || 'Client'}
+                {clientFilter || "Client"}
                 <ChevronDown className="w-4 h-4 ml-2 shrink-0" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="min-w-[12rem]">
               {clientOptions?.length ? (
                 clientOptions.map((client) => (
-                  <DropdownMenuItem key={client} onClick={() => onClientFilterChange(client)}>
+                  <DropdownMenuItem
+                    key={client}
+                    onClick={() => onClientFilterChange(client)}
+                  >
                     {client}
                   </DropdownMenuItem>
                 ))
@@ -358,7 +386,7 @@ export function PortfolioFilters({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="h-9 text-sm capitalize">
-                {phaseFilter || 'All Phases'}
+                {phaseFilter || "All Phases"}
                 <ChevronDown className="w-4 h-4 ml-2 shrink-0" />
               </Button>
             </DropdownMenuTrigger>
@@ -370,7 +398,10 @@ export function PortfolioFilters({
                 <>
                   <DropdownMenuSeparator />
                   {phaseOptions.map((phase) => (
-                    <DropdownMenuItem key={phase} onClick={() => onPhaseFilterChange(phase)}>
+                    <DropdownMenuItem
+                      key={phase}
+                      onClick={() => onPhaseFilterChange(phase)}
+                    >
                       <span className="capitalize">{phase}</span>
                     </DropdownMenuItem>
                   ))}
@@ -385,24 +416,31 @@ export function PortfolioFilters({
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline" className="h-9 text-sm">
-                {categoryFilter || 'Category'}
+                {categoryFilter || "Category"}
                 <ChevronDown className="w-4 h-4 ml-2 shrink-0" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="min-w-[12rem]">
               {categoryOptions?.length ? (
                 categoryOptions.map((category) => (
-                  <DropdownMenuItem key={category} onClick={() => onCategoryFilterChange(category)}>
+                  <DropdownMenuItem
+                    key={category}
+                    onClick={() => onCategoryFilterChange(category)}
+                  >
                     {category}
                   </DropdownMenuItem>
                 ))
               ) : (
-                <DropdownMenuItem disabled>No categories found</DropdownMenuItem>
+                <DropdownMenuItem disabled>
+                  No categories found
+                </DropdownMenuItem>
               )}
               {categoryFilter && (
                 <>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => onCategoryFilterChange(null)}>
+                  <DropdownMenuItem
+                    onClick={() => onCategoryFilterChange(null)}
+                  >
                     Clear filter
                   </DropdownMenuItem>
                 </>
@@ -471,10 +509,10 @@ export function PortfolioFilters({
                 key={type.value}
                 onClick={() => onViewTypeChange(type.value)}
                 className={cn(
-                  'p-2 rounded transition-colors',
+                  "p-2 rounded transition-colors",
                   viewType === type.value
-                    ? 'bg-gray-100 text-gray-900'
-                    : 'text-gray-400 hover:text-gray-600 hover:bg-gray-50'
+                    ? "bg-gray-100 text-gray-900"
+                    : "text-gray-400 hover:text-gray-600 hover:bg-gray-50",
                 )}
                 title={type.label}
               >

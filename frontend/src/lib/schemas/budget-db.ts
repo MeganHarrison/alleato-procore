@@ -7,13 +7,13 @@
  * IMPORTANT: These use snake_case to match PostgreSQL column names exactly.
  */
 
-import { z } from 'zod';
-import type { Database } from '@/types/database.types';
+import { z } from "zod";
+import type { Database } from "@/types/database.types";
 
 // Extract the actual database types
-type _BudgetLineRow = Database['public']['Tables']['budget_lines']['Row'];
-type BudgetLineInsert = Database['public']['Tables']['budget_lines']['Insert'];
-type BudgetLineUpdate = Database['public']['Tables']['budget_lines']['Update'];
+type _BudgetLineRow = Database["public"]["Tables"]["budget_lines"]["Row"];
+type BudgetLineInsert = Database["public"]["Tables"]["budget_lines"]["Insert"];
+type BudgetLineUpdate = Database["public"]["Tables"]["budget_lines"]["Update"];
 
 /**
  * BUDGET LINE INSERT SCHEMA
@@ -22,9 +22,9 @@ type BudgetLineUpdate = Database['public']['Tables']['budget_lines']['Update'];
  */
 export const BudgetLineInsertSchema = z.object({
   // Required fields
-  project_id: z.number().int().positive('Project ID required'),
-  cost_code_id: z.string().uuid('Cost code ID must be valid UUID'),
-  cost_type_id: z.string().uuid('Cost type ID must be valid UUID'),
+  project_id: z.number().int().positive("Project ID required"),
+  cost_code_id: z.string().uuid("Cost code ID must be valid UUID"),
+  cost_type_id: z.string().uuid("Cost type ID must be valid UUID"),
   original_amount: z.number().default(0),
 
   // Optional fields
@@ -38,7 +38,10 @@ export const BudgetLineInsertSchema = z.object({
 
   // Forecasting fields
   forecasting_enabled: z.boolean().default(false),
-  default_ftc_method: z.enum(['manual', 'automatic', 'lump_sum', 'monitored_resources']).nullable().optional(),
+  default_ftc_method: z
+    .enum(["manual", "automatic", "lump_sum", "monitored_resources"])
+    .nullable()
+    .optional(),
   default_curve_id: z.string().uuid().nullable().optional(),
 
   // Audit fields (auto-populated by triggers, but can be overridden)
@@ -57,7 +60,10 @@ export const BudgetLineUpdateSchema = z.object({
   unit_of_measure: z.string().trim().nullable().optional(),
   original_amount: z.number().optional(),
   forecasting_enabled: z.boolean().optional(),
-  default_ftc_method: z.enum(['manual', 'automatic', 'lump_sum', 'monitored_resources']).nullable().optional(),
+  default_ftc_method: z
+    .enum(["manual", "automatic", "lump_sum", "monitored_resources"])
+    .nullable()
+    .optional(),
   default_curve_id: z.string().uuid().nullable().optional(),
   updated_by: z.string().uuid().nullable().optional(),
 }) satisfies z.ZodType<Partial<BudgetLineUpdate>>;
@@ -70,7 +76,7 @@ export const BudgetModificationInsertSchema = z.object({
   project_id: z.number().int().positive(),
   from_budget_line_id: z.string().uuid(),
   to_budget_line_id: z.string().uuid(),
-  amount: z.number().refine(val => val !== 0, 'Amount cannot be zero'),
+  amount: z.number().refine((val) => val !== 0, "Amount cannot be zero"),
   description: z.string().trim().nullable().optional(),
   created_by: z.string().uuid().nullable().optional(),
 });
@@ -80,8 +86,10 @@ export const BudgetModificationInsertSchema = z.object({
  * For creating multiple budget lines at once
  */
 export const BulkBudgetLineInsertSchema = z.object({
-  project_id: z.number().int().positive('Project ID required'),
-  budget_lines: z.array(BudgetLineInsertSchema).min(1, 'At least one budget line required'),
+  project_id: z.number().int().positive("Project ID required"),
+  budget_lines: z
+    .array(BudgetLineInsertSchema)
+    .min(1, "At least one budget line required"),
 });
 
 /**
@@ -90,8 +98,12 @@ export const BulkBudgetLineInsertSchema = z.object({
  */
 export type BudgetLineInsertInput = z.infer<typeof BudgetLineInsertSchema>;
 export type BudgetLineUpdateInput = z.infer<typeof BudgetLineUpdateSchema>;
-export type BudgetModificationInsertInput = z.infer<typeof BudgetModificationInsertSchema>;
-export type BulkBudgetLineInsertInput = z.infer<typeof BulkBudgetLineInsertSchema>;
+export type BudgetModificationInsertInput = z.infer<
+  typeof BudgetModificationInsertSchema
+>;
+export type BulkBudgetLineInsertInput = z.infer<
+  typeof BulkBudgetLineInsertSchema
+>;
 
 /**
  * VALIDATION HELPERS
@@ -105,11 +117,15 @@ export function validateBudgetLineUpdate(data: unknown): BudgetLineUpdateInput {
   return BudgetLineUpdateSchema.parse(data);
 }
 
-export function validateBudgetModification(data: unknown): BudgetModificationInsertInput {
+export function validateBudgetModification(
+  data: unknown,
+): BudgetModificationInsertInput {
   return BudgetModificationInsertSchema.parse(data);
 }
 
-export function validateBulkBudgetLineInsert(data: unknown): BulkBudgetLineInsertInput {
+export function validateBulkBudgetLineInsert(
+  data: unknown,
+): BulkBudgetLineInsertInput {
   return BulkBudgetLineInsertSchema.parse(data);
 }
 

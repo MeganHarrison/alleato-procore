@@ -1,7 +1,16 @@
-import type { Agent, AgentEvent, GuardrailCheck, ChatSourceSnippet } from "@/lib/types";
+import type {
+  Agent,
+  AgentEvent,
+  GuardrailCheck,
+  ChatSourceSnippet,
+} from "@/lib/types";
 
-type SerializedAgentEvent = Omit<AgentEvent, "timestamp"> & { timestamp: string };
-type SerializedGuardrailCheck = Omit<GuardrailCheck, "timestamp"> & { timestamp: string };
+type SerializedAgentEvent = Omit<AgentEvent, "timestamp"> & {
+  timestamp: string;
+};
+type SerializedGuardrailCheck = Omit<GuardrailCheck, "timestamp"> & {
+  timestamp: string;
+};
 
 export interface RagThreadStatePayload {
   thread_id: string;
@@ -21,7 +30,9 @@ export interface OfflineSimpleChatResponse {
   diagnostics?: Record<string, string>;
 }
 
-export function buildOfflineThreadState(threadId = "offline-demo-thread"): RagThreadStatePayload {
+export function buildOfflineThreadState(
+  threadId = "offline-demo-thread",
+): RagThreadStatePayload {
   const timestamp = new Date().toISOString();
   const agents: Agent[] = [
     {
@@ -69,7 +80,8 @@ export function buildOfflineThreadState(threadId = "offline-demo-thread"): RagTh
       id: "offline-event-2",
       type: "context_update",
       agent: "project",
-      content: "Loaded cached context so the UI can render without a live connection.",
+      content:
+        "Loaded cached context so the UI can render without a live connection.",
       timestamp,
       metadata: {
         context_key: "offline_context",
@@ -83,7 +95,8 @@ export function buildOfflineThreadState(threadId = "offline-demo-thread"): RagTh
       id: "offline-guardrail-1",
       name: "Backend availability",
       input: "Python backend",
-      reasoning: "No response received from the Python backend. Showing demo data instead.",
+      reasoning:
+        "No response received from the Python backend. Showing demo data instead.",
       passed: false,
       timestamp,
     },
@@ -111,7 +124,10 @@ export function buildOfflineStateResponse(threadId: string | null) {
   return buildOfflineThreadState(threadId ?? "offline-demo-thread");
 }
 
-export function buildOfflineSimpleChatResponse(message: string, threadId?: string | null): OfflineSimpleChatResponse {
+export function buildOfflineSimpleChatResponse(
+  message: string,
+  threadId?: string | null,
+): OfflineSimpleChatResponse {
   const normalizedMessage = message?.trim() || "your request";
   const timestamp = new Date().toISOString();
 
@@ -134,6 +150,6 @@ export function buildOfflineSimpleChatResponse(message: string, threadId?: strin
     ],
     thread_id: threadId ?? null,
     offline: true,
-    notice: 'offline-demo-response',
+    notice: "offline-demo-response",
   };
 }

@@ -1,32 +1,39 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { ProjectPageHeader, PageContainer, PageTabs } from "@/components/layout"
-import { SummaryCardGrid, type SummaryCard } from "@/components/ui/summary-card-grid"
-import { DataTableResponsive } from "@/components/tables"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Skeleton } from "@/components/ui/skeleton"
-import { cn } from "@/lib/utils"
-import { ColumnDef } from "@tanstack/react-table"
+import * as React from "react";
+import {
+  ProjectPageHeader,
+  PageContainer,
+  PageTabs,
+} from "@/components/layout";
+import {
+  SummaryCardGrid,
+  type SummaryCard,
+} from "@/components/ui/summary-card-grid";
+import { DataTableResponsive } from "@/components/tables";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+import { ColumnDef } from "@tanstack/react-table";
 
 /**
  * Tab configuration for page navigation
  */
 export interface TabConfig {
-  label: string
-  href: string
-  count?: number
-  isActive?: boolean
+  label: string;
+  href: string;
+  count?: number;
+  isActive?: boolean;
 }
 
 /**
  * Filter option for the data table
  */
 export interface FilterOption {
-  column: string
-  title: string
-  options: { label: string; value: string }[]
+  column: string;
+  title: string;
+  options: { label: string; value: string }[];
 }
 
 /**
@@ -34,54 +41,54 @@ export interface FilterOption {
  */
 export interface DataTablePageProps<TData> {
   /** Page title displayed in the header */
-  title: string
+  title: string;
   /** Optional description below the title */
-  description?: string
+  description?: string;
   /** Summary cards to display above the table */
-  summaryCards?: SummaryCard[]
+  summaryCards?: SummaryCard[];
   /** Tab navigation configuration */
-  tabs?: TabConfig[]
+  tabs?: TabConfig[];
   /** Action buttons for the header (e.g., "Create New" button) */
-  actions?: React.ReactNode
+  actions?: React.ReactNode;
   /** TanStack Table column definitions */
-  columns: ColumnDef<TData, unknown>[]
+  columns: ColumnDef<TData, unknown>[];
   /** Data to display in the table */
-  data: TData[]
+  data: TData[];
   /** Loading state */
-  loading?: boolean
+  loading?: boolean;
   /** Error state */
-  error?: string | null
+  error?: string | null;
   /** Retry callback for error state */
-  onRetry?: () => void
+  onRetry?: () => void;
   /** Empty state message */
-  emptyMessage?: string
+  emptyMessage?: string;
   /** Empty state action */
-  emptyAction?: React.ReactNode
+  emptyAction?: React.ReactNode;
   /** Row click handler */
-  onRowClick?: (row: TData) => void
+  onRowClick?: (row: TData) => void;
   /** Search configuration */
-  searchKey?: string
-  searchPlaceholder?: string
+  searchKey?: string;
+  searchPlaceholder?: string;
   /** Filter options */
-  filterOptions?: FilterOption[]
+  filterOptions?: FilterOption[];
   /** Columns to show on mobile */
-  mobileColumns?: string[]
+  mobileColumns?: string[];
   /** Custom mobile card renderer */
-  mobileCardRenderer?: (row: TData) => React.ReactNode
+  mobileCardRenderer?: (row: TData) => React.ReactNode;
   /** Show export button in header */
-  showExportButton?: boolean
+  showExportButton?: boolean;
   /** CSV export handler */
-  onExportCSV?: () => void
+  onExportCSV?: () => void;
   /** PDF export handler */
-  onExportPDF?: () => void
+  onExportPDF?: () => void;
   /** Additional content between summary cards and tabs */
-  beforeTabs?: React.ReactNode
+  beforeTabs?: React.ReactNode;
   /** Additional content between tabs and table */
-  beforeTable?: React.ReactNode
+  beforeTable?: React.ReactNode;
   /** Additional className for the page container */
-  className?: string
+  className?: string;
   /** Whether to show the summary cards section */
-  showSummaryCards?: boolean
+  showSummaryCards?: boolean;
 }
 
 /**
@@ -162,7 +169,7 @@ export function DataTablePage<TData>({
           </Card>
         </PageContainer>
       </>
-    )
+    );
   }
 
   return (
@@ -219,7 +226,7 @@ export function DataTablePage<TData>({
         )}
       </PageContainer>
     </>
-  )
+  );
 }
 
 /**
@@ -272,10 +279,10 @@ function DataTablePageSkeleton() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 /**
  * Export the skeleton separately for use in other contexts
  */
-export { DataTablePageSkeleton }
+export { DataTablePageSkeleton };

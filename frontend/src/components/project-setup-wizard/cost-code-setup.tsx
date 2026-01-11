@@ -1,14 +1,14 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { createClient } from "@/lib/supabase/client"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
-import { Card } from "@/components/ui/card"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Checkbox } from "@/components/ui/checkbox"
+import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
+import { Card } from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Table,
   TableBody,
@@ -16,7 +16,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   Dialog,
   DialogContent,
@@ -24,18 +24,19 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Plus, X, Upload, AlertCircle } from "lucide-react"
-import { StepComponentProps } from "./project-setup-wizard"
-import type { Database } from "@/types/database.types"
+} from "@/components/ui/dialog";
+import { Plus, X, Upload, AlertCircle } from "lucide-react";
+import { StepComponentProps } from "./project-setup-wizard";
+import type { Database } from "@/types/database.types";
 
-type CostCode = Database["public"]["Tables"]["cost_codes"]["Row"]
-type CostCodeType = Database["public"]["Tables"]["cost_code_types"]["Row"]
-type ProjectCostCode = Database["public"]["Tables"]["project_cost_codes"]["Row"]
+type CostCode = Database["public"]["Tables"]["cost_codes"]["Row"];
+type CostCodeType = Database["public"]["Tables"]["cost_code_types"]["Row"];
+type ProjectCostCode =
+  Database["public"]["Tables"]["project_cost_codes"]["Row"];
 
 interface CostCodeWithType extends CostCode {
-  cost_code_type?: CostCodeType
-  is_active?: boolean
+  cost_code_type?: CostCodeType;
+  is_active?: boolean;
 }
 
 const standardCostCodeTypes: Omit<CostCodeType, "id" | "created_at">[] = [
@@ -46,285 +47,302 @@ const standardCostCodeTypes: Omit<CostCodeType, "id" | "created_at">[] = [
   { code: "O", description: "Other", category: "Direct Costs" },
   { code: "OH", description: "Overhead", category: "Indirect Costs" },
   { code: "P", description: "Profit", category: "Indirect Costs" },
-]
+];
 
-const standardCostCodes: { code: string; description: string; typeCode: string }[] = [
+const standardCostCodes: {
+  code: string;
+  description: string;
+  typeCode: string;
+}[] = [
   // Site Work
   { code: "02-100", description: "Site Clearing", typeCode: "L" },
   { code: "02-200", description: "Excavation & Grading", typeCode: "E" },
   { code: "02-300", description: "Site Utilities", typeCode: "M" },
-  
+
   // Concrete
   { code: "03-100", description: "Concrete Forms", typeCode: "L" },
   { code: "03-200", description: "Concrete Reinforcement", typeCode: "M" },
   { code: "03-300", description: "Cast-in-Place Concrete", typeCode: "M" },
-  
+
   // Masonry
   { code: "04-100", description: "Masonry Units", typeCode: "M" },
   { code: "04-200", description: "Masonry Accessories", typeCode: "M" },
-  
+
   // Metals
   { code: "05-100", description: "Structural Steel", typeCode: "M" },
   { code: "05-200", description: "Steel Decking", typeCode: "M" },
   { code: "05-300", description: "Metal Fabrications", typeCode: "M" },
-  
+
   // Wood & Plastics
   { code: "06-100", description: "Rough Carpentry", typeCode: "L" },
   { code: "06-200", description: "Finish Carpentry", typeCode: "L" },
-  
+
   // Thermal & Moisture Protection
   { code: "07-100", description: "Waterproofing", typeCode: "M" },
   { code: "07-200", description: "Insulation", typeCode: "M" },
   { code: "07-300", description: "Roofing", typeCode: "S" },
-  
+
   // Doors & Windows
   { code: "08-100", description: "Doors & Frames", typeCode: "M" },
   { code: "08-200", description: "Windows", typeCode: "M" },
   { code: "08-300", description: "Glazing", typeCode: "M" },
-  
+
   // Finishes
   { code: "09-100", description: "Drywall", typeCode: "S" },
   { code: "09-200", description: "Painting", typeCode: "S" },
   { code: "09-300", description: "Flooring", typeCode: "S" },
   { code: "09-400", description: "Tile", typeCode: "S" },
-  
+
   // Mechanical
   { code: "15-100", description: "Plumbing", typeCode: "S" },
   { code: "15-200", description: "HVAC", typeCode: "S" },
   { code: "15-300", description: "Fire Protection", typeCode: "S" },
-  
+
   // Electrical
   { code: "16-100", description: "Electrical", typeCode: "S" },
   { code: "16-200", description: "Communications", typeCode: "S" },
-]
+];
 
-export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps) {
-  const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  
-  const [costCodeTypes, setCostCodeTypes] = useState<CostCodeType[]>([])
-  const [costCodes, setCostCodes] = useState<CostCodeWithType[]>([])
-  const [selectedCodes, setSelectedCodes] = useState<Set<string>>(new Set())
-  
-  const [showAddDialog, setShowAddDialog] = useState(false)
-  const [newCode, setNewCode] = useState({ code: "", description: "", typeCode: "" })
-  
-  const supabase = createClient()
+export function CostCodeSetup({
+  projectId,
+  onNext,
+  onSkip,
+}: StepComponentProps) {
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const [costCodeTypes, setCostCodeTypes] = useState<CostCodeType[]>([]);
+  const [costCodes, setCostCodes] = useState<CostCodeWithType[]>([]);
+  const [selectedCodes, setSelectedCodes] = useState<Set<string>>(new Set());
+
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [newCode, setNewCode] = useState({
+    code: "",
+    description: "",
+    typeCode: "",
+  });
+
+  const supabase = createClient();
 
   useEffect(() => {
-    loadData()
-  }, [projectId])
+    loadData();
+  }, [projectId]);
 
   const loadData = async () => {
     try {
-      setLoading(true)
-      setError(null)
+      setLoading(true);
+      setError(null);
 
       // Load cost code types
       const { data: types, error: typesError } = await supabase
         .from("cost_code_types")
         .select("*")
-        .order("code")
+        .order("code");
 
-      if (typesError) throw typesError
+      if (typesError) throw typesError;
 
       // Load all cost codes
       const { data: codes, error: codesError } = await supabase
         .from("cost_codes")
         .select("*")
-        .order("id")
+        .order("id");
 
-      if (codesError) throw codesError
+      if (codesError) throw codesError;
 
       // Load project-specific cost codes
       const { data: projectCodes, error: projectCodesError } = await supabase
         .from("project_cost_codes")
         .select("*")
-        .eq("project_id", projectId)
+        .eq("project_id", projectId);
 
-      if (projectCodesError) throw projectCodesError
+      if (projectCodesError) throw projectCodesError;
 
-      setCostCodeTypes(types || [])
-      
+      setCostCodeTypes(types || []);
+
       // Merge cost codes with their types and active status
-      const mergedCodes = (codes || []).map(code => {
-        const projectCode = projectCodes?.find(pc => pc.cost_code_id === code.id)
-        const type = types?.find(t => 
-          projectCode?.cost_type_id === t.id || 
-          code.id.startsWith(t.code + "-")
-        )
-        
+      const mergedCodes = (codes || []).map((code) => {
+        const projectCode = projectCodes?.find(
+          (pc) => pc.cost_code_id === code.id,
+        );
+        const type = types?.find(
+          (t) =>
+            projectCode?.cost_type_id === t.id ||
+            code.id.startsWith(t.code + "-"),
+        );
+
         return {
           ...code,
           cost_code_type: type,
           is_active: projectCode?.is_active ?? false,
-        }
-      })
-      
-      setCostCodes(mergedCodes)
-      
+        };
+      });
+
+      setCostCodes(mergedCodes);
+
       // Set initially selected codes
       const selected = new Set(
         projectCodes
-          ?.filter(pc => pc.is_active)
-          .map(pc => pc.cost_code_id)
-          .filter((id): id is string => id !== null) || []
-      )
-      setSelectedCodes(selected)
-
+          ?.filter((pc) => pc.is_active)
+          .map((pc) => pc.cost_code_id)
+          .filter((id): id is string => id !== null) || [],
+      );
+      setSelectedCodes(selected);
     } catch (err) {
-      console.error("Error loading data:", err)
-      setError(err instanceof Error ? err.message : "Failed to load data")
+      console.error("Error loading data:", err);
+      setError(err instanceof Error ? err.message : "Failed to load data");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const importStandardCodes = async () => {
     try {
-      setSaving(true)
-      setError(null)
+      setSaving(true);
+      setError(null);
 
       // First, ensure all cost code types exist
       const typesToInsert = standardCostCodeTypes.filter(
-        type => !costCodeTypes.find(t => t.code === type.code)
-      )
-      
+        (type) => !costCodeTypes.find((t) => t.code === type.code),
+      );
+
       if (typesToInsert.length > 0) {
         const { error } = await supabase
           .from("cost_code_types")
           .insert(typesToInsert)
-          .select()
-        
+          .select();
+
         if (error && error.code !== "23505") {
-          throw error
+          throw error;
         }
       }
 
       // Reload types after insertion
       const { data: updatedTypes, error: typesError } = await supabase
         .from("cost_code_types")
-        .select("*")
-      
-      if (typesError) throw typesError
-      
-      setCostCodeTypes(updatedTypes || [])
+        .select("*");
+
+      if (typesError) throw typesError;
+
+      setCostCodeTypes(updatedTypes || []);
 
       // Insert standard cost codes in batches
       const codesToInsert = standardCostCodes
-        .filter(stdCode => !costCodes.find(c => c.id === stdCode.code))
-        .map(stdCode => ({
+        .filter((stdCode) => !costCodes.find((c) => c.id === stdCode.code))
+        .map((stdCode) => ({
           id: stdCode.code,
           description: stdCode.description,
           status: "active",
-        }))
+        }));
 
       if (codesToInsert.length > 0) {
         const { error } = await supabase
           .from("cost_codes")
           .insert(codesToInsert)
-          .select()
-        
+          .select();
+
         if (error && error.code !== "23505") {
-          throw error
+          throw error;
         }
       }
 
-      await loadData()
-      
+      await loadData();
+
       // After importing, select all the newly imported codes
-      const importedCodeIds = standardCostCodes.map(c => c.code)
-      setSelectedCodes(new Set(importedCodeIds))
-      
+      const importedCodeIds = standardCostCodes.map((c) => c.code);
+      setSelectedCodes(new Set(importedCodeIds));
     } catch (err) {
-      console.error("Error importing standard codes:", err)
-      setError(err instanceof Error ? err.message : "Failed to import standard codes")
+      console.error("Error importing standard codes:", err);
+      setError(
+        err instanceof Error ? err.message : "Failed to import standard codes",
+      );
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
   const toggleCostCode = (codeId: string) => {
-    const newSelected = new Set(selectedCodes)
+    const newSelected = new Set(selectedCodes);
     if (newSelected.has(codeId)) {
-      newSelected.delete(codeId)
+      newSelected.delete(codeId);
     } else {
-      newSelected.add(codeId)
+      newSelected.add(codeId);
     }
-    setSelectedCodes(newSelected)
-  }
+    setSelectedCodes(newSelected);
+  };
 
   const toggleSelectAll = () => {
     if (selectedCodes.size === costCodes.length) {
       // If all are selected, deselect all
-      setSelectedCodes(new Set())
+      setSelectedCodes(new Set());
     } else {
       // Otherwise, select all
-      setSelectedCodes(new Set(costCodes.map(c => c.id)))
+      setSelectedCodes(new Set(costCodes.map((c) => c.id)));
     }
-  }
+  };
 
   const addCustomCode = async () => {
     try {
-      setSaving(true)
-      setError(null)
+      setSaving(true);
+      setError(null);
 
       if (!newCode.code || !newCode.description || !newCode.typeCode) {
-        setError("Please fill in all fields")
-        return
+        setError("Please fill in all fields");
+        return;
       }
 
       // Insert the new cost code
-      const { error: codeError } = await supabase
-        .from("cost_codes")
-        .insert({
-          id: newCode.code,
-          description: newCode.description,
-          status: "active",
-        })
+      const { error: codeError } = await supabase.from("cost_codes").insert({
+        id: newCode.code,
+        description: newCode.description,
+        status: "active",
+      });
 
-      if (codeError) throw codeError
+      if (codeError) throw codeError;
 
-      await loadData()
-      setShowAddDialog(false)
-      setNewCode({ code: "", description: "", typeCode: "" })
-      
+      await loadData();
+      setShowAddDialog(false);
+      setNewCode({ code: "", description: "", typeCode: "" });
     } catch (err) {
-      console.error("Error adding custom code:", err)
-      setError(err instanceof Error ? err.message : "Failed to add custom code")
+      console.error("Error adding custom code:", err);
+      setError(
+        err instanceof Error ? err.message : "Failed to add custom code",
+      );
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
   const saveProjectCostCodes = async () => {
     try {
-      setSaving(true)
-      setError(null)
+      setSaving(true);
+      setError(null);
 
       // Delete existing project cost codes
       const { error: deleteError } = await supabase
         .from("project_cost_codes")
         .delete()
-        .eq("project_id", projectId)
+        .eq("project_id", projectId);
 
-      if (deleteError) throw deleteError
+      if (deleteError) throw deleteError;
 
       // Insert selected cost codes
-      const projectCostCodes = Array.from(selectedCodes).map(codeId => {
-        const code = costCodes.find(c => c.id === codeId)
-        let typeId = code?.cost_code_type?.id ||
-          costCodeTypes.find(t => codeId.startsWith(t.code + "-"))?.id
+      const projectCostCodes = Array.from(selectedCodes).map((codeId) => {
+        const code = costCodes.find((c) => c.id === codeId);
+        let typeId =
+          code?.cost_code_type?.id ||
+          costCodeTypes.find((t) => codeId.startsWith(t.code + "-"))?.id;
 
         // CRITICAL: If we still don't have a type, use "Other" as fallback
         // Every project cost code MUST have a cost_type_id
         if (!typeId) {
-          const otherType = costCodeTypes.find(t => t.code === "O")
+          const otherType = costCodeTypes.find((t) => t.code === "O");
           if (!otherType) {
-            throw new Error(`Cost code ${codeId} has no type and "Other" type not found. Please ensure cost code types are configured.`)
+            throw new Error(
+              `Cost code ${codeId} has no type and "Other" type not found. Please ensure cost code types are configured.`,
+            );
           }
-          typeId = otherType.id
+          typeId = otherType.id;
         }
 
         return {
@@ -332,33 +350,34 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
           cost_code_id: codeId,
           cost_type_id: typeId,
           is_active: true,
-        }
-      })
+        };
+      });
 
       if (projectCostCodes.length > 0) {
         const { error: insertError } = await supabase
           .from("project_cost_codes")
-          .insert(projectCostCodes)
+          .insert(projectCostCodes);
 
-        if (insertError) throw insertError
+        if (insertError) throw insertError;
       }
 
-      onNext()
-
+      onNext();
     } catch (err) {
-      console.error("Error saving project cost codes:", err)
-      setError(err instanceof Error ? err.message : "Failed to save cost codes")
+      console.error("Error saving project cost codes:", err);
+      setError(
+        err instanceof Error ? err.message : "Failed to save cost codes",
+      );
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
         <div className="text-muted-foreground">Loading cost codes...</div>
       </div>
-    )
+    );
   }
 
   return (
@@ -373,8 +392,8 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
       <div className="space-y-4">
         <div className="flex items-center justify-between">
           <p className="text-muted-foreground">
-            Select the cost codes you want to use for this project. You can import
-            standard codes or add custom ones.
+            Select the cost codes you want to use for this project. You can
+            import standard codes or add custom ones.
           </p>
           <Button
             onClick={importStandardCodes}
@@ -393,7 +412,10 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
               <TableRow>
                 <TableHead className="w-12">
                   <Checkbox
-                    checked={costCodes.length > 0 && selectedCodes.size === costCodes.length}
+                    checked={
+                      costCodes.length > 0 &&
+                      selectedCodes.size === costCodes.length
+                    }
                     onCheckedChange={toggleSelectAll}
                     aria-label="Select all"
                   />
@@ -403,7 +425,7 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
               </TableRow>
             </TableHeader>
             <TableBody>
-              {costCodes.map(code => (
+              {costCodes.map((code) => (
                 <TableRow key={code.id}>
                   <TableCell>
                     <Switch
@@ -434,11 +456,7 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
 
       {/* Action Buttons */}
       <div className="flex justify-between">
-        <Button
-          variant="ghost"
-          onClick={onSkip}
-          disabled={saving}
-        >
+        <Button variant="ghost" onClick={onSkip} disabled={saving}>
           Skip for now
         </Button>
         <Button
@@ -465,7 +483,9 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
                 <Input
                   id="code"
                   value={newCode.code}
-                  onChange={(e) => setNewCode({ ...newCode, code: e.target.value })}
+                  onChange={(e) =>
+                    setNewCode({ ...newCode, code: e.target.value })
+                  }
                   placeholder="e.g., 17-100"
                 />
               </div>
@@ -475,10 +495,12 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
                   id="type"
                   className="w-full rounded-md border border-input bg-background px-3 py-2"
                   value={newCode.typeCode}
-                  onChange={(e) => setNewCode({ ...newCode, typeCode: e.target.value })}
+                  onChange={(e) =>
+                    setNewCode({ ...newCode, typeCode: e.target.value })
+                  }
                 >
                   <option value="">Select type</option>
-                  {costCodeTypes.map(type => (
+                  {costCodeTypes.map((type) => (
                     <option key={type.id} value={type.code}>
                       {type.code} - {type.description}
                     </option>
@@ -491,7 +513,9 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
               <Input
                 id="description"
                 value={newCode.description}
-                onChange={(e) => setNewCode({ ...newCode, description: e.target.value })}
+                onChange={(e) =>
+                  setNewCode({ ...newCode, description: e.target.value })
+                }
                 placeholder="e.g., Solar Panel Installation"
               />
             </div>
@@ -507,5 +531,5 @@ export function CostCodeSetup({ projectId, onNext, onSkip }: StepComponentProps)
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

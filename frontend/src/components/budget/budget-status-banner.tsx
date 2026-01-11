@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Info, X } from 'lucide-react';
-import { BudgetSyncStatus } from '@/types/budget';
+import * as React from "react";
+import { Info, X } from "lucide-react";
+import { BudgetSyncStatus } from "@/types/budget";
 
 interface BudgetStatusBannerProps {
   syncStatus: BudgetSyncStatus;
@@ -34,7 +34,10 @@ export function BudgetStatusBanner({
             <>, last job cost update detected {syncStatus.lastJobCostUpdate}</>
           )}
           {syncStatus.lastDirectCostUpdate && (
-            <>, last direct cost update detected {syncStatus.lastDirectCostUpdate}</>
+            <>
+              , last direct cost update detected{" "}
+              {syncStatus.lastDirectCostUpdate}
+            </>
           )}
           .
         </span>

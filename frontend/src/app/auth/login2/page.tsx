@@ -1,21 +1,23 @@
-import { LoginForm } from '@/components/misc/login-form'
+import { LoginForm } from "@/components/misc/login-form";
 
 type LoginPageProps = {
-  searchParams?: Promise<Record<string, string | string[]>>
-}
+  searchParams?: Promise<Record<string, string | string[]>>;
+};
 
 export default async function Page({ searchParams }: LoginPageProps) {
-  const resolvedParams = searchParams ? await searchParams : undefined
-  const rawCallback = resolvedParams?.callbackUrl
+  const resolvedParams = searchParams ? await searchParams : undefined;
+  const rawCallback = resolvedParams?.callbackUrl;
   const callbackUrl =
-    typeof rawCallback === 'string'
+    typeof rawCallback === "string"
       ? rawCallback
       : Array.isArray(rawCallback)
         ? rawCallback[0]
-        : undefined
+        : undefined;
 
   const redirectTarget =
-    typeof callbackUrl === 'string' && callbackUrl.startsWith('/') ? callbackUrl : '/'
+    typeof callbackUrl === "string" && callbackUrl.startsWith("/")
+      ? callbackUrl
+      : "/";
 
   return (
     <div className="flex min-h-svh w-full items-center justify-center p-6 md:p-10">
@@ -23,5 +25,5 @@ export default async function Page({ searchParams }: LoginPageProps) {
         <LoginForm redirectTo={redirectTarget} />
       </div>
     </div>
-  )
+  );
 }

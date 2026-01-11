@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Settings, ChevronDown, FileText, Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import * as React from "react";
+import { Settings, ChevronDown, FileText, Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { PortfolioView } from '@/types/portfolio';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/dropdown-menu";
+import { PortfolioView } from "@/types/portfolio";
+import { cn } from "@/lib/utils";
 
 interface PortfolioHeaderProps {
   views: PortfolioView[];
@@ -18,7 +18,7 @@ interface PortfolioHeaderProps {
   activeView: string;
   onViewChange: (viewId: string) => void;
   onSettingsClick?: () => void;
-  onExport?: (format: 'pdf' | 'csv') => void;
+  onExport?: (format: "pdf" | "csv") => void;
   onCreateProject?: () => void;
   onCreateTestProject?: () => void;
 }
@@ -39,7 +39,9 @@ export function PortfolioHeader({
       <div className="flex items-center justify-between py-3 sm:py-4">
         <div className="flex flex-col gap-2">
           <div className="flex items-center gap-2 sm:gap-3">
-            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">Portfolio</h1>
+            <h1 className="text-xl sm:text-2xl font-semibold text-gray-900">
+              Portfolio
+            </h1>
             <button
               onClick={onSettingsClick}
               className="p-1.5 hover:bg-gray-100 rounded text-gray-500"
@@ -49,25 +51,27 @@ export function PortfolioHeader({
               <Settings className="w-4 h-4 sm:w-5 sm:h-5" />
             </button>
           </div>
-
         </div>
       </div>
 
       {/* View tabs - Hidden on mobile */}
       <div className="hidden sm:flex sm:items-center sm:justify-between gap-3 pb-0 border-b bg-white">
-        <nav className="-mb-px flex space-x-8 overflow-x-auto" aria-label="Portfolio tabs">
+        <nav
+          className="-mb-px flex space-x-8 overflow-x-auto"
+          aria-label="Portfolio tabs"
+        >
           {views.map((view) => (
             <button
               key={view.id}
               type="button"
               onClick={() => onViewChange(view.id)}
               className={cn(
-                'group inline-flex items-center gap-2 border-b-2 py-4 px-1 text-sm font-medium transition-colors whitespace-nowrap',
+                "group inline-flex items-center gap-2 border-b-2 py-4 px-1 text-sm font-medium transition-colors whitespace-nowrap",
                 activeView === view.id
-                  ? 'border-brand text-brand'
-                  : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                  ? "border-brand text-brand"
+                  : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
               )}
-              aria-current={activeView === view.id ? 'page' : undefined}
+              aria-current={activeView === view.id ? "page" : undefined}
             >
               <span>{view.name}</span>
             </button>
@@ -80,10 +84,10 @@ export function PortfolioHeader({
                 <button
                   type="button"
                   className={cn(
-                    'group inline-flex items-center gap-2 border-b-2 py-4 px-1 text-sm font-medium transition-colors whitespace-nowrap',
+                    "group inline-flex items-center gap-2 border-b-2 py-4 px-1 text-sm font-medium transition-colors whitespace-nowrap",
                     financialViews.some((v) => v.id === activeView)
-                      ? 'border-brand text-brand'
-                      : 'border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700'
+                      ? "border-brand text-brand"
+                      : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
                   )}
                 >
                   <span>Financial Views</span>
@@ -95,7 +99,7 @@ export function PortfolioHeader({
                   <DropdownMenuItem
                     key={view.id}
                     onClick={() => onViewChange(view.id)}
-                    className={activeView === view.id ? 'bg-accent' : ''}
+                    className={activeView === view.id ? "bg-accent" : ""}
                   >
                     {view.name}
                   </DropdownMenuItem>
@@ -120,17 +124,17 @@ export function PortfolioHeader({
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuItem onClick={() => onExport?.('pdf')}>
+              <DropdownMenuItem onClick={() => onExport?.("pdf")}>
                 Export to PDF
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => onExport?.('csv')}>
+              <DropdownMenuItem onClick={() => onExport?.("csv")}>
                 Export to CSV
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
 
           {/* Create Test Project button (dev/testing only) */}
-          {process.env.NODE_ENV === 'development' && onCreateTestProject && (
+          {process.env.NODE_ENV === "development" && onCreateTestProject && (
             <Button
               onClick={onCreateTestProject}
               variant="outline"

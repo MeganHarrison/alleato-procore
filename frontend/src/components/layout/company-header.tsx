@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 import {
   Search,
   Star,
@@ -10,15 +10,15 @@ import {
   ChevronDown,
   Command,
   Building2,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
 interface CompanyHeaderProps {
   companyName?: string;
@@ -27,9 +27,9 @@ interface CompanyHeaderProps {
 }
 
 export function CompanyHeader({
-  companyName = 'Alleato Group',
-  currentTool = 'Home',
-  userInitials = 'BC',
+  companyName = "Alleato Group",
+  currentTool = "Home",
+  userInitials = "BC",
 }: CompanyHeaderProps) {
   return (
     <header className="h-12 bg-[hsl(var(--procore-header))] text-[hsl(var(--procore-header-text))] flex items-center px-4 justify-between">
@@ -40,7 +40,9 @@ export function CompanyHeader({
           <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
             <span className="text-primary-foreground text-xs font-bold">P</span>
           </div>
-          <span className="font-semibold text-sm hidden sm:inline">Alleato AI</span>
+          <span className="font-semibold text-sm hidden sm:inline">
+            Alleato AI
+          </span>
         </div>
 
         {/* Company Selector */}

@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from '@/components/tables/DataTable';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Plus, MoreHorizontal, Eye, Edit, Trash2 } from 'lucide-react';
+import * as React from "react";
+import { ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "@/components/tables/DataTable";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Plus, MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
 interface PunchListItem {
   id: string;
@@ -19,8 +19,8 @@ interface PunchListItem {
   title: string;
   location: string;
   assignee: string;
-  status: 'open' | 'in_progress' | 'ready_for_review' | 'closed';
-  priority: 'low' | 'medium' | 'high' | 'critical';
+  status: "open" | "in_progress" | "ready_for_review" | "closed";
+  priority: "low" | "medium" | "high" | "critical";
   trade: string;
   dueDate: string | null;
   createdAt: string;
@@ -28,28 +28,28 @@ interface PunchListItem {
 
 const mockPunchList: PunchListItem[] = [
   {
-    id: '1',
-    number: 'PL-001',
-    title: 'Paint touch-ups in main lobby',
-    location: 'Floor 1 - Main Lobby',
-    assignee: 'Johnson Painting',
-    status: 'open',
-    priority: 'medium',
-    trade: 'Painting',
-    dueDate: '2025-12-15',
-    createdAt: '2025-12-01',
+    id: "1",
+    number: "PL-001",
+    title: "Paint touch-ups in main lobby",
+    location: "Floor 1 - Main Lobby",
+    assignee: "Johnson Painting",
+    status: "open",
+    priority: "medium",
+    trade: "Painting",
+    dueDate: "2025-12-15",
+    createdAt: "2025-12-01",
   },
   {
-    id: '2',
-    number: 'PL-002',
-    title: 'Fix door alignment',
-    location: 'Floor 2 - Office 201',
-    assignee: 'ABC Carpentry',
-    status: 'in_progress',
-    priority: 'high',
-    trade: 'Carpentry',
-    dueDate: '2025-12-12',
-    createdAt: '2025-12-02',
+    id: "2",
+    number: "PL-002",
+    title: "Fix door alignment",
+    location: "Floor 2 - Office 201",
+    assignee: "ABC Carpentry",
+    status: "in_progress",
+    priority: "high",
+    trade: "Carpentry",
+    dueDate: "2025-12-12",
+    createdAt: "2025-12-02",
   },
 ];
 
@@ -58,79 +58,83 @@ export default function PunchListPage() {
 
   const columns: ColumnDef<PunchListItem>[] = [
     {
-      accessorKey: 'number',
-      header: 'Number',
+      accessorKey: "number",
+      header: "Number",
       cell: ({ row }) => (
         <button
           type="button"
           className="font-medium text-[hsl(var(--procore-orange))] hover:underline"
         >
-          {row.getValue('number')}
+          {row.getValue("number")}
         </button>
       ),
     },
     {
-      accessorKey: 'title',
-      header: 'Title',
+      accessorKey: "title",
+      header: "Title",
     },
     {
-      accessorKey: 'location',
-      header: 'Location',
+      accessorKey: "location",
+      header: "Location",
     },
     {
-      accessorKey: 'assignee',
-      header: 'Assignee',
+      accessorKey: "assignee",
+      header: "Assignee",
     },
     {
-      accessorKey: 'status',
-      header: 'Status',
+      accessorKey: "status",
+      header: "Status",
       cell: ({ row }) => {
-        const status = row.getValue('status') as string;
+        const status = row.getValue("status") as string;
         const statusColors: Record<string, string> = {
-          open: 'bg-yellow-100 text-yellow-700',
-          in_progress: 'bg-blue-100 text-blue-700',
-          ready_for_review: 'bg-purple-100 text-purple-700',
-          closed: 'bg-green-100 text-green-700',
+          open: "bg-yellow-100 text-yellow-700",
+          in_progress: "bg-blue-100 text-blue-700",
+          ready_for_review: "bg-purple-100 text-purple-700",
+          closed: "bg-green-100 text-green-700",
         };
         return (
-          <Badge className={statusColors[status] || 'bg-gray-100 text-gray-700'}>
-            {status.replace('_', ' ')}
+          <Badge
+            className={statusColors[status] || "bg-gray-100 text-gray-700"}
+          >
+            {status.replace("_", " ")}
           </Badge>
         );
       },
     },
     {
-      accessorKey: 'priority',
-      header: 'Priority',
+      accessorKey: "priority",
+      header: "Priority",
       cell: ({ row }) => {
-        const priority = row.getValue('priority') as string;
+        const priority = row.getValue("priority") as string;
         const priorityColors: Record<string, string> = {
-          low: 'bg-gray-100 text-gray-700',
-          medium: 'bg-yellow-100 text-yellow-700',
-          high: 'bg-orange-100 text-orange-700',
-          critical: 'bg-red-100 text-red-700',
+          low: "bg-gray-100 text-gray-700",
+          medium: "bg-yellow-100 text-yellow-700",
+          high: "bg-orange-100 text-orange-700",
+          critical: "bg-red-100 text-red-700",
         };
         return (
-          <Badge className={priorityColors[priority] || 'bg-gray-100 text-gray-700'}>
+          <Badge
+            className={priorityColors[priority] || "bg-gray-100 text-gray-700"}
+          >
             {priority}
           </Badge>
         );
       },
     },
     {
-      accessorKey: 'trade',
-      header: 'Trade',
+      accessorKey: "trade",
+      header: "Trade",
     },
     {
-      accessorKey: 'dueDate',
-      header: 'Due Date',
+      accessorKey: "dueDate",
+      header: "Due Date",
       cell: ({ row }) => {
-        const date = row.getValue('dueDate') as string | null;
-        return date ? new Date(date).toLocaleDateString() : '-';
+        const date = row.getValue("dueDate") as string | null;
+        return date ? new Date(date).toLocaleDateString() : "-";
       },
     },
     {
-      id: 'actions',
+      id: "actions",
       cell: ({ row }) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -163,7 +167,9 @@ export default function PunchListPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Punch List</h1>
-          <p className="text-sm text-gray-500 mt-1">Track and manage punch list items</p>
+          <p className="text-sm text-gray-500 mt-1">
+            Track and manage punch list items
+          </p>
         </div>
         <Button className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange))]/90">
           <Plus className="h-4 w-4 mr-2" />
@@ -176,25 +182,27 @@ export default function PunchListPage() {
         <div className="bg-white rounded-lg border p-4">
           <div className="text-sm font-medium text-gray-500">Open</div>
           <div className="text-2xl font-bold text-gray-900 mt-1">
-            {data.filter(item => item.status === 'open').length}
+            {data.filter((item) => item.status === "open").length}
           </div>
         </div>
         <div className="bg-white rounded-lg border p-4">
           <div className="text-sm font-medium text-gray-500">In Progress</div>
           <div className="text-2xl font-bold text-gray-900 mt-1">
-            {data.filter(item => item.status === 'in_progress').length}
+            {data.filter((item) => item.status === "in_progress").length}
           </div>
         </div>
         <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm font-medium text-gray-500">Ready for Review</div>
+          <div className="text-sm font-medium text-gray-500">
+            Ready for Review
+          </div>
           <div className="text-2xl font-bold text-gray-900 mt-1">
-            {data.filter(item => item.status === 'ready_for_review').length}
+            {data.filter((item) => item.status === "ready_for_review").length}
           </div>
         </div>
         <div className="bg-white rounded-lg border p-4">
           <div className="text-sm font-medium text-gray-500">Closed</div>
           <div className="text-2xl font-bold text-gray-900 mt-1">
-            {data.filter(item => item.status === 'closed').length}
+            {data.filter((item) => item.status === "closed").length}
           </div>
         </div>
       </div>

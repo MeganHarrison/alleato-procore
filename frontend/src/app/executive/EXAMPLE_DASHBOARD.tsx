@@ -35,12 +35,13 @@ export default function ExecutiveDashboard() {
   useEffect(() => {
     async function loadExecutiveData() {
       try {
-        const [summaryData, heatMapData, scoresData, patternsData] = await Promise.all([
-          generateExecutiveSummary(),
-          getCompanyRiskHeatMap(),
-          getAllProjectHealthScores(),
-          detectPatterns(),
-        ]);
+        const [summaryData, heatMapData, scoresData, patternsData] =
+          await Promise.all([
+            generateExecutiveSummary(),
+            getCompanyRiskHeatMap(),
+            getAllProjectHealthScores(),
+            detectPatterns(),
+          ]);
 
         setSummary(summaryData);
         setHeatMap(heatMapData);
@@ -62,16 +63,18 @@ export default function ExecutiveDashboard() {
         <div className="mx-auto max-w-7xl">
           <div className="text-center py-12">
             <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600 mx-auto"></div>
-            <p className="mt-4 text-sm text-gray-600">Loading executive intelligence...</p>
+            <p className="mt-4 text-sm text-gray-600">
+              Loading executive intelligence...
+            </p>
           </div>
         </div>
       </main>
     );
   }
 
-  const projectsNeedingAttention = healthScores.filter(
-    (p) => p.status === "critical" || p.status === "at_risk"
-  ).slice(0, 10);
+  const projectsNeedingAttention = healthScores
+    .filter((p) => p.status === "critical" || p.status === "at_risk")
+    .slice(0, 10);
 
   return (
     <main className="min-h-screen bg-gray-50 p-6">
@@ -79,7 +82,9 @@ export default function ExecutiveDashboard() {
         {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-zinc-900">Executive Dashboard</h1>
+            <h1 className="text-3xl font-bold text-zinc-900">
+              Executive Dashboard
+            </h1>
             <p className="text-sm text-zinc-500">
               Strategic intelligence · Updated {summary?.date}
             </p>
@@ -97,7 +102,9 @@ export default function ExecutiveDashboard() {
           {/* Critical Risks */}
           <div className="bg-white rounded-lg border-2 border-red-500 p-6">
             <div className="flex items-center justify-between">
-              <h3 className="text-sm font-medium text-red-900">Critical Risks</h3>
+              <h3 className="text-sm font-medium text-red-900">
+                Critical Risks
+              </h3>
               {heatMap?.trending === "increasing" && (
                 <span className="text-red-600">↑</span>
               )}
@@ -110,7 +117,9 @@ export default function ExecutiveDashboard() {
             </p>
             {heatMap?.trend_percentage !== 0 && (
               <div className="mt-2 text-xs text-red-700">
-                {heatMap?.trend_percentage && heatMap.trend_percentage > 0 ? "+" : ""}
+                {heatMap?.trend_percentage && heatMap.trend_percentage > 0
+                  ? "+"
+                  : ""}
                 {heatMap?.trend_percentage}% vs. 30 days ago
               </div>
             )}
@@ -118,7 +127,9 @@ export default function ExecutiveDashboard() {
 
           {/* Elevated Risks */}
           <div className="bg-white rounded-lg border border-yellow-500 p-6">
-            <h3 className="text-sm font-medium text-yellow-900">Elevated Risks</h3>
+            <h3 className="text-sm font-medium text-yellow-900">
+              Elevated Risks
+            </h3>
             <div className="text-4xl font-bold text-yellow-700 mt-2">
               {heatMap?.elevated || 0}
             </div>
@@ -127,7 +138,9 @@ export default function ExecutiveDashboard() {
 
           {/* Projects at Risk */}
           <div className="bg-white rounded-lg border border-orange-500 p-6">
-            <h3 className="text-sm font-medium text-orange-900">Projects at Risk</h3>
+            <h3 className="text-sm font-medium text-orange-900">
+              Projects at Risk
+            </h3>
             <div className="text-4xl font-bold text-orange-700 mt-2">
               {summary?.projects_at_risk || 0}
             </div>
@@ -138,17 +151,23 @@ export default function ExecutiveDashboard() {
 
           {/* Patterns Detected */}
           <div className="bg-white rounded-lg border border-purple-500 p-6">
-            <h3 className="text-sm font-medium text-purple-900">Patterns Detected</h3>
+            <h3 className="text-sm font-medium text-purple-900">
+              Patterns Detected
+            </h3>
             <div className="text-4xl font-bold text-purple-700 mt-2">
               {patterns.length}
             </div>
-            <p className="text-xs text-purple-800 mt-1">Systemic issues identified</p>
+            <p className="text-xs text-purple-800 mt-1">
+              Systemic issues identified
+            </p>
           </div>
         </div>
 
         {/* Risk Heat Map by Category */}
         <div className="bg-white rounded-lg border p-6">
-          <h2 className="text-lg font-semibold text-gray-900 mb-4">Risk Distribution by Category</h2>
+          <h2 className="text-lg font-semibold text-gray-900 mb-4">
+            Risk Distribution by Category
+          </h2>
           <div className="space-y-3">
             {Object.entries(heatMap?.by_category || {})
               .sort(([, a], [, b]) => b - a)
@@ -187,8 +206,8 @@ export default function ExecutiveDashboard() {
                     pattern.severity === "high"
                       ? "border-red-500 bg-red-50"
                       : pattern.severity === "medium"
-                      ? "border-yellow-500 bg-yellow-50"
-                      : "border-blue-500 bg-blue-50"
+                        ? "border-yellow-500 bg-yellow-50"
+                        : "border-blue-500 bg-blue-50"
                   }`}
                 >
                   <div className="flex items-start justify-between gap-4">
@@ -197,8 +216,8 @@ export default function ExecutiveDashboard() {
                         {pattern.description}
                       </h3>
                       <p className="text-sm text-gray-700 mt-1">
-                        Affects {pattern.affected_projects.length} projects · Occurred{" "}
-                        {pattern.frequency} times
+                        Affects {pattern.affected_projects.length} projects ·
+                        Occurred {pattern.frequency} times
                       </p>
                       <div className="mt-3 bg-white/60 rounded p-3">
                         <p className="text-xs font-medium text-purple-900">
@@ -228,8 +247,8 @@ export default function ExecutiveDashboard() {
                         pattern.severity === "high"
                           ? "bg-red-100 text-red-800"
                           : pattern.severity === "medium"
-                          ? "bg-yellow-100 text-yellow-800"
-                          : "bg-blue-100 text-blue-800"
+                            ? "bg-yellow-100 text-yellow-800"
+                            : "bg-blue-100 text-blue-800"
                       }`}
                     >
                       {pattern.severity} severity
@@ -260,8 +279,8 @@ export default function ExecutiveDashboard() {
                     project.status === "critical"
                       ? "border-red-500 bg-red-50 hover:bg-red-100"
                       : project.status === "at_risk"
-                      ? "border-yellow-500 bg-yellow-50 hover:bg-yellow-100"
-                      : "border-green-500 bg-green-50 hover:bg-green-100"
+                        ? "border-yellow-500 bg-yellow-50 hover:bg-yellow-100"
+                        : "border-green-500 bg-green-50 hover:bg-green-100"
                   }`}
                 >
                   <div className="flex justify-between items-start">
@@ -286,8 +305,8 @@ export default function ExecutiveDashboard() {
                           project.status === "critical"
                             ? "text-red-700"
                             : project.status === "at_risk"
-                            ? "text-yellow-700"
-                            : "text-green-700"
+                              ? "text-yellow-700"
+                              : "text-green-700"
                         }`}
                       >
                         {project.health_score}
@@ -313,7 +332,10 @@ export default function ExecutiveDashboard() {
             {summary?.top_priorities && summary.top_priorities.length > 0 ? (
               <ul className="space-y-2">
                 {summary.top_priorities.map((priority, idx) => (
-                  <li key={idx} className="text-sm text-red-800 flex items-start gap-2">
+                  <li
+                    key={idx}
+                    className="text-sm text-red-800 flex items-start gap-2"
+                  >
                     <span className="font-bold">{idx + 1}.</span>
                     <span>{priority}</span>
                   </li>
@@ -332,7 +354,10 @@ export default function ExecutiveDashboard() {
             {summary?.quick_wins && summary.quick_wins.length > 0 ? (
               <ul className="space-y-2">
                 {summary.quick_wins.map((win, idx) => (
-                  <li key={idx} className="text-sm text-green-800 flex items-start gap-2">
+                  <li
+                    key={idx}
+                    className="text-sm text-green-800 flex items-start gap-2"
+                  >
                     <span className="font-bold">•</span>
                     <span>{win}</span>
                   </li>

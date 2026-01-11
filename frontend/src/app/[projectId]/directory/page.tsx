@@ -1,4 +1,4 @@
-import { redirect } from 'next/navigation';
+import { redirect } from "next/navigation";
 
 interface DirectoryPageProps {
   params: Promise<{
@@ -6,7 +6,9 @@ interface DirectoryPageProps {
   }>;
 }
 
-export default async function ProjectDirectoryPage({ params }: DirectoryPageProps) {
+export default async function ProjectDirectoryPage({
+  params,
+}: DirectoryPageProps) {
   const { projectId } = await params;
   // Redirect to the users tab by default
   redirect(`/${projectId}/directory/users`);

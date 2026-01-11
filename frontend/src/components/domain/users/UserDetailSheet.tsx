@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Text } from '@/components/ui/text';
-import { Separator } from '@/components/ui/separator';
+import * as React from "react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Text } from "@/components/ui/text";
+import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
   SheetClose,
@@ -14,7 +14,7 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from '@/components/ui/sheet';
+} from "@/components/ui/sheet";
 import {
   Mail,
   Phone,
@@ -25,10 +25,10 @@ import {
   UserX,
   RefreshCw,
   Edit,
-} from 'lucide-react';
-import { useRemoveUser, useResendInvite } from '@/hooks/use-user-mutations';
-import { UserFormDialog } from './UserFormDialog';
-import type { PersonWithDetails } from '@/services/directoryService';
+} from "lucide-react";
+import { useRemoveUser, useResendInvite } from "@/hooks/use-user-mutations";
+import { UserFormDialog } from "./UserFormDialog";
+import type { PersonWithDetails } from "@/services/directoryService";
 
 interface UserDetailSheetProps {
   user: PersonWithDetails;
@@ -49,11 +49,15 @@ export function UserDetailSheet({
   const resendInviteMutation = useResendInvite(projectId, user.id);
 
   const fullName = `${user.first_name} ${user.last_name}`;
-  const isActive = user.membership?.status === 'active';
-  const isPendingInvite = user.membership?.invite_status === 'invited' || user.membership?.invite_status === 'not_invited';
+  const isActive = user.membership?.status === "active";
+  const isPendingInvite =
+    user.membership?.invite_status === "invited" ||
+    user.membership?.invite_status === "not_invited";
 
   const handleRemove = async () => {
-    if (confirm(`Are you sure you want to remove ${fullName} from the project?`)) {
+    if (
+      confirm(`Are you sure you want to remove ${fullName} from the project?`)
+    ) {
       await removeUserMutation.mutateAsync();
       setIsSheetOpen(false);
       onUserUpdated?.();
@@ -72,24 +76,25 @@ export function UserDetailSheet({
     <>
       <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
         <SheetTrigger asChild>{trigger}</SheetTrigger>
-        <SheetContent side="right" className="flex flex-col w-[400px] sm:w-[540px]">
+        <SheetContent
+          side="right"
+          className="flex flex-col w-[400px] sm:w-[540px]"
+        >
           <SheetHeader className="gap-1">
             <SheetTitle>{fullName}</SheetTitle>
             <SheetDescription>
-              {user.job_title || 'Team Member'}
+              {user.job_title || "Team Member"}
             </SheetDescription>
           </SheetHeader>
 
           <div className="flex flex-1 flex-col gap-4 overflow-y-auto py-4 text-sm">
             {/* Status Badge */}
             <div className="flex items-center gap-2">
-              <Badge variant={isActive ? 'active' : 'inactive'}>
-                {user.membership?.status || 'Unknown'}
+              <Badge variant={isActive ? "active" : "inactive"}>
+                {user.membership?.status || "Unknown"}
               </Badge>
               {isPendingInvite && (
-                <Badge variant="outline">
-                  Pending Invite
-                </Badge>
+                <Badge variant="outline">Pending Invite</Badge>
               )}
             </div>
 
@@ -106,7 +111,9 @@ export function UserDetailSheet({
                       href={`mailto:${user.email}`}
                       className="text-primary hover:underline"
                     >
-                      <Text as="span" size="sm">{user.email}</Text>
+                      <Text as="span" size="sm">
+                        {user.email}
+                      </Text>
                     </a>
                   </div>
                 )}
@@ -117,7 +124,9 @@ export function UserDetailSheet({
                       href={`tel:${user.phone_mobile}`}
                       className="text-primary hover:underline"
                     >
-                      <Text as="span" size="sm">{user.phone_mobile} (Mobile)</Text>
+                      <Text as="span" size="sm">
+                        {user.phone_mobile} (Mobile)
+                      </Text>
                     </a>
                   </div>
                 )}
@@ -128,7 +137,9 @@ export function UserDetailSheet({
                       href={`tel:${user.phone_business}`}
                       className="text-primary hover:underline"
                     >
-                      <Text as="span" size="sm">{user.phone_business} (Business)</Text>
+                      <Text as="span" size="sm">
+                        {user.phone_business} (Business)
+                      </Text>
                     </a>
                   </div>
                 )}
@@ -144,19 +155,25 @@ export function UserDetailSheet({
                 {user.company && (
                   <div className="flex items-center gap-2">
                     <Building2 className="size-4 text-muted-foreground" />
-                    <Text as="span" size="sm">{user.company.name}</Text>
+                    <Text as="span" size="sm">
+                      {user.company.name}
+                    </Text>
                   </div>
                 )}
                 {user.job_title && (
                   <div className="flex items-center gap-2">
                     <Briefcase className="size-4 text-muted-foreground" />
-                    <Text as="span" size="sm">{user.job_title}</Text>
+                    <Text as="span" size="sm">
+                      {user.job_title}
+                    </Text>
                   </div>
                 )}
                 {(user.membership as { department?: string })?.department && (
                   <div className="flex items-center gap-2">
                     <Building2 className="size-4 text-muted-foreground" />
-                    <Text as="span" size="sm">{(user.membership as { department?: string }).department}</Text>
+                    <Text as="span" size="sm">
+                      {(user.membership as { department?: string }).department}
+                    </Text>
                   </div>
                 )}
               </div>
@@ -204,7 +221,10 @@ export function UserDetailSheet({
                   <div className="flex items-center gap-2">
                     <Mail className="size-4 text-muted-foreground" />
                     <Text as="span" size="sm">
-                      Last invited {new Date(user.membership.last_invited_at).toLocaleDateString()}
+                      Last invited{" "}
+                      {new Date(
+                        user.membership.last_invited_at,
+                      ).toLocaleDateString()}
                     </Text>
                   </div>
                 )}
@@ -213,11 +233,7 @@ export function UserDetailSheet({
           </div>
 
           <SheetFooter className="flex flex-col gap-2 sm:flex-col">
-            <Button
-              variant="outline"
-              onClick={handleEdit}
-              className="w-full"
-            >
+            <Button variant="outline" onClick={handleEdit} className="w-full">
               <Edit className="size-4 mr-2" />
               Edit User
             </Button>
@@ -230,7 +246,9 @@ export function UserDetailSheet({
                 className="w-full"
               >
                 <RefreshCw className="size-4 mr-2" />
-                {resendInviteMutation.isPending ? 'Sending...' : 'Resend Invite'}
+                {resendInviteMutation.isPending
+                  ? "Sending..."
+                  : "Resend Invite"}
               </Button>
             )}
 
@@ -241,7 +259,9 @@ export function UserDetailSheet({
               className="w-full"
             >
               <UserX className="size-4 mr-2" />
-              {removeUserMutation.isPending ? 'Removing...' : 'Remove from Project'}
+              {removeUserMutation.isPending
+                ? "Removing..."
+                : "Remove from Project"}
             </Button>
 
             <SheetClose asChild>
@@ -269,7 +289,8 @@ export function UserDetailSheet({
           company_id: user.company_id,
           membership: {
             permission_template_id: user.membership?.permission_template_id,
-            department: (user.membership as { department?: string })?.department,
+            department: (user.membership as { department?: string })
+              ?.department,
           },
         }}
         onSuccess={() => {

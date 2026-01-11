@@ -1,27 +1,32 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useState } from 'react';
-import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
-import { ChevronDown, ChevronRight, FileText, MoreVertical } from 'lucide-react';
+import { useCallback, useEffect, useState } from "react";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import {
+  ChevronDown,
+  ChevronRight,
+  FileText,
+  MoreVertical,
+} from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { 
-  FinancialPageLayout, 
-  FinancialDataTable, 
-  TableColumn 
-} from '@/components/shared';
-import { useFormatCurrency } from '@/hooks/use-format-currency';
-import { StatusBadge } from '@/components/misc/status-badge';
-import { createClient } from '@/lib/supabase/client';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  FinancialPageLayout,
+  FinancialDataTable,
+  TableColumn,
+} from "@/components/shared";
+import { useFormatCurrency } from "@/hooks/use-format-currency";
+import { StatusBadge } from "@/components/misc/status-badge";
+import { createClient } from "@/lib/supabase/client";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { useProjectTitle } from '@/hooks/useProjectTitle';
+} from "@/components/ui/dropdown-menu";
+import { useProjectTitle } from "@/hooks/useProjectTitle";
 
 interface Contract {
   id: number;
@@ -53,12 +58,14 @@ export default function ContractsPage() {
   const params = useParams();
   const router = useRouter();
   const projectId = params.projectId as string;
-  useProjectTitle('Prime Contracts');
-  
+  useProjectTitle("Prime Contracts");
+
   const formatCurrency = useFormatCurrency();
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [loading, setLoading] = useState(true);
-  const [expandedContracts, setExpandedContracts] = useState<Set<number>>(new Set());
+  const [expandedContracts, setExpandedContracts] = useState<Set<number>>(
+    new Set(),
+  );
 
   // Fetch contracts
   useEffect(() => {
@@ -69,62 +76,76 @@ export default function ContractsPage() {
     try {
       const supabase = createClient();
       const { data, error } = await supabase
-        .from('financial_contracts')
-        .select(`
+        .from("financial_contracts")
+        .select(
+          `
           *,
           client:clients(id, name),
           project:projects(id, name, project_number)
-        `)
-        .eq('project_id', projectId)
-        .order('created_at', { ascending: false });
+        `,
+        )
+        .eq("project_id", projectId)
+        .order("created_at", { ascending: false });
 
       if (!error) {
         setContracts(data || []);
       }
     } catch (err) {
-      console.error('Error fetching contracts:', err);
+      console.error("Error fetching contracts:", err);
     } finally {
       setLoading(false);
     }
   };
 
   // Calculate summary data
-  const totalOriginalAmount = contracts.reduce((sum, c) => sum + (c.original_contract_amount || 0), 0);
-  const totalApprovedCOs = contracts.reduce((sum, c) => sum + (c.approved_change_orders || 0), 0);
-  const totalRevisedAmount = contracts.reduce((sum, c) => sum + (c.revised_contract_amount || 0), 0);
-  const totalPendingCOs = contracts.reduce((sum, c) => sum + (c.pending_change_orders || 0), 0);
+  const totalOriginalAmount = contracts.reduce(
+    (sum, c) => sum + (c.original_contract_amount || 0),
+    0,
+  );
+  const totalApprovedCOs = contracts.reduce(
+    (sum, c) => sum + (c.approved_change_orders || 0),
+    0,
+  );
+  const totalRevisedAmount = contracts.reduce(
+    (sum, c) => sum + (c.revised_contract_amount || 0),
+    0,
+  );
+  const totalPendingCOs = contracts.reduce(
+    (sum, c) => sum + (c.pending_change_orders || 0),
+    0,
+  );
 
   // Define summary cards
   const summaryCards = [
     {
-      label: 'Original Contract Amount',
+      label: "Original Contract Amount",
       value: totalOriginalAmount,
-      format: 'currency' as const
+      format: "currency" as const,
     },
     {
-      label: 'Approved COs',
+      label: "Approved COs",
       value: totalApprovedCOs,
-      format: 'currency' as const,
-      color: 'green' as const
+      format: "currency" as const,
+      color: "green" as const,
     },
     {
-      label: 'Revised Contract Amount',
+      label: "Revised Contract Amount",
       value: totalRevisedAmount,
-      format: 'currency' as const
+      format: "currency" as const,
     },
     {
-      label: 'Pending COs',
+      label: "Pending COs",
       value: totalPendingCOs,
-      format: 'currency' as const,
-      color: 'yellow' as const
-    }
+      format: "currency" as const,
+      color: "yellow" as const,
+    },
   ];
 
   // Define table columns
   const columns: TableColumn<Contract>[] = [
     {
-      key: 'expand',
-      header: '',
+      key: "expand",
+      header: "",
       accessor: (contract) => (
         <Button
           variant="ghost"
@@ -142,80 +163,77 @@ export default function ContractsPage() {
           )}
         </Button>
       ),
-      className: 'w-10'
+      className: "w-10",
     },
     {
-      key: 'contract_number',
-      header: 'Contract #',
+      key: "contract_number",
+      header: "Contract #",
       accessor: (contract) => (
         <span className="font-medium">
           {contract.contract_number || `CON-${contract.id}`}
         </span>
-      )
+      ),
     },
     {
-      key: 'title',
-      header: 'Title',
-      accessor: (contract) => contract.title || 'Untitled Contract'
+      key: "title",
+      header: "Title",
+      accessor: (contract) => contract.title || "Untitled Contract",
     },
     {
-      key: 'client',
-      header: 'Client',
-      accessor: (contract) => contract.client?.name || '--'
+      key: "client",
+      header: "Client",
+      accessor: (contract) => contract.client?.name || "--",
     },
     {
-      key: 'status',
-      header: 'Status',
+      key: "status",
+      header: "Status",
       accessor: (contract) => (
-        <StatusBadge 
-          status={contract.status || 'draft'} 
-          type="prime-contract" 
+        <StatusBadge
+          status={contract.status || "draft"}
+          type="prime-contract"
         />
-      )
+      ),
     },
     {
-      key: 'erp_status',
-      header: 'ERP Status',
+      key: "erp_status",
+      header: "ERP Status",
       accessor: (contract) => (
-        <Badge variant="outline">
-          {contract.erp_status || 'Not Synced'}
-        </Badge>
-      )
+        <Badge variant="outline">{contract.erp_status || "Not Synced"}</Badge>
+      ),
     },
     {
-      key: 'original_amount',
-      header: 'Original Amount',
+      key: "original_amount",
+      header: "Original Amount",
       accessor: (contract) => formatCurrency(contract.original_contract_amount),
-      align: 'right' as const
+      align: "right" as const,
     },
     {
-      key: 'revised_amount',
-      header: 'Revised Amount',
+      key: "revised_amount",
+      header: "Revised Amount",
       accessor: (contract) => formatCurrency(contract.revised_contract_amount),
-      align: 'right' as const
+      align: "right" as const,
     },
     {
-      key: 'invoiced',
-      header: 'Invoiced',
+      key: "invoiced",
+      header: "Invoiced",
       accessor: (contract) => formatCurrency(contract.invoiced_amount),
-      align: 'right' as const
+      align: "right" as const,
     },
     {
-      key: 'executed',
-      header: 'Executed',
-      accessor: (contract) => (
+      key: "executed",
+      header: "Executed",
+      accessor: (contract) =>
         contract.executed ? (
           <Badge variant="default">Yes</Badge>
         ) : (
           <Badge variant="secondary">No</Badge>
-        )
-      ),
-      align: 'center' as const
-    }
+        ),
+      align: "center" as const,
+    },
   ];
 
   const toggleExpanded = (contractId: number) => {
-    setExpandedContracts(prev => {
+    setExpandedContracts((prev) => {
       const next = new Set(prev);
       if (next.has(contractId)) {
         next.delete(contractId);
@@ -226,7 +244,7 @@ export default function ContractsPage() {
     });
   };
 
-  const handleExport = (format: 'csv' | 'pdf' | 'excel') => {
+  const handleExport = (format: "csv" | "pdf" | "excel") => {
     // Implement export functionality
     console.log(`Exporting contracts as ${format}`);
   };
@@ -245,10 +263,16 @@ export default function ContractsPage() {
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => router.push(`/${projectId}/contracts/${contract.id}`)}>
+        <DropdownMenuItem
+          onClick={() => router.push(`/${projectId}/contracts/${contract.id}`)}
+        >
           View Details
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => router.push(`/${projectId}/contracts/${contract.id}/edit`)}>
+        <DropdownMenuItem
+          onClick={() =>
+            router.push(`/${projectId}/contracts/${contract.id}/edit`)
+          }
+        >
           Edit Contract
         </DropdownMenuItem>
         <DropdownMenuItem>Download PDF</DropdownMenuItem>
@@ -278,7 +302,7 @@ export default function ContractsPage() {
         onRowClick={handleRowClick}
         actions={rowActions}
       />
-      
+
       {/* TODO: Add expandable rows for change orders */}
     </FinancialPageLayout>
   );

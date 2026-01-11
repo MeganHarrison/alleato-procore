@@ -1,18 +1,18 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Table } from "@tanstack/react-table"
-import { X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { DataTableColumnToggle } from "./DataTableColumnToggle"
-import { DataTableFilters } from "./DataTableFilters"
+import * as React from "react";
+import { Table } from "@tanstack/react-table";
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { DataTableColumnToggle } from "./DataTableColumnToggle";
+import { DataTableFilters } from "./DataTableFilters";
 
 interface DataTableToolbarProps<TData> {
-  table: Table<TData>
-  searchKey?: string
-  searchPlaceholder?: string
-  filters?: React.ReactNode
+  table: Table<TData>;
+  searchKey?: string;
+  searchPlaceholder?: string;
+  filters?: React.ReactNode;
 }
 
 export function DataTableToolbar<TData>({
@@ -21,7 +21,7 @@ export function DataTableToolbar<TData>({
   searchPlaceholder = "Filter...",
   filters,
 }: DataTableToolbarProps<TData>) {
-  const isFiltered = table.getState().columnFilters.length > 0
+  const isFiltered = table.getState().columnFilters.length > 0;
 
   return (
     <div className="flex items-center justify-between">
@@ -48,5 +48,5 @@ export function DataTableToolbar<TData>({
       </div>
       <DataTableColumnToggle table={table} />
     </div>
-  )
+  );
 }

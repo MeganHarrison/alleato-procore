@@ -1,37 +1,47 @@
-"use client"
+"use client";
 
-import { forwardRef, type KeyboardEvent } from "react"
+import { forwardRef, type KeyboardEvent } from "react";
 
-import { Textarea } from "@/components/ui/textarea"
+import { Textarea } from "@/components/ui/textarea";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
-} from "@/components/ui/tooltip"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/tooltip";
+import { cn } from "@/lib/utils";
 
 interface PromptInputProps extends React.HTMLAttributes<HTMLDivElement> {
-  isLoading?: boolean
-  value: string
-  onValueChange: (value: string) => void
-  onSubmit: () => void
+  isLoading?: boolean;
+  value: string;
+  onValueChange: (value: string) => void;
+  onSubmit: () => void;
 }
 
 export const PromptInput = forwardRef<HTMLDivElement, PromptInputProps>(
-  ({ className, children, isLoading, value, onValueChange, onSubmit, ...props }, ref) => (
+  (
+    {
+      className,
+      children,
+      isLoading,
+      value,
+      onValueChange,
+      onSubmit,
+      ...props
+    },
+    ref,
+  ) => (
     <div ref={ref} className={cn("relative", className)} {...props}>
       {children}
     </div>
-  )
-)
-PromptInput.displayName = "PromptInput"
+  ),
+);
+PromptInput.displayName = "PromptInput";
 
-interface PromptInputTextareaProps
-  extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  value?: string
-  onValueChange?: (value: string) => void
-  onSubmit?: () => void
+interface PromptInputTextareaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
+  value?: string;
+  onValueChange?: (value: string) => void;
+  onSubmit?: () => void;
 }
 
 export const PromptInputTextarea = forwardRef<
@@ -40,10 +50,10 @@ export const PromptInputTextarea = forwardRef<
 >(({ className, value, onValueChange, onSubmit, ...props }, ref) => {
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault()
-      onSubmit?.()
+      e.preventDefault();
+      onSubmit?.();
     }
-  }
+  };
 
   return (
     <Textarea
@@ -53,25 +63,25 @@ export const PromptInputTextarea = forwardRef<
       onKeyDown={handleKeyDown}
       className={cn(
         "resize-none border-0 bg-transparent focus-visible:ring-0 focus-visible:ring-offset-0",
-        className
+        className,
       )}
       {...props}
     />
-  )
-})
-PromptInputTextarea.displayName = "PromptInputTextarea"
+  );
+});
+PromptInputTextarea.displayName = "PromptInputTextarea";
 
 export const PromptInputActions = forwardRef<
   HTMLDivElement,
   React.HTMLAttributes<HTMLDivElement>
 >(({ className, ...props }, ref) => (
   <div ref={ref} className={cn("flex items-center", className)} {...props} />
-))
-PromptInputActions.displayName = "PromptInputActions"
+));
+PromptInputActions.displayName = "PromptInputActions";
 
 interface PromptInputActionProps extends React.HTMLAttributes<HTMLDivElement> {
-  tooltip?: string
-  delayDuration?: number
+  tooltip?: string;
+  delayDuration?: number;
 }
 
 export const PromptInputAction = forwardRef<
@@ -92,13 +102,13 @@ export const PromptInputAction = forwardRef<
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
-    )
+    );
   }
 
   return (
     <div ref={ref} {...props}>
       {children}
     </div>
-  )
-})
-PromptInputAction.displayName = "PromptInputAction"
+  );
+});
+PromptInputAction.displayName = "PromptInputAction";

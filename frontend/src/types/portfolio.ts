@@ -9,7 +9,7 @@ export interface Project {
   state: string;
   zip: string;
   phone: string;
-  status: 'Active' | 'Inactive';
+  status: "Active" | "Inactive";
   stage: string;
   type: string;
   phase?: string;
@@ -30,13 +30,13 @@ export interface PortfolioView {
 export interface PortfolioFilter {
   id: string;
   field: string;
-  operator: 'equals' | 'contains' | 'startsWith' | 'endsWith';
+  operator: "equals" | "contains" | "startsWith" | "endsWith";
   value: string;
 }
 
-export type PortfolioViewType = 'list' | 'thumbnails' | 'overview' | 'map';
+export type PortfolioViewType = "list" | "thumbnails" | "overview" | "map";
 
-export type StatusFilter = 'all' | 'active' | 'inactive';
+export type StatusFilter = "all" | "active" | "inactive";
 
 export interface PortfolioTableColumn {
   id: string;

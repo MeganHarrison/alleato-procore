@@ -4,14 +4,14 @@
  */
 
 export type DocumentType =
-  | 'contract'
-  | 'amendment'
-  | 'insurance'
-  | 'bond'
-  | 'lien_waiver'
-  | 'change_order'
-  | 'invoice'
-  | 'other';
+  | "contract"
+  | "amendment"
+  | "insurance"
+  | "bond"
+  | "lien_waiver"
+  | "change_order"
+  | "invoice"
+  | "other";
 
 // Vendors
 export interface Vendor {

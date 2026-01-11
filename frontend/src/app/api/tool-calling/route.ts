@@ -1,25 +1,25 @@
-import { createOpenAI } from "@ai-sdk/openai"
+import { createOpenAI } from "@ai-sdk/openai";
 import {
   convertToModelMessages,
   stepCountIs,
   streamText,
   tool,
   UIMessage,
-} from "ai"
-import { z } from "zod"
+} from "ai";
+import { z } from "zod";
 
 // Allow streaming responses up to 30 seconds
-export const maxDuration = 30
+export const maxDuration = 30;
 
 export async function POST(req: Request) {
   const { messages, apiKey }: { messages: UIMessage[]; apiKey?: string } =
-    await req.json()
+    await req.json();
 
   if (!apiKey) {
-    return new Response("OpenAI API key is required", { status: 400 })
+    return new Response("OpenAI API key is required", { status: 400 });
   }
 
-  const openai = createOpenAI({ apiKey })
+  const openai = createOpenAI({ apiKey });
 
   const result = streamText({
     model: openai("gpt-4.1-nano"),
@@ -37,18 +37,18 @@ export async function POST(req: Request) {
         }),
         execute: async ({ timezone }) => {
           try {
-            const now = new Date()
+            const now = new Date();
             const time = now.toLocaleString("en-US", {
               timeZone: timezone,
               hour: "2-digit",
               minute: "2-digit",
               second: "2-digit",
               hour12: false,
-            })
+            });
 
-            return { time, timezone }
+            return { time, timezone };
           } catch {
-            return { error: "Invalid timezone format." }
+            return { error: "Invalid timezone format." };
           }
         },
       }),
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
         description: "Get the current date and time with timezone information",
         inputSchema: z.object({}),
         execute: async () => {
-          const now = new Date()
+          const now = new Date();
           return {
             timestamp: now.getTime(),
             iso: now.toISOString(),
@@ -72,11 +72,11 @@ export async function POST(req: Request) {
             }),
             timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
             utc: now.toUTCString(),
-          }
+          };
         },
       }),
     },
-  })
+  });
 
-  return result.toUIMessageStreamResponse()
+  return result.toUIMessageStreamResponse();
 }

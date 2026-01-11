@@ -1,12 +1,16 @@
-import type { BudgetLineItem, BudgetGrandTotals } from '@/types/budget';
+import type { BudgetLineItem, BudgetGrandTotals } from "@/types/budget";
 
-export type GroupingType = 'none' | 'cost-code-tier-1' | 'cost-code-tier-2' | 'cost-code-tier-3';
+export type GroupingType =
+  | "none"
+  | "cost-code-tier-1"
+  | "cost-code-tier-2"
+  | "cost-code-tier-3";
 
 /**
  * Extract the division code from a cost code (e.g., "01-100" -> "01")
  */
 function getDivisionCode(costCode: string): string {
-  const parts = costCode.split('-');
+  const parts = costCode.split("-");
   return parts[0] || costCode;
 }
 
@@ -14,7 +18,7 @@ function getDivisionCode(costCode: string): string {
  * Extract the subdivision code from a cost code (e.g., "01-100-10" -> "01-100")
  */
 function getSubdivisionCode(costCode: string): string {
-  const parts = costCode.split('-');
+  const parts = costCode.split("-");
   return parts.length >= 2 ? `${parts[0]}-${parts[1]}` : costCode;
 }
 
@@ -23,22 +27,22 @@ function getSubdivisionCode(costCode: string): string {
  */
 function getDivisionName(divisionCode: string): string {
   const divisionNames: Record<string, string> = {
-    '01': 'General Conditions',
-    '02': 'Sitework',
-    '03': 'Concrete',
-    '04': 'Masonry',
-    '05': 'Metals',
-    '06': 'Wood & Plastics',
-    '07': 'Thermal & Moisture Protection',
-    '08': 'Doors & Windows',
-    '09': 'Finishes',
-    '10': 'Specialties',
-    '11': 'Equipment',
-    '12': 'Furnishings',
-    '13': 'Special Construction',
-    '14': 'Conveying Systems',
-    '15': 'Mechanical',
-    '16': 'Electrical',
+    "01": "General Conditions",
+    "02": "Sitework",
+    "03": "Concrete",
+    "04": "Masonry",
+    "05": "Metals",
+    "06": "Wood & Plastics",
+    "07": "Thermal & Moisture Protection",
+    "08": "Doors & Windows",
+    "09": "Finishes",
+    "10": "Specialties",
+    "11": "Equipment",
+    "12": "Furnishings",
+    "13": "Special Construction",
+    "14": "Conveying Systems",
+    "15": "Mechanical",
+    "16": "Electrical",
   };
 
   return divisionNames[divisionCode] || `Division ${divisionCode}`;
@@ -47,10 +51,13 @@ function getDivisionName(divisionCode: string): string {
 /**
  * Aggregate totals for a group of budget line items
  */
-function aggregateTotals(items: BudgetLineItem[]): Omit<BudgetLineItem, 'id' | 'costCode' | 'description'> {
+function aggregateTotals(
+  items: BudgetLineItem[],
+): Omit<BudgetLineItem, "id" | "costCode" | "description"> {
   return items.reduce(
     (acc, item) => ({
-      originalBudgetAmount: acc.originalBudgetAmount + item.originalBudgetAmount,
+      originalBudgetAmount:
+        acc.originalBudgetAmount + item.originalBudgetAmount,
       budgetModifications: acc.budgetModifications + item.budgetModifications,
       approvedCOs: acc.approvedCOs + item.approvedCOs,
       revisedBudget: acc.revisedBudget + item.revisedBudget,
@@ -62,7 +69,8 @@ function aggregateTotals(items: BudgetLineItem[]): Omit<BudgetLineItem, 'id' | '
       pendingCostChanges: acc.pendingCostChanges + item.pendingCostChanges,
       projectedCosts: acc.projectedCosts + item.projectedCosts,
       forecastToComplete: acc.forecastToComplete + item.forecastToComplete,
-      estimatedCostAtCompletion: acc.estimatedCostAtCompletion + item.estimatedCostAtCompletion,
+      estimatedCostAtCompletion:
+        acc.estimatedCostAtCompletion + item.estimatedCostAtCompletion,
       projectedOverUnder: acc.projectedOverUnder + item.projectedOverUnder,
       unitQty: undefined,
       uom: undefined,
@@ -86,7 +94,7 @@ function aggregateTotals(items: BudgetLineItem[]): Omit<BudgetLineItem, 'id' | '
       unitQty: undefined,
       uom: undefined,
       unitCost: undefined,
-    }
+    },
   );
 }
 
@@ -97,7 +105,7 @@ export function groupByDivision(items: BudgetLineItem[]): BudgetLineItem[] {
   const groups = new Map<string, BudgetLineItem[]>();
 
   // Group items by division code
-  items.forEach(item => {
+  items.forEach((item) => {
     const divisionCode = getDivisionCode(item.costCode);
     if (!groups.has(divisionCode)) {
       groups.set(divisionCode, []);
@@ -118,7 +126,9 @@ export function groupByDivision(items: BudgetLineItem[]): BudgetLineItem[] {
         costCode: divisionCode,
         description: divisionName,
         ...totals,
-        children: divisionItems.sort((a, b) => a.costCode.localeCompare(b.costCode)),
+        children: divisionItems.sort((a, b) =>
+          a.costCode.localeCompare(b.costCode),
+        ),
         expanded: false, // Start collapsed
       });
     });
@@ -133,7 +143,7 @@ export function groupBySubdivision(items: BudgetLineItem[]): BudgetLineItem[] {
   const divisions = new Map<string, Map<string, BudgetLineItem[]>>();
 
   // Group items by division and subdivision
-  items.forEach(item => {
+  items.forEach((item) => {
     const divisionCode = getDivisionCode(item.costCode);
     const subdivisionCode = getSubdivisionCode(item.costCode);
 
@@ -169,7 +179,9 @@ export function groupBySubdivision(items: BudgetLineItem[]): BudgetLineItem[] {
             costCode: subdivisionCode,
             description: subdivisionItems[0]?.description || subdivisionCode,
             ...totals,
-            children: subdivisionItems.sort((a, b) => a.costCode.localeCompare(b.costCode)),
+            children: subdivisionItems.sort((a, b) =>
+              a.costCode.localeCompare(b.costCode),
+            ),
             expanded: false,
           });
         });
@@ -194,17 +206,20 @@ export function groupBySubdivision(items: BudgetLineItem[]): BudgetLineItem[] {
 /**
  * Apply grouping to budget data based on selected grouping type
  */
-export function applyGrouping(items: BudgetLineItem[], grouping: GroupingType): BudgetLineItem[] {
+export function applyGrouping(
+  items: BudgetLineItem[],
+  grouping: GroupingType,
+): BudgetLineItem[] {
   switch (grouping) {
-    case 'cost-code-tier-1':
+    case "cost-code-tier-1":
       return groupByDivision(items);
-    case 'cost-code-tier-2':
+    case "cost-code-tier-2":
       return groupBySubdivision(items);
-    case 'cost-code-tier-3':
+    case "cost-code-tier-3":
       // For tier 3, you might want even deeper nesting
       // For now, use subdivision as a placeholder
       return groupBySubdivision(items);
-    case 'none':
+    case "none":
     default:
       return items;
   }
@@ -213,11 +228,13 @@ export function applyGrouping(items: BudgetLineItem[], grouping: GroupingType): 
 /**
  * Calculate grand totals from grouped data
  */
-export function calculateGrandTotals(items: BudgetLineItem[]): BudgetGrandTotals {
+export function calculateGrandTotals(
+  items: BudgetLineItem[],
+): BudgetGrandTotals {
   // Flatten the hierarchy to get all leaf nodes
   function flattenItems(items: BudgetLineItem[]): BudgetLineItem[] {
     const result: BudgetLineItem[] = [];
-    items.forEach(item => {
+    items.forEach((item) => {
       if (item.children && item.children.length > 0) {
         result.push(...flattenItems(item.children));
       } else {

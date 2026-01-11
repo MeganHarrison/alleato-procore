@@ -1,44 +1,48 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useParams, usePathname } from 'next/navigation';
-import { Users2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { ProjectPageHeader } from '@/components/layout/ProjectPageHeader';
-import { PageContainer } from '@/components/layout/PageContainer';
-import { PageTabs } from '@/components/layout/PageTabs';
-import { Text } from '@/components/ui/text';
-import { ResponsiveDistributionGroupsTable } from '@/components/directory/responsive/ResponsiveDistributionGroupsTable';
-import { DistributionGroupListSkeleton } from '@/components/directory/skeletons/DistributionGroupListSkeleton';
-import { EmptyDistributionGroups } from '@/components/directory/empty-states/EmptyDistributionGroups';
-import { getProjectDirectoryTabs } from '@/config/directory-tabs';
-import { useDistributionGroups } from '@/hooks/use-distribution-groups';
+import * as React from "react";
+import { useParams, usePathname } from "next/navigation";
+import { Users2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ProjectPageHeader } from "@/components/layout/ProjectPageHeader";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { PageTabs } from "@/components/layout/PageTabs";
+import { Text } from "@/components/ui/text";
+import { ResponsiveDistributionGroupsTable } from "@/components/directory/responsive/ResponsiveDistributionGroupsTable";
+import { DistributionGroupListSkeleton } from "@/components/directory/skeletons/DistributionGroupListSkeleton";
+import { EmptyDistributionGroups } from "@/components/directory/empty-states/EmptyDistributionGroups";
+import { getProjectDirectoryTabs } from "@/config/directory-tabs";
+import { useDistributionGroups } from "@/hooks/use-distribution-groups";
 
 export default function ProjectDirectoryGroupsPage() {
   const params = useParams();
   const pathname = usePathname();
   const projectId = params.projectId as string;
 
-  const { groups, isLoading, error } = useDistributionGroups(projectId, true, 'active');
+  const { groups, isLoading, error } = useDistributionGroups(
+    projectId,
+    true,
+    "active",
+  );
 
   const handleAddGroup = () => {
     // TODO: Open add group modal
-    console.warn('Add group functionality not yet implemented');
+    console.warn("Add group functionality not yet implemented");
   };
 
   const handleEditGroup = (group: unknown) => {
     // TODO: Open edit group modal
-    console.warn('Edit group functionality not yet implemented', group);
+    console.warn("Edit group functionality not yet implemented", group);
   };
 
   const handleDeleteGroup = async (group: unknown) => {
     // TODO: Implement delete group
-    console.warn('Delete group functionality not yet implemented', group);
+    console.warn("Delete group functionality not yet implemented", group);
   };
 
   const handleManageMembers = (group: unknown) => {
     // TODO: Open manage members modal
-    console.warn('Manage members functionality not yet implemented', group);
+    console.warn("Manage members functionality not yet implemented", group);
   };
 
   const tabs = getProjectDirectoryTabs(projectId, pathname);
@@ -86,7 +90,10 @@ export default function ProjectDirectoryGroupsPage() {
             <div>
               {groups.length > 0 && (
                 <Text as="p" size="sm" tone="muted">
-                  <Text as="span" weight="medium">{groups.length}</Text> distribution groups
+                  <Text as="span" weight="medium">
+                    {groups.length}
+                  </Text>{" "}
+                  distribution groups
                 </Text>
               )}
             </div>

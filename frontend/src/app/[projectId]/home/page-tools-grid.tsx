@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { use } from 'react';
-import { AppShell } from '@/components/layout';
+import * as React from "react";
+import { use } from "react";
+import { AppShell } from "@/components/layout";
 import {
   ProjectInfoCard,
   ProjectToolsGrid,
   RecentActivity,
   QuickActions,
-} from '@/components/project-home';
+} from "@/components/project-home";
 import {
   recentActivity,
   defaultProjectInfo,
   quickActions,
   getToolsByCategory,
-} from '@/config/project-home';
+} from "@/config/project-home";
 
 interface PageProps {
   params: Promise<{ projectId: string }>;
@@ -23,9 +23,9 @@ interface PageProps {
 export default function ProjectHomePage({ params }: PageProps) {
   const { projectId } = use(params);
 
-  const coreTools = getToolsByCategory('core');
-  const projectManagementTools = getToolsByCategory('project-management');
-  const financialTools = getToolsByCategory('financial-management');
+  const coreTools = getToolsByCategory("core");
+  const projectManagementTools = getToolsByCategory("project-management");
+  const financialTools = getToolsByCategory("financial-management");
 
   return (
     <AppShell
@@ -79,7 +79,10 @@ export default function ProjectHomePage({ params }: PageProps) {
               <QuickActions actions={quickActions} projectId={projectId} />
 
               {/* Recent Activity */}
-              <RecentActivity activities={recentActivity} projectId={projectId} />
+              <RecentActivity
+                activities={recentActivity}
+                projectId={projectId}
+              />
             </div>
           </div>
         </div>

@@ -1,90 +1,93 @@
-import { createClient } from '@/lib/supabase/server'
-import { GenericDataTable, type GenericTableConfig } from '@/components/tables/generic-table-factory'
-import { Database } from '@/types/database.types'
+import { createClient } from "@/lib/supabase/server";
+import {
+  GenericDataTable,
+  type GenericTableConfig,
+} from "@/components/tables/generic-table-factory";
+import { Database } from "@/types/database.types";
 
-type Note = Database['public']['Tables']['notes']['Row']
+type Note = Database["public"]["Tables"]["notes"]["Row"];
 
 const config: GenericTableConfig = {
-  title: 'Notes',
-  description: 'Project notes and annotations',
-  searchFields: ['body', 'created_by'],
-  exportFilename: 'notes-export.csv',
+  title: "Notes",
+  description: "Project notes and annotations",
+  searchFields: ["body", "created_by"],
+  exportFilename: "notes-export.csv",
   editConfig: {
-    tableName: 'notes',
-    editableFields: ['body', 'created_by'],
+    tableName: "notes",
+    editableFields: ["body", "created_by"],
   },
   columns: [
     {
-      id: 'body',
-      label: 'Note',
+      id: "body",
+      label: "Note",
       defaultVisible: true,
       renderConfig: {
-        type: 'truncate',
+        type: "truncate",
         maxLength: 150,
       },
     },
     {
-      id: 'project_id',
-      label: 'Project ID',
+      id: "project_id",
+      label: "Project ID",
       defaultVisible: true,
-      type: 'number',
+      type: "number",
     },
     {
-      id: 'created_by',
-      label: 'Created By',
+      id: "created_by",
+      label: "Created By",
       defaultVisible: true,
-      type: 'text',
+      type: "text",
     },
     {
-      id: 'archived',
-      label: 'Status',
+      id: "archived",
+      label: "Status",
       defaultVisible: true,
       renderConfig: {
-        type: 'badge',
+        type: "badge",
         variantMap: {
-          'true': 'outline',
-          'false': 'default',
+          true: "outline",
+          false: "default",
         },
-        defaultVariant: 'outline',
+        defaultVariant: "outline",
       },
     },
     {
-      id: 'created_at',
-      label: 'Created',
+      id: "created_at",
+      label: "Created",
       defaultVisible: true,
-      type: 'date',
+      type: "date",
     },
   ],
   filters: [
     {
-      id: 'archived',
-      label: 'Status',
-      field: 'archived',
+      id: "archived",
+      label: "Status",
+      field: "archived",
       options: [
-        { value: 'false', label: 'Active' },
-        { value: 'true', label: 'Archived' },
+        { value: "false", label: "Active" },
+        { value: "true", label: "Archived" },
       ],
     },
   ],
-  rowClickPath: '/notes/{id}',
-}
+  rowClickPath: "/notes/{id}",
+};
 
 export default async function NotesPage() {
-  const supabase = await createClient()
+  const supabase = await createClient();
 
   const { data: notes, error } = await supabase
-    .from('notes')
-    .select('*')
-    .order('created_at', { ascending: false })
+    .from("notes")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching notes:', error)
+    console.error("Error fetching notes:", error);
     return (
       <div className="text-center text-red-600">
         Error loading notes. Please try again later.
       </div>
-    )
+    );
   }
 
-  return <GenericDataTable data={notes || []} config={config} />
+  return <GenericDataTable data={notes || []} config={config} />;
 }

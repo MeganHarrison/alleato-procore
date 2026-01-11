@@ -3,7 +3,7 @@
  * Admin interface for managing plugins
  */
 
-import { PluginManagerUI } from '@/components/plugins/plugin-manager-ui';
+import { PluginManagerUI } from "@/components/plugins/plugin-manager-ui";
 
 export default function PluginsSettingsPage() {
   return (

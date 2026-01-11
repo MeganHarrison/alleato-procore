@@ -3,15 +3,15 @@
  * Provides React hooks and components for integrating plugins into the UI
  */
 
-import React, { useEffect, useState, useContext, createContext } from 'react';
-import { pluginManager } from './plugin-manager';
-import type { 
-  HookType, 
+import React, { useEffect, useState, useContext, createContext } from "react";
+import { pluginManager } from "./plugin-manager";
+import type {
+  HookType,
   HookContext,
   MenuItem,
   DashboardWidget,
   ProjectTab,
-} from '@/types/plugin.types';
+} from "@/types/plugin.types";
 
 // Plugin context for accessing plugin system
 interface PluginContextValue {
@@ -33,12 +33,12 @@ export function PluginProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     // Initialize plugin system
-    pluginManager.once('ready', () => {
+    pluginManager.once("ready", () => {
       setIsReady(true);
     });
 
     // Handle plugin errors
-    pluginManager.on('plugin:error', ({ pluginId, error }) => {
+    pluginManager.on("plugin:error", ({ pluginId, error }) => {
       console.error(`Plugin ${pluginId} error:`, error);
       // Could show a toast notification here
     });
@@ -61,7 +61,7 @@ export function PluginProvider({ children }: { children: React.ReactNode }) {
 export function usePluginSystem() {
   const context = useContext(PluginContext);
   if (!context) {
-    throw new Error('usePluginSystem must be used within PluginProvider');
+    throw new Error("usePluginSystem must be used within PluginProvider");
   }
   return context;
 }
@@ -71,7 +71,7 @@ export function usePluginSystem() {
  */
 export function usePluginHook<T = any>(
   type: HookType,
-  context: Omit<HookContext, 'type'>
+  context: Omit<HookContext, "type">,
 ): T[] {
   const [results, setResults] = useState<T[]>([]);
   const { pluginManager, isReady } = usePluginSystem();
@@ -108,14 +108,14 @@ export function usePluginMenuItems(menu: string): MenuItem[] {
     updateItems();
 
     // Listen for menu updates
-    pluginManager.on('ui:menu:updated', ({ menu: updatedMenu }) => {
+    pluginManager.on("ui:menu:updated", ({ menu: updatedMenu }) => {
       if (updatedMenu === menu) {
         updateItems();
       }
     });
 
     return () => {
-      pluginManager.off('ui:menu:updated', updateItems);
+      pluginManager.off("ui:menu:updated", updateItems);
     };
   }, [menu, isReady, pluginManager]);
 
@@ -139,10 +139,10 @@ export function usePluginWidgets(): DashboardWidget[] {
     updateWidgets();
 
     // Listen for widget updates
-    pluginManager.on('ui:widgets:updated', updateWidgets);
+    pluginManager.on("ui:widgets:updated", updateWidgets);
 
     return () => {
-      pluginManager.off('ui:widgets:updated', updateWidgets);
+      pluginManager.off("ui:widgets:updated", updateWidgets);
     };
   }, [isReady, pluginManager]);
 
@@ -166,14 +166,14 @@ export function usePluginProjectTabs(projectId: string): ProjectTab[] {
     updateTabs();
 
     // Listen for tab updates
-    pluginManager.on('ui:tabs:updated', ({ projectId: updatedProjectId }) => {
+    pluginManager.on("ui:tabs:updated", ({ projectId: updatedProjectId }) => {
       if (updatedProjectId === projectId) {
         updateTabs();
       }
     });
 
     return () => {
-      pluginManager.off('ui:tabs:updated', updateTabs);
+      pluginManager.off("ui:tabs:updated", updateTabs);
     };
   }, [projectId, isReady, pluginManager]);
 
@@ -183,25 +183,27 @@ export function usePluginProjectTabs(projectId: string): ProjectTab[] {
 /**
  * Component to render plugin menu items
  */
-export function PluginMenu({ 
-  menu, 
-  render 
-}: { 
+export function PluginMenu({
+  menu,
+  render,
+}: {
   menu: string;
   render: (items: MenuItem[]) => React.ReactNode;
 }) {
   const items = usePluginMenuItems(menu);
-  const filteredItems = items.filter(item => !item.condition || item.condition());
-  
+  const filteredItems = items.filter(
+    (item) => !item.condition || item.condition(),
+  );
+
   return <>{render(filteredItems)}</>;
 }
 
 /**
  * Component to render plugin widgets
  */
-export function PluginWidgets({ 
-  render 
-}: { 
+export function PluginWidgets({
+  render,
+}: {
   render: (widgets: DashboardWidget[]) => React.ReactNode;
 }) {
   const widgets = usePluginWidgets();
@@ -211,18 +213,20 @@ export function PluginWidgets({
 /**
  * Component to render plugin project tabs
  */
-export function PluginProjectTabs({ 
+export function PluginProjectTabs({
   projectId,
   project,
-  render 
-}: { 
+  render,
+}: {
   projectId: string;
   project: any;
   render: (tabs: ProjectTab[]) => React.ReactNode;
 }) {
   const tabs = usePluginProjectTabs(projectId);
-  const filteredTabs = tabs.filter(tab => !tab.condition || tab.condition(project));
-  
+  const filteredTabs = tabs.filter(
+    (tab) => !tab.condition || tab.condition(project),
+  );
+
   return <>{render(filteredTabs)}</>;
 }
 
@@ -232,12 +236,12 @@ export function PluginProjectTabs({
 export function withPluginHooks<P extends object>(
   Component: React.ComponentType<P & { pluginHookResults?: any[] }>,
   hookType: HookType,
-  getContext: (props: P) => Omit<HookContext, 'type'>
+  getContext: (props: P) => Omit<HookContext, "type">,
 ) {
   return (props: P) => {
     const context = getContext(props);
     const results = usePluginHook(hookType, context);
-    
+
     return <Component {...props} pluginHookResults={results} />;
   };
 }
@@ -254,10 +258,10 @@ export function usePluginNotifications() {
       console.log(`[${type.toUpperCase()}] ${message}`);
     };
 
-    pluginManager.on('ui:notification', handleNotification);
+    pluginManager.on("ui:notification", handleNotification);
 
     return () => {
-      pluginManager.off('ui:notification', handleNotification);
+      pluginManager.off("ui:notification", handleNotification);
     };
   }, [pluginManager]);
 }
@@ -266,7 +270,9 @@ export function usePluginNotifications() {
  * Hook to handle plugin modals
  */
 export function usePluginModals() {
-  const [modalContent, setModalContent] = useState<React.ReactNode | null>(null);
+  const [modalContent, setModalContent] = useState<React.ReactNode | null>(
+    null,
+  );
   const { pluginManager } = usePluginSystem();
 
   useEffect(() => {
@@ -274,10 +280,10 @@ export function usePluginModals() {
       setModalContent(content);
     };
 
-    pluginManager.on('ui:modal', handleModal);
+    pluginManager.on("ui:modal", handleModal);
 
     return () => {
-      pluginManager.off('ui:modal', handleModal);
+      pluginManager.off("ui:modal", handleModal);
     };
   }, [pluginManager]);
 
@@ -296,7 +302,7 @@ export function createPluginComponent<P extends object>(
     afterHook?: HookType;
     menuSlot?: string;
     widgetSlot?: boolean;
-  }
+  },
 ) {
   return (props: P & { pluginContext?: any }) => {
     const { beforeHook, afterHook, menuSlot } = options;
@@ -304,14 +310,14 @@ export function createPluginComponent<P extends object>(
 
     // Execute before hooks
     const beforeResults = usePluginHook(
-      beforeHook || 'api:request' as HookType,
-      beforeHook ? context : {}
+      beforeHook || ("api:request" as HookType),
+      beforeHook ? context : {},
     );
 
     // Execute after hooks
     const afterResults = usePluginHook(
-      afterHook || 'api:response' as HookType,
-      afterHook ? context : {}
+      afterHook || ("api:response" as HookType),
+      afterHook ? context : {},
     );
 
     // Get menu items if menu slot is specified

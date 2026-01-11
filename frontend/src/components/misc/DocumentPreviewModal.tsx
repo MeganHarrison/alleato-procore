@@ -8,7 +8,10 @@ type DocumentPreviewModalProps = {
   onClose: () => void;
 };
 
-export function DocumentPreviewModal({ document, onClose }: DocumentPreviewModalProps) {
+export function DocumentPreviewModal({
+  document,
+  onClose,
+}: DocumentPreviewModalProps) {
   if (!document) {
     return null;
   }

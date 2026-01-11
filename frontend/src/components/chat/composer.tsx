@@ -1,47 +1,47 @@
-"use client"
+"use client";
 
-import { useState, useRef, KeyboardEvent } from "react"
-import { Paperclip, Smile, Send } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
+import { useState, useRef, KeyboardEvent } from "react";
+import { Paperclip, Smile, Send } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 
 interface ComposerProps {
-  onSend: (content: string) => void
-  channelName: string
-  disabled?: boolean
+  onSend: (content: string) => void;
+  channelName: string;
+  disabled?: boolean;
 }
 
 export function Composer({ onSend, channelName, disabled }: ComposerProps) {
-  const [message, setMessage] = useState("")
-  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const [message, setMessage] = useState("");
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleSend = () => {
     if (message.trim() && !disabled) {
-      onSend(message)
-      setMessage("")
+      onSend(message);
+      setMessage("");
       // Reset textarea height
       if (textareaRef.current) {
-        textareaRef.current.style.height = "auto"
+        textareaRef.current.style.height = "auto";
       }
     }
-  }
+  };
 
   const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault()
-      handleSend()
+      e.preventDefault();
+      handleSend();
     }
-  }
+  };
 
   const handleInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setMessage(e.target.value)
+    setMessage(e.target.value);
 
     // Auto-resize textarea
-    const textarea = e.target
-    textarea.style.height = "auto"
-    const newHeight = Math.min(textarea.scrollHeight, 150) // Max 6 lines
-    textarea.style.height = `${newHeight}px`
-  }
+    const textarea = e.target;
+    textarea.style.height = "auto";
+    const newHeight = Math.min(textarea.scrollHeight, 150); // Max 6 lines
+    textarea.style.height = `${newHeight}px`;
+  };
 
   return (
     <div className="border-t border-[hsl(var(--chat-border))] bg-[hsl(var(--chat-panel))] px-4 py-3">
@@ -96,9 +96,16 @@ export function Composer({ onSend, channelName, disabled }: ComposerProps) {
       {/* Helper Text */}
       <div className="mt-2 text-xs text-[hsl(var(--chat-muted))]">
         <span className="hidden sm:inline">
-          <kbd className="px-1.5 py-0.5 bg-[hsl(var(--chat-bg))] border border-[hsl(var(--chat-border))] rounded text-xs">Enter</kbd> to send, <kbd className="px-1.5 py-0.5 bg-[hsl(var(--chat-bg))] border border-[hsl(var(--chat-border))] rounded text-xs">Shift + Enter</kbd> for new line
+          <kbd className="px-1.5 py-0.5 bg-[hsl(var(--chat-bg))] border border-[hsl(var(--chat-border))] rounded text-xs">
+            Enter
+          </kbd>{" "}
+          to send,{" "}
+          <kbd className="px-1.5 py-0.5 bg-[hsl(var(--chat-bg))] border border-[hsl(var(--chat-border))] rounded text-xs">
+            Shift + Enter
+          </kbd>{" "}
+          for new line
         </span>
       </div>
     </div>
-  )
+  );
 }

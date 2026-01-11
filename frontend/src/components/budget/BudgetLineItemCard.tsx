@@ -1,27 +1,30 @@
-import * as React from "react"
-import { Trash2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Stack } from "@/components/ui/stack"
-import { Inline } from "@/components/ui/inline"
-import { Text } from "@/components/ui/text"
-import { UomSelect } from "./UomSelect"
-import { BudgetCodeSelector } from "@/app/[projectId]/budget/setup/components"
-import type { BudgetLineItem, ProjectCostCode } from "@/app/[projectId]/budget/setup/types"
+import * as React from "react";
+import { Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Stack } from "@/components/ui/stack";
+import { Inline } from "@/components/ui/inline";
+import { Text } from "@/components/ui/text";
+import { UomSelect } from "./UomSelect";
+import { BudgetCodeSelector } from "@/app/[projectId]/budget/setup/components";
+import type {
+  BudgetLineItem,
+  ProjectCostCode,
+} from "@/app/[projectId]/budget/setup/types";
 
 interface BudgetLineItemCardProps {
-  item: BudgetLineItem
-  index: number
-  projectCostCodes: ProjectCostCode[]
-  isPopoverOpen: boolean
-  onPopoverOpenChange: (open: boolean) => void
-  onBudgetCodeSelect: (costCode: ProjectCostCode) => void
-  onFieldChange: (field: keyof BudgetLineItem, value: string) => void
-  onRemove: () => void
-  onCreateNew: () => void
-  canRemove: boolean
-  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void
+  item: BudgetLineItem;
+  index: number;
+  projectCostCodes: ProjectCostCode[];
+  isPopoverOpen: boolean;
+  onPopoverOpenChange: (open: boolean) => void;
+  onBudgetCodeSelect: (costCode: ProjectCostCode) => void;
+  onFieldChange: (field: keyof BudgetLineItem, value: string) => void;
+  onRemove: () => void;
+  onCreateNew: () => void;
+  canRemove: boolean;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
 /**
@@ -125,5 +128,5 @@ export function BudgetLineItemCard({
         </div>
       </Stack>
     </div>
-  )
+  );
 }

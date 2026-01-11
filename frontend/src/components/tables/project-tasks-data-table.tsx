@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,7 +12,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -23,9 +23,9 @@ import {
   ListTodoIcon,
   MoreVerticalIcon,
   PlusIcon,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -33,15 +33,15 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dropdown-menu";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -49,20 +49,20 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Badge } from "@/components/ui/badge"
-import type { Database } from "@/types/database.types"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import type { Database } from "@/types/database.types";
+import { cn } from "@/lib/utils";
 
-type ProjectTask = Database["public"]["Tables"]["project_tasks"]["Row"]
-type Project = Database["public"]["Tables"]["projects"]["Row"]
+type ProjectTask = Database["public"]["Tables"]["project_tasks"]["Row"];
+type Project = Database["public"]["Tables"]["projects"]["Row"];
 
 interface ProjectTaskWithProject extends ProjectTask {
-  project?: Project | null
+  project?: Project | null;
 }
 
 interface ProjectTasksDataTableProps {
-  tasks: ProjectTaskWithProject[]
+  tasks: ProjectTaskWithProject[];
 }
 
 const columns: ColumnDef<ProjectTaskWithProject>[] = [
@@ -75,8 +75,8 @@ const columns: ColumnDef<ProjectTaskWithProject>[] = [
             table.getIsAllPageRowsSelected()
               ? true
               : table.getIsSomePageRowsSelected()
-              ? "indeterminate"
-              : false
+                ? "indeterminate"
+                : false
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
@@ -99,77 +99,79 @@ const columns: ColumnDef<ProjectTaskWithProject>[] = [
     accessorKey: "task_description",
     header: "Task Description",
     cell: ({ row }) => {
-      const task = row.original
-      
+      const task = row.original;
+
       return (
         <div className="flex items-center">
           <ListTodoIcon className="mr-2 size-4" />
-          <span className="font-medium">{task.task_description || "Untitled Task"}</span>
+          <span className="font-medium">
+            {task.task_description || "Untitled Task"}
+          </span>
         </div>
-      )
+      );
     },
   },
   {
     accessorKey: "project.name",
     header: "Project",
     cell: ({ row }) => {
-      const project = row.original.project
+      const project = row.original.project;
       return (
         <span className="text-muted-foreground">
           {project?.name || "No Project"}
         </span>
-      )
+      );
     },
   },
   {
     accessorKey: "status",
     header: "Status",
     cell: ({ row }) => {
-      const status = row.getValue("status") as string
-      const variant = status === "completed"
-        ? "success"
-        : status === "in_progress"
-        ? "default"
-        : "secondary"
+      const status = row.getValue("status") as string;
+      const variant =
+        status === "completed"
+          ? "success"
+          : status === "in_progress"
+            ? "default"
+            : "secondary";
 
       return (
         <Badge variant={variant}>
           {status?.replace("_", " ").toUpperCase() || "PENDING"}
         </Badge>
-      )
+      );
     },
   },
   {
     accessorKey: "priority",
     header: "Priority",
     cell: ({ row }) => {
-      const priority = row.getValue("priority") as string
-      const variant = priority === "high"
-        ? "destructive"
-        : priority === "medium"
-        ? "warning"
-        : "secondary"
+      const priority = row.getValue("priority") as string;
+      const variant =
+        priority === "high"
+          ? "destructive"
+          : priority === "medium"
+            ? "warning"
+            : "secondary";
 
       return (
-        <Badge variant={variant}>
-          {priority?.toUpperCase() || "LOW"}
-        </Badge>
-      )
+        <Badge variant={variant}>{priority?.toUpperCase() || "LOW"}</Badge>
+      );
     },
   },
   {
     accessorKey: "due_date",
     header: "Due Date",
     cell: ({ row }) => {
-      const dueDate = row.getValue("due_date") as string
-      return dueDate ? new Date(dueDate).toLocaleDateString() : "No due date"
+      const dueDate = row.getValue("due_date") as string;
+      return dueDate ? new Date(dueDate).toLocaleDateString() : "No due date";
     },
   },
   {
     id: "actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const task = row.original
+      const task = row.original;
 
       return (
         <DropdownMenu>
@@ -193,16 +195,19 @@ const columns: ColumnDef<ProjectTaskWithProject>[] = [
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];
 
 export function ProjectTasksDataTable({ tasks }: ProjectTasksDataTableProps) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data: tasks,
@@ -221,7 +226,7 @@ export function ProjectTasksDataTable({ tasks }: ProjectTasksDataTableProps) {
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   return (
     <div className="w-full">
@@ -251,7 +256,7 @@ export function ProjectTasksDataTable({ tasks }: ProjectTasksDataTableProps) {
                     >
                       {column.id}
                     </DropdownMenuCheckboxItem>
-                  )
+                  );
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
@@ -268,33 +273,39 @@ export function ProjectTasksDataTable({ tasks }: ProjectTasksDataTableProps) {
                 {headerGroup.headers.map((header) => {
                   return (
                     <TableHead key={header.id}>
-                {header.isPlaceholder ? null : (
-                  <div
-                    className={cn(
-                      header.column.getCanSort() ? "cursor-pointer select-none" : "",
-                      "flex items-center justify-between gap-1"
-                    )}
-                    onClick={header.column.getCanSort() ? header.column.getToggleSortingHandler() : undefined}
-                  >
-                    <span>
-                      {flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
+                      {header.isPlaceholder ? null : (
+                        <div
+                          className={cn(
+                            header.column.getCanSort()
+                              ? "cursor-pointer select-none"
+                              : "",
+                            "flex items-center justify-between gap-1",
+                          )}
+                          onClick={
+                            header.column.getCanSort()
+                              ? header.column.getToggleSortingHandler()
+                              : undefined
+                          }
+                        >
+                          <span>
+                            {flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                          </span>
+                          {header.column.getCanSort() && (
+                            <span className="text-xs text-muted-foreground">
+                              {header.column.getIsSorted() === "asc"
+                                ? "↑"
+                                : header.column.getIsSorted() === "desc"
+                                  ? "↓"
+                                  : "↕"}
+                            </span>
+                          )}
+                        </div>
                       )}
-                    </span>
-                    {header.column.getCanSort() && (
-                      <span className="text-xs text-muted-foreground">
-                        {header.column.getIsSorted() === 'asc'
-                          ? '↑'
-                          : header.column.getIsSorted() === 'desc'
-                            ? '↓'
-                            : '↕'}
-                      </span>
-                    )}
-                  </div>
-                )}
                     </TableHead>
-                  )
+                  );
                 })}
               </TableRow>
             ))}
@@ -310,7 +321,7 @@ export function ProjectTasksDataTable({ tasks }: ProjectTasksDataTableProps) {
                     <TableCell key={cell.id}>
                       {flexRender(
                         cell.column.columnDef.cell,
-                        cell.getContext()
+                        cell.getContext(),
                       )}
                     </TableCell>
                   ))}
@@ -340,11 +351,13 @@ export function ProjectTasksDataTable({ tasks }: ProjectTasksDataTableProps) {
             <Select
               value={`${table.getState().pagination.pageSize}`}
               onValueChange={(value) => {
-                table.setPageSize(Number(value))
+                table.setPageSize(Number(value));
               }}
             >
               <SelectTrigger className="h-8 w-[70px]">
-                <SelectValue placeholder={table.getState().pagination.pageSize} />
+                <SelectValue
+                  placeholder={table.getState().pagination.pageSize}
+                />
               </SelectTrigger>
               <SelectContent side="top">
                 {[10, 20, 30, 40, 50].map((pageSize) => (
@@ -400,5 +413,5 @@ export function ProjectTasksDataTable({ tasks }: ProjectTasksDataTableProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

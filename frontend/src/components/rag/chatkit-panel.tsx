@@ -49,9 +49,13 @@ export function ChatKitPanel({
     },
     initialThread: initialThreadId ?? null,
     startScreen: {
-      greeting: "Hi! I'm your Alleato AI assistant. I have access to your Supabase data.",
+      greeting:
+        "Hi! I'm your Alleato AI assistant. I have access to your Supabase data.",
       prompts: [
-        { label: "What projects do we have?", prompt: "What projects do we have?" },
+        {
+          label: "What projects do we have?",
+          prompt: "What projects do we have?",
+        },
         {
           label: "Show me recent tasks",
           prompt: "Show me recent tasks",

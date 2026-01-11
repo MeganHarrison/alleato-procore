@@ -5,8 +5,12 @@
  * Used by the Admin Table Explorer to dynamically generate forms and views
  */
 
-import { createServiceClient } from '@/lib/supabase/service';
-import { assertTableAllowed, getTableConfig, type TableName } from '@/lib/table-registry';
+import { createServiceClient } from "@/lib/supabase/service";
+import {
+  assertTableAllowed,
+  getTableConfig,
+  type TableName,
+} from "@/lib/table-registry";
 
 export interface ColumnInfo {
   column_name: string;
@@ -20,17 +24,17 @@ export interface ColumnInfo {
 }
 
 export type InputType =
-  | 'text'
-  | 'number'
-  | 'boolean'
-  | 'datetime'
-  | 'date'
-  | 'time'
-  | 'json'
-  | 'uuid'
-  | 'email'
-  | 'url'
-  | 'select';
+  | "text"
+  | "number"
+  | "boolean"
+  | "datetime"
+  | "date"
+  | "time"
+  | "json"
+  | "uuid"
+  | "email"
+  | "url"
+  | "select";
 
 export interface ColumnMetadata extends ColumnInfo {
   inputType: InputType;
@@ -73,14 +77,13 @@ export async function getTableColumns(table: TableName): Promise<ColumnInfo[]> {
  * Fallback method to get columns using direct table query
  * This works by selecting from the table with limit 0 and examining the response
  */
-async function getTableColumnsViaQuery(table: TableName): Promise<ColumnInfo[]> {
+async function getTableColumnsViaQuery(
+  table: TableName,
+): Promise<ColumnInfo[]> {
   const supabase = createServiceClient();
 
   // Get one row (or empty) to determine columns
-  const { data, error } = await supabase
-    .from(table)
-    .select('*')
-    .limit(1);
+  const { data, error } = await supabase.from(table).select("*").limit(1);
 
   if (error) {
     throw new Error(`Failed to query table ${table}: ${error.message}`);
@@ -99,9 +102,9 @@ async function getTableColumnsViaQuery(table: TableName): Promise<ColumnInfo[]> 
     udt_name: inferUdtName(value),
     is_nullable: true, // Assume nullable by default
     column_default: null,
-    is_identity: key === 'id',
+    is_identity: key === "id",
     character_maximum_length: null,
-    is_updatable: key !== 'id' && key !== 'created_at',
+    is_updatable: key !== "id" && key !== "created_at",
   }));
 }
 
@@ -112,31 +115,31 @@ function inferColumnsFromEmpty(table: TableName): ColumnInfo[] {
   // Common columns present in most tables
   const commonColumns: ColumnInfo[] = [
     {
-      column_name: 'id',
-      data_type: 'uuid',
-      udt_name: 'uuid',
+      column_name: "id",
+      data_type: "uuid",
+      udt_name: "uuid",
       is_nullable: false,
-      column_default: 'gen_random_uuid()',
+      column_default: "gen_random_uuid()",
       is_identity: true,
       character_maximum_length: null,
       is_updatable: false,
     },
     {
-      column_name: 'created_at',
-      data_type: 'timestamp with time zone',
-      udt_name: 'timestamptz',
+      column_name: "created_at",
+      data_type: "timestamp with time zone",
+      udt_name: "timestamptz",
       is_nullable: true,
-      column_default: 'now()',
+      column_default: "now()",
       is_identity: false,
       character_maximum_length: null,
       is_updatable: false,
     },
     {
-      column_name: 'updated_at',
-      data_type: 'timestamp with time zone',
-      udt_name: 'timestamptz',
+      column_name: "updated_at",
+      data_type: "timestamp with time zone",
+      udt_name: "timestamptz",
       is_nullable: true,
-      column_default: 'now()',
+      column_default: "now()",
       is_identity: false,
       character_maximum_length: null,
       is_updatable: false,
@@ -146,68 +149,102 @@ function inferColumnsFromEmpty(table: TableName): ColumnInfo[] {
   // Table-specific columns based on common patterns
   const tableSpecificColumns: Record<string, ColumnInfo[]> = {
     projects: [
-      { column_name: 'name', data_type: 'text', udt_name: 'text', is_nullable: true, column_default: null, is_identity: false, character_maximum_length: null, is_updatable: true },
-      { column_name: 'description', data_type: 'text', udt_name: 'text', is_nullable: true, column_default: null, is_identity: false, character_maximum_length: null, is_updatable: true },
+      {
+        column_name: "name",
+        data_type: "text",
+        udt_name: "text",
+        is_nullable: true,
+        column_default: null,
+        is_identity: false,
+        character_maximum_length: null,
+        is_updatable: true,
+      },
+      {
+        column_name: "description",
+        data_type: "text",
+        udt_name: "text",
+        is_nullable: true,
+        column_default: null,
+        is_identity: false,
+        character_maximum_length: null,
+        is_updatable: true,
+      },
     ],
     companies: [
-      { column_name: 'name', data_type: 'text', udt_name: 'text', is_nullable: true, column_default: null, is_identity: false, character_maximum_length: null, is_updatable: true },
-      { column_name: 'email', data_type: 'text', udt_name: 'text', is_nullable: true, column_default: null, is_identity: false, character_maximum_length: null, is_updatable: true },
+      {
+        column_name: "name",
+        data_type: "text",
+        udt_name: "text",
+        is_nullable: true,
+        column_default: null,
+        is_identity: false,
+        character_maximum_length: null,
+        is_updatable: true,
+      },
+      {
+        column_name: "email",
+        data_type: "text",
+        udt_name: "text",
+        is_nullable: true,
+        column_default: null,
+        is_identity: false,
+        character_maximum_length: null,
+        is_updatable: true,
+      },
     ],
   };
 
-  return [
-    ...commonColumns,
-    ...(tableSpecificColumns[table] ?? []),
-  ];
+  return [...commonColumns, ...(tableSpecificColumns[table] ?? [])];
 }
 
 /**
  * Infer SQL data type from a JavaScript value
  */
 function inferDataType(value: unknown): string {
-  if (value === null) return 'text';
-  if (typeof value === 'boolean') return 'boolean';
-  if (typeof value === 'number') {
-    return Number.isInteger(value) ? 'integer' : 'numeric';
+  if (value === null) return "text";
+  if (typeof value === "boolean") return "boolean";
+  if (typeof value === "number") {
+    return Number.isInteger(value) ? "integer" : "numeric";
   }
-  if (typeof value === 'string') {
-    if (isUUID(value)) return 'uuid';
-    if (isISO8601(value)) return 'timestamp with time zone';
-    return 'text';
+  if (typeof value === "string") {
+    if (isUUID(value)) return "uuid";
+    if (isISO8601(value)) return "timestamp with time zone";
+    return "text";
   }
-  if (typeof value === 'object') {
-    if (Array.isArray(value)) return 'ARRAY';
-    return 'jsonb';
+  if (typeof value === "object") {
+    if (Array.isArray(value)) return "ARRAY";
+    return "jsonb";
   }
-  return 'text';
+  return "text";
 }
 
 /**
  * Infer UDT name from a JavaScript value
  */
 function inferUdtName(value: unknown): string {
-  if (value === null) return 'text';
-  if (typeof value === 'boolean') return 'bool';
-  if (typeof value === 'number') {
-    return Number.isInteger(value) ? 'int4' : 'numeric';
+  if (value === null) return "text";
+  if (typeof value === "boolean") return "bool";
+  if (typeof value === "number") {
+    return Number.isInteger(value) ? "int4" : "numeric";
   }
-  if (typeof value === 'string') {
-    if (isUUID(value)) return 'uuid';
-    if (isISO8601(value)) return 'timestamptz';
-    return 'text';
+  if (typeof value === "string") {
+    if (isUUID(value)) return "uuid";
+    if (isISO8601(value)) return "timestamptz";
+    return "text";
   }
-  if (typeof value === 'object') {
-    if (Array.isArray(value)) return '_text';
-    return 'jsonb';
+  if (typeof value === "object") {
+    if (Array.isArray(value)) return "_text";
+    return "jsonb";
   }
-  return 'text';
+  return "text";
 }
 
 /**
  * Check if a string is a valid UUID
  */
 function isUUID(value: string): boolean {
-  const uuidRegex = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+  const uuidRegex =
+    /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
   return uuidRegex.test(value);
 }
 
@@ -216,7 +253,7 @@ function isUUID(value: string): boolean {
  */
 function isISO8601(value: string): boolean {
   const date = new Date(value);
-  return !isNaN(date.getTime()) && value.includes('T');
+  return !isNaN(date.getTime()) && value.includes("T");
 }
 
 /**
@@ -237,42 +274,47 @@ export function mapColumnToInputType(column: ColumnInfo): InputType {
   const udt = udt_name.toLowerCase();
 
   // Check column name for hints
-  if (column_name.includes('email')) return 'email';
-  if (column_name.includes('url') || column_name.includes('link')) return 'url';
+  if (column_name.includes("email")) return "email";
+  if (column_name.includes("url") || column_name.includes("link")) return "url";
 
   // UUID
-  if (type === 'uuid' || udt === 'uuid') return 'uuid';
+  if (type === "uuid" || udt === "uuid") return "uuid";
 
   // Boolean
-  if (type === 'boolean' || udt === 'bool') return 'boolean';
+  if (type === "boolean" || udt === "bool") return "boolean";
 
   // Numbers
   if (
-    type.includes('int') ||
-    type === 'numeric' ||
-    type === 'real' ||
-    type === 'double precision' ||
-    type === 'decimal' ||
-    udt.includes('int') ||
-    udt === 'numeric' ||
-    udt === 'float4' ||
-    udt === 'float8'
+    type.includes("int") ||
+    type === "numeric" ||
+    type === "real" ||
+    type === "double precision" ||
+    type === "decimal" ||
+    udt.includes("int") ||
+    udt === "numeric" ||
+    udt === "float4" ||
+    udt === "float8"
   ) {
-    return 'number';
+    return "number";
   }
 
   // Date/time
-  if (type.includes('timestamp') || udt === 'timestamptz') return 'datetime';
-  if (type === 'date') return 'date';
-  if (type === 'time' || type === 'time without time zone') return 'time';
+  if (type.includes("timestamp") || udt === "timestamptz") return "datetime";
+  if (type === "date") return "date";
+  if (type === "time" || type === "time without time zone") return "time";
 
   // JSON
-  if (type === 'json' || type === 'jsonb' || udt === 'json' || udt === 'jsonb') {
-    return 'json';
+  if (
+    type === "json" ||
+    type === "jsonb" ||
+    udt === "json" ||
+    udt === "jsonb"
+  ) {
+    return "json";
   }
 
   // Default to text
-  return 'text';
+  return "text";
 }
 
 /**
@@ -280,15 +322,17 @@ export function mapColumnToInputType(column: ColumnInfo): InputType {
  */
 export function columnNameToLabel(columnName: string): string {
   return columnName
-    .split('_')
+    .split("_")
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
+    .join(" ");
 }
 
 /**
  * Get enhanced column metadata for form generation
  */
-export async function getColumnMetadata(table: TableName): Promise<ColumnMetadata[]> {
+export async function getColumnMetadata(
+  table: TableName,
+): Promise<ColumnMetadata[]> {
   const columns = await getTableColumns(table);
   const config = getTableConfig(table);
   const pk = getPrimaryKey(table);
@@ -299,8 +343,8 @@ export async function getColumnMetadata(table: TableName): Promise<ColumnMetadat
     const isReadOnly =
       col.is_identity ||
       col.column_name === pk ||
-      col.column_name === 'created_at' ||
-      col.column_default?.includes('now()') === true;
+      col.column_name === "created_at" ||
+      col.column_default?.includes("now()") === true;
 
     return {
       ...col,
@@ -317,7 +361,7 @@ export async function getColumnMetadata(table: TableName): Promise<ColumnMetadat
  */
 export async function getFormColumns(
   table: TableName,
-  mode: 'create' | 'edit'
+  mode: "create" | "edit",
 ): Promise<ColumnMetadata[]> {
   const columns = await getColumnMetadata(table);
 
@@ -326,10 +370,14 @@ export async function getFormColumns(
     if (col.is_identity) return false;
 
     // Skip primary key on edit (can't change PK)
-    if (mode === 'edit' && col.column_name === getPrimaryKey(table)) return false;
+    if (mode === "edit" && col.column_name === getPrimaryKey(table))
+      return false;
 
     // Skip auto-generated timestamps
-    if (col.column_default?.includes('now()') && col.column_name !== 'updated_at') {
+    if (
+      col.column_default?.includes("now()") &&
+      col.column_name !== "updated_at"
+    ) {
       return false;
     }
 
@@ -342,7 +390,7 @@ export async function getFormColumns(
  */
 export async function validateColumnNames(
   table: TableName,
-  columnNames: string[]
+  columnNames: string[],
 ): Promise<{ valid: string[]; invalid: string[] }> {
   const columns = await getTableColumns(table);
   const validColumnNames = new Set(columns.map((c) => c.column_name));
@@ -366,7 +414,7 @@ export async function validateColumnNames(
  */
 export async function filterValidColumns(
   table: TableName,
-  data: Record<string, unknown>
+  data: Record<string, unknown>,
 ): Promise<Record<string, unknown>> {
   const columns = await getTableColumns(table);
   const validColumnNames = new Set(columns.map((c) => c.column_name));

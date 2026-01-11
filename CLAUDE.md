@@ -1,755 +1,1323 @@
-# CLAUDE.md — GLOBAL OPERATING LAW (REPLACEMENT)
+# Claude Code Project Instructions
 
-### PURPOSE (NON-NEGOTIABLE)
-
-This file is the **single source of truth** for all AI agents operating in this repository.
-
-All other instructions, prompts, agents, tools, and plans **MUST defer to this file**.
-
-Failure to follow these rules **INVALIDATES THE RESPONSE**.
-
----
-
-### PROJECT CONTEXT
+## PROJECT CONTEXT
 
 **Alleato-Procore** is a production-grade construction project management system.
 
-**Stack**
-
-* Frontend: Next.js 15 (App Router), Tailwind, ShadCN UI, Supabase, OpenAI ChatKit
-* Backend: Supabase (Postgres, RLS, Auth, Storage)
-* AI System: OpenAI Agents SDK, Codex MCP
-* Testing & Analysis: Playwright (browser-verified)
+| Layer | Stack |
+|-------|-------|
+| Frontend | Next.js 15 (App Router), Tailwind, ShadCN UI, Supabase, OpenAI ChatKit |
+| Backend | Supabase (Postgres, RLS, Auth, Storage) |
+| AI System | OpenAI Agents SDK, Codex MCP |
+| Testing | Playwright (browser-verified) |
 
 This is a **real production system**. Accuracy, verification, and correctness are mandatory.
 
 ---
 
-### RULE PRIORITY ORDER (HIGHEST → LOWEST)
+## 📁 CRITICAL: FILE LOCATION RULES (NO EXCEPTIONS)
 
-When rules conflict, obey this order:
+**ALL project documentation MUST go in `documentation/`, NOT in `.claude/`.**
 
-1. **Security**
-2. **Code Quality Gates** (Zero tolerance for type/lint errors)
-3. **Parallel Agent Strategy** (Use parallel agents for bulk tasks)
-4. **Execution Gates**
-5. **Explicit User Instructions**
-6. **Schema & Type Safety**
-7. **Testing Requirements**
-8. **Code Quality & Conventions**
+| File Type | Correct Location | BANNED Location |
+|-----------|------------------|-----------------|
+| Feature docs | `documentation/1-project-mgmt/in-progress/{feature}/` | `.claude/*.md` |
+| Verification reports | `{feature-folder}/VERIFICATION-*.md` | `.claude/VERIFICATION-*.md` |
+| Completion reports | `{feature-folder}/COMPLETION-REPORT.md` | `.claude/COMPLETION-*.md` |
+| Session summaries | `{feature-folder}/SESSION-*.md` | `.claude/SESSION-*.md` |
+| Test results | `{feature-folder}/TEST-RESULTS.md` | `.claude/TEST-*.md` |
+| Status updates | `{feature-folder}/STATUS.md` | `.claude/*-STATUS.md` |
+| Plans & specs | `documentation/docs/` or `{feature-folder}/` | `.claude/` root |
+
+**The `.claude/` folder is ONLY for Claude Code tooling:**
+- `commands/` - Slash commands
+- `plugins/` - Claude Code plugins
+- `settings.local.json` - Local settings
+- `plans/` - Plan mode working files (temporary)
+
+**Project management files go in `documentation/1-project-mgmt/`:**
+- `shared/logs/task-log.md` - Session log
+- `shared/research/` - Cross-feature research
+- `shared/current-task.md` - Active task tracking
+- `in-progress/{feature}/` - All feature-specific files (including workflow signals)
+
+**VIOLATION:** Creating any project/documentation file in `.claude/`.
 
 ---
 
-## 🚫 CODE QUALITY GATES (ABSOLUTE - ZERO TOLERANCE)
+## 🔒 CORE PRINCIPLES
 
-**THESE RULES ARE MANDATORY AND NON-NEGOTIABLE**
+Claude is an **execution-verified engineer**, not a speculative assistant.
 
-### Pre-Commit Enforcement (Automatic)
+### 1. NO STOPPING UNTIL COMPLETE
 
-Every commit is automatically checked for:
+**CRITICAL:** When given a task, Claude MUST continue working until the task is FULLY complete. Do not stop to:
+- Document progress (do this alongside work, not instead of work)
+- Report findings (fix them immediately instead)
+- Ask for permission to continue (just continue)
+- Write status reports (complete the work first)
 
-1. **TypeScript Errors** - ALL type errors must be fixed
-2. **ESLint Errors** - ALL lint errors must be fixed
-3. **Auto-formatting** - Code is automatically formatted
+**Exception:** Stop only if:
+- Blocked by missing access/credentials
+- Ambiguous requirements need clarification
+- User explicitly says to stop
 
-**If any check fails, the commit is BLOCKED.**
+### 2. VERIFIED EXECUTION
 
-### Pre-Push Enforcement (Full Project Check)
+| Principle | Meaning |
+|-----------|---------|
+| No evidence → no reasoning | Don't speculate. Get data first. |
+| No verification → no completion | Tasks require proof, not claims. |
+| No fresh context → no trust | Complex tasks need independent verification. |
+| No documentation → no work | Fix issues instead of documenting them. |
 
-Before pushing, the ENTIRE project is checked:
+---
 
-1. **Full TypeScript Check** - `npm run typecheck`
-2. **Full ESLint Check** - `npm run lint`
+## ✅ TASK COMPLETION DEFINITION (SINGLE SOURCE OF TRUTH)
 
-**If either fails, the push is BLOCKED.**
+A task is **COMPLETE** only when ALL apply:
 
-### CI/CD Enforcement (GitHub Actions)
+- [ ] Code changes implemented
+- [ ] `npm run quality --prefix frontend` passes (zero errors)
+- [ ] Tests written (if applicable)
+- [ ] Tests EXECUTED and PASSING (show output)
+- [ ] Browser/runtime verification performed (if UI-related)
+- [ ] Verification evidence logged to `.claude/task-log.md`
+- [ ] For complex tasks: Independent verifier sub-agent confirms
 
-Every Pull Request runs:
+**Claiming completion without this evidence = violation.**
 
-1. TypeScript type check on entire codebase
-2. ESLint on entire codebase
+---
 
-**PRs cannot be merged if checks fail.**
+## 🤖 SUB-AGENT STRATEGY
 
-### Rules for Claude
+### When to Spawn Sub-Agents
 
-Claude MUST:
+| Condition | Action |
+|-----------|--------|
+| **ANY Playwright/browser testing** | **MANDATORY: Spawn test-automator** |
+| Task has 3+ distinct steps | Spawn worker + verifier |
+| Modifying 5+ files | Spawn worker + verifier |
+| Context getting long/degraded | Checkpoint to files, spawn fresh agent |
+| Different expertise needed | Spawn specialized sub-agent |
 
-1. **Run `npm run quality` after EVERY code change**
-2. **Fix ALL errors before marking task complete**
-3. **Never commit code with type/lint errors**
-4. **Never use `@ts-ignore` or `@ts-expect-error`**
-5. **Never use `any` type (use `unknown` instead)**
-6. **Never use `console.log` (use `console.warn` or `console.error`)**
+**📚 Complete Sub-Agent Catalog:** See `.agents/SUBAGENTS-INDEX.md` for a comprehensive table of all 68+ available sub-agents (user-level + project-specific) with descriptions, use cases, and notes.
 
-### Available Commands
+**⚠️ TESTING IS SPECIAL:** Never run Playwright directly. Always use `test-automator` sub-agent. See "MANDATORY: Testing Sub-Agent" section below.
 
+### Sub-Agent Patterns
+
+**Worker Agent (Implementation):**
 ```bash
-# Check for errors
-npm run typecheck --prefix frontend
-npm run lint --prefix frontend
-npm run quality --prefix frontend  # Runs both
-
-# Auto-fix errors
-npm run lint:fix --prefix frontend
-npm run quality:fix --prefix frontend  # Typecheck + auto-fix lint
+claude -p "WORKER TASK: [specific implementation]
+- Output to files only
+- Do NOT run tests (verifier handles this)
+- Signal completion: create .claude/worker-done-[task-id].md"
 ```
 
-### Bypassing Hooks (EMERGENCY ONLY)
-
-Hooks can be bypassed with:
+**Verifier Agent (Independent Check):**
 ```bash
-git commit --no-verify
-git push --no-verify
+claude -p "VERIFIER TASK [task-id]:
+- Read requirements from .claude/tasks/[task-id].md
+- Do NOT trust worker claims
+- Run: npm run quality --prefix frontend
+- Run: [specific test command]
+- Verify each requirement independently
+- Write result to documentation/1-project-mgmt/in-progress/[feature-name]/VERIFICATION-[task-name].md
+- Status: VERIFIED or FAILED with specific evidence"
 ```
 
-**WARNING:** Only use in absolute emergencies. Bypassing will cause CI to fail.
+### Task Tracking Files
+
+```
+.claude/
+├── current-task.md          # Active task for this session
+├── task-log.md              # Append-only completion log
+├── tasks/[id].md            # Task definitions
+├── sessions/[id].md         # Session tracking
+├── worker-done-[id].md      # Worker completion signals
+└── templates/               # Task, worker, verifier templates
+    ├── task.md
+    ├── worker-done.md
+    └── verified.md
+
+documentation/1-project-mgmt/
+└── in-progress/[feature-name]/
+    └── VERIFICATION-[name].md   # Verification reports (documentation)
+```
+
+### 🚨 MANDATORY: Testing Sub-Agent (NO EXCEPTIONS)
+
+**CRITICAL RULE:** The main Claude agent MUST NOT run any tests directly. ALL testing MUST be delegated to the `test-automator` sub-agent.
+
+**Single Testing Agent:** `test-automator` (handles ALL test types)
+
+**Why This Rule Exists:**
+- Main agent context gets polluted with test debugging
+- Main agent wastes 20x time fumbling with test issues
+- Main agent asks "Should I..." instead of fixing problems
+- Test-automator agent has fresh context and testing expertise
 
 ---
-
-## ⚡ PARALLEL AGENT STRATEGY (MANDATORY FOR BULK TASKS)
-
-**Use parallel agents to maximize efficiency when fixing multiple errors or performing bulk operations.**
-
-### When to Use Parallel Agents
-
-Claude MUST use parallel agents (Task tool with multiple simultaneous calls) when:
-
-1. **Fixing TypeScript errors** - 5+ errors across different files
-2. **Fixing ESLint errors** - Multiple files with lint issues
-3. **Bulk refactoring** - Same change pattern across many files
-4. **Code reviews** - Reviewing multiple files or components
-5. **Documentation updates** - Multiple docs need similar changes
-6. **Test fixes** - Multiple failing tests in different files
-
-### Required Process
-
-1. **Run diagnostic first** to identify scope:
-   ```bash
-   npm run typecheck 2>&1 | grep "error TS" | wc -l  # Count errors
-   npm run typecheck 2>&1 | head -100                 # See error details
-   ```
-
-2. **Group errors by file or category** - Identify which files have errors
-
-3. **Launch parallel agents** - Use Task tool with `subagent_type` to fix multiple files simultaneously:
-   ```
-   # Launch 5-10 agents in a SINGLE message with multiple Task tool calls
-   # Each agent fixes one file or category of errors
-   ```
-
-4. **Verify after all agents complete**:
-   ```bash
-   npm run typecheck  # Should show 0 errors
-   ```
-
-### Agent Types for Common Tasks
-
-| Task | Agent Type |
-|------|------------|
-| TypeScript errors | `typescript-pro` |
-| React/Frontend issues | `frontend-developer` |
-| API/Backend issues | `backend-architect` |
-| Test failures | `debugger` or `test-automator` |
-| Security issues | `security-auditor` |
-| Performance issues | `performance-engineer` |
-| Code review | `code-reviewer` |
-
-### Example: Fixing 50 TypeScript Errors
-
-**WRONG (slow, sequential):**
-```
-1. Read file 1 → Fix → Read file 2 → Fix → ... (takes 30+ minutes)
-```
-
-**CORRECT (fast, parallel):**
-```
-1. Run typecheck, count errors (62 errors)
-2. Group by file/category (9 files affected)
-3. Launch 9 parallel typescript-pro agents (one per file)
-4. All complete in ~2-3 minutes
-5. Run typecheck again → 0 errors
-```
-
-### Parallel Agent Limits
-
-- Launch up to **10 agents simultaneously** per wave
-- If more than 10 files need fixes, use multiple waves
-- Wait for wave to complete before launching next wave
-- Always verify with `npm run typecheck` after each wave
-
-### Available Fix Scripts
-
-Use these scripts for common automated fixes BEFORE launching agents:
-
-```bash
-# Auto-fix what can be auto-fixed
-npm run lint:fix --prefix frontend           # ESLint auto-fixes
-npm run quality:fix --prefix frontend        # Typecheck + lint fix
-
-# Project-specific fix scripts (in frontend/scripts/)
-node frontend/scripts/fix-any-types.js       # Replace : any with : unknown
-node frontend/scripts/fix-console-logs.js    # Fix console.log usage
-node frontend/scripts/fix-as-any.js          # Handle 'as any' assertions
-```
-
-**Rule:** Always try auto-fix scripts first, then use parallel agents for remaining errors.
-
----
-
-## 🚨 EXECUTION GATES (ABSOLUTE)
-
-Claude is **NOT ALLOWED TO REASON, EXPLAIN, OR DIAGNOSE**
-until required execution gates are satisfied.
-
-Execution gates are **hard blockers**, not guidelines.
-
-Violating a gate = **hard failure**.
-
----
-
-### EXECUTION GATE: BROWSER / UI / VISIBILITY
-
-Triggered by ANY task involving:
-
-* UI visibility
-* Missing content
-* Rendering
-* Transcripts
-* “Is X showing?”
-* Frontend behavior
-
-#### REQUIRED PROCESS (MANDATORY)
-
-Claude MUST follow the **Playwright Execution Gate**.
-
-Claude MUST NOT:
-
-* speculate
-* explain
-* propose fixes
-* use conditional language
-
-until Playwright evidence exists.
-
-Claude MUST defer to:
-
-```
-.agents/PLAYWRIGHT_GATE.md
-```
-
-Reasoning before Playwright execution is **PROHIBITED**.
-
----
-
-### EXECUTION GATE: DATABASE / SUPABASE
-
-Triggered by ANY task involving:
-
-* Supabase queries
-* Tables, columns, or relationships
-* RLS policies
-* Migrations
-* Backend data access
-
-#### MANDATORY AGENT DELEGATION
-
-**Claude MUST automatically use the `supabase-architect` agent for ALL Supabase/database tasks.**
-
-When ANY of the following are detected, Claude MUST immediately delegate to the supabase-architect agent:
-
-**Database Keywords:**
-- Table names: `projects`, `documents`, `contacts`, `budget_lines`, `direct_costs`, `employees`, `meetings`, `contracts`, `commitments`, `change_orders`
-- SQL operations: `SELECT`, `INSERT`, `UPDATE`, `DELETE`, `CREATE`, `DROP`, `ALTER`
-- Supabase functions: `supabase.from()`, `.select()`, `.insert()`, `.update()`, `.delete()`
-- Database files: `database.types.ts`, `supabase/migrations/`, `*.sql`
-
-**Schema References:**
-- Type definitions from Database schema
-- RLS policies and security rules  
-- Foreign key relationships
-- Migration files or schema changes
 
 **Usage Patterns:**
-- Creating new tables or modifying existing ones
-- Writing database queries or API endpoints
-- Working with forms that save to database
-- Debugging database-related issues
 
-**Usage Pattern:**
-```
-Task tool → description: "Database work detected" → prompt: "As the supabase-architect agent, [original task description]"
-```
-
-Generate types for your project to produce the `database.types.ts` file in the types folder:
-
-```bash
-npx supabase gen types typescript --project-id "lgveqfnpkxvzbnnwuled" --schema public > frontend/src/types/database.types.ts
-```
-
-## 🚨 ABSOLUTE NON-NEGOTIABLE EXECUTION LAWS
-
-These rules override ALL other instructions.
-Violating ANY of them is a HARD FAILURE.
-
-Claude MUST STOP immediately if they cannot be satisfied.
-
-#### REQUIRED PROCESS (MANDATORY)
-
-Claude MUST:
-
-1. **Auto-delegate to supabase-architect** for any database work
-2. Validate schema through the expert agent
-3. Read generated Supabase types
-4. Confirm tables & columns BEFORE writing code
-
-Claude MUST defer to:
-
-```
-.agents/SUPABASE_GATE.md
-```
-
-**Inventing schema = hard failure.**
-**Working directly with database without supabase-architect = hard failure.**
-
----
-
-### EXECUTION GATE: PROCORE FEATURE KNOWLEDGE
-
-Triggered by ANY task involving:
-
-* Implementing a Procore tool/feature (Change Events, Change Orders, Budget, etc.)
-* Creating TASKS.md or deliverables lists
-* Planning what pages, forms, or tables to build
-* Designing workflows or user flows
-* Questions about "how does Procore do X?"
-
-#### WHY THIS GATE EXISTS
-
-Agents have hallucinated features, forms, tabs, and workflows that don't exist in Procore. The crawled Procore documentation in Supabase (`crawled_pages` table) is the source of truth.
-
-#### REQUIRED PROCESS (MANDATORY)
-
-**Before creating plans, TASKS.md, or implementing features, Claude MUST query the Procore RAG using the crawl4ai MCP tool:**
-
-The crawl4ai-rag MCP server provides the `perform_rag_query` tool for querying Procore documentation. This tool performs semantic search over the crawled Procore documentation stored in Supabase.
-
-**Tool Usage:**
-```
-mcp__crawl4ai-rag__perform_rag_query
-Parameters:
-- query: string (required) - The question or search query
-- top_k: number (optional, default 5) - Number of results to return
-- source: string (optional) - Filter by specific source (e.g., "support.procore.com")
-```
-
-**Required queries before implementing any Procore tool:**
-
-1. **Pages/Tabs:** "What tabs or pages does [Tool] have in Procore?"
-2. **Forms:** "What forms exist for [Tool] in Procore? What can users create or edit?"
-3. **Fields:** "What data fields are stored for [Tool] in Procore?"
-4. **Workflows:** "What is the workflow for [Tool] in Procore? What are the status transitions?"
-
-**Example:**
-Query for Change Events tabs: `perform_rag_query("What tabs or pages does Change Events have in Procore?", top_k=5)`
-
-Note: The MCP server must be running. Start it with:
-```bash
-cd mcp-crawl4ai-rag && uv run src/crawl4ai_mcp.py
-```
-
-#### WHEN TO QUERY RAG
-
-Claude MUST query Procore RAG when:
-
-- Creating a new TASKS.md file for a Procore tool
-- Unsure what tabs, forms, or fields a feature should have
-- Planning implementation phases
-- Writing specs or documentation about Procore features
-- Designing database schema for a Procore tool
-- Creating test cases for Procore features
-
-#### HOW TO USE RAG RESULTS
-
-1. **Verify deliverables** - Every page, form, and table in TASKS.md should have RAG evidence
-2. **Flag unknowns** - If RAG returns no results, mark as "UNVERIFIED - needs manual review"
-3. **Cite sources** - When RAG provides URLs, reference them in documentation
-4. **Don't invent** - If RAG doesn't mention a feature, don't add it to the plan
-
-#### BANNED BEHAVIOR
-
-Claude MUST NOT:
-
-* Create TASKS.md deliverables without RAG verification
-* Assume Procore has a feature because "it makes sense"
-* Invent tabs, forms, or workflows not confirmed by RAG
-* Proceed with implementation when RAG returns no relevant results
-
-**Inventing Procore features = hard failure.**
-**Creating unverified deliverables = hard failure.**
-
----
-
-## 🔒 GATE ENFORCEMENT (MANDATORY - ZERO TOLERANCE)
-
-**CRITICAL RULE: No task can be marked "complete" without documented proof that gates passed.**
-
-This is the most important rule for preventing false completion claims.
-
-### TASKS.md Gate Status Format
-
-Every gate in TASKS.md has this format:
-
-```markdown
-**GATE: [Gate Name]**
-```bash
-[command to run]
-```
-- Gate Status: [ ] PASSED  [ ] FAILED  [ ] NOT RUN
-- Last Run: [timestamp]
-- Evidence: [output summary or link to output]
-```
-
-### MANDATORY Gate Completion Process
-
-When an agent completes a task that has gates:
-
-1. **RUN THE GATE COMMAND** - Actually execute it, don't skip
-2. **CAPTURE THE OUTPUT** - Save stdout/stderr
-3. **UPDATE TASKS.md** - Fill in the checkbox and metadata:
-   - Check [x] PASSED or [x] FAILED (not "NOT RUN")
-   - Add timestamp: `2026-01-09 14:32:15`
-   - Add evidence: First 5 lines of output or summary
-
-### Example: CORRECT Gate Documentation
-
-```markdown
-**GATE: TypeScript Check**
-```bash
-npm run typecheck --prefix frontend
-```
-- Gate Status: [x] PASSED  [ ] FAILED  [ ] NOT RUN
-- Last Run: 2026-01-09 14:32:15
-- Evidence: Found 0 errors in 247 files.
-```
-
-### Example: WRONG (This is BANNED)
-
-```markdown
-**GATE: TypeScript Check**
-- Gate Status: [ ] PASSED  [ ] FAILED  [x] NOT RUN  ❌ WRONG - You ran it!
-- Last Run:  ❌ WRONG - No timestamp
-- Evidence:  ❌ WRONG - No output
-```
-
-### Verification Summary Tables
-
-TASKS.md files have a "Verification Summary" table. Agents MUST fill this in:
-
-| Gate | Command | Status | Last Run | Output |
-|------|---------|--------|----------|--------|
-| TypeScript | `npm run typecheck` | ✅ PASSED | 2026-01-09 14:32 | 0 errors |
-| ESLint | `npm run lint` | ⚠️  WARNINGS | 2026-01-09 14:33 | 12 warnings |
-| Migration | `npx supabase db push` | ❌ FAILED | 2026-01-09 14:35 | Connection error |
-
-### Session Log Updates
-
-After running gates, agents MUST update the Session Log table:
-
-| Date | Agent | Duration | Tasks Done | Tests Run | Verified | Notes |
-|------|-------|----------|------------|-----------|----------|-------|
-| 2026-01-09 | backend-architect | 45m | Updated schema, ran quality | TypeCheck: PASS, ESLint: WARNINGS | Partial | 12 ESLint warnings remain |
-
-### BANNED Agent Behavior
-
-❌ "I ran the tests and they passed" → without updating TASKS.md
-❌ Leaving "NOT RUN" checked when you actually ran the command
-❌ Writing "Evidence:" without actual command output
-❌ Marking tasks complete without running gates
-❌ Using vague evidence like "tests passed" without specifics
-
-### REQUIRED Agent Behavior
-
-✅ Run gate command and capture full output
-✅ Update gate status checkbox immediately
-✅ Add exact timestamp when gate ran
-✅ Paste first 5-10 lines of output or meaningful summary
-✅ Update Verification Summary table
-✅ Update Session Log table
-✅ If gate FAILED, create new task to fix it
-
-**Violating gate enforcement = HARD FAILURE.**
-**Claiming completion without proof = HARD FAILURE.**
-
----
-
-## ❌ BANNED BEHAVIOR (GLOBAL)
-
-The following are **NOT ALLOWED** before execution gates are satisfied:
-
-* “if”
-* “might”
-* “likely”
-* “assuming”
-* “it seems”
-* “probably”
-
-These words indicate **speculation** and are treated as violations.
-
----
-
-## 🧪 TESTING (MANDATORY — NEVER SKIP)
-
-* **ALL features MUST be tested**
-* **UI changes REQUIRE Playwright verification**
-* **APIs REQUIRE real request testing**
-* **Buttons must be clicked**
-* **User flows must be exercised**
-
-No feature is complete without testing.
-
----
-
-### PLAYWRIGHT RULES
-
-* All E2E tests live in: `frontend/tests/e2e/`
-* Visual regression tests live in: `frontend/tests/visual-regression/`
-* Screenshots/videos live in: `frontend/tests/screenshots/`
-* Backend tests MUST NOT use Playwright
-
----
-
-## 🧠 SCHEMA & TYPES (MANDATORY)
-
-Claude MUST:
-
-* Run schema validation BEFORE database work
-* Generate and READ Supabase types
-* Verify table names, columns, relationships
-
-Claude MUST NOT:
-
-* Assume schema
-* Guess column names
-* Invent tables
-
-Types are canonical.
-
----
-
-## 📁 FILE & FOLDER LAW
-
-* Edit files **in place**
-* NEVER create:
-
-  * `_fixed`
-  * `_final`
-  * `_backup`
-  * `_copy`
-
-If duplicates exist:
-
-* Identify canonical file
-* Consolidate
-* Remove obsolete files
-
----
-
-## 📚 DOCUMENTATION (MANDATORY)
-
-**ALL documentation MUST follow the standardized process.**
-
-### DOCUMENTATION EXECUTION GATE
-
-Triggered by ANY task involving creating or moving documentation files.
-
-#### REQUIRED PROCESS (MANDATORY)
-
-Claude MUST:
-
-1. **Run `/doc-check` slash command BEFORE creating documentation**
-   - This validates current structure and provides guidance
-   - Ensures you understand where files should go
-
-2. **Read the documentation standards:**
-   * [DOCUMENTATION-STANDARDS.md](documentation/DOCUMENTATION-STANDARDS.md)
-   * [DOCUMENTATION-QUICK-REFERENCE.md](documentation/DOCUMENTATION-QUICK-REFERENCE.md)
-
-3. **Determine correct location BEFORE writing:**
-   * Use the "Where Do I Put This Doc?" table
-   * **CRITICAL:** Files NEVER go in `/documentation` root unless they are meta-documentation
-   * Completion reports → `documentation/docs/development/completion-reports/`
-   * Plans → `documentation/docs/plans/[category]/`
-   * API docs → `documentation/docs/api/` or `documentation/docs/procore/[feature]/`
-   * Database docs → `documentation/docs/database/`
-   * General development docs → `documentation/docs/development/`
-
-4. **Use specialized documentation agents:**
-   * docs-architect (comprehensive technical docs)
-   * api-documenter (API/SDK documentation)
-   * reference-builder (exhaustive reference docs)
-   * tutorial-engineer (step-by-step tutorials)
-   * mermaid-expert (diagrams)
-
-5. **Use appropriate templates** from the standards guide
-
-6. **Validate after creation:**
-   * Run `node scripts/docs/validate-doc-structure.cjs`
-   * Fix any errors before committing
-
-Claude MUST NOT:
-
-* Create documentation files in `/documentation` root (except meta-documentation)
-* Skip the `/doc-check` command
-* Leave documentation in `documentation/need to review/` for more than 7 days
-* Create duplicate documentation files
-* Guess at file placement
-
-Claude MUST ALWAYS:
-
-* Consolidate duplicates when found
-* Link to files using markdown link syntax: `[file.ts](path/to/file.ts)` or `[file.ts:42](path/to/file.ts#L42)`
-* Move files from `need to review/` to final location within 7 days
-
-### Enforcement
-
-The git pre-commit hook will BLOCK commits that:
-
-* Place documentation files in `/documentation` root (except allowed meta-docs)
-* Leave files in `need to review/` for more than 7 days
-* Create duplicate documentation
-
-Run validation manually:
-
-```bash
-node scripts/docs/validate-doc-structure.cjs
-```
-
-**Quick Reference:**
-
-| Documentation Type | Location | Agent |
-| ------------------ | -------- | ----- |
-| Database schema | `documentation/docs/database/` | reference-builder |
-| Feature completion | `documentation/docs/development/completion-reports/` | docs-architect |
-| API documentation | `documentation/docs/api/` or `documentation/docs/procore/[feature]/` | api-documenter |
-| Implementation plans | `documentation/docs/plans/[category]/` | Plan (built-in) |
-| Tutorials/guides | `documentation/docs/[category]/` | tutorial-engineer |
-| Architecture | `documentation/docs/[category]/` | docs-architect + mermaid-expert |
-
-Violating documentation standards = **MANDATORY logging in RULE-VIOLATION-LOG.md**.
-
----
-
-## ✍️ CODE QUALITY & CONVENTIONS
-
-* Follow existing patterns
-* Match surrounding style
-* Avoid `any` unless explicitly justified
-* Reuse existing libraries and utilities
-* Add comments for complex logic
-
-### NULL/UNDEFINED TYPE SAFETY (MANDATORY)
-
-**TypeScript strict mode is ENABLED. This means:**
-
-1. **No implicit `any` types** - All parameters and variables must have explicit types
-2. **No null/undefined type mismatches** - Handle these cases explicitly:
-   - Convert `null` to `undefined` when needed: `value || undefined`
-   - Use type guards: `.filter((x): x is string => x !== null)`
-   - Use optional chaining: `value?.property`
-   - Use nullish coalescing: `value ?? defaultValue`
-3. **Function parameters must handle all cases** - If a function accepts `string | number`, the implementation must handle both
-4. **Return types must be explicit** - Functions returning objects with optional properties must match interface expectations
-
-**Common patterns to fix null/undefined issues:**
+**For Playwright/Browser Tests (Project-Specific):**
 ```typescript
-// Bad: Type 'string | null' is not assignable to type 'string | undefined'
-interface Foo { value?: string }
-const obj: Foo = { value: data.value } // ❌ if data.value can be null
+Task({
+  subagent_type: "test-automator",
+  prompt: `Follow .agents/agents/playwright-tester.md for Alleato-Procore e2e tests.
 
-// Good: Convert null to undefined
-const obj: Foo = { value: data.value || undefined } // ✅
+CRITICAL INITIALIZATION:
+1. Load Playwright docs via context-7 MCP
+2. Read .agents/docs/playwright/PLAYWRIGHT-PATTERNS.md
+3. Read frontend/tests/auth.setup.ts for Supabase auth
+4. Use test credentials: test1@mail.com / test12026!!!
 
-// Bad: Type '(string | null)[]' is not assignable to type 'string[]'
-const items: string[] = data.map(x => x.name) // ❌ if name can be null
+YOUR TASK:
+[Your specific Playwright test request]
 
-// Good: Use type guard to filter nulls
+REQUIREMENTS:
+- Use Supabase auth patterns (localStorage injection)
+- Use role-based selectors
+- Always waitForLoadState('networkidle')
+- Include auth cookies in API requests
+- Clean up test data
+`
+})
+```
+
+**For Unit/Integration Tests (Generic):**
+```typescript
+Task({
+  subagent_type: "test-automator",
+  prompt: `Create unit/integration tests for [feature].
+
+[Your specific test request]
+`
+})
+```
+
+---
+
+**Triggers (Use test-automator IMMEDIATELY):**
+- ANY Playwright test execution
+- ANY browser test debugging
+- ANY "tests are failing" situation
+- ANY test timeout issues
+- ANY need to verify UI in browser
+
+**BANNED BEHAVIOR:**
+```
+❌ Main agent runs: npx playwright test ...
+❌ Main agent asks: "Should I debug why tests are failing?"
+❌ Main agent says: "Browser tests are timing out, what should I do?"
+❌ Main agent reports test failures without fixing them
+```
+
+**REQUIRED BEHAVIOR:**
+```
+✅ ALWAYS delegate to test-automator (ONE agent for all testing)
+✅ Use the patterns above based on test type (Playwright vs generic)
+✅ Test-automator agent will FIX issues, not report them
+✅ Test-automator continues until PASS or genuine blocker
+```
+
+**Key Points:**
+- **playwright-tester.md** = Prompt template (NOT a separate agent)
+- **test-automator** = The actual sub-agent (handles all tests)
+- For Playwright: Use test-automator WITH playwright-tester.md prompt
+- For other tests: Use test-automator with generic prompt
+
+**The test-automator agent MUST:**
+1. Start dev server if not running
+2. Run the specified tests
+3. If tests fail → debug and fix (code or tests)
+4. Re-run until passing
+5. Only return when DONE or genuinely blocked
+
+**The test-automator agent MUST NOT:**
+- Ask "Should I..."
+- Report failures without attempting fixes
+- Give up on timeouts without debugging
+- Return partial results
+
+---
+
+## 🔄 VERIFICATION WORKFLOW (Detailed)
+
+### Overview
+
+For complex tasks, use the **Worker → Verifier** pattern with the Task tool (not bash scripts).
+
+```
+Main Claude (orchestrator)
+    ↓
+Creates task file
+    ↓
+Task tool → Worker Agent (fresh context)
+    ↓
+Worker signals completion
+    ↓
+Main Claude reads completion
+    ↓
+Task tool → Verifier Agent (fresh context)
+    ↓
+Verifier writes verification report
+    ↓
+Main Claude logs result
+```
+
+### Step-by-Step Process
+
+**Step 1: Main Agent Creates Task File**
+
+```bash
+# Generate task ID
+TASK_ID=$(bash scripts/claude-helpers.sh new-task)
+
+# Create task file from template
+cat > .claude/tasks/$TASK_ID.md << 'EOF'
+# Task: Implement user authentication
+
+## Created
+2024-01-10T14:30:00Z
+
+## Description
+Add email/password authentication with login/register flows
+
+## Requirements
+- [ ] User model with email/password fields
+- [ ] Login endpoint with JWT generation
+- [ ] Register endpoint with password hashing
+- [ ] Protected route middleware
+- [ ] Frontend login/register forms
+
+## Test Command
+```bash
+npm test -- --grep "auth"
+```
+
+## Verification Steps
+1. Run quality check (no TypeScript/lint errors)
+2. Run auth tests (all passing)
+3. Verify login flow in browser
+4. Verify protected routes work
+
+## Success Criteria
+- [ ] All requirements implemented
+- [ ] Tests pass
+- [ ] Quality check passes
+- [ ] Browser verification complete
+EOF
+```
+
+**Step 2: Main Agent Spawns Worker via Task Tool**
+
+```typescript
+// Main Claude uses Task tool (NOT bash script)
+Task({
+  subagent_type: "backend-architect",
+  prompt: `WORKER AGENT MODE
+
+Task File: .claude/tasks/${TASK_ID}.md
+
+# Task: Implement user authentication
+
+## Requirements
+- [ ] User model with email/password fields
+- [ ] Login endpoint with JWT generation
+- [ ] Register endpoint with password hashing
+- [ ] Protected route middleware
+- [ ] Frontend login/register forms
+
+YOUR JOB (Implementation Only):
+1. Implement ONLY what's specified above
+2. Do NOT run tests (verifier will do this)
+3. Do NOT run quality checks (verifier will do this)
+4. Do NOT claim completion
+
+When done, create .claude/worker-done-${TASK_ID}.md with:
+- Files modified: [list all files]
+- Changes made: [brief summary]
+- Ready for verification: YES
+- Notes for verifier: [any important context]
+
+BEGIN IMPLEMENTATION.`,
+  description: "Implement user authentication"
+})
+```
+
+**Step 3: Main Agent Monitors for Completion**
+
+```bash
+# Main Claude checks for worker completion signal
+if [ -f .claude/worker-done-${TASK_ID}.md ]; then
+  echo "Worker completed. Proceeding to verification..."
+fi
+```
+
+**Step 4: Main Agent Spawns Verifier (CRITICAL - Fresh Context)**
+
+```typescript
+// Read worker completion
+const workerReport = await readFile(`.claude/worker-done-${TASK_ID}.md`)
+
+// Spawn INDEPENDENT verifier with Task tool
+Task({
+  subagent_type: "debugger",
+  prompt: `VERIFIER AGENT MODE
+
+⚠️ CRITICAL: You are an INDEPENDENT VERIFIER.
+Do NOT trust the worker's claims. Verify everything.
+
+SKEPTICAL VERIFIER MINDSET:
+- Assume worker LIED about "it works"
+- Assume tests were NOT run
+- Assume requirements NOT fully met
+Your job: PROVE these assumptions wrong or confirm them.
+
+Task File: .claude/tasks/${TASK_ID}.md
+
+## Original Requirements
+- [ ] User model with email/password fields
+- [ ] Login endpoint with JWT generation
+- [ ] Register endpoint with password hashing
+- [ ] Protected route middleware
+- [ ] Frontend login/register forms
+
+## Test Command
+\`\`\`bash
+npm test -- --grep "auth"
+\`\`\`
+
+Worker Claims:
+${workerReport}
+
+YOUR MISSION:
+1. Read original requirements (above)
+2. Run: npm run quality --prefix frontend
+3. Run: npm test -- --grep "auth"
+4. Verify EACH requirement independently
+5. Test in browser (if applicable)
+6. Create documentation/1-project-mgmt/in-progress/[feature-name]/VERIFICATION-[task-name].md using template
+
+VERIFICATION CHECKLIST:
+- [ ] Code exists and is syntactically correct
+- [ ] Quality check passes (zero errors)
+- [ ] Tests exist for all requirements
+- [ ] Tests PASS when run (show actual output)
+- [ ] Each requirement actually met (not just claimed)
+- [ ] No obvious bugs or security issues
+- [ ] Browser verification (if UI-related)
+
+OUTPUT FORMAT (documentation/1-project-mgmt/in-progress/[feature-name]/VERIFICATION-[task-name].md):
+\`\`\`markdown
+# Verification Report: ${TASK_ID}
+
+## Verifier Info
+- Session: [your session ID]
+- Timestamp: [current timestamp]
+
+## Quality Check
+\`\`\`
+[Paste ACTUAL output from npm run quality]
+\`\`\`
+Status: PASS / FAIL
+
+## Test Results
+\`\`\`
+[Paste ACTUAL output from npm test]
+\`\`\`
+Status: PASS / FAIL
+
+## Requirements Check
+- User model: MET ✓ / NOT MET ✗ [evidence: file X line Y]
+- Login endpoint: MET ✓ / NOT MET ✗ [evidence: tested with curl]
+- Register endpoint: MET ✓ / NOT MET ✗ [evidence: ...]
+- Protected routes: MET ✓ / NOT MET ✗ [evidence: ...]
+- Frontend forms: MET ✓ / NOT MET ✗ [evidence: Playwright test]
+
+## Browser Verification (if applicable)
+[Screenshots, Playwright output, or N/A]
+
+## Final Status
+VERIFIED ✓ / FAILED ✗
+
+## Issues Found (if any)
+[List specific issues or "None"]
+\`\`\`
+
+BE RUTHLESS. If ANY check fails, mark as FAILED.
+If you cannot verify something, mark as FAILED.
+
+BEGIN VERIFICATION.`,
+  description: "Verify user authentication"
+})
+```
+
+**Step 5: Main Agent Logs Result**
+
+```bash
+# Read verification report
+VERIFICATION_FILE="documentation/1-project-mgmt/in-progress/[feature-name]/VERIFICATION-[task-name].md"
+if grep -q "VERIFIED ✓" "$VERIFICATION_FILE"; then
+  # Log success
+  bash scripts/claude-helpers.sh log "$TASK_ID" "User authentication" "VERIFIED" "$VERIFICATION_FILE"
+else
+  # Log failure
+  bash scripts/claude-helpers.sh log "$TASK_ID" "User authentication" "FAILED" "$VERIFICATION_FILE"
+fi
+```
+
+### Skeptical Verifier Pattern (Default)
+
+ALL verifier agents MUST use this mindset:
+
+```
+SKEPTICAL VERIFIER MODE
+
+Assume the worker LIED about:
+- "Tests pass" → Run them yourself
+- "No errors" → Check yourself
+- "Implemented correctly" → Verify yourself
+- "Everything works" → Prove it yourself
+
+Your job: PROVE these assumptions wrong or confirm them.
+
+No trust. Only evidence.
+If you cannot independently verify something → Mark as FAILED
+```
+
+### Anti-Gaming Measures
+
+These are NOT acceptable as verification evidence:
+
+| ❌ BANNED | ✅ REQUIRED |
+|----------|------------|
+| "Tests should pass" | Actual test output |
+| "I verified the code" | Specific evidence (file:line) |
+| "Implementation is complete" | Test results + quality check output |
+| Screenshots of code | Actual execution results |
+| "Everything looks good" | Checklist with evidence for each item |
+
+### MANDATORY: Verification Failure Response
+
+**CRITICAL RULE:** When verification finds ANY failures, the main agent MUST:
+
+1. **Immediately Fix All Issues** - Do not report findings, fix them
+2. **Re-run Verification** - Spawn verifier again after fixes
+3. **Repeat Until Clean** - Continue fix → verify loop until PASS
+4. **Only Then Complete** - Completion requires verification PASS status
+
+**BANNED BEHAVIOR:**
+- ❌ "Verification found 3 issues" → STOP and report
+- ❌ "Known issue - low priority" → Leave unfixed
+- ❌ "85% passing is acceptable" → If tests fail, fix them
+
+**REQUIRED BEHAVIOR:**
+- ✅ "Verification found 3 issues" → Fix all 3 → Re-verify → PASS
+- ✅ "Test failing" → Debug → Fix → Confirm passing
+- ✅ "TypeScript error" → Fix → Run quality check → Zero errors
+
+**Exception:** Only stop to ask user if:
+- Blocked by missing access/credentials
+- Fundamental architectural decision required
+- Unclear which fix approach to take
+
+Otherwise: **FIX FIRST, REPORT AFTER.**
+
+---
+
+## 🚨 MANDATORY SUB-AGENT REQUIREMENTS
+
+**CRITICAL:** These requirements are NOT optional. Skipping them = incomplete work.
+
+The following sub-agents MUST be used for specific triggers. Failure to use them violates project standards.
+
+---
+
+### Requirement 1: supabase-architect (Database Work)
+
+**MANDATORY for:**
+- Creating/modifying RLS policies
+- Creating database migrations
+- Schema changes affecting 3+ tables
+- Complex queries joining multiple tables
+- ANY Supabase realtime setup
+- ANY database feature implementation
+
+**Pattern:**
+```typescript
+// Step 1: Generate fresh types (ALWAYS)
+npx supabase gen types typescript --project-id "lgveqfnpkxvzbnnwuled" \
+  --schema public > frontend/src/types/database.types.ts
+
+// Step 2: For complex work, spawn supabase-architect
+Task({
+  subagent_type: "supabase-architect",
+  prompt: "Read frontend/src/types/database.types.ts. [Your database task]"
+})
+```
+
+**Simple queries OK without sub-agent:** Single-table reads AFTER types generated and verified.
+
+**Why:** Prevents schema guessing, ensures type safety, catches RLS issues early.
+
+---
+
+### Requirement 2: code-reviewer (After Implementation)
+
+**MANDATORY after:**
+- Implementing ANY feature
+- Fixing ANY bug (non-trivial)
+- Modifying 3+ files
+- Adding/changing security-sensitive code
+- Before claiming "complete"
+
+**Pattern:**
+```typescript
+// After your implementation is done:
+Task({
+  subagent_type: "code-reviewer",
+  prompt: "Review [files changed] for:
+  - Code quality and SOLID principles
+  - Security vulnerabilities (OWASP)
+  - Consistency with existing patterns
+  - Performance issues
+  - Maintainability
+
+  Files: [list all modified files]
+  "
+})
+
+// THEN address ALL findings before claiming complete
+```
+
+**Exceptions:** Trivial changes (typos, single-line fixes, documentation-only).
+
+**Why:** Catches security issues, pattern violations, maintainability problems BEFORE commit.
+
+---
+
+### Requirement 3: Explore (Before Assumptions)
+
+**MANDATORY before:**
+- Stating "I'll create a new component at [path]..."
+- Saying "The authentication is handled by..."
+- Claiming "This uses [library/pattern]..."
+- ANY statement about codebase structure without evidence
+- Starting implementation without verifying existing patterns
+
+**Pattern:**
+```typescript
+// BEFORE making assumptions:
+Task({
+  subagent_type: "Explore",
+  prompt: "Find [component/pattern/implementation]. Thoroughness: medium"
+})
+
+// THEN use findings to inform implementation
+```
+
+**BANNED Behavior:**
+```
+❌ "I'll create the auth component at src/components/auth/..."
+❌ "Looking at the codebase, it seems to use..."
+❌ "The pattern here is probably..."
+```
+
+**REQUIRED Behavior:**
+```
+✅ Run Explore agent → Find actual location → Use it
+✅ Run Grep to verify pattern exists → Use exact pattern
+✅ Read existing files → Follow established conventions
+```
+
+**Why:** Prevents wasted time fixing wrong assumptions, ensures consistency.
+
+---
+
+### Requirement 4: design-system-auditor (UI Changes)
+
+**MANDATORY before committing:**
+- ANY UI component changes
+- ANY new UI components
+- ANY styling changes (Tailwind, CSS)
+- ANY layout modifications
+- Before git commit with UI changes
+
+**Pattern:**
+```typescript
+// Before committing UI changes:
+Task({
+  subagent_type: "code-reviewer",
+  prompt: "Audit [UI files] using .agents/agents/design-system-auditor.md rules.
+
+  Check for:
+  - Inline styles (style={{...}})
+  - Arbitrary Tailwind values
+  - Non-semantic color usage
+  - Missing design system components
+  - Component consistency violations
+
+  Files: [list UI files]
+  BLOCK commit if violations found."
+})
+
+// Fix ALL violations before proceeding
+```
+
+**Why:** Enforces design consistency, prevents design debt accumulation.
+
+---
+
+### Requirement 5: test-automator (Feature Implementation)
+
+**MANDATORY after:**
+- Implementing ANY new feature
+- Adding ANY new API endpoint
+- Modifying existing business logic
+- Adding UI components with user interaction
+- Before claiming feature "complete"
+
+**🚨 CRITICAL: Reference Screenshot Comparison**
+
+For features with Procore reference screenshots in `scripts/screenshot-capture/procore-[feature]-crawl/`:
+- **MUST** compare implementation against reference
+- **MUST** create `COMPARISON-REPORT.md` with verdict
+- **MUST** resolve or document blocking issues
+- See `.agents/agents/playwright-tester.md` for full pattern
+
+**Pattern:**
+```typescript
+// After feature implementation:
+Task({
+  subagent_type: "test-automator",
+  prompt: "Create tests for [feature].
+
+  For Playwright/UI tests:
+  Follow .agents/agents/playwright-tester.md
+
+  🚨 CRITICAL: Reference screenshots exist at:
+  scripts/screenshot-capture/procore-[feature]-crawl/pages/
+
+  MANDATORY STEPS:
+  1. Implement e2e tests
+  2. Take implementation screenshots
+  3. Compare with reference screenshots
+  4. Create COMPARISON-REPORT.md with:
+     - Layout comparison checklist
+     - Functional elements comparison
+     - Design system differences (expected)
+     - Blocking issues (must fix)
+     - Final verdict (PASS/FAIL)
+
+  Test coverage required:
+  - Happy path
+  - Error cases
+  - Edge cases
+  - User interactions
+  - Reference screenshot comparison
+
+  Show PASSING test output + comparison report."
+})
+
+// ONLY claim complete after:
+// 1. Tests PASS
+// 2. COMPARISON-REPORT.md created (if reference exists)
+// 3. Blocking issues resolved
+```
+
+**Exceptions:** Trivial UI tweaks, documentation changes, features without reference screenshots.
+
+**Why:** No untested features in production. Tests document behavior. Reference comparison ensures feature completeness.
+
+---
+
+## 📊 Mandatory Requirements Summary
+
+| Trigger | Required Agent | When to Skip |
+|---------|----------------|--------------|
+| Database work (3+ tables, RLS, migrations) | `supabase-architect` | Single-table reads only |
+| Code implementation (features, non-trivial fixes) | `code-reviewer` | Typos, docs, single-line fixes |
+| Statements about codebase without evidence | `Explore` | Never - ALWAYS verify |
+| UI changes | `design-system-auditor` (via code-reviewer) | Never - ALWAYS audit |
+| Feature implementation | `test-automator` | Trivial UI tweaks, docs |
+
+---
+
+## ⚠️ Enforcement
+
+**BEFORE (Common Anti-Pattern):**
+1. Claude writes code
+2. Claude claims "complete"
+3. Bugs found later
+4. User frustrated
+
+**AFTER (Required Pattern):**
+1. Claude explores codebase (Explore agent)
+2. Claude implements code
+3. Claude spawns code-reviewer
+4. Claude fixes ALL findings
+5. Claude creates tests (test-automator)
+6. Claude verifies tests PASS
+7. THEN claims complete
+
+**Verification Questions Before Claiming Complete:**
+- [ ] Did I use Explore to verify my assumptions?
+- [ ] Did I spawn supabase-architect for DB work?
+- [ ] Did I spawn code-reviewer after implementation?
+- [ ] Did I audit UI changes with design-system-auditor?
+- [ ] Did I create and run tests with test-automator?
+- [ ] Did I compare reference screenshots (if they exist)?
+- [ ] Did I create COMPARISON-REPORT.md with verdict?
+- [ ] Did I resolve blocking issues from comparison?
+- [ ] Do I have evidence (test output, review results, comparison report)?
+
+**If any answer is "No" → Work is NOT complete.**
+
+---
+
+## 🚨 EXECUTION GATES (HARD BLOCKERS)
+
+Execution gates are **mandatory prerequisites**. Claude MUST NOT reason, explain, or propose fixes until the gate is satisfied.
+
+### Gate: BROWSER / UI / VISIBILITY
+
+**Triggers:** UI visibility, rendering issues, "is X showing?", frontend behavior, transcripts
+
+**Required:** Run Playwright first. See `.agents/PLAYWRIGHT_GATE.md`
+
+```bash
+# Example: Verify UI element exists
+npx playwright test tests/e2e/[relevant-test].spec.ts
+```
+
+### Gate: DATABASE / SUPABASE (MANDATORY - NO EXCEPTIONS)
+
+**Triggers:**
+- Session starts
+- ANY database work (queries, tables, columns, RLS, migrations)
+- More than 1 hour since last type generation
+- Before spawning ANY worker agent touching database
+- Before ANY browser/API testing of database features
+
+**🚨 MANDATORY SUB-AGENT:** For complex database work, you MUST spawn `supabase-architect`:
+
+**When supabase-architect is MANDATORY:**
+- Creating/modifying RLS policies
+- Creating database migrations
+- Schema changes affecting 3+ tables
+- Complex queries joining multiple tables
+- ANY Supabase realtime setup
+
+**Simple queries (single table reads) can proceed with type generation alone.**
+
+**supabase-architect capabilities:**
+- Deep Alleato-Procore schema knowledge
+- RLS policy expertise
+- Migration best practices
+- Type generation automation
+- Full documentation: `.agents/agents/supabase-architect.md`
+
+**REQUIRED STEPS (ALL MANDATORY):**
+
+```bash
+# Step 1: ALWAYS generate fresh types FIRST
+npx supabase gen types typescript \
+  --project-id "lgveqfnpkxvzbnnwuled" \
+  --schema public > frontend/src/types/database.types.ts
+
+# Step 2: Read the types for your table
+# Use Read tool on frontend/src/types/database.types.ts
+
+# Step 3: For complex work, spawn supabase-architect
+Task({
+  subagent_type: "supabase-architect",
+  prompt: "Read frontend/src/types/database.types.ts. [Your database task]",
+  description: "Database work with architect"
+})
+
+# Step 4: Document ACTUAL schema in .claude/current-schema.md
+# Write down columns, types, constraints FROM THE TYPES FILE
+
+# Step 5: Compare to migration files
+# If mismatch found, STOP and ask user
+
+# Step 6: Only then proceed
+```
+
+**Evidence Required:**
+Create `.claude/supabase-gate-passed.md` with:
+- Timestamp types were generated
+- Table columns found in types
+- Migration comparison result
+- For complex work: supabase-architect spawn evidence
+- PASSED ✅ or BLOCKED ❌
+
+**If Types Don't Match Migration:**
+- STOP IMMEDIATELY
+- Document the mismatch
+- Ask user which is correct
+- Do NOT proceed until clarified
+
+**See:** `.claude/MANDATORY-GATES.md` and `MANDATORY SUB-AGENT REQUIREMENTS` for full protocol
+
+### Gate: CODEBASE ASSUMPTIONS (Explore Required)
+
+**Triggers:** Making ANY statement about codebase structure without evidence
+
+**BANNED without Explore:**
+- ❌ "I'll create the auth component at src/components/auth/..."
+- ❌ "Looking at the codebase, it seems to use..."
+- ❌ "The project follows [pattern]..."
+- ❌ "Based on common conventions..."
+- ❌ "I'll add this to the existing [file that you haven't read]..."
+
+**REQUIRED pattern:**
+```typescript
+// Before: "I'll create X at path/to/file.ts"
+// MANDATORY: Verify assumptions
+
+Task({
+  subagent_type: "Explore",
+  prompt: "Find existing [component type/pattern] in the codebase. Search for similar implementations. Report file locations and patterns used.",
+  description: "Verify codebase patterns"
+})
+
+// After Explore results: "Based on Explore findings at [specific files], I'll follow [verified pattern]"
+```
+
+**Evidence Required:**
+- Specific file paths from Explore agent
+- Actual code examples (not assumptions)
+- Verification that pattern doesn't already exist
+
+**When to Skip:**
+- User explicitly provided file path
+- Following explicit instructions from CLAUDE.md
+- Modifying file you just read with Read tool
+
+**See:** `MANDATORY SUB-AGENT REQUIREMENTS` section for full protocol
+
+### Gate: DOCUMENTATION
+
+**Triggers:** Creating or moving documentation files
+
+**Required:**
+1. Run `/doc-check` slash command first
+2. Read `documentation/DOCUMENTATION-STANDARDS.md`
+3. Never place files in `/documentation` root (except meta-docs)
+4. Validate: `node scripts/docs/validate-doc-structure.cjs`
+
+| Doc Type | Location |
+|----------|----------|
+| Database schema | `documentation/docs/database/` |
+| Completion reports | `documentation/docs/development/completion-reports/` |
+| API docs | `documentation/docs/api/` or `documentation/docs/procore/[feature]/` |
+| Plans | `documentation/docs/plans/[category]/` |
+
+### Gate: TESTING (MANDATORY - ADDED 2026-01-10)
+
+**Triggers:**
+- Claiming a feature is "complete"
+- Updating STATUS.md to say "complete" or "ready"
+- Moving work to `complete/` directory
+- Running verifier agent
+- Creating completion reports
+
+**HARD REQUIREMENT:** All features MUST have passing tests with evidence BEFORE claiming completion.
+
+**REQUIRED STEPS (ALL MANDATORY):**
+
+```bash
+# Step 1: Write tests (if none exist)
+# Location: frontend/tests/e2e/<feature>-*.spec.ts
+
+# Step 2: Run tests with HTML reporter
+cd frontend
+npx playwright test tests/e2e/<feature>*.spec.ts --reporter=html
+
+# Step 3: Verify results
+# Expected: All critical tests passing (100% or documented exceptions)
+
+# Step 4: Document evidence
+# Create: documentation/1-project-mgmt/in-progress/<feature>/TEST-RESULTS.md
+# Include: Pass/fail counts, HTML report path, screenshots
+
+# Step 5: Update STATUS.md with test results
+```
+
+**Evidence Required:**
+Create `TEST-RESULTS.md` with:
+- Test execution date
+- Pass/fail counts
+- HTML report location
+- Screenshot or terminal output
+- Link from STATUS.md
+
+**Banned Without Testing:**
+- ❌ "Feature complete"
+- ❌ "All working"
+- ❌ "Ready for production"
+- ❌ Moving verification reports to archive/
+- ❌ Claiming 100% without running tests
+
+**Before vs After:**
+```
+BEFORE (WRONG):
+1. Write code
+2. TypeScript compiles
+3. "Complete!" ← VIOLATION
+4. User finds it broken
+
+AFTER (CORRECT):
+1. Write code
+2. Write/run tests
+3. Fix failures
+4. Document evidence
+5. THEN claim complete
+```
+
+**See Full Protocol:** `documentation/1-project-mgmt/MANDATORY-TESTING-PROTOCOL.md`
+
+**Historical Violation:** 2026-01-10 - Change Events claimed "complete" with 44% test failure rate. This gate prevents recurrence.
+
+---
+
+## 🚫 CODE QUALITY GATES (ZERO TOLERANCE)
+
+### Mandatory Commands
+
+```bash
+# After EVERY code change:
+npm run quality --prefix frontend
+
+# Auto-fix when possible:
+npm run quality:fix --prefix frontend
+```
+
+### Enforcement Chain
+
+| Stage | Check | Consequence |
+|-------|-------|-------------|
+| Pre-commit | TypeScript + ESLint errors | Commit BLOCKED |
+| Pre-push | Full project typecheck + lint | Push BLOCKED |
+| CI/CD | Full checks on PR | Merge BLOCKED |
+
+### Absolute Rules
+
+| ❌ NEVER | ✅ INSTEAD |
+|----------|-----------|
+| `@ts-ignore` / `@ts-expect-error` | Fix the type error |
+| `any` type | Use `unknown` or proper type |
+| `console.log` | Use `console.warn` or `console.error` |
+| Implicit null/undefined | Handle explicitly (see patterns below) |
+
+### Null/Undefined Patterns
+
+```typescript
+// Convert null to undefined
+const obj: Foo = { value: data.value || undefined }
+
+// Filter nulls with type guard
 const items: string[] = data
   .map(x => x.name)
-  .filter((name): name is string => name !== null) // ✅
+  .filter((name): name is string => name !== null)
+
+// Optional chaining + nullish coalescing
+const value = data?.property ?? defaultValue
+```
+
+### Bypass (EMERGENCY ONLY)
+
+```bash
+git commit --no-verify  # CI will still fail
+git push --no-verify    # CI will still fail
 ```
 
 ---
 
-## 🛑 STOP IS CORRECT BEHAVIOR
+## ❌ BANNED BEHAVIORS
 
-If:
+### Speculative Language (Before Gates Satisfied)
 
-* Required access is missing
-* A tool cannot be run
-* Schema is unclear
-* Execution gate cannot be satisfied
+These words indicate speculation and are **violations**:
+- "if", "might", "likely", "assuming", "it seems", "probably"
 
-Claude MUST STOP and ask.
+### Anti-Patterns
 
-Guessing is **never acceptable**.
+| ❌ Don't Say | ✅ Do Instead |
+|-------------|---------------|
+| "Tests should pass" | Run them, show output |
+| "This should work" | Verify it, show evidence |
+| "I've completed the task" | Provide verification report |
+| "The implementation looks correct" | Run quality checks, show results |
+
+### File/Folder Violations
+
+- NEVER create: `_fixed`, `_final`, `_backup`, `_copy` variants
+- Edit files **in place**
+- If duplicates exist: identify canonical, consolidate, remove obsolete
 
 ---
 
-## 📝 RULE VIOLATION LOGGING (MANDATORY)
+## 🧪 TESTING REQUIREMENTS
 
-ALL violations MUST be logged immediately in:
+### Test Locations
+
+| Type | Location |
+|------|----------|
+| E2E tests | `frontend/tests/e2e/` |
+| Visual regression | `frontend/tests/visual-regression/` |
+| Screenshots/videos | `frontend/tests/screenshots/` |
+
+### Testing Rules
+
+- ALL features MUST be tested
+- UI changes REQUIRE Playwright verification
+- APIs REQUIRE real request testing
+- Buttons must be clicked, forms submitted, flows exercised
+- Backend tests MUST NOT use Playwright
+
+---
+
+## 🎭 PLAYWRIGHT QUICK REFERENCE (MANDATORY)
+
+**CRITICAL:** For ANY Playwright work, read `.agents/docs/playwright/PLAYWRIGHT-PATTERNS.md` FIRST.
+
+### Authentication (Standard Pattern)
+
+```typescript
+// Tests automatically use saved auth from tests/.auth/user.json
+// Auth setup runs once via tests/auth.setup.ts (Supabase-based)
+
+// Test credentials (from ENV):
+// TEST_USER_1 = test1@mail.com
+// TEST_PASSWORD_1 = test12026!!!
+```
+
+### Must-Use Patterns
+
+```typescript
+// 1. ALWAYS wait for network idle after navigation
+await page.goto('/dashboard');
+await page.waitForLoadState('networkidle'); // MANDATORY
+
+// 2. Use role-based selectors (PREFERRED)
+await page.locator('[role="tab"]').filter({ hasText: 'Budget' }).click();
+
+// 3. Handle duplicates with .first() or .last()
+const button = page.locator('button')
+  .filter({ hasText: 'Submit' })
+  .last(); // Gets specific instance
+
+// 4. API requests need auth cookies
+const authFile = path.join(__dirname, '../.auth/user.json');
+const authData = JSON.parse(fs.readFileSync(authFile, 'utf-8'));
+const authCookies = authData.cookies
+  .map(c => `${c.name}=${c.value}`)
+  .join('; ');
+
+await page.request.post(url, {
+  headers: { Cookie: authCookies, 'Content-Type': 'application/json' },
+  data: { ... }
+});
+```
+
+### Common Mistakes (BANNED)
+
+| ❌ Don't | ✅ Do |
+|---------|------|
+| `page.locator('button').click()` | `page.locator('button').filter({ hasText: 'Submit' }).click()` |
+| Navigate without waiting | `await page.waitForLoadState('networkidle')` |
+| Ignore auth in API tests | Include `Cookie: authCookies` header |
+| `await page.waitForTimeout(5000)` | `await page.waitForSelector('[role="menu"]')` |
+
+### Running Tests
+
+```bash
+# Run all e2e tests
+npx playwright test --config=frontend/config/playwright/playwright.config.ts
+
+# Run specific test
+npx playwright test tests/e2e/budget-comprehensive.spec.ts
+
+# Debug mode
+npx playwright test --debug
+
+# View report
+npx playwright show-report frontend/playwright-report
+```
+
+### For Complex Playwright Work
+
+Use `test-automator` with the `playwright-tester.md` prompt template:
+
+```typescript
+Task({
+  subagent_type: "test-automator",
+  prompt: "Follow .agents/agents/playwright-tester.md. Implement e2e tests for [feature]."
+})
+```
+
+**Full Patterns:** `.agents/docs/playwright/PLAYWRIGHT-PATTERNS.md`
+**Gate Documentation:** `.agents/rules/PLAYWRIGHT-GATE.md`
+
+---
+
+### 🚨 MANDATORY: Use test-automator Sub-Agent
+
+**NEVER run Playwright tests directly from the main agent.**
 
 ```
-RULE-VIOLATION-LOG.md
+❌ WRONG: Main agent runs `npx playwright test`
+❌ WRONG: Main agent debugs test timeouts
+❌ WRONG: Main agent asks "Should I fix the tests?"
+
+✅ RIGHT: Task({ subagent_type: "test-automator", ... })
 ```
 
-No exceptions. Even minor violations are logged.
+The test-automator agent:
+- Has fresh context (no pollution from implementation work)
+- Has Playwright expertise
+- Is required to FIX issues, not report them
+- Must continue until tests PASS or hit genuine blocker
+
+See "🚨 MANDATORY: Testing Sub-Agent" in SUB-AGENT STRATEGY section for full details.
 
 ---
 
-## 🧭 TASK FLOW (MANDATORY)
+## 🎯 PROJECT-SPECIFIC SUB-AGENTS & TEMPLATES
 
-### BEFORE ANY TASK
+**Alleato-Procore has 7 specialized sub-agents** with deep project knowledge:
 
-* Read this file
-* Read PLANS_DOC.md
-* Identify applicable execution gates
-* Satisfy gates BEFORE reasoning
+| Sub-Agent | Critical For | Documentation |
+|-----------|--------------|---------------|
+| **design-system-auditor** | UI compliance before commits | `.agents/agents/design-system-auditor.md` |
+| **component-system-consistency-subagent** | Eliminating inline styles, standardizing components | `.agents/agents/component-system-consistency-subagent.md` |
+| **page-title-compliance-subagent** | Browser tab titles with `useProjectTitle` hook | `.agents/agents/page-title-compliance-subagent.md` |
+| **breadcrumb-experience-subagent** | Consistent breadcrumb navigation | `.agents/agents/breadcrumb-experience-subagent.md` |
+| **project-context-resilience-subagent** | ProjectId context (URL/query param) | `.agents/agents/project-context-resilience-subagent.md` |
+| **feature-crawler** | Procore feature research with screenshots | `.agents/agents/feature-crawler.md` |
+| **PROJECT-MANAGER-AGENT** | Converting brain dumps to structured plans | `.agents/agents/PROJECT-MANAGER-AGENT.md` |
 
-### AFTER ANY TASK
+**Specialized Prompt Templates:**
 
-* Run lint/typecheck/tests
-* Update PLANS_DOC.md (if applicable)
-* Verify no rules were violated
-* Log violations if they occurred
+| Template | Used With | Purpose | Documentation |
+|----------|-----------|---------|---------------|
+| **playwright-tester.md** | `test-automator` | E2E testing with Supabase auth, context-7 MCP | `.agents/agents/playwright-tester.md` |
+
+**Key Usage Patterns:**
+
+```typescript
+// Playwright testing (with context-7 MCP + Supabase patterns)
+Task({
+  subagent_type: "test-automator",
+  prompt: "Follow .agents/agents/playwright-tester.md. Implement e2e tests for [feature]."
+})
+
+// Design system audit before commit
+Task({
+  subagent_type: "code-reviewer",
+  prompt: "Review UI changes in [files] using design-system-auditor rules from .agents/agents/design-system-auditor.md"
+})
+
+// Component consistency refactor
+Task({
+  subagent_type: "frontend-developer",
+  prompt: "Refactor [page] to use shared components. Follow component-system-consistency-subagent patterns."
+})
+```
+
+**See Complete Catalog:** `.agents/SUBAGENTS-INDEX.md` (all 68+ sub-agents with descriptions and use cases)
 
 ---
 
-## 🧑‍💻 AGENT BEHAVIOR
+## 📋 TASK FLOW (MANDATORY)
 
-Claude is expected to:
+### Before Any Task
 
-* Take ownership
-* Be proactive
-* Fix issues it discovers
-* Improve the codebase continuously
+1. Read this file
+2. Create `.claude/current-task.md` with task description
+3. Identify applicable execution gates
+4. Satisfy gates BEFORE reasoning or coding
 
-Claude must NOT:
+### During Task
 
-* Hand work back to the user
-* Ask the user to do routine engineering tasks
-* Leave broken or untested code behind
+1. For complex tasks: spawn worker sub-agent
+2. Run `npm run quality --prefix frontend` after each change
+3. Fix ALL errors before proceeding
+
+### After Task
+
+1. Run final quality check
+2. Run relevant tests, capture output
+3. **MANDATORY:** Spawn `code-reviewer` sub-agent for:
+   - ANY feature implementation
+   - ANY non-trivial bug fix
+   - Changes affecting 3+ files
+   - Before claiming "complete"
+4. For complex tasks: spawn verifier sub-agent
+5. Log to `.claude/task-log.md`:
+
+```markdown
+## [Task Description]
+- Timestamp: [ISO timestamp]
+- Quality Check: PASS (output: ...)
+- Tests Run: [list with results]
+- Code Review: COMPLETED (by code-reviewer sub-agent)
+- Verification: VERIFIED | FAILED
+- Evidence: [specific output/logs]
+```
+
+**Exception:** Skip code-reviewer only for:
+- Documentation-only changes
+- Single-line typo fixes
+- Comment updates
 
 ---
 
-## FINAL ASSERTION
+## 🛑 WHEN TO STOP
 
-Claude is not a speculative assistant.
-Claude is an **execution-verified engineer**.
+Claude MUST STOP and ask if:
 
-**No evidence → no reasoning.**
-**No gate → no progress.**
+- Required access is missing
+- A tool cannot be run
+- Schema is unclear
+- Execution gate cannot be satisfied
+- Ambiguity that could lead to wrong implementation
 
-Obey the rules or STOP.
+**Guessing is never acceptable.**
+
+---
+
+## 📝 RULE VIOLATION LOGGING
+
+ALL violations MUST be logged immediately in `RULE-VIOLATION-LOG.md`. No exceptions.
+
+---
+
+## 🧑‍💻 AGENT BEHAVIOR SUMMARY
+
+### Claude MUST:
+
+- Take ownership of tasks end-to-end
+- Be proactive in fixing discovered issues
+- Verify work through independent sub-agents (complex tasks)
+- Improve the codebase continuously
+- Show evidence for all claims
+
+### Claude MUST NOT:
+
+- Hand routine engineering work back to user
+- Leave broken or untested code
+- Claim completion without verification evidence
+- Speculate before satisfying execution gates
+- Use banned patterns or language
+
+## Need to add these rules
+
+- All documentation needs to be saved to the documentation folder and added to the index-docs.md.
+- Don't stop working until all tasks are completed.

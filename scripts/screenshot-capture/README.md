@@ -7,6 +7,8 @@ Automated screenshot capture and complete sitemap generation of Procore's constr
 Systematically capture Procore's UI to:
 - **Generate complete sitemap with organized page folders**
 - **Create comprehensive table and list reports with direct links**
+- **🔴 CRITICAL: Capture database schema for every feature/module**
+- **🔴 CRITICAL: Create detailed form tables with column mappings**
 - Analyze page layouts and information architecture
 - Document component patterns and design system
 - Create Figma reference boards for custom rebuild
@@ -102,6 +104,196 @@ The enhanced sitemap crawler (`npm run crawl:sitemap`) provides the most compreh
 - **Development Planning**: Structured data for rebuild estimates
 
 See [SITEMAP_README.md](SITEMAP_README.md) for detailed documentation.
+
+## 🗄️ Database Schema Capture (CRITICAL)
+
+**⚠️ THIS IS MANDATORY FOR EVERY MODULE/FEATURE CAPTURED**
+
+When capturing any Procore module or feature, you **MUST** document the database schema required to support that feature.
+
+### Required Schema Documentation
+
+For each module, create a database schema document that includes:
+
+1. **Table Definitions**
+   - Table name (following Procore naming conventions)
+   - Primary key structure
+   - All columns with data types
+   - Indexes and constraints
+   - Timestamps (created_at, updated_at)
+
+2. **Relationships**
+   - Foreign keys to other tables
+   - One-to-many relationships
+   - Many-to-many join tables
+   - Cascade behaviors
+
+3. **Business Logic**
+   - Required fields vs optional
+   - Validation rules
+   - Default values
+   - Computed/calculated fields
+
+4. **Performance Considerations**
+   - Recommended indexes
+   - Partitioning strategies
+   - Expected data volume
+
+### Schema Documentation Template
+
+```markdown
+# [Module Name] Database Schema
+
+## Tables
+
+### `table_name`
+Primary table for [purpose]
+
+| Column | Type | Nullable | Description | Related To |
+|--------|------|----------|-------------|------------|
+| id | uuid | NOT NULL | Primary key | - |
+| project_id | uuid | NOT NULL | Project reference | projects.id |
+| name | varchar(255) | NOT NULL | Display name | - |
+| status | varchar(50) | NOT NULL | Current status (draft/active/closed) | - |
+| created_at | timestamptz | NOT NULL | Creation timestamp | - |
+| updated_at | timestamptz | NOT NULL | Last update timestamp | - |
+| created_by | uuid | NOT NULL | User who created | users.id |
+
+**Indexes:**
+- `idx_table_project_id` on (project_id)
+- `idx_table_status` on (status)
+- `idx_table_created_at` on (created_at DESC)
+
+**Relationships:**
+- `project_id` → `projects.id` (CASCADE on delete)
+- `created_by` → `users.id` (SET NULL on delete)
+
+## Related Tables
+- `table_items` - Line items/details
+- `table_attachments` - File attachments
+- `table_history` - Audit trail
+```
+
+### Where to Save Schema Docs
+- Primary location: `documentation/docs/database/`
+- Module-specific: `documentation/docs/procore/[module-name]/schema.md`
+
+## 📝 Form Field Capture (CRITICAL)
+
+**⚠️ EVERY FORM MUST BE DOCUMENTED WITH COMPLETE FIELD MAPPINGS**
+
+When you encounter ANY form in Procore (create, edit, filters, etc.), you **MUST** create a comprehensive form table documenting all fields.
+
+### Required Form Documentation
+
+Create a markdown table for each form with these columns:
+
+| Column | Description | Example |
+|--------|-------------|---------|
+| **Field Label** | Exact text shown in UI | "Contract Number" |
+| **Field Name** | Technical field name/ID | `contract_number` |
+| **Field Type** | Input type | text, number, date, select, textarea, file, checkbox |
+| **Required** | Is field required? | Yes/No/Conditional |
+| **Validation** | Rules and constraints | "Max 100 chars", "Must be unique", "Format: XXX-####" |
+| **Default Value** | Pre-filled value if any | "Draft", current date, empty |
+| **Options/Values** | For selects/radios | List all dropdown options |
+| **Database Column** | Target column in schema | `contracts.contract_number` |
+| **Related Table** | If FK relationship | `companies.id`, `cost_codes.id` |
+| **Description** | What the field is for | "Unique identifier for tracking contract in ERP" |
+| **Help Text** | Tooltip/helper text shown | "Enter the contract number from your accounting system" |
+| **Conditional Logic** | When field shows/hides | "Only shown if contract_type = 'subcontract'" |
+
+### Form Documentation Template
+
+```markdown
+# [Form Name] - Field Mapping
+
+**Form Type:** Create / Edit / Filter / Search
+**Module:** [Module Name]
+**URL Pattern:** `/projects/{id}/[module]/new`
+**Primary Table:** `table_name`
+
+## Form Fields
+
+| Field Label | Field Name | Type | Required | Validation | Default | Options | DB Column | Related Table | Description | Help Text | Conditional |
+|------------|------------|------|----------|------------|---------|---------|-----------|---------------|-------------|-----------|-------------|
+| Contract Number | contract_number | text | Yes | Max 50 chars, unique | - | - | contracts.contract_number | - | Unique contract identifier | Enter contract # from accounting | - |
+| Vendor | vendor_id | select | Yes | Must exist | - | [List from companies] | contracts.vendor_id | companies.id | Company providing service | Select subcontractor or supplier | - |
+| Contract Type | contract_type | radio | Yes | - | "subcontract" | Subcontract, Purchase Order, Service | contracts.contract_type | - | Type of agreement | - | - |
+| Contract Date | contract_date | date | Yes | Not future | Today | - | contracts.contract_date | - | Effective date | - | - |
+| Amount | amount | money | Yes | > 0 | - | - | contracts.amount | - | Total contract value | - | - |
+| Retention % | retention_percent | number | No | 0-100 | 5 | - | contracts.retention_percent | - | Holdback percentage | Typical is 5-10% | Only if contract_type = 'subcontract' |
+| Attachments | attachments | file | No | PDF, max 10MB | - | - | contract_attachments.file_path | - | Supporting docs | Upload signed contract | - |
+
+## Field Groups
+
+### Basic Information
+- Contract Number
+- Vendor
+- Contract Type
+- Contract Date
+
+### Financial Details
+- Amount
+- Retention %
+- Payment Terms
+
+### Supporting Documents
+- Attachments
+- Notes
+
+## Validation Rules
+
+1. Contract Number must be unique within project
+2. Contract Date cannot be more than 30 days in future
+3. If Retention % is set, must have Payment Terms
+4. At least one attachment required if Amount > $100,000
+
+## Database Operations
+
+**On Submit:**
+```sql
+INSERT INTO contracts (
+  project_id, contract_number, vendor_id,
+  contract_type, contract_date, amount,
+  retention_percent, created_by, created_at
+) VALUES (...);
+
+-- If attachments
+INSERT INTO contract_attachments (contract_id, file_path, ...) VALUES (...);
+```
+```
+
+### Where to Save Form Docs
+- Primary location: `documentation/docs/procore/[module-name]/forms/`
+- Naming convention: `form-[action]-[entity].md`
+  - Examples: `form-create-subcontract.md`, `form-edit-change-order.md`, `form-filter-commitments.md`
+
+### Form CSV Export (Optional)
+
+For easy import to spreadsheets:
+```csv
+Field Label,Field Name,Type,Required,Validation,Default,Database Column,Related Table,Description
+Contract Number,contract_number,text,Yes,Max 50 unique,-,contracts.contract_number,-,Unique contract identifier
+Vendor,vendor_id,select,Yes,Must exist,-,contracts.vendor_id,companies.id,Company providing service
+```
+
+## 🎯 Complete Capture Checklist
+
+For EVERY module/feature you capture:
+
+- [ ] Screenshot(s) of all views/states
+- [ ] DOM snapshot for analysis
+- [ ] **Database schema document** (tables, columns, relationships)
+- [ ] **Form field mapping tables** (for create/edit/filter forms)
+- [ ] Component analysis (UI patterns used)
+- [ ] Workflow documentation (user flow)
+- [ ] API endpoint mapping (if observable)
+- [ ] Permission/role requirements
+- [ ] Business rules and validation logic
+- [ ] Related modules/dependencies
+
+**Remember:** The goal is to capture enough detail to rebuild the feature WITHOUT accessing Procore's source code.
 
 ## 🗺️ Standalone Sitemap Generator (NEW!)
 

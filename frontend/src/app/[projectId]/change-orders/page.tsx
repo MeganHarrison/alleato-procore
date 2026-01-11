@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Plus, Download } from 'lucide-react';
-import { useRouter, useParams } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { useState, useEffect } from "react";
+import { Plus, Download } from "lucide-react";
+import { useRouter, useParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -12,10 +12,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { ProjectPageHeader, PageContainer, PageTabs } from '@/components/layout';
-import type { ChangeOrder } from '@/types/financial';
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import {
+  ProjectPageHeader,
+  PageContainer,
+  PageTabs,
+} from "@/components/layout";
+import type { ChangeOrder } from "@/types/financial";
 
 export default function ProjectChangeOrdersPage() {
   const router = useRouter();
@@ -31,13 +35,15 @@ export default function ProjectChangeOrdersPage() {
 
       try {
         setLoading(true);
-        const response = await fetch(`/api/change-orders?projectId=${projectId}`);
+        const response = await fetch(
+          `/api/change-orders?projectId=${projectId}`,
+        );
         if (response.ok) {
           const data = await response.json();
           setChangeOrders(data.data || []);
         }
       } catch (error) {
-        console.error('Error fetching change orders:', error);
+        console.error("Error fetching change orders:", error);
       } finally {
         setLoading(false);
       }
@@ -46,35 +52,45 @@ export default function ProjectChangeOrdersPage() {
     fetchChangeOrders();
   }, [projectId]);
 
-  const getStatusBadgeVariant = (status: string): "success" | "warning" | "secondary" | "default" | "outline" | "destructive" | null | undefined => {
+  const getStatusBadgeVariant = (
+    status: string,
+  ):
+    | "success"
+    | "warning"
+    | "secondary"
+    | "default"
+    | "outline"
+    | "destructive"
+    | null
+    | undefined => {
     switch (status) {
-      case 'approved':
-        return 'success';
-      case 'pending':
-        return 'warning';
-      case 'draft':
-        return 'secondary';
-      case 'executed':
-        return 'default';
+      case "approved":
+        return "success";
+      case "pending":
+        return "warning";
+      case "draft":
+        return "secondary";
+      case "executed":
+        return "default";
       default:
-        return 'outline';
+        return "outline";
     }
   };
 
   // Calculate totals
   const totals = changeOrders.reduce(
     (acc, order) => {
-      if (order.status === 'pending') {
+      if (order.status === "pending") {
         acc.pendingCount++;
         acc.pendingAmount += order.amount || 0;
       }
-      if (order.status === 'approved') {
+      if (order.status === "approved") {
         acc.approvedCount++;
         acc.approvedAmount += order.amount || 0;
       }
       return acc;
     },
-    { pendingCount: 0, pendingAmount: 0, approvedCount: 0, approvedAmount: 0 }
+    { pendingCount: 0, pendingAmount: 0, approvedCount: 0, approvedAmount: 0 },
   );
 
   return (
@@ -83,7 +99,10 @@ export default function ProjectChangeOrdersPage() {
         title="Change Orders"
         description="Manage contract change orders and modifications"
         actions={
-          <Button size="sm" onClick={() => router.push(`/${projectId}/change-orders/new`)}>
+          <Button
+            size="sm"
+            onClick={() => router.push(`/${projectId}/change-orders/new`)}
+          >
             <Plus className="h-4 w-4 mr-2" />
             New Change Order
           </Button>
@@ -92,10 +111,20 @@ export default function ProjectChangeOrdersPage() {
 
       <PageTabs
         tabs={[
-          { label: 'All Change Orders', href: `/${projectId}/change-orders`, count: changeOrders.length },
-          { label: 'Pending', href: `/${projectId}/change-orders?status=pending` },
-          { label: 'Approved', href: `/${projectId}/change-orders?status=approved` },
-          { label: 'Draft', href: `/${projectId}/change-orders?status=draft` },
+          {
+            label: "All Change Orders",
+            href: `/${projectId}/change-orders`,
+            count: changeOrders.length,
+          },
+          {
+            label: "Pending",
+            href: `/${projectId}/change-orders?status=pending`,
+          },
+          {
+            label: "Approved",
+            href: `/${projectId}/change-orders?status=approved`,
+          },
+          { label: "Draft", href: `/${projectId}/change-orders?status=draft` },
         ]}
       />
 
@@ -139,12 +168,18 @@ export default function ProjectChangeOrdersPage() {
 
             {loading ? (
               <div className="flex justify-center items-center h-64">
-                <p className="text-muted-foreground">Loading change orders...</p>
+                <p className="text-muted-foreground">
+                  Loading change orders...
+                </p>
               </div>
             ) : changeOrders.length === 0 ? (
               <div className="text-center py-12">
-                <p className="text-muted-foreground mb-4">No change orders found</p>
-                <Button onClick={() => router.push(`/${projectId}/change-orders/new`)}>
+                <p className="text-muted-foreground mb-4">
+                  No change orders found
+                </p>
+                <Button
+                  onClick={() => router.push(`/${projectId}/change-orders/new`)}
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Create your first change order
                 </Button>
@@ -166,18 +201,24 @@ export default function ProjectChangeOrdersPage() {
                     <TableRow
                       key={order.id}
                       className="cursor-pointer hover:bg-gray-50"
-                      onClick={() => router.push(`/change-order-form/${order.id}`)}
+                      onClick={() =>
+                        router.push(`/change-order-form/${order.id}`)
+                      }
                     >
-                      <TableCell className="font-medium">{order.number}</TableCell>
+                      <TableCell className="font-medium">
+                        {order.number}
+                      </TableCell>
                       <TableCell>{order.title}</TableCell>
-                      <TableCell>{order.commitment?.title || '-'}</TableCell>
+                      <TableCell>{order.commitment?.title || "-"}</TableCell>
                       <TableCell>
                         <Badge variant={getStatusBadgeVariant(order.status)}>
                           {order.status}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-right">${order.amount.toFixed(2)}</TableCell>
-                      <TableCell>{order.executed_date || '-'}</TableCell>
+                      <TableCell className="text-right">
+                        ${order.amount.toFixed(2)}
+                      </TableCell>
+                      <TableCell>{order.executed_date || "-"}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>

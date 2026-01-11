@@ -4,14 +4,24 @@ export interface ProjectTool {
   description: string;
   icon: string;
   href: string;
-  category: 'core' | 'project-management' | 'resource-management' | 'financial-management';
+  category:
+    | "core"
+    | "project-management"
+    | "resource-management"
+    | "financial-management";
   itemCount?: number;
   isConfigured?: boolean;
 }
 
 export interface RecentActivity {
   id: string;
-  type: 'rfi' | 'submittal' | 'daily-log' | 'change-order' | 'invoice' | 'document';
+  type:
+    | "rfi"
+    | "submittal"
+    | "daily-log"
+    | "change-order"
+    | "invoice"
+    | "document";
   title: string;
   description: string;
   user: string;
@@ -28,7 +38,7 @@ export interface ProjectInfo {
   state: string;
   zip: string;
   phone: string;
-  status: 'Active' | 'Inactive';
+  status: "Active" | "Inactive";
   stage: string;
   type: string;
   projectType?: string;

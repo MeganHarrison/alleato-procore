@@ -1,13 +1,18 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { BaseSidebar, SidebarBody, SidebarFooter, SidebarTabs } from './BaseSidebar';
-import { Label } from '@/components/ui/label';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
-import { cn } from '@/lib/utils';
-import { TrendingUp, BarChart3, Calculator } from 'lucide-react';
+import { useState, useEffect } from "react";
+import {
+  BaseSidebar,
+  SidebarBody,
+  SidebarFooter,
+  SidebarTabs,
+} from "./BaseSidebar";
+import { Label } from "@/components/ui/label";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { cn } from "@/lib/utils";
+import { TrendingUp, BarChart3, Calculator } from "lucide-react";
 
 interface ForecastToCompleteModalProps {
   open: boolean;
@@ -16,7 +21,7 @@ interface ForecastToCompleteModalProps {
   budgetLineId: string;
   projectId: string;
   currentData?: {
-    forecastMethod: 'lump_sum' | 'manual' | 'monitored';
+    forecastMethod: "lump_sum" | "manual" | "monitored";
     forecastAmount: number;
     projectedBudget: number;
     projectedCosts: number;
@@ -44,14 +49,16 @@ export function ForecastToCompleteModal({
   costCode,
   budgetLineId,
   currentData,
-  onSave
+  onSave,
 }: ForecastToCompleteModalProps) {
-  const [activeTab, setActiveTab] = useState<'forecast' | 'history'>('forecast');
-  const [forecastMethod, setForecastMethod] = useState<'lump_sum' | 'manual' | 'monitored'>(
-    currentData?.forecastMethod || 'lump_sum'
+  const [activeTab, setActiveTab] = useState<"forecast" | "history">(
+    "forecast",
   );
+  const [forecastMethod, setForecastMethod] = useState<
+    "lump_sum" | "manual" | "monitored"
+  >(currentData?.forecastMethod || "lump_sum");
   const [forecastAmount, setForecastAmount] = useState<string>(
-    currentData?.forecastAmount?.toString() || '0'
+    currentData?.forecastAmount?.toString() || "0",
   );
   const [isSaving, setIsSaving] = useState(false);
 
@@ -59,9 +66,10 @@ export function ForecastToCompleteModal({
   const projectedBudget = currentData?.projectedBudget || 0;
   const projectedCosts = currentData?.projectedCosts || 0;
 
-  const calculatedForecast = forecastMethod === 'lump_sum' || forecastMethod === 'manual'
-    ? parseFloat(forecastAmount) || 0
-    : Math.max(0, projectedBudget - projectedCosts); // Monitored method
+  const calculatedForecast =
+    forecastMethod === "lump_sum" || forecastMethod === "manual"
+      ? parseFloat(forecastAmount) || 0
+      : Math.max(0, projectedBudget - projectedCosts); // Monitored method
 
   const estimatedCostAtCompletion = projectedCosts + calculatedForecast;
   const projectedOverUnder = projectedBudget - estimatedCostAtCompletion;
@@ -69,9 +77,9 @@ export function ForecastToCompleteModal({
   // Reset form when modal opens/closes
   useEffect(() => {
     if (open) {
-      setForecastMethod(currentData?.forecastMethod || 'lump_sum');
-      setForecastAmount(currentData?.forecastAmount?.toString() || '0');
-      setActiveTab('forecast');
+      setForecastMethod(currentData?.forecastMethod || "lump_sum");
+      setForecastAmount(currentData?.forecastAmount?.toString() || "0");
+      setActiveTab("forecast");
     }
   }, [open, currentData]);
 
@@ -81,11 +89,11 @@ export function ForecastToCompleteModal({
       await onSave({
         budgetLineId,
         forecastMethod,
-        forecastAmount: calculatedForecast
+        forecastAmount: calculatedForecast,
       });
       onClose();
     } catch (error) {
-      console.error('Error saving forecast:', error);
+      console.error("Error saving forecast:", error);
     } finally {
       setIsSaving(false);
     }
@@ -97,7 +105,9 @@ export function ForecastToCompleteModal({
 
   const handleClose = () => {
     if (hasChanges) {
-      if (confirm('You have unsaved changes. Are you sure you want to close?')) {
+      if (
+        confirm("You have unsaved changes. Are you sure you want to close?")
+      ) {
         onClose();
       }
     } else {
@@ -107,7 +117,7 @@ export function ForecastToCompleteModal({
 
   const formatCurrency = (value: number): string => {
     const isNegative = value < 0;
-    const formatted = new Intl.NumberFormat('en-US', {
+    const formatted = new Intl.NumberFormat("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(Math.abs(value));
@@ -119,8 +129,8 @@ export function ForecastToCompleteModal({
   };
 
   const tabs = [
-    { id: 'forecast', label: 'Forecast' },
-    { id: 'history', label: 'History' }
+    { id: "forecast", label: "Forecast" },
+    { id: "history", label: "History" },
   ];
 
   return (
@@ -135,23 +145,27 @@ export function ForecastToCompleteModal({
       <SidebarTabs
         tabs={tabs}
         activeTab={activeTab}
-        onTabChange={(id) => setActiveTab(id as 'forecast' | 'history')}
+        onTabChange={(id) => setActiveTab(id as "forecast" | "history")}
       />
 
       {/* Content */}
       <SidebarBody className="bg-white">
-        {activeTab === 'forecast' ? (
+        {activeTab === "forecast" ? (
           <div className="p-6 space-y-6">
             {/* Current Budget Summary */}
             <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-gradient-to-br from-green-50 via-white to-white">
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <p className="text-xs text-gray-600">Projected Budget</p>
-                  <p className="text-lg font-bold text-gray-900">{formatCurrency(projectedBudget)}</p>
+                  <p className="text-lg font-bold text-gray-900">
+                    {formatCurrency(projectedBudget)}
+                  </p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-600">Projected Costs</p>
-                  <p className="text-lg font-bold text-gray-900">{formatCurrency(projectedCosts)}</p>
+                  <p className="text-lg font-bold text-gray-900">
+                    {formatCurrency(projectedCosts)}
+                  </p>
                 </div>
               </div>
             </div>
@@ -163,31 +177,41 @@ export function ForecastToCompleteModal({
               </Label>
               <RadioGroup
                 value={forecastMethod}
-                onValueChange={(v) => setForecastMethod(v as typeof forecastMethod)}
+                onValueChange={(v) =>
+                  setForecastMethod(v as typeof forecastMethod)
+                }
                 className="grid gap-3"
               >
                 <label
                   htmlFor="lump_sum"
                   className={cn(
-                    'flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm cursor-pointer transition-all',
-                    forecastMethod === 'lump_sum' && 'border-orange-400/70 shadow-[0_12px_30px_-18px_rgba(255,115,29,0.55)] bg-orange-50/60'
+                    "flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm cursor-pointer transition-all",
+                    forecastMethod === "lump_sum" &&
+                      "border-orange-400/70 shadow-[0_12px_30px_-18px_rgba(255,115,29,0.55)] bg-orange-50/60",
                   )}
                 >
-                  <RadioGroupItem value="lump_sum" id="lump_sum" className="mt-1" />
+                  <RadioGroupItem
+                    value="lump_sum"
+                    id="lump_sum"
+                    className="mt-1"
+                  />
                   <div className="flex-1">
                     <div className="flex items-center gap-2 font-semibold text-slate-900">
                       <Calculator className="h-4 w-4 text-orange-500" />
                       Lump Sum
                     </div>
-                    <p className="text-sm text-slate-600 mt-1">Enter a fixed amount to complete.</p>
+                    <p className="text-sm text-slate-600 mt-1">
+                      Enter a fixed amount to complete.
+                    </p>
                   </div>
                 </label>
 
                 <label
                   htmlFor="manual"
                   className={cn(
-                    'flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm cursor-pointer transition-all',
-                    forecastMethod === 'manual' && 'border-orange-400/70 shadow-[0_12px_30px_-18px_rgba(255,115,29,0.55)] bg-orange-50/60'
+                    "flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm cursor-pointer transition-all",
+                    forecastMethod === "manual" &&
+                      "border-orange-400/70 shadow-[0_12px_30px_-18px_rgba(255,115,29,0.55)] bg-orange-50/60",
                   )}
                 >
                   <RadioGroupItem value="manual" id="manual" className="mt-1" />
@@ -196,25 +220,33 @@ export function ForecastToCompleteModal({
                       <BarChart3 className="h-4 w-4 text-orange-500" />
                       Manual
                     </div>
-                    <p className="text-sm text-slate-600 mt-1">Manually set forecast based on your estimate.</p>
+                    <p className="text-sm text-slate-600 mt-1">
+                      Manually set forecast based on your estimate.
+                    </p>
                   </div>
                 </label>
 
                 <label
                   htmlFor="monitored"
                   className={cn(
-                    'flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm cursor-pointer transition-all',
-                    forecastMethod === 'monitored' && 'border-orange-400/70 shadow-[0_12px_30px_-18px_rgba(255,115,29,0.55)] bg-orange-50/60'
+                    "flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm cursor-pointer transition-all",
+                    forecastMethod === "monitored" &&
+                      "border-orange-400/70 shadow-[0_12px_30px_-18px_rgba(255,115,29,0.55)] bg-orange-50/60",
                   )}
                 >
-                  <RadioGroupItem value="monitored" id="monitored" className="mt-1" />
+                  <RadioGroupItem
+                    value="monitored"
+                    id="monitored"
+                    className="mt-1"
+                  />
                   <div className="flex-1">
                     <div className="flex items-center gap-2 font-semibold text-slate-900">
                       <TrendingUp className="h-4 w-4 text-orange-500" />
                       Monitored
                     </div>
                     <p className="text-sm text-slate-600 mt-1">
-                      Automatically calculated as Projected Budget - Projected Costs.
+                      Automatically calculated as Projected Budget - Projected
+                      Costs.
                     </p>
                   </div>
                 </label>
@@ -222,9 +254,12 @@ export function ForecastToCompleteModal({
             </div>
 
             {/* Amount Input (only for Lump Sum and Manual) */}
-            {(forecastMethod === 'lump_sum' || forecastMethod === 'manual') && (
+            {(forecastMethod === "lump_sum" || forecastMethod === "manual") && (
               <div className="rounded-xl border border-slate-200 bg-white shadow-sm p-5">
-                <Label htmlFor="forecastAmount" className="text-sm font-medium text-gray-700">
+                <Label
+                  htmlFor="forecastAmount"
+                  className="text-sm font-medium text-gray-700"
+                >
                   Forecast Amount
                 </Label>
                 <Input
@@ -243,23 +278,33 @@ export function ForecastToCompleteModal({
             <div className="rounded-xl border border-slate-200 bg-slate-50 shadow-sm p-5">
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">Forecast To Complete</span>
+                  <span className="text-sm text-gray-600">
+                    Forecast To Complete
+                  </span>
                   <span className="text-lg font-bold text-gray-900">
                     {formatCurrency(calculatedForecast)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center border-t border-slate-200 pt-3">
-                  <span className="text-sm text-gray-600">Estimated Cost at Completion</span>
+                  <span className="text-sm text-gray-600">
+                    Estimated Cost at Completion
+                  </span>
                   <span className="text-lg font-semibold text-gray-900">
                     {formatCurrency(estimatedCostAtCompletion)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center border-t border-slate-200 pt-3">
-                  <span className="text-sm font-semibold text-gray-900">Projected Over / Under</span>
-                  <span className={cn(
-                    'text-lg font-bold',
-                    projectedOverUnder < 0 ? 'text-red-600' : 'text-green-600'
-                  )}>
+                  <span className="text-sm font-semibold text-gray-900">
+                    Projected Over / Under
+                  </span>
+                  <span
+                    className={cn(
+                      "text-lg font-bold",
+                      projectedOverUnder < 0
+                        ? "text-red-600"
+                        : "text-green-600",
+                    )}
+                  >
                     {formatCurrency(projectedOverUnder)}
                   </span>
                 </div>
@@ -282,20 +327,16 @@ export function ForecastToCompleteModal({
       {/* Footer */}
       <SidebarFooter>
         <div className="flex items-center justify-end gap-2">
-          <Button
-            variant="outline"
-            onClick={handleClose}
-            disabled={isSaving}
-          >
+          <Button variant="outline" onClick={handleClose} disabled={isSaving}>
             Cancel
           </Button>
-          {activeTab === 'forecast' && (
+          {activeTab === "forecast" && (
             <Button
               onClick={handleSave}
               disabled={isSaving || !hasChanges}
               className="bg-orange-500 hover:bg-orange-600 text-white"
             >
-              {isSaving ? 'Saving...' : 'Save'}
+              {isSaving ? "Saving..." : "Save"}
             </Button>
           )}
         </div>

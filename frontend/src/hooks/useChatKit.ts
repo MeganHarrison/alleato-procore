@@ -75,7 +75,7 @@ export function useChatKit(options: UseChatKitOptions): UseChatKitReturn {
     (instance: ChatKitElement | null): void => {
       ref.current = instance;
     },
-    []
+    [],
   );
 
   const control: ChatKitControl = React.useMemo(() => {

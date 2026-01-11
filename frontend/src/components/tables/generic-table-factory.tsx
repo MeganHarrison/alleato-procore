@@ -58,16 +58,30 @@
  * LOCATED AT: [frontend/src/components/tables/generic-table-factory.tsx](frontend/src/components/tables/generic-table-factory.tsx)
  */
 
-'use client'
+"use client";
 
-import { useState, useMemo, useRef, useEffect, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
-import { format } from 'date-fns'
-import { useVirtualizer } from '@tanstack/react-virtual'
-import Fuse from 'fuse.js'
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, type DragEndEvent } from '@dnd-kit/core'
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, useSortable, verticalListSortingStrategy } from '@dnd-kit/sortable'
-import { CSS } from '@dnd-kit/utilities'
+import { useState, useMemo, useRef, useEffect, useCallback } from "react";
+import { useRouter } from "next/navigation";
+import { format } from "date-fns";
+import { useVirtualizer } from "@tanstack/react-virtual";
+import Fuse from "fuse.js";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  type DragEndEvent,
+} from "@dnd-kit/core";
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  useSortable,
+  verticalListSortingStrategy,
+} from "@dnd-kit/sortable";
+import { CSS } from "@dnd-kit/utilities";
 import {
   Table,
   TableBody,
@@ -75,21 +89,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Text } from '@/components/ui/text'
-import { Checkbox } from '@/components/ui/checkbox'
-import { Card, CardContent } from '@/components/ui/card'
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Text } from "@/components/ui/text";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from "@/components/ui/select";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -98,7 +112,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -106,10 +120,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { Label } from '@/components/ui/label'
-import { Textarea } from '@/components/ui/textarea'
-import { toast } from 'sonner'
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { toast } from "sonner";
 import {
   Search,
   Download,
@@ -133,14 +147,14 @@ import {
   Calendar,
   Filter,
   X,
-} from 'lucide-react'
-import { cn } from '@/lib/utils'
+} from "lucide-react";
+import { cn } from "@/lib/utils";
 
 // ============================================================================
 // TYPE DEFINITIONS - View Mode
 // ============================================================================
 
-export type ViewMode = 'table' | 'card' | 'list'
+export type ViewMode = "table" | "card" | "list";
 
 // ============================================================================
 // TYPE DEFINITIONS - Advanced Features
@@ -149,75 +163,79 @@ export type ViewMode = 'table' | 'card' | 'list'
 /**
  * Advanced Filter Types
  */
-export type AdvancedFilterType = 'date-range' | 'number-range' | 'multi-select' | 'single-select'
+export type AdvancedFilterType =
+  | "date-range"
+  | "number-range"
+  | "multi-select"
+  | "single-select";
 
 export interface AdvancedFilterConfig {
-  id: string
-  label: string
-  field: string
-  type: AdvancedFilterType
-  options?: { value: string; label: string }[]
+  id: string;
+  label: string;
+  field: string;
+  type: AdvancedFilterType;
+  options?: { value: string; label: string }[];
 }
 
 /**
  * Sort Configuration for Multi-Column Sorting
  */
 export interface SortConfig {
-  columnId: string
-  direction: 'asc' | 'desc'
+  columnId: string;
+  direction: "asc" | "desc";
 }
 
 /**
  * Saved View Configuration
  */
 export interface SavedView {
-  id: string
-  name: string
-  description?: string
-  isDefault?: boolean
+  id: string;
+  name: string;
+  description?: string;
+  isDefault?: boolean;
   config: {
-    visibleColumns: string[]
-    sortConfigs: SortConfig[]
-    filters: Record<string, unknown>
-    columnWidths?: Record<string, number>
-    pinnedColumns?: string[]
-  }
-  createdAt: string
-  updatedAt: string
+    visibleColumns: string[];
+    sortConfigs: SortConfig[];
+    filters: Record<string, unknown>;
+    columnWidths?: Record<string, number>;
+    pinnedColumns?: string[];
+  };
+  createdAt: string;
+  updatedAt: string;
 }
 
 /**
  * Bulk Action Configuration
  */
 export interface BulkAction {
-  id: string
-  label: string
-  icon?: React.ReactNode
-  variant?: 'default' | 'destructive'
-  onClick: (selectedIds: (string | number)[]) => Promise<void>
-  disabled?: (selectedIds: (string | number)[]) => boolean
+  id: string;
+  label: string;
+  icon?: React.ReactNode;
+  variant?: "default" | "destructive";
+  onClick: (selectedIds: (string | number)[]) => Promise<void>;
+  disabled?: (selectedIds: (string | number)[]) => boolean;
 }
 
 /**
  * Column Statistics Configuration
  */
-export type ColumnStatType = 'sum' | 'avg' | 'count' | 'min' | 'max'
+export type ColumnStatType = "sum" | "avg" | "count" | "min" | "max";
 
 export interface ColumnStatConfig {
-  type: ColumnStatType
-  format?: 'currency' | 'number' | 'percentage'
+  type: ColumnStatType;
+  format?: "currency" | "number" | "percentage";
 }
 
 /**
  * Keyboard Shortcut Configuration
  */
 export interface KeyboardShortcut {
-  key: string
-  ctrlKey?: boolean
-  shiftKey?: boolean
-  altKey?: boolean
-  description: string
-  handler: () => void
+  key: string;
+  ctrlKey?: boolean;
+  shiftKey?: boolean;
+  altKey?: boolean;
+  description: string;
+  handler: () => void;
 }
 
 // ============================================================================
@@ -248,9 +266,12 @@ export interface KeyboardShortcut {
  * ```
  */
 export interface BadgeRenderConfig {
-  type: 'badge'
-  variantMap?: Record<string, 'default' | 'secondary' | 'destructive' | 'outline'>
-  defaultVariant?: 'default' | 'secondary' | 'destructive' | 'outline'
+  type: "badge";
+  variantMap?: Record<
+    string,
+    "default" | "secondary" | "destructive" | "outline"
+  >;
+  defaultVariant?: "default" | "secondary" | "destructive" | "outline";
 }
 
 /**
@@ -265,9 +286,9 @@ export interface BadgeRenderConfig {
  * ```
  */
 export interface CurrencyRenderConfig {
-  type: 'currency'
-  prefix?: string        // Default: '$'
-  showDecimals?: boolean // Default: true (2 decimal places)
+  type: "currency";
+  prefix?: string; // Default: '$'
+  showDecimals?: boolean; // Default: true (2 decimal places)
 }
 
 /**
@@ -282,8 +303,8 @@ export interface CurrencyRenderConfig {
  * ```
  */
 export interface TruncateRenderConfig {
-  type: 'truncate'
-  maxLength: number
+  type: "truncate";
+  maxLength: number;
 }
 
 /**
@@ -302,9 +323,9 @@ export interface TruncateRenderConfig {
  * ```
  */
 export interface ArrayRenderConfig {
-  type: 'array'
-  itemType?: 'badge' | 'text' // How to render each item
-  separator?: string           // For text type (default: ', ')
+  type: "array";
+  itemType?: "badge" | "text"; // How to render each item
+  separator?: string; // For text type (default: ', ')
 }
 
 /**
@@ -320,8 +341,8 @@ export interface ArrayRenderConfig {
  * ```
  */
 export interface JsonRenderConfig {
-  type: 'json'
-  maxLength: number
+  type: "json";
+  maxLength: number;
 }
 
 /**
@@ -338,9 +359,9 @@ export interface JsonRenderConfig {
  * ```
  */
 export interface NestedRenderConfig {
-  type: 'nested'
-  path: string      // Dot notation path: "user.profile.name"
-  fallback?: string // Default value if path not found
+  type: "nested";
+  path: string; // Dot notation path: "user.profile.name"
+  fallback?: string; // Default value if path not found
 }
 
 /**
@@ -353,7 +374,7 @@ export type RenderConfig =
   | TruncateRenderConfig
   | ArrayRenderConfig
   | JsonRenderConfig
-  | NestedRenderConfig
+  | NestedRenderConfig;
 
 // ============================================================================
 // TYPE DEFINITIONS - Table Configuration
@@ -382,21 +403,21 @@ export type RenderConfig =
  * - stat: Column statistics configuration (sum, avg, count, min, max)
  */
 export interface ColumnConfig {
-  id: string
-  label: string
-  defaultVisible: boolean
-  type?: 'text' | 'date' | 'badge' | 'number' | 'email'
-  renderConfig?: RenderConfig
-  sortable?: boolean
-  isPrimary?: boolean
-  isSecondary?: boolean
-  resizable?: boolean
-  pinnable?: boolean
-  defaultWidth?: number
-  minWidth?: number
-  maxWidth?: number
-  tooltip?: string
-  stat?: ColumnStatConfig
+  id: string;
+  label: string;
+  defaultVisible: boolean;
+  type?: "text" | "date" | "badge" | "number" | "email";
+  renderConfig?: RenderConfig;
+  sortable?: boolean;
+  isPrimary?: boolean;
+  isSecondary?: boolean;
+  resizable?: boolean;
+  pinnable?: boolean;
+  defaultWidth?: number;
+  minWidth?: number;
+  maxWidth?: number;
+  tooltip?: string;
+  stat?: ColumnStatConfig;
 }
 
 /**
@@ -418,10 +439,10 @@ export interface ColumnConfig {
  * ```
  */
 export interface FilterConfig {
-  id: string
-  label: string
-  field: string // Field in data to filter
-  options: { value: string; label: string }[]
+  id: string;
+  label: string;
+  field: string; // Field in data to filter
+  options: { value: string; label: string }[];
 }
 
 /**
@@ -437,9 +458,9 @@ export interface FilterConfig {
  * - requiresDialog: Whether to always use dialog (default: true)
  */
 export interface EditConfig {
-  tableName: string
-  editableFields?: string[]
-  requiresDialog?: boolean
+  tableName: string;
+  editableFields?: string[];
+  requiresDialog?: boolean;
 }
 
 /**
@@ -448,10 +469,10 @@ export interface EditConfig {
  * Defines custom actions in the three-dot dropdown menu.
  */
 export interface RowActionConfig {
-  id: string
-  label: string
-  icon?: 'pencil' | 'trash' | 'external'
-  variant?: 'default' | 'destructive'
+  id: string;
+  label: string;
+  icon?: "pencil" | "trash" | "external";
+  variant?: "default" | "destructive";
 }
 
 /**
@@ -503,45 +524,45 @@ export interface RowActionConfig {
  * - stateStorageKey: LocalStorage key for persistent state (filters, sort, column visibility)
  */
 export interface GenericTableConfig {
-  title?: string
-  description?: string
-  columns: ColumnConfig[]
-  filters?: FilterConfig[]
-  searchFields: string[]
-  rowClickPath?: string
-  exportFilename?: string
-  editConfig?: EditConfig
-  enableViewSwitcher?: boolean
-  defaultViewMode?: ViewMode
-  enableRowSelection?: boolean
-  enableSorting?: boolean
-  defaultSortColumn?: string
-  defaultSortDirection?: 'asc' | 'desc'
-  rowActions?: RowActionConfig[]
-  onDelete?: boolean
+  title?: string;
+  description?: string;
+  columns: ColumnConfig[];
+  filters?: FilterConfig[];
+  searchFields: string[];
+  rowClickPath?: string;
+  exportFilename?: string;
+  editConfig?: EditConfig;
+  enableViewSwitcher?: boolean;
+  defaultViewMode?: ViewMode;
+  enableRowSelection?: boolean;
+  enableSorting?: boolean;
+  defaultSortColumn?: string;
+  defaultSortDirection?: "asc" | "desc";
+  rowActions?: RowActionConfig[];
+  onDelete?: boolean;
 
   // Advanced Features (All Optional - Backward Compatible)
-  enableVirtualScroll?: boolean
-  virtualScrollHeight?: number
-  enableMultiColumnSort?: boolean
-  advancedFilters?: AdvancedFilterConfig[]
-  enableFuzzySearch?: boolean
-  fuzzySearchThreshold?: number
-  enableSavedViews?: boolean
-  savedViews?: SavedView[]
-  bulkActions?: BulkAction[]
-  enableColumnResize?: boolean
-  enableColumnPin?: boolean
-  enableRowExpansion?: boolean
-  rowExpansionContent?: (row: Record<string, unknown>) => React.ReactNode
-  enableRowDragDrop?: boolean
-  onRowReorder?: (reorderedData: Record<string, unknown>[]) => void
-  enableInlineCellEdit?: boolean
-  enableKeyboardNav?: boolean
-  keyboardShortcuts?: KeyboardShortcut[]
-  enableColumnStats?: boolean
-  exportFormats?: ('csv' | 'json' | 'xlsx')[]
-  stateStorageKey?: string
+  enableVirtualScroll?: boolean;
+  virtualScrollHeight?: number;
+  enableMultiColumnSort?: boolean;
+  advancedFilters?: AdvancedFilterConfig[];
+  enableFuzzySearch?: boolean;
+  fuzzySearchThreshold?: number;
+  enableSavedViews?: boolean;
+  savedViews?: SavedView[];
+  bulkActions?: BulkAction[];
+  enableColumnResize?: boolean;
+  enableColumnPin?: boolean;
+  enableRowExpansion?: boolean;
+  rowExpansionContent?: (row: Record<string, unknown>) => React.ReactNode;
+  enableRowDragDrop?: boolean;
+  onRowReorder?: (reorderedData: Record<string, unknown>[]) => void;
+  enableInlineCellEdit?: boolean;
+  enableKeyboardNav?: boolean;
+  keyboardShortcuts?: KeyboardShortcut[];
+  enableColumnStats?: boolean;
+  exportFormats?: ("csv" | "json" | "xlsx")[];
+  stateStorageKey?: string;
 }
 
 /**
@@ -553,99 +574,133 @@ export interface GenericTableConfig {
  * - onDeleteRow: Callback when delete action is triggered
  */
 interface GenericDataTableProps {
-  data: Record<string, unknown>[]
-  config: GenericTableConfig
-  onSelectionChange?: (selectedIds: (string | number)[]) => void
-  onDeleteRow?: (id: string | number) => Promise<{ error?: string }>
+  data: Record<string, unknown>[];
+  config: GenericTableConfig;
+  onSelectionChange?: (selectedIds: (string | number)[]) => void;
+  onDeleteRow?: (id: string | number) => Promise<{ error?: string }>;
 }
 
 // ============================================================================
 // MAIN COMPONENT
 // ============================================================================
 
-export function GenericDataTable({ data: initialData, config, onSelectionChange, onDeleteRow }: GenericDataTableProps) {
-  const router = useRouter()
+export function GenericDataTable({
+  data: initialData,
+  config,
+  onSelectionChange,
+  onDeleteRow,
+}: GenericDataTableProps) {
+  const router = useRouter();
 
   // ============================================================================
   // STATE MANAGEMENT
   // ============================================================================
 
   // Local copy of data (updated when edits are saved)
-  const [data, setData] = useState(initialData)
+  const [data, setData] = useState(initialData);
 
   // Search term from input field
-  const [searchTerm, setSearchTerm] = useState('')
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Active filter values (key: filter.id, value: selected option)
-  const [filters, setFilters] = useState<Record<string, string>>({})
+  const [filters, setFilters] = useState<Record<string, string>>({});
 
   // Advanced filter values
-  const [advancedFilters, setAdvancedFilters] = useState<Record<string, unknown>>({})
+  const [advancedFilters, setAdvancedFilters] = useState<
+    Record<string, unknown>
+  >({});
 
   // Which columns are currently visible (Set for O(1) lookup)
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
-    new Set(config.columns.filter(col => col.defaultVisible).map(col => col.id))
-  )
+    new Set(
+      config.columns.filter((col) => col.defaultVisible).map((col) => col.id),
+    ),
+  );
 
   // Current row being edited (null when dialog is closed)
-  const [editingRow, setEditingRow] = useState<Record<string, unknown> | null>(null)
+  const [editingRow, setEditingRow] = useState<Record<string, unknown> | null>(
+    null,
+  );
 
   // Edit dialog open state
-  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
 
   // Loading state for save operation
-  const [isSaving, setIsSaving] = useState(false)
+  const [isSaving, setIsSaving] = useState(false);
 
   // View mode state
-  const [viewMode, setViewMode] = useState<ViewMode>(config.defaultViewMode || 'table')
+  const [viewMode, setViewMode] = useState<ViewMode>(
+    config.defaultViewMode || "table",
+  );
 
   // Sorting state - now supports multi-column sorting
   const [sortConfigs, setSortConfigs] = useState<SortConfig[]>(
     config.defaultSortColumn
-      ? [{ columnId: config.defaultSortColumn, direction: config.defaultSortDirection || 'asc' }]
-      : []
-  )
+      ? [
+          {
+            columnId: config.defaultSortColumn,
+            direction: config.defaultSortDirection || "asc",
+          },
+        ]
+      : [],
+  );
   // Legacy single-column sort state (for backward compatibility)
-  const [sortColumn, setSortColumn] = useState<string | null>(config.defaultSortColumn || null)
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(config.defaultSortDirection || 'asc')
+  const [sortColumn, setSortColumn] = useState<string | null>(
+    config.defaultSortColumn || null,
+  );
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">(
+    config.defaultSortDirection || "asc",
+  );
 
   // Row selection state
-  const [selectedIds, setSelectedIds] = useState<Set<string | number>>(new Set())
+  const [selectedIds, setSelectedIds] = useState<Set<string | number>>(
+    new Set(),
+  );
 
   // Deleting state
-  const [deletingId, setDeletingId] = useState<string | number | null>(null)
+  const [deletingId, setDeletingId] = useState<string | number | null>(null);
 
   // Column widths state
-  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({})
+  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
 
   // Pinned columns state
-  const [pinnedColumns, setPinnedColumns] = useState<string[]>([])
+  const [pinnedColumns, setPinnedColumns] = useState<string[]>([]);
 
   // Expanded rows state
-  const [expandedRows, setExpandedRows] = useState<Set<string | number>>(new Set())
+  const [expandedRows, setExpandedRows] = useState<Set<string | number>>(
+    new Set(),
+  );
 
   // Saved views state
-  const [currentView, setCurrentView] = useState<SavedView | null>(null)
-  const [showSavedViewsDialog, setShowSavedViewsDialog] = useState(false)
+  const [currentView, setCurrentView] = useState<SavedView | null>(null);
+  const [showSavedViewsDialog, setShowSavedViewsDialog] = useState(false);
 
   // Inline editing state
-  const [editingCell, setEditingCell] = useState<{ rowId: string | number; columnId: string } | null>(null)
-  const [editingValue, setEditingValue] = useState<string>('')
-  const [isSavingCell, setIsSavingCell] = useState(false)
-  const editInputRef = useRef<HTMLInputElement>(null)
+  const [editingCell, setEditingCell] = useState<{
+    rowId: string | number;
+    columnId: string;
+  } | null>(null);
+  const [editingValue, setEditingValue] = useState<string>("");
+  const [isSavingCell, setIsSavingCell] = useState(false);
+  const editInputRef = useRef<HTMLInputElement>(null);
 
   // Virtual scroll container ref
-  const tableContainerRef = useRef<HTMLDivElement>(null)
+  const tableContainerRef = useRef<HTMLDivElement>(null);
 
   // Fuse.js instance for fuzzy search
   const fuseInstance = useMemo(() => {
-    if (!config.enableFuzzySearch) return null
+    if (!config.enableFuzzySearch) return null;
     return new Fuse(data, {
       keys: config.searchFields,
       threshold: config.fuzzySearchThreshold || 0.3,
       includeScore: true,
-    })
-  }, [data, config.enableFuzzySearch, config.searchFields, config.fuzzySearchThreshold])
+    });
+  }, [
+    data,
+    config.enableFuzzySearch,
+    config.searchFields,
+    config.fuzzySearchThreshold,
+  ]);
 
   // ============================================================================
   // FILTERING, SEARCH & SORTING LOGIC
@@ -655,78 +710,92 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
    * Memoized filtered and sorted data
    */
   const processedData = useMemo(() => {
-    let result = data
+    let result = data;
 
     // Step 1: Search filter (with optional fuzzy search)
     if (searchTerm) {
       if (config.enableFuzzySearch && fuseInstance) {
         // Fuzzy search with Fuse.js
-        const fuzzyResults = fuseInstance.search(searchTerm)
-        const matchedIds = new Set(fuzzyResults.map(r => r.item.id))
-        result = result.filter(row => matchedIds.has(row.id))
+        const fuzzyResults = fuseInstance.search(searchTerm);
+        const matchedIds = new Set(fuzzyResults.map((r) => r.item.id));
+        result = result.filter((row) => matchedIds.has(row.id));
       } else {
         // Standard substring search
-        result = result.filter(row => {
-          const matchesSearch = config.searchFields.some(field => {
-            const value = row[field]
-            if (value === null || value === undefined) return false
-            return String(value).toLowerCase().includes(searchTerm.toLowerCase())
-          })
-          return matchesSearch
-        })
+        result = result.filter((row) => {
+          const matchesSearch = config.searchFields.some((field) => {
+            const value = row[field];
+            if (value === null || value === undefined) return false;
+            return String(value)
+              .toLowerCase()
+              .includes(searchTerm.toLowerCase());
+          });
+          return matchesSearch;
+        });
       }
     }
 
     // Step 2: Basic filters
     if (config.filters) {
-      result = result.filter(row => {
+      result = result.filter((row) => {
         for (const filter of config.filters) {
-          const filterValue = filters[filter.id]
-          if (filterValue && filterValue !== 'all') {
-            const rowValue = row[filter.field]
-            if (rowValue !== filterValue) return false
+          const filterValue = filters[filter.id];
+          if (filterValue && filterValue !== "all") {
+            const rowValue = row[filter.field];
+            if (rowValue !== filterValue) return false;
           }
         }
-        return true
-      })
+        return true;
+      });
     }
 
     // Step 3: Advanced filters
     if (config.advancedFilters) {
-      result = result.filter(row => {
+      result = result.filter((row) => {
         for (const filter of config.advancedFilters) {
-          const filterValue = advancedFilters[filter.id]
-          if (!filterValue) continue
+          const filterValue = advancedFilters[filter.id];
+          if (!filterValue) continue;
 
-          const rowValue = row[filter.field]
+          const rowValue = row[filter.field];
 
           switch (filter.type) {
-            case 'date-range': {
-              const range = filterValue as { start?: string; end?: string }
-              if (range.start && rowValue && new Date(rowValue as string) < new Date(range.start)) return false
-              if (range.end && rowValue && new Date(rowValue as string) > new Date(range.end)) return false
-              break
+            case "date-range": {
+              const range = filterValue as { start?: string; end?: string };
+              if (
+                range.start &&
+                rowValue &&
+                new Date(rowValue as string) < new Date(range.start)
+              )
+                return false;
+              if (
+                range.end &&
+                rowValue &&
+                new Date(rowValue as string) > new Date(range.end)
+              )
+                return false;
+              break;
             }
-            case 'number-range': {
-              const range = filterValue as { min?: number; max?: number }
-              const numValue = Number(rowValue)
-              if (range.min !== undefined && numValue < range.min) return false
-              if (range.max !== undefined && numValue > range.max) return false
-              break
+            case "number-range": {
+              const range = filterValue as { min?: number; max?: number };
+              const numValue = Number(rowValue);
+              if (range.min !== undefined && numValue < range.min) return false;
+              if (range.max !== undefined && numValue > range.max) return false;
+              break;
             }
-            case 'multi-select': {
-              const selected = filterValue as string[]
-              if (selected.length > 0 && !selected.includes(String(rowValue))) return false
-              break
+            case "multi-select": {
+              const selected = filterValue as string[];
+              if (selected.length > 0 && !selected.includes(String(rowValue)))
+                return false;
+              break;
             }
-            case 'single-select': {
-              if (filterValue !== 'all' && rowValue !== filterValue) return false
-              break
+            case "single-select": {
+              if (filterValue !== "all" && rowValue !== filterValue)
+                return false;
+              break;
             }
           }
         }
-        return true
-      })
+        return true;
+      });
     }
 
     // Step 4: Sort data
@@ -735,59 +804,59 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
       if (config.enableMultiColumnSort && sortConfigs.length > 0) {
         result = [...result].sort((a, b) => {
           for (const sortConfig of sortConfigs) {
-            const valueA = a[sortConfig.columnId]
-            const valueB = b[sortConfig.columnId]
+            const valueA = a[sortConfig.columnId];
+            const valueB = b[sortConfig.columnId];
 
             // Handle null/undefined
-            if (valueA == null && valueB == null) continue
-            if (valueA == null) return sortConfig.direction === 'asc' ? 1 : -1
-            if (valueB == null) return sortConfig.direction === 'asc' ? -1 : 1
+            if (valueA == null && valueB == null) continue;
+            if (valueA == null) return sortConfig.direction === "asc" ? 1 : -1;
+            if (valueB == null) return sortConfig.direction === "asc" ? -1 : 1;
 
             // Handle different types
-            let comparison = 0
-            if (typeof valueA === 'number' && typeof valueB === 'number') {
-              comparison = valueA - valueB
+            let comparison = 0;
+            if (typeof valueA === "number" && typeof valueB === "number") {
+              comparison = valueA - valueB;
             } else {
               // String comparison
-              const strA = String(valueA).toLowerCase()
-              const strB = String(valueB).toLowerCase()
-              comparison = strA.localeCompare(strB)
+              const strA = String(valueA).toLowerCase();
+              const strB = String(valueB).toLowerCase();
+              comparison = strA.localeCompare(strB);
             }
 
             if (comparison !== 0) {
-              return sortConfig.direction === 'asc' ? comparison : -comparison
+              return sortConfig.direction === "asc" ? comparison : -comparison;
             }
           }
-          return 0
-        })
+          return 0;
+        });
       }
       // Single-column sorting (legacy/default)
       else if (sortColumn) {
         result = [...result].sort((a, b) => {
-          const valueA = a[sortColumn]
-          const valueB = b[sortColumn]
+          const valueA = a[sortColumn];
+          const valueB = b[sortColumn];
 
           // Handle null/undefined
-          if (valueA == null && valueB == null) return 0
-          if (valueA == null) return sortDirection === 'asc' ? 1 : -1
-          if (valueB == null) return sortDirection === 'asc' ? -1 : 1
+          if (valueA == null && valueB == null) return 0;
+          if (valueA == null) return sortDirection === "asc" ? 1 : -1;
+          if (valueB == null) return sortDirection === "asc" ? -1 : 1;
 
           // Handle different types
-          if (typeof valueA === 'number' && typeof valueB === 'number') {
-            return sortDirection === 'asc' ? valueA - valueB : valueB - valueA
+          if (typeof valueA === "number" && typeof valueB === "number") {
+            return sortDirection === "asc" ? valueA - valueB : valueB - valueA;
           }
 
           // String comparison
-          const strA = String(valueA).toLowerCase()
-          const strB = String(valueB).toLowerCase()
-          return sortDirection === 'asc'
+          const strA = String(valueA).toLowerCase();
+          const strB = String(valueB).toLowerCase();
+          return sortDirection === "asc"
             ? strA.localeCompare(strB)
-            : strB.localeCompare(strA)
-        })
+            : strB.localeCompare(strA);
+        });
       }
     }
 
-    return result
+    return result;
   }, [
     data,
     searchTerm,
@@ -803,67 +872,82 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
     sortDirection,
     sortConfigs,
     fuseInstance,
-  ])
+  ]);
 
   // ============================================================================
   // SORTING HANDLERS
   // ============================================================================
 
-  const handleSort = useCallback((columnId: string, shiftKey = false) => {
-    if (config.enableSorting === false) return
+  const handleSort = useCallback(
+    (columnId: string, shiftKey = false) => {
+      if (config.enableSorting === false) return;
 
-    const column = config.columns.find(c => c.id === columnId)
-    if (column?.sortable === false) return
+      const column = config.columns.find((c) => c.id === columnId);
+      if (column?.sortable === false) return;
 
-    // Multi-column sorting with Shift key
-    if (config.enableMultiColumnSort && shiftKey) {
-      setSortConfigs(prev => {
-        const existingIndex = prev.findIndex(sc => sc.columnId === columnId)
+      // Multi-column sorting with Shift key
+      if (config.enableMultiColumnSort && shiftKey) {
+        setSortConfigs((prev) => {
+          const existingIndex = prev.findIndex(
+            (sc) => sc.columnId === columnId,
+          );
 
-        if (existingIndex >= 0) {
-          // Toggle direction for existing sort
-          const newConfigs = [...prev]
-          newConfigs[existingIndex] = {
-            ...newConfigs[existingIndex],
-            direction: newConfigs[existingIndex].direction === 'asc' ? 'desc' : 'asc',
+          if (existingIndex >= 0) {
+            // Toggle direction for existing sort
+            const newConfigs = [...prev];
+            newConfigs[existingIndex] = {
+              ...newConfigs[existingIndex],
+              direction:
+                newConfigs[existingIndex].direction === "asc" ? "desc" : "asc",
+            };
+            return newConfigs;
+          } else {
+            // Add new sort column
+            return [...prev, { columnId, direction: "asc" }];
           }
-          return newConfigs
+        });
+      }
+      // Single-column sorting (default)
+      else {
+        if (sortColumn === columnId) {
+          setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
         } else {
-          // Add new sort column
-          return [...prev, { columnId, direction: 'asc' }]
+          setSortColumn(columnId);
+          setSortDirection("asc");
         }
-      })
-    }
-    // Single-column sorting (default)
-    else {
-      if (sortColumn === columnId) {
-        setSortDirection(prev => (prev === 'asc' ? 'desc' : 'asc'))
-      } else {
-        setSortColumn(columnId)
-        setSortDirection('asc')
+        // Also update sortConfigs for consistency
+        if (config.enableMultiColumnSort) {
+          const newDirection =
+            sortColumn === columnId && sortDirection === "asc" ? "desc" : "asc";
+          setSortConfigs([{ columnId, direction: newDirection }]);
+        }
       }
-      // Also update sortConfigs for consistency
-      if (config.enableMultiColumnSort) {
-        const newDirection = sortColumn === columnId && sortDirection === 'asc' ? 'desc' : 'asc'
-        setSortConfigs([{ columnId, direction: newDirection }])
-      }
-    }
-  }, [config.enableSorting, config.enableMultiColumnSort, config.columns, sortColumn, sortDirection])
+    },
+    [
+      config.enableSorting,
+      config.enableMultiColumnSort,
+      config.columns,
+      sortColumn,
+      sortDirection,
+    ],
+  );
 
   const renderSortIcon = (columnId: string) => {
-    if (config.enableSorting === false) return null
+    if (config.enableSorting === false) return null;
 
-    const column = config.columns.find(c => c.id === columnId)
-    if (column?.sortable === false) return null
+    const column = config.columns.find((c) => c.id === columnId);
+    if (column?.sortable === false) return null;
 
     // Multi-column sort indicators
     if (config.enableMultiColumnSort && sortConfigs.length > 0) {
-      const sortConfig = sortConfigs.find(sc => sc.columnId === columnId)
+      const sortConfig = sortConfigs.find((sc) => sc.columnId === columnId);
       if (sortConfig) {
-        const sortIndex = sortConfigs.findIndex(sc => sc.columnId === columnId)
+        const sortIndex = sortConfigs.findIndex(
+          (sc) => sc.columnId === columnId,
+        );
         return (
           <div className="ml-1 flex items-center gap-0.5">
-            {sortConfig.direction === 'asc' ? (
+            {sortConfig.direction === "asc" ? (
               <ChevronUp className="h-3.5 w-3.5" />
             ) : (
               <ChevronDown className="h-3.5 w-3.5" />
@@ -872,22 +956,22 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
               <span className="text-[10px] font-medium">{sortIndex + 1}</span>
             )}
           </div>
-        )
+        );
       }
-      return <ArrowUpDown className="ml-1 h-3.5 w-3.5 text-muted-foreground" />
+      return <ArrowUpDown className="ml-1 h-3.5 w-3.5 text-muted-foreground" />;
     }
 
     // Single-column sort indicator (legacy)
     if (sortColumn !== columnId) {
-      return <ArrowUpDown className="ml-1 h-3.5 w-3.5 text-muted-foreground" />
+      return <ArrowUpDown className="ml-1 h-3.5 w-3.5 text-muted-foreground" />;
     }
 
-    return sortDirection === 'asc' ? (
+    return sortDirection === "asc" ? (
       <ChevronUp className="ml-1 h-3.5 w-3.5" />
     ) : (
       <ChevronDown className="ml-1 h-3.5 w-3.5" />
-    )
-  }
+    );
+  };
 
   // ============================================================================
   // ROW SELECTION HANDLERS
@@ -895,28 +979,32 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      const allIds = new Set(processedData.map(row => row.id as string | number))
-      setSelectedIds(allIds)
-      onSelectionChange?.(Array.from(allIds))
+      const allIds = new Set(
+        processedData.map((row) => row.id as string | number),
+      );
+      setSelectedIds(allIds);
+      onSelectionChange?.(Array.from(allIds));
     } else {
-      setSelectedIds(new Set())
-      onSelectionChange?.([])
+      setSelectedIds(new Set());
+      onSelectionChange?.([]);
     }
-  }
+  };
 
   const handleSelectRow = (id: string | number, checked: boolean) => {
-    const newSelection = new Set(selectedIds)
+    const newSelection = new Set(selectedIds);
     if (checked) {
-      newSelection.add(id)
+      newSelection.add(id);
     } else {
-      newSelection.delete(id)
+      newSelection.delete(id);
     }
-    setSelectedIds(newSelection)
-    onSelectionChange?.(Array.from(newSelection))
-  }
+    setSelectedIds(newSelection);
+    onSelectionChange?.(Array.from(newSelection));
+  };
 
-  const isAllSelected = processedData.length > 0 && selectedIds.size === processedData.length
-  const isSomeSelected = selectedIds.size > 0 && selectedIds.size < processedData.length
+  const isAllSelected =
+    processedData.length > 0 && selectedIds.size === processedData.length;
+  const isSomeSelected =
+    selectedIds.size > 0 && selectedIds.size < processedData.length;
 
   // ============================================================================
   // RENDERING HELPERS
@@ -926,127 +1014,143 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
    * Format Date Helper
    */
   const formatDate = (date: string | null) => {
-    if (!date) return 'N/A'
+    if (!date) return "N/A";
     try {
-      return format(new Date(date), 'MMM dd, yyyy')
+      return format(new Date(date), "MMM dd, yyyy");
     } catch {
-      return 'Invalid date'
+      return "Invalid date";
     }
-  }
+  };
 
   /**
    * Render With Config
    */
   const renderWithConfig = (value: unknown, renderConfig: RenderConfig) => {
     switch (renderConfig.type) {
-      case 'badge': {
-        const strValue = String(value || '')
-        const variant = renderConfig.variantMap?.[strValue] || renderConfig.defaultVariant || 'outline'
-        return <Badge variant={variant}>{strValue || 'N/A'}</Badge>
+      case "badge": {
+        const strValue = String(value || "");
+        const variant =
+          renderConfig.variantMap?.[strValue] ||
+          renderConfig.defaultVariant ||
+          "outline";
+        return <Badge variant={variant}>{strValue || "N/A"}</Badge>;
       }
 
-      case 'currency': {
-        const numValue = Number(value)
-        if (!value || Number.isNaN(numValue)) return 'N/A'
-        const formatted = renderConfig.showDecimals !== false
-          ? numValue.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
-          : numValue.toLocaleString()
-        return `${renderConfig.prefix || '$'}${formatted}`
+      case "currency": {
+        const numValue = Number(value);
+        if (!value || Number.isNaN(numValue)) return "N/A";
+        const formatted =
+          renderConfig.showDecimals !== false
+            ? numValue.toLocaleString(undefined, {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })
+            : numValue.toLocaleString();
+        return `${renderConfig.prefix || "$"}${formatted}`;
       }
 
-      case 'truncate': {
-        const text = String(value || '')
-        if (!text) return 'N/A'
+      case "truncate": {
+        const text = String(value || "");
+        if (!text) return "N/A";
         return text.length > renderConfig.maxLength
           ? `${text.substring(0, renderConfig.maxLength)}...`
-          : text
+          : text;
       }
 
-      case 'array': {
-        if (!value || !Array.isArray(value)) return 'N/A'
-        if (renderConfig.itemType === 'badge') {
+      case "array": {
+        if (!value || !Array.isArray(value)) return "N/A";
+        if (renderConfig.itemType === "badge") {
           return (
             <div className="flex gap-1 flex-wrap">
               {value.map((item, idx) => (
-                <Badge key={`${String(item)}-${idx}`} variant="outline" className="text-xs">
+                <Badge
+                  key={`${String(item)}-${idx}`}
+                  variant="outline"
+                  className="text-xs"
+                >
                   {String(item)}
                 </Badge>
               ))}
             </div>
-          )
+          );
         }
-        return value.join(renderConfig.separator || ', ')
+        return value.join(renderConfig.separator || ", ");
       }
 
-      case 'json': {
-        if (!value) return 'N/A'
+      case "json": {
+        if (!value) return "N/A";
         try {
-          const text = JSON.stringify(value)
+          const text = JSON.stringify(value);
           return text.length > renderConfig.maxLength
             ? `${text.substring(0, renderConfig.maxLength)}...`
-            : text
+            : text;
         } catch {
-          return 'Invalid JSON'
+          return "Invalid JSON";
         }
       }
 
-      case 'nested': {
-        const parts = renderConfig.path.split('.')
-        let result: unknown = value
+      case "nested": {
+        const parts = renderConfig.path.split(".");
+        let result: unknown = value;
 
         for (const part of parts) {
-          if (result && typeof result === 'object' && part in result) {
-            result = (result as Record<string, unknown>)[part]
+          if (result && typeof result === "object" && part in result) {
+            result = (result as Record<string, unknown>)[part];
           } else {
-            return renderConfig.fallback || 'N/A'
+            return renderConfig.fallback || "N/A";
           }
         }
 
-        return result ? String(result) : renderConfig.fallback || 'N/A'
+        return result ? String(result) : renderConfig.fallback || "N/A";
       }
 
       default:
-        return String(value || 'N/A')
+        return String(value || "N/A");
     }
-  }
+  };
 
   /**
    * Render Cell Content
    */
-  const renderCellContent = (column: ColumnConfig, row: Record<string, unknown>) => {
-    const value = row[column.id]
+  const renderCellContent = (
+    column: ColumnConfig,
+    row: Record<string, unknown>,
+  ) => {
+    const value = row[column.id];
 
     if (column.renderConfig) {
-      return renderWithConfig(value, column.renderConfig)
+      return renderWithConfig(value, column.renderConfig);
     }
 
     switch (column.type) {
-      case 'date':
-        return formatDate(value as string)
+      case "date":
+        return formatDate(value as string);
 
-      case 'badge':
-        return (
-          <Badge variant="outline">
-            {value ? String(value) : 'N/A'}
-          </Badge>
-        )
+      case "badge":
+        return <Badge variant="outline">{value ? String(value) : "N/A"}</Badge>;
 
-      case 'email':
+      case "email":
         return value ? (
           <a href={`mailto:${value}`} className="text-primary hover:underline">
-            <Text as="span" size="sm">{String(value)}</Text>
+            <Text as="span" size="sm">
+              {String(value)}
+            </Text>
           </a>
         ) : (
-          <Text as="span" tone="muted" size="sm">N/A</Text>
-        )
+          <Text as="span" tone="muted" size="sm">
+            N/A
+          </Text>
+        );
 
-      case 'number':
-        return value !== null && value !== undefined ? Number(value).toLocaleString() : 'N/A'
+      case "number":
+        return value !== null && value !== undefined
+          ? Number(value).toLocaleString()
+          : "N/A";
 
       default:
-        return value ? String(value) : 'N/A'
+        return value ? String(value) : "N/A";
     }
-  }
+  };
 
   // ============================================================================
   // ACTION HANDLERS
@@ -1054,239 +1158,291 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
 
   const exportToCSV = () => {
     const headers = config.columns
-      .filter(col => visibleColumns.has(col.id))
-      .map(col => col.label)
+      .filter((col) => visibleColumns.has(col.id))
+      .map((col) => col.label);
 
-    const rows = processedData.map(row =>
+    const rows = processedData.map((row) =>
       config.columns
-        .filter(col => visibleColumns.has(col.id))
-        .map(col => {
-          const value = row[col.id]
-          if (col.type === 'date') {
-            return formatDate(value as string)
+        .filter((col) => visibleColumns.has(col.id))
+        .map((col) => {
+          const value = row[col.id];
+          if (col.type === "date") {
+            return formatDate(value as string);
           }
-          return value ? String(value) : ''
-        })
-    )
+          return value ? String(value) : "";
+        }),
+    );
 
     const csvContent = [headers, ...rows]
-      .map(row => row.map(cell => `"${cell}"`).join(','))
-      .join('\n')
+      .map((row) => row.map((cell) => `"${cell}"`).join(","))
+      .join("\n");
 
-    const blob = new Blob([csvContent], { type: 'text/csv' })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = config.exportFilename || 'export.csv'
-    a.click()
-  }
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = config.exportFilename || "export.csv";
+    a.click();
+  };
 
   const handleRowClick = (row: Record<string, unknown>) => {
     if (config.rowClickPath) {
-      const path = config.rowClickPath.replace('{id}', String(row.id))
-      router.push(path)
+      const path = config.rowClickPath.replace("{id}", String(row.id));
+      router.push(path);
     }
-  }
+  };
 
-  const handleEditClick = (row: Record<string, unknown>, e: React.MouseEvent) => {
-    e.stopPropagation()
-    setEditingRow({ ...row })
-    setIsEditDialogOpen(true)
-  }
+  const handleEditClick = (
+    row: Record<string, unknown>,
+    e: React.MouseEvent,
+  ) => {
+    e.stopPropagation();
+    setEditingRow({ ...row });
+    setIsEditDialogOpen(true);
+  };
 
-  const handleDeleteClick = async (row: Record<string, unknown>, e: React.MouseEvent) => {
-    e.stopPropagation()
-    if (!onDeleteRow) return
+  const handleDeleteClick = async (
+    row: Record<string, unknown>,
+    e: React.MouseEvent,
+  ) => {
+    e.stopPropagation();
+    if (!onDeleteRow) return;
 
-    const id = row.id as string | number
-    setDeletingId(id)
+    const id = row.id as string | number;
+    setDeletingId(id);
     try {
-      const { error } = await onDeleteRow(id)
+      const { error } = await onDeleteRow(id);
       if (error) {
-        toast.error(error)
+        toast.error(error);
       } else {
-        toast.success('Deleted successfully')
-        setData(prev => prev.filter(r => r.id !== id))
-        const newSelection = new Set(selectedIds)
-        newSelection.delete(id)
-        setSelectedIds(newSelection)
-        onSelectionChange?.(Array.from(newSelection))
+        toast.success("Deleted successfully");
+        setData((prev) => prev.filter((r) => r.id !== id));
+        const newSelection = new Set(selectedIds);
+        newSelection.delete(id);
+        setSelectedIds(newSelection);
+        onSelectionChange?.(Array.from(newSelection));
       }
     } catch {
-      toast.error('Failed to delete')
+      toast.error("Failed to delete");
     } finally {
-      setDeletingId(null)
+      setDeletingId(null);
     }
-  }
+  };
 
   const handleSaveEdit = async () => {
-    if (!editingRow || !config.editConfig) return
+    if (!editingRow || !config.editConfig) return;
 
-    setIsSaving(true)
+    setIsSaving(true);
     try {
-      const response = await fetch('/api/table-update', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+      const response = await fetch("/api/table-update", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           table: config.editConfig.tableName,
           id: editingRow.id,
           data: editingRow,
         }),
-      })
+      });
 
       if (!response.ok) {
-        throw new Error('Failed to save changes')
+        throw new Error("Failed to save changes");
       }
 
-      setData(prevData =>
-        prevData.map(row => (row.id === editingRow.id ? editingRow : row))
-      )
+      setData((prevData) =>
+        prevData.map((row) => (row.id === editingRow.id ? editingRow : row)),
+      );
 
-      toast.success('Changes saved successfully')
+      toast.success("Changes saved successfully");
 
-      setIsEditDialogOpen(false)
-      setEditingRow(null)
+      setIsEditDialogOpen(false);
+      setEditingRow(null);
     } catch (error) {
-      console.error('Error saving:', error)
-      toast.error('Failed to save changes. Please try again.')
+      console.error("Error saving:", error);
+      toast.error("Failed to save changes. Please try again.");
     } finally {
-      setIsSaving(false)
+      setIsSaving(false);
     }
-  }
+  };
 
   const handleFieldChange = (fieldId: string, value: unknown) => {
-    if (!editingRow) return
-    setEditingRow({ ...editingRow, [fieldId]: value })
-  }
+    if (!editingRow) return;
+    setEditingRow({ ...editingRow, [fieldId]: value });
+  };
 
   // ============================================================================
   // INLINE CELL EDITING HANDLERS
   // ============================================================================
 
-  const handleCellDoubleClick = useCallback((rowId: string | number, columnId: string, currentValue: unknown) => {
-    if (!config.enableInlineCellEdit) return
+  const handleCellDoubleClick = useCallback(
+    (rowId: string | number, columnId: string, currentValue: unknown) => {
+      if (!config.enableInlineCellEdit) return;
 
-    const column = config.columns.find(c => c.id === columnId)
-    const isEditable = !config.editConfig?.editableFields ||
-                       config.editConfig.editableFields.includes(columnId)
+      const column = config.columns.find((c) => c.id === columnId);
+      const isEditable =
+        !config.editConfig?.editableFields ||
+        config.editConfig.editableFields.includes(columnId);
 
-    // Prevent editing of system fields
-    if (columnId === 'id' || columnId === 'created_at' || columnId === 'updated_at') return
-
-    if (isEditable && column) {
-      setEditingCell({ rowId, columnId })
-      setEditingValue(String(currentValue || ''))
-      // Focus input after state update
-      setTimeout(() => editInputRef.current?.focus(), 0)
-    }
-  }, [config.enableInlineCellEdit, config.columns, config.editConfig?.editableFields])
-
-  const handleCellSave = useCallback(async (rowId: string | number, columnId: string, newValue: string) => {
-    if (!config.editConfig) return
-
-    setIsSavingCell(true)
-    try {
-      const response = await fetch('/api/table-update', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          table: config.editConfig.tableName,
-          id: rowId,
-          data: { [columnId]: newValue },
-        }),
-      })
-
-      if (!response.ok) {
-        throw new Error('Failed to save changes')
-      }
-
-      // Update local data
-      setData(prevData =>
-        prevData.map(row =>
-          row.id === rowId ? { ...row, [columnId]: newValue } : row
-        )
+      // Prevent editing of system fields
+      if (
+        columnId === "id" ||
+        columnId === "created_at" ||
+        columnId === "updated_at"
       )
+        return;
 
-      toast.success('Cell updated successfully')
-      setEditingCell(null)
-      setEditingValue('')
-    } catch (error) {
-      console.error('Error saving cell:', error)
-      toast.error('Failed to save changes. Please try again.')
-    } finally {
-      setIsSavingCell(false)
-    }
-  }, [config.editConfig])
+      if (isEditable && column) {
+        setEditingCell({ rowId, columnId });
+        setEditingValue(String(currentValue || ""));
+        // Focus input after state update
+        setTimeout(() => editInputRef.current?.focus(), 0);
+      }
+    },
+    [
+      config.enableInlineCellEdit,
+      config.columns,
+      config.editConfig?.editableFields,
+    ],
+  );
+
+  const handleCellSave = useCallback(
+    async (rowId: string | number, columnId: string, newValue: string) => {
+      if (!config.editConfig) return;
+
+      setIsSavingCell(true);
+      try {
+        const response = await fetch("/api/table-update", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            table: config.editConfig.tableName,
+            id: rowId,
+            data: { [columnId]: newValue },
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to save changes");
+        }
+
+        // Update local data
+        setData((prevData) =>
+          prevData.map((row) =>
+            row.id === rowId ? { ...row, [columnId]: newValue } : row,
+          ),
+        );
+
+        toast.success("Cell updated successfully");
+        setEditingCell(null);
+        setEditingValue("");
+      } catch (error) {
+        console.error("Error saving cell:", error);
+        toast.error("Failed to save changes. Please try again.");
+      } finally {
+        setIsSavingCell(false);
+      }
+    },
+    [config.editConfig],
+  );
 
   const handleCellCancel = useCallback(() => {
-    setEditingCell(null)
-    setEditingValue('')
-  }, [])
+    setEditingCell(null);
+    setEditingValue("");
+  }, []);
 
-  const handleTabNavigation = useCallback((currentRowId: string | number, currentColumnId: string, direction: 'next' | 'prev') => {
-    const visibleCols = config.columns.filter(col => visibleColumns.has(col.id))
-    const editableCols = visibleCols.filter(col => {
-      const isEditable = !config.editConfig?.editableFields ||
-                         config.editConfig.editableFields.includes(col.id)
-      return isEditable && col.id !== 'id' && col.id !== 'created_at' && col.id !== 'updated_at'
-    })
+  const handleTabNavigation = useCallback(
+    (
+      currentRowId: string | number,
+      currentColumnId: string,
+      direction: "next" | "prev",
+    ) => {
+      const visibleCols = config.columns.filter((col) =>
+        visibleColumns.has(col.id),
+      );
+      const editableCols = visibleCols.filter((col) => {
+        const isEditable =
+          !config.editConfig?.editableFields ||
+          config.editConfig.editableFields.includes(col.id);
+        return (
+          isEditable &&
+          col.id !== "id" &&
+          col.id !== "created_at" &&
+          col.id !== "updated_at"
+        );
+      });
 
-    const currentColIndex = editableCols.findIndex(col => col.id === currentColumnId)
-    const currentRowIndex = processedData.findIndex(row => row.id === currentRowId)
+      const currentColIndex = editableCols.findIndex(
+        (col) => col.id === currentColumnId,
+      );
+      const currentRowIndex = processedData.findIndex(
+        (row) => row.id === currentRowId,
+      );
 
-    if (direction === 'next') {
-      // Move to next cell
-      if (currentColIndex < editableCols.length - 1) {
-        const nextCol = editableCols[currentColIndex + 1]
-        const currentRow = processedData[currentRowIndex]
-        setEditingCell({ rowId: currentRowId, columnId: nextCol.id })
-        setEditingValue(String(currentRow[nextCol.id] || ''))
-      } else if (currentRowIndex < processedData.length - 1) {
-        // Move to first cell of next row
-        const nextRow = processedData[currentRowIndex + 1]
-        const firstCol = editableCols[0]
-        setEditingCell({ rowId: nextRow.id as string | number, columnId: firstCol.id })
-        setEditingValue(String(nextRow[firstCol.id] || ''))
+      if (direction === "next") {
+        // Move to next cell
+        if (currentColIndex < editableCols.length - 1) {
+          const nextCol = editableCols[currentColIndex + 1];
+          const currentRow = processedData[currentRowIndex];
+          setEditingCell({ rowId: currentRowId, columnId: nextCol.id });
+          setEditingValue(String(currentRow[nextCol.id] || ""));
+        } else if (currentRowIndex < processedData.length - 1) {
+          // Move to first cell of next row
+          const nextRow = processedData[currentRowIndex + 1];
+          const firstCol = editableCols[0];
+          setEditingCell({
+            rowId: nextRow.id as string | number,
+            columnId: firstCol.id,
+          });
+          setEditingValue(String(nextRow[firstCol.id] || ""));
+        }
+      } else {
+        // Move to previous cell
+        if (currentColIndex > 0) {
+          const prevCol = editableCols[currentColIndex - 1];
+          const currentRow = processedData[currentRowIndex];
+          setEditingCell({ rowId: currentRowId, columnId: prevCol.id });
+          setEditingValue(String(currentRow[prevCol.id] || ""));
+        } else if (currentRowIndex > 0) {
+          // Move to last cell of previous row
+          const prevRow = processedData[currentRowIndex - 1];
+          const lastCol = editableCols[editableCols.length - 1];
+          setEditingCell({
+            rowId: prevRow.id as string | number,
+            columnId: lastCol.id,
+          });
+          setEditingValue(String(prevRow[lastCol.id] || ""));
+        }
       }
-    } else {
-      // Move to previous cell
-      if (currentColIndex > 0) {
-        const prevCol = editableCols[currentColIndex - 1]
-        const currentRow = processedData[currentRowIndex]
-        setEditingCell({ rowId: currentRowId, columnId: prevCol.id })
-        setEditingValue(String(currentRow[prevCol.id] || ''))
-      } else if (currentRowIndex > 0) {
-        // Move to last cell of previous row
-        const prevRow = processedData[currentRowIndex - 1]
-        const lastCol = editableCols[editableCols.length - 1]
-        setEditingCell({ rowId: prevRow.id as string | number, columnId: lastCol.id })
-        setEditingValue(String(prevRow[lastCol.id] || ''))
-      }
-    }
 
-    // Focus input after state update
-    setTimeout(() => editInputRef.current?.focus(), 0)
-  }, [config.columns, config.editConfig?.editableFields, visibleColumns, processedData])
+      // Focus input after state update
+      setTimeout(() => editInputRef.current?.focus(), 0);
+    },
+    [
+      config.columns,
+      config.editConfig?.editableFields,
+      visibleColumns,
+      processedData,
+    ],
+  );
 
   // Focus input when editing cell changes
   useEffect(() => {
     if (editingCell && editInputRef.current) {
-      editInputRef.current.focus()
-      editInputRef.current.select()
+      editInputRef.current.focus();
+      editInputRef.current.select();
     }
-  }, [editingCell])
+  }, [editingCell]);
 
   // ============================================================================
   // ROW ACTIONS RENDERER
   // ============================================================================
 
   const renderRowActions = (row: Record<string, unknown>) => {
-    const hasEditConfig = !!config.editConfig
-    const hasDelete = !!onDeleteRow || config.onDelete
-    const hasCustomActions = config.rowActions && config.rowActions.length > 0
-    const isCurrentlyDeleting = deletingId === row.id
+    const hasEditConfig = !!config.editConfig;
+    const hasDelete = !!onDeleteRow || config.onDelete;
+    const hasCustomActions = config.rowActions && config.rowActions.length > 0;
+    const isCurrentlyDeleting = deletingId === row.id;
 
-    if (!hasEditConfig && !hasDelete && !hasCustomActions) return null
+    if (!hasEditConfig && !hasDelete && !hasCustomActions) return null;
 
     return (
       <DropdownMenu>
@@ -1305,10 +1461,12 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
           {config.rowActions?.map((action) => (
             <DropdownMenuItem
               key={action.id}
-              className={action.variant === 'destructive' ? 'text-destructive' : ''}
+              className={
+                action.variant === "destructive" ? "text-destructive" : ""
+              }
             >
-              {action.icon === 'pencil' && <Pencil className="h-4 w-4 mr-2" />}
-              {action.icon === 'trash' && <Trash2 className="h-4 w-4 mr-2" />}
+              {action.icon === "pencil" && <Pencil className="h-4 w-4 mr-2" />}
+              {action.icon === "trash" && <Trash2 className="h-4 w-4 mr-2" />}
               {action.label}
             </DropdownMenuItem>
           ))}
@@ -1328,25 +1486,28 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
           )}
         </DropdownMenuContent>
       </DropdownMenu>
-    )
-  }
+    );
+  };
 
   // ============================================================================
   // VIEW RENDERERS
   // ============================================================================
 
   const renderCardView = () => {
-    const primaryColumn = config.columns.find(c => c.isPrimary) || config.columns[0]
-    const secondaryColumn = config.columns.find(c => c.isSecondary) || config.columns[1]
+    const primaryColumn =
+      config.columns.find((c) => c.isPrimary) || config.columns[0];
+    const secondaryColumn =
+      config.columns.find((c) => c.isSecondary) || config.columns[1];
 
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
         {processedData.map((row, idx) => (
           <Card
-            key={row.id as string || idx}
+            key={(row.id as string) || idx}
             className={cn(
-              'group hover:shadow-sm transition-all cursor-pointer',
-              selectedIds.has(row.id as string | number) && 'ring-2 ring-primary'
+              "group hover:shadow-sm transition-all cursor-pointer",
+              selectedIds.has(row.id as string | number) &&
+                "ring-2 ring-primary",
             )}
             onClick={() => handleRowClick(row)}
           >
@@ -1357,7 +1518,7 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
                     <Checkbox
                       checked={selectedIds.has(row.id as string | number)}
                       onCheckedChange={(checked) => {
-                        handleSelectRow(row.id as string | number, !!checked)
+                        handleSelectRow(row.id as string | number, !!checked);
                       }}
                       onClick={(e) => e.stopPropagation()}
                       aria-label="Select row"
@@ -1374,11 +1535,19 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
                     )}
                     <div className="mt-2 space-y-1">
                       {config.columns
-                        .filter(c => !c.isPrimary && !c.isSecondary && visibleColumns.has(c.id))
+                        .filter(
+                          (c) =>
+                            !c.isPrimary &&
+                            !c.isSecondary &&
+                            visibleColumns.has(c.id),
+                        )
                         .slice(0, 3)
                         .map((column) => (
-                          <div key={column.id} className="text-xs text-muted-foreground">
-                            <span className="font-medium">{column.label}:</span>{' '}
+                          <div
+                            key={column.id}
+                            className="text-xs text-muted-foreground"
+                          >
+                            <span className="font-medium">{column.label}:</span>{" "}
                             {renderCellContent(column, row)}
                           </div>
                         ))}
@@ -1394,25 +1563,28 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
         ))}
         {processedData.length === 0 && (
           <div className="col-span-full text-center py-12 text-muted-foreground">
-            No {config.title?.toLowerCase() || 'items'} found.
+            No {config.title?.toLowerCase() || "items"} found.
           </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   const renderListView = () => {
-    const primaryColumn = config.columns.find(c => c.isPrimary) || config.columns[0]
-    const secondaryColumn = config.columns.find(c => c.isSecondary) || config.columns[1]
+    const primaryColumn =
+      config.columns.find((c) => c.isPrimary) || config.columns[0];
+    const secondaryColumn =
+      config.columns.find((c) => c.isSecondary) || config.columns[1];
 
     return (
       <div className="space-y-2">
         {processedData.map((row, idx) => (
           <div
-            key={row.id as string || idx}
+            key={(row.id as string) || idx}
             className={cn(
-              'flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer',
-              selectedIds.has(row.id as string | number) && 'ring-2 ring-primary'
+              "flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer",
+              selectedIds.has(row.id as string | number) &&
+                "ring-2 ring-primary",
             )}
             onClick={() => handleRowClick(row)}
           >
@@ -1420,7 +1592,7 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
               <Checkbox
                 checked={selectedIds.has(row.id as string | number)}
                 onCheckedChange={(checked) => {
-                  handleSelectRow(row.id as string | number, !!checked)
+                  handleSelectRow(row.id as string | number, !!checked);
                 }}
                 onClick={(e) => e.stopPropagation()}
                 aria-label="Select row"
@@ -1439,11 +1611,16 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
               </div>
               <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground">
                 {config.columns
-                  .filter(c => !c.isPrimary && !c.isSecondary && visibleColumns.has(c.id))
+                  .filter(
+                    (c) =>
+                      !c.isPrimary &&
+                      !c.isSecondary &&
+                      visibleColumns.has(c.id),
+                  )
                   .slice(0, 4)
                   .map((column) => (
                     <span key={column.id}>
-                      <span className="font-medium">{column.label}:</span>{' '}
+                      <span className="font-medium">{column.label}:</span>{" "}
                       {renderCellContent(column, row)}
                     </span>
                   ))}
@@ -1456,33 +1633,41 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
         ))}
         {processedData.length === 0 && (
           <div className="text-center py-12 text-muted-foreground">
-            No {config.title?.toLowerCase() || 'items'} found.
+            No {config.title?.toLowerCase() || "items"} found.
           </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   // ============================================================================
   // INLINE CELL EDITOR COMPONENT
   // ============================================================================
 
-  const InlineCellEditor = ({ rowId, columnId, value }: { rowId: string | number; columnId: string; value: unknown }) => {
+  const InlineCellEditor = ({
+    rowId,
+    columnId,
+    value,
+  }: {
+    rowId: string | number;
+    columnId: string;
+    value: unknown;
+  }) => {
     const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-      if (e.key === 'Enter') {
-        e.preventDefault()
-        handleCellSave(rowId, columnId, editingValue)
-      } else if (e.key === 'Escape') {
-        e.preventDefault()
-        handleCellCancel()
-      } else if (e.key === 'Tab') {
-        e.preventDefault()
+      if (e.key === "Enter") {
+        e.preventDefault();
+        handleCellSave(rowId, columnId, editingValue);
+      } else if (e.key === "Escape") {
+        e.preventDefault();
+        handleCellCancel();
+      } else if (e.key === "Tab") {
+        e.preventDefault();
         // Save current value before navigating
         handleCellSave(rowId, columnId, editingValue).then(() => {
-          handleTabNavigation(rowId, columnId, e.shiftKey ? 'prev' : 'next')
-        })
+          handleTabNavigation(rowId, columnId, e.shiftKey ? "prev" : "next");
+        });
       }
-    }
+    };
 
     return (
       <div className="relative">
@@ -1494,10 +1679,10 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
           onKeyDown={handleKeyDown}
           onBlur={() => {
             // Save on blur
-            if (editingValue !== String(value || '')) {
-              handleCellSave(rowId, columnId, editingValue)
+            if (editingValue !== String(value || "")) {
+              handleCellSave(rowId, columnId, editingValue);
             } else {
-              handleCellCancel()
+              handleCellCancel();
             }
           }}
           className="w-full px-2 py-1 text-sm border rounded focus:outline-none focus:ring-2 focus:ring-primary"
@@ -1511,8 +1696,8 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
           </div>
         )}
       </div>
-    )
-  }
+    );
+  };
 
   // Virtual scrolling setup
   const rowVirtualizer = useVirtualizer({
@@ -1521,10 +1706,14 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
     estimateSize: () => 53, // Approximate row height in pixels
     enabled: config.enableVirtualScroll,
     overscan: 5,
-  })
+  });
 
   const renderTableView = () => {
-    const hasActions = config.editConfig || onDeleteRow || config.onDelete || config.rowActions?.length
+    const hasActions =
+      config.editConfig ||
+      onDeleteRow ||
+      config.onDelete ||
+      config.rowActions?.length;
 
     // Virtual scrolling enabled
     if (config.enableVirtualScroll) {
@@ -1540,85 +1729,119 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
                         checked={isAllSelected}
                         ref={(el) => {
                           if (el) {
-                            (el as HTMLButtonElement & { indeterminate?: boolean }).indeterminate = isSomeSelected
+                            (
+                              el as HTMLButtonElement & {
+                                indeterminate?: boolean;
+                              }
+                            ).indeterminate = isSomeSelected;
                           }
                         }}
-                        onCheckedChange={(checked) => handleSelectAll(!!checked)}
+                        onCheckedChange={(checked) =>
+                          handleSelectAll(!!checked)
+                        }
                         aria-label="Select all"
                       />
                     </div>
                   </TableHead>
                 )}
                 {config.columns
-                  .filter(col => visibleColumns.has(col.id))
-                  .map(col => {
-                    const isSortable = config.enableSorting !== false && col.sortable !== false
+                  .filter((col) => visibleColumns.has(col.id))
+                  .map((col) => {
+                    const isSortable =
+                      config.enableSorting !== false && col.sortable !== false;
                     return (
                       <TableHead
                         key={col.id}
                         className={cn(
-                          isSortable && 'cursor-pointer select-none hover:bg-muted/50'
+                          isSortable &&
+                            "cursor-pointer select-none hover:bg-muted/50",
                         )}
-                        onClick={(e) => isSortable && handleSort(col.id, e.shiftKey)}
+                        onClick={(e) =>
+                          isSortable && handleSort(col.id, e.shiftKey)
+                        }
                       >
                         <div className="flex items-center">
                           {col.label}
                           {renderSortIcon(col.id)}
                         </div>
                       </TableHead>
-                    )
+                    );
                   })}
-                {hasActions && <TableHead className="w-[70px] text-right">Actions</TableHead>}
+                {hasActions && (
+                  <TableHead className="w-[70px] text-right">Actions</TableHead>
+                )}
               </TableRow>
             </TableHeader>
           </Table>
           <div
             ref={tableContainerRef}
-            style={{ height: `${config.virtualScrollHeight || 600}px`, overflow: 'auto' }}
+            style={{
+              height: `${config.virtualScrollHeight || 600}px`,
+              overflow: "auto",
+            }}
           >
             <Table>
-              <TableBody style={{ height: `${rowVirtualizer.getTotalSize()}px`, position: 'relative' }}>
+              <TableBody
+                style={{
+                  height: `${rowVirtualizer.getTotalSize()}px`,
+                  position: "relative",
+                }}
+              >
                 {processedData.length === 0 ? (
                   <TableRow>
                     <TableCell
                       colSpan={
-                        config.columns.filter(col => visibleColumns.has(col.id)).length +
+                        config.columns.filter((col) =>
+                          visibleColumns.has(col.id),
+                        ).length +
                         (config.enableRowSelection ? 1 : 0) +
                         (hasActions ? 1 : 0)
                       }
                       className="h-24 text-center"
                     >
-                      No {config.title?.toLowerCase() || 'items'} found.
+                      No {config.title?.toLowerCase() || "items"} found.
                     </TableCell>
                   </TableRow>
                 ) : (
                   rowVirtualizer.getVirtualItems().map((virtualRow) => {
-                    const row = processedData[virtualRow.index]
+                    const row = processedData[virtualRow.index];
                     return (
                       <TableRow
-                        key={row.id as string || virtualRow.index}
+                        key={(row.id as string) || virtualRow.index}
                         className={cn(
-                          config.rowClickPath ? "cursor-pointer hover:bg-muted/50 transition-colors" : "",
-                          selectedIds.has(row.id as string | number) && 'bg-muted/30'
+                          config.rowClickPath
+                            ? "cursor-pointer hover:bg-muted/50 transition-colors"
+                            : "",
+                          selectedIds.has(row.id as string | number) &&
+                            "bg-muted/30",
                         )}
                         style={{
-                          position: 'absolute',
+                          position: "absolute",
                           top: 0,
                           left: 0,
-                          width: '100%',
+                          width: "100%",
                           height: `${virtualRow.size}px`,
                           transform: `translateY(${virtualRow.start}px)`,
                         }}
                         onClick={() => handleRowClick(row)}
-                        data-state={selectedIds.has(row.id as string | number) ? 'selected' : undefined}
+                        data-state={
+                          selectedIds.has(row.id as string | number)
+                            ? "selected"
+                            : undefined
+                        }
                       >
                         {config.enableRowSelection && (
                           <TableCell>
                             <div className="flex items-center justify-center">
                               <Checkbox
-                                checked={selectedIds.has(row.id as string | number)}
+                                checked={selectedIds.has(
+                                  row.id as string | number,
+                                )}
                                 onCheckedChange={(checked) => {
-                                  handleSelectRow(row.id as string | number, !!checked)
+                                  handleSelectRow(
+                                    row.id as string | number,
+                                    !!checked,
+                                  );
                                 }}
                                 onClick={(e) => e.stopPropagation()}
                                 aria-label="Select row"
@@ -1627,15 +1850,28 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
                           </TableCell>
                         )}
                         {config.columns
-                          .filter(col => visibleColumns.has(col.id))
-                          .map(col => (
+                          .filter((col) => visibleColumns.has(col.id))
+                          .map((col) => (
                             <TableCell
                               key={col.id}
-                              onDoubleClick={() => handleCellDoubleClick(row.id as string | number, col.id, row[col.id])}
-                              className={config.enableInlineCellEdit ? 'cursor-text' : ''}
+                              onDoubleClick={() =>
+                                handleCellDoubleClick(
+                                  row.id as string | number,
+                                  col.id,
+                                  row[col.id],
+                                )
+                              }
+                              className={
+                                config.enableInlineCellEdit ? "cursor-text" : ""
+                              }
                             >
-                              {editingCell?.rowId === row.id && editingCell?.columnId === col.id ? (
-                                <InlineCellEditor rowId={row.id as string | number} columnId={col.id} value={row[col.id]} />
+                              {editingCell?.rowId === row.id &&
+                              editingCell?.columnId === col.id ? (
+                                <InlineCellEditor
+                                  rowId={row.id as string | number}
+                                  columnId={col.id}
+                                  value={row[col.id]}
+                                />
                               ) : (
                                 renderCellContent(col, row)
                               )}
@@ -1647,14 +1883,14 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
                           </TableCell>
                         )}
                       </TableRow>
-                    )
+                    );
                   })
                 )}
               </TableBody>
             </Table>
           </div>
         </div>
-      )
+      );
     }
 
     // Standard rendering (no virtual scroll)
@@ -1670,7 +1906,11 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
                       checked={isAllSelected}
                       ref={(el) => {
                         if (el) {
-                          (el as HTMLButtonElement & { indeterminate?: boolean }).indeterminate = isSomeSelected
+                          (
+                            el as HTMLButtonElement & {
+                              indeterminate?: boolean;
+                            }
+                          ).indeterminate = isSomeSelected;
                         }
                       }}
                       onCheckedChange={(checked) => handleSelectAll(!!checked)}
@@ -1680,25 +1920,31 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
                 </TableHead>
               )}
               {config.columns
-                .filter(col => visibleColumns.has(col.id))
-                .map(col => {
-                  const isSortable = config.enableSorting !== false && col.sortable !== false
+                .filter((col) => visibleColumns.has(col.id))
+                .map((col) => {
+                  const isSortable =
+                    config.enableSorting !== false && col.sortable !== false;
                   return (
                     <TableHead
                       key={col.id}
                       className={cn(
-                        isSortable && 'cursor-pointer select-none hover:bg-muted/50'
+                        isSortable &&
+                          "cursor-pointer select-none hover:bg-muted/50",
                       )}
-                      onClick={(e) => isSortable && handleSort(col.id, e.shiftKey)}
+                      onClick={(e) =>
+                        isSortable && handleSort(col.id, e.shiftKey)
+                      }
                     >
                       <div className="flex items-center">
                         {col.label}
                         {renderSortIcon(col.id)}
                       </div>
                     </TableHead>
-                  )
+                  );
                 })}
-              {hasActions && <TableHead className="w-[70px] text-right">Actions</TableHead>}
+              {hasActions && (
+                <TableHead className="w-[70px] text-right">Actions</TableHead>
+              )}
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -1706,25 +1952,32 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
               <TableRow>
                 <TableCell
                   colSpan={
-                    config.columns.filter(col => visibleColumns.has(col.id)).length +
+                    config.columns.filter((col) => visibleColumns.has(col.id))
+                      .length +
                     (config.enableRowSelection ? 1 : 0) +
                     (hasActions ? 1 : 0)
                   }
                   className="h-24 text-center"
                 >
-                  No {config.title?.toLowerCase() || 'items'} found.
+                  No {config.title?.toLowerCase() || "items"} found.
                 </TableCell>
               </TableRow>
             ) : (
               processedData.map((row, idx) => (
                 <TableRow
-                  key={row.id as string || idx}
+                  key={(row.id as string) || idx}
                   className={cn(
-                    config.rowClickPath ? "cursor-pointer hover:bg-muted/50 transition-colors" : "",
-                    selectedIds.has(row.id as string | number) && 'bg-muted/30'
+                    config.rowClickPath
+                      ? "cursor-pointer hover:bg-muted/50 transition-colors"
+                      : "",
+                    selectedIds.has(row.id as string | number) && "bg-muted/30",
                   )}
                   onClick={() => handleRowClick(row)}
-                  data-state={selectedIds.has(row.id as string | number) ? 'selected' : undefined}
+                  data-state={
+                    selectedIds.has(row.id as string | number)
+                      ? "selected"
+                      : undefined
+                  }
                 >
                   {config.enableRowSelection && (
                     <TableCell>
@@ -1732,7 +1985,10 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
                         <Checkbox
                           checked={selectedIds.has(row.id as string | number)}
                           onCheckedChange={(checked) => {
-                            handleSelectRow(row.id as string | number, !!checked)
+                            handleSelectRow(
+                              row.id as string | number,
+                              !!checked,
+                            );
                           }}
                           onClick={(e) => e.stopPropagation()}
                           aria-label="Select row"
@@ -1741,15 +1997,28 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
                     </TableCell>
                   )}
                   {config.columns
-                    .filter(col => visibleColumns.has(col.id))
-                    .map(col => (
+                    .filter((col) => visibleColumns.has(col.id))
+                    .map((col) => (
                       <TableCell
                         key={col.id}
-                        onDoubleClick={() => handleCellDoubleClick(row.id as string | number, col.id, row[col.id])}
-                        className={config.enableInlineCellEdit ? 'cursor-text' : ''}
+                        onDoubleClick={() =>
+                          handleCellDoubleClick(
+                            row.id as string | number,
+                            col.id,
+                            row[col.id],
+                          )
+                        }
+                        className={
+                          config.enableInlineCellEdit ? "cursor-text" : ""
+                        }
                       >
-                        {editingCell?.rowId === row.id && editingCell?.columnId === col.id ? (
-                          <InlineCellEditor rowId={row.id as string | number} columnId={col.id} value={row[col.id]} />
+                        {editingCell?.rowId === row.id &&
+                        editingCell?.columnId === col.id ? (
+                          <InlineCellEditor
+                            rowId={row.id as string | number}
+                            columnId={col.id}
+                            value={row[col.id]}
+                          />
                         ) : (
                           renderCellContent(col, row)
                         )}
@@ -1766,8 +2035,8 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
           </TableBody>
         </Table>
       </div>
-    )
-  }
+    );
+  };
 
   // ============================================================================
   // RENDER
@@ -1783,14 +2052,19 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
           <div>
             <h1 className="mb-2 text-3xl">{config.title}</h1>
             {config.description && (
-              <p className="text-sm text-muted-foreground">{config.description}</p>
+              <p className="text-sm text-muted-foreground">
+                {config.description}
+              </p>
             )}
           </div>
           <div className="flex items-center gap-2 text-sm text-muted-foreground">
             {config.enableRowSelection && selectedIds.size > 0 && (
               <span>{selectedIds.size} selected</span>
             )}
-            <span>{processedData.length} of {data.length} {config.title?.toLowerCase() || 'items'}</span>
+            <span>
+              {processedData.length} of {data.length}{" "}
+              {config.title?.toLowerCase() || "items"}
+            </span>
           </div>
         </div>
       )}
@@ -1801,36 +2075,37 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
       {config.bulkActions && selectedIds.size > 0 && (
         <div className="flex items-center gap-2 p-3 bg-primary/10 border rounded-lg">
           <span className="text-sm font-medium">
-            {selectedIds.size} row{selectedIds.size === 1 ? '' : 's'} selected
+            {selectedIds.size} row{selectedIds.size === 1 ? "" : "s"} selected
           </span>
           <div className="flex items-center gap-2 ml-4">
             {config.bulkActions.map((action) => {
-              const isDisabled = action.disabled?.(Array.from(selectedIds)) ?? false
+              const isDisabled =
+                action.disabled?.(Array.from(selectedIds)) ?? false;
               return (
                 <Button
                   key={action.id}
-                  variant={action.variant || 'default'}
+                  variant={action.variant || "default"}
                   size="sm"
                   disabled={isDisabled}
                   onClick={async () => {
-                    await action.onClick(Array.from(selectedIds))
+                    await action.onClick(Array.from(selectedIds));
                     // Optionally clear selection after action
-                    setSelectedIds(new Set())
-                    onSelectionChange?.([])
+                    setSelectedIds(new Set());
+                    onSelectionChange?.([]);
                   }}
                 >
                   {action.icon}
                   {action.label}
                 </Button>
-              )
+              );
             })}
           </div>
           <Button
             variant="ghost"
             size="sm"
             onClick={() => {
-              setSelectedIds(new Set())
-              onSelectionChange?.([])
+              setSelectedIds(new Set());
+              onSelectionChange?.([]);
             }}
             className="ml-auto"
           >
@@ -1848,7 +2123,7 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
           <div className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input
-              placeholder={`Search ${config.title?.toLowerCase() || 'items'}...`}
+              placeholder={`Search ${config.title?.toLowerCase() || "items"}...`}
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="pl-10"
@@ -1856,18 +2131,20 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
           </div>
 
           {/* Dynamic Filters (from config) */}
-          {config.filters?.map(filter => (
+          {config.filters?.map((filter) => (
             <Select
               key={filter.id}
-              value={filters[filter.id] || 'all'}
-              onValueChange={(value) => setFilters(prev => ({ ...prev, [filter.id]: value }))}
+              value={filters[filter.id] || "all"}
+              onValueChange={(value) =>
+                setFilters((prev) => ({ ...prev, [filter.id]: value }))
+              }
             >
               <SelectTrigger className="w-[160px]">
                 <SelectValue placeholder={filter.label} />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="all">All {filter.label}</SelectItem>
-                {filter.options.map(option => (
+                {filter.options.map((option) => (
                   <SelectItem key={option.value} value={option.value}>
                     {option.label}
                   </SelectItem>
@@ -1880,7 +2157,10 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
         <div className="flex items-center gap-2">
           {/* View Switcher */}
           {config.enableViewSwitcher && (
-            <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as ViewMode)}>
+            <Tabs
+              value={viewMode}
+              onValueChange={(v) => setViewMode(v as ViewMode)}
+            >
               <TabsList>
                 <TabsTrigger value="table" className="gap-1.5">
                   <Table2 className="h-4 w-4" />
@@ -1921,13 +2201,13 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
                   key={column.id}
                   checked={visibleColumns.has(column.id)}
                   onCheckedChange={(checked) => {
-                    const newVisibleColumns = new Set(visibleColumns)
+                    const newVisibleColumns = new Set(visibleColumns);
                     if (checked) {
-                      newVisibleColumns.add(column.id)
+                      newVisibleColumns.add(column.id);
                     } else {
-                      newVisibleColumns.delete(column.id)
+                      newVisibleColumns.delete(column.id);
                     }
-                    setVisibleColumns(newVisibleColumns)
+                    setVisibleColumns(newVisibleColumns);
                   }}
                 >
                   {column.label}
@@ -1941,9 +2221,9 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
       {/* ========================================
           CONTENT (View-based rendering)
           ======================================== */}
-      {viewMode === 'table' && renderTableView()}
-      {viewMode === 'card' && renderCardView()}
-      {viewMode === 'list' && renderListView()}
+      {viewMode === "table" && renderTableView()}
+      {viewMode === "card" && renderCardView()}
+      {viewMode === "list" && renderListView()}
 
       {/* ========================================
           EDIT DIALOG
@@ -1952,100 +2232,130 @@ export function GenericDataTable({ data: initialData, config, onSelectionChange,
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
           <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
             <DialogHeader>
-              <DialogTitle>Edit {config.title?.slice(0, -1) || 'Item'}</DialogTitle>
+              <DialogTitle>
+                Edit {config.title?.slice(0, -1) || "Item"}
+              </DialogTitle>
               <DialogDescription>
                 Make changes to this record. Click save when you&apos;re done.
               </DialogDescription>
             </DialogHeader>
 
             <div className="grid gap-4 py-4">
-              {editingRow && config.columns
-                .filter(col => col.id !== 'id' && col.id !== 'created_at' && col.id !== 'updated_at')
-                .map((col) => {
-                  const value = editingRow[col.id]
-                  const isEditable = !config.editConfig?.editableFields ||
-                                   config.editConfig.editableFields.includes(col.id)
-
-                  if (!isEditable) return null
-
-                  return (
-                    <div key={col.id} className="grid grid-cols-4 items-start gap-4">
-                      <Label htmlFor={col.id} className="text-right pt-2">
-                        {col.label}
-                      </Label>
-                      <div className="col-span-3">
-                        {col.type === 'date' ? (
-                          <Input
-                            id={col.id}
-                            type="date"
-                            value={value ? String(value).split('T')[0] : ''}
-                            onChange={(e) => handleFieldChange(col.id, e.target.value)}
-                          />
-                        ) : col.renderConfig?.type === 'badge' || col.type === 'badge' ? (
-                          <Select
-                            value={String(value || '')}
-                            onValueChange={(v) => handleFieldChange(col.id, v)}
-                          >
-                            <SelectTrigger>
-                              <SelectValue />
-                            </SelectTrigger>
-                            <SelectContent>
-                              {config.filters
-                                ?.find(f => f.field === col.id)
-                                ?.options.map(opt => (
-                                  <SelectItem key={opt.value} value={opt.value}>
-                                    {opt.label}
-                                  </SelectItem>
-                                )) || []}
-                            </SelectContent>
-                          </Select>
-                        ) : col.renderConfig?.type === 'currency' || col.type === 'number' ? (
-                          <Input
-                            id={col.id}
-                            type="number"
-                            step="0.01"
-                            value={value ? Number(value) : ''}
-                            onChange={(e) => handleFieldChange(col.id, parseFloat(e.target.value))}
-                          />
-                        ) : col.type === 'email' ? (
-                          <Input
-                            id={col.id}
-                            type="email"
-                            value={String(value || '')}
-                            onChange={(e) => handleFieldChange(col.id, e.target.value)}
-                          />
-                        ) : (
-                          <Textarea
-                            id={col.id}
-                            value={String(value || '')}
-                            onChange={(e) => handleFieldChange(col.id, e.target.value)}
-                            rows={3}
-                          />
-                        )}
-                      </div>
-                    </div>
+              {editingRow &&
+                config.columns
+                  .filter(
+                    (col) =>
+                      col.id !== "id" &&
+                      col.id !== "created_at" &&
+                      col.id !== "updated_at",
                   )
-                })}
+                  .map((col) => {
+                    const value = editingRow[col.id];
+                    const isEditable =
+                      !config.editConfig?.editableFields ||
+                      config.editConfig.editableFields.includes(col.id);
+
+                    if (!isEditable) return null;
+
+                    return (
+                      <div
+                        key={col.id}
+                        className="grid grid-cols-4 items-start gap-4"
+                      >
+                        <Label htmlFor={col.id} className="text-right pt-2">
+                          {col.label}
+                        </Label>
+                        <div className="col-span-3">
+                          {col.type === "date" ? (
+                            <Input
+                              id={col.id}
+                              type="date"
+                              value={value ? String(value).split("T")[0] : ""}
+                              onChange={(e) =>
+                                handleFieldChange(col.id, e.target.value)
+                              }
+                            />
+                          ) : col.renderConfig?.type === "badge" ||
+                            col.type === "badge" ? (
+                            <Select
+                              value={String(value || "")}
+                              onValueChange={(v) =>
+                                handleFieldChange(col.id, v)
+                              }
+                            >
+                              <SelectTrigger>
+                                <SelectValue />
+                              </SelectTrigger>
+                              <SelectContent>
+                                {config.filters
+                                  ?.find((f) => f.field === col.id)
+                                  ?.options.map((opt) => (
+                                    <SelectItem
+                                      key={opt.value}
+                                      value={opt.value}
+                                    >
+                                      {opt.label}
+                                    </SelectItem>
+                                  )) || []}
+                              </SelectContent>
+                            </Select>
+                          ) : col.renderConfig?.type === "currency" ||
+                            col.type === "number" ? (
+                            <Input
+                              id={col.id}
+                              type="number"
+                              step="0.01"
+                              value={value ? Number(value) : ""}
+                              onChange={(e) =>
+                                handleFieldChange(
+                                  col.id,
+                                  parseFloat(e.target.value),
+                                )
+                              }
+                            />
+                          ) : col.type === "email" ? (
+                            <Input
+                              id={col.id}
+                              type="email"
+                              value={String(value || "")}
+                              onChange={(e) =>
+                                handleFieldChange(col.id, e.target.value)
+                              }
+                            />
+                          ) : (
+                            <Textarea
+                              id={col.id}
+                              value={String(value || "")}
+                              onChange={(e) =>
+                                handleFieldChange(col.id, e.target.value)
+                              }
+                              rows={3}
+                            />
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
             </div>
 
             <DialogFooter>
               <Button
                 variant="outline"
                 onClick={() => {
-                  setIsEditDialogOpen(false)
-                  setEditingRow(null)
+                  setIsEditDialogOpen(false);
+                  setEditingRow(null);
                 }}
                 disabled={isSaving}
               >
                 Cancel
               </Button>
               <Button onClick={handleSaveEdit} disabled={isSaving}>
-                {isSaving ? 'Saving...' : 'Save changes'}
+                {isSaving ? "Saving..." : "Save changes"}
               </Button>
             </DialogFooter>
           </DialogContent>
         </Dialog>
       )}
     </div>
-  )
+  );
 }

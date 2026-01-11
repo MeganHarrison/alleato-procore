@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Suspense } from 'react';
-import { useParams, useRouter, useSearchParams } from 'next/navigation';
-import { Trash2 } from 'lucide-react';
-import { toast } from 'sonner';
+import * as React from "react";
+import { Suspense } from "react";
+import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 import {
   BudgetPageHeader,
@@ -20,19 +20,19 @@ import {
   ForecastingTab,
   SnapshotsTab,
   ChangeHistoryTab,
-} from '@/components/budget';
-import { BudgetLineItemModalAnimated } from '@/components/budget/budget-line-item-modal-animated';
-import { BudgetModificationsModal } from '@/components/budget/modals/BudgetModificationsModal';
-import { ApprovedCOsModal } from '@/components/budget/modals/ApprovedCOsModal';
-import { JobToDateCostDetailModal } from '@/components/budget/modals/JobToDateCostDetailModal';
-import { DirectCostsModal } from '@/components/budget/modals/DirectCostsModal';
-import { PendingBudgetChangesModal } from '@/components/budget/modals/PendingBudgetChangesModal';
-import { CommittedCostsModal } from '@/components/budget/modals/CommittedCostsModal';
-import { PendingCostChangesModal } from '@/components/budget/modals/PendingCostChangesModal';
-import { ForecastToCompleteModal } from '@/components/budget/modals/ForecastToCompleteModal';
-import { ImportBudgetModal } from '@/components/budget/ImportBudgetModal';
-import type { BudgetDetailLineItem } from '@/components/budget/budget-details-table';
-import type { BudgetLineItem } from '@/types/budget';
+} from "@/components/budget";
+import { BudgetLineItemModalAnimated } from "@/components/budget/budget-line-item-modal-animated";
+import { BudgetModificationsModal } from "@/components/budget/modals/BudgetModificationsModal";
+import { ApprovedCOsModal } from "@/components/budget/modals/ApprovedCOsModal";
+import { JobToDateCostDetailModal } from "@/components/budget/modals/JobToDateCostDetailModal";
+import { DirectCostsModal } from "@/components/budget/modals/DirectCostsModal";
+import { PendingBudgetChangesModal } from "@/components/budget/modals/PendingBudgetChangesModal";
+import { CommittedCostsModal } from "@/components/budget/modals/CommittedCostsModal";
+import { PendingCostChangesModal } from "@/components/budget/modals/PendingCostChangesModal";
+import { ForecastToCompleteModal } from "@/components/budget/modals/ForecastToCompleteModal";
+import { ImportBudgetModal } from "@/components/budget/ImportBudgetModal";
+import type { BudgetDetailLineItem } from "@/components/budget/budget-details-table";
+import type { BudgetLineItem } from "@/types/budget";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -42,61 +42,71 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 import {
   budgetViews,
   budgetSnapshots,
   budgetGroups,
   budgetGrandTotals,
-} from '@/config/budget';
-import { useProjectTitle } from '@/hooks/useProjectTitle';
+} from "@/config/budget";
+import { useProjectTitle } from "@/hooks/useProjectTitle";
 import {
   applyQuickFilter,
   loadQuickFilterPreference,
-  saveQuickFilterPreference
-} from '@/lib/budget-filters';
-import type { QuickFilterType } from '@/components/budget/budget-filters';
-import { applyGrouping, type GroupingType } from '@/lib/budget-grouping';
+  saveQuickFilterPreference,
+} from "@/lib/budget-filters";
+import type { QuickFilterType } from "@/components/budget/budget-filters";
+import { applyGrouping, type GroupingType } from "@/lib/budget-grouping";
 
 function BudgetPageContent() {
   const router = useRouter();
   const params = useParams();
   const searchParams = useSearchParams();
   const projectId = params.projectId as string;
-  useProjectTitle('Budget');
+  useProjectTitle("Budget");
 
   // Get active tab from URL query parameter, default to 'budget'
-  const activeTab = searchParams.get('tab') || 'budget';
-  const [selectedView, setSelectedView] = React.useState('procore-standard');
-  const [selectedSnapshot, setSelectedSnapshot] = React.useState('current');
-  const [selectedGroup, setSelectedGroup] = React.useState('cost-code-tier-1');
+  const activeTab = searchParams.get("tab") || "budget";
+  const [selectedView, setSelectedView] = React.useState("procore-standard");
+  const [selectedSnapshot, setSelectedSnapshot] = React.useState("current");
+  const [selectedGroup, setSelectedGroup] = React.useState("cost-code-tier-1");
   const [budgetData, setBudgetData] = React.useState<BudgetLineItem[]>([]);
-  const [budgetDetailsData, setBudgetDetailsData] = React.useState<BudgetDetailLineItem[]>([]);
-  const [quickFilter, setQuickFilter] = React.useState<QuickFilterType>('all');
-  const [currentViewId, setCurrentViewId] = React.useState<string>('');
+  const [budgetDetailsData, setBudgetDetailsData] = React.useState<
+    BudgetDetailLineItem[]
+  >([]);
+  const [quickFilter, setQuickFilter] = React.useState<QuickFilterType>("all");
+  const [currentViewId, setCurrentViewId] = React.useState<string>("");
   const [grandTotals, setGrandTotals] = React.useState(budgetGrandTotals);
   const [loading, setLoading] = React.useState(true);
   const [detailsLoading, setDetailsLoading] = React.useState(false);
   const [detailsRequested, setDetailsRequested] = React.useState(false);
   const [showLineItemModal, setShowLineItemModal] = React.useState(false);
-  const [showModificationModal, setShowModificationModal] = React.useState(false);
+  const [showModificationModal, setShowModificationModal] =
+    React.useState(false);
   const [showImportModal, setShowImportModal] = React.useState(false);
   const [showEditModal, setShowEditModal] = React.useState(false);
   const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
-  const [selectedLineItem, setSelectedLineItem] = React.useState<BudgetLineItem | null>(null);
+  const [selectedLineItem, setSelectedLineItem] =
+    React.useState<BudgetLineItem | null>(null);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [deleting, setDeleting] = React.useState(false);
 
   // New modal states for budget column modals
-  const [showBudgetModificationsModal, setShowBudgetModificationsModal] = React.useState(false);
+  const [showBudgetModificationsModal, setShowBudgetModificationsModal] =
+    React.useState(false);
   const [showApprovedCOsModal, setShowApprovedCOsModal] = React.useState(false);
-  const [showJobToDateCostDetailModal, setShowJobToDateCostDetailModal] = React.useState(false);
+  const [showJobToDateCostDetailModal, setShowJobToDateCostDetailModal] =
+    React.useState(false);
   const [showDirectCostsModal, setShowDirectCostsModal] = React.useState(false);
-  const [showPendingChangesModal, setShowPendingChangesModal] = React.useState(false);
-  const [showCommittedCostsModal, setShowCommittedCostsModal] = React.useState(false);
-  const [showPendingCostChangesModal, setShowPendingCostChangesModal] = React.useState(false);
-  const [showForecastToCompleteModal, setShowForecastToCompleteModal] = React.useState(false);
+  const [showPendingChangesModal, setShowPendingChangesModal] =
+    React.useState(false);
+  const [showCommittedCostsModal, setShowCommittedCostsModal] =
+    React.useState(false);
+  const [showPendingCostChangesModal, setShowPendingCostChangesModal] =
+    React.useState(false);
+  const [showForecastToCompleteModal, setShowForecastToCompleteModal] =
+    React.useState(false);
 
   // Budget lock state
   const [isLocked, setIsLocked] = React.useState(false);
@@ -114,7 +124,7 @@ function BudgetPageContent() {
         setLockedBy(data.lockedBy);
       }
     } catch (error) {
-      console.error('Error fetching lock status:', error);
+      console.error("Error fetching lock status:", error);
     }
   }, [projectId]);
 
@@ -136,7 +146,7 @@ function BudgetPageContent() {
           setGrandTotals(budgetDataResponse.grandTotals || budgetGrandTotals);
         }
       } catch (error) {
-        console.error('Error fetching data:', error);
+        console.error("Error fetching data:", error);
       } finally {
         setLoading(false);
       }
@@ -163,15 +173,27 @@ function BudgetPageContent() {
   }, [budgetData, quickFilter, selectedGroup]);
 
   // Handle quick filter change
-  const handleQuickFilterChange = React.useCallback((filter: QuickFilterType) => {
-    setQuickFilter(filter);
-    saveQuickFilterPreference(projectId, filter);
-    toast.success(`Filter applied: ${filter === 'all' ? 'All Items' : filter.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ')}`);
-  }, [projectId]);
+  const handleQuickFilterChange = React.useCallback(
+    (filter: QuickFilterType) => {
+      setQuickFilter(filter);
+      saveQuickFilterPreference(projectId, filter);
+      toast.success(
+        `Filter applied: ${
+          filter === "all"
+            ? "All Items"
+            : filter
+                .split("-")
+                .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+                .join(" ")
+        }`,
+      );
+    },
+    [projectId],
+  );
 
   const handleCreateClick = () => {
     if (isLocked) {
-      toast.error('Budget is locked. Unlock to add new line items.');
+      toast.error("Budget is locked. Unlock to add new line items.");
       return;
     }
     // Open the budget line item modal
@@ -180,7 +202,7 @@ function BudgetPageContent() {
 
   const handleModificationClick = () => {
     if (isLocked) {
-      toast.error('Budget is locked. Unlock to create modifications.');
+      toast.error("Budget is locked. Unlock to create modifications.");
       return;
     }
     setShowModificationModal(true);
@@ -188,13 +210,13 @@ function BudgetPageContent() {
 
   const handleResendToERP = () => {
     // TODO: Implement ERP integration
-    toast.info('ERP integration coming soon');
+    toast.info("ERP integration coming soon");
   };
 
   const handleLockBudget = async () => {
     try {
       const response = await fetch(`/api/projects/${projectId}/budget/lock`, {
-        method: 'POST',
+        method: "POST",
       });
 
       if (response.ok) {
@@ -202,41 +224,41 @@ function BudgetPageContent() {
         setIsLocked(true);
         setLockedAt(data.data.budget_locked_at);
         setLockedBy(data.data.budget_locked_by);
-        toast.success('Budget locked successfully');
+        toast.success("Budget locked successfully");
       } else {
         const error = await response.json();
-        toast.error(error.error || 'Failed to lock budget');
+        toast.error(error.error || "Failed to lock budget");
       }
     } catch (error) {
-      console.error('Error locking budget:', error);
-      toast.error('Failed to lock budget');
+      console.error("Error locking budget:", error);
+      toast.error("Failed to lock budget");
     }
   };
 
   const handleUnlockBudget = async () => {
     try {
       const response = await fetch(`/api/projects/${projectId}/budget/lock`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (response.ok) {
         setIsLocked(false);
         setLockedAt(null);
         setLockedBy(null);
-        toast.success('Budget unlocked successfully');
+        toast.success("Budget unlocked successfully");
       } else {
         const error = await response.json();
-        toast.error(error.error || 'Failed to unlock budget');
+        toast.error(error.error || "Failed to unlock budget");
       }
     } catch (error) {
-      console.error('Error unlocking budget:', error);
-      toast.error('Failed to unlock budget');
+      console.error("Error unlocking budget:", error);
+      toast.error("Failed to unlock budget");
     }
   };
 
   const handleImport = () => {
     if (isLocked) {
-      toast.error('Budget is locked. Unlock to import budget data.');
+      toast.error("Budget is locked. Unlock to import budget data.");
       return;
     }
     setShowImportModal(true);
@@ -249,14 +271,18 @@ function BudgetPageContent() {
 
   const handleTabChange = (tabId: string) => {
     // Update URL to reflect tab change
-    if (tabId === 'budget') {
+    if (tabId === "budget") {
       router.push(`/${projectId}/budget`);
     } else {
       router.push(`/${projectId}/budget?tab=${tabId}`);
     }
 
     // Fetch budget details when switching to budget-details tab
-    if (tabId === 'budget-details' && budgetDetailsData.length === 0 && !detailsRequested) {
+    if (
+      tabId === "budget-details" &&
+      budgetDetailsData.length === 0 &&
+      !detailsRequested
+    ) {
       fetchBudgetDetails();
     }
   };
@@ -271,11 +297,11 @@ function BudgetPageContent() {
         const data = await response.json();
         setBudgetDetailsData(data.details || []);
       } else {
-        toast.error('Failed to load budget details');
+        toast.error("Failed to load budget details");
       }
     } catch (error) {
-      console.error('Error fetching budget details:', error);
-      toast.error('Failed to load budget details');
+      console.error("Error fetching budget details:", error);
+      toast.error("Failed to load budget details");
     } finally {
       setDetailsLoading(false);
     }
@@ -283,28 +309,34 @@ function BudgetPageContent() {
 
   React.useEffect(() => {
     if (
-      activeTab === 'budget-details' &&
+      activeTab === "budget-details" &&
       budgetDetailsData.length === 0 &&
       !detailsLoading &&
       !detailsRequested
     ) {
       fetchBudgetDetails();
     }
-  }, [activeTab, budgetDetailsData.length, detailsLoading, detailsRequested, fetchBudgetDetails]);
+  }, [
+    activeTab,
+    budgetDetailsData.length,
+    detailsLoading,
+    detailsRequested,
+    fetchBudgetDetails,
+  ]);
 
   const handleAddFilter = () => {
     // TODO: Implement advanced filtering
-    toast.info('Advanced filtering coming soon');
+    toast.info("Advanced filtering coming soon");
   };
 
   const handleAnalyzeVariance = () => {
     // TODO: Implement variance analysis
-    toast.info('Variance analysis coming soon');
+    toast.info("Variance analysis coming soon");
   };
 
   const handleToggleFullscreen = () => {
     // TODO: Implement fullscreen mode
-    toast.info('Fullscreen mode coming soon');
+    toast.info("Fullscreen mode coming soon");
   };
 
   const handleLineItemSuccess = React.useCallback(() => {
@@ -318,7 +350,7 @@ function BudgetPageContent() {
           setGrandTotals(budgetDataResponse.grandTotals || budgetGrandTotals);
         }
       } catch (error) {
-        console.error('Error refreshing budget data:', error);
+        console.error("Error refreshing budget data:", error);
       }
     };
     fetchData();
@@ -328,24 +360,24 @@ function BudgetPageContent() {
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Ctrl+S or Cmd+S: Refresh data
-      if ((e.ctrlKey || e.metaKey) && e.key === 's') {
+      if ((e.ctrlKey || e.metaKey) && e.key === "s") {
         e.preventDefault();
         handleLineItemSuccess();
-        toast.success('Budget data refreshed');
+        toast.success("Budget data refreshed");
       }
 
       // Ctrl+E or Cmd+E: Open create line item modal (if not locked)
-      if ((e.ctrlKey || e.metaKey) && e.key === 'e') {
+      if ((e.ctrlKey || e.metaKey) && e.key === "e") {
         e.preventDefault();
         if (isLocked) {
-          toast.error('Budget is locked. Unlock to add new line items.');
+          toast.error("Budget is locked. Unlock to add new line items.");
         } else {
           router.push(`/${projectId}/budget/setup`);
         }
       }
 
       // Escape: Close any open modals
-      if (e.key === 'Escape') {
+      if (e.key === "Escape") {
         setShowLineItemModal(false);
         setShowModificationModal(false);
         setShowImportModal(false);
@@ -354,8 +386,8 @@ function BudgetPageContent() {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isLocked, projectId, router, handleLineItemSuccess]);
 
   const handleModificationSuccess = () => {
@@ -365,7 +397,7 @@ function BudgetPageContent() {
 
   const handleEditLineItem = (lineItem: BudgetLineItem) => {
     if (isLocked) {
-      toast.error('Budget is locked. Unlock to edit line items.');
+      toast.error("Budget is locked. Unlock to edit line items.");
       return;
     }
     setSelectedLineItem(lineItem);
@@ -413,9 +445,13 @@ function BudgetPageContent() {
     setShowForecastToCompleteModal(true);
   };
 
-  const handleForecastSave = async (data: { budgetLineId: string; forecastMethod: string; forecastAmount: number }) => {
+  const handleForecastSave = async (data: {
+    budgetLineId: string;
+    forecastMethod: string;
+    forecastAmount: number;
+  }) => {
     // TODO: Implement API call to save forecast data
-    toast.success('Forecast saved successfully');
+    toast.success("Forecast saved successfully");
   };
 
   const handleSelectionChange = React.useCallback((ids: string[]) => {
@@ -424,7 +460,7 @@ function BudgetPageContent() {
 
   const handleDeleteSelected = () => {
     if (isLocked) {
-      toast.error('Budget is locked. Unlock to delete line items.');
+      toast.error("Budget is locked. Unlock to delete line items.");
       return;
     }
     if (selectedIds.length === 0) return;
@@ -439,23 +475,25 @@ function BudgetPageContent() {
       // Delete all selected items
       const deletePromises = selectedIds.map((id) =>
         fetch(`/api/projects/${projectId}/budget/lines/${id}`, {
-          method: 'DELETE',
-        })
+          method: "DELETE",
+        }),
       );
 
       const results = await Promise.all(deletePromises);
       const allSuccessful = results.every((r) => r.ok);
 
       if (allSuccessful) {
-        toast.success(`${selectedIds.length} line item(s) deleted successfully`);
+        toast.success(
+          `${selectedIds.length} line item(s) deleted successfully`,
+        );
         setSelectedIds([]);
         handleLineItemSuccess(); // Refresh data
       } else {
-        toast.error('Some items could not be deleted');
+        toast.error("Some items could not be deleted");
       }
     } catch (error) {
-      console.error('Error deleting line items:', error);
-      toast.error('Failed to delete line items');
+      console.error("Error deleting line items:", error);
+      toast.error("Failed to delete line items");
     } finally {
       setDeleting(false);
       setShowDeleteDialog(false);
@@ -474,28 +512,28 @@ function BudgetPageContent() {
       const response = await fetch(
         `/api/projects/${projectId}/budget/lines/${selectedLineItem.id}`,
         {
-          method: 'PATCH',
+          method: "PATCH",
           headers: {
-            'Content-Type': 'application/json',
+            "Content-Type": "application/json",
           },
           body: JSON.stringify({
             quantity: data.unitQty,
             unit_cost: data.unitCost,
             original_amount: data.originalBudget,
           }),
-        }
+        },
       );
 
       if (response.ok) {
-        toast.success('Line item updated successfully');
+        toast.success("Line item updated successfully");
         handleLineItemSuccess(); // Refresh data
       } else {
         const error = await response.json();
-        toast.error(error.error || 'Failed to update line item');
+        toast.error(error.error || "Failed to update line item");
       }
     } catch (error) {
-      console.error('Error updating line item:', error);
-      toast.error('Failed to update line item');
+      console.error("Error updating line item:", error);
+      toast.error("Failed to update line item");
     }
   };
 
@@ -518,27 +556,27 @@ function BudgetPageContent() {
       <BudgetTabs activeTab={activeTab} onTabChange={handleTabChange} />
 
       <div className="flex flex-1 flex-col gap-4 px-4 sm:px-6 lg:px-12 py-6 bg-muted/30">
-        {activeTab === 'settings' ? (
+        {activeTab === "settings" ? (
           <div className="flex-1 rounded-lg border bg-white shadow-sm">
             <VerticalMarkupSettings projectId={projectId} />
           </div>
-        ) : activeTab === 'cost-codes' ? (
+        ) : activeTab === "cost-codes" ? (
           <div className="flex-1 rounded-lg border bg-white shadow-sm p-6">
             <CostCodesTab projectId={projectId} />
           </div>
-        ) : activeTab === 'forecasting' ? (
+        ) : activeTab === "forecasting" ? (
           <div className="flex-1 rounded-lg border bg-white shadow-sm">
             <ForecastingTab projectId={projectId} />
           </div>
-        ) : activeTab === 'snapshots' ? (
+        ) : activeTab === "snapshots" ? (
           <div className="flex-1 rounded-lg border bg-white shadow-sm">
             <SnapshotsTab projectId={projectId} />
           </div>
-        ) : activeTab === 'change-history' ? (
+        ) : activeTab === "change-history" ? (
           <div className="flex-1 rounded-lg border bg-white shadow-sm">
             <ChangeHistoryTab projectId={projectId} />
           </div>
-        ) : activeTab === 'budget-details' ? (
+        ) : activeTab === "budget-details" ? (
           <>
             <div className="flex items-center justify-between gap-4">
               <BudgetFilters
@@ -559,7 +597,10 @@ function BudgetPageContent() {
               />
             </div>
             <div className="flex-1">
-              <BudgetDetailsTable data={budgetDetailsData} loading={detailsLoading} />
+              <BudgetDetailsTable
+                data={budgetDetailsData}
+                loading={detailsLoading}
+              />
             </div>
           </>
         ) : (
@@ -607,7 +648,13 @@ function BudgetPageContent() {
             )}
 
             <div className="flex-1">
-              <Suspense fallback={<div className="flex items-center justify-center h-full">Loading...</div>}>
+              <Suspense
+                fallback={
+                  <div className="flex items-center justify-center h-full">
+                    Loading...
+                  </div>
+                }
+              >
                 {loading ? (
                   <div className="flex items-center justify-center h-full">
                     Loading budget data for project {projectId}...
@@ -766,7 +813,7 @@ function BudgetPageContent() {
             budgetLineId={selectedLineItem.id}
             projectId={projectId}
             currentData={{
-              forecastMethod: 'lump_sum',
+              forecastMethod: "lump_sum",
               forecastAmount: selectedLineItem.forecastToComplete || 0,
               projectedBudget: selectedLineItem.projectedBudget || 0,
               projectedCosts: selectedLineItem.projectedCosts || 0,
@@ -782,8 +829,8 @@ function BudgetPageContent() {
           <AlertDialogHeader>
             <AlertDialogTitle>Delete Line Items</AlertDialogTitle>
             <AlertDialogDescription>
-              Are you sure you want to delete {selectedIds.length} selected line item(s)?
-              This action cannot be undone.
+              Are you sure you want to delete {selectedIds.length} selected line
+              item(s)? This action cannot be undone.
             </AlertDialogDescription>
           </AlertDialogHeader>
           <AlertDialogFooter>
@@ -793,7 +840,7 @@ function BudgetPageContent() {
               disabled={deleting}
               className="bg-red-600 hover:bg-red-700 focus:ring-red-600"
             >
-              {deleting ? 'Deleting...' : 'Delete'}
+              {deleting ? "Deleting..." : "Delete"}
             </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
@@ -804,7 +851,13 @@ function BudgetPageContent() {
 
 export default function ProjectBudgetPage() {
   return (
-    <Suspense fallback={<div className="flex items-center justify-center h-screen">Loading...</div>}>
+    <Suspense
+      fallback={
+        <div className="flex items-center justify-center h-screen">
+          Loading...
+        </div>
+      }
+    >
       <BudgetPageContent />
     </Suspense>
   );

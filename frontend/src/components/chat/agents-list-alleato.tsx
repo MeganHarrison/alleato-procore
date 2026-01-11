@@ -28,7 +28,9 @@ export function AgentsList({ agents, currentAgent }: AgentsListProps) {
                 ? ""
                 : "opacity-50 filter grayscale cursor-not-allowed pointer-events-none"
             } ${
-              agent.name === currentAgent ? "ring-1 ring-violet-500 shadow-md" : ""
+              agent.name === currentAgent
+                ? "ring-1 ring-violet-500 shadow-md"
+                : ""
             }`}
           >
             <CardHeader className="p-3 pb-1">

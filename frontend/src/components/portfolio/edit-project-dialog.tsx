@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 import {
   Dialog,
   DialogContent,
@@ -10,8 +10,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { toast } from 'sonner';
-import { Project } from '@/types/portfolio';
+import { toast } from "sonner";
+import { Project } from "@/types/portfolio";
 
 interface EditProjectDialogProps {
   project: Project;
@@ -24,18 +24,18 @@ export function EditProjectDialog({
   project,
   open,
   onOpenChange,
-  onSuccess
+  onSuccess,
 }: EditProjectDialogProps) {
   const [formData, setFormData] = React.useState({
     name: project.name,
-    jobNumber: project.jobNumber || '',
-    client: project.client || '',
-    startDate: project.startDate || '',
-    state: project.state || '',
-    phase: project.phase || '',
-    estRevenue: project.estRevenue?.toString() || '',
-    estProfit: project.estProfit?.toString() || '',
-    category: project.category || '',
+    jobNumber: project.jobNumber || "",
+    client: project.client || "",
+    startDate: project.startDate || "",
+    state: project.state || "",
+    phase: project.phase || "",
+    estRevenue: project.estRevenue?.toString() || "",
+    estProfit: project.estProfit?.toString() || "",
+    category: project.category || "",
   });
   const [isSaving, setIsSaving] = React.useState(false);
 
@@ -44,14 +44,14 @@ export function EditProjectDialog({
     if (open) {
       setFormData({
         name: project.name,
-        jobNumber: project.jobNumber || '',
-        client: project.client || '',
-        startDate: project.startDate || '',
-        state: project.state || '',
-        phase: project.phase || '',
-        estRevenue: project.estRevenue?.toString() || '',
-        estProfit: project.estProfit?.toString() || '',
-        category: project.category || '',
+        jobNumber: project.jobNumber || "",
+        client: project.client || "",
+        startDate: project.startDate || "",
+        state: project.state || "",
+        phase: project.phase || "",
+        estRevenue: project.estRevenue?.toString() || "",
+        estProfit: project.estProfit?.toString() || "",
+        category: project.category || "",
       });
     }
   }, [open, project]);
@@ -64,34 +64,38 @@ export function EditProjectDialog({
       // Map camelCase fields to database column names (with spaces)
       const updatePayload = {
         name: formData.name,
-        'job number': formData.jobNumber,
+        "job number": formData.jobNumber,
         client: formData.client,
-        'start date': formData.startDate || null,
+        "start date": formData.startDate || null,
         state: formData.state,
         phase: formData.phase,
-        'est revenue': formData.estRevenue ? parseFloat(formData.estRevenue) : null,
-        'est profit': formData.estProfit ? parseFloat(formData.estProfit) : null,
+        "est revenue": formData.estRevenue
+          ? parseFloat(formData.estRevenue)
+          : null,
+        "est profit": formData.estProfit
+          ? parseFloat(formData.estProfit)
+          : null,
         category: formData.category,
       };
 
       const response = await fetch(`/api/projects/${project.id}`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(updatePayload),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update project');
+        throw new Error("Failed to update project");
       }
 
-      toast.success('Project updated successfully');
+      toast.success("Project updated successfully");
       onOpenChange(false);
       onSuccess?.();
     } catch (error) {
-      console.error('Error updating project:', error);
-      toast.error('Failed to update project');
+      console.error("Error updating project:", error);
+      toast.error("Failed to update project");
     } finally {
       setIsSaving(false);
     }
@@ -111,7 +115,9 @@ export function EditProjectDialog({
               <Input
                 id="name"
                 value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, name: e.target.value })
+                }
                 required
                 placeholder="Enter project name"
               />
@@ -123,7 +129,9 @@ export function EditProjectDialog({
               <Input
                 id="jobNumber"
                 value={formData.jobNumber}
-                onChange={(e) => setFormData({ ...formData, jobNumber: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, jobNumber: e.target.value })
+                }
                 placeholder="e.g., 24104"
               />
             </div>
@@ -134,7 +142,9 @@ export function EditProjectDialog({
               <Input
                 id="client"
                 value={formData.client}
-                onChange={(e) => setFormData({ ...formData, client: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, client: e.target.value })
+                }
                 placeholder="Client name"
               />
             </div>
@@ -146,7 +156,9 @@ export function EditProjectDialog({
                 id="startDate"
                 type="date"
                 value={formData.startDate}
-                onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, startDate: e.target.value })
+                }
               />
             </div>
 
@@ -156,7 +168,12 @@ export function EditProjectDialog({
               <Input
                 id="state"
                 value={formData.state}
-                onChange={(e) => setFormData({ ...formData, state: e.target.value.toUpperCase() })}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    state: e.target.value.toUpperCase(),
+                  })
+                }
                 placeholder="e.g., CA"
                 maxLength={2}
               />
@@ -168,7 +185,9 @@ export function EditProjectDialog({
               <Input
                 id="phase"
                 value={formData.phase}
-                onChange={(e) => setFormData({ ...formData, phase: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, phase: e.target.value })
+                }
                 placeholder="e.g., Current, Bid, Preconstruction"
               />
             </div>
@@ -179,7 +198,9 @@ export function EditProjectDialog({
               <Input
                 id="category"
                 value={formData.category}
-                onChange={(e) => setFormData({ ...formData, category: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, category: e.target.value })
+                }
                 placeholder="Project category"
               />
             </div>
@@ -191,7 +212,9 @@ export function EditProjectDialog({
                 id="estRevenue"
                 type="number"
                 value={formData.estRevenue}
-                onChange={(e) => setFormData({ ...formData, estRevenue: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, estRevenue: e.target.value })
+                }
                 placeholder="0.00"
                 step="0.01"
               />
@@ -204,7 +227,9 @@ export function EditProjectDialog({
                 id="estProfit"
                 type="number"
                 value={formData.estProfit}
-                onChange={(e) => setFormData({ ...formData, estProfit: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, estProfit: e.target.value })
+                }
                 placeholder="0.00"
                 step="0.01"
               />
@@ -220,11 +245,8 @@ export function EditProjectDialog({
             >
               Cancel
             </Button>
-            <Button
-              type="submit"
-              disabled={isSaving}
-            >
-              {isSaving ? 'Saving...' : 'Save Changes'}
+            <Button type="submit" disabled={isSaving}>
+              {isSaving ? "Saving..." : "Save Changes"}
             </Button>
           </div>
         </form>

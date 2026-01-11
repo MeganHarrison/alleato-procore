@@ -1,22 +1,22 @@
 // This component is deprecated - use empty-state from ui folder instead
 // Keeping for backwards compatibility during migration
 
-"use client"
+"use client";
 
-import * as React from "react"
-import { FileX2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { EmptyState as UnifiedEmptyState } from "@/components/ui/empty-state"
+import * as React from "react";
+import { FileX2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { EmptyState as UnifiedEmptyState } from "@/components/ui/empty-state";
 
 interface DataTableEmptyStateProps {
-  icon?: React.ElementType
-  title: string
-  description?: string
+  icon?: React.ElementType;
+  title: string;
+  description?: string;
   action?: {
-    label: string
-    onClick: () => void
-  }
-  className?: string
+    label: string;
+    onClick: () => void;
+  };
+  className?: string;
 }
 
 /**
@@ -37,14 +37,10 @@ export function DataTableEmptyState({
       title={title}
       description={description}
       action={
-        action && (
-          <Button onClick={action.onClick}>
-            {action.label}
-          </Button>
-        )
+        action && <Button onClick={action.onClick}>{action.label}</Button>
       }
       iconWithBackground
       className={className}
     />
-  )
+  );
 }

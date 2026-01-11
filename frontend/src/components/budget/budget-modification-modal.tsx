@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { useEffect, useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   Sheet,
   SheetContent,
@@ -19,9 +19,9 @@ import {
   SheetFooter,
   SheetHeader,
   SheetTitle,
-} from '@/components/ui/sheet';
-import { toast } from 'sonner';
-import { Badge } from '@/components/ui/badge';
+} from "@/components/ui/sheet";
+import { toast } from "sonner";
+import { Badge } from "@/components/ui/badge";
 
 interface BudgetLineItem {
   id: string;
@@ -47,14 +47,16 @@ export function BudgetModificationModal({
 }: BudgetModificationModalProps) {
   const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
-    budgetItemId: '',
-    title: '',
-    description: '',
-    type: 'adjustment',
-    amount: '',
-    reason: '',
+    budgetItemId: "",
+    title: "",
+    description: "",
+    type: "adjustment",
+    amount: "",
+    reason: "",
   });
-  const [budgetItems, setBudgetItems] = useState<Array<{ id: string; label: string; costCode: string }>>([]);
+  const [budgetItems, setBudgetItems] = useState<
+    Array<{ id: string; label: string; costCode: string }>
+  >([]);
   const [loadingItems, setLoadingItems] = useState(false);
 
   // Reset form when modal opens and set preselected item if provided
@@ -75,23 +77,25 @@ export function BudgetModificationModal({
         setLoadingItems(true);
         const response = await fetch(`/api/projects/${projectId}/budget`);
         if (!response.ok) {
-          throw new Error('Failed to load budget items');
+          throw new Error("Failed to load budget items");
         }
         const data = await response.json();
         const options =
-          data?.lineItems?.map((item: { id: string; description: string; costCode: string }) => ({
-            id: item.id,
-            label: item.description || item.costCode,
-            costCode: item.costCode,
-          })) ?? [];
+          data?.lineItems?.map(
+            (item: { id: string; description: string; costCode: string }) => ({
+              id: item.id,
+              label: item.description || item.costCode,
+              costCode: item.costCode,
+            }),
+          ) ?? [];
         setBudgetItems(options);
         // Only auto-select first item if no preselection and form is empty
         if (options.length && !formData.budgetItemId && !preselectedLineItem) {
           setFormData((prev) => ({ ...prev, budgetItemId: options[0].id }));
         }
       } catch (error) {
-        console.error('Error loading budget items:', error);
-        toast.error('Unable to load budget items for modifications');
+        console.error("Error loading budget items:", error);
+        toast.error("Unable to load budget items for modifications");
       } finally {
         setLoadingItems(false);
       }
@@ -108,7 +112,7 @@ export function BudgetModificationModal({
 
     try {
       if (!formData.budgetItemId) {
-        toast.error('Select a budget line item');
+        toast.error("Select a budget line item");
         setLoading(false);
         return;
       }
@@ -122,37 +126,46 @@ export function BudgetModificationModal({
         modificationType: formData.type,
       };
 
-      const response = await fetch(`/api/projects/${projectId}/budget/modifications`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        `/api/projects/${projectId}/budget/modifications`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload),
+        },
+      );
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.details || error.error || 'Failed to create budget modification');
+        throw new Error(
+          error.details ||
+            error.error ||
+            "Failed to create budget modification",
+        );
       }
 
       const result = await response.json();
-      toast.success(`Budget modification ${result.data?.number || ''} created as draft. Submit for approval when ready.`);
+      toast.success(
+        `Budget modification ${result.data?.number || ""} created as draft. Submit for approval when ready.`,
+      );
       onOpenChange(false);
       onSuccess?.();
 
       // Reset form
       setFormData({
-        budgetItemId: preselectedLineItem?.id || budgetItems[0]?.id || '',
-        title: '',
-        description: '',
-        type: 'adjustment',
-        amount: '',
-        reason: '',
+        budgetItemId: preselectedLineItem?.id || budgetItems[0]?.id || "",
+        title: "",
+        description: "",
+        type: "adjustment",
+        amount: "",
+        reason: "",
       });
     } catch (error) {
-      console.error('Error creating budget modification:', error);
+      console.error("Error creating budget modification:", error);
       toast.error(
         `Failed to create budget modification: ${
-          error instanceof Error ? error.message : 'Unknown error'
-        }`
+          error instanceof Error ? error.message : "Unknown error"
+        }`,
       );
     } finally {
       setLoading(false);
@@ -165,11 +178,15 @@ export function BudgetModificationModal({
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right" className="w-[85vw] max-w-[600px] sm:max-w-[600px] overflow-y-auto">
+      <SheetContent
+        side="right"
+        className="w-[85vw] max-w-[600px] sm:max-w-[600px] overflow-y-auto"
+      >
         <SheetHeader>
           <SheetTitle>Create Budget Modification</SheetTitle>
           <SheetDescription>
-            Create a budget change order, transfer, or adjustment for this project
+            Create a budget change order, transfer, or adjustment for this
+            project
           </SheetDescription>
         </SheetHeader>
 
@@ -181,11 +198,15 @@ export function BudgetModificationModal({
                 <Label htmlFor="budgetItem">Budget Line Item*</Label>
                 <Select
                   value={formData.budgetItemId}
-                  onValueChange={(value) => handleChange('budgetItemId', value)}
+                  onValueChange={(value) => handleChange("budgetItemId", value)}
                   disabled={loadingItems || !budgetItems.length}
                 >
                   <SelectTrigger id="budgetItem">
-                    <SelectValue placeholder={loadingItems ? 'Loading items...' : 'Select a line item'} />
+                    <SelectValue
+                      placeholder={
+                        loadingItems ? "Loading items..." : "Select a line item"
+                      }
+                    />
                   </SelectTrigger>
                   <SelectContent>
                     {budgetItems.map((item) => (
@@ -208,7 +229,7 @@ export function BudgetModificationModal({
                 <Input
                   id="title"
                   value={formData.title}
-                  onChange={(e) => handleChange('title', e.target.value)}
+                  onChange={(e) => handleChange("title", e.target.value)}
                   placeholder="e.g., Foundation Design Change"
                   required
                 />
@@ -217,14 +238,21 @@ export function BudgetModificationModal({
               {/* Type */}
               <div className="grid gap-2">
                 <Label htmlFor="type">Modification Type*</Label>
-                <Select value={formData.type} onValueChange={(value) => handleChange('type', value)}>
+                <Select
+                  value={formData.type}
+                  onValueChange={(value) => handleChange("type", value)}
+                >
                   <SelectTrigger id="type">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
                     <SelectItem value="change_order">Change Order</SelectItem>
-                    <SelectItem value="budget_transfer">Budget Transfer</SelectItem>
-                    <SelectItem value="adjustment">Budget Adjustment</SelectItem>
+                    <SelectItem value="budget_transfer">
+                      Budget Transfer
+                    </SelectItem>
+                    <SelectItem value="adjustment">
+                      Budget Adjustment
+                    </SelectItem>
                     <SelectItem value="revision">Budget Revision</SelectItem>
                   </SelectContent>
                 </Select>
@@ -238,11 +266,13 @@ export function BudgetModificationModal({
                   type="number"
                   step="0.01"
                   value={formData.amount}
-                  onChange={(e) => handleChange('amount', e.target.value)}
+                  onChange={(e) => handleChange("amount", e.target.value)}
                   placeholder="0.00"
                   required
                 />
-                <p className="text-sm text-gray-500">Use negative values for decreases</p>
+                <p className="text-sm text-gray-500">
+                  Use negative values for decreases
+                </p>
               </div>
 
               {/* Reason */}
@@ -251,7 +281,7 @@ export function BudgetModificationModal({
                 <Textarea
                   id="reason"
                   value={formData.reason}
-                  onChange={(e) => handleChange('reason', e.target.value)}
+                  onChange={(e) => handleChange("reason", e.target.value)}
                   placeholder="Describe the reason for this budget modification..."
                   rows={3}
                   required
@@ -264,7 +294,7 @@ export function BudgetModificationModal({
                 <Textarea
                   id="description"
                   value={formData.description}
-                  onChange={(e) => handleChange('description', e.target.value)}
+                  onChange={(e) => handleChange("description", e.target.value)}
                   placeholder="Additional details about this modification..."
                   rows={3}
                 />
@@ -273,14 +303,27 @@ export function BudgetModificationModal({
               {/* Workflow Info */}
               <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Badge variant="outline" className="bg-white">Draft</Badge>
+                  <Badge variant="outline" className="bg-white">
+                    Draft
+                  </Badge>
                   <span className="text-sm text-slate-500">→</span>
-                  <Badge variant="outline" className="bg-yellow-50 text-yellow-700 border-yellow-200">Pending</Badge>
+                  <Badge
+                    variant="outline"
+                    className="bg-yellow-50 text-yellow-700 border-yellow-200"
+                  >
+                    Pending
+                  </Badge>
                   <span className="text-sm text-slate-500">→</span>
-                  <Badge variant="outline" className="bg-green-50 text-green-700 border-green-200">Approved</Badge>
+                  <Badge
+                    variant="outline"
+                    className="bg-green-50 text-green-700 border-green-200"
+                  >
+                    Approved
+                  </Badge>
                 </div>
                 <p className="text-sm text-slate-600">
-                  Modifications are created as drafts. Submit for approval, then approve to update budget totals.
+                  Modifications are created as drafts. Submit for approval, then
+                  approve to update budget totals.
                 </p>
               </div>
             </div>
@@ -296,7 +339,7 @@ export function BudgetModificationModal({
               Cancel
             </Button>
             <Button type="submit" disabled={loading || !formData.budgetItemId}>
-              {loading ? 'Creating...' : 'Create Draft Modification'}
+              {loading ? "Creating..." : "Create Draft Modification"}
             </Button>
           </SheetFooter>
         </form>

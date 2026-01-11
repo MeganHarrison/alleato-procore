@@ -3,7 +3,12 @@
  * Generated from database schema
  */
 
-export type ContractStatus = 'draft' | 'active' | 'completed' | 'cancelled' | 'on_hold';
+export type ContractStatus =
+  | "draft"
+  | "active"
+  | "completed"
+  | "cancelled"
+  | "on_hold";
 
 export interface PrimeContract {
   id: string;

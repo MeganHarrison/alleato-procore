@@ -1,7 +1,7 @@
-import { type NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { CompanyService } from '@/services/companyService';
-import { PermissionService } from '@/services/permissionService';
+import { type NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { CompanyService } from "@/services/companyService";
+import { PermissionService } from "@/services/permissionService";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -18,18 +18,18 @@ interface RouteParams {
  * - company_type: Filter by company type
  * - search: Search by company name, email, or phone
  */
-export async function GET(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId } = await params;
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions
@@ -37,45 +37,50 @@ export async function GET(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'read'
+      "directory",
+      "read",
     );
 
     if (!hasPermission) {
       return NextResponse.json(
         {
-          error: 'insufficient_permissions',
-          message: 'You do not have permission to view companies.',
-          code: 'PERMISSION_DENIED'
+          error: "insufficient_permissions",
+          message: "You do not have permission to view companies.",
+          code: "PERMISSION_DENIED",
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
     // Parse query parameters
     const searchParams = request.nextUrl.searchParams;
-    const page = parseInt(searchParams.get('page') || '1', 10);
-    const per_page = Math.min(parseInt(searchParams.get('per_page') || '25', 10), 150);
+    const page = parseInt(searchParams.get("page") || "1", 10);
+    const per_page = Math.min(
+      parseInt(searchParams.get("per_page") || "25", 10),
+      150,
+    );
 
     // Validate per_page
     if (per_page < 1 || per_page > 150) {
       return NextResponse.json(
         {
-          error: 'invalid_parameter',
-          message: 'Invalid per_page value. Must be between 1 and 150.',
-          code: 'VALIDATION_ERROR'
+          error: "invalid_parameter",
+          message: "Invalid per_page value. Must be between 1 and 150.",
+          code: "VALIDATION_ERROR",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const filters = {
-      search: searchParams.get('search') || undefined,
-      status: (searchParams.get('status') as 'ACTIVE' | 'INACTIVE' | 'all') || 'ACTIVE',
-      company_type: searchParams.get('company_type') || undefined,
-      sort: searchParams.get('sort') || 'name',
+      search: searchParams.get("search") || undefined,
+      status:
+        (searchParams.get("status") as "ACTIVE" | "INACTIVE" | "all") ||
+        "ACTIVE",
+      company_type: searchParams.get("company_type") || undefined,
+      sort: searchParams.get("sort") || "name",
       page,
-      per_page
+      per_page,
     };
 
     // Get companies
@@ -84,14 +89,14 @@ export async function GET(
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('Error fetching companies:', error);
+    console.error("Error fetching companies:", error);
     return NextResponse.json(
       {
-        error: 'server_error',
-        message: 'An unexpected error occurred',
-        code: 'INTERNAL_ERROR'
+        error: "server_error",
+        message: "An unexpected error occurred",
+        code: "INTERNAL_ERROR",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -108,18 +113,18 @@ export async function GET(
  * - erp_vendor_id: Unique ERP system identifier
  * - company_type: YOUR_COMPANY, VENDOR, SUBCONTRACTOR, SUPPLIER
  */
-export async function POST(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId } = await params;
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions
@@ -127,18 +132,18 @@ export async function POST(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'write'
+      "directory",
+      "write",
     );
 
     if (!hasPermission) {
       return NextResponse.json(
         {
-          error: 'insufficient_permissions',
-          message: 'You do not have permission to create companies.',
-          code: 'PERMISSION_DENIED'
+          error: "insufficient_permissions",
+          message: "You do not have permission to create companies.",
+          code: "PERMISSION_DENIED",
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -148,19 +153,23 @@ export async function POST(
     // Validate required fields
     const validationErrors: Record<string, string[]> = {};
 
-    if (!body.name || typeof body.name !== 'string' || body.name.trim().length === 0) {
-      validationErrors.name = ['Name is required'];
+    if (
+      !body.name ||
+      typeof body.name !== "string" ||
+      body.name.trim().length === 0
+    ) {
+      validationErrors.name = ["Name is required"];
     }
 
     if (Object.keys(validationErrors).length > 0) {
       return NextResponse.json(
         {
-          error: 'validation_error',
-          message: 'Validation failed',
+          error: "validation_error",
+          message: "Validation failed",
           errors: validationErrors,
-          code: 'VALIDATION_FAILED'
+          code: "VALIDATION_FAILED",
         },
-        { status: 422 }
+        { status: 422 },
       );
     }
 
@@ -172,30 +181,33 @@ export async function POST(
       return NextResponse.json(company, { status: 201 });
     } catch (createError) {
       // Check for duplicate ERP vendor ID
-      if (createError instanceof Error && createError.message.includes('duplicate')) {
+      if (
+        createError instanceof Error &&
+        createError.message.includes("duplicate")
+      ) {
         return NextResponse.json(
           {
-            error: 'validation_error',
-            message: 'Validation failed',
+            error: "validation_error",
+            message: "Validation failed",
             errors: {
-              erp_vendor_id: ['ERP Vendor ID must be unique']
+              erp_vendor_id: ["ERP Vendor ID must be unique"],
             },
-            code: 'VALIDATION_FAILED'
+            code: "VALIDATION_FAILED",
           },
-          { status: 422 }
+          { status: 422 },
         );
       }
       throw createError;
     }
   } catch (error) {
-    console.error('Error creating company:', error);
+    console.error("Error creating company:", error);
     return NextResponse.json(
       {
-        error: 'server_error',
-        message: 'An unexpected error occurred',
-        code: 'INTERNAL_ERROR'
+        error: "server_error",
+        message: "An unexpected error occurred",
+        code: "INTERNAL_ERROR",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

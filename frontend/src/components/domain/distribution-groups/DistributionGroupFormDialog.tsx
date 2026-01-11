@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +11,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -20,21 +20,24 @@ import {
   FormLabel,
   FormMessage,
   FormDescription,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { toast } from 'sonner';
-import { useCreateGroup } from '@/hooks/use-distribution-groups';
-import { useProjectUsers } from '@/hooks/use-project-users';
-import { ScrollArea } from '@/components/ui/scroll-area';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Text } from '@/components/ui/text';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
+import { useCreateGroup } from "@/hooks/use-distribution-groups";
+import { useProjectUsers } from "@/hooks/use-project-users";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Text } from "@/components/ui/text";
 
 const distributionGroupSchema = z.object({
-  name: z.string().min(1, 'Group name is required').max(100, 'Name is too long'),
-  description: z.string().max(500, 'Description is too long').optional(),
+  name: z
+    .string()
+    .min(1, "Group name is required")
+    .max(100, "Name is too long"),
+  description: z.string().max(500, "Description is too long").optional(),
   member_ids: z.array(z.string()).optional(),
 });
 
@@ -47,10 +50,13 @@ interface DistributionGroupFormDialogProps {
   onSuccess?: () => void;
 }
 
-function getInitials(firstName: string | null, lastName: string | null): string {
-  const first = firstName?.[0] || '';
-  const last = lastName?.[0] || '';
-  return `${first}${last}`.toUpperCase() || '?';
+function getInitials(
+  firstName: string | null,
+  lastName: string | null,
+): string {
+  const first = firstName?.[0] || "";
+  const last = lastName?.[0] || "";
+  return `${first}${last}`.toUpperCase() || "?";
 }
 
 export function DistributionGroupFormDialog({
@@ -60,14 +66,16 @@ export function DistributionGroupFormDialog({
   onSuccess,
 }: DistributionGroupFormDialogProps) {
   const createGroup = useCreateGroup(projectId);
-  const { users, isLoading: loadingUsers } = useProjectUsers(projectId, { status: 'active' });
-  const [searchQuery, setSearchQuery] = React.useState('');
+  const { users, isLoading: loadingUsers } = useProjectUsers(projectId, {
+    status: "active",
+  });
+  const [searchQuery, setSearchQuery] = React.useState("");
 
   const form = useForm<DistributionGroupFormData>({
     resolver: zodResolver(distributionGroupSchema),
     defaultValues: {
-      name: '',
-      description: '',
+      name: "",
+      description: "",
       member_ids: [],
     },
   });
@@ -75,11 +83,11 @@ export function DistributionGroupFormDialog({
   React.useEffect(() => {
     if (open) {
       form.reset({
-        name: '',
-        description: '',
+        name: "",
+        description: "",
         member_ids: [],
       });
-      setSearchQuery('');
+      setSearchQuery("");
     }
   }, [open, form]);
 
@@ -91,11 +99,14 @@ export function DistributionGroupFormDialog({
         member_ids: data.member_ids || [],
       });
 
-      toast.success('Distribution group created successfully');
+      toast.success("Distribution group created successfully");
       onOpenChange(false);
       onSuccess?.();
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to create distribution group';
+      const errorMessage =
+        error instanceof Error
+          ? error.message
+          : "Failed to create distribution group";
       toast.error(errorMessage);
     }
   };
@@ -105,14 +116,18 @@ export function DistributionGroupFormDialog({
 
     const query = searchQuery.toLowerCase();
     return users.filter((user) => {
-      const firstName = user.first_name?.toLowerCase() || '';
-      const lastName = user.last_name?.toLowerCase() || '';
-      const email = user.email?.toLowerCase() || '';
-      return firstName.includes(query) || lastName.includes(query) || email.includes(query);
+      const firstName = user.first_name?.toLowerCase() || "";
+      const lastName = user.last_name?.toLowerCase() || "";
+      const email = user.email?.toLowerCase() || "";
+      return (
+        firstName.includes(query) ||
+        lastName.includes(query) ||
+        email.includes(query)
+      );
     });
   }, [users, searchQuery]);
 
-  const selectedMemberIds = form.watch('member_ids') || [];
+  const selectedMemberIds = form.watch("member_ids") || [];
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -120,7 +135,8 @@ export function DistributionGroupFormDialog({
         <DialogHeader>
           <DialogTitle>Add Distribution Group</DialogTitle>
           <DialogDescription>
-            Create a new distribution group to organize team members for communication.
+            Create a new distribution group to organize team members for
+            communication.
           </DialogDescription>
         </DialogHeader>
 
@@ -166,7 +182,8 @@ export function DistributionGroupFormDialog({
                 <FormItem>
                   <FormLabel>Members</FormLabel>
                   <FormDescription>
-                    Select users to add to this group ({selectedMemberIds.length} selected)
+                    Select users to add to this group (
+                    {selectedMemberIds.length} selected)
                   </FormDescription>
 
                   <div className="space-y-3">
@@ -184,7 +201,9 @@ export function DistributionGroupFormDialog({
                         </div>
                       ) : filteredUsers.length === 0 ? (
                         <div className="flex items-center justify-center py-8 text-sm text-muted-foreground">
-                          {searchQuery ? 'No users found matching your search' : 'No active users available'}
+                          {searchQuery
+                            ? "No users found matching your search"
+                            : "No active users available"}
                         </div>
                       ) : (
                         <div className="space-y-2">
@@ -203,10 +222,13 @@ export function DistributionGroupFormDialog({
                                       <Checkbox
                                         checked={field.value?.includes(user.id)}
                                         onCheckedChange={(checked) => {
-                                          const currentValue = field.value || [];
+                                          const currentValue =
+                                            field.value || [];
                                           const newValue = checked
                                             ? [...currentValue, user.id]
-                                            : currentValue.filter((id) => id !== user.id);
+                                            : currentValue.filter(
+                                                (id) => id !== user.id,
+                                              );
                                           field.onChange(newValue);
                                         }}
                                       />
@@ -214,11 +236,18 @@ export function DistributionGroupFormDialog({
                                     <div className="flex items-center gap-3 flex-1">
                                       <Avatar className="h-8 w-8">
                                         <AvatarFallback className="text-xs">
-                                          {getInitials(user.first_name, user.last_name)}
+                                          {getInitials(
+                                            user.first_name,
+                                            user.last_name,
+                                          )}
                                         </AvatarFallback>
                                       </Avatar>
                                       <div className="flex-1 space-y-1">
-                                        <Text size="sm" weight="medium" className="leading-none">
+                                        <Text
+                                          size="sm"
+                                          weight="medium"
+                                          className="leading-none"
+                                        >
                                           {user.first_name} {user.last_name}
                                         </Text>
                                         {user.email && (
@@ -252,7 +281,7 @@ export function DistributionGroupFormDialog({
                 Cancel
               </Button>
               <Button type="submit" disabled={createGroup.isPending}>
-                {createGroup.isPending ? 'Creating...' : 'Create Group'}
+                {createGroup.isPending ? "Creating..." : "Create Group"}
               </Button>
             </DialogFooter>
           </form>

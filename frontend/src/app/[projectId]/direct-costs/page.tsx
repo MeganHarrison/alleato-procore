@@ -1,8 +1,12 @@
-'use client';
+"use client";
 
-import { useParams } from 'next/navigation';
-import { ProjectPageHeader, PageContainer, PageTabs } from '@/components/layout';
-import { Card } from '@/components/ui/card';
+import { useParams } from "next/navigation";
+import {
+  ProjectPageHeader,
+  PageContainer,
+  PageTabs,
+} from "@/components/layout";
+import { Card } from "@/components/ui/card";
 
 export default function ProjectDirectCostsPage() {
   const params = useParams();
@@ -17,10 +21,16 @@ export default function ProjectDirectCostsPage() {
 
       <PageTabs
         tabs={[
-          { label: 'All Direct Costs', href: `/${projectId}/direct-costs` },
-          { label: 'Labor', href: `/${projectId}/direct-costs?type=labor` },
-          { label: 'Materials', href: `/${projectId}/direct-costs?type=materials` },
-          { label: 'Equipment', href: `/${projectId}/direct-costs?type=equipment` },
+          { label: "All Direct Costs", href: `/${projectId}/direct-costs` },
+          { label: "Labor", href: `/${projectId}/direct-costs?type=labor` },
+          {
+            label: "Materials",
+            href: `/${projectId}/direct-costs?type=materials`,
+          },
+          {
+            label: "Equipment",
+            href: `/${projectId}/direct-costs?type=equipment`,
+          },
         ]}
       />
 

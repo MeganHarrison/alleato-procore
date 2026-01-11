@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { FormSection } from "@/components/forms/FormSection"
-import { NumberField } from "@/components/forms/NumberField"
-import { SelectField } from "@/components/forms/SelectField"
-import { TextField } from "@/components/forms/TextField"
-import { TextareaField } from "@/components/forms/TextareaField"
-import type { ChangeEventFormData } from "./ChangeEventForm"
+import { FormSection } from "@/components/forms/FormSection";
+import { NumberField } from "@/components/forms/NumberField";
+import { SelectField } from "@/components/forms/SelectField";
+import { TextField } from "@/components/forms/TextField";
+import { TextareaField } from "@/components/forms/TextareaField";
+import type { ChangeEventFormData } from "./ChangeEventForm";
 
 interface ChangeEventGeneralSectionProps {
-  data: Partial<ChangeEventFormData>
-  onChange: (updates: Partial<ChangeEventFormData>) => void
-  projectId: number
+  data: Partial<ChangeEventFormData>;
+  onChange: (updates: Partial<ChangeEventFormData>) => void;
+  projectId: number;
 }
 
 export function ChangeEventGeneralSection({
@@ -24,7 +24,7 @@ export function ChangeEventGeneralSection({
     { value: "approved", label: "Approved" },
     { value: "rejected", label: "Rejected" },
     { value: "closed", label: "Closed" },
-  ]
+  ];
 
   // Origin options (source of the change event)
   const originOptions = [
@@ -38,7 +38,7 @@ export function ChangeEventGeneralSection({
     { value: "design_change", label: "Design Change" },
     { value: "code_compliance", label: "Code Compliance" },
     { value: "other", label: "Other" },
-  ]
+  ];
 
   // Type options (nature of the change)
   const typeOptions = [
@@ -51,7 +51,7 @@ export function ChangeEventGeneralSection({
     { value: "value_engineering", label: "Value Engineering" },
     { value: "schedule_impact", label: "Schedule Impact" },
     { value: "other", label: "Other" },
-  ]
+  ];
 
   // Change reason options (specific justification)
   const changeReasonOptions = [
@@ -66,14 +66,14 @@ export function ChangeEventGeneralSection({
     { value: "schedule_acceleration", label: "Schedule Acceleration" },
     { value: "weather_delay", label: "Weather Delay" },
     { value: "other", label: "Other" },
-  ]
+  ];
 
   // Scope options (whether in or out of scope)
   const scopeOptions = [
     { value: "in_scope", label: "In Scope" },
     { value: "out_of_scope", label: "Out of Scope" },
     { value: "tbd", label: "To Be Determined" },
-  ]
+  ];
 
   return (
     <>
@@ -184,5 +184,5 @@ export function ChangeEventGeneralSection({
         />
       </FormSection>
     </>
-  )
+  );
 }

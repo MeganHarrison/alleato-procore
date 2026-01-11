@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { optionalNumber, optionalPercent, optionalPositiveNumber } from "./common";
+import {
+  optionalNumber,
+  optionalPercent,
+  optionalPositiveNumber,
+} from "./common";
 
 const dateString = z
   .string()
@@ -40,7 +44,7 @@ export const CreateSubcontractSchema = z.object({
         name: z.string(),
         size: z.number().optional(),
         type: z.string().optional(),
-      })
+      }),
     )
     .optional(),
 
@@ -60,11 +64,13 @@ export const CreateSubcontractSchema = z.object({
     })
     .optional(),
 
-  privacy: z.object({
-    isPrivate: z.boolean().optional(),
-    nonAdminUserIds: z.array(z.string()).optional(),
-    allowNonAdminViewSovItems: z.boolean().optional(),
-  }).optional(),
+  privacy: z
+    .object({
+      isPrivate: z.boolean().optional(),
+      nonAdminUserIds: z.array(z.string()).optional(),
+      allowNonAdminViewSovItems: z.boolean().optional(),
+    })
+    .optional(),
 
   invoiceContacts: z.array(z.string()).optional(),
 });

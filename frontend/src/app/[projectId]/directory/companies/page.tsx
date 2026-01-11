@@ -1,31 +1,38 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useParams, usePathname } from 'next/navigation';
-import { Building2, Plus, ChevronDown, Users, Users2, Upload } from 'lucide-react';
-import { useInfiniteQuery } from '@/hooks/use-infinite-query';
-import { updateCompany, deleteCompany } from '@/app/actions/table-actions';
-import { Button } from '@/components/ui/button';
-import { Skeleton } from '@/components/ui/skeleton';
-import { CompanyFormDialog } from '@/components/domain/companies/CompanyFormDialog';
-import { DistributionGroupFormDialog } from '@/components/domain/distribution-groups/DistributionGroupFormDialog';
-import { ProjectPageHeader } from '@/components/layout/ProjectPageHeader';
-import { PageContainer } from '@/components/layout/PageContainer';
-import { PageTabs } from '@/components/layout/PageTabs';
-import { Text } from '@/components/ui/text';
-import { ResponsiveCompaniesTable } from '@/components/directory/responsive/ResponsiveCompaniesTable';
-import { CompanyListSkeleton } from '@/components/directory/skeletons/CompanyListSkeleton';
-import { EmptyCompaniesList } from '@/components/directory/empty-states/EmptyCompaniesList';
-import { getProjectDirectoryTabs } from '@/config/directory-tabs';
+import * as React from "react";
+import { useParams, usePathname } from "next/navigation";
+import {
+  Building2,
+  Plus,
+  ChevronDown,
+  Users,
+  Users2,
+  Upload,
+} from "lucide-react";
+import { useInfiniteQuery } from "@/hooks/use-infinite-query";
+import { updateCompany, deleteCompany } from "@/app/actions/table-actions";
+import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
+import { CompanyFormDialog } from "@/components/domain/companies/CompanyFormDialog";
+import { DistributionGroupFormDialog } from "@/components/domain/distribution-groups/DistributionGroupFormDialog";
+import { ProjectPageHeader } from "@/components/layout/ProjectPageHeader";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { PageTabs } from "@/components/layout/PageTabs";
+import { Text } from "@/components/ui/text";
+import { ResponsiveCompaniesTable } from "@/components/directory/responsive/ResponsiveCompaniesTable";
+import { CompanyListSkeleton } from "@/components/directory/skeletons/CompanyListSkeleton";
+import { EmptyCompaniesList } from "@/components/directory/empty-states/EmptyCompaniesList";
+import { getProjectDirectoryTabs } from "@/config/directory-tabs";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import type { Database } from '@/types/database.types';
+} from "@/components/ui/dropdown-menu";
+import type { Database } from "@/types/database.types";
 
-type Company = Database['public']['Tables']['companies']['Row'];
+type Company = Database["public"]["Tables"]["companies"]["Row"];
 
 export default function ProjectDirectoryCompaniesPage() {
   const params = useParams();
@@ -33,7 +40,9 @@ export default function ProjectDirectoryCompaniesPage() {
   const projectId = params.projectId as string;
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [groupDialogOpen, setGroupDialogOpen] = React.useState(false);
-  const [editingCompany, setEditingCompany] = React.useState<Company | null>(null);
+  const [editingCompany, setEditingCompany] = React.useState<Company | null>(
+    null,
+  );
 
   const {
     data,
@@ -45,11 +54,11 @@ export default function ProjectDirectoryCompaniesPage() {
     hasMore,
     fetchNextPage,
   } = useInfiniteQuery<Company>({
-    tableName: 'companies',
-    columns: '*',
+    tableName: "companies",
+    columns: "*",
     pageSize: 20,
     trailingQuery: (query) => {
-      return query.order('name', { ascending: true });
+      return query.order("name", { ascending: true });
     },
   });
 
@@ -60,7 +69,7 @@ export default function ProjectDirectoryCompaniesPage() {
 
   const handleAddUser = () => {
     // TODO: Open add user modal
-    console.warn('Add user functionality not yet implemented');
+    console.warn("Add user functionality not yet implemented");
   };
 
   const handleAddDistributionGroup = () => {
@@ -69,7 +78,9 @@ export default function ProjectDirectoryCompaniesPage() {
 
   const handleBulkAddFromDirectory = () => {
     // TODO: Open bulk add from company directory modal
-    console.warn('Bulk add from company directory functionality not yet implemented');
+    console.warn(
+      "Bulk add from company directory functionality not yet implemented",
+    );
   };
 
   const handleEditCompany = (company: Company) => {
@@ -186,7 +197,14 @@ export default function ProjectDirectoryCompaniesPage() {
             <div>
               {isSuccess && (
                 <Text as="p" size="sm" tone="muted">
-                  <Text as="span" weight="medium">{data.length}</Text> of <Text as="span" weight="medium">{count}</Text> companies
+                  <Text as="span" weight="medium">
+                    {data.length}
+                  </Text>{" "}
+                  of{" "}
+                  <Text as="span" weight="medium">
+                    {count}
+                  </Text>{" "}
+                  companies
                 </Text>
               )}
             </div>
@@ -214,7 +232,7 @@ export default function ProjectDirectoryCompaniesPage() {
                 variant="outline"
                 size="lg"
               >
-                {isFetching ? 'Loading...' : 'Load More Companies'}
+                {isFetching ? "Loading..." : "Load More Companies"}
               </Button>
             </div>
           )}

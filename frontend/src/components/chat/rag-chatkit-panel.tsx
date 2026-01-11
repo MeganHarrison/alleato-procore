@@ -51,19 +51,23 @@ export function RagChatKitPanel({
       prompts: [
         {
           label: "📋 Create Budget Report",
-          prompt: "I want you to create a detailed budget summary report for the current quarter, including variance analysis and forecasts.",
+          prompt:
+            "I want you to create a detailed budget summary report for the current quarter, including variance analysis and forecasts.",
         },
         {
           label: "🔍 Analyze Project Delays",
-          prompt: "Analyze patterns in project delays across all active construction projects and identify common bottlenecks.",
+          prompt:
+            "Analyze patterns in project delays across all active construction projects and identify common bottlenecks.",
         },
         {
           label: "✅ Review RFI Status",
-          prompt: "Show me all open RFIs across my projects, prioritized by age and criticality to project timeline.",
+          prompt:
+            "Show me all open RFIs across my projects, prioritized by age and criticality to project timeline.",
         },
         {
           label: "📊 Executive Summary",
-          prompt: "Generate an executive dashboard summary showing key metrics across all projects including budget health, schedule status, and risk indicators.",
+          prompt:
+            "Generate an executive dashboard summary showing key metrics across all projects including budget health, schedule status, and risk indicators.",
         },
       ],
     },

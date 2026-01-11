@@ -1,6 +1,6 @@
 /**
  * Example of how to migrate from DataTable to DataTableResponsive
- * 
+ *
  * Before:
  * ```tsx
  * <DataTable
@@ -9,7 +9,7 @@
  *   onRowClick={handleView}
  * />
  * ```
- * 
+ *
  * After:
  * ```tsx
  * <DataTableResponsive
@@ -68,7 +68,7 @@ export const SimpleTableExample = `
   searchPlaceholder="Search by name..."
   mobileColumns={['name', 'email', 'status']}
 />
-`
+`;
 
 // 2. Financial table with custom mobile renderer
 export const FinancialTableExample = `
@@ -106,7 +106,7 @@ export const FinancialTableExample = `
     </div>
   )}
 />
-`
+`;
 
 // 3. Project table with actions
 export const ProjectTableExample = `
@@ -159,4 +159,4 @@ export const ProjectTableExample = `
     </div>
   )}
 />
-`
+`;

@@ -1,9 +1,13 @@
-'use client';
+"use client";
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { createClient } from '@/lib/supabase/client';
-import { DirectoryService, type PersonCreateDTO, type PersonUpdateDTO } from '@/services/directoryService';
-import { toast } from 'sonner';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { createClient } from "@/lib/supabase/client";
+import {
+  DirectoryService,
+  type PersonCreateDTO,
+  type PersonUpdateDTO,
+} from "@/services/directoryService";
+import { toast } from "sonner";
 
 export function useAddUser(projectId: string) {
   const queryClient = useQueryClient();
@@ -12,15 +16,18 @@ export function useAddUser(projectId: string) {
 
   return useMutation({
     mutationFn: async (data: PersonCreateDTO) => {
-      return directoryService.createPerson(projectId, { ...data, person_type: 'user' });
+      return directoryService.createPerson(projectId, {
+        ...data,
+        person_type: "user",
+      });
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['project-users', projectId] });
-      toast.success('User added successfully');
+      queryClient.invalidateQueries({ queryKey: ["project-users", projectId] });
+      toast.success("User added successfully");
     },
     onError: (error: Error) => {
       toast.error(`Failed to add user: ${error.message}`);
-    }
+    },
   });
 }
 
@@ -34,13 +41,15 @@ export function useUpdateUser(projectId: string, personId: string) {
       return directoryService.updatePerson(projectId, personId, data);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['project-users', projectId] });
-      queryClient.invalidateQueries({ queryKey: ['person', projectId, personId] });
-      toast.success('User updated successfully');
+      queryClient.invalidateQueries({ queryKey: ["project-users", projectId] });
+      queryClient.invalidateQueries({
+        queryKey: ["person", projectId, personId],
+      });
+      toast.success("User updated successfully");
     },
     onError: (error: Error) => {
       toast.error(`Failed to update user: ${error.message}`);
-    }
+    },
   });
 }
 
@@ -54,13 +63,15 @@ export function useRemoveUser(projectId: string, personId: string) {
       return directoryService.deactivatePerson(projectId, personId);
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['project-users', projectId] });
-      queryClient.invalidateQueries({ queryKey: ['person', projectId, personId] });
-      toast.success('User removed from project');
+      queryClient.invalidateQueries({ queryKey: ["project-users", projectId] });
+      queryClient.invalidateQueries({
+        queryKey: ["person", projectId, personId],
+      });
+      toast.success("User removed from project");
     },
     onError: (error: Error) => {
       toast.error(`Failed to remove user: ${error.message}`);
-    }
+    },
   });
 }
 
@@ -68,27 +79,35 @@ export function useBulkAddUsers(projectId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (data: { users: PersonCreateDTO[]; send_invites?: boolean }) => {
-      const response = await fetch(`/api/projects/${projectId}/directory/users/bulk-add`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-      });
+    mutationFn: async (data: {
+      users: PersonCreateDTO[];
+      send_invites?: boolean;
+    }) => {
+      const response = await fetch(
+        `/api/projects/${projectId}/directory/users/bulk-add`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        },
+      );
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to bulk add users');
+        throw new Error(error.error || "Failed to bulk add users");
       }
 
       return response.json();
     },
     onSuccess: (data) => {
-      queryClient.invalidateQueries({ queryKey: ['project-users', projectId] });
-      toast.success(`${data.created_count} users added successfully. ${data.failed_count} failed.`);
+      queryClient.invalidateQueries({ queryKey: ["project-users", projectId] });
+      toast.success(
+        `${data.created_count} users added successfully. ${data.failed_count} failed.`,
+      );
     },
     onError: (error: Error) => {
       toast.error(`Failed to bulk add users: ${error.message}`);
-    }
+    },
   });
 }
 
@@ -100,25 +119,27 @@ export function useResendInvite(projectId: string, personId: string) {
       const response = await fetch(
         `/api/projects/${projectId}/directory/people/${personId}/resend-invite`,
         {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' }
-        }
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+        },
       );
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to resend invite');
+        throw new Error(error.error || "Failed to resend invite");
       }
 
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['project-users', projectId] });
-      queryClient.invalidateQueries({ queryKey: ['person', projectId, personId] });
-      toast.success('Invitation resent successfully');
+      queryClient.invalidateQueries({ queryKey: ["project-users", projectId] });
+      queryClient.invalidateQueries({
+        queryKey: ["person", projectId, personId],
+      });
+      toast.success("Invitation resent successfully");
     },
     onError: (error: Error) => {
       toast.error(`Failed to resend invite: ${error.message}`);
-    }
+    },
   });
 }

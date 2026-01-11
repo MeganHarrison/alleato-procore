@@ -39,7 +39,8 @@ export function KnowledgeDocumentsPanel({
               Knowledge library
             </h2>
             <p className="mt-2 max-w-2xl text-sm text-slate-600 dark:text-slate-300">
-              Browse your configured knowledge sources. Documents cited in the latest assistant response are highlighted.
+              Browse your configured knowledge sources. Documents cited in the
+              latest assistant response are highlighted.
             </p>
           </div>
           <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-medium uppercase tracking-wide text-slate-600 dark:bg-slate-800/70 dark:text-slate-300">
@@ -66,7 +67,9 @@ export function KnowledgeDocumentsPanel({
 
       {citations.length > 0 ? (
         <aside className="border-t border-slate-200/60 bg-slate-50/60 px-6 py-4 text-sm text-slate-600 dark:border-slate-800/60 dark:bg-slate-900/80 dark:text-slate-300">
-          <p className="font-medium text-slate-700 dark:text-slate-200">Latest sources</p>
+          <p className="font-medium text-slate-700 dark:text-slate-200">
+            Latest sources
+          </p>
           <ul className="mt-2 space-y-1">
             {citations.map((citation) => (
               <li
@@ -167,9 +170,7 @@ function DocumentGrid({
                   >
                     {fileVariant.label}
                   </span>
-                  <p
-                    className="text-xs font-medium text-slate-500 dark:text-slate-400 break-words"
-                  >
+                  <p className="text-xs font-medium text-slate-500 dark:text-slate-400 break-words">
                     {document.filename}
                   </p>
                 </div>
@@ -242,7 +243,8 @@ function getFileVariant(filename: string): {
     },
     default: {
       label: "FILE",
-      badge: "bg-slate-100 text-slate-600 dark:bg-slate-800/60 dark:text-slate-200",
+      badge:
+        "bg-slate-100 text-slate-600 dark:bg-slate-800/60 dark:text-slate-200",
     },
   };
 

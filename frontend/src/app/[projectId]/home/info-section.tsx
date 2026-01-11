@@ -1,22 +1,22 @@
-'use client'
+"use client";
 
-import Link from 'next/link'
-import { LucideIcon } from 'lucide-react'
+import Link from "next/link";
+import { LucideIcon } from "lucide-react";
 
 interface InfoSectionItem {
-  id: string | number
-  title: string
-  subtitle?: string
-  href?: string
+  id: string | number;
+  title: string;
+  subtitle?: string;
+  href?: string;
 }
 
 interface InfoSectionProps {
-  title: string
-  icon: LucideIcon
-  items: InfoSectionItem[]
-  viewAllHref?: string
-  emptyMessage?: string
-  maxItems?: number
+  title: string;
+  icon: LucideIcon;
+  items: InfoSectionItem[];
+  viewAllHref?: string;
+  emptyMessage?: string;
+  maxItems?: number;
 }
 
 export function InfoSection({
@@ -24,10 +24,10 @@ export function InfoSection({
   icon: Icon,
   items,
   viewAllHref,
-  emptyMessage = 'No items',
+  emptyMessage = "No items",
   maxItems = 3,
 }: InfoSectionProps) {
-  const displayItems = items.slice(0, maxItems)
+  const displayItems = items.slice(0, maxItems);
 
   return (
     <div className="rounded-sm border border-neutral-200 bg-white p-8 mb-6">
@@ -61,30 +61,22 @@ export function InfoSection({
                   </div>
                 )}
               </>
-            )
+            );
 
             if (item.href) {
               return (
-                <Link
-                  key={item.id}
-                  href={item.href}
-                  className="block group"
-                >
+                <Link key={item.id} href={item.href} className="block group">
                   {content}
                 </Link>
-              )
+              );
             }
 
-            return (
-              <div key={item.id}>
-                {content}
-              </div>
-            )
+            return <div key={item.id}>{content}</div>;
           })
         ) : (
           <p className="text-sm text-neutral-400">{emptyMessage}</p>
         )}
       </div>
     </div>
-  )
+  );
 }

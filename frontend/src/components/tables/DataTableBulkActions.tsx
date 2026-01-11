@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Table } from "@tanstack/react-table"
-import { Trash2, Download, Archive } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { Table } from "@tanstack/react-table";
+import { Trash2, Download, Archive } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,18 +11,18 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
+} from "@/components/ui/dropdown-menu";
 
 interface DataTableBulkActionsProps<TData> {
-  table: Table<TData>
-  onDelete?: (rows: TData[]) => void
-  onArchive?: (rows: TData[]) => void
-  onExport?: (rows: TData[]) => void
+  table: Table<TData>;
+  onDelete?: (rows: TData[]) => void;
+  onArchive?: (rows: TData[]) => void;
+  onExport?: (rows: TData[]) => void;
   customActions?: Array<{
-    label: string
-    icon?: React.ElementType
-    onClick: (rows: TData[]) => void
-  }>
+    label: string;
+    icon?: React.ElementType;
+    onClick: (rows: TData[]) => void;
+  }>;
 }
 
 export function DataTableBulkActions<TData>({
@@ -34,10 +34,10 @@ export function DataTableBulkActions<TData>({
 }: DataTableBulkActionsProps<TData>) {
   const selectedRows = table
     .getFilteredSelectedRowModel()
-    .rows.map((row) => row.original)
+    .rows.map((row) => row.original);
 
   if (selectedRows.length === 0) {
-    return null
+    return null;
   }
 
   return (
@@ -90,5 +90,5 @@ export function DataTableBulkActions<TData>({
         </DropdownMenuContent>
       </DropdownMenu>
     </div>
-  )
+  );
 }

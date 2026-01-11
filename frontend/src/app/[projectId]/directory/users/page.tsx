@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useParams, usePathname } from 'next/navigation';
-import { UserPlus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { ProjectPageHeader } from '@/components/layout/ProjectPageHeader';
-import { PageContainer } from '@/components/layout/PageContainer';
-import { PageTabs } from '@/components/layout/PageTabs';
-import { Text } from '@/components/ui/text';
-import { ResponsiveUsersTable } from '@/components/directory/responsive/ResponsiveUsersTable';
-import { UserListSkeleton } from '@/components/directory/skeletons/UserListSkeleton';
-import { EmptyUsersList } from '@/components/directory/empty-states/EmptyUsersList';
-import { getProjectDirectoryTabs } from '@/config/directory-tabs';
-import { useProjectUsers } from '@/hooks/use-project-users';
-import { UserFormDialog } from '@/components/directory/UserFormDialog';
+import * as React from "react";
+import { useParams, usePathname } from "next/navigation";
+import { UserPlus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ProjectPageHeader } from "@/components/layout/ProjectPageHeader";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { PageTabs } from "@/components/layout/PageTabs";
+import { Text } from "@/components/ui/text";
+import { ResponsiveUsersTable } from "@/components/directory/responsive/ResponsiveUsersTable";
+import { UserListSkeleton } from "@/components/directory/skeletons/UserListSkeleton";
+import { EmptyUsersList } from "@/components/directory/empty-states/EmptyUsersList";
+import { getProjectDirectoryTabs } from "@/config/directory-tabs";
+import { useProjectUsers } from "@/hooks/use-project-users";
+import { UserFormDialog } from "@/components/directory/UserFormDialog";
 
 export default function ProjectDirectoryUsersPage() {
   const params = useParams();
@@ -33,12 +33,12 @@ export default function ProjectDirectoryUsersPage() {
 
   const handleEditUser = (user: unknown) => {
     // TODO: Open edit user modal
-    console.warn('Edit user functionality not yet implemented', user);
+    console.warn("Edit user functionality not yet implemented", user);
   };
 
   const handleDeactivateUser = async (user: unknown) => {
     // TODO: Implement deactivate user
-    console.warn('Deactivate user functionality not yet implemented', user);
+    console.warn("Deactivate user functionality not yet implemented", user);
   };
 
   const tabs = getProjectDirectoryTabs(projectId, pathname);
@@ -86,7 +86,10 @@ export default function ProjectDirectoryUsersPage() {
             <div>
               {users.length > 0 && (
                 <Text as="p" size="sm" tone="muted">
-                  <Text as="span" weight="medium">{users.length}</Text> users
+                  <Text as="span" weight="medium">
+                    {users.length}
+                  </Text>{" "}
+                  users
                 </Text>
               )}
             </div>

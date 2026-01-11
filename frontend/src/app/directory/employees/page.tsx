@@ -1,22 +1,22 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { usePathname } from 'next/navigation';
-import { ColumnDef } from '@tanstack/react-table';
-import { Mail, Phone } from 'lucide-react';
-import { createClient } from '@/lib/supabase/client';
-import { ProjectPageHeader } from '@/components/layout/ProjectPageHeader';
-import { PageContainer } from '@/components/layout/PageContainer';
-import { PageTabs } from '@/components/layout/PageTabs';
-import { Text } from '@/components/ui/text';
-import { Badge } from '@/components/ui/badge';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Skeleton } from '@/components/ui/skeleton';
-import { DataTable } from '@/components/tables/DataTable';
-import { getDirectoryTabs } from '@/config/directory-tabs';
-import type { Database } from '@/types/database.types';
+import * as React from "react";
+import { usePathname } from "next/navigation";
+import { ColumnDef } from "@tanstack/react-table";
+import { Mail, Phone } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { ProjectPageHeader } from "@/components/layout/ProjectPageHeader";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { PageTabs } from "@/components/layout/PageTabs";
+import { Text } from "@/components/ui/text";
+import { Badge } from "@/components/ui/badge";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
+import { DataTable } from "@/components/tables/DataTable";
+import { getDirectoryTabs } from "@/config/directory-tabs";
+import type { Database } from "@/types/database.types";
 
-type Employee = Database['public']['Tables']['employees']['Row'];
+type Employee = Database["public"]["Tables"]["employees"]["Row"];
 
 export default function DirectoryEmployeesPage() {
   const pathname = usePathname();
@@ -29,9 +29,9 @@ export default function DirectoryEmployeesPage() {
       try {
         const supabase = createClient();
         const { data, error } = await supabase
-          .from('employees')
-          .select('*')
-          .order('last_name', { ascending: true });
+          .from("employees")
+          .select("*")
+          .order("last_name", { ascending: true });
 
         if (error) throw error;
         setEmployees(data || []);
@@ -48,81 +48,120 @@ export default function DirectoryEmployeesPage() {
   const columns: ColumnDef<Employee>[] = React.useMemo(
     () => [
       {
-        accessorKey: 'first_name',
-        header: 'Name',
+        accessorKey: "first_name",
+        header: "Name",
         cell: ({ row }) => {
-          const firstName = row.getValue('first_name') as string | null;
+          const firstName = row.getValue("first_name") as string | null;
           const lastName = row.original.last_name;
-          const fullName = [firstName, lastName].filter(Boolean).join(' ') || 'Unnamed Employee';
-          const initials = [firstName?.[0], lastName?.[0]].filter(Boolean).join('');
+          const fullName =
+            [firstName, lastName].filter(Boolean).join(" ") ||
+            "Unnamed Employee";
+          const initials = [firstName?.[0], lastName?.[0]]
+            .filter(Boolean)
+            .join("");
 
           return (
             <div className="flex items-center gap-3">
               <Avatar className="h-8 w-8">
-                <AvatarFallback className="bg-secondary text-secondary-foreground">{initials || 'E'}</AvatarFallback>
+                <AvatarFallback className="bg-secondary text-secondary-foreground">
+                  {initials || "E"}
+                </AvatarFallback>
               </Avatar>
-              <Text as="span" weight="medium" size="sm">{fullName}</Text>
+              <Text as="span" weight="medium" size="sm">
+                {fullName}
+              </Text>
             </div>
           );
         },
       },
       {
-        accessorKey: 'email',
-        header: 'Email',
+        accessorKey: "email",
+        header: "Email",
         cell: ({ row }) => {
-          const email = row.getValue('email') as string | null;
+          const email = row.getValue("email") as string | null;
           return email ? (
             <div className="flex items-center gap-1">
               <Mail className="h-3 w-3 text-muted-foreground" />
-              <Text as="span" size="sm" tone="muted">{email}</Text>
+              <Text as="span" size="sm" tone="muted">
+                {email}
+              </Text>
             </div>
-          ) : <Text as="span" tone="muted">-</Text>;
+          ) : (
+            <Text as="span" tone="muted">
+              -
+            </Text>
+          );
         },
       },
       {
-        accessorKey: 'phone',
-        header: 'Phone',
+        accessorKey: "phone",
+        header: "Phone",
         cell: ({ row }) => {
-          const phone = row.getValue('phone') as string | null;
+          const phone = row.getValue("phone") as string | null;
           return phone ? (
             <div className="flex items-center gap-1">
               <Phone className="h-3 w-3 text-muted-foreground" />
-              <Text as="span" size="sm" tone="muted">{phone}</Text>
+              <Text as="span" size="sm" tone="muted">
+                {phone}
+              </Text>
             </div>
-          ) : <Text as="span" tone="muted">-</Text>;
+          ) : (
+            <Text as="span" tone="muted">
+              -
+            </Text>
+          );
         },
       },
       {
-        accessorKey: 'job_title',
-        header: 'Job Title',
+        accessorKey: "job_title",
+        header: "Job Title",
         cell: ({ row }) => {
-          const title = row.getValue('job_title') as string | null;
+          const title = row.getValue("job_title") as string | null;
           return title ? (
             <Badge variant="outline">{title}</Badge>
-          ) : <Text as="span" tone="muted">-</Text>;
+          ) : (
+            <Text as="span" tone="muted">
+              -
+            </Text>
+          );
         },
       },
       {
-        accessorKey: 'department',
-        header: 'Department',
+        accessorKey: "department",
+        header: "Department",
         cell: ({ row }) => {
-          const dept = row.getValue('department') as string | null;
+          const dept = row.getValue("department") as string | null;
           return dept ? (
-            <Text as="span" size="sm">{dept}</Text>
-          ) : <Text as="span" tone="muted">-</Text>;
+            <Text as="span" size="sm">
+              {dept}
+            </Text>
+          ) : (
+            <Text as="span" tone="muted">
+              -
+            </Text>
+          );
         },
       },
       {
-        accessorKey: 'start_date',
-        header: 'Start Date',
+        accessorKey: "start_date",
+        header: "Start Date",
         cell: ({ row }) => {
-          const date = row.getValue('start_date') as string | null;
-          if (!date) return <Text as="span" tone="muted">-</Text>;
-          return <Text as="span" size="sm" tone="muted">{new Date(date).toLocaleDateString()}</Text>;
+          const date = row.getValue("start_date") as string | null;
+          if (!date)
+            return (
+              <Text as="span" tone="muted">
+                -
+              </Text>
+            );
+          return (
+            <Text as="span" size="sm" tone="muted">
+              {new Date(date).toLocaleDateString()}
+            </Text>
+          );
         },
       },
     ],
-    []
+    [],
   );
 
   const tabs = getDirectoryTabs(pathname);
@@ -159,7 +198,9 @@ export default function DirectoryEmployeesPage() {
         <PageTabs tabs={tabs} />
         <PageContainer>
           <div className="text-center py-12">
-            <Text tone="destructive">Error loading employees: {error.message}</Text>
+            <Text tone="destructive">
+              Error loading employees: {error.message}
+            </Text>
           </div>
         </PageContainer>
       </>
@@ -175,12 +216,12 @@ export default function DirectoryEmployeesPage() {
       />
       <PageTabs tabs={tabs} />
       <PageContainer>
-          <DataTable
-            columns={columns}
-            data={employees}
-            searchKey="first_name"
-            searchPlaceholder="Search employees..."
-          />
+        <DataTable
+          columns={columns}
+          data={employees}
+          searchKey="first_name"
+          searchPlaceholder="Search employees..."
+        />
       </PageContainer>
     </>
   );

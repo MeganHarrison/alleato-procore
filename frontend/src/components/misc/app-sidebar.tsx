@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Image from "next/image"
-import Link from "next/link"
+import * as React from "react";
+import Image from "next/image";
+import Link from "next/link";
 import {
   IconBriefcase,
   IconBuildingBank,
@@ -21,12 +21,12 @@ import {
   IconUsers,
   IconWorldWww,
   IconBook,
-} from "@tabler/icons-react"
+} from "@tabler/icons-react";
 
-import { NavDocuments } from "@/components/nav/nav-documents"
-import { NavMain } from "@/components/nav/nav-main"
-import { NavSecondary } from "@/components/nav/nav-secondary"
-import { NavUser } from "@/components/nav/nav-user"
+import { NavDocuments } from "@/components/nav/nav-documents";
+import { NavMain } from "@/components/nav/nav-main";
+import { NavSecondary } from "@/components/nav/nav-secondary";
+import { NavUser } from "@/components/nav/nav-user";
 import {
   Sidebar,
   SidebarContent,
@@ -35,7 +35,7 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-} from "@/components/ui/sidebar"
+} from "@/components/ui/sidebar";
 
 const data = {
   // Primary navigation - most frequently used features
@@ -145,7 +145,7 @@ const data = {
       icon: IconWorldWww,
     },
   ],
-}
+};
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
@@ -162,10 +162,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
               className="data-[slot=sidebar-menu-button]:!p-1.5"
             >
               <Link href="/protected" className="flex items-center gap-2">
-                <Image 
-                  src="/Alleato Favicon.png" 
-                  alt="Alleato" 
-                  width={20} 
+                <Image
+                  src="/Alleato Favicon.png"
+                  alt="Alleato"
+                  width={20}
                   height={20}
                   className="object-contain"
                 />
@@ -185,5 +185,5 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavUser />
       </SidebarFooter>
     </Sidebar>
-  )
+  );
 }

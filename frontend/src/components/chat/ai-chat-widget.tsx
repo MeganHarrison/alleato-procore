@@ -66,13 +66,13 @@ export function AIChatWidget() {
         setIsOffline(true);
         setOfflineMessage(
           data?.context?.notice ||
-            "The realtime AI backend is offline. Showing demo mode instead."
+            "The realtime AI backend is offline. Showing demo mode instead.",
         );
         return;
       }
       if (!data) return;
     },
-    [isOffline]
+    [isOffline],
   );
 
   useEffect(() => {
@@ -85,11 +85,15 @@ export function AIChatWidget() {
   useEffect(() => {
     (async () => {
       const { data: bootstrap, offline } = await fetchRagBootstrapState();
-      if (!bootstrap || offline || bootstrap?.context?.backend_status === "offline") {
+      if (
+        !bootstrap ||
+        offline ||
+        bootstrap?.context?.backend_status === "offline"
+      ) {
         setIsOffline(true);
         setOfflineMessage(
           bootstrap?.context?.notice ||
-            "The Alleato AI backend is currently offline. You can continue in demo mode."
+            "The Alleato AI backend is currently offline. You can continue in demo mode.",
         );
         setBootstrapReady(true);
         return;

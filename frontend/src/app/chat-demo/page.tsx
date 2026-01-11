@@ -1,23 +1,23 @@
-"use client"
+"use client";
 
 import {
   ChatContainerContent,
   ChatContainerRoot,
-} from "@/components/prompt-kit/chat-container"
+} from "@/components/prompt-kit/chat-container";
 import {
   Message,
   MessageAction,
   MessageActions,
   MessageContent,
-} from "@/components/prompt-kit/message"
+} from "@/components/prompt-kit/message";
 import {
   PromptInput,
   PromptInputAction,
   PromptInputActions,
   PromptInputTextarea,
-} from "@/components/prompt-kit/prompt-input"
-import { ScrollButton } from "@/components/prompt-kit/scroll-button"
-import { Button } from "@/components/ui/button"
+} from "@/components/prompt-kit/prompt-input";
+import { ScrollButton } from "@/components/prompt-kit/scroll-button";
+import { Button } from "@/components/ui/button";
 import {
   Sidebar,
   SidebarContent,
@@ -29,8 +29,8 @@ import {
   SidebarMenuButton,
   SidebarProvider,
   SidebarTrigger,
-} from "@/components/ui/sidebar"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 import {
   ArrowUp,
   Copy,
@@ -44,8 +44,8 @@ import {
   ThumbsDown,
   ThumbsUp,
   Trash,
-} from "lucide-react"
-import { useRef, useState } from "react"
+} from "lucide-react";
+import { useRef, useState } from "react";
 
 // Initial conversation history
 const conversationHistory = [
@@ -131,7 +131,7 @@ const conversationHistory = [
       },
     ],
   },
-]
+];
 
 // Initial chat messages
 const initialMessages = [
@@ -157,7 +157,7 @@ const initialMessages = [
     content:
       "Creating a responsive layout with CSS Grid is straightforward. Here's a basic example:\n\n```css\n.container {\n  display: grid;\n  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));\n  gap: 1rem;\n}\n```\n\nThis creates a grid where:\n- Columns automatically fit as many as possible\n- Each column is at least 250px wide\n- Columns expand to fill available space\n- There's a 1rem gap between items\n\nWould you like me to explain more about how this works?",
   },
-]
+];
 
 function ChatSidebar() {
   return (
@@ -197,29 +197,29 @@ function ChatSidebar() {
         ))}
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }
 
 function ChatContent() {
-  const [prompt, setPrompt] = useState("")
-  const [isLoading, setIsLoading] = useState(false)
-  const [chatMessages, setChatMessages] = useState(initialMessages)
-  const chatContainerRef = useRef<HTMLDivElement>(null)
+  const [prompt, setPrompt] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [chatMessages, setChatMessages] = useState(initialMessages);
+  const chatContainerRef = useRef<HTMLDivElement>(null);
 
   const handleSubmit = () => {
-    if (!prompt.trim()) return
+    if (!prompt.trim()) return;
 
-    setPrompt("")
-    setIsLoading(true)
+    setPrompt("");
+    setIsLoading(true);
 
     // Add user message immediately
     const newUserMessage = {
       id: chatMessages.length + 1,
       role: "user",
       content: prompt.trim(),
-    }
+    };
 
-    setChatMessages([...chatMessages, newUserMessage])
+    setChatMessages([...chatMessages, newUserMessage]);
 
     // Simulate API response
     setTimeout(() => {
@@ -227,12 +227,12 @@ function ChatContent() {
         id: chatMessages.length + 2,
         role: "assistant",
         content: `This is a response to: "${prompt.trim()}"`,
-      }
+      };
 
-      setChatMessages((prev) => [...prev, assistantResponse])
-      setIsLoading(false)
-    }, 1500)
-  }
+      setChatMessages((prev) => [...prev, assistantResponse]);
+      setIsLoading(false);
+    }, 1500);
+  };
 
   return (
     <main className="flex h-screen flex-col overflow-hidden">
@@ -245,15 +245,15 @@ function ChatContent() {
         <ChatContainerRoot className="h-full">
           <ChatContainerContent className="space-y-0 px-5 py-12">
             {chatMessages.map((message, index) => {
-              const isAssistant = message.role === "assistant"
-              const isLastMessage = index === chatMessages.length - 1
+              const isAssistant = message.role === "assistant";
+              const isLastMessage = index === chatMessages.length - 1;
 
               return (
                 <Message
                   key={message.id}
                   className={cn(
                     "mx-auto flex w-full max-w-3xl flex-col gap-2 px-6",
-                    isAssistant ? "items-start" : "items-end"
+                    isAssistant ? "items-start" : "items-end",
                   )}
                 >
                   {isAssistant ? (
@@ -267,7 +267,7 @@ function ChatContent() {
                       <MessageActions
                         className={cn(
                           "-ml-2.5 flex gap-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100",
-                          isLastMessage && "opacity-100"
+                          isLastMessage && "opacity-100",
                         )}
                       >
                         <MessageAction tooltip="Copy" delayDuration={100}>
@@ -306,7 +306,7 @@ function ChatContent() {
                       </MessageContent>
                       <MessageActions
                         className={cn(
-                          "flex gap-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100"
+                          "flex gap-0 opacity-0 transition-opacity duration-150 group-hover:opacity-100",
                         )}
                       >
                         <MessageAction tooltip="Edit" delayDuration={100}>
@@ -340,7 +340,7 @@ function ChatContent() {
                     </div>
                   )}
                 </Message>
-              )
+              );
             })}
           </ChatContainerContent>
           <div className="absolute bottom-4 left-1/2 flex w-full max-w-3xl -translate-x-1/2 justify-end px-5">
@@ -423,7 +423,7 @@ function ChatContent() {
         </div>
       </div>
     </main>
-  )
+  );
 }
 
 export default function ChatDemoPage() {
@@ -434,5 +434,5 @@ export default function ChatDemoPage() {
         <ChatContent />
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

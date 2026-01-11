@@ -48,9 +48,7 @@ export const ChatKit = React.forwardRef<HTMLElement, ChatKitProps>(
 
       const abortController = new AbortController();
 
-      for (const eventName of Object.keys(
-        events,
-      ) as (keyof any)[]) {
+      for (const eventName of Object.keys(events) as (keyof any)[]) {
         el.addEventListener(
           eventName,
           (e) => {

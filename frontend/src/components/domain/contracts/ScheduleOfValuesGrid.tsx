@@ -1,25 +1,25 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Plus, Trash2 } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { ScheduleOfValuesRow } from "./ScheduleOfValuesRow"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { Plus, Trash2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ScheduleOfValuesRow } from "./ScheduleOfValuesRow";
+import { cn } from "@/lib/utils";
 
 export interface SOVItem {
-  id: string
-  description: string
-  costCode?: string
-  scheduledValue: number
-  workCompleted: number
-  materialsStored: number
-  percentComplete: number
+  id: string;
+  description: string;
+  costCode?: string;
+  scheduledValue: number;
+  workCompleted: number;
+  materialsStored: number;
+  percentComplete: number;
 }
 
 interface ScheduleOfValuesGridProps {
-  values: SOVItem[]
-  onChange: (values: SOVItem[]) => void
-  className?: string
+  values: SOVItem[];
+  onChange: (values: SOVItem[]) => void;
+  className?: string;
 }
 
 export function ScheduleOfValuesGrid({
@@ -36,27 +36,35 @@ export function ScheduleOfValuesGrid({
       workCompleted: 0,
       materialsStored: 0,
       percentComplete: 0,
-    }
-    onChange([...values, newRow])
-  }
+    };
+    onChange([...values, newRow]);
+  };
 
   const updateRow = (id: string, updates: Partial<SOVItem>) => {
     onChange(
-      values.map((row) =>
-        row.id === id ? { ...row, ...updates } : row
-      )
-    )
-  }
+      values.map((row) => (row.id === id ? { ...row, ...updates } : row)),
+    );
+  };
 
   const removeRow = (id: string) => {
-    onChange(values.filter((row) => row.id !== id))
-  }
+    onChange(values.filter((row) => row.id !== id));
+  };
 
-  const totalScheduled = values.reduce((sum, row) => sum + row.scheduledValue, 0)
-  const totalCompleted = values.reduce((sum, row) => sum + row.workCompleted, 0)
-  const totalMaterials = values.reduce((sum, row) => sum + row.materialsStored, 0)
-  const totalCurrent = totalCompleted + totalMaterials
-  const overallPercent = totalScheduled > 0 ? (totalCurrent / totalScheduled) * 100 : 0
+  const totalScheduled = values.reduce(
+    (sum, row) => sum + row.scheduledValue,
+    0,
+  );
+  const totalCompleted = values.reduce(
+    (sum, row) => sum + row.workCompleted,
+    0,
+  );
+  const totalMaterials = values.reduce(
+    (sum, row) => sum + row.materialsStored,
+    0,
+  );
+  const totalCurrent = totalCompleted + totalMaterials;
+  const overallPercent =
+    totalScheduled > 0 ? (totalCurrent / totalScheduled) * 100 : 0;
 
   return (
     <div className={cn("space-y-4", className)}>
@@ -99,8 +107,12 @@ export function ScheduleOfValuesGrid({
             <tbody>
               {values.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
-                    No line items added yet. Click &quot;Add Line Item&quot; to get started.
+                  <td
+                    colSpan={7}
+                    className="px-4 py-8 text-center text-gray-500"
+                  >
+                    No line items added yet. Click &quot;Add Line Item&quot; to
+                    get started.
                   </td>
                 </tr>
               ) : (
@@ -140,5 +152,5 @@ export function ScheduleOfValuesGrid({
         </div>
       </div>
     </div>
-  )
+  );
 }

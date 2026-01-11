@@ -1,16 +1,23 @@
-"use client"
+"use client";
 
-import { Menu, Hash, Search, Users, MoreVertical, MessageSquare } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import {
+  Menu,
+  Hash,
+  Search,
+  Users,
+  MoreVertical,
+  MessageSquare,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface ChatHeaderProps {
-  channelName: string
-  topic: string
-  memberCount: number
-  onToggleSidebar: () => void
-  onToggleRightPanel: () => void
-  isConnected: boolean
+  channelName: string;
+  topic: string;
+  memberCount: number;
+  onToggleSidebar: () => void;
+  onToggleRightPanel: () => void;
+  isConnected: boolean;
 }
 
 export function ChatHeader({
@@ -50,10 +57,12 @@ export function ChatHeader({
 
       {/* Connection Status */}
       <div className="flex items-center gap-2">
-        <span className={cn(
-          "h-2 w-2 rounded-full",
-          isConnected ? "bg-green-500" : "bg-gray-500"
-        )} />
+        <span
+          className={cn(
+            "h-2 w-2 rounded-full",
+            isConnected ? "bg-green-500" : "bg-gray-500",
+          )}
+        />
         <span className="text-xs text-[hsl(var(--chat-muted))] hidden sm:inline">
           {isConnected ? "Connected" : "Connecting..."}
         </span>
@@ -87,5 +96,5 @@ export function ChatHeader({
         </Button>
       </div>
     </div>
-  )
+  );
 }

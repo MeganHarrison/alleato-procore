@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useCallback, useTransition } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { LayoutGrid, List, Table2, GalleryHorizontalEnd } from 'lucide-react';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { type ViewType } from '@/lib/table-registry';
+import { useCallback, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { LayoutGrid, List, Table2, GalleryHorizontalEnd } from "lucide-react";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { type ViewType } from "@/lib/table-registry";
 
 interface ViewSwitcherProps {
   currentView: ViewType;
@@ -19,10 +19,10 @@ const VIEW_ICONS = {
 } as const;
 
 const VIEW_LABELS = {
-  table: 'Table',
-  list: 'List',
-  grid: 'Grid',
-  gallery: 'Gallery',
+  table: "Table",
+  list: "List",
+  grid: "Grid",
+  gallery: "Gallery",
 } as const;
 
 export function ViewSwitcher({ currentView, enabledViews }: ViewSwitcherProps) {
@@ -34,17 +34,17 @@ export function ViewSwitcher({ currentView, enabledViews }: ViewSwitcherProps) {
     (view: string) => {
       const params = new URLSearchParams(searchParams.toString());
 
-      if (view === 'table') {
-        params.delete('view');
+      if (view === "table") {
+        params.delete("view");
       } else {
-        params.set('view', view);
+        params.set("view", view);
       }
 
       startTransition(() => {
         router.push(`?${params.toString()}`);
       });
     },
-    [router, searchParams]
+    [router, searchParams],
   );
 
   if (enabledViews.length <= 1) {

@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Settings, Plus, Copy, Pencil, Trash2, Star } from 'lucide-react';
-import { toast } from 'sonner';
+import * as React from "react";
+import { Settings, Plus, Copy, Pencil, Trash2, Star } from "lucide-react";
+import { toast } from "sonner";
 
-import { Button } from '@/components/ui/button';
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -21,10 +21,10 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 
-import type { BudgetViewDefinition } from '@/types/budget-views';
-import { BudgetViewsModal } from './BudgetViewsModal';
+import type { BudgetViewDefinition } from "@/types/budget-views";
+import { BudgetViewsModal } from "./BudgetViewsModal";
 
 interface BudgetViewsManagerProps {
   projectId: string;
@@ -40,39 +40,53 @@ export function BudgetViewsManager({
   const [views, setViews] = React.useState<BudgetViewDefinition[]>([]);
   const [loading, setLoading] = React.useState(true);
   const [modalOpen, setModalOpen] = React.useState(false);
-  const [modalMode, setModalMode] = React.useState<'create' | 'edit'>('create');
-  const [selectedView, setSelectedView] = React.useState<BudgetViewDefinition | null>(null);
+  const [modalMode, setModalMode] = React.useState<"create" | "edit">("create");
+  const [selectedView, setSelectedView] =
+    React.useState<BudgetViewDefinition | null>(null);
   const [deleteDialogOpen, setDeleteDialogOpen] = React.useState(false);
-  const [viewToDelete, setViewToDelete] = React.useState<BudgetViewDefinition | null>(null);
+  const [viewToDelete, setViewToDelete] =
+    React.useState<BudgetViewDefinition | null>(null);
 
   // Fetch views
   const fetchViews = React.useCallback(async () => {
     try {
-      console.log('[BudgetViewsManager] Fetching views for project:', projectId);
+      console.log(
+        "[BudgetViewsManager] Fetching views for project:",
+        projectId,
+      );
       const response = await fetch(`/api/projects/${projectId}/budget/views`);
-      console.log('[BudgetViewsManager] Response status:', response.status);
+      console.log("[BudgetViewsManager] Response status:", response.status);
 
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        console.error('[BudgetViewsManager] API error:', errorData);
-        throw new Error('Failed to fetch views');
+        console.error("[BudgetViewsManager] API error:", errorData);
+        throw new Error("Failed to fetch views");
       }
 
       const data = await response.json();
-      console.log('[BudgetViewsManager] Received views:', data.views?.length || 0, data.views);
+      console.log(
+        "[BudgetViewsManager] Received views:",
+        data.views?.length || 0,
+        data.views,
+      );
       setViews(data.views || []);
 
       // If no current view is selected, select the default one
       if (!currentViewId && data.views.length > 0) {
-        const defaultView = data.views.find((v: BudgetViewDefinition) => v.is_default);
+        const defaultView = data.views.find(
+          (v: BudgetViewDefinition) => v.is_default,
+        );
         if (defaultView) {
-          console.log('[BudgetViewsManager] Setting default view:', defaultView.name);
+          console.log(
+            "[BudgetViewsManager] Setting default view:",
+            defaultView.name,
+          );
           onViewChange(defaultView.id);
         }
       }
     } catch (error) {
-      console.error('[BudgetViewsManager] Error fetching views:', error);
-      toast.error('Failed to load budget views');
+      console.error("[BudgetViewsManager] Error fetching views:", error);
+      toast.error("Failed to load budget views");
     } finally {
       setLoading(false);
     }
@@ -83,17 +97,17 @@ export function BudgetViewsManager({
   }, [fetchViews]);
 
   const handleCreateView = () => {
-    setModalMode('create');
+    setModalMode("create");
     setSelectedView(null);
     setModalOpen(true);
   };
 
   const handleEditView = (view: BudgetViewDefinition) => {
     if (view.is_system) {
-      toast.error('Cannot edit system views');
+      toast.error("Cannot edit system views");
       return;
     }
-    setModalMode('edit');
+    setModalMode("edit");
     setSelectedView(view);
     setModalOpen(true);
   };
@@ -103,28 +117,28 @@ export function BudgetViewsManager({
       const response = await fetch(
         `/api/projects/${projectId}/budget/views/${view.id}/clone`,
         {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             new_name: `${view.name} (Copy)`,
             new_description: view.description,
           }),
-        }
+        },
       );
 
-      if (!response.ok) throw new Error('Failed to clone view');
+      if (!response.ok) throw new Error("Failed to clone view");
 
-      toast.success('View cloned successfully');
+      toast.success("View cloned successfully");
       fetchViews();
     } catch (error) {
-      console.error('Error cloning view:', error);
-      toast.error('Failed to clone view');
+      console.error("Error cloning view:", error);
+      toast.error("Failed to clone view");
     }
   };
 
   const handleDeleteView = (view: BudgetViewDefinition) => {
     if (view.is_system) {
-      toast.error('Cannot delete system views');
+      toast.error("Cannot delete system views");
       return;
     }
     setViewToDelete(view);
@@ -137,16 +151,18 @@ export function BudgetViewsManager({
     try {
       const response = await fetch(
         `/api/projects/${projectId}/budget/views/${viewToDelete.id}`,
-        { method: 'DELETE' }
+        { method: "DELETE" },
       );
 
-      if (!response.ok) throw new Error('Failed to delete view');
+      if (!response.ok) throw new Error("Failed to delete view");
 
-      toast.success('View deleted successfully');
+      toast.success("View deleted successfully");
 
       // If we deleted the current view, switch to default
       if (currentViewId === viewToDelete.id) {
-        const defaultView = views.find(v => v.is_default && v.id !== viewToDelete.id);
+        const defaultView = views.find(
+          (v) => v.is_default && v.id !== viewToDelete.id,
+        );
         if (defaultView) {
           onViewChange(defaultView.id);
         }
@@ -154,8 +170,8 @@ export function BudgetViewsManager({
 
       fetchViews();
     } catch (error) {
-      console.error('Error deleting view:', error);
-      toast.error('Failed to delete view');
+      console.error("Error deleting view:", error);
+      toast.error("Failed to delete view");
     } finally {
       setDeleteDialogOpen(false);
       setViewToDelete(null);
@@ -169,23 +185,23 @@ export function BudgetViewsManager({
       const response = await fetch(
         `/api/projects/${projectId}/budget/views/${view.id}`,
         {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ is_default: true }),
-        }
+        },
       );
 
-      if (!response.ok) throw new Error('Failed to set default view');
+      if (!response.ok) throw new Error("Failed to set default view");
 
-      toast.success('Default view updated');
+      toast.success("Default view updated");
       fetchViews();
     } catch (error) {
-      console.error('Error setting default view:', error);
-      toast.error('Failed to set default view');
+      console.error("Error setting default view:", error);
+      toast.error("Failed to set default view");
     }
   };
 
-  const currentView = views.find(v => v.id === currentViewId);
+  const currentView = views.find((v) => v.id === currentViewId);
 
   if (loading) {
     return (
@@ -202,14 +218,14 @@ export function BudgetViewsManager({
         <DropdownMenuTrigger asChild>
           <Button variant="outline">
             <Settings className="w-4 h-4 mr-2" />
-            {currentView?.name || 'Select View'}
+            {currentView?.name || "Select View"}
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-[300px]">
           <div className="px-2 py-1.5 text-sm font-semibold">Budget Views</div>
           <DropdownMenuSeparator />
 
-          {views.map(view => (
+          {views.map((view) => (
             <div key={view.id} className="flex items-center">
               <DropdownMenuItem
                 className="flex-1"
@@ -217,7 +233,9 @@ export function BudgetViewsManager({
               >
                 <div className="flex items-center gap-2">
                   {view.is_default && <Star className="h-3 w-3 fill-current" />}
-                  <span className={currentViewId === view.id ? 'font-medium' : ''}>
+                  <span
+                    className={currentViewId === view.id ? "font-medium" : ""}
+                  >
                     {view.name}
                   </span>
                 </div>
@@ -300,7 +318,10 @@ export function BudgetViewsManager({
           </AlertDialogHeader>
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
-            <AlertDialogAction onClick={confirmDelete} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+            <AlertDialogAction
+              onClick={confirmDelete}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
               Delete
             </AlertDialogAction>
           </AlertDialogFooter>

@@ -1,31 +1,35 @@
-"use client"
+"use client";
 
-import { Hash, Search } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { ScrollArea } from "@/components/ui/scroll-area"
-import Image from "next/image"
-import { cn } from "@/lib/utils"
-import { SourcesList, type Source } from "@/components/misc/sources-list"
+import { Hash, Search } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ScrollArea } from "@/components/ui/scroll-area";
+import Image from "next/image";
+import { cn } from "@/lib/utils";
+import { SourcesList, type Source } from "@/components/misc/sources-list";
 
 interface Channel {
-  id: string
-  name: string
-  unread?: number
+  id: string;
+  name: string;
+  unread?: number;
 }
 
 interface ChatSidebarProps {
-  activeChannel: string
-  onChannelSelect: (channelId: string) => void
-  sources?: Source[]
+  activeChannel: string;
+  onChannelSelect: (channelId: string) => void;
+  sources?: Source[];
 }
 
 const channels: Channel[] = [
   { id: "general", name: "general" },
   { id: "project-updates", name: "project-updates" },
   { id: "support", name: "support" },
-]
+];
 
-export function ChatSidebar({ activeChannel, onChannelSelect, sources = [] }: ChatSidebarProps) {
+export function ChatSidebar({
+  activeChannel,
+  onChannelSelect,
+  sources = [],
+}: ChatSidebarProps) {
   return (
     <div className="w-[28rem] h-full bg-[hsl(var(--chat-panel))] border-r border-[hsl(var(--chat-border))] flex flex-col">
       {/* Workspace Header */}
@@ -67,14 +71,14 @@ export function ChatSidebar({ activeChannel, onChannelSelect, sources = [] }: Ch
                   "w-full flex items-center gap-2 px-3 py-1.5 rounded text-sm transition-colors",
                   activeChannel === channel.id
                     ? "bg-[hsl(var(--chat-accent))] text-white font-medium"
-                    : "text-[hsl(var(--chat-muted))] hover:bg-[hsl(var(--chat-hover))] hover:text-[hsl(var(--chat-text))]"
+                    : "text-[hsl(var(--chat-muted))] hover:bg-[hsl(var(--chat-hover))] hover:text-[hsl(var(--chat-text))]",
                 )}
               >
                 <Hash className="h-4 w-4 shrink-0" />
                 <span className="truncate">{channel.name}</span>
                 {channel.unread && channel.unread > 0 && (
                   <span className="ml-auto flex items-center justify-center min-w-[20px] h-5 px-1.5 bg-red-500 text-white text-xs font-bold rounded-full">
-                    {channel.unread > 99 ? '99+' : channel.unread}
+                    {channel.unread > 99 ? "99+" : channel.unread}
                   </span>
                 )}
               </button>
@@ -90,5 +94,5 @@ export function ChatSidebar({ activeChannel, onChannelSelect, sources = [] }: Ch
         )}
       </ScrollArea>
     </div>
-  )
+  );
 }

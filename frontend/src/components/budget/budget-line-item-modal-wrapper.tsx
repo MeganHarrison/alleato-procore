@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import {
   Modal,
   ModalBody,
@@ -8,8 +8,8 @@ import {
   ModalFooter,
   ModalTrigger,
   useModal,
-} from '@/components/ui/modal/animated-modal';
-import { BudgetLineItemForm } from './budget-line-item-form';
+} from "@/components/ui/modal/animated-modal";
+import { BudgetLineItemForm } from "./budget-line-item-form";
 
 interface BudgetLineItemModalWrapperProps {
   open: boolean;
@@ -50,7 +50,9 @@ function ModalController({
   );
 }
 
-export function BudgetLineItemModalWrapper(props: BudgetLineItemModalWrapperProps) {
+export function BudgetLineItemModalWrapper(
+  props: BudgetLineItemModalWrapperProps,
+) {
   return (
     <Modal>
       <ModalController {...props} />

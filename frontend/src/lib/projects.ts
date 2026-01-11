@@ -13,13 +13,19 @@ export interface ProjectDetailResponse {
   insights: InsightItem[];
 }
 
-export async function fetchProjectDetail(id: string | number): Promise<ProjectDetailResponse> {
+export async function fetchProjectDetail(
+  id: string | number,
+): Promise<ProjectDetailResponse> {
   const res = await fetch(`/api/projects/${id}`);
   if (!res.ok) throw new Error("Failed to load project detail");
   return res.json();
 }
 
-export async function postFirefliesIngestion(data: { path: string; project_id?: number; dry_run?: boolean }) {
+export async function postFirefliesIngestion(data: {
+  path: string;
+  project_id?: number;
+  dry_run?: boolean;
+}) {
   const res = await fetch("/api/ingest/fireflies", {
     method: "POST",
     headers: { "Content-Type": "application/json" },

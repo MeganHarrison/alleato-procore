@@ -1,7 +1,7 @@
 "use client";
 
-import { cn } from '@/lib/utils';
-import { type ReactNode, useEffect } from 'react';
+import { cn } from "@/lib/utils";
+import { type ReactNode, useEffect } from "react";
 
 interface ModalProps {
   isOpen: boolean;
@@ -24,17 +24,17 @@ export function Modal({
 }: ModalProps) {
   useEffect(() => {
     const handleEscape = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+      if (e.key === "Escape") onClose();
     };
 
     if (isOpen) {
-      document.addEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'hidden';
+      document.addEventListener("keydown", handleEscape);
+      document.body.style.overflow = "hidden";
     }
 
     return () => {
-      document.removeEventListener('keydown', handleEscape);
-      document.body.style.overflow = 'auto';
+      document.removeEventListener("keydown", handleEscape);
+      document.body.style.overflow = "auto";
     };
   }, [isOpen, onClose]);
 
@@ -57,8 +57,8 @@ export function Modal({
         {/* Modal panel */}
         <div
           className={cn(
-            'bg-white dark:bg-gray-900 rounded-3xl text-left overflow-hidden sm:w-[590px] transform transition-all p-5 sm:p-12 relative',
-            className?.modal
+            "bg-white dark:bg-gray-900 rounded-3xl text-left overflow-hidden sm:w-[590px] transform transition-all p-5 sm:p-12 relative",
+            className?.modal,
           )}
         >
           <div className="absolute top-0 right-0 pt-4 pr-4">

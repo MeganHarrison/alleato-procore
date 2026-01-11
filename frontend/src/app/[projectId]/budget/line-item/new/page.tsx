@@ -1,21 +1,28 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft, Plus, Search, Trash2, ChevronRight, ChevronDown } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import {
+  ArrowLeft,
+  Plus,
+  Search,
+  Trash2,
+  ChevronRight,
+  ChevronDown,
+} from "lucide-react";
 
-import { Button } from '@/components/ui/button';
-import { createClient } from '@/lib/supabase/client';
-import { DevAutoFillButton } from '@/hooks/use-dev-autofill';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { Button } from "@/components/ui/button";
+import { createClient } from "@/lib/supabase/client";
+import { DevAutoFillButton } from "@/hooks/use-dev-autofill";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -23,7 +30,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Command,
   CommandEmpty,
@@ -32,12 +39,12 @@ import {
   CommandItem,
   CommandList,
   CommandSeparator,
-} from '@/components/ui/command';
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from "@/components/ui/popover";
 interface BudgetCode {
   id: string;
   code: string;
@@ -75,34 +82,40 @@ export default function NewBudgetLineItemPage() {
   const [loadingCodes, setLoadingCodes] = useState(true);
 
   // Cost codes from Supabase
-  const [availableCostCodes, setAvailableCostCodes] = useState<CostCodeOption[]>([]);
+  const [availableCostCodes, setAvailableCostCodes] = useState<
+    CostCodeOption[]
+  >([]);
   const [loadingCostCodes, setLoadingCostCodes] = useState(false);
-  const [groupedCostCodes, setGroupedCostCodes] = useState<Record<string, CostCodeOption[]>>({});
+  const [groupedCostCodes, setGroupedCostCodes] = useState<
+    Record<string, CostCodeOption[]>
+  >({});
 
   // Multiple rows state
   const [rows, setRows] = useState<BudgetLineItemRow[]>([
     {
-      id: '1',
-      budgetCodeId: '',
-      budgetCodeLabel: '',
-      qty: '',
-      uom: '',
-      unitCost: '',
-      amount: '0.00',
+      id: "1",
+      budgetCodeId: "",
+      budgetCodeLabel: "",
+      qty: "",
+      uom: "",
+      unitCost: "",
+      amount: "0.00",
     },
   ]);
 
   // Budget Code creation modal state
   const [showCreateCodeModal, setShowCreateCodeModal] = useState(false);
   const [newCodeData, setNewCodeData] = useState({
-    costCodeId: '', // ID from cost_codes table
-    costType: 'L',
+    costCodeId: "", // ID from cost_codes table
+    costType: "L",
   });
-  const [expandedDivisions, setExpandedDivisions] = useState<Set<string>>(new Set());
+  const [expandedDivisions, setExpandedDivisions] = useState<Set<string>>(
+    new Set(),
+  );
 
   // Budget Code selector state
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
 
   // Fetch cost codes from Supabase when modal opens
   useEffect(() => {
@@ -114,8 +127,9 @@ export default function NewBudgetLineItemPage() {
         const supabase = createClient();
 
         const { data, error } = await supabase
-          .from('cost_codes')
-          .select(`
+          .from("cost_codes")
+          .select(
+            `
             id,
             title,
             status,
@@ -124,12 +138,13 @@ export default function NewBudgetLineItemPage() {
               code,
               title
             )
-          `)
-          .eq('status', 'True')
-          .order('id', { ascending: true });
+          `,
+          )
+          .eq("status", "True")
+          .order("id", { ascending: true });
 
         if (error) {
-          console.error('Error fetching cost codes:', error);
+          console.error("Error fetching cost codes:", error);
           return;
         }
 
@@ -144,26 +159,29 @@ export default function NewBudgetLineItemPage() {
               title: code.title,
               status: code.status,
               division_id: code.division_id,
-              division_code: division?.code || '',
-              division_title: division?.title || '',
+              division_code: division?.code || "",
+              division_title: division?.title || "",
             };
           }) ?? [];
 
         setAvailableCostCodes(codesWithDivisions);
 
         // Group cost codes by division_title
-        const grouped = codesWithDivisions.reduce((acc, code) => {
-          const divisionKey = code.division_title || 'Other';
-          if (!acc[divisionKey]) {
-            acc[divisionKey] = [];
-          }
-          acc[divisionKey].push(code);
-          return acc;
-        }, {} as Record<string, CostCodeOption[]>);
+        const grouped = codesWithDivisions.reduce(
+          (acc, code) => {
+            const divisionKey = code.division_title || "Other";
+            if (!acc[divisionKey]) {
+              acc[divisionKey] = [];
+            }
+            acc[divisionKey].push(code);
+            return acc;
+          },
+          {} as Record<string, CostCodeOption[]>,
+        );
 
         setGroupedCostCodes(grouped);
       } catch (error) {
-        console.error('Error fetching cost codes:', error);
+        console.error("Error fetching cost codes:", error);
       } finally {
         setLoadingCostCodes(false);
       }
@@ -183,7 +201,7 @@ export default function NewBudgetLineItemPage() {
 
         if (!response.ok) {
           const error = await response.json();
-          throw new Error(error?.error || 'Failed to load budget codes');
+          throw new Error(error?.error || "Failed to load budget codes");
         }
 
         const { budgetCodes } = (await response.json()) as {
@@ -192,7 +210,7 @@ export default function NewBudgetLineItemPage() {
 
         setBudgetCodes(budgetCodes || []);
       } catch (error) {
-        console.error('Error fetching budget codes:', error);
+        console.error("Error fetching budget codes:", error);
         setBudgetCodes([]);
       } finally {
         setLoadingCodes(false);
@@ -204,11 +222,11 @@ export default function NewBudgetLineItemPage() {
 
   const getCostTypeLabel = (type: string) => {
     const types: Record<string, string> = {
-      L: 'Labor',
-      M: 'Material',
-      E: 'Equipment',
-      S: 'Subcontract',
-      O: 'Other',
+      L: "Labor",
+      M: "Material",
+      E: "Equipment",
+      S: "Subcontract",
+      O: "Other",
     };
     return types[type] || type;
   };
@@ -230,27 +248,29 @@ export default function NewBudgetLineItemPage() {
       setLoading(true);
 
       // Find the selected cost code
-      const selectedCostCode = availableCostCodes.find((cc) => cc.id === newCodeData.costCodeId);
+      const selectedCostCode = availableCostCodes.find(
+        (cc) => cc.id === newCodeData.costCodeId,
+      );
       if (!selectedCostCode) {
-        alert('Please select a cost code');
+        alert("Please select a cost code");
         return;
       }
 
       // Get the cost_type_id from cost_code_types table
       // For now, we'll use a simple lookup. In production, this should query the cost_code_types table
       const costTypeMap: Record<string, string> = {
-        L: 'labor',
-        M: 'material',
-        E: 'equipment',
-        S: 'subcontract',
-        O: 'other',
+        L: "labor",
+        M: "material",
+        E: "equipment",
+        S: "subcontract",
+        O: "other",
       };
 
       // API call to create budget code
       const response = await fetch(`/api/projects/${projectId}/budget-codes`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           cost_code_id: newCodeData.costCodeId,
@@ -261,7 +281,9 @@ export default function NewBudgetLineItemPage() {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.details || error.error || 'Failed to create budget code');
+        throw new Error(
+          error.details || error.error || "Failed to create budget code",
+        );
       }
 
       const { budgetCode: createdCode } = await response.json();
@@ -271,13 +293,13 @@ export default function NewBudgetLineItemPage() {
 
       // Reset modal
       setShowCreateCodeModal(false);
-      setNewCodeData({ costCodeId: '', costType: 'L' });
+      setNewCodeData({ costCodeId: "", costType: "L" });
     } catch (error) {
-      console.error('Error creating budget code:', error);
+      console.error("Error creating budget code:", error);
       alert(
         `Failed to create budget code: ${
-          error instanceof Error ? error.message : 'Unknown error'
-        }`
+          error instanceof Error ? error.message : "Unknown error"
+        }`,
       );
     } finally {
       setLoading(false);
@@ -289,8 +311,8 @@ export default function NewBudgetLineItemPage() {
       rows.map((row) =>
         row.id === rowId
           ? { ...row, budgetCodeId: code.id, budgetCodeLabel: code.fullLabel }
-          : row
-      )
+          : row,
+      ),
     );
     setOpenPopoverId(null);
   };
@@ -304,7 +326,7 @@ export default function NewBudgetLineItemPage() {
   const handleRowChange = (
     rowId: string,
     field: keyof BudgetLineItemRow,
-    value: string
+    value: string,
   ) => {
     setRows(
       rows.map((row) => {
@@ -313,24 +335,27 @@ export default function NewBudgetLineItemPage() {
         const updatedRow = { ...row, [field]: value };
 
         // Auto-calculate amount when qty or unitCost changes
-        if (field === 'qty' || field === 'unitCost') {
-          updatedRow.amount = calculateAmount(updatedRow.qty, updatedRow.unitCost);
+        if (field === "qty" || field === "unitCost") {
+          updatedRow.amount = calculateAmount(
+            updatedRow.qty,
+            updatedRow.unitCost,
+          );
         }
 
         return updatedRow;
-      })
+      }),
     );
   };
 
   const addRow = () => {
     const newRow: BudgetLineItemRow = {
       id: Date.now().toString(),
-      budgetCodeId: '',
-      budgetCodeLabel: '',
-      qty: '',
-      uom: '',
-      unitCost: '',
-      amount: '0.00',
+      budgetCodeId: "",
+      budgetCodeLabel: "",
+      qty: "",
+      uom: "",
+      unitCost: "",
+      amount: "0.00",
     };
     setRows([...rows, newRow]);
   };
@@ -347,17 +372,19 @@ export default function NewBudgetLineItemPage() {
     try {
       // Validate: all rows must have a budget code and amount
       const invalidRows = rows.filter(
-        (row) => !row.budgetCodeId || parseFloat(row.amount) === 0
+        (row) => !row.budgetCodeId || parseFloat(row.amount) === 0,
       );
 
       if (invalidRows.length > 0) {
-        alert('All rows must have a budget code and a non-zero amount.');
+        alert("All rows must have a budget code and a non-zero amount.");
         setLoading(false);
         return;
       }
 
       const lineItemsToSubmit = rows.map((row) => {
-        const budgetCode = budgetCodes.find((code) => code.id === row.budgetCodeId);
+        const budgetCode = budgetCodes.find(
+          (code) => code.id === row.budgetCodeId,
+        );
 
         return {
           costCodeId: budgetCode?.code || row.budgetCodeId,
@@ -370,9 +397,9 @@ export default function NewBudgetLineItemPage() {
       });
 
       const response = await fetch(`/api/projects/${projectId}/budget`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           lineItems: lineItemsToSubmit,
@@ -381,7 +408,9 @@ export default function NewBudgetLineItemPage() {
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.details || error.error || 'Failed to create budget line items');
+        throw new Error(
+          error.details || error.error || "Failed to create budget line items",
+        );
       }
 
       await response.json();
@@ -389,11 +418,11 @@ export default function NewBudgetLineItemPage() {
       // Navigate back to project budget page
       router.push(`/${projectId}/budget`);
     } catch (error) {
-      console.error('Error creating budget line items:', error);
+      console.error("Error creating budget line items:", error);
       alert(
         `Failed to create budget line items: ${
-          error instanceof Error ? error.message : 'Unknown error'
-        }`
+          error instanceof Error ? error.message : "Unknown error"
+        }`,
       );
     } finally {
       setLoading(false);
@@ -405,9 +434,11 @@ export default function NewBudgetLineItemPage() {
   };
 
   const filteredCodes = budgetCodes.filter((code) =>
-    code.fullLabel.toLowerCase().includes(searchQuery.toLowerCase())
+    code.fullLabel.toLowerCase().includes(searchQuery.toLowerCase()),
   );
-  const previewCostCode = availableCostCodes.find((cc) => cc.id === newCodeData.costCodeId);
+  const previewCostCode = availableCostCodes.find(
+    (cc) => cc.id === newCodeData.costCodeId,
+  );
 
   return (
     <div className="container mx-auto py-6 max-w-7xl">
@@ -425,7 +456,9 @@ export default function NewBudgetLineItemPage() {
           </Button>
         </div>
         <h1 className="text-2xl font-bold">Create Budget Line Items</h1>
-        <p className="text-gray-600">Add one or more line items to the project budget</p>
+        <p className="text-gray-600">
+          Add one or more line items to the project budget
+        </p>
       </div>
 
       <form onSubmit={handleSubmit}>
@@ -461,13 +494,17 @@ export default function NewBudgetLineItemPage() {
               <tbody className="divide-y">
                 {rows.map((row, index) => (
                   <tr key={row.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm text-gray-600">{index + 1}</td>
+                    <td className="px-4 py-3 text-sm text-gray-600">
+                      {index + 1}
+                    </td>
 
                     {/* Budget Code Selector */}
                     <td className="px-4 py-3">
                       <Popover
                         open={openPopoverId === row.id}
-                        onOpenChange={(open) => setOpenPopoverId(open ? row.id : null)}
+                        onOpenChange={(open) =>
+                          setOpenPopoverId(open ? row.id : null)
+                        }
                       >
                         <PopoverTrigger asChild>
                           <Button
@@ -476,7 +513,7 @@ export default function NewBudgetLineItemPage() {
                             className="w-full justify-between text-left font-normal h-9"
                           >
                             <span className="truncate">
-                              {row.budgetCodeLabel || 'Select budget code...'}
+                              {row.budgetCodeLabel || "Select budget code..."}
                             </span>
                             <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
                           </Button>
@@ -490,14 +527,18 @@ export default function NewBudgetLineItemPage() {
                             />
                             <CommandList>
                               <CommandEmpty>
-                                {loadingCodes ? 'Loading...' : 'No budget codes found.'}
+                                {loadingCodes
+                                  ? "Loading..."
+                                  : "No budget codes found."}
                               </CommandEmpty>
                               <CommandGroup>
                                 {filteredCodes.map((code) => (
                                   <CommandItem
                                     key={code.id}
                                     value={code.fullLabel}
-                                    onSelect={() => handleBudgetCodeSelect(row.id, code)}
+                                    onSelect={() =>
+                                      handleBudgetCodeSelect(row.id, code)
+                                    }
                                   >
                                     {code.fullLabel}
                                   </CommandItem>
@@ -528,7 +569,9 @@ export default function NewBudgetLineItemPage() {
                         type="number"
                         step="0.001"
                         value={row.qty}
-                        onChange={(e) => handleRowChange(row.id, 'qty', e.target.value)}
+                        onChange={(e) =>
+                          handleRowChange(row.id, "qty", e.target.value)
+                        }
                         placeholder="0"
                         className="h-9"
                       />
@@ -538,7 +581,9 @@ export default function NewBudgetLineItemPage() {
                     <td className="px-4 py-3">
                       <Select
                         value={row.uom}
-                        onValueChange={(value) => handleRowChange(row.id, 'uom', value)}
+                        onValueChange={(value) =>
+                          handleRowChange(row.id, "uom", value)
+                        }
                       >
                         <SelectTrigger className="h-9">
                           <SelectValue placeholder="Select" />
@@ -562,7 +607,9 @@ export default function NewBudgetLineItemPage() {
                         type="number"
                         step="0.01"
                         value={row.unitCost}
-                        onChange={(e) => handleRowChange(row.id, 'unitCost', e.target.value)}
+                        onChange={(e) =>
+                          handleRowChange(row.id, "unitCost", e.target.value)
+                        }
                         placeholder="0.00"
                         className="h-9"
                       />
@@ -574,7 +621,9 @@ export default function NewBudgetLineItemPage() {
                         type="number"
                         step="0.01"
                         value={row.amount}
-                        onChange={(e) => handleRowChange(row.id, 'amount', e.target.value)}
+                        onChange={(e) =>
+                          handleRowChange(row.id, "amount", e.target.value)
+                        }
                         placeholder="0.00"
                         className="h-9 font-medium"
                       />
@@ -620,15 +669,17 @@ export default function NewBudgetLineItemPage() {
           <DevAutoFillButton
             formType="budgetLineItem"
             onAutoFill={(data) => {
-              setRows([{
-                id: '1',
-                budgetCodeId: '',
-                budgetCodeLabel: '',
-                qty: data.quantity?.toString() || '',
-                uom: data.unit || '',
-                unitCost: data.unit_cost?.toString() || '',
-                amount: data.amount?.toString() || '0.00',
-              }]);
+              setRows([
+                {
+                  id: "1",
+                  budgetCodeId: "",
+                  budgetCodeLabel: "",
+                  qty: data.quantity?.toString() || "",
+                  uom: data.unit || "",
+                  unitCost: data.unit_cost?.toString() || "",
+                  amount: data.amount?.toString() || "0.00",
+                },
+              ]);
             }}
           />
           <div className="flex gap-4">
@@ -636,7 +687,9 @@ export default function NewBudgetLineItemPage() {
               Cancel
             </Button>
             <Button type="submit" disabled={loading}>
-              {loading ? 'Creating...' : `Create ${rows.length} Line Item${rows.length > 1 ? 's' : ''}`}
+              {loading
+                ? "Creating..."
+                : `Create ${rows.length} Line Item${rows.length > 1 ? "s" : ""}`}
             </Button>
           </div>
         </div>
@@ -648,7 +701,8 @@ export default function NewBudgetLineItemPage() {
           <DialogHeader>
             <DialogTitle>Create New Budget Code</DialogTitle>
             <DialogDescription>
-              Add a new budget code that can be used for line items in this project.
+              Add a new budget code that can be used for line items in this
+              project.
             </DialogDescription>
           </DialogHeader>
           <div className="grid gap-4 py-4">
@@ -663,46 +717,49 @@ export default function NewBudgetLineItemPage() {
                   {Object.entries(groupedCostCodes)
                     .sort(([a], [b]) => a.localeCompare(b))
                     .map(([division]) => (
-                    <div key={division} className="border-b last:border-b-0">
-                      {/* Division Header - Clickable */}
-                      <button
-                        type="button"
-                        onClick={() => toggleDivision(division)}
-                        className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-gray-50 transition-colors"
-                      >
-                        <span className="text-sm font-semibold text-gray-700">
-                          {division}
-                        </span>
-                        {expandedDivisions.has(division) ? (
-                          <ChevronDown className="w-4 h-4 text-gray-500" />
-                        ) : (
-                          <ChevronRight className="w-4 h-4 text-gray-500" />
-                        )}
-                      </button>
+                      <div key={division} className="border-b last:border-b-0">
+                        {/* Division Header - Clickable */}
+                        <button
+                          type="button"
+                          onClick={() => toggleDivision(division)}
+                          className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-gray-50 transition-colors"
+                        >
+                          <span className="text-sm font-semibold text-gray-700">
+                            {division}
+                          </span>
+                          {expandedDivisions.has(division) ? (
+                            <ChevronDown className="w-4 h-4 text-gray-500" />
+                          ) : (
+                            <ChevronRight className="w-4 h-4 text-gray-500" />
+                          )}
+                        </button>
 
-                      {/* Cost Codes - Only show when expanded */}
-                      {expandedDivisions.has(division) && (
-                        <div className="bg-gray-50/50">
-                          {groupedCostCodes[division].map((costCode) => (
-                            <button
-                              key={costCode.id}
-                              type="button"
-                              onClick={() =>
-                                setNewCodeData({ ...newCodeData, costCodeId: costCode.id })
-                              }
-                              className={`w-full text-left px-6 py-2 text-sm hover:bg-gray-100 transition-colors ${
-                                newCodeData.costCodeId === costCode.id
-                                  ? 'bg-blue-50 text-blue-700 font-medium'
-                                  : 'text-gray-700'
-                              }`}
-                            >
-                              {costCode.id} – {costCode.title}
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  ))}
+                        {/* Cost Codes - Only show when expanded */}
+                        {expandedDivisions.has(division) && (
+                          <div className="bg-gray-50/50">
+                            {groupedCostCodes[division].map((costCode) => (
+                              <button
+                                key={costCode.id}
+                                type="button"
+                                onClick={() =>
+                                  setNewCodeData({
+                                    ...newCodeData,
+                                    costCodeId: costCode.id,
+                                  })
+                                }
+                                className={`w-full text-left px-6 py-2 text-sm hover:bg-gray-100 transition-colors ${
+                                  newCodeData.costCodeId === costCode.id
+                                    ? "bg-blue-50 text-blue-700 font-medium"
+                                    : "text-gray-700"
+                                }`}
+                              >
+                                {costCode.id} – {costCode.title}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
                 </div>
               )}
               <p className="text-sm text-gray-500">
@@ -734,11 +791,12 @@ export default function NewBudgetLineItemPage() {
               <p className="text-sm text-gray-600 mt-1">
                 {newCodeData.costCodeId && previewCostCode ? (
                   <>
-                    {previewCostCode.id}.{newCodeData.costType} – {previewCostCode.title} –{' '}
+                    {previewCostCode.id}.{newCodeData.costType} –{" "}
+                    {previewCostCode.title} –{" "}
                     {getCostTypeLabel(newCodeData.costType)}
                   </>
                 ) : (
-                  'Select cost code and cost type to see preview'
+                  "Select cost code and cost type to see preview"
                 )}
               </p>
             </div>
@@ -754,9 +812,11 @@ export default function NewBudgetLineItemPage() {
             <Button
               type="button"
               onClick={handleCreateBudgetCode}
-              disabled={loading || !newCodeData.costCodeId || !newCodeData.costType}
+              disabled={
+                loading || !newCodeData.costCodeId || !newCodeData.costType
+              }
             >
-              {loading ? 'Creating...' : 'Create Budget Code'}
+              {loading ? "Creating..." : "Create Budget Code"}
             </Button>
           </DialogFooter>
         </DialogContent>

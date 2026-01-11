@@ -1,9 +1,14 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { IconSearch, IconFilter, IconColumns, IconDownload } from "@tabler/icons-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+import * as React from "react";
+import {
+  IconSearch,
+  IconFilter,
+  IconColumns,
+  IconDownload,
+} from "@tabler/icons-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -12,24 +17,24 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   DropdownMenuCheckboxItem,
-} from "@/components/ui/dropdown-menu"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/dropdown-menu";
+import { cn } from "@/lib/utils";
 
 interface PageToolbarProps {
-  searchPlaceholder?: string
-  onSearch?: (value: string) => void
-  filters?: React.ReactNode
-  viewSwitcher?: React.ReactNode
-  actions?: React.ReactNode
-  className?: string
-  showColumnToggle?: boolean
+  searchPlaceholder?: string;
+  onSearch?: (value: string) => void;
+  filters?: React.ReactNode;
+  viewSwitcher?: React.ReactNode;
+  actions?: React.ReactNode;
+  className?: string;
+  showColumnToggle?: boolean;
   columns?: Array<{
-    id: string
-    label: string
-    isVisible: boolean
-  }>
-  onColumnToggle?: (columnId: string) => void
-  onExport?: () => void
+    id: string;
+    label: string;
+    isVisible: boolean;
+  }>;
+  onColumnToggle?: (columnId: string) => void;
+  onExport?: () => void;
 }
 
 export function PageToolbar({
@@ -44,22 +49,23 @@ export function PageToolbar({
   onColumnToggle,
   onExport,
 }: PageToolbarProps) {
-  const [searchValue, setSearchValue] = React.useState("")
+  const [searchValue, setSearchValue] = React.useState("");
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value
-    setSearchValue(value)
-    onSearch?.(value)
-  }
+    const value = e.target.value;
+    setSearchValue(value);
+    onSearch?.(value);
+  };
 
   return (
     <div
       data-testid="page-toolbar"
       className={cn(
-      "flex flex-col gap-4 bg-gray-50 px-4 py-4 sm:px-6 lg:px-12",
-      "sm:flex-row sm:items-center sm:justify-between",
-      className
-    )}>
+        "flex flex-col gap-4 bg-gray-50 px-4 py-4 sm:px-6 lg:px-12",
+        "sm:flex-row sm:items-center sm:justify-between",
+        className,
+      )}
+    >
       <div className="flex flex-1 items-center gap-4">
         {/* Search */}
         {onSearch && (
@@ -76,17 +82,11 @@ export function PageToolbar({
         )}
 
         {/* Filters */}
-        {filters && (
-          <div className="flex items-center gap-2">
-            {filters}
-          </div>
-        )}
+        {filters && <div className="flex items-center gap-2">{filters}</div>}
 
         {/* View Switcher */}
         {viewSwitcher && (
-          <div className="flex items-center gap-2">
-            {viewSwitcher}
-          </div>
+          <div className="flex items-center gap-2">{viewSwitcher}</div>
         )}
       </div>
 
@@ -133,5 +133,5 @@ export function PageToolbar({
         {actions}
       </div>
     </div>
-  )
+  );
 }

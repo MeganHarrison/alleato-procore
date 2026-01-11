@@ -1,36 +1,36 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Check, ChevronsUpDown, Search } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { Check, ChevronsUpDown, Search } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/popover";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export interface SearchableSelectOption {
-  value: string
-  label: string
-  description?: string
+  value: string;
+  label: string;
+  description?: string;
 }
 
 interface SearchableSelectProps {
-  label?: string
-  options: SearchableSelectOption[]
-  value?: string
-  onValueChange: (value: string) => void
-  placeholder?: string
-  searchPlaceholder?: string
-  emptyMessage?: string
-  disabled?: boolean
-  required?: boolean
-  className?: string
-  triggerClassName?: string
-  addButton?: React.ReactNode
+  label?: string;
+  options: SearchableSelectOption[];
+  value?: string;
+  onValueChange: (value: string) => void;
+  placeholder?: string;
+  searchPlaceholder?: string;
+  emptyMessage?: string;
+  disabled?: boolean;
+  required?: boolean;
+  className?: string;
+  triggerClassName?: string;
+  addButton?: React.ReactNode;
 }
 
 export function SearchableSelect({
@@ -47,26 +47,26 @@ export function SearchableSelect({
   triggerClassName,
   addButton,
 }: SearchableSelectProps) {
-  const [open, setOpen] = React.useState(false)
-  const [searchQuery, setSearchQuery] = React.useState("")
+  const [open, setOpen] = React.useState(false);
+  const [searchQuery, setSearchQuery] = React.useState("");
 
-  const selectedOption = options.find((opt) => opt.value === value)
+  const selectedOption = options.find((opt) => opt.value === value);
 
   const filteredOptions = React.useMemo(() => {
-    if (!searchQuery) return options
-    const query = searchQuery.toLowerCase()
+    if (!searchQuery) return options;
+    const query = searchQuery.toLowerCase();
     return options.filter(
       (opt) =>
         opt.label.toLowerCase().includes(query) ||
-        opt.description?.toLowerCase().includes(query)
-    )
-  }, [options, searchQuery])
+        opt.description?.toLowerCase().includes(query),
+    );
+  }, [options, searchQuery]);
 
   const handleSelect = (selectedValue: string) => {
-    onValueChange(selectedValue)
-    setOpen(false)
-    setSearchQuery("")
-  }
+    onValueChange(selectedValue);
+    setOpen(false);
+    setSearchQuery("");
+  };
 
   return (
     <div className={cn("space-y-2", className)}>
@@ -86,7 +86,7 @@ export function SearchableSelect({
               className={cn(
                 "flex-1 justify-between font-normal min-w-0",
                 !value && "text-muted-foreground",
-                triggerClassName
+                triggerClassName,
               )}
               disabled={disabled}
             >
@@ -96,7 +96,10 @@ export function SearchableSelect({
               <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
             </Button>
           </PopoverTrigger>
-          <PopoverContent className="w-[var(--radix-popover-trigger-width)] p-0" align="start">
+          <PopoverContent
+            className="w-[var(--radix-popover-trigger-width)] p-0"
+            align="start"
+          >
             <div className="flex flex-col">
               {/* Search Input */}
               <div className="flex items-center border-b px-3 py-2">
@@ -121,14 +124,14 @@ export function SearchableSelect({
                       key={option.value}
                       className={cn(
                         "relative flex cursor-pointer select-none items-center px-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground",
-                        value === option.value && "bg-accent"
+                        value === option.value && "bg-accent",
                       )}
                       onClick={() => handleSelect(option.value)}
                     >
                       <Check
                         className={cn(
                           "mr-2 h-4 w-4",
-                          value === option.value ? "opacity-100" : "opacity-0"
+                          value === option.value ? "opacity-100" : "opacity-0",
                         )}
                       />
                       <span className="truncate">{option.label}</span>
@@ -142,5 +145,5 @@ export function SearchableSelect({
         {addButton && <div className="flex-shrink-0">{addButton}</div>}
       </div>
     </div>
-  )
+  );
 }

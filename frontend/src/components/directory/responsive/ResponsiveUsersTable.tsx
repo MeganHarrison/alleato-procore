@@ -1,16 +1,16 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { type PersonWithDetails } from '@/services/directoryService';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { MoreVertical, Mail, Phone } from 'lucide-react';
+import { useState } from "react";
+import { type PersonWithDetails } from "@/services/directoryService";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { MoreVertical, Mail, Phone } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
 interface ResponsiveUsersTableProps {
   users: PersonWithDetails[];
@@ -23,7 +23,7 @@ export function ResponsiveUsersTable({
   users,
   onEdit,
   onDeactivate,
-  onViewDetails
+  onViewDetails,
 }: ResponsiveUsersTableProps) {
   return (
     <div className="space-y-3">
@@ -42,18 +42,31 @@ export function ResponsiveUsersTable({
             </thead>
             <tbody>
               {users.map((user) => (
-                <tr key={user.id} className="border-b last:border-0 hover:bg-muted/50">
+                <tr
+                  key={user.id}
+                  className="border-b last:border-0 hover:bg-muted/50"
+                >
                   <td className="p-3">
-                    <div className="font-medium">{user.first_name} {user.last_name}</div>
+                    <div className="font-medium">
+                      {user.first_name} {user.last_name}
+                    </div>
                     {user.job_title && (
-                      <div className="text-sm text-muted-foreground">{user.job_title}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {user.job_title}
+                      </div>
                     )}
                   </td>
                   <td className="p-3 text-sm">{user.email}</td>
-                  <td className="p-3 text-sm">{user.company?.name || '-'}</td>
+                  <td className="p-3 text-sm">{user.company?.name || "-"}</td>
                   <td className="p-3">
-                    <Badge variant={user.membership?.status === 'active' ? 'default' : 'secondary'}>
-                      {user.membership?.status || 'unknown'}
+                    <Badge
+                      variant={
+                        user.membership?.status === "active"
+                          ? "default"
+                          : "secondary"
+                      }
+                    >
+                      {user.membership?.status || "unknown"}
                     </Badge>
                   </td>
                   <td className="p-3 text-right">
@@ -74,11 +87,14 @@ export function ResponsiveUsersTable({
                             Edit
                           </DropdownMenuItem>
                         )}
-                        {onDeactivate && user.membership?.status === 'active' && (
-                          <DropdownMenuItem onClick={() => onDeactivate(user)}>
-                            Deactivate
-                          </DropdownMenuItem>
-                        )}
+                        {onDeactivate &&
+                          user.membership?.status === "active" && (
+                            <DropdownMenuItem
+                              onClick={() => onDeactivate(user)}
+                            >
+                              Deactivate
+                            </DropdownMenuItem>
+                          )}
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </td>
@@ -92,17 +108,16 @@ export function ResponsiveUsersTable({
       {/* Mobile View - Card layout */}
       <div className="md:hidden space-y-3">
         {users.map((user) => (
-          <div
-            key={user.id}
-            className="border rounded-lg p-4 space-y-3"
-          >
+          <div key={user.id} className="border rounded-lg p-4 space-y-3">
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <h3 className="font-medium">
                   {user.first_name} {user.last_name}
                 </h3>
                 {user.job_title && (
-                  <p className="text-sm text-muted-foreground">{user.job_title}</p>
+                  <p className="text-sm text-muted-foreground">
+                    {user.job_title}
+                  </p>
                 )}
               </div>
               <DropdownMenu>
@@ -122,7 +137,7 @@ export function ResponsiveUsersTable({
                       Edit
                     </DropdownMenuItem>
                   )}
-                  {onDeactivate && user.membership?.status === 'active' && (
+                  {onDeactivate && user.membership?.status === "active" && (
                     <DropdownMenuItem onClick={() => onDeactivate(user)}>
                       Deactivate
                     </DropdownMenuItem>
@@ -153,8 +168,12 @@ export function ResponsiveUsersTable({
             </div>
 
             <div className="flex items-center justify-between pt-2 border-t">
-              <Badge variant={user.membership?.status === 'active' ? 'default' : 'secondary'}>
-                {user.membership?.status || 'unknown'}
+              <Badge
+                variant={
+                  user.membership?.status === "active" ? "default" : "secondary"
+                }
+              >
+                {user.membership?.status || "unknown"}
               </Badge>
             </div>
           </div>

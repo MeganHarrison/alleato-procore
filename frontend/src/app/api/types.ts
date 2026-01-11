@@ -9,7 +9,7 @@ export interface APIError extends Error {
 
 // Types for Zod validation errors
 export interface ZodError extends Error {
-  name: 'ZodError';
+  name: "ZodError";
   errors: Array<{
     path: string[];
     message: string;
@@ -40,7 +40,7 @@ export interface DatabaseQueryResponse {
 export interface Company {
   id: string;
   name: string;
-  type: 'vendor' | 'subcontractor' | 'supplier' | 'owner';
+  type: "vendor" | "subcontractor" | "supplier" | "owner";
   contact_email?: string;
   contact_phone?: string;
   address?: string;
@@ -70,7 +70,7 @@ export interface ChangeOrder {
   number: string;
   title: string;
   description?: string;
-  status: 'draft' | 'pending' | 'approved' | 'executed' | 'void';
+  status: "draft" | "pending" | "approved" | "executed" | "void";
   amount: number;
   executed_date?: string;
 }
@@ -83,7 +83,7 @@ export interface Invoice {
   billing_period_end: string;
   invoice_date: string;
   due_date?: string;
-  status: 'draft' | 'submitted' | 'approved' | 'paid' | 'void';
+  status: "draft" | "submitted" | "approved" | "paid" | "void";
   notes?: string;
 }
 
@@ -97,7 +97,7 @@ export interface Commitment {
   title: string | null;
   status: string;
   executed: boolean;
-  type: 'subcontract' | 'purchase_order';
+  type: "subcontract" | "purchase_order";
   retention_percentage: number | null;
   start_date: string | null;
   executed_date: string | null;

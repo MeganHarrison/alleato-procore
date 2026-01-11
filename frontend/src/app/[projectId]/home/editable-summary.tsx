@@ -1,43 +1,47 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { ChevronDown, ChevronUp, Pencil } from 'lucide-react'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { Textarea } from '@/components/ui/textarea'
+import { useState } from "react";
+import { ChevronDown, ChevronUp, Pencil } from "lucide-react";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { Textarea } from "@/components/ui/textarea";
 
 interface EditableSummaryProps {
-  summary: string
-  onSave: (summary: string) => Promise<void>
+  summary: string;
+  onSave: (summary: string) => Promise<void>;
 }
 
 export function EditableSummary({ summary, onSave }: EditableSummaryProps) {
-  const [isOpen, setIsOpen] = useState(true)
-  const [isEditing, setIsEditing] = useState(false)
-  const [editedSummary, setEditedSummary] = useState(summary)
-  const [isSaving, setIsSaving] = useState(false)
+  const [isOpen, setIsOpen] = useState(true);
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedSummary, setEditedSummary] = useState(summary);
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleEdit = () => {
-    setEditedSummary(summary)
-    setIsEditing(true)
-  }
+    setEditedSummary(summary);
+    setIsEditing(true);
+  };
 
   const handleCancel = () => {
-    setIsEditing(false)
-    setEditedSummary(summary)
-  }
+    setIsEditing(false);
+    setEditedSummary(summary);
+  };
 
   const handleSave = async () => {
-    setIsSaving(true)
+    setIsSaving(true);
     try {
-      await onSave(editedSummary)
-      setIsEditing(false)
+      await onSave(editedSummary);
+      setIsEditing(false);
     } catch (error) {
-      console.error('Failed to save summary:', error)
+      console.error("Failed to save summary:", error);
       // Keep edit mode open on error
     } finally {
-      setIsSaving(false)
+      setIsSaving(false);
     }
-  }
+  };
 
   return (
     <div className="border border-neutral-200 bg-white">
@@ -59,7 +63,10 @@ export function EditableSummary({ summary, onSave }: EditableSummaryProps) {
                     <span className="sr-only">Edit summary</span>
                   </button>
                   <CollapsibleTrigger asChild>
-                    <button type="button" className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200">
+                    <button
+                      type="button"
+                      className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200"
+                    >
                       {isOpen ? (
                         <ChevronUp className="h-3.5 w-3.5" />
                       ) : (
@@ -106,10 +113,13 @@ export function EditableSummary({ summary, onSave }: EditableSummaryProps) {
             ) : (
               <div className="text-sm">
                 {summary
-                  .split('\n')
-                  .filter(paragraph => paragraph.trim())
+                  .split("\n")
+                  .filter((paragraph) => paragraph.trim())
                   .map((paragraph) => (
-                    <p key={paragraph.substring(0, 50)} className="text-neutral-800 text-sm">
+                    <p
+                      key={paragraph.substring(0, 50)}
+                      className="text-neutral-800 text-sm"
+                    >
                       {paragraph.trim()}
                     </p>
                   ))}
@@ -119,5 +129,5 @@ export function EditableSummary({ summary, onSave }: EditableSummaryProps) {
         </CollapsibleContent>
       </Collapsible>
     </div>
-  )
+  );
 }

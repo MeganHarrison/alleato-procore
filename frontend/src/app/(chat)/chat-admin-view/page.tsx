@@ -27,10 +27,34 @@ async function fetchRagThreadState(threadId: string) {
 
 export default function RagHome() {
   const [agents, setAgents] = useState<Agent[]>([
-    { name: "classification", description: "Classifies user queries", handoffs: ["project", "internal_knowledge", "strategist"], tools: [], input_guardrails: [] },
-    { name: "project", description: "Handles project-related queries", handoffs: [], tools: [], input_guardrails: [] },
-    { name: "internal_knowledge", description: "Searches internal knowledge base", handoffs: [], tools: [], input_guardrails: [] },
-    { name: "strategist", description: "Provides strategic insights", handoffs: [], tools: [], input_guardrails: [] },
+    {
+      name: "classification",
+      description: "Classifies user queries",
+      handoffs: ["project", "internal_knowledge", "strategist"],
+      tools: [],
+      input_guardrails: [],
+    },
+    {
+      name: "project",
+      description: "Handles project-related queries",
+      handoffs: [],
+      tools: [],
+      input_guardrails: [],
+    },
+    {
+      name: "internal_knowledge",
+      description: "Searches internal knowledge base",
+      handoffs: [],
+      tools: [],
+      input_guardrails: [],
+    },
+    {
+      name: "strategist",
+      description: "Provides strategic insights",
+      handoffs: [],
+      tools: [],
+      input_guardrails: [],
+    },
   ]);
   const [events, setEvents] = useState<AgentEvent[]>([]);
   const [currentAgent, setCurrentAgent] = useState<string>("classification");
@@ -39,33 +63,30 @@ export default function RagHome() {
   const [threadId, setThreadId] = useState<string | null>(null);
   const [initialThreadId, setInitialThreadId] = useState<string | null>(null);
 
-  const hydrateState = useCallback(
-    async (id: string | null) => {
-      if (!id) return;
-      const data = await fetchRagThreadState(id);
-      if (!data) return;
+  const hydrateState = useCallback(async (id: string | null) => {
+    if (!id) return;
+    const data = await fetchRagThreadState(id);
+    if (!data) return;
 
-      setCurrentAgent(data.current_agent || "classification");
-      setContext(data.context || {});
-      if (Array.isArray(data.events)) {
-        setEvents(
-          data.events.map((e: any) => ({
-            ...e,
-            timestamp: new Date(e.timestamp ?? Date.now()),
-          }))
-        );
-      }
-      if (Array.isArray(data.guardrails)) {
-        setGuardrails(
-          data.guardrails.map((g: any) => ({
-            ...g,
-            timestamp: new Date(g.timestamp ?? Date.now()),
-          }))
-        );
-      }
-    },
-    []
-  );
+    setCurrentAgent(data.current_agent || "classification");
+    setContext(data.context || {});
+    if (Array.isArray(data.events)) {
+      setEvents(
+        data.events.map((e: any) => ({
+          ...e,
+          timestamp: new Date(e.timestamp ?? Date.now()),
+        })),
+      );
+    }
+    if (Array.isArray(data.guardrails)) {
+      setGuardrails(
+        data.guardrails.map((g: any) => ({
+          ...g,
+          timestamp: new Date(g.timestamp ?? Date.now()),
+        })),
+      );
+    }
+  }, []);
 
   useEffect(() => {
     if (threadId) {
@@ -86,7 +107,7 @@ export default function RagHome() {
           bootstrap.events.map((e: any) => ({
             ...e,
             timestamp: new Date(e.timestamp ?? Date.now()),
-          }))
+          })),
         );
       }
       if (Array.isArray(bootstrap.guardrails)) {
@@ -94,7 +115,7 @@ export default function RagHome() {
           bootstrap.guardrails.map((g: any) => ({
             ...g,
             timestamp: new Date(g.timestamp ?? Date.now()),
-          }))
+          })),
         );
       }
     })();
@@ -110,7 +131,6 @@ export default function RagHome() {
 
   return (
     <div className="flex h-[calc(100vh-theme(spacing.16))] gap-2 bg-gray-100 -m-6 p-2">
-      
       <AgentPanel
         agents={agents}
         currentAgent={currentAgent}

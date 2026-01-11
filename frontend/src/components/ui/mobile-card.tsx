@@ -1,7 +1,7 @@
-import * as React from 'react';
-import { cn } from '@/lib/utils';
-import { Stack } from './stack';
-import { Inline } from './inline';
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import { Stack } from "./stack";
+import { Inline } from "./inline";
 
 /**
  * MobileCard component for consistent mobile list item styling.
@@ -45,7 +45,10 @@ interface MobileCardHeaderProps {
   children: React.ReactNode;
 }
 
-MobileCard.Header = function MobileCardHeader({ className, children }: MobileCardHeaderProps) {
+MobileCard.Header = function MobileCardHeader({
+  className,
+  children,
+}: MobileCardHeaderProps) {
   return (
     <Inline justify="between" align="start" className={className}>
       {children}
@@ -60,9 +63,12 @@ interface MobileCardFooterProps {
   children: React.ReactNode;
 }
 
-MobileCard.Footer = function MobileCardFooter({ className, children }: MobileCardFooterProps) {
+MobileCard.Footer = function MobileCardFooter({
+  className,
+  children,
+}: MobileCardFooterProps) {
   return (
-    <Inline justify="between" className={cn('pt-2 border-t', className)}>
+    <Inline justify="between" className={cn("pt-2 border-t", className)}>
       {children}
     </Inline>
   );

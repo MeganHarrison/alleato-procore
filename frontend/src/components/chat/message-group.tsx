@@ -1,42 +1,47 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { format, parseISO } from "date-fns"
-import { Avatar, AvatarFallback } from "@/components/ui/avatar"
-import { MessageSquare, Smile, MoreHorizontal } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { cn } from "@/lib/utils"
+import { useState } from "react";
+import { format, parseISO } from "date-fns";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { MessageSquare, Smile, MoreHorizontal } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface Message {
-  id: string
-  content: string
-  user: { name: string }
-  createdAt: string
+  id: string;
+  content: string;
+  user: { name: string };
+  createdAt: string;
 }
 
 interface MessageGroupProps {
-  message: Message
-  isFirstInGroup: boolean
-  isOwnMessage: boolean
-  onSelect?: () => void
+  message: Message;
+  isFirstInGroup: boolean;
+  isOwnMessage: boolean;
+  onSelect?: () => void;
 }
 
-export function MessageGroup({ message, isFirstInGroup, isOwnMessage, onSelect }: MessageGroupProps) {
-  const [isHovered, setIsHovered] = useState(false)
+export function MessageGroup({
+  message,
+  isFirstInGroup,
+  isOwnMessage,
+  onSelect,
+}: MessageGroupProps) {
+  const [isHovered, setIsHovered] = useState(false);
 
-  const time = format(parseISO(message.createdAt), "h:mm a")
+  const time = format(parseISO(message.createdAt), "h:mm a");
   const initials = message.user.name
     .split(" ")
     .map((n) => n[0])
     .join("")
     .toUpperCase()
-    .slice(0, 2)
+    .slice(0, 2);
 
   return (
     <div
       className={cn(
         "group relative px-4 py-1 hover:bg-[hsl(var(--chat-hover))] transition-colors",
-        isFirstInGroup && "mt-2"
+        isFirstInGroup && "mt-2",
       )}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
@@ -58,10 +63,14 @@ export function MessageGroup({ message, isFirstInGroup, isOwnMessage, onSelect }
         <div className="flex-1 min-w-0">
           {isFirstInGroup && (
             <div className="flex items-baseline gap-2 mb-1">
-              <span className={cn(
-                "font-semibold text-sm",
-                isOwnMessage ? "text-[hsl(var(--chat-accent))]" : "text-[hsl(var(--chat-text))]"
-              )}>
+              <span
+                className={cn(
+                  "font-semibold text-sm",
+                  isOwnMessage
+                    ? "text-[hsl(var(--chat-accent))]"
+                    : "text-[hsl(var(--chat-text))]",
+                )}
+              >
                 {message.user.name}
               </span>
               <span className="text-xs text-[hsl(var(--chat-muted))]">
@@ -113,5 +122,5 @@ export function MessageGroup({ message, isFirstInGroup, isOwnMessage, onSelect }
         </div>
       )}
     </div>
-  )
+  );
 }

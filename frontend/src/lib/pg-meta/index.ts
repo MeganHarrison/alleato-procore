@@ -1,13 +1,13 @@
-import { stripIndent } from 'common-tags'
+import { stripIndent } from "common-tags";
 
-import { columnsSql, extensionsSql, tablesSql } from './sql'
+import { columnsSql, extensionsSql, tablesSql } from "./sql";
 
 export const SYSTEM_SCHEMAS = [
-  'information_schema',
-  'pg_catalog',
-  'pg_toast',
-  '_timescaledb_internal',
-]
+  "information_schema",
+  "pg_catalog",
+  "pg_toast",
+  "_timescaledb_internal",
+];
 
 /**
  * Generates the SQL query to list tables in the database.
@@ -19,26 +19,26 @@ export function listTablesSql(schemas: string[] = []) {
       columns as (${columnsSql})
     select
       *,
-      ${coalesceRowsToArray('columns', 'columns.table_id = tables.id')}
+      ${coalesceRowsToArray("columns", "columns.table_id = tables.id")}
     from tables
-  `
+  `;
 
-  sql += '\n'
+  sql += "\n";
 
   if (schemas.length > 0) {
-    sql += `where schema in (${schemas.map((s) => `'${s}'`).join(',')})`
+    sql += `where schema in (${schemas.map((s) => `'${s}'`).join(",")})`;
   } else {
-    sql += `where schema not in (${SYSTEM_SCHEMAS.map((s) => `'${s}'`).join(',')})`
+    sql += `where schema not in (${SYSTEM_SCHEMAS.map((s) => `'${s}'`).join(",")})`;
   }
 
-  return sql
+  return sql;
 }
 
 /**
  * Generates the SQL query to list all extensions in the database.
  */
 export function listExtensionsSql() {
-  return extensionsSql
+  return extensionsSql;
 }
 
 /**
@@ -55,5 +55,5 @@ export const coalesceRowsToArray = (source: string, filter: string) => {
       ),
       '{}'
     ) AS ${source}
-  `
-}
+  `;
+};

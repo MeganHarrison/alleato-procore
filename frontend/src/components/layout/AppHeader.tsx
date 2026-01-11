@@ -1,9 +1,14 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import Link from "next/link"
-import { usePathname } from "next/navigation"
-import { IconSearch, IconBell, IconUser, IconChevronDown } from "@tabler/icons-react"
+import * as React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  IconSearch,
+  IconBell,
+  IconUser,
+  IconChevronDown,
+} from "@tabler/icons-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,50 +16,52 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 interface AppHeaderProps {
-  className?: string
+  className?: string;
   currentProject?: {
-    id: string
-    name: string
-  }
+    id: string;
+    name: string;
+  };
   projects?: Array<{
-    id: string
-    name: string
-  }>
+    id: string;
+    name: string;
+  }>;
   user?: {
-    name?: string
-    email?: string
-    avatar?: string
-  }
-  onProjectChange?: (projectId: string) => void
+    name?: string;
+    email?: string;
+    avatar?: string;
+  };
+  onProjectChange?: (projectId: string) => void;
 }
 
-export function AppHeader({ 
+export function AppHeader({
   className,
   currentProject,
   projects = [],
   user,
-  onProjectChange
+  onProjectChange,
 }: AppHeaderProps) {
-  const pathname = usePathname()
+  const pathname = usePathname();
 
   return (
-    <header className={cn(
-      "sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-white px-6",
-      className
-    )}>
+    <header
+      className={cn(
+        "sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-white px-6",
+        className,
+      )}
+    >
       <div className="flex items-center gap-6">
         {/* Project Selector */}
         <Select value={currentProject?.id} onValueChange={onProjectChange}>
@@ -105,7 +112,9 @@ export function AppHeader({
                   <IconUser className="h-4 w-4" />
                 </div>
               )}
-              <span className="hidden md:inline">{user?.name || user?.email || "User"}</span>
+              <span className="hidden md:inline">
+                {user?.name || user?.email || "User"}
+              </span>
               <IconChevronDown className="h-4 w-4" />
             </Button>
           </DropdownMenuTrigger>
@@ -131,5 +140,5 @@ export function AppHeader({
         </DropdownMenu>
       </div>
     </header>
-  )
+  );
 }

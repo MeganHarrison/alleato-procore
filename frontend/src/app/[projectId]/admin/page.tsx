@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useParams } from 'next/navigation';
-import { ProjectToolPage } from '@/components/layout/project-tool-page';
-import { Card } from '@/components/ui/card';
+import { useParams } from "next/navigation";
+import { ProjectToolPage } from "@/components/layout/project-tool-page";
+import { Card } from "@/components/ui/card";
 
 export default function ProjectAdminPage() {
   const params = useParams();

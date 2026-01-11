@@ -44,16 +44,16 @@ export interface NewBudgetCodeData {
 export function createEmptyLineItem(): BudgetLineItem {
   return {
     id: crypto.randomUUID(),
-    projectCostCodeId: '',
-    costCodeLabel: '',
-    qty: '',
-    uom: '',
-    unitCost: '',
-    amount: '',
+    projectCostCodeId: "",
+    costCodeLabel: "",
+    qty: "",
+    uom: "",
+    unitCost: "",
+    amount: "",
   };
 }
 
 export function formatCostCodeLabel(costCode: ProjectCostCode): string {
-  const costCodeTitle = costCode.cost_codes?.title || '';
+  const costCodeTitle = costCode.cost_codes?.title || "";
   return `${costCode.cost_code_id} – ${costCodeTitle}`;
 }

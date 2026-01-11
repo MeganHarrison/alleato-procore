@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useCallback, useTransition } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useCallback, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ArrowUpDown, ArrowUp, ArrowDown } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Table,
   TableBody,
@@ -11,11 +11,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { RowActions } from '../RowActions';
-import { type ColumnMetadata } from '@/server/db/introspection';
-import { type TableConfig, type TableName, getRowTitle } from '@/lib/table-registry';
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { RowActions } from "../RowActions";
+import { type ColumnMetadata } from "@/server/db/introspection";
+import {
+  type TableConfig,
+  type TableName,
+  getRowTitle,
+} from "@/lib/table-registry";
 
 interface TableViewProps {
   table: TableName;
@@ -24,7 +28,7 @@ interface TableViewProps {
   rows: Record<string, unknown>[];
   visibleColumns: string[];
   currentSort?: string;
-  currentDir: 'asc' | 'desc';
+  currentDir: "asc" | "desc";
 }
 
 export function TableView({
@@ -46,18 +50,18 @@ export function TableView({
 
       // Toggle direction if same column
       if (currentSort === columnName) {
-        const newDir = currentDir === 'asc' ? 'desc' : 'asc';
-        params.set('dir', newDir);
+        const newDir = currentDir === "asc" ? "desc" : "asc";
+        params.set("dir", newDir);
       } else {
-        params.set('sort', columnName);
-        params.set('dir', 'asc');
+        params.set("sort", columnName);
+        params.set("dir", "asc");
       }
 
       startTransition(() => {
         router.push(`?${params.toString()}`);
       });
     },
-    [router, searchParams, currentSort, currentDir]
+    [router, searchParams, currentSort, currentDir],
   );
 
   const handleRowClick = (rowId: string | number) => {
@@ -65,7 +69,7 @@ export function TableView({
   };
 
   const displayColumns = columns.filter((col) =>
-    visibleColumns.includes(col.column_name)
+    visibleColumns.includes(col.column_name),
   );
 
   const pk = config.primaryKey;
@@ -99,7 +103,7 @@ export function TableView({
                   >
                     {col.label}
                     {isSorted ? (
-                      currentDir === 'asc' ? (
+                      currentDir === "asc" ? (
                         <ArrowUp className="h-4 w-4" />
                       ) : (
                         <ArrowDown className="h-4 w-4" />
@@ -158,26 +162,26 @@ function CellValue({ value, column }: CellValueProps) {
   }
 
   // Boolean
-  if (column.inputType === 'boolean') {
+  if (column.inputType === "boolean") {
     return (
-      <Badge variant={value ? 'success' : 'secondary'}>
-        {value ? 'Yes' : 'No'}
+      <Badge variant={value ? "success" : "secondary"}>
+        {value ? "Yes" : "No"}
       </Badge>
     );
   }
 
   // Dates
-  if (column.inputType === 'datetime' || column.inputType === 'date') {
+  if (column.inputType === "datetime" || column.inputType === "date") {
     try {
       const date = new Date(String(value));
       return (
         <span className="tabular-nums">
           {date.toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'short',
-            day: 'numeric',
-            ...(column.inputType === 'datetime'
-              ? { hour: '2-digit', minute: '2-digit' }
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+            ...(column.inputType === "datetime"
+              ? { hour: "2-digit", minute: "2-digit" }
               : {}),
           })}
         </span>
@@ -188,17 +192,18 @@ function CellValue({ value, column }: CellValueProps) {
   }
 
   // Numbers
-  if (column.inputType === 'number') {
-    const numValue = typeof value === 'number' ? value : parseFloat(String(value));
+  if (column.inputType === "number") {
+    const numValue =
+      typeof value === "number" ? value : parseFloat(String(value));
     if (!isNaN(numValue)) {
       return (
         <span className="tabular-nums">
-          {column.column_name.includes('amount') ||
-          column.column_name.includes('price') ||
-          column.column_name.includes('cost')
-            ? new Intl.NumberFormat('en-US', {
-                style: 'currency',
-                currency: 'USD',
+          {column.column_name.includes("amount") ||
+          column.column_name.includes("price") ||
+          column.column_name.includes("cost")
+            ? new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "USD",
               }).format(numValue)
             : numValue.toLocaleString()}
         </span>
@@ -207,9 +212,9 @@ function CellValue({ value, column }: CellValueProps) {
   }
 
   // JSON
-  if (column.inputType === 'json') {
+  if (column.inputType === "json") {
     try {
-      const str = typeof value === 'string' ? value : JSON.stringify(value);
+      const str = typeof value === "string" ? value : JSON.stringify(value);
       return (
         <span className="font-mono text-xs max-w-[200px] truncate block">
           {str}
@@ -221,7 +226,7 @@ function CellValue({ value, column }: CellValueProps) {
   }
 
   // UUID - truncate
-  if (column.inputType === 'uuid') {
+  if (column.inputType === "uuid") {
     const str = String(value);
     return (
       <span className="font-mono text-xs" title={str}>
@@ -231,7 +236,11 @@ function CellValue({ value, column }: CellValueProps) {
   }
 
   // URL
-  if (column.inputType === 'url' && typeof value === 'string' && value.startsWith('http')) {
+  if (
+    column.inputType === "url" &&
+    typeof value === "string" &&
+    value.startsWith("http")
+  ) {
     return (
       <a
         href={value}
@@ -248,11 +257,7 @@ function CellValue({ value, column }: CellValueProps) {
   // Default: truncate long text
   const str = String(value);
   if (str.length > 100) {
-    return (
-      <span title={str}>
-        {str.substring(0, 100)}...
-      </span>
-    );
+    return <span title={str}>{str.substring(0, 100)}...</span>;
   }
 
   return <span>{str}</span>;

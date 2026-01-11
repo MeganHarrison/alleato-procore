@@ -1,42 +1,42 @@
-'use client'
+"use client";
 
-import React, { ReactNode } from 'react'
-import { Button } from '@/components/ui/button'
-import { Download, MoreVertical } from 'lucide-react'
+import React, { ReactNode } from "react";
+import { Button } from "@/components/ui/button";
+import { Download, MoreVertical } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { LoadingState } from './loading-state'
-import { EmptyState } from './empty-state'
-import { LucideIcon } from 'lucide-react'
-import { cn } from '@/lib/utils'
+} from "@/components/ui/dropdown-menu";
+import { LoadingState } from "./loading-state";
+import { EmptyState } from "./empty-state";
+import { LucideIcon } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface TableColumn<T = any> {
-  key: string
-  header: string
-  accessor: (row: T) => ReactNode
-  className?: string
-  align?: 'left' | 'center' | 'right'
+  key: string;
+  header: string;
+  accessor: (row: T) => ReactNode;
+  className?: string;
+  align?: "left" | "center" | "right";
 }
 
 interface FinancialDataTableProps<T = any> {
-  title?: string
-  data: T[]
-  columns: TableColumn<T>[]
-  loading?: boolean
-  loadingMessage?: string
-  emptyIcon?: LucideIcon
-  emptyMessage?: string
-  emptyActionLabel?: string
-  onEmptyAction?: () => void
-  onExport?: (format: 'csv' | 'pdf' | 'excel') => void
-  onRowClick?: (row: T) => void
-  actions?: (row: T) => ReactNode
-  className?: string
-  tableClassName?: string
+  title?: string;
+  data: T[];
+  columns: TableColumn<T>[];
+  loading?: boolean;
+  loadingMessage?: string;
+  emptyIcon?: LucideIcon;
+  emptyMessage?: string;
+  emptyActionLabel?: string;
+  onEmptyAction?: () => void;
+  onExport?: (format: "csv" | "pdf" | "excel") => void;
+  onRowClick?: (row: T) => void;
+  actions?: (row: T) => ReactNode;
+  className?: string;
+  tableClassName?: string;
 }
 
 export function FinancialDataTable<T extends { id?: string | number }>({
@@ -44,19 +44,19 @@ export function FinancialDataTable<T extends { id?: string | number }>({
   data,
   columns,
   loading = false,
-  loadingMessage = 'Loading data...',
+  loadingMessage = "Loading data...",
   emptyIcon,
-  emptyMessage = 'No data found',
+  emptyMessage = "No data found",
   emptyActionLabel,
   onEmptyAction,
   onExport,
   onRowClick,
   actions,
   className,
-  tableClassName
+  tableClassName,
 }: FinancialDataTableProps<T>) {
   if (loading) {
-    return <LoadingState message={loadingMessage} />
+    return <LoadingState message={loadingMessage} />;
   }
 
   if (!data || data.length === 0) {
@@ -67,16 +67,14 @@ export function FinancialDataTable<T extends { id?: string | number }>({
         actionLabel={emptyActionLabel}
         onAction={onEmptyAction}
       />
-    )
+    );
   }
 
   return (
     <div className={className}>
       {(title || onExport) && (
         <div className="flex items-center justify-between mb-4">
-          {title && (
-            <h3 className="text-lg font-semibold">{title}</h3>
-          )}
+          {title && <h3 className="text-lg font-semibold">{title}</h3>}
           {onExport && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -86,13 +84,13 @@ export function FinancialDataTable<T extends { id?: string | number }>({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent>
-                <DropdownMenuItem onClick={() => onExport('csv')}>
+                <DropdownMenuItem onClick={() => onExport("csv")}>
                   Export as CSV
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onExport('pdf')}>
+                <DropdownMenuItem onClick={() => onExport("pdf")}>
                   Export as PDF
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => onExport('excel')}>
+                <DropdownMenuItem onClick={() => onExport("excel")}>
                   Export as Excel
                 </DropdownMenuItem>
               </DropdownMenuContent>
@@ -110,9 +108,9 @@ export function FinancialDataTable<T extends { id?: string | number }>({
                   key={column.key}
                   className={cn(
                     "pb-3 text-left text-sm font-medium",
-                    column.align === 'center' && "text-center",
-                    column.align === 'right' && "text-right",
-                    column.className
+                    column.align === "center" && "text-center",
+                    column.align === "right" && "text-right",
+                    column.className,
                   )}
                 >
                   {column.header}
@@ -127,7 +125,7 @@ export function FinancialDataTable<T extends { id?: string | number }>({
                 key={row.id || index}
                 className={cn(
                   "group",
-                  onRowClick && "hover:bg-gray-50 cursor-pointer"
+                  onRowClick && "hover:bg-gray-50 cursor-pointer",
                 )}
                 onClick={() => onRowClick?.(row)}
               >
@@ -136,9 +134,9 @@ export function FinancialDataTable<T extends { id?: string | number }>({
                     key={column.key}
                     className={cn(
                       "py-3 text-sm",
-                      column.align === 'center' && "text-center",
-                      column.align === 'right' && "text-right",
-                      column.className
+                      column.align === "center" && "text-center",
+                      column.align === "right" && "text-right",
+                      column.className,
                     )}
                   >
                     {column.accessor(row)}
@@ -157,5 +155,5 @@ export function FinancialDataTable<T extends { id?: string | number }>({
         </table>
       </div>
     </div>
-  )
+  );
 }

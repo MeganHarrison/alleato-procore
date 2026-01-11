@@ -1,10 +1,10 @@
-import { z } from 'zod';
+import { z } from "zod";
 import {
   optionalNumber,
   optionalPercent,
   optionalPositiveNumber,
   requiredNumber,
-} from './common';
+} from "./common";
 
 // SOV Line Item for Purchase Orders (Unit/Quantity-based)
 export const PurchaseOrderSovLineItemSchema = z.object({
@@ -19,7 +19,9 @@ export const PurchaseOrderSovLineItemSchema = z.object({
   billedToDate: optionalPositiveNumber,
 });
 
-export type PurchaseOrderSovLineItem = z.infer<typeof PurchaseOrderSovLineItemSchema>;
+export type PurchaseOrderSovLineItem = z.infer<
+  typeof PurchaseOrderSovLineItemSchema
+>;
 
 // Contract Dates
 const ContractDatesSchema = z.object({
@@ -39,10 +41,10 @@ const PrivacySchema = z.object({
 // Main Purchase Order Schema
 export const CreatePurchaseOrderSchema = z.object({
   // General Information
-  contractNumber: z.string().min(1, 'Contract number is required'),
+  contractNumber: z.string().min(1, "Contract number is required"),
   contractCompanyId: z.string().optional(),
   title: z.string().optional(),
-  status: z.enum(['Draft', 'Approved', 'Sent', 'Acknowledged', 'Completed']),
+  status: z.enum(["Draft", "Approved", "Sent", "Acknowledged", "Completed"]),
   executed: z.boolean(),
   defaultRetainagePercent: optionalPercent,
   assignedTo: z.string().optional(), // User ID
@@ -58,7 +60,7 @@ export const CreatePurchaseOrderSchema = z.object({
 
   // Schedule of Values (Unit/Quantity-based)
   sov: z.array(PurchaseOrderSovLineItemSchema),
-  accountingMethod: z.enum(['unit-quantity', 'amount']),
+  accountingMethod: z.enum(["unit-quantity", "amount"]),
 
   // Contract Dates
   dates: ContractDatesSchema.optional(),
@@ -70,4 +72,6 @@ export const CreatePurchaseOrderSchema = z.object({
   invoiceContactIds: z.array(z.string()).optional(),
 });
 
-export type CreatePurchaseOrderInput = z.infer<typeof CreatePurchaseOrderSchema>;
+export type CreatePurchaseOrderInput = z.infer<
+  typeof CreatePurchaseOrderSchema
+>;

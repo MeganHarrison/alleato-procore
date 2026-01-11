@@ -1,76 +1,76 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { ChevronRight, Download } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { useProject } from "@/contexts/project-context"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { ChevronRight, Download } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { useProject } from "@/contexts/project-context";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Container } from "@/components/ui/container"
-import { Stack } from "@/components/ui/stack"
-import { Inline } from "@/components/ui/inline"
-import { Heading } from "@/components/ui/heading"
-import { Text } from "@/components/ui/text"
+} from "@/components/ui/dropdown-menu";
+import { Container } from "@/components/ui/container";
+import { Stack } from "@/components/ui/stack";
+import { Inline } from "@/components/ui/inline";
+import { Heading } from "@/components/ui/heading";
+import { Text } from "@/components/ui/text";
 
 interface BreadcrumbItem {
-  label: string
-  href?: string
+  label: string;
+  href?: string;
 }
 
 interface PageHeaderProps {
   // Content
-  title: string
-  titleContent?: React.ReactNode
-  description?: string
-  breadcrumbs?: BreadcrumbItem[]
-  
+  title: string;
+  titleContent?: React.ReactNode;
+  description?: string;
+  breadcrumbs?: BreadcrumbItem[];
+
   // Layout options
-  variant?: "default" | "executive" | "compact" | "budget"
-  actions?: React.ReactNode
-  className?: string
-  
+  variant?: "default" | "executive" | "compact" | "budget";
+  actions?: React.ReactNode;
+  className?: string;
+
   // Project context
-  showProjectName?: boolean
+  showProjectName?: boolean;
   preHeading?: {
-    project?: string
-    client?: string
-  }
-  
+    project?: string;
+    client?: string;
+  };
+
   // Status
-  statusBadge?: React.ReactNode
-  
+  statusBadge?: React.ReactNode;
+
   // Export functionality
-  showExportButton?: boolean
-  onExportCSV?: () => void
-  onExportPDF?: () => void
-  exportLabel?: string
+  showExportButton?: boolean;
+  onExportCSV?: () => void;
+  onExportPDF?: () => void;
+  exportLabel?: string;
 }
 
 /**
  * Unified PageHeader component that consolidates all page header variations
- * 
+ *
  * @example Default usage
  * ```tsx
  * <PageHeader title="Budget" description="Manage your project budget" />
  * ```
- * 
+ *
  * @example Executive variant with pre-heading
  * ```tsx
- * <PageHeader 
+ * <PageHeader
  *   variant="executive"
  *   preHeading={{ project: "Project Name", client: "Client Name" }}
  *   title="Financial Overview"
  * />
  * ```
- * 
+ *
  * @example With custom title content and status
  * ```tsx
- * <PageHeader 
+ * <PageHeader
  *   titleContent={
  *     <Inline>
  *       <Heading>Budget</Heading>
@@ -96,10 +96,11 @@ export function PageHeader({
   onExportPDF,
   exportLabel = "Export",
 }: PageHeaderProps) {
-  const { selectedProject, isLoading } = useProject()
-  
+  const { selectedProject, isLoading } = useProject();
+
   // Show project name by default for non-executive variants when in project context
-  const shouldShowProjectName = showProjectName || (variant !== "executive" && selectedProject)
+  const shouldShowProjectName =
+    showProjectName || (variant !== "executive" && selectedProject);
 
   if (variant === "executive") {
     return (
@@ -107,13 +108,15 @@ export function PageHeader({
         <Container size="xl">
           <Stack gap="md" className="py-12">
             {preHeading && (preHeading.project || preHeading.client) && (
-              <Text 
-                size="sm" 
-                tone="muted" 
-                transform="uppercase" 
+              <Text
+                size="sm"
+                tone="muted"
+                transform="uppercase"
                 className="tracking-wider"
               >
-                {[preHeading.project, preHeading.client].filter(Boolean).join(" / ")}
+                {[preHeading.project, preHeading.client]
+                  .filter(Boolean)
+                  .join(" / ")}
               </Text>
             )}
             <h1 className="text-3xl md:text-4xl lg:text-5xl font-serif font-light tracking-tight">
@@ -132,7 +135,7 @@ export function PageHeader({
           </Stack>
         </Container>
       </div>
-    )
+    );
   }
 
   if (variant === "compact") {
@@ -148,7 +151,7 @@ export function PageHeader({
           </div>
         </div>
       </div>
-    )
+    );
   }
 
   // Default variant (includes budget variant behavior)
@@ -172,9 +175,7 @@ export function PageHeader({
                       {item.label}
                     </a>
                   ) : (
-                    <span className="text-sm font-medium">
-                      {item.label}
-                    </span>
+                    <span className="text-sm font-medium">{item.label}</span>
                   )}
                 </li>
               ))}
@@ -252,8 +253,8 @@ export function PageHeader({
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 // For backwards compatibility, export as ProjectPageHeader too
-export { PageHeader as ProjectPageHeader }
+export { PageHeader as ProjectPageHeader };

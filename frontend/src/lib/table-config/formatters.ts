@@ -1,16 +1,18 @@
-import { format } from "date-fns"
+import { format } from "date-fns";
 
 /**
  * Format a number as currency (USD)
  */
-export function formatCurrency(value: number | string | null | undefined): string {
-  if (value === null || value === undefined || value === "") return "-"
-  const num = typeof value === "string" ? parseFloat(value) : value
-  if (isNaN(num)) return "-"
+export function formatCurrency(
+  value: number | string | null | undefined,
+): string {
+  if (value === null || value === undefined || value === "") return "-";
+  const num = typeof value === "string" ? parseFloat(value) : value;
+  if (isNaN(num)) return "-";
   return new Intl.NumberFormat("en-US", {
     style: "currency",
     currency: "USD",
-  }).format(num)
+  }).format(num);
 }
 
 /**
@@ -18,14 +20,14 @@ export function formatCurrency(value: number | string | null | undefined): strin
  */
 export function formatDate(
   value: string | Date | null | undefined,
-  formatStr: string = "MMM d, yyyy"
+  formatStr: string = "MMM d, yyyy",
 ): string {
-  if (!value) return "-"
+  if (!value) return "-";
   try {
-    const date = typeof value === "string" ? new Date(value) : value
-    return format(date, formatStr)
+    const date = typeof value === "string" ? new Date(value) : value;
+    return format(date, formatStr);
   } catch {
-    return "-"
+    return "-";
   }
 }
 
@@ -34,15 +36,15 @@ export function formatDate(
  */
 export function formatNumber(
   value: number | string | null | undefined,
-  decimals: number = 0
+  decimals: number = 0,
 ): string {
-  if (value === null || value === undefined || value === "") return "-"
-  const num = typeof value === "string" ? parseFloat(value) : value
-  if (isNaN(num)) return "-"
+  if (value === null || value === undefined || value === "") return "-";
+  const num = typeof value === "string" ? parseFloat(value) : value;
+  if (isNaN(num)) return "-";
   return new Intl.NumberFormat("en-US", {
     minimumFractionDigits: decimals,
     maximumFractionDigits: decimals,
-  }).format(num)
+  }).format(num);
 }
 
 /**
@@ -50,27 +52,30 @@ export function formatNumber(
  */
 export function formatPercent(
   value: number | string | null | undefined,
-  decimals: number = 1
+  decimals: number = 1,
 ): string {
-  if (value === null || value === undefined || value === "") return "-"
-  const num = typeof value === "string" ? parseFloat(value) : value
-  if (isNaN(num)) return "-"
-  return `${num.toFixed(decimals)}%`
+  if (value === null || value === undefined || value === "") return "-";
+  const num = typeof value === "string" ? parseFloat(value) : value;
+  if (isNaN(num)) return "-";
+  return `${num.toFixed(decimals)}%`;
 }
 
 /**
  * Format an array as comma-separated string
  */
 export function formatArray(value: string[] | null | undefined): string {
-  if (!value || !Array.isArray(value) || value.length === 0) return "-"
-  return value.join(", ")
+  if (!value || !Array.isArray(value) || value.length === 0) return "-";
+  return value.join(", ");
 }
 
 /**
  * Truncate text with ellipsis
  */
-export function truncateText(value: string | null | undefined, maxLength: number = 50): string {
-  if (!value) return "-"
-  if (value.length <= maxLength) return value
-  return `${value.substring(0, maxLength)}...`
+export function truncateText(
+  value: string | null | undefined,
+  maxLength: number = 50,
+): string {
+  if (!value) return "-";
+  if (value.length <= maxLength) return value;
+  return `${value.substring(0, maxLength)}...`;
 }

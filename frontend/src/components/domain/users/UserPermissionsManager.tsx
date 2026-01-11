@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Text } from '@/components/ui/text';
-import { Separator } from '@/components/ui/separator';
+import * as React from "react";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Text } from "@/components/ui/text";
+import { Separator } from "@/components/ui/separator";
 import {
   Dialog,
   DialogContent,
@@ -12,10 +12,13 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Shield, RotateCcw } from 'lucide-react';
-import { useUserPermissions, useUpdateUserPermissions } from '@/hooks/use-user-permissions';
-import { Skeleton } from '@/components/ui/skeleton';
+} from "@/components/ui/dialog";
+import { Shield, RotateCcw } from "lucide-react";
+import {
+  useUserPermissions,
+  useUpdateUserPermissions,
+} from "@/hooks/use-user-permissions";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface UserPermissionsManagerProps {
   open: boolean;
@@ -28,29 +31,29 @@ interface UserPermissionsManagerProps {
 // Phase 1B: 15 Core Permission Modules
 // Additional modules will be available in Phase 2
 const TOOLS = [
-  { name: 'home', label: 'Home' },
-  { name: 'emails', label: 'Emails' },
-  { name: 'prime_contracts', label: 'Prime Contracts' },
-  { name: 'budget', label: 'Budget' },
-  { name: 'commitments', label: 'Commitments' },
-  { name: 'change_orders', label: 'Change Orders' },
-  { name: 'change_events', label: 'Change Events' },
-  { name: 'direct_costs', label: 'Direct Costs' },
-  { name: 'rfis', label: 'RFIs' },
-  { name: 'submittals', label: 'Submittals' },
-  { name: 'punch_list', label: 'Punch List' },
-  { name: 'schedule', label: 'Schedule' },
-  { name: 'photos', label: 'Photos' },
-  { name: 'documents', label: 'Documents' },
-  { name: 'directory', label: 'Directory' },
+  { name: "home", label: "Home" },
+  { name: "emails", label: "Emails" },
+  { name: "prime_contracts", label: "Prime Contracts" },
+  { name: "budget", label: "Budget" },
+  { name: "commitments", label: "Commitments" },
+  { name: "change_orders", label: "Change Orders" },
+  { name: "change_events", label: "Change Events" },
+  { name: "direct_costs", label: "Direct Costs" },
+  { name: "rfis", label: "RFIs" },
+  { name: "submittals", label: "Submittals" },
+  { name: "punch_list", label: "Punch List" },
+  { name: "schedule", label: "Schedule" },
+  { name: "photos", label: "Photos" },
+  { name: "documents", label: "Documents" },
+  { name: "directory", label: "Directory" },
 ];
 
 // Permission levels as per Procore specification
 const PERMISSION_TYPES = [
-  { type: 'none', label: 'None' },
-  { type: 'read_only', label: 'Read Only' },
-  { type: 'standard', label: 'Standard' },
-  { type: 'admin', label: 'Admin' },
+  { type: "none", label: "None" },
+  { type: "read_only", label: "Read Only" },
+  { type: "standard", label: "Standard" },
+  { type: "admin", label: "Admin" },
 ] as const;
 
 export function UserPermissionsManager({
@@ -60,8 +63,14 @@ export function UserPermissionsManager({
   personId,
   userName,
 }: UserPermissionsManagerProps) {
-  const { data: permissionsData, isLoading } = useUserPermissions(projectId, personId);
-  const updatePermissionsMutation = useUpdateUserPermissions(projectId, personId);
+  const { data: permissionsData, isLoading } = useUserPermissions(
+    projectId,
+    personId,
+  );
+  const updatePermissionsMutation = useUpdateUserPermissions(
+    projectId,
+    personId,
+  );
 
   // Track permission overrides (what differs from template)
   const [overrides, setOverrides] = React.useState<
@@ -78,32 +87,38 @@ export function UserPermissionsManager({
   const hasPermission = (toolName: string, permissionType: string): boolean => {
     // Check if there's an override
     const override = overrides.find(
-      (o) => o.tool_name === toolName && o.permission_type === permissionType
+      (o) => o.tool_name === toolName && o.permission_type === permissionType,
     );
     if (override !== undefined) {
       return override.is_granted;
     }
 
     // Fall back to effective permissions from template
-    const effectivePerms = permissionsData?.effective_permissions?.[toolName] || [];
+    const effectivePerms =
+      permissionsData?.effective_permissions?.[toolName] || [];
     return effectivePerms.includes(permissionType);
   };
 
-  const isFromTemplate = (toolName: string, permissionType: string): boolean => {
+  const isFromTemplate = (
+    toolName: string,
+    permissionType: string,
+  ): boolean => {
     const override = overrides.find(
-      (o) => o.tool_name === toolName && o.permission_type === permissionType
+      (o) => o.tool_name === toolName && o.permission_type === permissionType,
     );
     return override === undefined;
   };
 
   const togglePermission = (toolName: string, permissionType: string) => {
     const currentHasPermission = hasPermission(toolName, permissionType);
-    const templatePerms = permissionsData?.template_permissions?.[toolName] || [];
+    const templatePerms =
+      permissionsData?.template_permissions?.[toolName] || [];
     const templateHasPermission = templatePerms.includes(permissionType);
 
     // Remove existing override if present
     const filteredOverrides = overrides.filter(
-      (o) => !(o.tool_name === toolName && o.permission_type === permissionType)
+      (o) =>
+        !(o.tool_name === toolName && o.permission_type === permissionType),
     );
 
     // If toggling to same as template, just remove override
@@ -139,7 +154,8 @@ export function UserPermissionsManager({
         <DialogHeader>
           <DialogTitle>Manage Permissions - {userName}</DialogTitle>
           <DialogDescription>
-            Grant or revoke specific permissions. Changes override the base permission template.
+            Grant or revoke specific permissions. Changes override the base
+            permission template.
           </DialogDescription>
         </DialogHeader>
 
@@ -159,8 +175,8 @@ export function UserPermissionsManager({
                   <Text weight="medium">Base Permission Template</Text>
                 </div>
                 <Text size="sm" tone="muted">
-                  Permissions below are based on the user's permission template. You can override
-                  individual permissions here.
+                  Permissions below are based on the user's permission template.
+                  You can override individual permissions here.
                 </Text>
               </div>
             )}
@@ -171,7 +187,10 @@ export function UserPermissionsManager({
               <div className="grid grid-cols-5 bg-muted border-b">
                 <div className="p-3 font-semibold">Tool</div>
                 {PERMISSION_TYPES.map((perm) => (
-                  <div key={perm.type} className="p-3 font-semibold text-center">
+                  <div
+                    key={perm.type}
+                    className="p-3 font-semibold text-center"
+                  >
                     {perm.label}
                   </div>
                 ))}
@@ -182,7 +201,7 @@ export function UserPermissionsManager({
                 <div
                   key={tool.name}
                   className={`grid grid-cols-5 border-b last:border-b-0 ${
-                    index % 2 === 0 ? 'bg-background' : 'bg-muted/30'
+                    index % 2 === 0 ? "bg-background" : "bg-muted/30"
                   }`}
                 >
                   <div className="p-3 font-medium">{tool.label}</div>
@@ -198,11 +217,13 @@ export function UserPermissionsManager({
                         <div className="flex flex-col items-center gap-1">
                           <Checkbox
                             checked={hasIt}
-                            onCheckedChange={() => togglePermission(tool.name, perm.type)}
+                            onCheckedChange={() =>
+                              togglePermission(tool.name, perm.type)
+                            }
                             className={
                               !fromTemplate
-                                ? 'border-primary data-[state=checked]:bg-primary'
-                                : ''
+                                ? "border-primary data-[state=checked]:bg-primary"
+                                : ""
                             }
                           />
                           {!fromTemplate && (
@@ -221,9 +242,12 @@ export function UserPermissionsManager({
             {/* Phase 2 Note */}
             <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg dark:bg-blue-950 dark:border-blue-800">
               <Text size="sm" tone="muted">
-                <Text as="span" weight="medium">Note:</Text> Additional permission modules
-                (Transmittals, Meetings, Daily Log, Drawings, Specifications, Tasks, Admin, and more)
-                will be available in Phase 2.
+                <Text as="span" weight="medium">
+                  Note:
+                </Text>{" "}
+                Additional permission modules (Transmittals, Meetings, Daily
+                Log, Drawings, Specifications, Tasks, Admin, and more) will be
+                available in Phase 2.
               </Text>
             </div>
 
@@ -237,7 +261,8 @@ export function UserPermissionsManager({
                   • Normal checkbox = Permission from template
                 </Text>
                 <Text size="xs" tone="muted">
-                  • Highlighted checkbox = Permission override (different from template)
+                  • Highlighted checkbox = Permission override (different from
+                  template)
                 </Text>
               </div>
             </div>
@@ -246,11 +271,12 @@ export function UserPermissionsManager({
             {overrides.length > 0 && (
               <div className="mt-4 p-3 bg-primary/10 border border-primary/20 rounded-lg">
                 <Text size="sm" weight="medium" className="mb-1">
-                  {overrides.length} Permission Override{overrides.length !== 1 ? 's' : ''}
+                  {overrides.length} Permission Override
+                  {overrides.length !== 1 ? "s" : ""}
                 </Text>
                 <Text size="xs" tone="muted">
-                  These permissions differ from the base template and will be applied specifically
-                  to this user.
+                  These permissions differ from the base template and will be
+                  applied specifically to this user.
                 </Text>
               </div>
             )}
@@ -279,7 +305,7 @@ export function UserPermissionsManager({
               Cancel
             </Button>
             <Button type="button" onClick={handleSave} disabled={isSaving}>
-              {isSaving ? 'Saving...' : 'Save Permissions'}
+              {isSaving ? "Saving..." : "Save Permissions"}
             </Button>
           </div>
         </DialogFooter>

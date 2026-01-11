@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { DollarSign, Download, Plus } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import { DollarSign, Download, Plus } from "lucide-react";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -14,10 +14,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { PageContainer, ProjectPageHeader, PageTabs } from '@/components/layout';
+} from "@/components/ui/table";
+import {
+  PageContainer,
+  ProjectPageHeader,
+  PageTabs,
+} from "@/components/layout";
 
-import type { Invoice } from '@/types/financial';
+import type { Invoice } from "@/types/financial";
 
 export default function ProjectInvoicesPage() {
   const router = useRouter();
@@ -39,7 +43,7 @@ export default function ProjectInvoicesPage() {
           setInvoices(data.data || []);
         }
       } catch (error) {
-        console.error('Error fetching invoices:', error);
+        console.error("Error fetching invoices:", error);
       } finally {
         setLoading(false);
       }
@@ -48,18 +52,28 @@ export default function ProjectInvoicesPage() {
     fetchInvoices();
   }, [projectId]);
 
-  const getStatusBadgeVariant = (status: string): "success" | "default" | "secondary" | "outline" | "destructive" | "warning" | null | undefined => {
+  const getStatusBadgeVariant = (
+    status: string,
+  ):
+    | "success"
+    | "default"
+    | "secondary"
+    | "outline"
+    | "destructive"
+    | "warning"
+    | null
+    | undefined => {
     switch (status) {
-      case 'paid':
-        return 'success';
-      case 'approved':
-        return 'default';
-      case 'submitted':
-        return 'secondary';
-      case 'draft':
-        return 'outline';
+      case "paid":
+        return "success";
+      case "approved":
+        return "default";
+      case "submitted":
+        return "secondary";
+      case "draft":
+        return "outline";
       default:
-        return 'destructive';
+        return "destructive";
     }
   };
 
@@ -67,10 +81,10 @@ export default function ProjectInvoicesPage() {
   const totals = invoices.reduce(
     (acc, invoice) => {
       acc.totalBilled += invoice.total_amount || 0;
-      if (invoice.status !== 'paid') {
+      if (invoice.status !== "paid") {
         acc.outstanding += invoice.total_amount || 0;
       }
-      if (invoice.status === 'paid' && invoice.billing_period_start) {
+      if (invoice.status === "paid" && invoice.billing_period_start) {
         const billingDate = new Date(invoice.billing_period_start);
         const currentDate = new Date();
         const isThisMonth =
@@ -81,7 +95,7 @@ export default function ProjectInvoicesPage() {
         }
       }
       // Check if overdue (simplified - would need due_date field)
-      if (invoice.status !== 'paid' && invoice.due_date) {
+      if (invoice.status !== "paid" && invoice.due_date) {
         const dueDate = new Date(invoice.due_date);
         if (dueDate < new Date()) {
           acc.overdueCount++;
@@ -89,7 +103,7 @@ export default function ProjectInvoicesPage() {
       }
       return acc;
     },
-    { totalBilled: 0, outstanding: 0, paidThisMonth: 0, overdueCount: 0 }
+    { totalBilled: 0, outstanding: 0, paidThisMonth: 0, overdueCount: 0 },
   );
 
   return (
@@ -98,7 +112,10 @@ export default function ProjectInvoicesPage() {
         title="Invoices"
         description="Manage project invoices and billing"
         actions={
-          <Button size="sm" onClick={() => router.push(`/${projectId}/invoices/new`)}>
+          <Button
+            size="sm"
+            onClick={() => router.push(`/${projectId}/invoices/new`)}
+          >
             <Plus className="h-4 w-4 mr-2" />
             New Invoice
           </Button>
@@ -107,11 +124,18 @@ export default function ProjectInvoicesPage() {
 
       <PageTabs
         tabs={[
-          { label: 'All Invoices', href: `/${projectId}/invoices`, count: invoices.length },
-          { label: 'Draft', href: `/${projectId}/invoices?status=draft` },
-          { label: 'Submitted', href: `/${projectId}/invoices?status=submitted` },
-          { label: 'Approved', href: `/${projectId}/invoices?status=approved` },
-          { label: 'Paid', href: `/${projectId}/invoices?status=paid` },
+          {
+            label: "All Invoices",
+            href: `/${projectId}/invoices`,
+            count: invoices.length,
+          },
+          { label: "Draft", href: `/${projectId}/invoices?status=draft` },
+          {
+            label: "Submitted",
+            href: `/${projectId}/invoices?status=submitted`,
+          },
+          { label: "Approved", href: `/${projectId}/invoices?status=approved` },
+          { label: "Paid", href: `/${projectId}/invoices?status=paid` },
         ]}
       />
 
@@ -163,7 +187,9 @@ export default function ProjectInvoicesPage() {
               <div className="text-center py-12">
                 <DollarSign className="h-12 w-12 mx-auto text-gray-400 mb-4" />
                 <p className="text-muted-foreground mb-4">No invoices found</p>
-                <Button onClick={() => router.push(`/${projectId}/invoices/new`)}>
+                <Button
+                  onClick={() => router.push(`/${projectId}/invoices/new`)}
+                >
                   <Plus className="h-4 w-4 mr-2" />
                   Create your first invoice
                 </Button>
@@ -183,19 +209,31 @@ export default function ProjectInvoicesPage() {
                 </TableHeader>
                 <TableBody>
                   {invoices.map((invoice) => (
-                    <TableRow key={invoice.id} className="cursor-pointer hover:bg-gray-50">
-                      <TableCell className="font-medium">{invoice.number}</TableCell>
-                      <TableCell>{invoice.commitment?.title || '-'}</TableCell>
-                      <TableCell>{invoice.billing_period_start} - {invoice.billing_period_end}</TableCell>
+                    <TableRow
+                      key={invoice.id}
+                      className="cursor-pointer hover:bg-gray-50"
+                    >
+                      <TableCell className="font-medium">
+                        {invoice.number}
+                      </TableCell>
+                      <TableCell>{invoice.commitment?.title || "-"}</TableCell>
+                      <TableCell>
+                        {invoice.billing_period_start} -{" "}
+                        {invoice.billing_period_end}
+                      </TableCell>
                       <TableCell>
                         <Badge variant={getStatusBadgeVariant(invoice.status)}>
                           {invoice.status}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-right">${invoice.total_amount.toFixed(2)}</TableCell>
-                      <TableCell>{invoice.due_date || '-'}</TableCell>
+                      <TableCell className="text-right">
+                        ${invoice.total_amount.toFixed(2)}
+                      </TableCell>
+                      <TableCell>{invoice.due_date || "-"}</TableCell>
                       <TableCell>
-                        <Button variant="ghost" size="sm">View</Button>
+                        <Button variant="ghost" size="sm">
+                          View
+                        </Button>
                       </TableCell>
                     </TableRow>
                   ))}

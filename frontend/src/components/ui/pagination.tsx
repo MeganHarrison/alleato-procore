@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { cn } from '@/lib/utils';
+import { cn } from "@/lib/utils";
 
 type PropsType = {
   currentPage: number;
@@ -118,12 +118,12 @@ function PaginationButton({
   return (
     <button
       aria-label={`Go to page ${page}`}
-      aria-current={isActive ? 'page' : undefined}
+      aria-current={isActive ? "page" : undefined}
       className={cn(
-        'size-10 rounded-lg shrink-0',
+        "size-10 rounded-lg shrink-0",
         isActive
-          ? 'bg-primary-500 text-white'
-          : 'hover:bg-gray-200/50 dark:hover:bg-gray-800/80'
+          ? "bg-primary-500 text-white"
+          : "hover:bg-gray-200/50 dark:hover:bg-gray-800/80",
       )}
       onClick={() => onPageChange(page)}
     >

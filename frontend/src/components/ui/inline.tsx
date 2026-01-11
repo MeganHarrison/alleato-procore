@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { cn } from '@/lib/utils';
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 /**
  * Inline component for consistent horizontal spacing.
@@ -13,28 +13,28 @@ import { cn } from '@/lib/utils';
  */
 
 const gapMap = {
-  xs: 'gap-1',   // 4px
-  sm: 'gap-2',   // 8px
-  md: 'gap-4',   // 16px
-  lg: 'gap-6',   // 24px
-  xl: 'gap-8'    // 32px
+  xs: "gap-1", // 4px
+  sm: "gap-2", // 8px
+  md: "gap-4", // 16px
+  lg: "gap-6", // 24px
+  xl: "gap-8", // 32px
 } as const;
 
 const alignMap = {
-  start: 'items-start',
-  center: 'items-center',
-  end: 'items-end',
-  stretch: 'items-stretch',
-  baseline: 'items-baseline'
+  start: "items-start",
+  center: "items-center",
+  end: "items-end",
+  stretch: "items-stretch",
+  baseline: "items-baseline",
 } as const;
 
 const justifyMap = {
-  start: 'justify-start',
-  center: 'justify-center',
-  end: 'justify-end',
-  between: 'justify-between',
-  around: 'justify-around',
-  evenly: 'justify-evenly'
+  start: "justify-start",
+  center: "justify-center",
+  end: "justify-end",
+  between: "justify-between",
+  around: "justify-around",
+  evenly: "justify-evenly",
 } as const;
 
 export interface InlineProps {
@@ -47,7 +47,7 @@ export interface InlineProps {
   /** Allow wrapping to multiple lines */
   wrap?: boolean;
   /** Render as a different element */
-  as?: 'div' | 'span' | 'section' | 'nav';
+  as?: "div" | "span" | "section" | "nav";
   /** Additional CSS classes */
   className?: string;
   /** Child elements */
@@ -55,23 +55,23 @@ export interface InlineProps {
 }
 
 export function Inline({
-  gap = 'md',
-  align = 'center',
-  justify = 'start',
+  gap = "md",
+  align = "center",
+  justify = "start",
   wrap = false,
-  as: Component = 'div',
+  as: Component = "div",
   className,
-  children
+  children,
 }: InlineProps) {
   return (
     <Component
       className={cn(
-        'flex',
+        "flex",
         gapMap[gap],
         alignMap[align],
         justifyMap[justify],
-        wrap && 'flex-wrap',
-        className
+        wrap && "flex-wrap",
+        className,
       )}
     >
       {children}

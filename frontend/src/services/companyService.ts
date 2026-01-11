@@ -1,9 +1,9 @@
-import type { createClient } from '@supabase/supabase-js';
-import type { Database } from '../types/database.types';
+import type { createClient } from "@supabase/supabase-js";
+import type { Database } from "../types/database.types";
 
-type Tables = Database['public']['Tables'];
-type Company = Tables['companies']['Row'];
-type Person = Tables['people']['Row'];
+type Tables = Database["public"]["Tables"];
+type Company = Tables["companies"]["Row"];
+type Person = Tables["people"]["Row"];
 
 // Types for project-scoped company data
 export interface ProjectCompany {
@@ -14,8 +14,13 @@ export interface ProjectCompany {
   email_address: string | null;
   primary_contact_id: string | null;
   erp_vendor_id: string | null;
-  company_type: 'YOUR_COMPANY' | 'VENDOR' | 'SUBCONTRACTOR' | 'SUPPLIER' | 'CONNECTED_COMPANY';
-  status: 'ACTIVE' | 'INACTIVE';
+  company_type:
+    | "YOUR_COMPANY"
+    | "VENDOR"
+    | "SUBCONTRACTOR"
+    | "SUPPLIER"
+    | "CONNECTED_COMPANY";
+  status: "ACTIVE" | "INACTIVE";
   logo_url: string | null;
   created_at: string | null;
   updated_at: string | null;
@@ -37,7 +42,7 @@ export interface CompanyListResponse {
 
 export interface CompanyFilters {
   search?: string;
-  status?: 'ACTIVE' | 'INACTIVE' | 'all';
+  status?: "ACTIVE" | "INACTIVE" | "all";
   company_type?: string;
   sort?: string;
   page?: number;
@@ -53,7 +58,12 @@ export interface CompanyCreateDTO {
   business_phone?: string;
   email_address?: string;
   erp_vendor_id?: string;
-  company_type?: 'YOUR_COMPANY' | 'VENDOR' | 'SUBCONTRACTOR' | 'SUPPLIER' | 'CONNECTED_COMPANY';
+  company_type?:
+    | "YOUR_COMPANY"
+    | "VENDOR"
+    | "SUBCONTRACTOR"
+    | "SUPPLIER"
+    | "CONNECTED_COMPANY";
 }
 
 export interface CompanyUpdateDTO {
@@ -66,8 +76,13 @@ export interface CompanyUpdateDTO {
   email_address?: string;
   primary_contact_id?: string;
   erp_vendor_id?: string;
-  company_type?: 'YOUR_COMPANY' | 'VENDOR' | 'SUBCONTRACTOR' | 'SUPPLIER' | 'CONNECTED_COMPANY';
-  status?: 'ACTIVE' | 'INACTIVE';
+  company_type?:
+    | "YOUR_COMPANY"
+    | "VENDOR"
+    | "SUBCONTRACTOR"
+    | "SUPPLIER"
+    | "CONNECTED_COMPANY";
+  status?: "ACTIVE" | "INACTIVE";
   logo_url?: string;
 }
 
@@ -77,14 +92,17 @@ export class CompanyService {
   /**
    * Get paginated list of companies for a project
    */
-  async getCompanies(projectId: string, filters: CompanyFilters = {}): Promise<CompanyListResponse> {
+  async getCompanies(
+    projectId: string,
+    filters: CompanyFilters = {},
+  ): Promise<CompanyListResponse> {
     const {
       search,
-      status = 'ACTIVE',
+      status = "ACTIVE",
       company_type,
-      sort = 'name',
+      sort = "name",
       page = 1,
-      per_page = 25
+      per_page = 25,
     } = filters;
 
     const projectIdNum = Number.parseInt(projectId, 10);
@@ -93,21 +111,24 @@ export class CompanyService {
     // First, get the project companies with their base company data
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let query = (this.supabase as any)
-      .from('project_companies')
-      .select(`
+      .from("project_companies")
+      .select(
+        `
         *,
         company:companies(*)
-      `, { count: 'exact' })
-      .eq('project_id', projectIdNum);
+      `,
+        { count: "exact" },
+      )
+      .eq("project_id", projectIdNum);
 
     // Apply status filter
-    if (status !== 'all') {
-      query = query.eq('status', status);
+    if (status !== "all") {
+      query = query.eq("status", status);
     }
 
     // Apply company type filter
     if (company_type) {
-      query = query.eq('company_type', company_type);
+      query = query.eq("company_type", company_type);
     }
 
     // Apply search on joined company name
@@ -115,11 +136,11 @@ export class CompanyService {
     // or handle it differently since Supabase doesn't support ilike on nested fields in the same query
 
     // Apply sorting
-    const [sortField, sortDirection = 'asc'] = sort.split(':');
-    if (sortField === 'name') {
+    const [sortField, sortDirection = "asc"] = sort.split(":");
+    if (sortField === "name") {
       // Sort by company.name - handled client-side
     } else {
-      query = query.order(sortField, { ascending: sortDirection === 'asc' });
+      query = query.order(sortField, { ascending: sortDirection === "asc" });
     }
 
     // Apply pagination
@@ -133,15 +154,18 @@ export class CompanyService {
     const companiesWithDetails = await Promise.all(
       (data || []).map(async (pc: ProjectCompany & { company: Company }) => {
         // Get user count for this company in this project
-        const userCount = await this.getCompanyUserCount(projectIdNum, pc.company_id);
+        const userCount = await this.getCompanyUserCount(
+          projectIdNum,
+          pc.company_id,
+        );
 
         // Get primary contact if exists
         let primaryContact = null;
         if (pc.primary_contact_id) {
           const { data: contact } = await this.supabase
-            .from('people')
-            .select('*')
-            .eq('id', pc.primary_contact_id)
+            .from("people")
+            .select("*")
+            .eq("id", pc.primary_contact_id)
             .single();
           primaryContact = contact;
         }
@@ -149,29 +173,30 @@ export class CompanyService {
         return {
           ...pc,
           primary_contact: primaryContact,
-          user_count: userCount
+          user_count: userCount,
         };
-      })
+      }),
     );
 
     // Apply search filter client-side if needed
     let filteredData = companiesWithDetails;
     if (search) {
       const searchLower = search.toLowerCase();
-      filteredData = companiesWithDetails.filter(pc =>
-        pc.company?.name?.toLowerCase().includes(searchLower) ||
-        pc.email_address?.toLowerCase().includes(searchLower) ||
-        pc.business_phone?.includes(search)
+      filteredData = companiesWithDetails.filter(
+        (pc) =>
+          pc.company?.name?.toLowerCase().includes(searchLower) ||
+          pc.email_address?.toLowerCase().includes(searchLower) ||
+          pc.business_phone?.includes(search),
       );
     }
 
     // Sort by company name if that's the sort field
-    if (sortField === 'name') {
+    if (sortField === "name") {
       filteredData.sort((a, b) => {
-        const nameA = a.company?.name || '';
-        const nameB = b.company?.name || '';
+        const nameA = a.company?.name || "";
+        const nameB = b.company?.name || "";
         const cmp = nameA.localeCompare(nameB);
-        return sortDirection === 'asc' ? cmp : -cmp;
+        return sortDirection === "asc" ? cmp : -cmp;
       });
     }
 
@@ -180,34 +205,43 @@ export class CompanyService {
       pagination: {
         current_page: page,
         per_page,
-        total: search ? filteredData.length : (count || 0),
-        total_pages: Math.ceil((search ? filteredData.length : (count || 0)) / per_page)
-      }
+        total: search ? filteredData.length : count || 0,
+        total_pages: Math.ceil(
+          (search ? filteredData.length : count || 0) / per_page,
+        ),
+      },
     };
   }
 
   /**
    * Get a single company with full details
    */
-  async getCompany(projectId: string, companyId: string): Promise<ProjectCompany> {
+  async getCompany(
+    projectId: string,
+    companyId: string,
+  ): Promise<ProjectCompany> {
     const projectIdNum = Number.parseInt(projectId, 10);
 
     // Get the project company with joined data
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (this.supabase as any)
-      .from('project_companies')
-      .select(`
+      .from("project_companies")
+      .select(
+        `
         *,
         company:companies(*)
-      `)
-      .eq('project_id', projectIdNum)
-      .eq('id', companyId)
+      `,
+      )
+      .eq("project_id", projectIdNum)
+      .eq("id", companyId)
       .single();
 
     if (error) {
-      if (error.code === 'PGRST116') {
-        const notFoundError = new Error(`Company with ID ${companyId} not found.`);
-        (notFoundError as NodeJS.ErrnoException).code = 'RESOURCE_NOT_FOUND';
+      if (error.code === "PGRST116") {
+        const notFoundError = new Error(
+          `Company with ID ${companyId} not found.`,
+        );
+        (notFoundError as NodeJS.ErrnoException).code = "RESOURCE_NOT_FOUND";
         throw notFoundError;
       }
       throw error;
@@ -217,9 +251,9 @@ export class CompanyService {
     let primaryContact = null;
     if (data.primary_contact_id) {
       const { data: contact } = await this.supabase
-        .from('people')
-        .select('*')
-        .eq('id', data.primary_contact_id)
+        .from("people")
+        .select("*")
+        .eq("id", data.primary_contact_id)
         .single();
       primaryContact = contact;
     }
@@ -232,24 +266,27 @@ export class CompanyService {
       ...data,
       primary_contact: primaryContact,
       user_count: userCount,
-      users: users.slice(0, 10) // Return first 10 users in summary
+      users: users.slice(0, 10), // Return first 10 users in summary
     };
   }
 
   /**
    * Create a new company (both global company and project association)
    */
-  async createCompany(projectId: string, data: CompanyCreateDTO): Promise<ProjectCompany> {
+  async createCompany(
+    projectId: string,
+    data: CompanyCreateDTO,
+  ): Promise<ProjectCompany> {
     const projectIdNum = Number.parseInt(projectId, 10);
 
     // First, create the global company record
     const { data: company, error: companyError } = await this.supabase
-      .from('companies')
+      .from("companies")
       .insert({
         name: data.name,
         address: data.address,
         city: data.city,
-        state: data.state
+        state: data.state,
       })
       .select()
       .single();
@@ -258,35 +295,43 @@ export class CompanyService {
 
     // Then, create the project company association
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    const { data: projectCompany, error: pcError } = await (this.supabase as any)
-      .from('project_companies')
+    const { data: projectCompany, error: pcError } = await (
+      this.supabase as any
+    )
+      .from("project_companies")
       .insert({
         project_id: projectIdNum,
         company_id: company.id,
         business_phone: data.business_phone,
         email_address: data.email_address,
         erp_vendor_id: data.erp_vendor_id,
-        company_type: data.company_type || 'VENDOR',
-        status: 'ACTIVE'
+        company_type: data.company_type || "VENDOR",
+        status: "ACTIVE",
       })
-      .select(`
+      .select(
+        `
         *,
         company:companies(*)
-      `)
+      `,
+      )
       .single();
 
     if (pcError) throw pcError;
 
     return {
       ...projectCompany,
-      user_count: 0
+      user_count: 0,
     };
   }
 
   /**
    * Update a company
    */
-  async updateCompany(projectId: string, companyId: string, data: CompanyUpdateDTO): Promise<ProjectCompany> {
+  async updateCompany(
+    projectId: string,
+    companyId: string,
+    data: CompanyUpdateDTO,
+  ): Promise<ProjectCompany> {
     const projectIdNum = Number.parseInt(projectId, 10);
 
     // Update global company fields if provided
@@ -300,16 +345,16 @@ export class CompanyService {
       // Get the company_id first
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { data: pc } = await (this.supabase as any)
-        .from('project_companies')
-        .select('company_id')
-        .eq('id', companyId)
+        .from("project_companies")
+        .select("company_id")
+        .eq("id", companyId)
         .single();
 
       if (pc) {
         const { error } = await this.supabase
-          .from('companies')
+          .from("companies")
           .update(globalFields)
-          .eq('id', pc.company_id);
+          .eq("id", pc.company_id);
 
         if (error) throw error;
       }
@@ -317,21 +362,26 @@ export class CompanyService {
 
     // Update project-specific fields
     const projectFields: Record<string, unknown> = {};
-    if (data.business_phone !== undefined) projectFields.business_phone = data.business_phone;
-    if (data.email_address !== undefined) projectFields.email_address = data.email_address;
-    if (data.primary_contact_id !== undefined) projectFields.primary_contact_id = data.primary_contact_id;
-    if (data.erp_vendor_id !== undefined) projectFields.erp_vendor_id = data.erp_vendor_id;
-    if (data.company_type !== undefined) projectFields.company_type = data.company_type;
+    if (data.business_phone !== undefined)
+      projectFields.business_phone = data.business_phone;
+    if (data.email_address !== undefined)
+      projectFields.email_address = data.email_address;
+    if (data.primary_contact_id !== undefined)
+      projectFields.primary_contact_id = data.primary_contact_id;
+    if (data.erp_vendor_id !== undefined)
+      projectFields.erp_vendor_id = data.erp_vendor_id;
+    if (data.company_type !== undefined)
+      projectFields.company_type = data.company_type;
     if (data.status !== undefined) projectFields.status = data.status;
     if (data.logo_url !== undefined) projectFields.logo_url = data.logo_url;
 
     if (Object.keys(projectFields).length > 0) {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { error } = await (this.supabase as any)
-        .from('project_companies')
+        .from("project_companies")
         .update(projectFields)
-        .eq('id', companyId)
-        .eq('project_id', projectIdNum);
+        .eq("id", companyId)
+        .eq("project_id", projectIdNum);
 
       if (error) throw error;
     }
@@ -343,18 +393,23 @@ export class CompanyService {
   /**
    * Get users for a company within a project
    */
-  async getCompanyUsers(projectId: string, companyId: string): Promise<Person[]> {
+  async getCompanyUsers(
+    projectId: string,
+    companyId: string,
+  ): Promise<Person[]> {
     const projectIdNum = Number.parseInt(projectId, 10);
 
     const { data, error } = await this.supabase
-      .from('people')
-      .select(`
+      .from("people")
+      .select(
+        `
         *,
         project_directory_memberships!inner(*)
-      `)
-      .eq('company_id', companyId)
-      .eq('project_directory_memberships.project_id', projectIdNum)
-      .eq('project_directory_memberships.status', 'active');
+      `,
+      )
+      .eq("company_id", companyId)
+      .eq("project_directory_memberships.project_id", projectIdNum)
+      .eq("project_directory_memberships.status", "active");
 
     if (error) throw error;
     return data || [];
@@ -363,13 +418,16 @@ export class CompanyService {
   /**
    * Get count of users for a company within a project
    */
-  private async getCompanyUserCount(projectId: number, companyId: string): Promise<number> {
+  private async getCompanyUserCount(
+    projectId: number,
+    companyId: string,
+  ): Promise<number> {
     const { count, error } = await this.supabase
-      .from('people')
-      .select('id', { count: 'exact', head: true })
-      .eq('company_id', companyId)
-      .eq('project_directory_memberships.project_id', projectId)
-      .eq('project_directory_memberships.status', 'active');
+      .from("people")
+      .select("id", { count: "exact", head: true })
+      .eq("company_id", companyId)
+      .eq("project_directory_memberships.project_id", projectId)
+      .eq("project_directory_memberships.status", "active");
 
     if (error) {
       // Fall back to 0 if there's an error (e.g., no RLS access)
@@ -381,16 +439,19 @@ export class CompanyService {
   /**
    * Check if a company can be deleted (no users assigned)
    */
-  async canDeleteCompany(projectId: string, companyId: string): Promise<{ canDelete: boolean; reason?: string }> {
+  async canDeleteCompany(
+    projectId: string,
+    companyId: string,
+  ): Promise<{ canDelete: boolean; reason?: string }> {
     const userCount = await this.getCompanyUserCount(
       Number.parseInt(projectId, 10),
-      companyId
+      companyId,
     );
 
     if (userCount > 0) {
       return {
         canDelete: false,
-        reason: `Cannot delete company: ${userCount} users are still assigned to this company.`
+        reason: `Cannot delete company: ${userCount} users are still assigned to this company.`,
       };
     }
 
@@ -400,21 +461,25 @@ export class CompanyService {
   /**
    * Check if a contact can be removed (not primary contact of their company)
    */
-  async canRemoveContact(projectId: string, companyId: string, personId: string): Promise<{ canRemove: boolean; reason?: string }> {
+  async canRemoveContact(
+    projectId: string,
+    companyId: string,
+    personId: string,
+  ): Promise<{ canRemove: boolean; reason?: string }> {
     const projectIdNum = Number.parseInt(projectId, 10);
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data } = await (this.supabase as any)
-      .from('project_companies')
-      .select('primary_contact_id')
-      .eq('project_id', projectIdNum)
-      .eq('company_id', companyId)
+      .from("project_companies")
+      .select("primary_contact_id")
+      .eq("project_id", projectIdNum)
+      .eq("company_id", companyId)
       .single();
 
     if (data?.primary_contact_id === personId) {
       return {
         canRemove: false,
-        reason: 'Cannot remove the primary contact of a company.'
+        reason: "Cannot remove the primary contact of a company.",
       };
     }
 
@@ -424,35 +489,39 @@ export class CompanyService {
   /**
    * Set the primary contact for a company
    */
-  async setPrimaryContact(projectId: string, companyId: string, personId: string): Promise<void> {
+  async setPrimaryContact(
+    projectId: string,
+    companyId: string,
+    personId: string,
+  ): Promise<void> {
     const projectIdNum = Number.parseInt(projectId, 10);
 
     // Verify the person belongs to this company
     const { data: person } = await this.supabase
-      .from('people')
-      .select('company_id')
-      .eq('id', personId)
+      .from("people")
+      .select("company_id")
+      .eq("id", personId)
       .single();
 
     // Get the project company to find the global company_id
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: pc } = await (this.supabase as any)
-      .from('project_companies')
-      .select('company_id')
-      .eq('id', companyId)
+      .from("project_companies")
+      .select("company_id")
+      .eq("id", companyId)
       .single();
 
     if (person?.company_id !== pc?.company_id) {
-      throw new Error('Person does not belong to this company');
+      throw new Error("Person does not belong to this company");
     }
 
     // Update primary contact
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (this.supabase as any)
-      .from('project_companies')
+      .from("project_companies")
       .update({ primary_contact_id: personId })
-      .eq('id', companyId)
-      .eq('project_id', projectIdNum);
+      .eq("id", companyId)
+      .eq("project_id", projectIdNum);
 
     if (error) throw error;
   }

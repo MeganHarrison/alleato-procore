@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { ProjectOverviewItem } from '@/types/project-home';
+import * as React from "react";
+import { ProjectOverviewItem } from "@/types/project-home";
 import {
   Table,
   TableBody,
@@ -9,8 +9,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { DocumentMetadataModal } from './document-metadata-modal';
+} from "@/components/ui/table";
+import { DocumentMetadataModal } from "./document-metadata-modal";
 
 interface ProjectOverviewProps {
   items: ProjectOverviewItem[];
@@ -30,7 +30,10 @@ function OverviewBar({ item }: { item: ProjectOverviewItem }) {
       {item.overdue > 0 && (
         <div
           className="bg-red-500 text-white flex items-center justify-center"
-          style={{ width: `${overduePercent}%`, minWidth: item.overdue > 0 ? '24px' : 0 }}
+          style={{
+            width: `${overduePercent}%`,
+            minWidth: item.overdue > 0 ? "24px" : 0,
+          }}
         >
           {item.overdue}
         </div>
@@ -38,7 +41,10 @@ function OverviewBar({ item }: { item: ProjectOverviewItem }) {
       {item.nextSevenDays > 0 && (
         <div
           className="bg-yellow-500 text-white flex items-center justify-center"
-          style={{ width: `${nextSevenPercent}%`, minWidth: item.nextSevenDays > 0 ? '24px' : 0 }}
+          style={{
+            width: `${nextSevenPercent}%`,
+            minWidth: item.nextSevenDays > 0 ? "24px" : 0,
+          }}
         >
           {item.nextSevenDays}
         </div>
@@ -46,7 +52,10 @@ function OverviewBar({ item }: { item: ProjectOverviewItem }) {
       {item.moreThanSevenDays > 0 && (
         <div
           className="bg-green-500 text-white flex items-center justify-center"
-          style={{ width: `${openPercent}%`, minWidth: item.moreThanSevenDays > 0 ? '24px' : 0 }}
+          style={{
+            width: `${openPercent}%`,
+            minWidth: item.moreThanSevenDays > 0 ? "24px" : 0,
+          }}
         >
           {item.moreThanSevenDays}
         </div>
@@ -57,7 +66,8 @@ function OverviewBar({ item }: { item: ProjectOverviewItem }) {
 
 export function ProjectOverview({ items, projectId }: ProjectOverviewProps) {
   const [modalOpen, setModalOpen] = React.useState(false);
-  const [selectedItem, setSelectedItem] = React.useState<ProjectOverviewItem | null>(null);
+  const [selectedItem, setSelectedItem] =
+    React.useState<ProjectOverviewItem | null>(null);
 
   const handleItemClick = (item: ProjectOverviewItem) => {
     setSelectedItem(item);
@@ -68,7 +78,9 @@ export function ProjectOverview({ items, projectId }: ProjectOverviewProps) {
     <>
       <div className="bg-white rounded-md border border-gray-200">
         <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-base font-semibold text-gray-900">Project Overview</h2>
+          <h2 className="text-base font-semibold text-gray-900">
+            Project Overview
+          </h2>
         </div>
         <Table>
           <TableHeader>
@@ -114,7 +126,10 @@ export function ProjectOverview({ items, projectId }: ProjectOverviewProps) {
             ))}
             {items.length === 0 && (
               <TableRow>
-                <TableCell colSpan={3} className="text-center text-gray-500 py-8">
+                <TableCell
+                  colSpan={3}
+                  className="text-center text-gray-500 py-8"
+                >
                   No overview items
                 </TableCell>
               </TableRow>
@@ -126,7 +141,7 @@ export function ProjectOverview({ items, projectId }: ProjectOverviewProps) {
       <DocumentMetadataModal
         open={modalOpen}
         onOpenChange={setModalOpen}
-        title={selectedItem?.name || 'Documents'}
+        title={selectedItem?.name || "Documents"}
         projectId={projectId}
       />
     </>

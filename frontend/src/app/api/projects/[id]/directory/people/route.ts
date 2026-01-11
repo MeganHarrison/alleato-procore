@@ -1,7 +1,7 @@
-import { type NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { DirectoryService } from '@/services/directoryService';
-import { PermissionService } from '@/services/permissionService';
+import { type NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { DirectoryService } from "@/services/directoryService";
+import { PermissionService } from "@/services/permissionService";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -13,10 +13,7 @@ interface RouteParams {
  * @param params - Route parameters containing `id`, the project identifier used to scope the directory query.
  * @returns The directory listing serialized as JSON on success; on failure a JSON object with an `error` message and an appropriate HTTP status code.
  */
-export async function GET(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId } = await params;
     const supabase = await createClient();
@@ -24,15 +21,20 @@ export async function GET(
     // Parse query parameters
     const searchParams = request.nextUrl.searchParams;
     const filters = {
-      search: searchParams.get('search') || undefined,
-      type: searchParams.get('type') as 'user' | 'contact' | 'all' | undefined,
-      status: searchParams.get('status') as 'active' | 'inactive' | 'all' | undefined,
-      companyId: searchParams.get('company_id') || undefined,
-      permissionTemplateId: searchParams.get('permission_template_id') || undefined,
-      groupBy: searchParams.get('group_by') as 'company' | 'none' | undefined,
-      sortBy: searchParams.get('sort')?.split(',') || undefined,
-      page: parseInt(searchParams.get('page') || '1', 10),
-      perPage: parseInt(searchParams.get('per_page') || '50', 10)
+      search: searchParams.get("search") || undefined,
+      type: searchParams.get("type") as "user" | "contact" | "all" | undefined,
+      status: searchParams.get("status") as
+        | "active"
+        | "inactive"
+        | "all"
+        | undefined,
+      companyId: searchParams.get("company_id") || undefined,
+      permissionTemplateId:
+        searchParams.get("permission_template_id") || undefined,
+      groupBy: searchParams.get("group_by") as "company" | "none" | undefined,
+      sortBy: searchParams.get("sort")?.split(",") || undefined,
+      page: parseInt(searchParams.get("page") || "1", 10),
+      perPage: parseInt(searchParams.get("per_page") || "50", 10),
     };
 
     // Get people - RLS policies will enforce authorization
@@ -41,15 +43,15 @@ export async function GET(
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('Error fetching directory people:', error);
-    console.error('Error type:', typeof error);
-    console.error('Error details:', JSON.stringify(error, null, 2));
+    console.error("Error fetching directory people:", error);
+    console.error("Error type:", typeof error);
+    console.error("Error details:", JSON.stringify(error, null, 2));
     return NextResponse.json(
       {
-        error: 'Internal server error',
-        details: error instanceof Error ? error.message : JSON.stringify(error)
+        error: "Internal server error",
+        details: error instanceof Error ? error.message : JSON.stringify(error),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -63,18 +65,18 @@ export async function GET(
  * @param params.id - ID of the project to which the new person will belong
  * @returns The created person object as JSON on success. On error, returns a JSON error with status `400` (missing required fields), `401` (unauthorized), `403` (forbidden), or `500` (internal server error).
  */
-export async function POST(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId } = await params;
     const supabase = await createClient();
-    
+
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions
@@ -82,12 +84,12 @@ export async function POST(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'write'
+      "directory",
+      "write",
     );
 
     if (!hasPermission) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     // Parse request body
@@ -96,8 +98,8 @@ export async function POST(
     // Validate required fields
     if (!body.first_name || !body.last_name || !body.person_type) {
       return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
+        { error: "Missing required fields" },
+        { status: 400 },
       );
     }
 
@@ -107,10 +109,10 @@ export async function POST(
 
     return NextResponse.json(person, { status: 201 });
   } catch (error) {
-    console.error('Error creating person:', error);
+    console.error("Error creating person:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

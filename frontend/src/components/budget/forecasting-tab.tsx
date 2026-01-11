@@ -1,10 +1,16 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { FileSpreadsheet, TrendingUp, Calculator, Loader2 } from 'lucide-react';
-import { toast } from 'sonner';
+import * as React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { FileSpreadsheet, TrendingUp, Calculator, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface ForecastingTabProps {
   projectId: string;
@@ -36,17 +42,19 @@ export function ForecastingTab({ projectId }: ForecastingTabProps) {
   const fetchForecast = React.useCallback(async () => {
     try {
       setLoading(true);
-      const response = await fetch(`/api/projects/${projectId}/budget/forecast`);
+      const response = await fetch(
+        `/api/projects/${projectId}/budget/forecast`,
+      );
 
       if (!response.ok) {
-        throw new Error('Failed to fetch forecast');
+        throw new Error("Failed to fetch forecast");
       }
 
       const data = await response.json();
       setForecast(data);
     } catch (error) {
-      console.error('Error fetching forecast:', error);
-      toast.error('Failed to load budget forecast');
+      console.error("Error fetching forecast:", error);
+      toast.error("Failed to load budget forecast");
     } finally {
       setLoading(false);
     }
@@ -57,17 +65,17 @@ export function ForecastingTab({ projectId }: ForecastingTabProps) {
   }, [fetchForecast]);
 
   const formatCurrency = (amount: number) => {
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 2,
     }).format(amount);
   };
 
   const getVarianceColor = (variance: number) => {
-    if (variance > 0) return 'text-green-600';
-    if (variance < 0) return 'text-red-600';
-    return 'text-gray-600';
+    if (variance > 0) return "text-green-600";
+    if (variance < 0) return "text-red-600";
+    return "text-gray-600";
   };
 
   if (loading) {
@@ -82,7 +90,9 @@ export function ForecastingTab({ projectId }: ForecastingTabProps) {
     <div className="space-y-6 p-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Budget Forecasting</h2>
+          <h2 className="text-2xl font-bold tracking-tight">
+            Budget Forecasting
+          </h2>
           <p className="text-muted-foreground">
             Predict future budget performance and identify potential overruns
           </p>
@@ -92,7 +102,9 @@ export function ForecastingTab({ projectId }: ForecastingTabProps) {
             <Calculator className="mr-2 h-4 w-4" />
             Recalculate Forecast
           </Button>
-          <Button onClick={() => toast.info('Export functionality coming soon')}>
+          <Button
+            onClick={() => toast.info("Export functionality coming soon")}
+          >
             <FileSpreadsheet className="mr-2 h-4 w-4" />
             Export Forecast
           </Button>
@@ -102,7 +114,9 @@ export function ForecastingTab({ projectId }: ForecastingTabProps) {
       <div className="grid gap-4 md:grid-cols-3">
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Projected Budget</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Projected Budget
+            </CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
@@ -117,26 +131,30 @@ export function ForecastingTab({ projectId }: ForecastingTabProps) {
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Projected Costs</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Projected Costs
+            </CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold">
               {formatCurrency(forecast?.summary.totalProjectedCosts || 0)}
             </div>
-            <p className="text-xs text-muted-foreground">
-              Direct + Committed
-            </p>
+            <p className="text-xs text-muted-foreground">Direct + Committed</p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">Projected Variance</CardTitle>
+            <CardTitle className="text-sm font-medium">
+              Projected Variance
+            </CardTitle>
             <TrendingUp className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className={`text-2xl font-bold ${getVarianceColor(forecast?.summary.totalProjectedVariance || 0)}`}>
+            <div
+              className={`text-2xl font-bold ${getVarianceColor(forecast?.summary.totalProjectedVariance || 0)}`}
+            >
               {formatCurrency(forecast?.summary.totalProjectedVariance || 0)}
             </div>
             <p className="text-xs text-muted-foreground">
@@ -159,19 +177,28 @@ export function ForecastingTab({ projectId }: ForecastingTabProps) {
               <div className="text-center">
                 <TrendingUp className="h-12 w-12 mx-auto mb-4" />
                 <p className="text-lg font-medium">No Forecast Data</p>
-                <p className="text-sm">Add budget lines to generate forecasts</p>
+                <p className="text-sm">
+                  Add budget lines to generate forecasts
+                </p>
               </div>
             </div>
           ) : (
             <div className="space-y-3 max-h-96 overflow-y-auto">
               {forecast.forecastByCostCode.slice(0, 10).map((item) => (
-                <div key={item.costCode} className="flex items-center justify-between p-3 border rounded-lg">
+                <div
+                  key={item.costCode}
+                  className="flex items-center justify-between p-3 border rounded-lg"
+                >
                   <div className="flex-1">
                     <div className="font-medium">{item.costCode}</div>
-                    <div className="text-sm text-muted-foreground">{item.costCodeName}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {item.costCodeName}
+                    </div>
                   </div>
                   <div className="text-right">
-                    <div className={`font-bold ${getVarianceColor(item.projectedVariance)}`}>
+                    <div
+                      className={`font-bold ${getVarianceColor(item.projectedVariance)}`}
+                    >
                       {formatCurrency(item.projectedVariance)}
                     </div>
                     <div className="text-xs text-muted-foreground">
@@ -187,8 +214,9 @@ export function ForecastingTab({ projectId }: ForecastingTabProps) {
 
       <div className="text-sm text-muted-foreground">
         <p>
-          <strong>Note:</strong> Forecasting uses historical data and current trends to predict
-          future budget performance. Forecasts are updated automatically when budget data changes.
+          <strong>Note:</strong> Forecasting uses historical data and current
+          trends to predict future budget performance. Forecasts are updated
+          automatically when budget data changes.
         </p>
       </div>
     </div>

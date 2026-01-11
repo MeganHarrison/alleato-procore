@@ -1,22 +1,27 @@
-import { createClient } from '@/lib/supabase/server'
-import type { Database } from '@/types/database.types'
+import { createClient } from "@/lib/supabase/server";
+import type { Database } from "@/types/database.types";
 
-export type Decision = Database['public']['Tables']['decisions']['Row']
-export type DocumentMetadata = Database['public']['Tables']['document_metadata']['Row']
+export type Decision = Database["public"]["Tables"]["decisions"]["Row"];
+export type DocumentMetadata =
+  Database["public"]["Tables"]["document_metadata"]["Row"];
 
 export interface DecisionWithMetadata extends Decision {
-  document_metadata: Pick<DocumentMetadata, 'id' | 'title' | 'date' | 'type' | 'project'> | null
+  document_metadata: Pick<
+    DocumentMetadata,
+    "id" | "title" | "date" | "type" | "project"
+  > | null;
 }
 
 /**
  * Get all decisions with meeting metadata, ordered by creation date (newest first)
  */
 export async function getDecisions(): Promise<DecisionWithMetadata[]> {
-  const supabase = await createClient()
+  const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from('decisions')
-    .select(`
+    .from("decisions")
+    .select(
+      `
       *,
       document_metadata:metadata_id (
         id,
@@ -25,73 +30,74 @@ export async function getDecisions(): Promise<DecisionWithMetadata[]> {
         type,
         project
       )
-    `)
-    .order('created_at', { ascending: false })
+    `,
+    )
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching decisions:', error)
-    throw error
+    console.error("Error fetching decisions:", error);
+    throw error;
   }
 
-  return data as DecisionWithMetadata[]
+  return data as DecisionWithMetadata[];
 }
 
 /**
  * Get decisions by status
  */
 export async function getDecisionsByStatus(status: string) {
-  const supabase = await createClient()
+  const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from('decisions')
-    .select('*')
-    .eq('status', status)
-    .order('created_at', { ascending: false })
+    .from("decisions")
+    .select("*")
+    .eq("status", status)
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching decisions by status:', error)
-    throw error
+    console.error("Error fetching decisions by status:", error);
+    throw error;
   }
 
-  return data
+  return data;
 }
 
 /**
  * Get a single decision by ID
  */
 export async function getDecisionById(id: string) {
-  const supabase = await createClient()
+  const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from('decisions')
-    .select('*')
-    .eq('id', id)
-    .single()
+    .from("decisions")
+    .select("*")
+    .eq("id", id)
+    .single();
 
   if (error) {
-    console.error('Error fetching decision:', error)
-    throw error
+    console.error("Error fetching decision:", error);
+    throw error;
   }
 
-  return data
+  return data;
 }
 
 /**
  * Get decisions by project
  */
 export async function getDecisionsByProject(projectId: number) {
-  const supabase = await createClient()
+  const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from('decisions')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('created_at', { ascending: false })
+    .from("decisions")
+    .select("*")
+    .eq("project_id", projectId)
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching project decisions:', error)
-    throw error
+    console.error("Error fetching project decisions:", error);
+    throw error;
   }
 
-  return data
+  return data;
 }

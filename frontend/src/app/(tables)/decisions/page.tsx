@@ -1,125 +1,139 @@
-import { getDecisions } from '@/lib/db/decisions'
-import { GenericDataTable, type GenericTableConfig } from '@/components/tables/generic-table-factory'
+import { getDecisions } from "@/lib/db/decisions";
+import {
+  GenericDataTable,
+  type GenericTableConfig,
+} from "@/components/tables/generic-table-factory";
 
-export const dynamic = 'force-dynamic'
+export const dynamic = "force-dynamic";
 
 const config: GenericTableConfig = {
-  title: 'Decisions',
-  description: 'Track important project and business decisions',
-  searchFields: ['description', 'impact', 'owner_name', 'rationale'],
-  exportFilename: 'decisions-export.csv',
+  title: "Decisions",
+  description: "Track important project and business decisions",
+  searchFields: ["description", "impact", "owner_name", "rationale"],
+  exportFilename: "decisions-export.csv",
   editConfig: {
-    tableName: 'decisions',
-    editableFields: ['description', 'status', 'impact', 'owner_name', 'owner_email', 'rationale', 'effective_date'],
+    tableName: "decisions",
+    editableFields: [
+      "description",
+      "status",
+      "impact",
+      "owner_name",
+      "owner_email",
+      "rationale",
+      "effective_date",
+    ],
   },
   columns: [
     {
-      id: 'description',
-      label: 'Description',
+      id: "description",
+      label: "Description",
       defaultVisible: true,
-      type: 'text',
+      type: "text",
     },
     {
-      id: 'document_metadata',
-      label: 'Meeting',
+      id: "document_metadata",
+      label: "Meeting",
       defaultVisible: true,
       renderConfig: {
-        type: 'nested',
-        path: 'title',
-        fallback: 'No meeting',
+        type: "nested",
+        path: "title",
+        fallback: "No meeting",
       },
     },
     {
-      id: 'status',
-      label: 'Status',
+      id: "status",
+      label: "Status",
       defaultVisible: true,
       renderConfig: {
-        type: 'badge',
+        type: "badge",
         variantMap: {
-          'pending': 'outline',
-          'approved': 'default',
-          'rejected': 'outline',
-          'implemented': 'outline',
+          pending: "outline",
+          approved: "default",
+          rejected: "outline",
+          implemented: "outline",
         },
-        defaultVariant: 'outline',
+        defaultVariant: "outline",
       },
     },
     {
-      id: 'impact',
-      label: 'Impact',
+      id: "impact",
+      label: "Impact",
       defaultVisible: true,
-      type: 'text',
+      type: "text",
     },
     {
-      id: 'owner_name',
-      label: 'Owner',
+      id: "owner_name",
+      label: "Owner",
       defaultVisible: true,
-      type: 'text',
+      type: "text",
     },
     {
-      id: 'owner_email',
-      label: 'Owner Email',
+      id: "owner_email",
+      label: "Owner Email",
       defaultVisible: false,
-      type: 'email',
+      type: "email",
     },
     {
-      id: 'rationale',
-      label: 'Rationale',
+      id: "rationale",
+      label: "Rationale",
       defaultVisible: false,
-      type: 'text',
+      type: "text",
     },
     {
-      id: 'effective_date',
-      label: 'Effective Date',
+      id: "effective_date",
+      label: "Effective Date",
       defaultVisible: true,
-      type: 'date',
+      type: "date",
     },
     {
-      id: 'created_at',
-      label: 'Created',
+      id: "created_at",
+      label: "Created",
       defaultVisible: true,
-      type: 'date',
+      type: "date",
     },
     {
-      id: 'updated_at',
-      label: 'Updated',
+      id: "updated_at",
+      label: "Updated",
       defaultVisible: false,
-      type: 'date',
+      type: "date",
     },
   ],
   filters: [
     {
-      id: 'status',
-      label: 'Status',
-      field: 'status',
+      id: "status",
+      label: "Status",
+      field: "status",
       options: [
-        { value: 'pending', label: 'Pending' },
-        { value: 'approved', label: 'Approved' },
-        { value: 'rejected', label: 'Rejected' },
-        { value: 'implemented', label: 'Implemented' },
+        { value: "pending", label: "Pending" },
+        { value: "approved", label: "Approved" },
+        { value: "rejected", label: "Rejected" },
+        { value: "implemented", label: "Implemented" },
       ],
     },
   ],
-  rowClickPath: '/decisions/{id}',
-}
+  rowClickPath: "/decisions/{id}",
+};
 
 export default async function DecisionsPage() {
   try {
-    const decisions = await getDecisions()
+    const decisions = await getDecisions();
 
     return (
       <div className="container mx-auto py-10">
-        <GenericDataTable data={decisions as unknown as Record<string, unknown>[]} config={config} />
+        <GenericDataTable
+          data={decisions as unknown as Record<string, unknown>[]}
+          config={config}
+        />
       </div>
-    )
+    );
   } catch (error) {
-    console.error('Error loading decisions:', error)
+    console.error("Error loading decisions:", error);
     return (
       <div className="container mx-auto py-10">
         <div className="text-center text-red-600">
           Error loading decisions. Please try again later.
         </div>
       </div>
-    )
+    );
   }
 }

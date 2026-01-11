@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,7 +12,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -23,9 +23,9 @@ import {
   BuildingIcon,
   MoreVerticalIcon,
   PlusIcon,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -33,15 +33,15 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dropdown-menu";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -49,15 +49,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Text } from "@/components/ui/text"
-import type { Database } from "@/types/database.types"
-import { CompanyDetailsSheet } from "./company-details-sheet"
+} from "@/components/ui/table";
+import { Text } from "@/components/ui/text";
+import type { Database } from "@/types/database.types";
+import { CompanyDetailsSheet } from "./company-details-sheet";
 
-type Company = Database["public"]["Tables"]["companies"]["Row"]
+type Company = Database["public"]["Tables"]["companies"]["Row"];
 
 interface CompaniesDataTableProps {
-  companies: Company[]
+  companies: Company[];
 }
 
 const columns: ColumnDef<Company>[] = [
@@ -70,8 +70,8 @@ const columns: ColumnDef<Company>[] = [
             table.getIsAllPageRowsSelected()
               ? true
               : table.getIsSomePageRowsSelected()
-              ? "indeterminate"
-              : false
+                ? "indeterminate"
+                : false
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
@@ -94,19 +94,22 @@ const columns: ColumnDef<Company>[] = [
     accessorKey: "name",
     header: "Company Name",
     cell: ({ row }) => {
-      const company = row.original
-      
+      const company = row.original;
+
       return (
         <CompanyDetailsSheet
           company={company}
           trigger={
-            <Button variant="link" className="w-fit px-0 text-left text-foreground">
+            <Button
+              variant="link"
+              className="w-fit px-0 text-left text-foreground"
+            >
               <BuildingIcon className="mr-2 size-4" />
               {company.name}
             </Button>
           }
         />
-      )
+      );
     },
     enableHiding: false,
   },
@@ -114,7 +117,7 @@ const columns: ColumnDef<Company>[] = [
     accessorKey: "website",
     header: "Website",
     cell: ({ row }) => {
-      const website = row.original.website
+      const website = row.original.website;
 
       return website ? (
         <a
@@ -123,55 +126,73 @@ const columns: ColumnDef<Company>[] = [
           rel="noopener noreferrer"
           className="text-primary hover:underline"
         >
-          <Text as="span" size="sm">{website}</Text>
+          <Text as="span" size="sm">
+            {website}
+          </Text>
         </a>
       ) : (
-        <Text as="span" tone="muted" size="sm">N/A</Text>
-      )
+        <Text as="span" tone="muted" size="sm">
+          N/A
+        </Text>
+      );
     },
   },
   {
     accessorKey: "city",
     header: "Location",
     cell: ({ row }) => {
-      const company = row.original
+      const company = row.original;
 
       if (!company.city && !company.state) {
-        return <Text as="span" tone="muted" size="sm">N/A</Text>
+        return (
+          <Text as="span" tone="muted" size="sm">
+            N/A
+          </Text>
+        );
       }
 
       return (
         <Text as="div" size="sm">
-          {company.city}{company.city && company.state && ", "}{company.state}
+          {company.city}
+          {company.city && company.state && ", "}
+          {company.state}
         </Text>
-      )
+      );
     },
   },
   {
     accessorKey: "title",
     header: "Title",
     cell: ({ row }) => {
-      const title = row.original.title
+      const title = row.original.title;
 
       return title ? (
-        <Text as="span" size="sm">{title}</Text>
+        <Text as="span" size="sm">
+          {title}
+        </Text>
       ) : (
-        <Text as="span" tone="muted" size="sm">N/A</Text>
-      )
+        <Text as="span" tone="muted" size="sm">
+          N/A
+        </Text>
+      );
     },
   },
   {
     accessorKey: "created_at",
     header: "Created",
     cell: ({ row }) => {
-      const date = row.original.created_at
-      return <Text as="span" size="sm" tone="muted">{new Date(date).toLocaleDateString()}</Text>
+      const date = row.original.created_at;
+      return (
+        <Text as="span" size="sm" tone="muted">
+          {new Date(date).toLocaleDateString()}
+        </Text>
+      );
     },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const company = row.original
+      const company = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -189,23 +210,28 @@ const columns: ColumnDef<Company>[] = [
             <DropdownMenuItem>View Clients</DropdownMenuItem>
             <DropdownMenuItem>View Contacts</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive">
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];
 
 export function CompaniesDataTable({ companies }: CompaniesDataTableProps) {
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [sorting, setSorting] = React.useState<SortingState>([])
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
     pageSize: 10,
-  })
+  });
 
   const table = useReactTable({
     data: companies,
@@ -228,7 +254,7 @@ export function CompaniesDataTable({ companies }: CompaniesDataTableProps) {
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-  })
+  });
 
   return (
     <div className="flex w-full flex-col justify-start gap-6">
@@ -250,7 +276,7 @@ export function CompaniesDataTable({ companies }: CompaniesDataTableProps) {
                 .filter(
                   (column) =>
                     typeof column.accessorFn !== "undefined" &&
-                    column.getCanHide()
+                    column.getCanHide(),
                 )
                 .map((column) => {
                   return (
@@ -264,7 +290,7 @@ export function CompaniesDataTable({ companies }: CompaniesDataTableProps) {
                     >
                       {column.id}
                     </DropdownMenuCheckboxItem>
-                  )
+                  );
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
@@ -287,10 +313,10 @@ export function CompaniesDataTable({ companies }: CompaniesDataTableProps) {
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
-                              header.getContext()
+                              header.getContext(),
                             )}
                       </TableHead>
-                    )
+                    );
                   })}
                 </TableRow>
               ))}
@@ -304,7 +330,10 @@ export function CompaniesDataTable({ companies }: CompaniesDataTableProps) {
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
                       </TableCell>
                     ))}
                   </TableRow>
@@ -335,7 +364,7 @@ export function CompaniesDataTable({ companies }: CompaniesDataTableProps) {
               <Select
                 value={`${table.getState().pagination.pageSize}`}
                 onValueChange={(value) => {
-                  table.setPageSize(Number(value))
+                  table.setPageSize(Number(value));
                 }}
               >
                 <SelectTrigger className="w-20" id="rows-per-page">
@@ -401,5 +430,5 @@ export function CompaniesDataTable({ companies }: CompaniesDataTableProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

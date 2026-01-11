@@ -1,28 +1,35 @@
-import * as React from "react"
-import { Plus } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Card } from "@/components/ui/card"
-import { Stack } from "@/components/ui/stack"
-import { Inline } from "@/components/ui/inline"
-import { Text } from "@/components/ui/text"
-import { EmptyState } from "@/components/ui/empty-state"
-import { BudgetLineItemRow } from "./BudgetLineItemRow"
-import { BudgetLineItemCard } from "./BudgetLineItemCard"
-import type { BudgetLineItem, ProjectCostCode } from "@/app/[projectId]/budget/setup/types"
+import * as React from "react";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Stack } from "@/components/ui/stack";
+import { Inline } from "@/components/ui/inline";
+import { Text } from "@/components/ui/text";
+import { EmptyState } from "@/components/ui/empty-state";
+import { BudgetLineItemRow } from "./BudgetLineItemRow";
+import { BudgetLineItemCard } from "./BudgetLineItemCard";
+import type {
+  BudgetLineItem,
+  ProjectCostCode,
+} from "@/app/[projectId]/budget/setup/types";
 
 interface BudgetLineItemTableProps {
-  lineItems: BudgetLineItem[]
-  projectCostCodes: ProjectCostCode[]
-  loadingData: boolean
-  openPopoverId: string | null
-  onPopoverOpenChange: (id: string, open: boolean) => void
-  onBudgetCodeSelect: (rowId: string, costCode: ProjectCostCode) => void
-  onFieldChange: (id: string, field: keyof BudgetLineItem, value: string) => void
-  onRemoveRow: (id: string) => void
-  onCreateNew: (rowId: string) => void
-  onAddRow: () => void
-  onSubmit: () => void
-  loading: boolean
+  lineItems: BudgetLineItem[];
+  projectCostCodes: ProjectCostCode[];
+  loadingData: boolean;
+  openPopoverId: string | null;
+  onPopoverOpenChange: (id: string, open: boolean) => void;
+  onBudgetCodeSelect: (rowId: string, costCode: ProjectCostCode) => void;
+  onFieldChange: (
+    id: string,
+    field: keyof BudgetLineItem,
+    value: string,
+  ) => void;
+  onRemoveRow: (id: string) => void;
+  onCreateNew: (rowId: string) => void;
+  onAddRow: () => void;
+  onSubmit: () => void;
+  loading: boolean;
 }
 
 /**
@@ -45,12 +52,15 @@ export function BudgetLineItemTable({
 }: BudgetLineItemTableProps) {
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === "Enter") {
-      e.preventDefault()
-      onAddRow()
+      e.preventDefault();
+      onAddRow();
     }
-  }
+  };
 
-  const totalAmount = lineItems.reduce((sum, item) => sum + (parseFloat(item.amount) || 0), 0)
+  const totalAmount = lineItems.reduce(
+    (sum, item) => sum + (parseFloat(item.amount) || 0),
+    0,
+  );
 
   return (
     <Card>
@@ -118,9 +128,15 @@ export function BudgetLineItemTable({
                     item={row}
                     projectCostCodes={projectCostCodes}
                     isPopoverOpen={openPopoverId === row.id}
-                    onPopoverOpenChange={(open) => onPopoverOpenChange(row.id, open)}
-                    onBudgetCodeSelect={(costCode) => onBudgetCodeSelect(row.id, costCode)}
-                    onFieldChange={(field, value) => onFieldChange(row.id, field, value)}
+                    onPopoverOpenChange={(open) =>
+                      onPopoverOpenChange(row.id, open)
+                    }
+                    onBudgetCodeSelect={(costCode) =>
+                      onBudgetCodeSelect(row.id, costCode)
+                    }
+                    onFieldChange={(field, value) =>
+                      onFieldChange(row.id, field, value)
+                    }
                     onRemove={() => onRemoveRow(row.id)}
                     onCreateNew={() => onCreateNew(row.id)}
                     canRemove={lineItems.length > 1}
@@ -154,9 +170,15 @@ export function BudgetLineItemTable({
                   index={index}
                   projectCostCodes={projectCostCodes}
                   isPopoverOpen={openPopoverId === row.id}
-                  onPopoverOpenChange={(open) => onPopoverOpenChange(row.id, open)}
-                  onBudgetCodeSelect={(costCode) => onBudgetCodeSelect(row.id, costCode)}
-                  onFieldChange={(field, value) => onFieldChange(row.id, field, value)}
+                  onPopoverOpenChange={(open) =>
+                    onPopoverOpenChange(row.id, open)
+                  }
+                  onBudgetCodeSelect={(costCode) =>
+                    onBudgetCodeSelect(row.id, costCode)
+                  }
+                  onFieldChange={(field, value) =>
+                    onFieldChange(row.id, field, value)
+                  }
                   onRemove={() => onRemoveRow(row.id)}
                   onCreateNew={() => onCreateNew(row.id)}
                   canRemove={lineItems.length > 1}
@@ -189,5 +211,5 @@ export function BudgetLineItemTable({
         </div>
       </Stack>
     </Card>
-  )
+  );
 }

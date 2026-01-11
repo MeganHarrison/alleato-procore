@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { cn } from '@/lib/utils';
-import { AnimatedBackground } from '@/components/motion/animated-background';
+import { cn } from "@/lib/utils";
+import { AnimatedBackground } from "@/components/motion/animated-background";
 
 interface Tab {
   id: string;
@@ -15,17 +15,17 @@ interface BudgetTabsProps {
 }
 
 const tabs: Tab[] = [
-  { id: 'budget', label: 'Budget' },
-  { id: 'budget-details', label: 'Budget Details' },
-  { id: 'cost-codes', label: 'Cost Codes' },
-  { id: 'forecasting', label: 'Forecasting' },
-  { id: 'snapshots', label: 'Project Status Snapshots' },
-  { id: 'change-history', label: 'Change History' },
-  { id: 'settings', label: 'Settings' },
+  { id: "budget", label: "Budget" },
+  { id: "budget-details", label: "Budget Details" },
+  { id: "cost-codes", label: "Cost Codes" },
+  { id: "forecasting", label: "Forecasting" },
+  { id: "snapshots", label: "Project Status Snapshots" },
+  { id: "change-history", label: "Change History" },
+  { id: "settings", label: "Settings" },
 ];
 
 export function BudgetTabs({
-  activeTab = 'budget',
+  activeTab = "budget",
   onTabChange,
 }: BudgetTabsProps) {
   return (
@@ -37,7 +37,7 @@ export function BudgetTabs({
               defaultValue={activeTab}
               className="rounded-md bg-primary"
               transition={{
-                ease: 'easeInOut',
+                ease: "easeInOut",
                 duration: 0.2,
               }}
               onValueChange={(value) => {
@@ -55,12 +55,12 @@ export function BudgetTabs({
                     type="button"
                     aria-label={tab.label}
                     className={cn(
-                      'inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-colors rounded-md',
+                      "inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-colors rounded-md",
                       isActive
-                        ? 'text-white'
-                        : 'text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white'
+                        ? "text-white"
+                        : "text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white",
                     )}
-                    aria-current={isActive ? 'page' : undefined}
+                    aria-current={isActive ? "page" : undefined}
                   >
                     {tab.label}
                   </button>

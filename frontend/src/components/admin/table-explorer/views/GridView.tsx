@@ -1,15 +1,20 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { Card, CardContent, CardFooter, CardHeader } from '@/components/ui/card';
-import { RowActions } from '../RowActions';
-import { type ColumnMetadata } from '@/server/db/introspection';
+import { useRouter } from "next/navigation";
+import {
+  Card,
+  CardContent,
+  CardFooter,
+  CardHeader,
+} from "@/components/ui/card";
+import { RowActions } from "../RowActions";
+import { type ColumnMetadata } from "@/server/db/introspection";
 import {
   type TableConfig,
   type TableName,
   getRowTitle,
   getRowSubtitle,
-} from '@/lib/table-registry';
+} from "@/lib/table-registry";
 
 interface GridViewProps {
   table: TableName;
@@ -29,8 +34,8 @@ export function GridView({ table, config, columns, rows }: GridViewProps) {
       (col) =>
         !hiddenColumns.includes(col.column_name) &&
         col.column_name !== pk &&
-        col.column_name !== 'created_at' &&
-        col.column_name !== 'updated_at'
+        col.column_name !== "created_at" &&
+        col.column_name !== "updated_at",
     )
     .slice(0, 4);
 
@@ -91,7 +96,10 @@ export function GridView({ table, config, columns, rows }: GridViewProps) {
                   if (value === null || value === undefined) return null;
 
                   return (
-                    <div key={col.column_name} className="flex justify-between gap-2">
+                    <div
+                      key={col.column_name}
+                      className="flex justify-between gap-2"
+                    >
                       <dt className="text-muted-foreground truncate">
                         {col.label}
                       </dt>
@@ -109,8 +117,8 @@ export function GridView({ table, config, columns, rows }: GridViewProps) {
                   {updatedAt
                     ? `Updated ${formatDate(updatedAt)}`
                     : createdAt
-                    ? `Created ${formatDate(createdAt)}`
-                    : null}
+                      ? `Created ${formatDate(createdAt)}`
+                      : null}
                 </p>
               </CardFooter>
             )}
@@ -122,13 +130,13 @@ export function GridView({ table, config, columns, rows }: GridViewProps) {
 }
 
 function formatValue(value: unknown, column: ColumnMetadata): string {
-  if (value === null || value === undefined) return '—';
+  if (value === null || value === undefined) return "—";
 
-  if (column.inputType === 'boolean') {
-    return value ? 'Yes' : 'No';
+  if (column.inputType === "boolean") {
+    return value ? "Yes" : "No";
   }
 
-  if (column.inputType === 'datetime' || column.inputType === 'date') {
+  if (column.inputType === "datetime" || column.inputType === "date") {
     try {
       const date = new Date(String(value));
       return date.toLocaleDateString();
@@ -137,38 +145,38 @@ function formatValue(value: unknown, column: ColumnMetadata): string {
     }
   }
 
-  if (column.inputType === 'number') {
-    const num = typeof value === 'number' ? value : parseFloat(String(value));
+  if (column.inputType === "number") {
+    const num = typeof value === "number" ? value : parseFloat(String(value));
     if (!isNaN(num)) {
       if (
-        column.column_name.includes('amount') ||
-        column.column_name.includes('price') ||
-        column.column_name.includes('cost')
+        column.column_name.includes("amount") ||
+        column.column_name.includes("price") ||
+        column.column_name.includes("cost")
       ) {
-        return new Intl.NumberFormat('en-US', {
-          style: 'currency',
-          currency: 'USD',
+        return new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "USD",
         }).format(num);
       }
       return num.toLocaleString();
     }
   }
 
-  if (column.inputType === 'uuid') {
-    return String(value).substring(0, 8) + '...';
+  if (column.inputType === "uuid") {
+    return String(value).substring(0, 8) + "...";
   }
 
   const str = String(value);
-  return str.length > 50 ? str.substring(0, 47) + '...' : str;
+  return str.length > 50 ? str.substring(0, 47) + "..." : str;
 }
 
 function formatDate(dateStr: string): string {
   try {
     const date = new Date(dateStr);
     return date.toLocaleDateString(undefined, {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
+      month: "short",
+      day: "numeric",
+      year: "numeric",
     });
   } catch {
     return dateStr;

@@ -1,29 +1,29 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Table } from "@tanstack/react-table"
-import { X } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { DataTableColumnToggle } from "./DataTableColumnToggle"
-import { DataTableFilters } from "./DataTableFilters"
-import { MobileFilterModal } from "./MobileFilterModal"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { Table } from "@tanstack/react-table";
+import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { DataTableColumnToggle } from "./DataTableColumnToggle";
+import { DataTableFilters } from "./DataTableFilters";
+import { MobileFilterModal } from "./MobileFilterModal";
+import { cn } from "@/lib/utils";
 
 interface DataTableToolbarProps<TData> {
-  table: Table<TData>
-  searchKey?: string
-  searchPlaceholder?: string
-  filters?: React.ReactNode
+  table: Table<TData>;
+  searchKey?: string;
+  searchPlaceholder?: string;
+  filters?: React.ReactNode;
   filterOptions?: {
-    column: string
-    title: string
+    column: string;
+    title: string;
     options: {
-      label: string
-      value: string
-      icon?: React.ComponentType<{ className?: string }>
-    }[]
-  }[]
+      label: string;
+      value: string;
+      icon?: React.ComponentType<{ className?: string }>;
+    }[];
+  }[];
 }
 
 export function DataTableToolbarResponsive<TData>({
@@ -33,12 +33,12 @@ export function DataTableToolbarResponsive<TData>({
   filters,
   filterOptions,
 }: DataTableToolbarProps<TData>) {
-  const isFiltered = table.getState().columnFilters.length > 0
-  const [mobileFilterOpen, setMobileFilterOpen] = React.useState(false)
+  const isFiltered = table.getState().columnFilters.length > 0;
+  const [mobileFilterOpen, setMobileFilterOpen] = React.useState(false);
 
   const renderFilters = () => {
-    if (filters) return filters
-    
+    if (filters) return filters;
+
     if (filterOptions) {
       return filterOptions.map((filter) => (
         <DataTableFilters
@@ -47,11 +47,11 @@ export function DataTableToolbarResponsive<TData>({
           title={filter.title}
           options={filter.options}
         />
-      ))
+      ));
     }
-    
-    return null
-  }
+
+    return null;
+  };
 
   return (
     <div className="flex items-center justify-between">
@@ -65,7 +65,7 @@ export function DataTableToolbarResponsive<TData>({
           }
           className="h-8 w-[150px] lg:w-[250px]"
         />
-        
+
         {/* Desktop Filters */}
         <div className="hidden lg:flex lg:items-center lg:space-x-2">
           {renderFilters()}
@@ -93,11 +93,11 @@ export function DataTableToolbarResponsive<TData>({
           </MobileFilterModal>
         </div>
       </div>
-      
+
       {/* Column Toggle - Desktop only */}
       <div className="hidden lg:block">
         <DataTableColumnToggle table={table} />
       </div>
     </div>
-  )
+  );
 }

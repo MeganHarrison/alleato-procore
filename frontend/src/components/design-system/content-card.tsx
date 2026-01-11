@@ -1,18 +1,18 @@
-import React from 'react'
-import Link from 'next/link'
-import { LucideIcon } from 'lucide-react'
+import React from "react";
+import Link from "next/link";
+import { LucideIcon } from "lucide-react";
 
 interface ContentCardProps {
-  title: string
-  description?: string
+  title: string;
+  description?: string;
   metadata?: Array<{
-    icon: LucideIcon
-    label: string
-  }>
-  badge?: string
-  href?: string
-  onClick?: () => void
-  children?: React.ReactNode
+    icon: LucideIcon;
+    label: string;
+  }>;
+  badge?: string;
+  href?: string;
+  onClick?: () => void;
+  children?: React.ReactNode;
 }
 
 /**
@@ -26,9 +26,10 @@ export function ContentCard({
   badge,
   href,
   onClick,
-  children
+  children,
 }: ContentCardProps) {
-  const baseClasses = "border border-neutral-200 bg-white p-6 md:p-8 transition-all duration-300 hover:border-brand hover:shadow-sm"
+  const baseClasses =
+    "border border-neutral-200 bg-white p-6 md:p-8 transition-all duration-300 hover:border-brand hover:shadow-sm";
 
   const content = (
     <>
@@ -57,33 +58,34 @@ export function ContentCard({
         {metadata && metadata.length > 0 && (
           <div className="flex flex-wrap items-center gap-4 pt-3 border-t border-neutral-100">
             {metadata.map((item, index) => {
-              const Icon = item.icon
+              const Icon = item.icon;
               return (
-                <div key={index} className="flex items-center gap-2 text-xs text-neutral-500">
+                <div
+                  key={index}
+                  className="flex items-center gap-2 text-xs text-neutral-500"
+                >
                   <Icon className="h-3.5 w-3.5" />
                   <span>{item.label}</span>
                 </div>
-              )
+              );
             })}
           </div>
         )}
 
         {/* Custom children content */}
         {children && (
-          <div className="pt-3 border-t border-neutral-100">
-            {children}
-          </div>
+          <div className="pt-3 border-t border-neutral-100">{children}</div>
         )}
       </div>
     </>
-  )
+  );
 
   if (href) {
     return (
       <Link href={href} className={`block ${baseClasses}`}>
         {content}
       </Link>
-    )
+    );
   }
 
   if (onClick) {
@@ -95,12 +97,8 @@ export function ContentCard({
       >
         {content}
       </button>
-    )
+    );
   }
 
-  return (
-    <div className={baseClasses}>
-      {content}
-    </div>
-  )
+  return <div className={baseClasses}>{content}</div>;
 }

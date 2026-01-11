@@ -1,13 +1,13 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 interface PageContainerProps {
-  children: React.ReactNode
-  className?: string
-  maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl" | "full"
-  padding?: boolean
+  children: React.ReactNode;
+  className?: string;
+  maxWidth?: "sm" | "md" | "lg" | "xl" | "2xl" | "full";
+  padding?: boolean;
 }
 
 const maxWidthClasses = {
@@ -17,7 +17,7 @@ const maxWidthClasses = {
   xl: "max-w-7xl",
   "2xl": "max-w-screen-2xl",
   full: "max-w-full",
-}
+};
 
 export function PageContainer({
   children,
@@ -26,17 +26,19 @@ export function PageContainer({
   padding = true,
 }: PageContainerProps) {
   return (
-    <div className={cn(
-      "mx-auto w-full",
-      maxWidthClasses[maxWidth],
-      // Mobile-first responsive padding following 8px grid system
-      // Mobile: 16px (comfortable minimum), Tablet: 24px, Desktop: 32px
-      padding && "px-4 sm:px-6 lg:px-8 py-4 sm:py-6",
-      // Prevent horizontal overflow on all screen sizes
-      "overflow-x-hidden",
-      className
-    )}>
+    <div
+      className={cn(
+        "mx-auto w-full",
+        maxWidthClasses[maxWidth],
+        // Mobile-first responsive padding following 8px grid system
+        // Mobile: 16px (comfortable minimum), Tablet: 24px, Desktop: 32px
+        padding && "px-4 sm:px-6 lg:px-8 py-4 sm:py-6",
+        // Prevent horizontal overflow on all screen sizes
+        "overflow-x-hidden",
+        className,
+      )}
+    >
       {children}
     </div>
-  )
+  );
 }

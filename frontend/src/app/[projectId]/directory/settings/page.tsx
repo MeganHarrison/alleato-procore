@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useParams, useRouter } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { ProjectRolesTab } from '@/components/directory/settings/ProjectRolesTab';
-import { PermissionsTableTab } from '@/components/directory/settings/PermissionsTableTab';
+import * as React from "react";
+import { useParams, useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { ProjectRolesTab } from "@/components/directory/settings/ProjectRolesTab";
+import { PermissionsTableTab } from "@/components/directory/settings/PermissionsTableTab";
 
-type SettingsTab = 'roles' | 'permissions';
+type SettingsTab = "roles" | "permissions";
 
 export default function ProjectDirectorySettingsPage() {
   const params = useParams();
   const router = useRouter();
   const projectId = params.projectId as string;
-  const [activeTab, setActiveTab] = React.useState<SettingsTab>('roles');
+  const [activeTab, setActiveTab] = React.useState<SettingsTab>("roles");
 
   const handleBack = () => {
     router.push(`/${projectId}/directory/users`);
@@ -49,23 +49,23 @@ export default function ProjectDirectorySettingsPage() {
             {/* Navigation tabs */}
             <nav className="space-y-1">
               <button
-                onClick={() => setActiveTab('roles')}
+                onClick={() => setActiveTab("roles")}
                 className={cn(
-                  'w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors',
-                  activeTab === 'roles'
-                    ? 'text-orange-600 bg-orange-50'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                  "w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                  activeTab === "roles"
+                    ? "text-orange-600 bg-orange-50"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
                 )}
               >
                 Project Roles
               </button>
               <button
-                onClick={() => setActiveTab('permissions')}
+                onClick={() => setActiveTab("permissions")}
                 className={cn(
-                  'w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors',
-                  activeTab === 'permissions'
-                    ? 'text-orange-600 bg-orange-50'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                  "w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                  activeTab === "permissions"
+                    ? "text-orange-600 bg-orange-50"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
                 )}
               >
                 Permissions Table
@@ -76,8 +76,8 @@ export default function ProjectDirectorySettingsPage() {
 
         {/* Main content area */}
         <div className="flex-1 p-6">
-          {activeTab === 'roles' && <ProjectRolesTab projectId={projectId} />}
-          {activeTab === 'permissions' && (
+          {activeTab === "roles" && <ProjectRolesTab projectId={projectId} />}
+          {activeTab === "permissions" && (
             <PermissionsTableTab projectId={projectId} />
           )}
         </div>

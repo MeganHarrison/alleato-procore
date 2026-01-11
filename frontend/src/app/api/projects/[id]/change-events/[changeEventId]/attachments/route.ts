@@ -1,0 +1,381 @@
+import { createClient } from "@/lib/supabase/server";
+import { NextRequest, NextResponse } from "next/server";
+import { createAttachmentSchema } from "../../validation";
+import { ZodError } from "zod";
+
+interface RouteParams {
+  params: Promise<{ id: string; changeEventId: string }>;
+}
+
+/**
+ * GET /api/projects/[id]/change-events/[changeEventId]/attachments
+ * Returns all attachments for a change event
+ */
+export async function GET(request: NextRequest, { params }: RouteParams) {
+  try {
+    const { id: projectId, changeEventId } = await params;
+    const supabase = await createClient();
+
+    // Verify change event exists
+    const { data: changeEvent, error: eventError } = await supabase
+      .from("change_events")
+      .select("id")
+      .eq("project_id", parseInt(projectId, 10))
+      .eq("id", parseInt(changeEventId, 10))
+      .is("deleted_at", null)
+      .single();
+
+    if (eventError || !changeEvent) {
+      return NextResponse.json(
+        { error: "Change event not found" },
+        { status: 404 },
+      );
+    }
+
+    // Get attachments
+    const { data: attachments, error } = await supabase
+      .from("change_event_attachments")
+      .select(
+        `
+        *,
+        uploader:users(id, email)
+      `,
+      )
+      .eq("change_event_id", parseInt(changeEventId, 10))
+      .order("uploaded_at", { ascending: false });
+
+    if (error) {
+      console.error("Error fetching attachments:", error);
+      return NextResponse.json(
+        { error: "Failed to fetch attachments", details: error.message },
+        { status: 400 },
+      );
+    }
+
+    // Format response
+    const formattedAttachments = (attachments || []).map((attachment) => ({
+      id: attachment.id,
+      changeEventId: attachment.change_event_id,
+      fileName: attachment.file_name,
+      filePath: attachment.file_path,
+      fileSize: attachment.file_size,
+      mimeType: attachment.mime_type,
+      uploadedBy: attachment.uploader,
+      uploadedAt: attachment.uploaded_at,
+      downloadUrl: `/api/projects/${projectId}/change-events/${changeEventId}/attachments/${attachment.id}/download`,
+      _links: {
+        self: `/api/projects/${projectId}/change-events/${changeEventId}/attachments/${attachment.id}`,
+        download: `/api/projects/${projectId}/change-events/${changeEventId}/attachments/${attachment.id}/download`,
+      },
+    }));
+
+    return NextResponse.json({
+      data: formattedAttachments,
+      _links: {
+        self: `/api/projects/${projectId}/change-events/${changeEventId}/attachments`,
+        changeEvent: `/api/projects/${projectId}/change-events/${changeEventId}`,
+      },
+    });
+  } catch (error) {
+    console.error(
+      "Error in GET /api/projects/[id]/change-events/[changeEventId]/attachments:",
+      error,
+    );
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}
+
+/**
+ * POST /api/projects/[id]/change-events/[changeEventId]/attachments
+ * Uploads a new attachment to a change event
+ */
+export async function POST(request: NextRequest, { params }: RouteParams) {
+  try {
+    const { id: projectId, changeEventId } = await params;
+    const supabase = await createClient();
+
+    // Get current user
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Verify change event exists
+    const { data: changeEvent, error: eventError } = await supabase
+      .from("change_events")
+      .select("id, event_number")
+      .eq("project_id", parseInt(projectId, 10))
+      .eq("id", parseInt(changeEventId, 10))
+      .is("deleted_at", null)
+      .single();
+
+    if (eventError || !changeEvent) {
+      return NextResponse.json(
+        { error: "Change event not found" },
+        { status: 404 },
+      );
+    }
+
+    // Parse multipart form data
+    const formData = await request.formData();
+    const file = formData.get("file") as File;
+
+    if (!file) {
+      return NextResponse.json({ error: "No file provided" }, { status: 400 });
+    }
+
+    // Validate file metadata
+    const attachmentData = createAttachmentSchema.parse({
+      fileName: file.name,
+      filePath: "", // Will be set after upload
+      fileSize: file.size,
+      mimeType: file.type,
+    });
+
+    // Upload file to Supabase Storage
+    const fileExt = file.name.split(".").pop();
+    const fileName = `${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+    const storagePath = `change-events/${projectId}/${changeEventId}/${fileName}`;
+
+    const { error: uploadError } = await supabase.storage
+      .from("project-files")
+      .upload(storagePath, file, {
+        contentType: file.type,
+        upsert: false,
+      });
+
+    if (uploadError) {
+      console.error("Error uploading file:", uploadError);
+      return NextResponse.json(
+        { error: "Failed to upload file", details: uploadError.message },
+        { status: 400 },
+      );
+    }
+
+    // Create attachment record
+    const { data: attachment, error: dbError } = await supabase
+      .from("change_event_attachments")
+      .insert({
+        change_event_id: parseInt(changeEventId, 10),
+        file_name: attachmentData.fileName,
+        file_path: storagePath,
+        file_size: attachmentData.fileSize,
+        mime_type: attachmentData.mimeType,
+        uploaded_by: user.id,
+        uploaded_at: new Date().toISOString(),
+      })
+      .select()
+      .single();
+
+    if (dbError) {
+      // Clean up uploaded file
+      await supabase.storage.from("project-files").remove([storagePath]);
+
+      console.error("Error creating attachment record:", dbError);
+      return NextResponse.json(
+        {
+          error: "Failed to create attachment record",
+          details: dbError.message,
+        },
+        { status: 400 },
+      );
+    }
+
+    // Update change event modification timestamp
+    await supabase
+      .from("change_events")
+      .update({
+        updated_at: new Date().toISOString(),
+        updated_by: user.id,
+      })
+      .eq("id", parseInt(changeEventId, 10));
+
+    // Create audit log entry
+    await supabase.from("change_event_history").insert({
+      change_event_id: parseInt(changeEventId, 10),
+      field_name: "attachment_added",
+      new_value: attachmentData.fileName,
+      changed_by: user.id,
+      change_type: "UPDATE",
+    });
+
+    // Get public URL for the file
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from("project-files").getPublicUrl(storagePath);
+
+    // Format response
+    const response = {
+      id: attachment.id,
+      changeEventId: attachment.change_event_id,
+      fileName: attachment.file_name,
+      filePath: attachment.file_path,
+      fileSize: attachment.file_size,
+      mimeType: attachment.mime_type,
+      uploadedBy: {
+        id: user.id,
+        email: user.email,
+      },
+      uploadedAt: attachment.uploaded_at,
+      publicUrl,
+      downloadUrl: `/api/projects/${projectId}/change-events/${changeEventId}/attachments/${attachment.id}/download`,
+      _links: {
+        self: `/api/projects/${projectId}/change-events/${changeEventId}/attachments/${attachment.id}`,
+        download: `/api/projects/${projectId}/change-events/${changeEventId}/attachments/${attachment.id}/download`,
+        changeEvent: `/api/projects/${projectId}/change-events/${changeEventId}`,
+      },
+    };
+
+    return NextResponse.json(response, { status: 201 });
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return NextResponse.json(
+        {
+          error: "Validation error",
+          details: error.issues.map((e) => ({
+            field: e.path.join("."),
+            message: e.message,
+          })),
+        },
+        { status: 400 },
+      );
+    }
+
+    console.error(
+      "Error in POST /api/projects/[id]/change-events/[changeEventId]/attachments:",
+      error,
+    );
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}
+
+/**
+ * DELETE /api/projects/[id]/change-events/[changeEventId]/attachments
+ * Deletes multiple attachments (bulk delete)
+ */
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
+  try {
+    const { id: projectId, changeEventId } = await params;
+    const supabase = await createClient();
+    const body = await request.json();
+
+    // Get current user
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Verify change event exists
+    const { data: changeEvent, error: eventError } = await supabase
+      .from("change_events")
+      .select("id")
+      .eq("project_id", parseInt(projectId, 10))
+      .eq("id", parseInt(changeEventId, 10))
+      .is("deleted_at", null)
+      .single();
+
+    if (eventError || !changeEvent) {
+      return NextResponse.json(
+        { error: "Change event not found" },
+        { status: 404 },
+      );
+    }
+
+    // Expect array of attachment IDs
+    if (!Array.isArray(body.attachmentIds)) {
+      return NextResponse.json(
+        { error: "Request body must contain an array of attachment IDs" },
+        { status: 400 },
+      );
+    }
+
+    // Get attachment details before deletion
+    const { data: attachments, error: fetchError } = await supabase
+      .from("change_event_attachments")
+      .select("id, file_path, file_name")
+      .in("id", body.attachmentIds)
+      .eq("change_event_id", parseInt(changeEventId, 10));
+
+    if (fetchError) {
+      return NextResponse.json(
+        { error: "Failed to fetch attachments", details: fetchError.message },
+        { status: 400 },
+      );
+    }
+
+    // Delete from storage
+    const filePaths = (attachments || []).map((a) => a.file_path);
+    if (filePaths.length > 0) {
+      const { error: storageError } = await supabase.storage
+        .from("project-files")
+        .remove(filePaths);
+
+      if (storageError) {
+        console.error("Error deleting files from storage:", storageError);
+      }
+    }
+
+    // Delete database records
+    const { error: deleteError } = await supabase
+      .from("change_event_attachments")
+      .delete()
+      .in("id", body.attachmentIds)
+      .eq("change_event_id", parseInt(changeEventId, 10));
+
+    if (deleteError) {
+      return NextResponse.json(
+        { error: "Failed to delete attachments", details: deleteError.message },
+        { status: 400 },
+      );
+    }
+
+    // Update change event modification timestamp
+    await supabase
+      .from("change_events")
+      .update({
+        updated_at: new Date().toISOString(),
+        updated_by: user.id,
+      })
+      .eq("id", parseInt(changeEventId, 10));
+
+    // Create audit log entries
+    const auditEntries = (attachments || []).map((attachment) => ({
+      change_event_id: parseInt(changeEventId, 10),
+      field_name: "attachment_removed",
+      old_value: attachment.file_name,
+      changed_by: user.id,
+      change_type: "UPDATE",
+    }));
+
+    if (auditEntries.length > 0) {
+      await supabase.from("change_event_history").insert(auditEntries);
+    }
+
+    return NextResponse.json({
+      message: `${attachments?.length || 0} attachment(s) deleted successfully`,
+    });
+  } catch (error) {
+    console.error(
+      "Error in DELETE /api/projects/[id]/change-events/[changeEventId]/attachments:",
+      error,
+    );
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
+    );
+  }
+}

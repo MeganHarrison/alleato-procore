@@ -1,15 +1,19 @@
-'use client';
+"use client";
 
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import Link from 'next/link';
-import { useParams, useRouter } from 'next/navigation';
-import { Plus, ArrowUpDown, FileDown } from 'lucide-react';
-import { toast } from 'sonner';
+import { useCallback, useEffect, useMemo, useState } from "react";
+import Link from "next/link";
+import { useParams, useRouter } from "next/navigation";
+import { Plus, ArrowUpDown, FileDown } from "lucide-react";
+import { toast } from "sonner";
 
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { PageContainer, ProjectPageHeader, PageTabs } from '@/components/layout';
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import {
+  PageContainer,
+  ProjectPageHeader,
+  PageTabs,
+} from "@/components/layout";
 import {
   Table,
   TableBody,
@@ -17,8 +21,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { useProjectTitle } from '@/hooks/useProjectTitle';
+} from "@/components/ui/table";
+import { useProjectTitle } from "@/hooks/useProjectTitle";
 
 // Contract Line Item interface
 interface ContractLineItem {
@@ -50,13 +54,13 @@ export default function ProjectSOVPage() {
   const router = useRouter();
   const params = useParams();
   const projectId = params.projectId as string;
-  useProjectTitle('Schedule of Values');
+  useProjectTitle("Schedule of Values");
 
   const [contracts, setContracts] = useState<ContractWithLineItems[]>([]);
   const [loading, setLoading] = useState(true);
   const [sortColumn, setSortColumn] = useState<string | null>(null);
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc');
-  const [activeTab, setActiveTab] = useState('all');
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
+  const [activeTab, setActiveTab] = useState("all");
 
   // Fetch contracts and their line items
   useEffect(() => {
@@ -67,9 +71,11 @@ export default function ProjectSOVPage() {
         setLoading(true);
 
         // Fetch contracts
-        const contractsResponse = await fetch(`/api/projects/${projectId}/contracts`);
+        const contractsResponse = await fetch(
+          `/api/projects/${projectId}/contracts`,
+        );
         if (!contractsResponse.ok) {
-          throw new Error('Failed to fetch contracts');
+          throw new Error("Failed to fetch contracts");
         }
         const contractsData = await contractsResponse.json();
 
@@ -78,7 +84,7 @@ export default function ProjectSOVPage() {
           contractsData.map(async (contract: ContractWithLineItems) => {
             try {
               const lineItemsResponse = await fetch(
-                `/api/projects/${projectId}/contracts/${contract.id}/line-items`
+                `/api/projects/${projectId}/contracts/${contract.id}/line-items`,
               );
               if (lineItemsResponse.ok) {
                 const lineItemsData = await lineItemsResponse.json();
@@ -89,16 +95,19 @@ export default function ProjectSOVPage() {
               }
               return { ...contract, line_items: [] };
             } catch (err) {
-              console.error(`Error fetching line items for contract ${contract.id}:`, err);
+              console.error(
+                `Error fetching line items for contract ${contract.id}:`,
+                err,
+              );
               return { ...contract, line_items: [] };
             }
-          })
+          }),
         );
 
         setContracts(contractsWithLineItems);
       } catch (err) {
-        console.error('Error fetching SOV data:', err);
-        toast.error('Failed to load Schedule of Values');
+        console.error("Error fetching SOV data:", err);
+        toast.error("Failed to load Schedule of Values");
       } finally {
         setLoading(false);
       }
@@ -107,30 +116,34 @@ export default function ProjectSOVPage() {
     fetchData();
   }, [projectId]);
 
-  const handleSort = useCallback((column: string) => {
-    if (sortColumn === column) {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
-    } else {
-      setSortColumn(column);
-      setSortDirection('asc');
-    }
-  }, [sortColumn, sortDirection]);
+  const handleSort = useCallback(
+    (column: string) => {
+      if (sortColumn === column) {
+        setSortDirection(sortDirection === "asc" ? "desc" : "asc");
+      } else {
+        setSortColumn(column);
+        setSortDirection("asc");
+      }
+    },
+    [sortColumn, sortDirection],
+  );
 
   const formatCurrency = (amount: number | null | undefined) => {
-    if (amount === null || amount === undefined) return '$0.00';
-    return new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
+    if (amount === null || amount === undefined) return "$0.00";
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
       minimumFractionDigits: 2,
     }).format(amount);
   };
 
   // Flatten all line items from all contracts
   const allLineItems = useMemo(() => {
-    const items: Array<ContractLineItem & { contract: ContractWithLineItems }> = [];
+    const items: Array<ContractLineItem & { contract: ContractWithLineItems }> =
+      [];
 
-    contracts.forEach(contract => {
-      contract.line_items.forEach(item => {
+    contracts.forEach((contract) => {
+      contract.line_items.forEach((item) => {
         items.push({ ...item, contract });
       });
     });
@@ -142,31 +155,31 @@ export default function ProjectSOVPage() {
         let bVal: string | number | null | undefined;
 
         switch (sortColumn) {
-          case 'contract':
+          case "contract":
             aVal = a.contract.contract_number;
             bVal = b.contract.contract_number;
             break;
-          case 'line':
+          case "line":
             aVal = a.line_number;
             bVal = b.line_number;
             break;
-          case 'description':
+          case "description":
             aVal = a.description;
             bVal = b.description;
             break;
-          case 'cost_code':
+          case "cost_code":
             aVal = a.cost_code_id || 0;
             bVal = b.cost_code_id || 0;
             break;
-          case 'quantity':
+          case "quantity":
             aVal = a.quantity;
             bVal = b.quantity;
             break;
-          case 'unit_cost':
+          case "unit_cost":
             aVal = a.unit_cost;
             bVal = b.unit_cost;
             break;
-          case 'total':
+          case "total":
             aVal = a.total_cost;
             bVal = b.total_cost;
             break;
@@ -177,13 +190,13 @@ export default function ProjectSOVPage() {
         if (aVal === null || aVal === undefined) return 1;
         if (bVal === null || bVal === undefined) return -1;
 
-        if (typeof aVal === 'string' && typeof bVal === 'string') {
-          return sortDirection === 'asc'
+        if (typeof aVal === "string" && typeof bVal === "string") {
+          return sortDirection === "asc"
             ? aVal.localeCompare(bVal)
             : bVal.localeCompare(aVal);
         }
 
-        return sortDirection === 'asc'
+        return sortDirection === "asc"
           ? (aVal as number) - (bVal as number)
           : (bVal as number) - (aVal as number);
       });
@@ -199,12 +212,12 @@ export default function ProjectSOVPage() {
         original: acc.original + (contract.original_contract_value || 0),
         revised: acc.revised + (contract.revised_contract_value || 0),
       }),
-      { original: 0, revised: 0 }
+      { original: 0, revised: 0 },
     );
 
     const sovTotal = allLineItems.reduce(
       (sum, item) => sum + (item.total_cost || 0),
-      0
+      0,
     );
 
     return {
@@ -216,27 +229,36 @@ export default function ProjectSOVPage() {
 
   const handleExportCSV = () => {
     // Create CSV content
-    const headers = ['Contract', 'Line #', 'Cost Code', 'Description', 'Quantity', 'Unit', 'Unit Cost', 'Total Cost'];
-    const rows = allLineItems.map(item => [
+    const headers = [
+      "Contract",
+      "Line #",
+      "Cost Code",
+      "Description",
+      "Quantity",
+      "Unit",
+      "Unit Cost",
+      "Total Cost",
+    ];
+    const rows = allLineItems.map((item) => [
       item.contract.contract_number,
       item.line_number,
-      item.cost_code_id || '',
+      item.cost_code_id || "",
       item.description,
       item.quantity,
-      item.unit_of_measure || '',
+      item.unit_of_measure || "",
       item.unit_cost,
       item.total_cost,
     ]);
 
     const csvContent = [
-      headers.join(','),
-      ...rows.map(row => row.map(cell => `"${cell}"`).join(',')),
-    ].join('\n');
+      headers.join(","),
+      ...rows.map((row) => row.map((cell) => `"${cell}"`).join(",")),
+    ].join("\n");
 
     // Download CSV
-    const blob = new Blob([csvContent], { type: 'text/csv' });
+    const blob = new Blob([csvContent], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
     a.download = `sov-project-${projectId}.csv`;
     document.body.appendChild(a);
@@ -244,7 +266,7 @@ export default function ProjectSOVPage() {
     document.body.removeChild(a);
     window.URL.revokeObjectURL(url);
 
-    toast.success('SOV exported to CSV');
+    toast.success("SOV exported to CSV");
   };
 
   return (
@@ -254,7 +276,7 @@ export default function ProjectSOVPage() {
         description="View and manage schedule of values across all contracts"
         showExportButton={true}
         onExportCSV={handleExportCSV}
-        onExportPDF={() => toast.info('PDF export coming soon')}
+        onExportPDF={() => toast.info("PDF export coming soon")}
         actions={
           <Button
             size="sm"
@@ -268,19 +290,27 @@ export default function ProjectSOVPage() {
 
       <PageTabs
         tabs={[
-          { label: 'All Line Items', href: `/${projectId}/sov`, count: allLineItems.length },
-          { label: 'By Contract', href: `/${projectId}/sov?view=by-contract` },
+          {
+            label: "All Line Items",
+            href: `/${projectId}/sov`,
+            count: allLineItems.length,
+          },
+          { label: "By Contract", href: `/${projectId}/sov?view=by-contract` },
         ]}
       />
 
       <PageContainer className="space-y-6">
         {loading ? (
           <div className="flex justify-center items-center h-64">
-            <p className="text-muted-foreground">Loading schedule of values...</p>
+            <p className="text-muted-foreground">
+              Loading schedule of values...
+            </p>
           </div>
         ) : allLineItems.length === 0 ? (
           <div className="text-center py-12">
-            <p className="text-muted-foreground mb-4">No schedule of values found</p>
+            <p className="text-muted-foreground mb-4">
+              No schedule of values found
+            </p>
             <p className="text-sm text-muted-foreground mb-6">
               Create a contract and add line items to get started
             </p>
@@ -296,7 +326,7 @@ export default function ProjectSOVPage() {
                 <TableRow className="bg-gray-50">
                   <TableHead
                     className="cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSort('contract')}
+                    onClick={() => handleSort("contract")}
                   >
                     <div className="flex items-center gap-1">
                       Contract
@@ -305,7 +335,7 @@ export default function ProjectSOVPage() {
                   </TableHead>
                   <TableHead
                     className="cursor-pointer hover:bg-gray-100 w-20"
-                    onClick={() => handleSort('line')}
+                    onClick={() => handleSort("line")}
                   >
                     <div className="flex items-center gap-1">
                       Line #
@@ -314,7 +344,7 @@ export default function ProjectSOVPage() {
                   </TableHead>
                   <TableHead
                     className="cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSort('cost_code')}
+                    onClick={() => handleSort("cost_code")}
                   >
                     <div className="flex items-center gap-1">
                       Cost Code
@@ -323,7 +353,7 @@ export default function ProjectSOVPage() {
                   </TableHead>
                   <TableHead
                     className="cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSort('description')}
+                    onClick={() => handleSort("description")}
                   >
                     <div className="flex items-center gap-1">
                       Description
@@ -332,7 +362,7 @@ export default function ProjectSOVPage() {
                   </TableHead>
                   <TableHead
                     className="text-right cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSort('quantity')}
+                    onClick={() => handleSort("quantity")}
                   >
                     <div className="flex items-center justify-end gap-1">
                       Quantity
@@ -342,7 +372,7 @@ export default function ProjectSOVPage() {
                   <TableHead className="text-center">Unit</TableHead>
                   <TableHead
                     className="text-right cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSort('unit_cost')}
+                    onClick={() => handleSort("unit_cost")}
                   >
                     <div className="flex items-center justify-end gap-1">
                       Unit Cost
@@ -351,7 +381,7 @@ export default function ProjectSOVPage() {
                   </TableHead>
                   <TableHead
                     className="text-right cursor-pointer hover:bg-gray-100"
-                    onClick={() => handleSort('total')}
+                    onClick={() => handleSort("total")}
                   >
                     <div className="flex items-center justify-end gap-1">
                       Total Cost
@@ -378,14 +408,14 @@ export default function ProjectSOVPage() {
                       {item.line_number}
                     </TableCell>
                     <TableCell className="font-mono text-sm">
-                      {item.cost_code_id || '--'}
+                      {item.cost_code_id || "--"}
                     </TableCell>
                     <TableCell>{item.description}</TableCell>
                     <TableCell className="text-right">
                       {item.quantity.toLocaleString()}
                     </TableCell>
                     <TableCell className="text-center">
-                      {item.unit_of_measure || 'LS'}
+                      {item.unit_of_measure || "LS"}
                     </TableCell>
                     <TableCell className="text-right">
                       {formatCurrency(item.unit_cost)}
@@ -399,7 +429,9 @@ export default function ProjectSOVPage() {
               <tfoot>
                 <TableRow className="bg-gray-100 font-medium">
                   <TableCell colSpan={7}>Grand Total</TableCell>
-                  <TableCell className="text-right">{formatCurrency(totals.sov)}</TableCell>
+                  <TableCell className="text-right">
+                    {formatCurrency(totals.sov)}
+                  </TableCell>
                 </TableRow>
               </tfoot>
             </Table>

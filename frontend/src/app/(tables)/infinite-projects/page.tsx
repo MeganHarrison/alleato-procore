@@ -13,66 +13,81 @@
  * - Filters included: Type + Category only.
  */
 
-'use client'
+"use client";
 
-import { useCallback, useState } from 'react'
-import { useInfiniteQuery, type SupabaseQueryHandler } from '@/hooks/use-infinite-query'
-import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Skeleton } from '@/components/ui/skeleton'
-import { Badge } from '@/components/ui/badge'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
-import { formatDistanceToNow, format } from 'date-fns'
-import { PageHeader } from '@/components/design-system'
+import { useCallback, useState } from "react";
+import {
+  useInfiniteQuery,
+  type SupabaseQueryHandler,
+} from "@/hooks/use-infinite-query";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { formatDistanceToNow, format } from "date-fns";
+import { PageHeader } from "@/components/design-system";
 
-import { FileText, Clock, Tag, Users, Calendar, Filter } from 'lucide-react'
+import { FileText, Clock, Tag, Users, Calendar, Filter } from "lucide-react";
 
-const TABLE_NAME = 'document_metadata' as const
+const TABLE_NAME = "document_metadata" as const;
 
 interface TableRow {
-  id: string
-  title: string | null
-  url: string | null
-  created_at: string | null
+  id: string;
+  title: string | null;
+  url: string | null;
+  created_at: string | null;
 
-  type: string | null
-  category: string | null
+  type: string | null;
+  category: string | null;
 
-  tags: string | null
-  description: string | null
-  date: string | null
-  duration_minutes: number | null
-  participants: string | null
+  tags: string | null;
+  description: string | null;
+  date: string | null;
+  duration_minutes: number | null;
+  participants: string | null;
 
-  access_level: string | null
-  project: string | null
-  employee: string | null
-  status: string | null
+  access_level: string | null;
+  project: string | null;
+  employee: string | null;
+  status: string | null;
 }
 
 export default function DocumentsInfiniteDemoPage() {
-  const [typeFilter, setTypeFilter] = useState<string>('all')
-  const [categoryFilter, setCategoryFilter] = useState<string>('all')
+  const [typeFilter, setTypeFilter] = useState<string>("all");
+  const [categoryFilter, setCategoryFilter] = useState<string>("all");
 
   const trailingQuery = useCallback<SupabaseQueryHandler<typeof TABLE_NAME>>(
     (query) => {
       // Order by date DESC, then by id DESC to avoid pagination overlap with duplicate dates
       let filteredQuery = query
-        .order('date', { ascending: false })
-        .order('id', { ascending: false })
+        .order("date", { ascending: false })
+        .order("id", { ascending: false });
 
-      if (typeFilter !== 'all') {
-        filteredQuery = filteredQuery.eq('type', typeFilter)
+      if (typeFilter !== "all") {
+        filteredQuery = filteredQuery.eq("type", typeFilter);
       }
 
-      if (categoryFilter !== 'all') {
-        filteredQuery = filteredQuery.eq('category', categoryFilter)
+      if (categoryFilter !== "all") {
+        filteredQuery = filteredQuery.eq("category", categoryFilter);
       }
 
-      return filteredQuery
+      return filteredQuery;
     },
-    [typeFilter, categoryFilter]
-  )
+    [typeFilter, categoryFilter],
+  );
 
   const {
     data,
@@ -85,66 +100,68 @@ export default function DocumentsInfiniteDemoPage() {
     fetchNextPage,
   } = useInfiniteQuery({
     tableName: TABLE_NAME,
-    columns: '*',
+    columns: "*",
     pageSize: 12,
     trailingQuery,
-  })
+  });
 
   if (error) {
     return (
       <div className="container mx-auto p-6">
         <Card className="border-destructive">
           <CardHeader>
-            <CardTitle className="text-destructive">Error Loading Records</CardTitle>
+            <CardTitle className="text-destructive">
+              Error Loading Records
+            </CardTitle>
             <CardDescription>{error.message}</CardDescription>
           </CardHeader>
         </Card>
       </div>
-    )
+    );
   }
 
   const getStatusColor = (status: string | null) => {
     switch (status?.toLowerCase()) {
-      case 'active':
-        return 'bg-green-100 text-green-800'
-      case 'archived':
-        return 'bg-gray-100 text-gray-800'
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800'
+      case "active":
+        return "bg-green-100 text-green-800";
+      case "archived":
+        return "bg-gray-100 text-gray-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
       default:
-        return 'bg-blue-100 text-blue-800'
+        return "bg-blue-100 text-blue-800";
     }
-  }
+  };
 
   const _getTypeIcon = (type: string | null) => {
     switch (type?.toLowerCase()) {
-      case 'meeting':
-        return <Users className="h-4 w-4" />
-      case 'document':
-        return <FileText className="h-4 w-4" />
-      case 'transcript':
-        return <Clock className="h-4 w-4" />
+      case "meeting":
+        return <Users className="h-4 w-4" />;
+      case "document":
+        return <FileText className="h-4 w-4" />;
+      case "transcript":
+        return <Clock className="h-4 w-4" />;
       default:
-        return <Tag className="h-4 w-4" />
+        return <Tag className="h-4 w-4" />;
     }
-  }
+  };
 
   const safeFormatDate = (value: string | null, fmt: string) => {
-    if (!value) return null
-    const ms = Date.parse(value)
-    if (Number.isNaN(ms)) return null
-    return format(new Date(ms), fmt)
-  }
+    if (!value) return null;
+    const ms = Date.parse(value);
+    if (Number.isNaN(ms)) return null;
+    return format(new Date(ms), fmt);
+  };
 
   const safeDistanceToNow = (value: string | null) => {
-    if (!value) return null
-    const ms = Date.parse(value)
-    if (Number.isNaN(ms)) return null
-    return formatDistanceToNow(new Date(ms))
-  }
+    if (!value) return null;
+    const ms = Date.parse(value);
+    if (Number.isNaN(ms)) return null;
+    return formatDistanceToNow(new Date(ms));
+  };
 
-  const title = 'Projects'
-  const description = 'Browse all projects with infinite scroll'
+  const title = "Projects";
+  const description = "Browse all projects with infinite scroll";
 
   return (
     <div className="container mx-auto p-6 max-w-7xl">
@@ -207,13 +224,15 @@ export default function DocumentsInfiniteDemoPage() {
         ) : (
           <>
             {data.map((row: TableRow) => {
-              const createdLabel = safeDistanceToNow(row.created_at)
-              const displayDate = safeFormatDate(row.date, 'MMM d, yyyy')
+              const createdLabel = safeDistanceToNow(row.created_at);
+              const displayDate = safeFormatDate(row.date, "MMM d, yyyy");
 
               return (
                 <Card className="rounded-sm" key={row.id}>
                   <CardHeader>
-                    <CardTitle className="text-sm text-brand">{row.title || 'Untitled Document'}</CardTitle>
+                    <CardTitle className="text-sm text-brand">
+                      {row.title || "Untitled Document"}
+                    </CardTitle>
                     {displayDate && (
                       <div className="flex items-center gap-2 text-sm">
                         <Calendar className="h-3 w-3" />
@@ -223,23 +242,29 @@ export default function DocumentsInfiniteDemoPage() {
                   </CardHeader>
 
                   <CardContent>
-
                     <div className="flex flex-wrap gap-2">
                       {row.status && (
-                        <Badge variant="outline" className={getStatusColor(row.status)}>
+                        <Badge
+                          variant="outline"
+                          className={getStatusColor(row.status)}
+                        >
                           {row.status}
                         </Badge>
                       )}
-                      {row.category && <Badge variant="secondary">{row.category}</Badge>}
+                      {row.category && (
+                        <Badge variant="secondary">{row.category}</Badge>
+                      )}
                     </div>
 
                     <div className="text-xs text-muted-foreground">
-                      {createdLabel ? `Created ${createdLabel} ago` : 'Created date unavailable'}
+                      {createdLabel
+                        ? `Created ${createdLabel} ago`
+                        : "Created date unavailable"}
                       {row.employee && <span> • By {row.employee}</span>}
                     </div>
                   </CardContent>
                 </Card>
-              )
+              );
             })}
           </>
         )}
@@ -249,28 +274,30 @@ export default function DocumentsInfiniteDemoPage() {
         <div className="mt-8 text-center">
           <div className="text-sm text-muted-foreground mb-4">
             Showing {data.length} of {count} records
-            {(typeFilter !== 'all' || categoryFilter !== 'all') && ' (filtered)'}
+            {(typeFilter !== "all" || categoryFilter !== "all") &&
+              " (filtered)"}
           </div>
 
           {hasMore && (
-  <div className="space-y-2">
-    <div className="text-xs text-muted-foreground">
-      debug: data={data.length} count={String(count)} hasMore={String(hasMore)} isFetching={String(isFetching)}
-    </div>
+            <div className="space-y-2">
+              <div className="text-xs text-muted-foreground">
+                debug: data={data.length} count={String(count)} hasMore=
+                {String(hasMore)} isFetching={String(isFetching)}
+              </div>
 
-    <Button
-  onClick={() => {
-    fetchNextPage()
-  }}
-  disabled={isFetching}
-  variant="outline"
->
-  {isFetching ? 'Loading...' : 'Load More'}
-</Button>
-  </div>
-)}
+              <Button
+                onClick={() => {
+                  fetchNextPage();
+                }}
+                disabled={isFetching}
+                variant="outline"
+              >
+                {isFetching ? "Loading..." : "Load More"}
+              </Button>
+            </div>
+          )}
         </div>
       )}
     </div>
-  )
+  );
 }

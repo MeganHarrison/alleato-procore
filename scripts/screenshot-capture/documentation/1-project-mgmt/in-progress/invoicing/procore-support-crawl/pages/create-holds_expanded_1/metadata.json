@@ -1,0 +1,13 @@
+{
+  "parentPage": "create-holds",
+  "parentUrl": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/create-holds",
+  "expandableIndex": 1,
+  "revealedContent": [
+    {
+      "text": "Manage Invoices           Create Subcontractor Invoices    Add Invoice Contacts    Invite Beneficiaries to Pay    Review & Approve Invoices",
+      "type": "details",
+      "classes": "toc-subNav-desktop"
+    }
+  ],
+  "timestamp": "2026-01-10T20:05:29.075Z"
+}

@@ -1,12 +1,12 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import type { CloneBudgetViewRequest } from '@/types/budget-views';
+import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import type { CloneBudgetViewRequest } from "@/types/budget-views";
 
 // POST /api/projects/[id]/budget/views/[viewId]/clone
 // Clone an existing budget view
 export async function POST(
   request: NextRequest,
-  context: { params: Promise<{ id: string; viewId: string }> }
+  context: { params: Promise<{ id: string; viewId: string }> },
 ) {
   try {
     const supabase = await createClient();
@@ -18,56 +18,66 @@ export async function POST(
     // Validate required fields
     if (!new_name) {
       return NextResponse.json(
-        { error: 'New name is required' },
-        { status: 400 }
+        { error: "New name is required" },
+        { status: 400 },
       );
     }
 
     // Call the database function to clone the view
-    const { data, error } = await supabase.rpc('clone_budget_view', {
+    const { data, error } = await supabase.rpc("clone_budget_view", {
       source_view_id: viewId,
       new_name,
       new_description: new_description || null,
     });
 
     if (error) {
-      console.error('Error cloning budget view:', error);
+      console.error("Error cloning budget view:", error);
       return NextResponse.json(
-        { error: 'Failed to clone budget view', details: error.message },
-        { status: 500 }
+        { error: "Failed to clone budget view", details: error.message },
+        { status: 500 },
       );
     }
 
     // Fetch the cloned view
     const { data: clonedView, error: fetchError } = await supabase
-      .from('budget_views')
-      .select(`
+      .from("budget_views")
+      .select(
+        `
         *,
         columns:budget_view_columns(*)
-      `)
-      .eq('id', data)
+      `,
+      )
+      .eq("id", data)
       .single();
 
     if (fetchError) {
-      console.error('Error fetching cloned budget view:', fetchError);
+      console.error("Error fetching cloned budget view:", fetchError);
       return NextResponse.json(
-        { error: 'Failed to fetch cloned budget view', details: fetchError.message },
-        { status: 500 }
+        {
+          error: "Failed to fetch cloned budget view",
+          details: fetchError.message,
+        },
+        { status: 500 },
       );
     }
 
     // Sort columns by display_order
     const viewWithSortedColumns = {
       ...clonedView,
-      columns: clonedView.columns?.sort((a, b) => a.display_order - b.display_order) || [],
+      columns:
+        clonedView.columns?.sort((a, b) => a.display_order - b.display_order) ||
+        [],
     };
 
     return NextResponse.json({ view: viewWithSortedColumns }, { status: 201 });
   } catch (error) {
-    console.error('Error in POST /api/projects/[id]/budget/views/[viewId]/clone:', error);
+    console.error(
+      "Error in POST /api/projects/[id]/budget/views/[viewId]/clone:",
+      error,
+    );
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

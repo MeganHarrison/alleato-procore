@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { cn } from '@/lib/utils';
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 /**
  * Text component for consistent body text styling.
@@ -12,34 +12,34 @@ import { cn } from '@/lib/utils';
  */
 
 const sizeMap = {
-  xs: 'text-xs',
-  sm: 'text-sm',
-  base: 'text-base',
-  lg: 'text-lg',
-  xl: 'text-xl'
+  xs: "text-xs",
+  sm: "text-sm",
+  base: "text-base",
+  lg: "text-lg",
+  xl: "text-xl",
 } as const;
 
 const toneMap = {
-  default: 'text-foreground',
-  muted: 'text-muted-foreground',
-  accent: 'text-accent-foreground',
-  destructive: 'text-destructive',
-  success: 'text-green-600 dark:text-green-400',
-  warning: 'text-amber-600 dark:text-amber-400'
+  default: "text-foreground",
+  muted: "text-muted-foreground",
+  accent: "text-accent-foreground",
+  destructive: "text-destructive",
+  success: "text-green-600 dark:text-green-400",
+  warning: "text-amber-600 dark:text-amber-400",
 } as const;
 
 const weightMap = {
-  normal: 'font-normal',
-  medium: 'font-medium',
-  semibold: 'font-semibold',
-  bold: 'font-bold'
+  normal: "font-normal",
+  medium: "font-medium",
+  semibold: "font-semibold",
+  bold: "font-bold",
 } as const;
 
 const transformMap = {
-  none: '',
-  capitalize: 'capitalize',
-  uppercase: 'uppercase',
-  lowercase: 'lowercase'
+  none: "",
+  capitalize: "capitalize",
+  uppercase: "uppercase",
+  lowercase: "lowercase",
 } as const;
 
 export interface TextProps {
@@ -52,7 +52,7 @@ export interface TextProps {
   /** Text transformation */
   transform?: keyof typeof transformMap;
   /** Render as a different element */
-  as?: 'p' | 'span' | 'div' | 'label';
+  as?: "p" | "span" | "div" | "label";
   /** Additional CSS classes */
   className?: string;
   /** Text content */
@@ -60,13 +60,13 @@ export interface TextProps {
 }
 
 export function Text({
-  size = 'base',
-  tone = 'default',
-  weight = 'normal',
-  transform = 'none',
-  as: Component = 'p',
+  size = "base",
+  tone = "default",
+  weight = "normal",
+  transform = "none",
+  as: Component = "p",
   className,
-  children
+  children,
 }: TextProps) {
   return (
     <Component
@@ -75,7 +75,7 @@ export function Text({
         toneMap[tone],
         weightMap[weight],
         transformMap[transform],
-        className
+        className,
       )}
     >
       {children}

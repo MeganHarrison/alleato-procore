@@ -1,24 +1,30 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible'
-import { ChevronDown, ChevronUp } from 'lucide-react'
-import { Button } from '@/components/ui/button'
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Collapsible,
+  CollapsibleContent,
+  CollapsibleTrigger,
+} from "@/components/ui/collapsible";
+import { ChevronDown, ChevronUp } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface CollapsibleSummaryProps {
-  summary: string
+  summary: string;
 }
 
 export function CollapsibleSummary({ summary }: CollapsibleSummaryProps) {
-  const [isOpen, setIsOpen] = useState(true)
+  const [isOpen, setIsOpen] = useState(true);
 
   return (
     <Card className="shadow-sm">
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-sm font-medium text-gray-600">SUMMARY</CardTitle>
+            <CardTitle className="text-sm font-medium text-gray-600">
+              SUMMARY
+            </CardTitle>
             <CollapsibleTrigger asChild>
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                 {isOpen ? (
@@ -35,8 +41,8 @@ export function CollapsibleSummary({ summary }: CollapsibleSummaryProps) {
           <CardContent>
             <div className="text-sm text-gray-700 leading-relaxed space-y-3">
               {summary
-                .split('\n')
-                .filter(paragraph => paragraph.trim())
+                .split("\n")
+                .filter((paragraph) => paragraph.trim())
                 .map((paragraph, index) => (
                   <p key={index}>{paragraph.trim()}</p>
                 ))}
@@ -45,5 +51,5 @@ export function CollapsibleSummary({ summary }: CollapsibleSummaryProps) {
         </CollapsibleContent>
       </Collapsible>
     </Card>
-  )
+  );
 }

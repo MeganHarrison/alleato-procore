@@ -45,4 +45,3 @@ export function ThemeToggle({ value, onChange }: ThemeToggleProps) {
     </div>
   );
 }
-

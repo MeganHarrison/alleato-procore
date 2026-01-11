@@ -14,5 +14,5 @@ export {
   commitmentsMobileColumns,
   getCommitmentsStatusCounts,
   formatCurrency,
-} from "./commitments.config"
-export type { CommitmentStatusCounts } from "./commitments.config"
+} from "./commitments.config";
+export type { CommitmentStatusCounts } from "./commitments.config";

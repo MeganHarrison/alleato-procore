@@ -1,19 +1,25 @@
-'use client';
+"use client";
 
 /**
  * Plugin Manager UI Component
  * Provides interface for installing, managing, and configuring plugins
  */
 
-import React, { useState, useEffect } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { Switch } from '@/components/ui/switch';
-import { Label } from '@/components/ui/label';
+import React, { useState, useEffect } from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
 import {
   Dialog,
   DialogContent,
@@ -22,18 +28,18 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { 
-  Package2, 
-  Download, 
-  Settings, 
-  MoreVertical, 
+} from "@/components/ui/dropdown-menu";
+import {
+  Package2,
+  Download,
+  Settings,
+  MoreVertical,
   AlertCircle,
   CheckCircle,
   XCircle,
@@ -44,18 +50,18 @@ import {
   Shield,
   Clock,
   User,
-} from 'lucide-react';
-import { pluginManager } from '@/lib/plugins/plugin-manager';
-import { createClient } from '@/lib/supabase/client';
-import type { PluginRecord, PluginStatus } from '@/types/plugin.types';
-import { toast } from 'sonner';
+} from "lucide-react";
+import { pluginManager } from "@/lib/plugins/plugin-manager";
+import { createClient } from "@/lib/supabase/client";
+import type { PluginRecord, PluginStatus } from "@/types/plugin.types";
+import { toast } from "sonner";
 
 export function PluginManagerUI() {
   const [plugins, setPlugins] = useState<PluginRecord[]>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [selectedTab, setSelectedTab] = useState('installed');
-  const [installUrl, setInstallUrl] = useState('');
+  const [searchQuery, setSearchQuery] = useState("");
+  const [selectedTab, setSelectedTab] = useState("installed");
+  const [installUrl, setInstallUrl] = useState("");
   const [isInstalling, setIsInstalling] = useState(false);
   const supabase = createClient();
 
@@ -67,15 +73,15 @@ export function PluginManagerUI() {
   const loadPlugins = async () => {
     try {
       const { data, error } = await supabase
-        .from('plugins')
-        .select('*')
-        .order('name');
-      
+        .from("plugins")
+        .select("*")
+        .order("name");
+
       if (error) throw error;
       setPlugins(data || []);
     } catch (error) {
-      console.error('Failed to load plugins:', error);
-      toast.error('Failed to load plugins');
+      console.error("Failed to load plugins:", error);
+      toast.error("Failed to load plugins");
     } finally {
       setIsLoading(false);
     }
@@ -87,11 +93,13 @@ export function PluginManagerUI() {
     setIsInstalling(true);
     try {
       const record = await pluginManager.installPlugin(installUrl);
-      toast.success(`Plugin "${record.manifest.metadata.name}" installed successfully`);
-      setInstallUrl('');
+      toast.success(
+        `Plugin "${record.manifest.metadata.name}" installed successfully`,
+      );
+      setInstallUrl("");
       await loadPlugins();
     } catch (error: any) {
-      toast.error(error.message || 'Installation failed');
+      toast.error(error.message || "Installation failed");
     } finally {
       setIsInstalling(false);
     }
@@ -99,7 +107,7 @@ export function PluginManagerUI() {
 
   const handleTogglePlugin = async (plugin: PluginRecord) => {
     try {
-      if (plugin.status === 'enabled') {
+      if (plugin.status === "enabled") {
         await pluginManager.disablePlugin(plugin.id);
         toast.success(`${plugin.manifest.metadata.name} has been disabled`);
       } else {
@@ -108,7 +116,7 @@ export function PluginManagerUI() {
       }
       await loadPlugins();
     } catch (error: any) {
-      toast.error(error.message || 'Failed to toggle plugin');
+      toast.error(error.message || "Failed to toggle plugin");
     }
   };
 
@@ -118,19 +126,19 @@ export function PluginManagerUI() {
       toast.success(`${plugin.manifest.metadata.name} has been uninstalled`);
       await loadPlugins();
     } catch (error: any) {
-      toast.error(error.message || 'Failed to uninstall plugin');
+      toast.error(error.message || "Failed to uninstall plugin");
     }
   };
 
   const getStatusIcon = (status: PluginStatus) => {
     switch (status) {
-      case 'enabled':
+      case "enabled":
         return <CheckCircle className="h-4 w-4 text-green-500" />;
-      case 'disabled':
+      case "disabled":
         return <XCircle className="h-4 w-4 text-gray-400" />;
-      case 'error':
+      case "error":
         return <AlertCircle className="h-4 w-4 text-red-500" />;
-      case 'updating':
+      case "updating":
         return <Loader2 className="h-4 w-4 animate-spin" />;
       default:
         return <Package2 className="h-4 w-4" />;
@@ -138,31 +146,36 @@ export function PluginManagerUI() {
   };
 
   const getStatusBadge = (status: PluginStatus) => {
-    const variants: Record<PluginStatus, 'default' | 'secondary' | 'destructive' | 'outline'> = {
-      enabled: 'default',
-      disabled: 'secondary',
-      error: 'destructive',
-      installed: 'outline',
-      updating: 'outline',
+    const variants: Record<
+      PluginStatus,
+      "default" | "secondary" | "destructive" | "outline"
+    > = {
+      enabled: "default",
+      disabled: "secondary",
+      error: "destructive",
+      installed: "outline",
+      updating: "outline",
     };
-    
-    return (
-      <Badge variant={variants[status]}>
-        {status}
-      </Badge>
-    );
+
+    return <Badge variant={variants[status]}>{status}</Badge>;
   };
 
-  const filteredPlugins = plugins.filter(plugin => {
-    const matchesSearch = 
-      plugin.manifest.metadata.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      plugin.manifest.metadata.description.toLowerCase().includes(searchQuery.toLowerCase());
-    
-    if (selectedTab === 'all') return matchesSearch;
-    if (selectedTab === 'installed') return matchesSearch;
-    if (selectedTab === 'enabled') return matchesSearch && plugin.status === 'enabled';
-    if (selectedTab === 'disabled') return matchesSearch && plugin.status === 'disabled';
-    
+  const filteredPlugins = plugins.filter((plugin) => {
+    const matchesSearch =
+      plugin.manifest.metadata.name
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase()) ||
+      plugin.manifest.metadata.description
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+
+    if (selectedTab === "all") return matchesSearch;
+    if (selectedTab === "installed") return matchesSearch;
+    if (selectedTab === "enabled")
+      return matchesSearch && plugin.status === "enabled";
+    if (selectedTab === "disabled")
+      return matchesSearch && plugin.status === "disabled";
+
     return false;
   });
 
@@ -183,7 +196,7 @@ export function PluginManagerUI() {
             <TabsTrigger value="enabled">Enabled</TabsTrigger>
             <TabsTrigger value="disabled">Disabled</TabsTrigger>
           </TabsList>
-          
+
           <div className="flex items-center gap-4">
             <div className="relative">
               <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
@@ -194,7 +207,7 @@ export function PluginManagerUI() {
                 className="pl-8 w-64"
               />
             </div>
-            
+
             <Dialog>
               <DialogTrigger asChild>
                 <Button>
@@ -223,7 +236,8 @@ export function PluginManagerUI() {
                     <Shield className="h-4 w-4" />
                     <AlertTitle>Security Notice</AlertTitle>
                     <AlertDescription>
-                      Only install plugins from trusted sources. Plugins have access to your data and can modify the application.
+                      Only install plugins from trusted sources. Plugins have
+                      access to your data and can modify the application.
                     </AlertDescription>
                   </Alert>
                 </div>
@@ -232,7 +246,9 @@ export function PluginManagerUI() {
                     onClick={handleInstallPlugin}
                     disabled={!installUrl || isInstalling}
                   >
-                    {isInstalling && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    {isInstalling && (
+                      <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    )}
                     Install Plugin
                   </Button>
                 </DialogFooter>
@@ -252,9 +268,9 @@ export function PluginManagerUI() {
                 <Package2 className="h-12 w-12 text-muted-foreground mb-4" />
                 <p className="text-lg font-medium">No plugins found</p>
                 <p className="text-sm text-muted-foreground">
-                  {searchQuery 
-                    ? 'Try adjusting your search query'
-                    : 'Install your first plugin to get started'}
+                  {searchQuery
+                    ? "Try adjusting your search query"
+                    : "Install your first plugin to get started"}
                 </p>
               </CardContent>
             </Card>
@@ -279,14 +295,17 @@ export function PluginManagerUI() {
                           {plugin.manifest.metadata.description}
                         </CardDescription>
                       </div>
-                      
+
                       <div className="flex items-center gap-2">
                         <Switch
-                          checked={plugin.status === 'enabled'}
-                          disabled={plugin.status === 'error' || plugin.status === 'updating'}
+                          checked={plugin.status === "enabled"}
+                          disabled={
+                            plugin.status === "error" ||
+                            plugin.status === "updating"
+                          }
                           onCheckedChange={() => handleTogglePlugin(plugin)}
                         />
-                        
+
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
                             <Button variant="ghost" size="icon">
@@ -297,7 +316,7 @@ export function PluginManagerUI() {
                             <PluginSettings plugin={plugin} />
                             {plugin.manifest.metadata.homepage && (
                               <DropdownMenuItem asChild>
-                                <a 
+                                <a
                                   href={plugin.manifest.metadata.homepage}
                                   target="_blank"
                                   rel="noopener noreferrer"
@@ -319,7 +338,7 @@ export function PluginManagerUI() {
                       </div>
                     </div>
                   </CardHeader>
-                  
+
                   <CardContent>
                     <div className="flex items-center gap-6 text-sm text-muted-foreground">
                       <div className="flex items-center gap-1">
@@ -328,24 +347,31 @@ export function PluginManagerUI() {
                       </div>
                       <div className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
-                        Installed {new Date(plugin.installedAt).toLocaleDateString()}
+                        Installed{" "}
+                        {new Date(plugin.installedAt).toLocaleDateString()}
                       </div>
                       {plugin.manifest.metadata.keywords?.length && (
                         <div className="flex items-center gap-2">
                           {plugin.manifest.metadata.keywords.map((keyword) => (
-                            <Badge key={keyword} variant="outline" className="text-xs">
+                            <Badge
+                              key={keyword}
+                              variant="outline"
+                              className="text-xs"
+                            >
                               {keyword}
                             </Badge>
                           ))}
                         </div>
                       )}
                     </div>
-                    
+
                     {plugin.errorMessage && (
                       <Alert variant="destructive" className="mt-4">
                         <AlertCircle className="h-4 w-4" />
                         <AlertTitle>Plugin Error</AlertTitle>
-                        <AlertDescription>{plugin.errorMessage}</AlertDescription>
+                        <AlertDescription>
+                          {plugin.errorMessage}
+                        </AlertDescription>
                       </Alert>
                     )}
                   </CardContent>
@@ -360,8 +386,9 @@ export function PluginManagerUI() {
 }
 
 function PluginSettings({ plugin }: { plugin: PluginRecord }) {
-  const hasSettings = plugin.manifest.metadata.requiredPermissions?.includes('access:storage');
-  
+  const hasSettings =
+    plugin.manifest.metadata.requiredPermissions?.includes("access:storage");
+
   if (!hasSettings) {
     return (
       <DropdownMenuItem disabled>
@@ -370,7 +397,7 @@ function PluginSettings({ plugin }: { plugin: PluginRecord }) {
       </DropdownMenuItem>
     );
   }
-  
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -389,7 +416,8 @@ function PluginSettings({ plugin }: { plugin: PluginRecord }) {
         <div className="py-4">
           {/* Plugin settings would be rendered here */}
           <p className="text-sm text-muted-foreground">
-            Plugin settings interface would be loaded here based on the plugin's configuration component.
+            Plugin settings interface would be loaded here based on the plugin's
+            configuration component.
           </p>
         </div>
       </DialogContent>

@@ -1,22 +1,25 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { usePathname } from 'next/navigation';
-import { createClient } from '@/lib/supabase/client';
-import { ProjectPageHeader } from '@/components/layout/ProjectPageHeader';
-import { PageContainer } from '@/components/layout/PageContainer';
-import { PageTabs } from '@/components/layout/PageTabs';
-import { Text } from '@/components/ui/text';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Button } from '@/components/ui/button';
-import { Plus } from 'lucide-react';
-import { getDirectoryTabs } from '@/config/directory-tabs';
-import type { Database } from '@/types/database.types';
-import { GenericDataTable, type GenericTableConfig } from '@/components/tables/generic-table-factory';
-import { ContactFormDialog } from '@/components/domain/contacts/ContactFormDialog';
+import * as React from "react";
+import { usePathname } from "next/navigation";
+import { createClient } from "@/lib/supabase/client";
+import { ProjectPageHeader } from "@/components/layout/ProjectPageHeader";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { PageTabs } from "@/components/layout/PageTabs";
+import { Text } from "@/components/ui/text";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Button } from "@/components/ui/button";
+import { Plus } from "lucide-react";
+import { getDirectoryTabs } from "@/config/directory-tabs";
+import type { Database } from "@/types/database.types";
+import {
+  GenericDataTable,
+  type GenericTableConfig,
+} from "@/components/tables/generic-table-factory";
+import { ContactFormDialog } from "@/components/domain/contacts/ContactFormDialog";
 
-type Contact = Database['public']['Tables']['contacts']['Row'];
-type Company = Database['public']['Tables']['companies']['Row'];
+type Contact = Database["public"]["Tables"]["contacts"]["Row"];
+type Company = Database["public"]["Tables"]["companies"]["Row"];
 
 interface ContactWithCompany extends Contact {
   company?: Company | null;
@@ -33,12 +36,14 @@ export default function DirectoryContactsPage() {
     try {
       const supabase = createClient();
       const { data, error } = await supabase
-        .from('contacts')
-        .select(`
+        .from("contacts")
+        .select(
+          `
           *,
           company:companies(*)
-        `)
-        .order('last_name', { ascending: true });
+        `,
+        )
+        .order("last_name", { ascending: true });
 
       if (error) throw error;
       setContacts(data || []);
@@ -62,14 +67,16 @@ export default function DirectoryContactsPage() {
   };
 
   const tableData = React.useMemo(() => {
-    return contacts.map(contact => ({
+    return contacts.map((contact) => ({
       id: contact.id,
-      full_name: `${contact.first_name || ''} ${contact.last_name || ''}`.trim() || 'Unnamed Contact',
+      full_name:
+        `${contact.first_name || ""} ${contact.last_name || ""}`.trim() ||
+        "Unnamed Contact",
       first_name: contact.first_name,
       last_name: contact.last_name,
-      email: contact.email || '',
-      phone: contact.phone || '',
-      company: contact.company?.name || '',
+      email: contact.email || "",
+      phone: contact.phone || "",
+      company: contact.company?.name || "",
       created_at: contact.created_at,
     }));
   }, [contacts]);
@@ -77,45 +84,45 @@ export default function DirectoryContactsPage() {
   const tableConfig: GenericTableConfig = {
     columns: [
       {
-        id: 'full_name',
-        label: 'Name',
+        id: "full_name",
+        label: "Name",
         defaultVisible: true,
         isPrimary: true,
-        type: 'text',
+        type: "text",
       },
       {
-        id: 'email',
-        label: 'Email',
+        id: "email",
+        label: "Email",
         defaultVisible: true,
-        type: 'email',
+        type: "email",
       },
       {
-        id: 'company',
-        label: 'Company',
+        id: "company",
+        label: "Company",
         defaultVisible: true,
-        type: 'text',
+        type: "text",
       },
       {
-        id: 'phone',
-        label: 'Phone',
+        id: "phone",
+        label: "Phone",
         defaultVisible: true,
-        type: 'text',
+        type: "text",
       },
       {
-        id: 'created_at',
-        label: 'Created',
+        id: "created_at",
+        label: "Created",
         defaultVisible: true,
-        type: 'date',
+        type: "date",
       },
     ],
-    searchFields: ['full_name', 'email', 'phone', 'company'],
-    exportFilename: 'contacts.csv',
+    searchFields: ["full_name", "email", "phone", "company"],
+    exportFilename: "contacts.csv",
     enableViewSwitcher: false,
-    defaultViewMode: 'table',
+    defaultViewMode: "table",
     enableRowSelection: true,
     editConfig: {
-      tableName: 'contacts',
-      editableFields: ['first_name', 'last_name', 'email', 'phone'],
+      tableName: "contacts",
+      editableFields: ["first_name", "last_name", "email", "phone"],
     },
     onDelete: true,
   };
@@ -154,7 +161,9 @@ export default function DirectoryContactsPage() {
         <PageTabs tabs={tabs} />
         <PageContainer>
           <div className="text-center py-12">
-            <Text tone="destructive">Error loading contacts: {error.message}</Text>
+            <Text tone="destructive">
+              Error loading contacts: {error.message}
+            </Text>
           </div>
         </PageContainer>
       </>

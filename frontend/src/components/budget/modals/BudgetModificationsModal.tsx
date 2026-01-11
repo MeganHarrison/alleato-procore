@@ -1,11 +1,16 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { BaseSidebar, SidebarBody, SidebarFooter, SidebarTabs } from './BaseSidebar';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { toast } from 'sonner';
-import { Check, X, Send, Ban, Loader2 } from 'lucide-react';
+import { useState, useEffect, useCallback } from "react";
+import {
+  BaseSidebar,
+  SidebarBody,
+  SidebarFooter,
+  SidebarTabs,
+} from "./BaseSidebar";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { toast } from "sonner";
+import { Check, X, Send, Ban, Loader2 } from "lucide-react";
 
 interface BudgetModificationLine {
   id: string;
@@ -23,7 +28,7 @@ interface BudgetModification {
   title: string;
   reason: string | null;
   amount: number;
-  status: 'draft' | 'pending' | 'approved' | 'void';
+  status: "draft" | "pending" | "approved" | "void";
   effectiveDate: string | null;
   createdAt: string;
   updatedAt: string;
@@ -40,7 +45,7 @@ interface BudgetModificationsModalProps {
   onModificationChanged?: () => void;
 }
 
-type StatusFilter = 'all' | 'approved' | 'pending' | 'draft' | 'void';
+type StatusFilter = "all" | "approved" | "pending" | "draft" | "void";
 
 /**
  * BudgetModificationsModal - Shows budget modifications with workflow actions
@@ -53,26 +58,27 @@ export function BudgetModificationsModal({
   projectId,
   onModificationChanged,
 }: BudgetModificationsModalProps) {
-  const [activeTab, setActiveTab] = useState<'summary' | 'details'>('summary');
+  const [activeTab, setActiveTab] = useState<"summary" | "details">("summary");
   const [modifications, setModifications] = useState<BudgetModification[]>([]);
   const [loading, setLoading] = useState(true);
-  const [statusFilter, setStatusFilter] = useState<StatusFilter>('all');
+  const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
   const [actionLoading, setActionLoading] = useState<string | null>(null);
 
   const fetchModifications = useCallback(async () => {
     setLoading(true);
     try {
-      const statusParam = statusFilter !== 'all' ? `&status=${statusFilter}` : '';
+      const statusParam =
+        statusFilter !== "all" ? `&status=${statusFilter}` : "";
       const url = `/api/projects/${projectId}/budget/modifications?budgetLineId=${budgetLineId}${statusParam}`;
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
         setModifications(data.modifications || []);
       } else {
-        console.error('Failed to fetch modifications');
+        console.error("Failed to fetch modifications");
       }
     } catch (error) {
-      console.error('Error fetching budget modifications:', error);
+      console.error("Error fetching budget modifications:", error);
     } finally {
       setLoading(false);
     }
@@ -84,14 +90,20 @@ export function BudgetModificationsModal({
     }
   }, [open, fetchModifications]);
 
-  const handleAction = async (modificationId: string, action: 'submit' | 'approve' | 'reject' | 'void') => {
+  const handleAction = async (
+    modificationId: string,
+    action: "submit" | "approve" | "reject" | "void",
+  ) => {
     setActionLoading(modificationId);
     try {
-      const response = await fetch(`/api/projects/${projectId}/budget/modifications`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ modificationId, action }),
-      });
+      const response = await fetch(
+        `/api/projects/${projectId}/budget/modifications`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ modificationId, action }),
+        },
+      );
 
       if (!response.ok) {
         const error = await response.json();
@@ -105,12 +117,16 @@ export function BudgetModificationsModal({
       await fetchModifications();
 
       // Notify parent if budget totals may have changed
-      if (action === 'approve' || action === 'void') {
+      if (action === "approve" || action === "void") {
         onModificationChanged?.();
       }
     } catch (error) {
       console.error(`Error ${action}ing modification:`, error);
-      toast.error(error instanceof Error ? error.message : `Failed to ${action} modification`);
+      toast.error(
+        error instanceof Error
+          ? error.message
+          : `Failed to ${action} modification`,
+      );
     } finally {
       setActionLoading(null);
     }
@@ -118,7 +134,7 @@ export function BudgetModificationsModal({
 
   const formatCurrency = (value: number): string => {
     const isNegative = value < 0;
-    const formatted = new Intl.NumberFormat('en-US', {
+    const formatted = new Intl.NumberFormat("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(Math.abs(value));
@@ -130,47 +146,77 @@ export function BudgetModificationsModal({
   };
 
   const formatDate = (dateString: string | null): string => {
-    if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric'
+    if (!dateString) return "-";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
     });
   };
 
   const getStatusBadge = (status: string) => {
     const statusConfig = {
-      approved: 'bg-green-100 text-green-800 border-green-200',
-      pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
-      draft: 'bg-gray-100 text-gray-800 border-gray-200',
-      void: 'bg-red-100 text-red-800 border-red-200'
+      approved: "bg-green-100 text-green-800 border-green-200",
+      pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
+      draft: "bg-gray-100 text-gray-800 border-gray-200",
+      void: "bg-red-100 text-red-800 border-red-200",
     };
 
     return (
-      <span className={cn(
-        'inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full border',
-        statusConfig[status as keyof typeof statusConfig] || statusConfig.draft
-      )}>
+      <span
+        className={cn(
+          "inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full border",
+          statusConfig[status as keyof typeof statusConfig] ||
+            statusConfig.draft,
+        )}
+      >
         {status.toUpperCase()}
       </span>
     );
   };
 
   // Get available actions based on status
-  const getAvailableActions = (status: string): Array<{ action: 'submit' | 'approve' | 'reject' | 'void'; label: string; icon: React.ReactNode; variant: 'default' | 'outline' | 'destructive' }> => {
+  const getAvailableActions = (
+    status: string,
+  ): Array<{
+    action: "submit" | "approve" | "reject" | "void";
+    label: string;
+    icon: React.ReactNode;
+    variant: "default" | "outline" | "destructive";
+  }> => {
     switch (status) {
-      case 'draft':
+      case "draft":
         return [
-          { action: 'submit', label: 'Submit', icon: <Send className="h-3 w-3" />, variant: 'default' }
+          {
+            action: "submit",
+            label: "Submit",
+            icon: <Send className="h-3 w-3" />,
+            variant: "default",
+          },
         ];
-      case 'pending':
+      case "pending":
         return [
-          { action: 'approve', label: 'Approve', icon: <Check className="h-3 w-3" />, variant: 'default' },
-          { action: 'reject', label: 'Reject', icon: <X className="h-3 w-3" />, variant: 'outline' }
+          {
+            action: "approve",
+            label: "Approve",
+            icon: <Check className="h-3 w-3" />,
+            variant: "default",
+          },
+          {
+            action: "reject",
+            label: "Reject",
+            icon: <X className="h-3 w-3" />,
+            variant: "outline",
+          },
         ];
-      case 'approved':
+      case "approved":
         return [
-          { action: 'void', label: 'Void', icon: <Ban className="h-3 w-3" />, variant: 'destructive' }
+          {
+            action: "void",
+            label: "Void",
+            icon: <Ban className="h-3 w-3" />,
+            variant: "destructive",
+          },
         ];
       default:
         return [];
@@ -179,16 +225,16 @@ export function BudgetModificationsModal({
 
   // Calculate totals for approved modifications only (what affects the budget)
   const approvedTotal = modifications
-    .filter(m => m.status === 'approved')
+    .filter((m) => m.status === "approved")
     .reduce((sum, m) => sum + m.amount, 0);
 
   const pendingTotal = modifications
-    .filter(m => m.status === 'pending')
+    .filter((m) => m.status === "pending")
     .reduce((sum, m) => sum + m.amount, 0);
 
   const tabs = [
-    { id: 'summary', label: 'Summary' },
-    { id: 'details', label: 'Details' }
+    { id: "summary", label: "Summary" },
+    { id: "details", label: "Details" },
   ];
 
   return (
@@ -203,12 +249,12 @@ export function BudgetModificationsModal({
       <SidebarTabs
         tabs={tabs}
         activeTab={activeTab}
-        onTabChange={(id) => setActiveTab(id as 'summary' | 'details')}
+        onTabChange={(id) => setActiveTab(id as "summary" | "details")}
       />
 
       {/* Content */}
       <SidebarBody className="bg-white">
-        {activeTab === 'summary' ? (
+        {activeTab === "summary" ? (
           <div className="p-6 space-y-5">
             {/* Totals Summary */}
             <div className="grid grid-cols-2 gap-4">
@@ -226,26 +272,34 @@ export function BudgetModificationsModal({
                 <p className="text-xl font-bold text-yellow-700 mt-1">
                   {formatCurrency(pendingTotal)}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
-                  Awaiting approval
-                </p>
+                <p className="text-xs text-gray-500 mt-1">Awaiting approval</p>
               </div>
             </div>
 
             {/* Status Filter */}
             <div className="flex gap-2 flex-wrap">
-              {(['all', 'approved', 'pending', 'draft', 'void'] as StatusFilter[]).map((status) => (
+              {(
+                [
+                  "all",
+                  "approved",
+                  "pending",
+                  "draft",
+                  "void",
+                ] as StatusFilter[]
+              ).map((status) => (
                 <button
                   key={status}
                   onClick={() => setStatusFilter(status)}
                   className={cn(
-                    'px-3 py-1.5 text-sm font-medium rounded-full transition-all',
+                    "px-3 py-1.5 text-sm font-medium rounded-full transition-all",
                     statusFilter === status
-                      ? 'bg-orange-500 text-white'
-                      : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                      ? "bg-orange-500 text-white"
+                      : "bg-gray-100 text-gray-600 hover:bg-gray-200",
                   )}
                 >
-                  {status === 'all' ? 'All' : status.charAt(0).toUpperCase() + status.slice(1)}
+                  {status === "all"
+                    ? "All"
+                    : status.charAt(0).toUpperCase() + status.slice(1)}
                 </button>
               ))}
             </div>
@@ -259,7 +313,11 @@ export function BudgetModificationsModal({
                 </div>
               ) : modifications.length === 0 ? (
                 <div className="text-center py-10 text-gray-500">
-                  No budget modifications found{statusFilter !== 'all' ? ` with status "${statusFilter}"` : ' for this cost code'}.
+                  No budget modifications found
+                  {statusFilter !== "all"
+                    ? ` with status "${statusFilter}"`
+                    : " for this cost code"}
+                  .
                 </div>
               ) : (
                 modifications.map((mod) => {
@@ -275,19 +333,29 @@ export function BudgetModificationsModal({
                         <div className="flex items-start justify-between mb-2">
                           <div className="flex-1">
                             <div className="flex items-center gap-2">
-                              <span className="font-semibold text-blue-600">{mod.number}</span>
+                              <span className="font-semibold text-blue-600">
+                                {mod.number}
+                              </span>
                               {getStatusBadge(mod.status)}
                             </div>
-                            <p className="text-sm text-gray-700 mt-1">{mod.title}</p>
+                            <p className="text-sm text-gray-700 mt-1">
+                              {mod.title}
+                            </p>
                             {mod.reason && (
-                              <p className="text-xs text-gray-500 mt-1 italic">{mod.reason}</p>
+                              <p className="text-xs text-gray-500 mt-1 italic">
+                                {mod.reason}
+                              </p>
                             )}
                           </div>
                           <div className="text-right ml-4">
-                            <p className={cn(
-                              'text-lg font-bold tabular-nums',
-                              mod.amount < 0 ? 'text-red-600' : 'text-green-600'
-                            )}>
+                            <p
+                              className={cn(
+                                "text-lg font-bold tabular-nums",
+                                mod.amount < 0
+                                  ? "text-red-600"
+                                  : "text-green-600",
+                              )}
+                            >
                               {formatCurrency(mod.amount)}
                             </p>
                           </div>
@@ -295,30 +363,34 @@ export function BudgetModificationsModal({
 
                         <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
                           <div className="flex items-center gap-4 text-xs text-gray-500">
-                            <span>Effective: {formatDate(mod.effectiveDate)}</span>
+                            <span>
+                              Effective: {formatDate(mod.effectiveDate)}
+                            </span>
                             <span>Created: {formatDate(mod.createdAt)}</span>
                           </div>
 
                           {/* Action Buttons */}
                           {actions.length > 0 && (
                             <div className="flex items-center gap-2">
-                              {actions.map(({ action, label, icon, variant }) => (
-                                <Button
-                                  key={action}
-                                  size="sm"
-                                  variant={variant}
-                                  onClick={() => handleAction(mod.id, action)}
-                                  disabled={isLoading}
-                                  className="h-7 text-xs gap-1"
-                                >
-                                  {isLoading ? (
-                                    <Loader2 className="h-3 w-3 animate-spin" />
-                                  ) : (
-                                    icon
-                                  )}
-                                  {label}
-                                </Button>
-                              ))}
+                              {actions.map(
+                                ({ action, label, icon, variant }) => (
+                                  <Button
+                                    key={action}
+                                    size="sm"
+                                    variant={variant}
+                                    onClick={() => handleAction(mod.id, action)}
+                                    disabled={isLoading}
+                                    className="h-7 text-xs gap-1"
+                                  >
+                                    {isLoading ? (
+                                      <Loader2 className="h-3 w-3 animate-spin" />
+                                    ) : (
+                                      icon
+                                    )}
+                                    {label}
+                                  </Button>
+                                ),
+                              )}
                             </div>
                           )}
                         </div>
@@ -347,17 +419,24 @@ export function BudgetModificationsModal({
             ) : (
               <div className="space-y-4">
                 {modifications.map((mod) => (
-                  <div key={mod.id} className="rounded-xl border border-slate-200 shadow-sm bg-white">
+                  <div
+                    key={mod.id}
+                    className="rounded-xl border border-slate-200 shadow-sm bg-white"
+                  >
                     <div className="p-4 border-b border-slate-100">
                       <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2">
-                          <span className="font-semibold text-blue-600">{mod.number}</span>
+                          <span className="font-semibold text-blue-600">
+                            {mod.number}
+                          </span>
                           {getStatusBadge(mod.status)}
                         </div>
-                        <span className={cn(
-                          'font-bold tabular-nums',
-                          mod.amount < 0 ? 'text-red-600' : 'text-green-600'
-                        )}>
+                        <span
+                          className={cn(
+                            "font-bold tabular-nums",
+                            mod.amount < 0 ? "text-red-600" : "text-green-600",
+                          )}
+                        >
                           {formatCurrency(mod.amount)}
                         </span>
                       </div>
@@ -376,15 +455,24 @@ export function BudgetModificationsModal({
                         </thead>
                         <tbody>
                           {mod.lines.map((line) => (
-                            <tr key={line.id} className="border-t border-slate-100">
-                              <td className="py-2 font-medium">{line.costCodeId}</td>
-                              <td className="py-2 text-gray-600">
-                                {line.description || line.costCodeTitle || '-'}
+                            <tr
+                              key={line.id}
+                              className="border-t border-slate-100"
+                            >
+                              <td className="py-2 font-medium">
+                                {line.costCodeId}
                               </td>
-                              <td className={cn(
-                                'py-2 text-right font-medium tabular-nums',
-                                line.amount < 0 ? 'text-red-600' : 'text-green-600'
-                              )}>
+                              <td className="py-2 text-gray-600">
+                                {line.description || line.costCodeTitle || "-"}
+                              </td>
+                              <td
+                                className={cn(
+                                  "py-2 text-right font-medium tabular-nums",
+                                  line.amount < 0
+                                    ? "text-red-600"
+                                    : "text-green-600",
+                                )}
+                              >
                                 {formatCurrency(line.amount)}
                               </td>
                             </tr>

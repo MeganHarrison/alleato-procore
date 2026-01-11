@@ -1,7 +1,7 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Skeleton } from "@/components/ui/skeleton"
+import * as React from "react";
+import { Skeleton } from "@/components/ui/skeleton";
 import {
   Table,
   TableBody,
@@ -9,15 +9,15 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/table";
+import { cn } from "@/lib/utils";
 
 interface DataTableSkeletonProps {
-  columns?: number
-  rows?: number
-  showToolbar?: boolean
-  showPagination?: boolean
-  className?: string
+  columns?: number;
+  rows?: number;
+  showToolbar?: boolean;
+  showPagination?: boolean;
+  className?: string;
 }
 
 export function DataTableSkeleton({
@@ -80,5 +80,5 @@ export function DataTableSkeleton({
         </div>
       )}
     </div>
-  )
+  );
 }

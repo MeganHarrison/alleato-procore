@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useState, useMemo } from 'react';
+import * as React from "react";
+import { useState, useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -9,19 +9,19 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Card, CardContent } from '@/components/ui/card';
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Card, CardContent } from "@/components/ui/card";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+} from "@/components/ui/dropdown-menu";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Check,
   X,
@@ -35,16 +35,16 @@ import {
   Table2,
   LayoutGrid,
   List,
-} from 'lucide-react';
-import { toast } from 'sonner';
-import { cn } from '@/lib/utils';
+} from "lucide-react";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
-export type ViewMode = 'table' | 'card' | 'list';
+export type ViewMode = "table" | "card" | "list";
 
 export interface EditableColumn<T> {
   key: keyof T;
   header: string;
-  type?: 'text' | 'number' | 'date' | 'datetime-local' | 'textarea' | 'select';
+  type?: "text" | "number" | "date" | "datetime-local" | "textarea" | "select";
   width?: string;
   editable?: boolean;
   sortable?: boolean;
@@ -61,13 +61,16 @@ export interface RowAction<T> {
   label: string;
   icon?: React.ReactNode;
   onClick: (row: T) => void;
-  variant?: 'default' | 'destructive';
+  variant?: "default" | "destructive";
 }
 
 interface GenericEditableTableProps<T extends { id: string | number }> {
   data: T[];
   columns: EditableColumn<T>[];
-  onUpdate?: (id: string | number, data: Partial<T>) => Promise<{ error?: string }>;
+  onUpdate?: (
+    id: string | number,
+    data: Partial<T>,
+  ) => Promise<{ error?: string }>;
   onDelete?: (id: string | number) => Promise<{ error?: string }>;
   onUpdateSuccess?: () => void;
   onDeleteSuccess?: () => void;
@@ -88,7 +91,7 @@ interface GenericEditableTableProps<T extends { id: string | number }> {
   /** Default sort column */
   defaultSortColumn?: keyof T;
   /** Default sort direction */
-  defaultSortDirection?: 'asc' | 'desc';
+  defaultSortDirection?: "asc" | "desc";
 }
 
 export function GenericEditableTable<T extends { id: string | number }>({
@@ -104,19 +107,25 @@ export function GenericEditableTable<T extends { id: string | number }>({
   enableRowSelection = false,
   onSelectionChange,
   enableViewSwitcher = false,
-  defaultViewMode = 'table',
+  defaultViewMode = "table",
   enableSorting = true,
   defaultSortColumn,
-  defaultSortDirection = 'asc',
+  defaultSortDirection = "asc",
 }: GenericEditableTableProps<T>) {
   const [editingId, setEditingId] = useState<string | number | null>(null);
   const [editData, setEditData] = useState<Partial<T>>({});
   const [isDeleting, setIsDeleting] = useState<string | number | null>(null);
   const [isSaving, setIsSaving] = useState(false);
-  const [selectedIds, setSelectedIds] = useState<Set<string | number>>(new Set());
+  const [selectedIds, setSelectedIds] = useState<Set<string | number>>(
+    new Set(),
+  );
   const [viewMode, setViewMode] = useState<ViewMode>(defaultViewMode);
-  const [sortColumn, setSortColumn] = useState<keyof T | null>(defaultSortColumn ?? null);
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>(defaultSortDirection);
+  const [sortColumn, setSortColumn] = useState<keyof T | null>(
+    defaultSortColumn ?? null,
+  );
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">(
+    defaultSortDirection,
+  );
 
   // Get sorted data
   const sortedData = useMemo(() => {
@@ -128,16 +137,16 @@ export function GenericEditableTable<T extends { id: string | number }>({
 
       // Handle null/undefined
       if (valueA == null && valueB == null) return 0;
-      if (valueA == null) return sortDirection === 'asc' ? 1 : -1;
-      if (valueB == null) return sortDirection === 'asc' ? -1 : 1;
+      if (valueA == null) return sortDirection === "asc" ? 1 : -1;
+      if (valueB == null) return sortDirection === "asc" ? -1 : 1;
 
       // Handle different types
-      if (typeof valueA === 'number' && typeof valueB === 'number') {
-        return sortDirection === 'asc' ? valueA - valueB : valueB - valueA;
+      if (typeof valueA === "number" && typeof valueB === "number") {
+        return sortDirection === "asc" ? valueA - valueB : valueB - valueA;
       }
 
       if (valueA instanceof Date && valueB instanceof Date) {
-        return sortDirection === 'asc'
+        return sortDirection === "asc"
           ? valueA.getTime() - valueB.getTime()
           : valueB.getTime() - valueA.getTime();
       }
@@ -145,7 +154,7 @@ export function GenericEditableTable<T extends { id: string | number }>({
       // String comparison
       const strA = String(valueA).toLowerCase();
       const strB = String(valueB).toLowerCase();
-      return sortDirection === 'asc'
+      return sortDirection === "asc"
         ? strA.localeCompare(strB)
         : strB.localeCompare(strA);
     });
@@ -155,24 +164,24 @@ export function GenericEditableTable<T extends { id: string | number }>({
     if (!enableSorting) return;
 
     if (sortColumn === columnKey) {
-      setSortDirection(prev => (prev === 'asc' ? 'desc' : 'asc'));
+      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
     } else {
       setSortColumn(columnKey);
-      setSortDirection('asc');
+      setSortDirection("asc");
     }
   };
 
   const renderSortIcon = (columnKey: keyof T) => {
     if (!enableSorting) return null;
 
-    const column = columns.find(c => c.key === columnKey);
+    const column = columns.find((c) => c.key === columnKey);
     if (column?.sortable === false) return null;
 
     if (sortColumn !== columnKey) {
       return <ArrowUpDown className="ml-1 h-3.5 w-3.5 text-muted-foreground" />;
     }
 
-    return sortDirection === 'asc' ? (
+    return sortDirection === "asc" ? (
       <ChevronUp className="ml-1 h-3.5 w-3.5" />
     ) : (
       <ChevronDown className="ml-1 h-3.5 w-3.5" />
@@ -199,13 +208,13 @@ export function GenericEditableTable<T extends { id: string | number }>({
       if (error) {
         toast.error(error);
       } else {
-        toast.success('Updated successfully');
+        toast.success("Updated successfully");
         setEditingId(null);
         setEditData({});
         onUpdateSuccess?.();
       }
     } catch {
-      toast.error('Failed to update');
+      toast.error("Failed to update");
     } finally {
       setIsSaving(false);
     }
@@ -225,7 +234,7 @@ export function GenericEditableTable<T extends { id: string | number }>({
       if (error) {
         toast.error(error);
       } else {
-        toast.success('Deleted successfully');
+        toast.success("Deleted successfully");
         // Remove from selection if selected
         const newSelection = new Set(selectedIds);
         newSelection.delete(id);
@@ -234,7 +243,7 @@ export function GenericEditableTable<T extends { id: string | number }>({
         onDeleteSuccess?.();
       }
     } catch {
-      toast.error('Failed to delete');
+      toast.error("Failed to delete");
     } finally {
       setIsDeleting(null);
     }
@@ -242,7 +251,7 @@ export function GenericEditableTable<T extends { id: string | number }>({
 
   const handleSelectAll = (checked: boolean) => {
     if (checked) {
-      const allIds = new Set(sortedData.map(row => row.id));
+      const allIds = new Set(sortedData.map((row) => row.id));
       setSelectedIds(allIds);
       onSelectionChange?.(Array.from(allIds));
     } else {
@@ -262,26 +271,29 @@ export function GenericEditableTable<T extends { id: string | number }>({
     onSelectionChange?.(Array.from(newSelection));
   };
 
-  const isAllSelected = sortedData.length > 0 && selectedIds.size === sortedData.length;
-  const isSomeSelected = selectedIds.size > 0 && selectedIds.size < sortedData.length;
+  const isAllSelected =
+    sortedData.length > 0 && selectedIds.size === sortedData.length;
+  const isSomeSelected =
+    selectedIds.size > 0 && selectedIds.size < sortedData.length;
 
   const renderEditableCell = (column: EditableColumn<T>) => {
     const commonProps = {
-      value: editData[column.key] ?? '',
-      onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>
-        setEditData((prev) => ({ ...prev, [column.key]: e.target.value })),
+      value: editData[column.key] ?? "",
+      onChange: (
+        e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+      ) => setEditData((prev) => ({ ...prev, [column.key]: e.target.value })),
     };
 
     switch (column.type) {
-      case 'textarea':
+      case "textarea":
         return (
           <Textarea
-            value={String(editData[column.key] ?? '')}
+            value={String(editData[column.key] ?? "")}
             onChange={commonProps.onChange}
             className="min-h-[60px]"
           />
         );
-      case 'select':
+      case "select":
         return (
           <select
             value={editData[column.key] as string}
@@ -300,8 +312,8 @@ export function GenericEditableTable<T extends { id: string | number }>({
       default:
         return (
           <Input
-            type={column.type || 'text'}
-            value={String(editData[column.key] ?? '')}
+            type={column.type || "text"}
+            value={String(editData[column.key] ?? "")}
             onChange={commonProps.onChange}
           />
         );
@@ -370,7 +382,9 @@ export function GenericEditableTable<T extends { id: string | number }>({
                 e.stopPropagation();
                 action.onClick(row);
               }}
-              className={action.variant === 'destructive' ? 'text-destructive' : ''}
+              className={
+                action.variant === "destructive" ? "text-destructive" : ""
+              }
             >
               {action.icon && <span className="mr-2">{action.icon}</span>}
               {action.label}
@@ -403,13 +417,13 @@ export function GenericEditableTable<T extends { id: string | number }>({
     if (column.render) {
       return column.render(value, row);
     }
-    return String(value ?? '-');
+    return String(value ?? "-");
   };
 
   // Card View
   const renderCardView = () => {
-    const primaryColumn = columns.find(c => c.isPrimary) || columns[0];
-    const secondaryColumn = columns.find(c => c.isSecondary) || columns[1];
+    const primaryColumn = columns.find((c) => c.isPrimary) || columns[0];
+    const secondaryColumn = columns.find((c) => c.isSecondary) || columns[1];
 
     return (
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
@@ -417,8 +431,8 @@ export function GenericEditableTable<T extends { id: string | number }>({
           <Card
             key={String(row.id)}
             className={cn(
-              'group hover:shadow-md transition-all cursor-pointer',
-              selectedIds.has(row.id) && 'ring-2 ring-primary'
+              "group hover:shadow-md transition-all cursor-pointer",
+              selectedIds.has(row.id) && "ring-2 ring-primary",
             )}
             onClick={() => onRowClick?.(row)}
           >
@@ -446,11 +460,16 @@ export function GenericEditableTable<T extends { id: string | number }>({
                     )}
                     <div className="mt-2 space-y-1">
                       {columns
-                        .filter(c => !c.isPrimary && !c.isSecondary)
+                        .filter((c) => !c.isPrimary && !c.isSecondary)
                         .slice(0, 3)
                         .map((column) => (
-                          <div key={String(column.key)} className="text-xs text-muted-foreground">
-                            <span className="font-medium">{column.header}:</span>{' '}
+                          <div
+                            key={String(column.key)}
+                            className="text-xs text-muted-foreground"
+                          >
+                            <span className="font-medium">
+                              {column.header}:
+                            </span>{" "}
                             {renderCellValue(column, row)}
                           </div>
                         ))}
@@ -470,8 +489,8 @@ export function GenericEditableTable<T extends { id: string | number }>({
 
   // List View
   const renderListView = () => {
-    const primaryColumn = columns.find(c => c.isPrimary) || columns[0];
-    const secondaryColumn = columns.find(c => c.isSecondary) || columns[1];
+    const primaryColumn = columns.find((c) => c.isPrimary) || columns[0];
+    const secondaryColumn = columns.find((c) => c.isSecondary) || columns[1];
 
     return (
       <div className="space-y-2">
@@ -479,8 +498,8 @@ export function GenericEditableTable<T extends { id: string | number }>({
           <div
             key={String(row.id)}
             className={cn(
-              'flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer',
-              selectedIds.has(row.id) && 'ring-2 ring-primary'
+              "flex items-center gap-4 p-4 rounded-lg border bg-card hover:bg-muted/50 transition-colors cursor-pointer",
+              selectedIds.has(row.id) && "ring-2 ring-primary",
             )}
             onClick={() => onRowClick?.(row)}
           >
@@ -507,11 +526,11 @@ export function GenericEditableTable<T extends { id: string | number }>({
               </div>
               <div className="flex items-center gap-4 mt-1 text-xs text-muted-foreground">
                 {columns
-                  .filter(c => !c.isPrimary && !c.isSecondary)
+                  .filter((c) => !c.isPrimary && !c.isSecondary)
                   .slice(0, 4)
                   .map((column) => (
                     <span key={String(column.key)}>
-                      <span className="font-medium">{column.header}:</span>{' '}
+                      <span className="font-medium">{column.header}:</span>{" "}
                       {renderCellValue(column, row)}
                     </span>
                   ))}
@@ -542,7 +561,11 @@ export function GenericEditableTable<T extends { id: string | number }>({
                       checked={isAllSelected}
                       ref={(el) => {
                         if (el) {
-                          (el as HTMLButtonElement & { indeterminate?: boolean }).indeterminate = isSomeSelected;
+                          (
+                            el as HTMLButtonElement & {
+                              indeterminate?: boolean;
+                            }
+                          ).indeterminate = isSomeSelected;
                         }
                       }}
                       onCheckedChange={(checked) => handleSelectAll(!!checked)}
@@ -558,7 +581,8 @@ export function GenericEditableTable<T extends { id: string | number }>({
                     key={String(column.key)}
                     className={cn(
                       column.width,
-                      isSortable && 'cursor-pointer select-none hover:bg-muted/50'
+                      isSortable &&
+                        "cursor-pointer select-none hover:bg-muted/50",
                     )}
                     onClick={() => isSortable && handleSort(column.key)}
                   >
@@ -582,12 +606,12 @@ export function GenericEditableTable<T extends { id: string | number }>({
                 <TableRow
                   key={String(row.id)}
                   className={cn(
-                    'group hover:bg-muted/50 transition-colors',
-                    onRowClick && 'cursor-pointer',
-                    selectedIds.has(row.id) && 'bg-muted/30'
+                    "group hover:bg-muted/50 transition-colors",
+                    onRowClick && "cursor-pointer",
+                    selectedIds.has(row.id) && "bg-muted/30",
                   )}
                   onClick={() => !isEditing && onRowClick?.(row)}
-                  data-state={selectedIds.has(row.id) ? 'selected' : undefined}
+                  data-state={selectedIds.has(row.id) ? "selected" : undefined}
                 >
                   {enableRowSelection && (
                     <TableCell>
@@ -605,11 +629,9 @@ export function GenericEditableTable<T extends { id: string | number }>({
                   )}
                   {columns.map((column) => (
                     <TableCell key={String(column.key)}>
-                      {isEditing && column.editable !== false ? (
-                        renderEditableCell(column)
-                      ) : (
-                        renderCellValue(column, row)
-                      )}
+                      {isEditing && column.editable !== false
+                        ? renderEditableCell(column)
+                        : renderCellValue(column, row)}
                     </TableCell>
                   ))}
                   {hasActions && (
@@ -623,7 +645,11 @@ export function GenericEditableTable<T extends { id: string | number }>({
             {sortedData.length === 0 && (
               <TableRow>
                 <TableCell
-                  colSpan={columns.length + (enableRowSelection ? 1 : 0) + (onUpdate || onDelete || rowActions.length > 0 ? 1 : 0)}
+                  colSpan={
+                    columns.length +
+                    (enableRowSelection ? 1 : 0) +
+                    (onUpdate || onDelete || rowActions.length > 0 ? 1 : 0)
+                  }
                   className="h-24 text-center text-muted-foreground"
                 >
                   No data available.
@@ -637,7 +663,7 @@ export function GenericEditableTable<T extends { id: string | number }>({
   };
 
   return (
-    <div className={cn('space-y-4', className)}>
+    <div className={cn("space-y-4", className)}>
       {/* Toolbar */}
       <div className="flex items-center justify-between gap-4">
         {enableRowSelection && selectedIds.size > 0 && (
@@ -648,7 +674,10 @@ export function GenericEditableTable<T extends { id: string | number }>({
         {!enableRowSelection || selectedIds.size === 0 ? <div /> : null}
 
         {enableViewSwitcher && (
-          <Tabs value={viewMode} onValueChange={(v) => setViewMode(v as ViewMode)}>
+          <Tabs
+            value={viewMode}
+            onValueChange={(v) => setViewMode(v as ViewMode)}
+          >
             <TabsList>
               <TabsTrigger value="table" className="gap-1.5">
                 <Table2 className="h-4 w-4" />
@@ -668,9 +697,9 @@ export function GenericEditableTable<T extends { id: string | number }>({
       </div>
 
       {/* Content based on view mode */}
-      {viewMode === 'table' && renderTableView()}
-      {viewMode === 'card' && renderCardView()}
-      {viewMode === 'list' && renderListView()}
+      {viewMode === "table" && renderTableView()}
+      {viewMode === "card" && renderCardView()}
+      {viewMode === "list" && renderListView()}
     </div>
   );
 }

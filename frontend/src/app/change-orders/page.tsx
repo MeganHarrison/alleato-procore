@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { Plus, Download } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
+import { useState, useEffect } from "react";
+import { Plus, Download } from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   Table,
   TableBody,
@@ -12,9 +12,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Badge } from '@/components/ui/badge';
-import { ChangeOrder } from '@/types/financial';
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { ChangeOrder } from "@/types/financial";
 
 export default function ChangeOrdersPage() {
   const router = useRouter();
@@ -26,18 +26,28 @@ export default function ChangeOrdersPage() {
     setLoading(false);
   }, []);
 
-  const getStatusBadgeVariant = (status: string): "success" | "warning" | "secondary" | "default" | "outline" | "destructive" | null | undefined => {
+  const getStatusBadgeVariant = (
+    status: string,
+  ):
+    | "success"
+    | "warning"
+    | "secondary"
+    | "default"
+    | "outline"
+    | "destructive"
+    | null
+    | undefined => {
     switch (status) {
-      case 'approved':
-        return 'success';
-      case 'pending':
-        return 'warning';
-      case 'draft':
-        return 'secondary';
-      case 'executed':
-        return 'default';
+      case "approved":
+        return "success";
+      case "pending":
+        return "warning";
+      case "draft":
+        return "secondary";
+      case "executed":
+        return "default";
       default:
-        return 'outline';
+        return "outline";
     }
   };
 
@@ -80,7 +90,10 @@ export default function ChangeOrdersPage() {
                 <Download className="h-4 w-4 mr-2" />
                 Export
               </Button>
-              <Button size="sm" onClick={() => router.push('/change-order-form')}>
+              <Button
+                size="sm"
+                onClick={() => router.push("/change-order-form")}
+              >
                 <Plus className="h-4 w-4 mr-2" />
                 New Change Order
               </Button>
@@ -93,8 +106,10 @@ export default function ChangeOrdersPage() {
             </div>
           ) : changeOrders.length === 0 ? (
             <div className="text-center py-12">
-              <p className="text-muted-foreground mb-4">No change orders found</p>
-              <Button onClick={() => router.push('/change-order-form')}>
+              <p className="text-muted-foreground mb-4">
+                No change orders found
+              </p>
+              <Button onClick={() => router.push("/change-order-form")}>
                 <Plus className="h-4 w-4 mr-2" />
                 Create your first change order
               </Button>
@@ -116,18 +131,24 @@ export default function ChangeOrdersPage() {
                   <TableRow
                     key={order.id}
                     className="cursor-pointer hover:bg-gray-50"
-                    onClick={() => router.push(`/change-order-form/${order.id}`)}
+                    onClick={() =>
+                      router.push(`/change-order-form/${order.id}`)
+                    }
                   >
-                    <TableCell className="font-medium">{order.number}</TableCell>
+                    <TableCell className="font-medium">
+                      {order.number}
+                    </TableCell>
                     <TableCell>{order.title}</TableCell>
-                    <TableCell>{order.commitment?.title || '-'}</TableCell>
+                    <TableCell>{order.commitment?.title || "-"}</TableCell>
                     <TableCell>
                       <Badge variant={getStatusBadgeVariant(order.status)}>
                         {order.status}
                       </Badge>
                     </TableCell>
-                    <TableCell className="text-right">${order.amount.toFixed(2)}</TableCell>
-                    <TableCell>{order.executed_date || '-'}</TableCell>
+                    <TableCell className="text-right">
+                      ${order.amount.toFixed(2)}
+                    </TableCell>
+                    <TableCell>{order.executed_date || "-"}</TableCell>
                   </TableRow>
                 ))}
               </TableBody>

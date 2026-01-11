@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { type Database } from '@/types/database.types';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { MoreVertical, MapPin, Phone, Globe } from 'lucide-react';
+import { type Database } from "@/types/database.types";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { MoreVertical, MapPin, Phone, Globe } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
-type Company = Database['public']['Tables']['companies']['Row'];
+type Company = Database["public"]["Tables"]["companies"]["Row"];
 
 interface ResponsiveCompaniesTableProps {
   companies: Company[];
@@ -24,7 +24,7 @@ export function ResponsiveCompaniesTable({
   companies,
   onEdit,
   onDelete,
-  onViewDetails
+  onViewDetails,
 }: ResponsiveCompaniesTableProps) {
   return (
     <div className="space-y-3">
@@ -34,7 +34,9 @@ export function ResponsiveCompaniesTable({
           <table className="w-full">
             <thead>
               <tr className="border-b bg-muted/50">
-                <th className="p-3 text-left text-sm font-medium">Company Name</th>
+                <th className="p-3 text-left text-sm font-medium">
+                  Company Name
+                </th>
                 <th className="p-3 text-left text-sm font-medium">Location</th>
                 <th className="p-3 text-left text-sm font-medium">Type</th>
                 <th className="p-3 text-right text-sm font-medium">Actions</th>
@@ -42,20 +44,24 @@ export function ResponsiveCompaniesTable({
             </thead>
             <tbody>
               {companies.map((company) => (
-                <tr key={company.id} className="border-b last:border-0 hover:bg-muted/50">
+                <tr
+                  key={company.id}
+                  className="border-b last:border-0 hover:bg-muted/50"
+                >
                   <td className="p-3">
                     <div className="font-medium">{company.name}</div>
                     {company.title && (
-                      <div className="text-sm text-muted-foreground">{company.title}</div>
+                      <div className="text-sm text-muted-foreground">
+                        {company.title}
+                      </div>
                     )}
                   </td>
                   <td className="p-3 text-sm">
                     {company.city && company.state
                       ? `${company.city}, ${company.state}`
-                      : company.city || company.state || '-'
-                    }
+                      : company.city || company.state || "-"}
                   </td>
-                  <td className="p-3 text-sm">{company.type || '-'}</td>
+                  <td className="p-3 text-sm">{company.type || "-"}</td>
                   <td className="p-3 text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -65,7 +71,9 @@ export function ResponsiveCompaniesTable({
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         {onViewDetails && (
-                          <DropdownMenuItem onClick={() => onViewDetails(company)}>
+                          <DropdownMenuItem
+                            onClick={() => onViewDetails(company)}
+                          >
                             View Details
                           </DropdownMenuItem>
                         )}
@@ -92,15 +100,14 @@ export function ResponsiveCompaniesTable({
       {/* Mobile View - Card layout */}
       <div className="md:hidden space-y-3">
         {companies.map((company) => (
-          <div
-            key={company.id}
-            className="border rounded-lg p-4 space-y-3"
-          >
+          <div key={company.id} className="border rounded-lg p-4 space-y-3">
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <h3 className="font-medium">{company.name}</h3>
                 {company.title && (
-                  <p className="text-sm text-muted-foreground mt-1">{company.title}</p>
+                  <p className="text-sm text-muted-foreground mt-1">
+                    {company.title}
+                  </p>
                 )}
               </div>
               <DropdownMenu>
@@ -136,8 +143,7 @@ export function ResponsiveCompaniesTable({
                   <span>
                     {company.city && company.state
                       ? `${company.city}, ${company.state}`
-                      : company.city || company.state
-                    }
+                      : company.city || company.state}
                   </span>
                 </div>
               )}

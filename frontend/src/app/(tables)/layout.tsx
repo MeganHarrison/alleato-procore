@@ -5,7 +5,7 @@
 export default function TablesLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <div className="min-h-screen bg-neutral-50">
@@ -13,5 +13,5 @@ export default function TablesLayout({
         {children}
       </div>
     </div>
-  )
+  );
 }

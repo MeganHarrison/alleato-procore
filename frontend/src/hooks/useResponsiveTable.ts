@@ -1,22 +1,22 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState } from "react";
 
 export function useResponsiveTable() {
-  const [isMobile, setIsMobile] = useState(false)
+  const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsMobile(window.innerWidth < 1024) // lg breakpoint
-    }
+      setIsMobile(window.innerWidth < 1024); // lg breakpoint
+    };
 
     // Check on mount
-    checkScreenSize()
+    checkScreenSize();
 
     // Add event listener
-    window.addEventListener('resize', checkScreenSize)
+    window.addEventListener("resize", checkScreenSize);
 
     // Cleanup
-    return () => window.removeEventListener('resize', checkScreenSize)
-  }, [])
+    return () => window.removeEventListener("resize", checkScreenSize);
+  }, []);
 
-  return { isMobile }
+  return { isMobile };
 }

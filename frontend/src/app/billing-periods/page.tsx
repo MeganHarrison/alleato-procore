@@ -1,17 +1,26 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from '@/components/tables/DataTable';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Plus, MoreHorizontal, Eye, Edit, Trash2, FileText, Lock, Unlock } from 'lucide-react';
+import * as React from "react";
+import { ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "@/components/tables/DataTable";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Plus,
+  MoreHorizontal,
+  Eye,
+  Edit,
+  Trash2,
+  FileText,
+  Lock,
+  Unlock,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
 interface BillingPeriod {
   id: string;
@@ -19,7 +28,7 @@ interface BillingPeriod {
   name: string;
   startDate: string;
   endDate: string;
-  status: 'draft' | 'open' | 'locked' | 'closed';
+  status: "draft" | "open" | "locked" | "closed";
   invoiceCount: number;
   totalInvoiced: number;
   totalPaid: number;
@@ -29,55 +38,55 @@ interface BillingPeriod {
 
 const mockBillingPeriods: BillingPeriod[] = [
   {
-    id: '1',
-    number: 'BP-2025-01',
-    name: 'January 2025 Billing',
-    startDate: '2025-01-01',
-    endDate: '2025-01-31',
-    status: 'open',
+    id: "1",
+    number: "BP-2025-01",
+    name: "January 2025 Billing",
+    startDate: "2025-01-01",
+    endDate: "2025-01-31",
+    status: "open",
     invoiceCount: 8,
     totalInvoiced: 287500,
     totalPaid: 145000,
-    dueDate: '2025-02-15',
+    dueDate: "2025-02-15",
     closedDate: null,
   },
   {
-    id: '2',
-    number: 'BP-2024-12',
-    name: 'December 2024 Billing',
-    startDate: '2024-12-01',
-    endDate: '2024-12-31',
-    status: 'closed',
+    id: "2",
+    number: "BP-2024-12",
+    name: "December 2024 Billing",
+    startDate: "2024-12-01",
+    endDate: "2024-12-31",
+    status: "closed",
     invoiceCount: 12,
     totalInvoiced: 425000,
     totalPaid: 425000,
-    dueDate: '2025-01-15',
-    closedDate: '2025-01-20',
+    dueDate: "2025-01-15",
+    closedDate: "2025-01-20",
   },
   {
-    id: '3',
-    number: 'BP-2024-11',
-    name: 'November 2024 Billing',
-    startDate: '2024-11-01',
-    endDate: '2024-11-30',
-    status: 'closed',
+    id: "3",
+    number: "BP-2024-11",
+    name: "November 2024 Billing",
+    startDate: "2024-11-01",
+    endDate: "2024-11-30",
+    status: "closed",
     invoiceCount: 10,
     totalInvoiced: 356000,
     totalPaid: 356000,
-    dueDate: '2024-12-15',
-    closedDate: '2024-12-18',
+    dueDate: "2024-12-15",
+    closedDate: "2024-12-18",
   },
   {
-    id: '4',
-    number: 'BP-2025-02',
-    name: 'February 2025 Billing',
-    startDate: '2025-02-01',
-    endDate: '2025-02-28',
-    status: 'draft',
+    id: "4",
+    number: "BP-2025-02",
+    name: "February 2025 Billing",
+    startDate: "2025-02-01",
+    endDate: "2025-02-28",
+    status: "draft",
     invoiceCount: 0,
     totalInvoiced: 0,
     totalPaid: 0,
-    dueDate: '2025-03-15',
+    dueDate: "2025-03-15",
     closedDate: null,
   },
 ];
@@ -86,81 +95,82 @@ export default function BillingPeriodsPage() {
   const [data, setData] = React.useState<BillingPeriod[]>(mockBillingPeriods);
 
   const statusColors: Record<string, string> = {
-    draft: 'bg-gray-100 text-gray-700',
-    open: 'bg-blue-100 text-blue-700',
-    locked: 'bg-orange-100 text-orange-700',
-    closed: 'bg-green-100 text-green-700',
+    draft: "bg-gray-100 text-gray-700",
+    open: "bg-blue-100 text-blue-700",
+    locked: "bg-orange-100 text-orange-700",
+    closed: "bg-green-100 text-green-700",
   };
 
-  const getPaymentStatus = (invoiced: number, paid: number): { percentage: number; color: string } => {
-    if (invoiced === 0) return { percentage: 0, color: 'bg-gray-200' };
+  const getPaymentStatus = (
+    invoiced: number,
+    paid: number,
+  ): { percentage: number; color: string } => {
+    if (invoiced === 0) return { percentage: 0, color: "bg-gray-200" };
     const percentage = (paid / invoiced) * 100;
-    if (percentage === 100) return { percentage, color: 'bg-green-500' };
-    if (percentage >= 50) return { percentage, color: 'bg-yellow-500' };
-    return { percentage, color: 'bg-red-500' };
+    if (percentage === 100) return { percentage, color: "bg-green-500" };
+    if (percentage >= 50) return { percentage, color: "bg-yellow-500" };
+    return { percentage, color: "bg-red-500" };
   };
 
   const columns: ColumnDef<BillingPeriod>[] = [
     {
-      accessorKey: 'number',
-      header: 'Period Number',
+      accessorKey: "number",
+      header: "Period Number",
       cell: ({ row }) => (
         <button
           type="button"
           className="font-medium text-[hsl(var(--procore-orange))] hover:underline"
         >
-          {row.getValue('number')}
+          {row.getValue("number")}
         </button>
       ),
     },
     {
-      accessorKey: 'name',
-      header: 'Period Name',
+      accessorKey: "name",
+      header: "Period Name",
       cell: ({ row }) => (
-        <div className="font-medium">{row.getValue('name')}</div>
+        <div className="font-medium">{row.getValue("name")}</div>
       ),
     },
     {
-      accessorKey: 'startDate',
-      header: 'Period',
+      accessorKey: "startDate",
+      header: "Period",
       cell: ({ row }) => (
         <div className="text-sm">
-          <div>{new Date(row.getValue('startDate')).toLocaleDateString()}</div>
-          <div className="text-gray-500">to {new Date(row.original.endDate).toLocaleDateString()}</div>
+          <div>{new Date(row.getValue("startDate")).toLocaleDateString()}</div>
+          <div className="text-gray-500">
+            to {new Date(row.original.endDate).toLocaleDateString()}
+          </div>
         </div>
       ),
     },
     {
-      accessorKey: 'status',
-      header: 'Status',
+      accessorKey: "status",
+      header: "Status",
       cell: ({ row }) => {
-        const status = row.getValue('status') as string;
-        return (
-          <Badge className={statusColors[status]}>
-            {status}
-          </Badge>
-        );
+        const status = row.getValue("status") as string;
+        return <Badge className={statusColors[status]}>{status}</Badge>;
       },
     },
     {
-      accessorKey: 'invoiceCount',
-      header: 'Invoices',
+      accessorKey: "invoiceCount",
+      header: "Invoices",
       cell: ({ row }) => (
-        <span className="font-medium">{row.getValue('invoiceCount')}</span>
+        <span className="font-medium">{row.getValue("invoiceCount")}</span>
       ),
     },
     {
-      accessorKey: 'totalInvoiced',
-      header: 'Total Invoiced',
+      accessorKey: "totalInvoiced",
+      header: "Total Invoiced",
       cell: ({ row }) => (
         <span className="font-medium">
-          ${row.getValue<number>('totalInvoiced').toLocaleString()}
+          ${row.getValue<number>("totalInvoiced").toLocaleString()}
         </span>
       ),
     },
     {
-      accessorKey: 'totalPaid',
-      header: 'Payment Status',
+      accessorKey: "totalPaid",
+      header: "Payment Status",
       cell: ({ row }) => {
         const invoiced = row.original.totalInvoiced;
         const paid = row.original.totalPaid;
@@ -182,14 +192,14 @@ export default function BillingPeriodsPage() {
       },
     },
     {
-      accessorKey: 'dueDate',
-      header: 'Due Date',
+      accessorKey: "dueDate",
+      header: "Due Date",
       cell: ({ row }) => (
-        <span>{new Date(row.getValue('dueDate')).toLocaleDateString()}</span>
+        <span>{new Date(row.getValue("dueDate")).toLocaleDateString()}</span>
       ),
     },
     {
-      id: 'actions',
+      id: "actions",
       cell: ({ row }) => {
         const status = row.original.status;
 
@@ -205,13 +215,13 @@ export default function BillingPeriodsPage() {
                 <Eye className="mr-2 h-4 w-4" />
                 View
               </DropdownMenuItem>
-              {status === 'draft' && (
+              {status === "draft" && (
                 <DropdownMenuItem>
                   <Edit className="mr-2 h-4 w-4" />
                   Edit
                 </DropdownMenuItem>
               )}
-              {status === 'open' && (
+              {status === "open" && (
                 <>
                   <DropdownMenuItem>
                     <FileText className="mr-2 h-4 w-4" />
@@ -223,13 +233,13 @@ export default function BillingPeriodsPage() {
                   </DropdownMenuItem>
                 </>
               )}
-              {status === 'locked' && (
+              {status === "locked" && (
                 <DropdownMenuItem>
                   <Unlock className="mr-2 h-4 w-4" />
                   Unlock Period
                 </DropdownMenuItem>
               )}
-              {status === 'draft' && (
+              {status === "draft" && (
                 <DropdownMenuItem className="text-red-600">
                   <Trash2 className="mr-2 h-4 w-4" />
                   Delete
@@ -242,7 +252,7 @@ export default function BillingPeriodsPage() {
     },
   ];
 
-  const openPeriods = data.filter(p => p.status === 'open');
+  const openPeriods = data.filter((p) => p.status === "open");
   const totalInvoiced = data.reduce((sum, p) => sum + p.totalInvoiced, 0);
   const totalPaid = data.reduce((sum, p) => sum + p.totalPaid, 0);
   const outstanding = totalInvoiced - totalPaid;
@@ -253,7 +263,9 @@ export default function BillingPeriodsPage() {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Billing Periods</h1>
-          <p className="text-sm text-gray-500 mt-1">Manage invoice billing periods and cycles</p>
+          <p className="text-sm text-gray-500 mt-1">
+            Manage invoice billing periods and cycles
+          </p>
         </div>
         <Button className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange))]/90">
           <Plus className="h-4 w-4 mr-2" />
@@ -265,14 +277,20 @@ export default function BillingPeriodsPage() {
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <div className="bg-white rounded-lg border p-4">
           <div className="text-sm font-medium text-gray-500">Total Periods</div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">{data.length}</div>
+          <div className="text-2xl font-bold text-gray-900 mt-1">
+            {data.length}
+          </div>
         </div>
         <div className="bg-white rounded-lg border p-4">
           <div className="text-sm font-medium text-gray-500">Open Periods</div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">{openPeriods.length}</div>
+          <div className="text-2xl font-bold text-gray-900 mt-1">
+            {openPeriods.length}
+          </div>
         </div>
         <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm font-medium text-gray-500">Total Invoiced</div>
+          <div className="text-sm font-medium text-gray-500">
+            Total Invoiced
+          </div>
           <div className="text-2xl font-bold text-gray-900 mt-1">
             ${totalInvoiced.toLocaleString()}
           </div>

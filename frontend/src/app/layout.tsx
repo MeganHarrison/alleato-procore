@@ -6,17 +6,17 @@ import { HeaderProvider } from "@/components/layout/header-context";
 import { ProjectProvider } from "@/contexts/project-context";
 import { FavoritesProvider } from "@/contexts/favorites-context";
 import { ConditionalLayout } from "@/components/layout/conditional-layout";
-import { Toaster } from "@/components/ui/sonner"
-import { Inter } from 'next/font/google'
+import { Toaster } from "@/components/ui/sonner";
+import { Inter } from "next/font/google";
 import { AIChatWidget } from "@/components/chat/ai-chat-widget";
 import { DocsChat } from "@/components/procore-docs/docs-chat";
 import "./globals.css";
 
 const inter = Inter({
-  subsets: ['latin'],
-  variable: '--font-sans',
-  display: 'swap',
-})
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -40,7 +40,10 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning className={`${inter.variable}`}>
-      <body className="font-sans antialiased text-foreground" suppressHydrationWarning>
+      <body
+        className="font-sans antialiased text-foreground"
+        suppressHydrationWarning
+      >
         <QueryProvider>
           <ThemeProvider
             attribute="class"
@@ -52,9 +55,7 @@ export default function RootLayout({
               <ProjectProvider>
                 <FavoritesProvider>
                   <HeaderProvider>
-                    <ConditionalLayout>
-                      {children}
-                    </ConditionalLayout>
+                    <ConditionalLayout>{children}</ConditionalLayout>
                   </HeaderProvider>
                 </FavoritesProvider>
               </ProjectProvider>

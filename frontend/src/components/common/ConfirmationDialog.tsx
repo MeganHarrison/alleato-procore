@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import {
   AlertDialog,
@@ -9,7 +9,7 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
+} from "@/components/ui/alert-dialog";
 
 interface ConfirmationDialogProps {
   open: boolean;
@@ -19,7 +19,7 @@ interface ConfirmationDialogProps {
   confirmLabel?: string;
   cancelLabel?: string;
   onConfirm: () => void | Promise<void>;
-  variant?: 'default' | 'destructive';
+  variant?: "default" | "destructive";
   isLoading?: boolean;
 }
 
@@ -28,11 +28,11 @@ export function ConfirmationDialog({
   onOpenChange,
   title,
   description,
-  confirmLabel = 'Confirm',
-  cancelLabel = 'Cancel',
+  confirmLabel = "Confirm",
+  cancelLabel = "Cancel",
   onConfirm,
-  variant = 'default',
-  isLoading = false
+  variant = "default",
+  isLoading = false,
 }: ConfirmationDialogProps) {
   const handleConfirm = async () => {
     await onConfirm();
@@ -53,9 +53,13 @@ export function ConfirmationDialog({
           <AlertDialogAction
             onClick={handleConfirm}
             disabled={isLoading}
-            className={variant === 'destructive' ? 'bg-destructive text-destructive-foreground hover:bg-destructive/90' : ''}
+            className={
+              variant === "destructive"
+                ? "bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                : ""
+            }
           >
-            {isLoading ? 'Processing...' : confirmLabel}
+            {isLoading ? "Processing..." : confirmLabel}
           </AlertDialogAction>
         </AlertDialogFooter>
       </AlertDialogContent>
@@ -64,20 +68,22 @@ export function ConfirmationDialog({
 }
 
 // Hook for easier usage
-import { useState } from 'react';
+import { useState } from "react";
 
 interface UseConfirmationDialogOptions {
   title: string;
   description: string;
   confirmLabel?: string;
   cancelLabel?: string;
-  variant?: 'default' | 'destructive';
+  variant?: "default" | "destructive";
 }
 
 export function useConfirmationDialog(options: UseConfirmationDialogOptions) {
   const [isOpen, setIsOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [onConfirmCallback, setOnConfirmCallback] = useState<(() => void | Promise<void>) | null>(null);
+  const [onConfirmCallback, setOnConfirmCallback] = useState<
+    (() => void | Promise<void>) | null
+  >(null);
 
   const confirm = (callback: () => void | Promise<void>) => {
     setOnConfirmCallback(() => callback);

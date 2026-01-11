@@ -1,0 +1,377 @@
+import { createClient } from '@/lib/supabase/server';
+import { NextRequest, NextResponse } from 'next/server';
+import { updateLineItemSchema } from '../../../validation';
+import { ZodError } from 'zod';
+
+interface RouteParams {
+  params: Promise<{
+    id: string;
+    changeEventId: string;
+    lineItemId: string;
+  }>;
+}
+
+/**
+ * GET /api/projects/[id]/change-events/[changeEventId]/line-items/[lineItemId]
+ * Returns a single line item
+ */
+export async function GET(
+  request: NextRequest,
+  { params }: RouteParams
+) {
+  try {
+    const { id: projectId, changeEventId, lineItemId } = await params;
+    const supabase = await createClient();
+
+    // Verify change event exists
+    const { data: changeEvent, error: eventError } = await supabase
+      .from('change_events')
+      .select('id')
+      .eq('project_id', parseInt(projectId, 10))
+      .eq('id', parseInt(changeEventId, 10))
+      .is('deleted_at', null)
+      .single();
+
+    if (eventError || !changeEvent) {
+      return NextResponse.json(
+        { error: 'Change event not found' },
+        { status: 404 }
+      );
+    }
+
+    // Get line item
+    const { data: lineItem, error } = await supabase
+      .from('change_event_line_items')
+      .select('*')
+      .eq('change_event_id', parseInt(changeEventId, 10))
+      .eq('id', parseInt(lineItemId, 10))
+      .single();
+
+    if (error || !lineItem) {
+      return NextResponse.json(
+        { error: 'Line item not found' },
+        { status: 404 }
+      );
+    }
+
+    // Format response
+    const response = {
+      id: lineItem.id,
+      changeEventId: lineItem.change_event_id,
+      description: lineItem.description,
+      costCode: lineItem.cost_code,
+      quantity: lineItem.quantity,
+      unitOfMeasure: lineItem.uom,
+      unitCost: lineItem.unit_cost,
+      extendedAmount: (lineItem.quantity || 0) * (lineItem.unit_cost || 0),
+      romAmount: lineItem.rom_amount,
+      totalAmount: lineItem.final_amount,
+      sortOrder: lineItem.sort_order || 0,
+      createdAt: lineItem.created_at,
+      updatedAt: lineItem.updated_at,
+      _links: {
+        self: `/api/projects/${projectId}/change-events/${changeEventId}/line-items/${lineItemId}`,
+        changeEvent: `/api/projects/${projectId}/change-events/${changeEventId}`,
+      },
+    };
+
+    return NextResponse.json(response);
+  } catch (error) {
+    console.error('Error in GET line item:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * PATCH /api/projects/[id]/change-events/[changeEventId]/line-items/[lineItemId]
+ * Updates a line item
+ */
+export async function PATCH(
+  request: NextRequest,
+  { params }: RouteParams
+) {
+  try {
+    const { id: projectId, changeEventId, lineItemId } = await params;
+    const supabase = await createClient();
+    const body = await request.json();
+
+    // Get current user
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Validate request body
+    const validatedData = updateLineItemSchema.parse(body);
+
+    // Verify change event exists and is not closed
+    const { data: changeEvent, error: eventError } = await supabase
+      .from('change_events')
+      .select('id, status')
+      .eq('project_id', parseInt(projectId, 10))
+      .eq('id', parseInt(changeEventId, 10))
+      .is('deleted_at', null)
+      .single();
+
+    if (eventError || !changeEvent) {
+      return NextResponse.json(
+        { error: 'Change event not found' },
+        { status: 404 }
+      );
+    }
+
+    if (changeEvent.status === 'closed') {
+      return NextResponse.json(
+        { error: 'Cannot update line items in a closed change event' },
+        { status: 409 }
+      );
+    }
+
+    // Get existing line item
+    const { data: existingItem, error: fetchError } = await supabase
+      .from('change_event_line_items')
+      .select('*')
+      .eq('change_event_id', parseInt(changeEventId, 10))
+      .eq('id', parseInt(lineItemId, 10))
+      .single();
+
+    if (fetchError || !existingItem) {
+      return NextResponse.json(
+        { error: 'Line item not found' },
+        { status: 404 }
+      );
+    }
+
+    // Get budget code if provided
+    let budgetCode = existingItem.cost_code;
+    if (validatedData.budgetCodeId) {
+      const { data: budgetLine } = await supabase
+        .from('budget_lines')
+        .select('cost_code')
+        .eq('id', validatedData.budgetCodeId)
+        .single();
+
+      if (budgetLine) {
+        budgetCode = budgetLine.cost_code;
+      }
+    }
+
+    // Build update object
+    const updates: any = {
+      updated_at: new Date().toISOString(),
+    };
+
+    if (validatedData.description !== undefined) updates.description = validatedData.description;
+    if (validatedData.budgetCodeId !== undefined) updates.cost_code = budgetCode;
+    if (validatedData.quantity !== undefined) updates.quantity = validatedData.quantity;
+    if (validatedData.unitOfMeasure !== undefined) updates.uom = validatedData.unitOfMeasure;
+    if (validatedData.unitCost !== undefined) updates.unit_cost = validatedData.unitCost;
+    if (validatedData.sortOrder !== undefined) updates.sort_order = validatedData.sortOrder;
+
+    // Calculate new amounts if quantity or unit cost changed
+    if (validatedData.quantity !== undefined || validatedData.unitCost !== undefined) {
+      const quantity = validatedData.quantity ?? existingItem.quantity ?? 0;
+      const unitCost = validatedData.unitCost ?? existingItem.unit_cost ?? 0;
+      const extendedAmount = quantity * unitCost;
+
+      updates.final_amount = extendedAmount;
+
+      if (validatedData.costRom !== undefined) {
+        updates.rom_amount = validatedData.costRom;
+      } else {
+        updates.rom_amount = extendedAmount;
+      }
+    }
+
+    if (validatedData.revenueRom !== undefined) updates.revenue_rom = validatedData.revenueRom;
+    if (validatedData.costRom !== undefined) updates.rom_amount = validatedData.costRom;
+    if (validatedData.nonCommittedCost !== undefined) updates.non_committed_cost = validatedData.nonCommittedCost;
+
+    // Update the line item
+    const { data, error } = await supabase
+      .from('change_event_line_items')
+      .update(updates)
+      .eq('id', parseInt(lineItemId, 10))
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error updating line item:', error);
+      return NextResponse.json(
+        { error: 'Failed to update line item', details: error.message },
+        { status: 400 }
+      );
+    }
+
+    // Update change event modification timestamp
+    await supabase
+      .from('change_events')
+      .update({
+        updated_at: new Date().toISOString(),
+        updated_by: user.id,
+      })
+      .eq('id', parseInt(changeEventId, 10));
+
+    // Create audit log entry
+    await supabase
+      .from('change_event_history')
+      .insert({
+        change_event_id: parseInt(changeEventId, 10),
+        field_name: 'line_item_updated',
+        old_value: existingItem.description,
+        new_value: data.description,
+        changed_by: user.id,
+        change_type: 'UPDATE',
+      });
+
+    // Format response
+    const response = {
+      id: data.id,
+      changeEventId: data.change_event_id,
+      description: data.description,
+      costCode: data.cost_code,
+      quantity: data.quantity,
+      unitOfMeasure: data.uom,
+      unitCost: data.unit_cost,
+      extendedAmount: (data.quantity || 0) * (data.unit_cost || 0),
+      romAmount: data.rom_amount,
+      totalAmount: data.final_amount,
+      sortOrder: data.sort_order,
+      updatedAt: data.updated_at,
+      _links: {
+        self: `/api/projects/${projectId}/change-events/${changeEventId}/line-items/${lineItemId}`,
+        changeEvent: `/api/projects/${projectId}/change-events/${changeEventId}`,
+      },
+    };
+
+    return NextResponse.json(response);
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return NextResponse.json(
+        {
+          error: 'Validation error',
+          details: error.issues.map(e => ({
+            field: e.path.join('.'),
+            message: e.message
+          })),
+        },
+        { status: 400 }
+      );
+    }
+
+    console.error('Error in PATCH line item:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}
+
+/**
+ * DELETE /api/projects/[id]/change-events/[changeEventId]/line-items/[lineItemId]
+ * Deletes a line item
+ */
+export async function DELETE(
+  request: NextRequest,
+  { params }: RouteParams
+) {
+  try {
+    const { id: projectId, changeEventId, lineItemId } = await params;
+    const supabase = await createClient();
+
+    // Get current user
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+
+    // Verify change event exists and is not closed
+    const { data: changeEvent, error: eventError } = await supabase
+      .from('change_events')
+      .select('id, status')
+      .eq('project_id', parseInt(projectId, 10))
+      .eq('id', parseInt(changeEventId, 10))
+      .is('deleted_at', null)
+      .single();
+
+    if (eventError || !changeEvent) {
+      return NextResponse.json(
+        { error: 'Change event not found' },
+        { status: 404 }
+      );
+    }
+
+    if (changeEvent.status === 'closed') {
+      return NextResponse.json(
+        { error: 'Cannot delete line items from a closed change event' },
+        { status: 409 }
+      );
+    }
+
+    // Get line item details before deletion
+    const { data: lineItem, error: fetchError } = await supabase
+      .from('change_event_line_items')
+      .select('description')
+      .eq('change_event_id', parseInt(changeEventId, 10))
+      .eq('id', parseInt(lineItemId, 10))
+      .single();
+
+    if (fetchError || !lineItem) {
+      return NextResponse.json(
+        { error: 'Line item not found' },
+        { status: 404 }
+      );
+    }
+
+    // Delete the line item
+    const { error } = await supabase
+      .from('change_event_line_items')
+      .delete()
+      .eq('id', parseInt(lineItemId, 10));
+
+    if (error) {
+      console.error('Error deleting line item:', error);
+      return NextResponse.json(
+        { error: 'Failed to delete line item', details: error.message },
+        { status: 400 }
+      );
+    }
+
+    // Update change event modification timestamp
+    await supabase
+      .from('change_events')
+      .update({
+        updated_at: new Date().toISOString(),
+        updated_by: user.id,
+      })
+      .eq('id', parseInt(changeEventId, 10));
+
+    // Create audit log entry
+    await supabase
+      .from('change_event_history')
+      .insert({
+        change_event_id: parseInt(changeEventId, 10),
+        field_name: 'line_item_removed',
+        old_value: lineItem.description,
+        changed_by: user.id,
+        change_type: 'UPDATE',
+      });
+
+    return new NextResponse(null, { status: 204 });
+  } catch (error) {
+    console.error('Error in DELETE line item:', error);
+    return NextResponse.json(
+      { error: 'Internal server error' },
+      { status: 500 }
+    );
+  }
+}

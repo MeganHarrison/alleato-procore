@@ -1,23 +1,23 @@
-import * as React from "react"
-import { CheckCircle2, Circle } from "lucide-react"
+import * as React from "react";
+import { CheckCircle2, Circle } from "lucide-react";
 
-import { NavUser } from "@/components/nav/nav-user"
+import { NavUser } from "@/components/nav/nav-user";
 import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
   SidebarSeparator,
-} from "@/components/ui/sidebar"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
 
 interface ProjectStep {
-  id: string
-  label: string
-  completed: boolean
+  id: string;
+  label: string;
+  completed: boolean;
 }
 
 interface SidebarRightProps extends React.ComponentProps<typeof Sidebar> {
-  projectSteps?: ProjectStep[]
+  projectSteps?: ProjectStep[];
 }
 
 const defaultSteps: ProjectStep[] = [
@@ -28,7 +28,7 @@ const defaultSteps: ProjectStep[] = [
   { id: "project-team", label: "Project Team", completed: false },
   { id: "sov", label: "SOV", completed: false },
   { id: "commitments", label: "Commitments", completed: false },
-]
+];
 
 export function SidebarRight({
   projectSteps = defaultSteps,
@@ -59,7 +59,7 @@ export function SidebarRight({
         {/* Vertical Stepper */}
         <div className="space-y-1">
           {projectSteps.map((step, index) => {
-            const isLast = index === projectSteps.length - 1
+            const isLast = index === projectSteps.length - 1;
 
             return (
               <div key={step.id} className="relative">
@@ -80,7 +80,7 @@ export function SidebarRight({
                       "text-sm font-medium transition-colors",
                       step.completed
                         ? "text-foreground"
-                        : "text-muted-foreground group-hover:text-foreground"
+                        : "text-muted-foreground group-hover:text-foreground",
                     )}
                   >
                     {step.label}
@@ -92,14 +92,12 @@ export function SidebarRight({
                   <div
                     className={cn(
                       "absolute left-[18px] top-[36px] w-[2px] h-[28px]",
-                      step.completed
-                        ? "bg-green-600/30"
-                        : "bg-border"
+                      step.completed ? "bg-green-600/30" : "bg-border",
                     )}
                   />
                 )}
               </div>
-            )
+            );
           })}
         </div>
 
@@ -112,19 +110,20 @@ export function SidebarRight({
               Progress
             </span>
             <span className="text-xs font-semibold text-foreground">
-              {projectSteps.filter(s => s.completed).length} / {projectSteps.length}
+              {projectSteps.filter((s) => s.completed).length} /{" "}
+              {projectSteps.length}
             </span>
           </div>
           <div className="w-full bg-border rounded-full h-2">
             <div
               className="bg-green-600 h-2 rounded-full transition-all duration-300"
               style={{
-                width: `${(projectSteps.filter(s => s.completed).length / projectSteps.length) * 100}%`
+                width: `${(projectSteps.filter((s) => s.completed).length / projectSteps.length) * 100}%`,
               }}
             />
           </div>
         </div>
       </SidebarContent>
     </Sidebar>
-  )
+  );
 }

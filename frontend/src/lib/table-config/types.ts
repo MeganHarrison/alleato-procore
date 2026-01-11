@@ -1,4 +1,4 @@
-import { ColumnDef } from "@tanstack/react-table"
+import { ColumnDef } from "@tanstack/react-table";
 
 export type ColumnFormat =
   | "text"
@@ -8,68 +8,68 @@ export type ColumnFormat =
   | "badge"
   | "number"
   | "percent"
-  | "array"
+  | "array";
 
 export interface ColumnConfig<T = Record<string, unknown>> {
   /** The key/accessor for this column in the data */
-  key: keyof T & string
+  key: keyof T & string;
   /** Display header text */
-  header: string
+  header: string;
   /** How to format the cell value */
-  format?: ColumnFormat
+  format?: ColumnFormat;
   /** Whether this column is sortable */
-  sortable?: boolean
+  sortable?: boolean;
   /** Whether this column is hidden by default */
-  hidden?: boolean
+  hidden?: boolean;
   /** Custom width class (e.g., "w-32", "min-w-[200px]") */
-  width?: string
+  width?: string;
   /** For badge format: mapping of values to colors */
-  badgeColors?: Record<string, string>
+  badgeColors?: Record<string, string>;
   /** For link format: whether to open in new tab */
-  linkExternal?: boolean
+  linkExternal?: boolean;
   /** Whether this column should be sticky (frozen) on horizontal scroll */
-  sticky?: boolean
+  sticky?: boolean;
   /** Make the cell value a clickable link to the row's detail page */
-  linkToRow?: boolean
+  linkToRow?: boolean;
   /** Custom cell renderer (overrides format) */
-  cell?: ColumnDef<T>["cell"]
+  cell?: ColumnDef<T>["cell"];
 }
 
 export interface TablePageConfig<T = Record<string, unknown>> {
   /** Page title */
-  title: string
+  title: string;
   /** Page description/subtitle */
-  description?: string
+  description?: string;
   /** Supabase table name */
-  table: string
+  table: string;
   /** Column configurations */
-  columns: ColumnConfig<T>[]
+  columns: ColumnConfig<T>[];
   /** Columns to use as search filters */
-  searchableColumns?: (keyof T & string)[]
+  searchableColumns?: (keyof T & string)[];
   /** Route for create button (if applicable) */
-  createRoute?: string
+  createRoute?: string;
   /** Label for create button */
-  createLabel?: string
+  createLabel?: string;
   /** Row actions to show */
-  actions?: ("view" | "edit" | "delete")[]
+  actions?: ("view" | "edit" | "delete")[];
   /** Route pattern for view action (use :id for id placeholder) */
-  viewRoute?: string
+  viewRoute?: string;
   /** Route pattern for edit action */
-  editRoute?: string
+  editRoute?: string;
   /** Default sort column */
-  defaultSort?: keyof T & string
+  defaultSort?: keyof T & string;
   /** Default sort direction */
-  defaultSortDirection?: "asc" | "desc"
+  defaultSortDirection?: "asc" | "desc";
   /** Select query string (defaults to "*") */
-  selectQuery?: string
+  selectQuery?: string;
   /** Additional query filters */
-  filters?: Record<string, unknown>
+  filters?: Record<string, unknown>;
   /** Page size options */
-  pageSizeOptions?: number[]
+  pageSizeOptions?: number[];
   /** Default page size */
-  defaultPageSize?: number
+  defaultPageSize?: number;
 }
 
 export interface TablePageProps<T = Record<string, unknown>> {
-  config: TablePageConfig<T>
+  config: TablePageConfig<T>;
 }

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback } from "react";
 
 export interface RoleMember {
   id: string;
@@ -29,7 +29,10 @@ interface UseProjectRolesResult {
   isLoading: boolean;
   error: Error | null;
   refetch: () => Promise<void>;
-  updateRoleMembers: (roleId: string, memberPersonIds: string[]) => Promise<void>;
+  updateRoleMembers: (
+    roleId: string,
+    memberPersonIds: string[],
+  ) => Promise<void>;
   createRole: (roleName: string) => Promise<ProjectRole>;
 }
 
@@ -45,15 +48,17 @@ export function useProjectRoles(projectId: string): UseProjectRolesResult {
     setError(null);
 
     try {
-      const response = await fetch(`/api/projects/${projectId}/directory/roles`);
+      const response = await fetch(
+        `/api/projects/${projectId}/directory/roles`,
+      );
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to fetch roles');
+        throw new Error(data.error || "Failed to fetch roles");
       }
       const { data } = await response.json();
       setRoles(data || []);
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('Unknown error'));
+      setError(err instanceof Error ? err : new Error("Unknown error"));
     } finally {
       setIsLoading(false);
     }
@@ -65,34 +70,43 @@ export function useProjectRoles(projectId: string): UseProjectRolesResult {
 
   const updateRoleMembers = useCallback(
     async (roleId: string, memberPersonIds: string[]) => {
-      const response = await fetch(`/api/projects/${projectId}/directory/roles`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ role_id: roleId, member_person_ids: memberPersonIds }),
-      });
+      const response = await fetch(
+        `/api/projects/${projectId}/directory/roles`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            role_id: roleId,
+            member_person_ids: memberPersonIds,
+          }),
+        },
+      );
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to update role members');
+        throw new Error(data.error || "Failed to update role members");
       }
 
       // Refetch to get updated data
       await fetchRoles();
     },
-    [projectId, fetchRoles]
+    [projectId, fetchRoles],
   );
 
   const createRole = useCallback(
     async (roleName: string): Promise<ProjectRole> => {
-      const response = await fetch(`/api/projects/${projectId}/directory/roles`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ role_name: roleName }),
-      });
+      const response = await fetch(
+        `/api/projects/${projectId}/directory/roles`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ role_name: roleName }),
+        },
+      );
 
       if (!response.ok) {
         const data = await response.json();
-        throw new Error(data.error || 'Failed to create role');
+        throw new Error(data.error || "Failed to create role");
       }
 
       const { data } = await response.json();
@@ -102,7 +116,7 @@ export function useProjectRoles(projectId: string): UseProjectRolesResult {
 
       return { ...data, members: [] };
     },
-    [projectId, fetchRoles]
+    [projectId, fetchRoles],
   );
 
   return {

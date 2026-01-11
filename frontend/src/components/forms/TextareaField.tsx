@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Textarea } from "@/components/ui/textarea"
-import { FormField } from "./FormField"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { Textarea } from "@/components/ui/textarea";
+import { FormField } from "./FormField";
+import { cn } from "@/lib/utils";
 
 interface TextareaFieldProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  label: string
-  error?: string
-  hint?: string
-  required?: boolean
-  fullWidth?: boolean
+  label: string;
+  error?: string;
+  hint?: string;
+  required?: boolean;
+  fullWidth?: boolean;
 }
 
 export function TextareaField({
@@ -37,5 +37,5 @@ export function TextareaField({
         {...textareaProps}
       />
     </FormField>
-  )
+  );
 }

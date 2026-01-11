@@ -1,8 +1,8 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { DistributionGroupService } from '@/services/distributionGroupService';
-import { PermissionService } from '@/services/permissionService';
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { DistributionGroupService } from "@/services/distributionGroupService";
+import { PermissionService } from "@/services/permissionService";
 
 interface RouteParams {
   params: Promise<{ id: string; groupId: string }>;
@@ -20,18 +20,18 @@ interface RouteParams {
  * @param params.groupId - The distribution group ID from the route parameters
  * @returns An HTTP JSON NextResponse describing the result. On success the body is `{ success: true }`. On error the body is `{ error: string }` with an appropriate status code: 400 (bad request), 401 (unauthorized), 403 (forbidden), or 500 (internal server error).
  */
-export async function POST(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, groupId } = await params;
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions
@@ -39,12 +39,12 @@ export async function POST(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'admin'
+      "directory",
+      "admin",
     );
 
     if (!hasPermission) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     // Parse request body
@@ -57,7 +57,7 @@ export async function POST(
       // Bulk update members
       await groupService.updateMembers(groupId, {
         add: body.add,
-        remove: body.remove
+        remove: body.remove,
       });
     } else if (body.person_ids) {
       // Add multiple members
@@ -67,17 +67,17 @@ export async function POST(
       await groupService.addMembers(groupId, [body.person_id]);
     } else {
       return NextResponse.json(
-        { error: 'No members specified' },
-        { status: 400 }
+        { error: "No members specified" },
+        { status: 400 },
       );
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error updating group members:', error);
+    console.error("Error updating group members:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

@@ -1,20 +1,20 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 interface FormProps extends React.FormHTMLAttributes<HTMLFormElement> {
-  children: React.ReactNode
-  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void
+  children: React.ReactNode;
+  onSubmit?: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export function Form({ children, className, onSubmit, ...props }: FormProps) {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     if (onSubmit) {
-      e.preventDefault()
-      onSubmit(e)
+      e.preventDefault();
+      onSubmit(e);
     }
-  }
+  };
 
   return (
     <form
@@ -24,5 +24,5 @@ export function Form({ children, className, onSubmit, ...props }: FormProps) {
     >
       {children}
     </form>
-  )
+  );
 }

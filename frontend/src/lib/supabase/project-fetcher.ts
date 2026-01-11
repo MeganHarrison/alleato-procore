@@ -1,8 +1,8 @@
-import { createServiceClient } from './service'
-import { notFound } from 'next/navigation'
-import type { Database } from '@/types/database.types'
+import { createServiceClient } from "./service";
+import { notFound } from "next/navigation";
+import type { Database } from "@/types/database.types";
 
-type Project = Database['public']['Tables']['projects']['Row']
+type Project = Database["public"]["Tables"]["projects"]["Row"];
 
 /**
  * Fetches a project by ID from the URL params.
@@ -30,29 +30,29 @@ type Project = Database['public']['Tables']['projects']['Row']
  * ```
  */
 export async function getProjectById(projectId: string): Promise<{
-  project: Project
-  numericProjectId: number
-  supabase: ReturnType<typeof createServiceClient>
+  project: Project;
+  numericProjectId: number;
+  supabase: ReturnType<typeof createServiceClient>;
 }> {
-  const numericProjectId = parseInt(projectId, 10)
+  const numericProjectId = parseInt(projectId, 10);
 
   if (isNaN(numericProjectId)) {
-    notFound()
+    notFound();
   }
 
-  const supabase = createServiceClient()
+  const supabase = createServiceClient();
 
   const { data: project, error } = await supabase
-    .from('projects')
-    .select('*')
-    .eq('id', numericProjectId)
-    .single()
+    .from("projects")
+    .select("*")
+    .eq("id", numericProjectId)
+    .single();
 
   if (error || !project) {
-    notFound()
+    notFound();
   }
 
-  return { project, numericProjectId, supabase }
+  return { project, numericProjectId, supabase };
 }
 
 /**
@@ -63,29 +63,29 @@ export async function getProjectById(projectId: string): Promise<{
  * @returns Object with project info, numeric projectId, and supabase client
  */
 export async function getProjectInfo(projectId: string): Promise<{
-  project: Pick<Project, 'id' | 'name' | 'client'>
-  numericProjectId: number
-  supabase: ReturnType<typeof createServiceClient>
+  project: Pick<Project, "id" | "name" | "client">;
+  numericProjectId: number;
+  supabase: ReturnType<typeof createServiceClient>;
 }> {
-  const numericProjectId = parseInt(projectId, 10)
+  const numericProjectId = parseInt(projectId, 10);
 
   if (isNaN(numericProjectId)) {
-    notFound()
+    notFound();
   }
 
-  const supabase = createServiceClient()
+  const supabase = createServiceClient();
 
   const { data: project, error } = await supabase
-    .from('projects')
-    .select('id, name, client')
-    .eq('id', numericProjectId)
-    .single()
+    .from("projects")
+    .select("id, name, client")
+    .eq("id", numericProjectId)
+    .single();
 
   if (error || !project) {
-    notFound()
+    notFound();
   }
 
-  return { project, numericProjectId, supabase }
+  return { project, numericProjectId, supabase };
 }
 
 /**
@@ -96,11 +96,11 @@ export async function getProjectInfo(projectId: string): Promise<{
  * @returns The numeric project ID
  */
 export function parseProjectId(projectId: string): number {
-  const numericProjectId = parseInt(projectId, 10)
+  const numericProjectId = parseInt(projectId, 10);
 
   if (isNaN(numericProjectId)) {
-    notFound()
+    notFound();
   }
 
-  return numericProjectId
+  return numericProjectId;
 }

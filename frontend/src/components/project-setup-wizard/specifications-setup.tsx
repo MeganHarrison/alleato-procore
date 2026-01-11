@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import { useState, useCallback } from "react"
-import { useDropzone } from "react-dropzone"
-import { createClient } from "@/lib/supabase/client"
-import { Button } from "@/components/ui/button"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Progress } from "@/components/ui/progress"
+import { useState, useCallback } from "react";
+import { useDropzone } from "react-dropzone";
+import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Progress } from "@/components/ui/progress";
 import {
   Table,
   TableBody,
@@ -13,7 +13,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   Upload,
   File,
@@ -23,169 +23,182 @@ import {
   CheckCircle2,
   Loader2,
   X,
-} from "lucide-react"
-import { StepComponentProps } from "./project-setup-wizard"
+} from "lucide-react";
+import { StepComponentProps } from "./project-setup-wizard";
 
 interface UploadedDocument {
-  id: string
-  project_id: number
-  title: string
-  file_id: string
-  url: string
-  content: string
+  id: string;
+  project_id: number;
+  title: string;
+  file_id: string;
+  url: string;
+  content: string;
   metadata: {
-    fileName: string
-    fileType: string
-    fileSize: number
-    category: string
-  }
+    fileName: string;
+    fileType: string;
+    fileSize: number;
+    category: string;
+  };
 }
 
 interface UploadingFile {
-  id: string
-  file: File
-  progress: number
-  status: "uploading" | "success" | "error"
-  error?: string
-  documentId?: string
+  id: string;
+  file: File;
+  progress: number;
+  status: "uploading" | "success" | "error";
+  error?: string;
+  documentId?: string;
 }
 
-export function SpecificationsSetup({ projectId, onNext, onSkip }: StepComponentProps) {
-  const [uploadingFiles, setUploadingFiles] = useState<UploadingFile[]>([])
-  const [uploadedDocuments, setUploadedDocuments] = useState<UploadedDocument[]>([])
-  const [error, setError] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
+export function SpecificationsSetup({
+  projectId,
+  onNext,
+  onSkip,
+}: StepComponentProps) {
+  const [uploadingFiles, setUploadingFiles] = useState<UploadingFile[]>([]);
+  const [uploadedDocuments, setUploadedDocuments] = useState<
+    UploadedDocument[]
+  >([]);
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
-  const supabase = createClient()
+  const supabase = createClient();
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
-    setError(null)
+  const onDrop = useCallback(
+    async (acceptedFiles: File[]) => {
+      setError(null);
 
-    const newFiles: UploadingFile[] = acceptedFiles.map(file => ({
-      id: Math.random().toString(36).substr(2, 9),
-      file,
-      progress: 0,
-      status: "uploading" as const,
-    }))
+      const newFiles: UploadingFile[] = acceptedFiles.map((file) => ({
+        id: Math.random().toString(36).substr(2, 9),
+        file,
+        progress: 0,
+        status: "uploading" as const,
+      }));
 
-    setUploadingFiles(prev => [...prev, ...newFiles])
+      setUploadingFiles((prev) => [...prev, ...newFiles]);
 
-    for (const uploadFile of newFiles) {
-      try {
-        const fileExt = uploadFile.file.name.split('.').pop()
-        const filePath = `projects/${projectId}/specifications/${uploadFile.id}.${fileExt}`
+      for (const uploadFile of newFiles) {
+        try {
+          const fileExt = uploadFile.file.name.split(".").pop();
+          const filePath = `projects/${projectId}/specifications/${uploadFile.id}.${fileExt}`;
 
-        const { error: uploadError } = await supabase.storage
-          .from("specifications")
-          .upload(filePath, uploadFile.file)
+          const { error: uploadError } = await supabase.storage
+            .from("specifications")
+            .upload(filePath, uploadFile.file);
 
-        if (uploadError) {
-          throw new Error(`Storage upload failed: ${uploadError.message || JSON.stringify(uploadError)}`)
+          if (uploadError) {
+            throw new Error(
+              `Storage upload failed: ${uploadError.message || JSON.stringify(uploadError)}`,
+            );
+          }
+
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from("specifications").getPublicUrl(filePath);
+
+          const { data: document, error: dbError } = await supabase
+            .from("files")
+            .insert({
+              id: uploadFile.id,
+              content: uploadFile.file.name,
+              url: publicUrl,
+              status: "active",
+              project_id: parseInt(projectId, 10),
+              title: uploadFile.file.name,
+              category: "specifications",
+              metadata: {
+                fileName: uploadFile.file.name,
+                fileType: uploadFile.file.type || "application/octet-stream",
+                fileSize: uploadFile.file.size,
+              },
+            })
+            .select()
+            .single();
+
+          if (dbError) {
+            throw new Error(
+              `Database insert failed: ${dbError.message || JSON.stringify(dbError)}`,
+            );
+          }
+
+          setUploadingFiles((prev) =>
+            prev.map((f) =>
+              f.id === uploadFile.id
+                ? { ...f, status: "success" as const, documentId: document.id }
+                : f,
+            ),
+          );
+
+          setUploadedDocuments((prev) => [...prev, document]);
+        } catch (err) {
+          let errorMessage = "Upload failed";
+
+          if (err && typeof err === "object" && "message" in err) {
+            errorMessage = String(err.message);
+          } else if (err instanceof Error) {
+            errorMessage = err.message;
+          } else if (typeof err === "string") {
+            errorMessage = err;
+          }
+
+          setUploadingFiles((prev) =>
+            prev.map((f) =>
+              f.id === uploadFile.id
+                ? {
+                    ...f,
+                    status: "error" as const,
+                    error: errorMessage,
+                  }
+                : f,
+            ),
+          );
         }
-
-        const { data: { publicUrl } } = supabase.storage
-          .from("specifications")
-          .getPublicUrl(filePath)
-
-        const { data: document, error: dbError } = await supabase
-          .from("files")
-          .insert({
-            id: uploadFile.id,
-            content: uploadFile.file.name,
-            url: publicUrl,
-            status: "active",
-            project_id: parseInt(projectId, 10),
-            title: uploadFile.file.name,
-            category: "specifications",
-            metadata: {
-              fileName: uploadFile.file.name,
-              fileType: uploadFile.file.type || "application/octet-stream",
-              fileSize: uploadFile.file.size,
-            },
-          })
-          .select()
-          .single()
-
-        if (dbError) {
-          throw new Error(`Database insert failed: ${dbError.message || JSON.stringify(dbError)}`)
-        }
-
-        setUploadingFiles(prev =>
-          prev.map(f =>
-            f.id === uploadFile.id
-              ? { ...f, status: "success" as const, documentId: document.id }
-              : f
-          )
-        )
-
-        setUploadedDocuments(prev => [...prev, document])
-
-      } catch (err) {
-        let errorMessage = 'Upload failed'
-
-        if (err && typeof err === 'object' && 'message' in err) {
-          errorMessage = String(err.message)
-        } else if (err instanceof Error) {
-          errorMessage = err.message
-        } else if (typeof err === 'string') {
-          errorMessage = err
-        }
-
-        setUploadingFiles(prev =>
-          prev.map(f =>
-            f.id === uploadFile.id
-              ? {
-                  ...f,
-                  status: "error" as const,
-                  error: errorMessage
-                }
-              : f
-          )
-        )
       }
-    }
-  }, [projectId, supabase])
+    },
+    [projectId, supabase],
+  );
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      'application/pdf': ['.pdf'],
-      'application/msword': ['.doc', '.docx'],
-      'text/plain': ['.txt'],
+      "application/pdf": [".pdf"],
+      "application/msword": [".doc", ".docx"],
+      "text/plain": [".txt"],
     },
     maxSize: 50 * 1024 * 1024,
-  })
+  });
 
   const removeFile = (fileId: string) => {
-    setUploadingFiles(prev => prev.filter(f => f.id !== fileId))
-  }
+    setUploadingFiles((prev) => prev.filter((f) => f.id !== fileId));
+  };
 
   const deleteDocument = async (documentId: string) => {
     try {
-      setLoading(true)
+      setLoading(true);
 
       const { error } = await supabase
         .from("files")
         .delete()
-        .eq("id", documentId)
+        .eq("id", documentId);
 
-      if (error) throw error
+      if (error) throw error;
 
-      setUploadedDocuments(prev => prev.filter(d => d.id !== documentId))
-
+      setUploadedDocuments((prev) => prev.filter((d) => d.id !== documentId));
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Failed to delete document")
+      setError(
+        err instanceof Error ? err.message : "Failed to delete document",
+      );
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const formatFileSize = (bytes: number) => {
-    const sizes = ['B', 'KB', 'MB', 'GB']
-    if (bytes === 0) return '0 B'
-    const i = Math.floor(Math.log(bytes) / Math.log(1024))
-    return Math.round(bytes / Math.pow(1024, i) * 100) / 100 + ' ' + sizes[i]
-  }
+    const sizes = ["B", "KB", "MB", "GB"];
+    if (bytes === 0) return "0 B";
+    const i = Math.floor(Math.log(bytes) / Math.log(1024));
+    return Math.round((bytes / Math.pow(1024, i)) * 100) / 100 + " " + sizes[i];
+  };
 
   return (
     <div className="space-y-6">
@@ -198,7 +211,8 @@ export function SpecificationsSetup({ projectId, onNext, onSkip }: StepComponent
 
       <div className="space-y-4">
         <p className="text-muted-foreground">
-          Upload project specifications and technical documents. You can add more specifications anytime after setup.
+          Upload project specifications and technical documents. You can add
+          more specifications anytime after setup.
         </p>
 
         <div
@@ -235,7 +249,9 @@ export function SpecificationsSetup({ projectId, onNext, onSkip }: StepComponent
               >
                 <FileText className="h-5 w-5 text-muted-foreground flex-shrink-0" />
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium truncate">{file.file.name}</p>
+                  <p className="text-sm font-medium truncate">
+                    {file.file.name}
+                  </p>
                   <p className="text-xs text-muted-foreground">
                     {formatFileSize(file.file.size)}
                   </p>
@@ -243,7 +259,9 @@ export function SpecificationsSetup({ projectId, onNext, onSkip }: StepComponent
                     <Progress value={file.progress} className="h-1 mt-1" />
                   )}
                   {file.error && (
-                    <p className="text-xs text-destructive mt-1">{file.error}</p>
+                    <p className="text-xs text-destructive mt-1">
+                      {file.error}
+                    </p>
                   )}
                 </div>
                 <div className="flex items-center gap-2">
@@ -315,11 +333,15 @@ export function SpecificationsSetup({ projectId, onNext, onSkip }: StepComponent
         </Button>
         <Button
           onClick={onNext}
-          disabled={loading || uploadingFiles.some(f => f.status === "uploading")}
+          disabled={
+            loading || uploadingFiles.some((f) => f.status === "uploading")
+          }
         >
-          {uploadingFiles.some(f => f.status === "uploading") ? "Uploading..." : "Continue"}
+          {uploadingFiles.some((f) => f.status === "uploading")
+            ? "Uploading..."
+            : "Continue"}
         </Button>
       </div>
     </div>
-  )
+  );
 }

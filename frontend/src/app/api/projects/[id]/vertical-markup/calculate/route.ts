@@ -1,5 +1,5 @@
-import { createClient } from '@/lib/supabase/server';
-import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from "@/lib/supabase/server";
+import { NextRequest, NextResponse } from "next/server";
 
 interface MarkupItem {
   id: string;
@@ -30,12 +30,17 @@ interface CalculationResult {
  * 3. Insurance 2% (compound): ($100,000 + $10,000 + $5,500) * 2% = $2,310
  * Total: $117,810
  */
-function calculateMarkups(baseAmount: number, markups: MarkupItem[]): {
+function calculateMarkups(
+  baseAmount: number,
+  markups: MarkupItem[],
+): {
   calculations: CalculationResult[];
   totalMarkup: number;
   finalAmount: number;
 } {
-  const sortedMarkups = [...markups].sort((a, b) => a.calculation_order - b.calculation_order);
+  const sortedMarkups = [...markups].sort(
+    (a, b) => a.calculation_order - b.calculation_order,
+  );
 
   let runningTotal = baseAmount;
   let totalMarkup = 0;
@@ -68,7 +73,7 @@ function calculateMarkups(baseAmount: number, markups: MarkupItem[]): {
 // POST /api/projects/[id]/vertical-markup/calculate - Calculate vertical markup for a given amount
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -76,18 +81,18 @@ export async function POST(
 
     if (isNaN(projectId)) {
       return NextResponse.json(
-        { error: 'Invalid project ID' },
-        { status: 400 }
+        { error: "Invalid project ID" },
+        { status: 400 },
       );
     }
 
     const body = await request.json();
     const { baseAmount } = body;
 
-    if (baseAmount === undefined || typeof baseAmount !== 'number') {
+    if (baseAmount === undefined || typeof baseAmount !== "number") {
       return NextResponse.json(
-        { error: 'baseAmount is required and must be a number' },
-        { status: 400 }
+        { error: "baseAmount is required and must be a number" },
+        { status: 400 },
       );
     }
 
@@ -95,16 +100,16 @@ export async function POST(
 
     // Fetch project's vertical markup settings
     const { data: markups, error } = await supabase
-      .from('vertical_markup')
-      .select('*')
-      .eq('project_id', projectId)
-      .order('calculation_order', { ascending: true });
+      .from("vertical_markup")
+      .select("*")
+      .eq("project_id", projectId)
+      .order("calculation_order", { ascending: true });
 
     if (error) {
-      console.error('Error fetching vertical markups:', error);
+      console.error("Error fetching vertical markups:", error);
       return NextResponse.json(
-        { error: 'Failed to fetch vertical markup settings' },
-        { status: 500 }
+        { error: "Failed to fetch vertical markup settings" },
+        { status: 500 },
       );
     }
 
@@ -114,7 +119,7 @@ export async function POST(
         calculations: [],
         totalMarkup: 0,
         finalAmount: baseAmount,
-        message: 'No vertical markup settings configured for this project',
+        message: "No vertical markup settings configured for this project",
       });
     }
 
@@ -125,10 +130,10 @@ export async function POST(
       ...result,
     });
   } catch (error) {
-    console.error('Error in vertical markup calculation route:', error);
+    console.error("Error in vertical markup calculation route:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

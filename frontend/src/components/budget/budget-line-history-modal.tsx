@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { BaseModal, ModalBody, ModalFooter } from './modals/BaseModal';
-import { Button } from '@/components/ui/button';
-import { formatDistanceToNow } from 'date-fns';
+import { useEffect, useState } from "react";
+import { BaseModal, ModalBody, ModalFooter } from "./modals/BaseModal";
+import { Button } from "@/components/ui/button";
+import { formatDistanceToNow } from "date-fns";
 
 interface HistoryEntry {
   id: string;
@@ -16,7 +16,7 @@ interface HistoryEntry {
     name: string;
   };
   changed_at: string;
-  change_type: 'create' | 'update' | 'delete';
+  change_type: "create" | "update" | "delete";
   notes: string | null;
 }
 
@@ -50,18 +50,18 @@ export function BudgetLineHistoryModal({
 
       try {
         const response = await fetch(
-          `/api/projects/${projectId}/budget/lines/${lineItem.id}/history`
+          `/api/projects/${projectId}/budget/lines/${lineItem.id}/history`,
         );
 
         if (!response.ok) {
-          throw new Error('Failed to fetch change history');
+          throw new Error("Failed to fetch change history");
         }
 
         const data = await response.json();
         setHistory(data.history || []);
       } catch (err) {
-        console.error('Error fetching history:', err);
-        setError(err instanceof Error ? err.message : 'Failed to load history');
+        console.error("Error fetching history:", err);
+        setError(err instanceof Error ? err.message : "Failed to load history");
       } finally {
         setLoading(false);
       }
@@ -72,41 +72,40 @@ export function BudgetLineHistoryModal({
 
   const formatFieldName = (fieldName: string) => {
     const fieldMap: Record<string, string> = {
-      quantity: 'Quantity',
-      unit_cost: 'Unit Cost',
-      description: 'Description',
-      deleted: 'Status',
+      quantity: "Quantity",
+      unit_cost: "Unit Cost",
+      description: "Description",
+      deleted: "Status",
     };
     return fieldMap[fieldName] || fieldName;
   };
 
   const formatValue = (fieldName: string, value: string | null) => {
-    if (value === null || value === '') return 'Empty';
+    if (value === null || value === "") return "Empty";
 
-    if (fieldName === 'unit_cost') {
+    if (fieldName === "unit_cost") {
       const num = parseFloat(value);
-      return `$${num.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
+      return `$${num.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
     }
 
-    if (fieldName === 'quantity') {
+    if (fieldName === "quantity") {
       const num = parseFloat(value);
-      return num.toLocaleString('en-US');
+      return num.toLocaleString("en-US");
     }
 
     return value;
   };
 
   return (
-    <BaseModal
-      isOpen={open}
-      onClose={onClose}
-      title="Change History"
-      size="md"
-    >
+    <BaseModal isOpen={open} onClose={onClose} title="Change History" size="md">
       <ModalBody className="space-y-4 bg-white">
         <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 shadow-sm">
-          <div className="text-xs uppercase tracking-[0.18em] text-slate-500">Line Item</div>
-          <div className="mt-1 font-semibold text-slate-900">{lineItem.costCode}</div>
+          <div className="text-xs uppercase tracking-[0.18em] text-slate-500">
+            Line Item
+          </div>
+          <div className="mt-1 font-semibold text-slate-900">
+            {lineItem.costCode}
+          </div>
           <div className="text-sm text-slate-600">{lineItem.description}</div>
         </div>
 
@@ -134,36 +133,66 @@ export function BudgetLineHistoryModal({
               <div
                 key={entry.id}
                 className={`border-l-4 ${
-                  entry.change_type === 'create'
-                    ? 'border-green-500/70'
-                    : entry.change_type === 'delete'
-                    ? 'border-red-500/70'
-                    : 'border-blue-500/70'
-                } pl-4 pb-4 ${index < history.length - 1 ? 'mb-1' : ''} rounded-lg bg-white shadow-[0_10px_30px_-24px_rgba(0,0,0,0.45)]`}
+                  entry.change_type === "create"
+                    ? "border-green-500/70"
+                    : entry.change_type === "delete"
+                      ? "border-red-500/70"
+                      : "border-blue-500/70"
+                } pl-4 pb-4 ${index < history.length - 1 ? "mb-1" : ""} rounded-lg bg-white shadow-[0_10px_30px_-24px_rgba(0,0,0,0.45)]`}
               >
                 <div className="flex items-start gap-3">
                   <div
                     className={`flex-shrink-0 w-9 h-9 rounded-full flex items-center justify-center ${
-                      entry.change_type === 'create'
-                        ? 'bg-green-100 text-green-600'
-                        : entry.change_type === 'delete'
-                        ? 'bg-red-100 text-red-600'
-                        : 'bg-blue-100 text-blue-600'
+                      entry.change_type === "create"
+                        ? "bg-green-100 text-green-600"
+                        : entry.change_type === "delete"
+                          ? "bg-red-100 text-red-600"
+                          : "bg-blue-100 text-blue-600"
                     }`}
                   >
-                    {entry.change_type === 'create' && (
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4v16m8-8H4" />
+                    {entry.change_type === "create" && (
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M12 4v16m8-8H4"
+                        />
                       </svg>
                     )}
-                    {entry.change_type === 'delete' && (
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                    {entry.change_type === "delete" && (
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M6 18L18 6M6 6l12 12"
+                        />
                       </svg>
                     )}
-                    {entry.change_type === 'update' && (
-                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    {entry.change_type === "update" && (
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={2}
+                          d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+                        />
                       </svg>
                     )}
                   </div>
@@ -172,29 +201,31 @@ export function BudgetLineHistoryModal({
                       {entry.changed_by.name}
                     </div>
                     <div className="text-xs text-gray-500">
-                      {formatDistanceToNow(new Date(entry.changed_at), { addSuffix: true })}
+                      {formatDistanceToNow(new Date(entry.changed_at), {
+                        addSuffix: true,
+                      })}
                     </div>
                     <div className="mt-2 text-sm">
-                      {entry.change_type === 'create' && (
+                      {entry.change_type === "create" && (
                         <span className="text-gray-700">
-                          Created {formatFieldName(entry.field_name)}:{' '}
+                          Created {formatFieldName(entry.field_name)}:{" "}
                           <span className="font-medium text-green-700">
                             {formatValue(entry.field_name, entry.new_value)}
                           </span>
                         </span>
                       )}
-                      {entry.change_type === 'delete' && (
+                      {entry.change_type === "delete" && (
                         <span className="text-gray-700">
                           Deleted this line item
                         </span>
                       )}
-                      {entry.change_type === 'update' && (
+                      {entry.change_type === "update" && (
                         <span className="text-gray-700">
-                          Changed {formatFieldName(entry.field_name)} from{' '}
+                          Changed {formatFieldName(entry.field_name)} from{" "}
                           <span className="line-through text-red-600">
                             {formatValue(entry.field_name, entry.old_value)}
-                          </span>{' '}
-                          to{' '}
+                          </span>{" "}
+                          to{" "}
                           <span className="font-medium text-green-700">
                             {formatValue(entry.field_name, entry.new_value)}
                           </span>
@@ -215,7 +246,11 @@ export function BudgetLineHistoryModal({
       </ModalBody>
 
       <ModalFooter>
-        <Button variant="outline" onClick={onClose} className="w-full sm:w-auto">
+        <Button
+          variant="outline"
+          onClick={onClose}
+          className="w-full sm:w-auto"
+        >
           Close
         </Button>
       </ModalFooter>

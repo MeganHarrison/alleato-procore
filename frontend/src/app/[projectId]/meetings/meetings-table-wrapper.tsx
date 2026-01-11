@@ -1,31 +1,34 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { useRouter } from 'next/navigation'
-import { MeetingsTable } from '@/components/meetings/meetings-table'
-import { EditMeetingModal } from '@/components/meetings/edit-meeting-modal'
-import type { Database } from '@/types/database.types'
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { MeetingsTable } from "@/components/meetings/meetings-table";
+import { EditMeetingModal } from "@/components/meetings/edit-meeting-modal";
+import type { Database } from "@/types/database.types";
 
-type Meeting = Database['public']['Tables']['document_metadata']['Row']
+type Meeting = Database["public"]["Tables"]["document_metadata"]["Row"];
 
 interface MeetingsTableWrapperProps {
-  meetings: Meeting[]
-  projectId: string
+  meetings: Meeting[];
+  projectId: string;
 }
 
-export function MeetingsTableWrapper({ meetings, projectId }: MeetingsTableWrapperProps) {
-  const router = useRouter()
-  const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null)
-  const [isEditModalOpen, setIsEditModalOpen] = useState(false)
+export function MeetingsTableWrapper({
+  meetings,
+  projectId,
+}: MeetingsTableWrapperProps) {
+  const router = useRouter();
+  const [selectedMeeting, setSelectedMeeting] = useState<Meeting | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
 
   const handleEdit = (meeting: Meeting) => {
-    setSelectedMeeting(meeting)
-    setIsEditModalOpen(true)
-  }
+    setSelectedMeeting(meeting);
+    setIsEditModalOpen(true);
+  };
 
   const handleSuccess = () => {
-    router.refresh()
-  }
+    router.refresh();
+  };
 
   return (
     <>
@@ -42,5 +45,5 @@ export function MeetingsTableWrapper({ meetings, projectId }: MeetingsTableWrapp
         onSuccess={handleSuccess}
       />
     </>
-  )
+  );
 }

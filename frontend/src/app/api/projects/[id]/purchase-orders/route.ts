@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { CreatePurchaseOrderSchema } from '@/lib/schemas/create-purchase-order-schema';
+import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { CreatePurchaseOrderSchema } from "@/lib/schemas/create-purchase-order-schema";
 
 /**
  * GET /api/projects/[id]/purchase-orders
@@ -8,7 +8,7 @@ import { CreatePurchaseOrderSchema } from '@/lib/schemas/create-purchase-order-s
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id: projectId } = await params;
@@ -20,29 +20,29 @@ export async function GET(
     } = await supabase.auth.getUser();
 
     if (userError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     const { data, error } = await supabase
-      .from('purchase_orders_with_totals')
-      .select('*')
-      .eq('project_id', projectId)
-      .order('created_at', { ascending: false });
+      .from("purchase_orders_with_totals")
+      .select("*")
+      .eq("project_id", projectId)
+      .order("created_at", { ascending: false });
 
     if (error) {
-      console.error('Error fetching purchase orders:', error);
+      console.error("Error fetching purchase orders:", error);
       return NextResponse.json(
-        { error: 'Failed to fetch purchase orders' },
-        { status: 500 }
+        { error: "Failed to fetch purchase orders" },
+        { status: 500 },
       );
     }
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Unexpected error:', error);
+    console.error("Unexpected error:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -53,7 +53,7 @@ export async function GET(
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   const { id: projectId } = await params;
 
@@ -67,41 +67,41 @@ export async function POST(
 
     if (userError) {
       return NextResponse.json(
-        { error: 'Authentication failed', details: userError.message },
-        { status: 401 }
+        { error: "Authentication failed", details: userError.message },
+        { status: 401 },
       );
     }
 
     if (!user) {
       return NextResponse.json(
-        { error: 'Unauthorized - no user session' },
-        { status: 401 }
+        { error: "Unauthorized - no user session" },
+        { status: 401 },
       );
     }
 
     // Check project access
     const { data: projectAccess, error: accessError } = await supabase
-      .from('project_users')
-      .select('role')
-      .eq('project_id', parseInt(projectId))
-      .eq('user_id', user.id)
+      .from("project_users")
+      .select("role")
+      .eq("project_id", parseInt(projectId))
+      .eq("user_id", user.id)
       .single();
 
     if (accessError || !projectAccess) {
       return NextResponse.json(
         {
-          error: 'Access denied',
+          error: "Access denied",
           details: `User is not a member of project ${projectId}`,
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
-    const allowedRoles = ['admin', 'project_manager', 'editor'];
+    const allowedRoles = ["admin", "project_manager", "editor"];
     if (!allowedRoles.includes(projectAccess.role)) {
       return NextResponse.json(
-        { error: 'Insufficient permissions' },
-        { status: 403 }
+        { error: "Insufficient permissions" },
+        { status: 403 },
       );
     }
 
@@ -111,10 +111,10 @@ export async function POST(
     if (!validationResult.success) {
       return NextResponse.json(
         {
-          error: 'Validation failed',
+          error: "Validation failed",
           details: validationResult.error.issues,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -123,10 +123,10 @@ export async function POST(
     // Map form data to database columns
     const purchaseOrderData = {
       project_id: parseInt(projectId),
-      contract_number: data.contractNumber?.trim() || '',
+      contract_number: data.contractNumber?.trim() || "",
       contract_company_id: data.contractCompanyId || null,
       title: data.title || null,
-      status: data.status || 'Draft',
+      status: data.status || "Draft",
       executed: data.executed ?? false,
       default_retainage_percent: data.defaultRetainagePercent ?? null,
       assigned_to: data.assignedTo || null,
@@ -135,32 +135,33 @@ export async function POST(
       ship_to: data.shipTo || null,
       ship_via: data.shipVia || null,
       description: data.description || null,
-      accounting_method: data.accountingMethod || 'unit-quantity',
+      accounting_method: data.accountingMethod || "unit-quantity",
       contract_date: data.dates?.contractDate || null,
       delivery_date: data.dates?.deliveryDate || null,
       signed_po_received_date: data.dates?.signedPoReceivedDate || null,
       issued_on_date: data.dates?.issuedOnDate || null,
       is_private: data.privacy?.isPrivate ?? true,
       non_admin_user_ids: data.privacy?.nonAdminUserIds || [],
-      allow_non_admin_view_sov_items: data.privacy?.allowNonAdminViewSovItems ?? false,
+      allow_non_admin_view_sov_items:
+        data.privacy?.allowNonAdminViewSovItems ?? false,
       invoice_contact_ids: data.invoiceContactIds || [],
       created_by: user.id,
     };
 
     const { data: purchaseOrder, error: poError } = await supabase
-      .from('purchase_orders')
+      .from("purchase_orders")
       .insert(purchaseOrderData)
       .select()
       .single();
 
     if (poError) {
-      console.error('Database insert error:', poError);
+      console.error("Database insert error:", poError);
       return NextResponse.json(
         {
-          error: 'Failed to create purchase order',
+          error: "Failed to create purchase order",
           details: poError,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -181,35 +182,38 @@ export async function POST(
       }));
 
       const { error: sovError } = await supabase
-        .from('purchase_order_sov_items')
+        .from("purchase_order_sov_items")
         .insert(sovItems);
 
       if (sovError) {
-        console.error('Error creating SOV items:', sovError);
-        await supabase.from('purchase_orders').delete().eq('id', purchaseOrder.id);
+        console.error("Error creating SOV items:", sovError);
+        await supabase
+          .from("purchase_orders")
+          .delete()
+          .eq("id", purchaseOrder.id);
         return NextResponse.json(
-          { error: 'Failed to create SOV items', details: sovError },
-          { status: 500 }
+          { error: "Failed to create SOV items", details: sovError },
+          { status: 500 },
         );
       }
     }
 
     // Fetch complete purchase order with totals
     const { data: completePO } = await supabase
-      .from('purchase_orders_with_totals')
-      .select('*')
-      .eq('id', purchaseOrder.id)
+      .from("purchase_orders_with_totals")
+      .select("*")
+      .eq("id", purchaseOrder.id)
       .single();
 
     return NextResponse.json({
       data: completePO || purchaseOrder,
-      message: 'Purchase order created successfully',
+      message: "Purchase order created successfully",
     });
   } catch (error) {
-    console.error('Unexpected error:', error);
+    console.error("Unexpected error:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

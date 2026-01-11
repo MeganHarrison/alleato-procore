@@ -1,12 +1,11 @@
-'use client'
+"use client";
 
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
-import {SectionHeader } from '@/components/design-system'
-
+import ReactMarkdown from "react-markdown";
+import remarkGfm from "remark-gfm";
+import { SectionHeader } from "@/components/design-system";
 
 interface FormattedTranscriptProps {
-  content: string
+  content: string;
 }
 
 /**
@@ -21,18 +20,16 @@ export function FormattedTranscript({ content }: FormattedTranscriptProps) {
   // This handles transcripts that might not have proper markdown formatting
   const formattedContent = content
     // Add double line breaks before speaker timestamps (e.g., **0:15:30**)
-    .replace(/(\*\*\d+:\d+:\d+\*\*)/g, '\n\n$1\n')
+    .replace(/(\*\*\d+:\d+:\d+\*\*)/g, "\n\n$1\n")
     // Add double line breaks before speaker names followed by colon (e.g., **John Smith:**)
-    .replace(/(\*\*[^*]+:\*\*)/g, '\n\n$1 ')
+    .replace(/(\*\*[^*]+:\*\*)/g, "\n\n$1 ")
     // Ensure there's spacing after paragraphs
-    .replace(/\n{3,}/g, '\n\n')
-    .trim()
+    .replace(/\n{3,}/g, "\n\n")
+    .trim();
 
   return (
     <div className="border border-neutral-200 bg-white p-8 rounded-md">
-      <SectionHeader className="mb-6">
-                    Full Transcript
-                  </SectionHeader>
+      <SectionHeader className="mb-6">Full Transcript</SectionHeader>
 
       <ReactMarkdown
         remarkPlugins={[remarkGfm]}
@@ -77,11 +74,7 @@ export function FormattedTranscript({ content }: FormattedTranscriptProps) {
               {children}
             </ol>
           ),
-          li: ({ children }) => (
-            <li className="ml-4">
-              {children}
-            </li>
-          ),
+          li: ({ children }) => <li className="ml-4">{children}</li>,
 
           // Emphasis
           strong: ({ children }) => (
@@ -89,11 +82,7 @@ export function FormattedTranscript({ content }: FormattedTranscriptProps) {
               {children}
             </strong>
           ),
-          em: ({ children }) => (
-            <em className="italic">
-              {children}
-            </em>
-          ),
+          em: ({ children }) => <em className="italic">{children}</em>,
 
           // Code
           code: ({ children }) => (
@@ -115,9 +104,7 @@ export function FormattedTranscript({ content }: FormattedTranscriptProps) {
           ),
 
           // Horizontal rule
-          hr: () => (
-            <hr className="border-neutral-200 my-6" />
-          ),
+          hr: () => <hr className="border-neutral-200 my-6" />,
 
           // Links
           a: ({ href, children }) => (
@@ -140,34 +127,24 @@ export function FormattedTranscript({ content }: FormattedTranscriptProps) {
             </div>
           ),
           thead: ({ children }) => (
-            <thead className="bg-neutral-50">
-              {children}
-            </thead>
+            <thead className="bg-neutral-50">{children}</thead>
           ),
           tbody: ({ children }) => (
-            <tbody className="divide-y divide-neutral-200">
-              {children}
-            </tbody>
+            <tbody className="divide-y divide-neutral-200">{children}</tbody>
           ),
-          tr: ({ children }) => (
-            <tr>
-              {children}
-            </tr>
-          ),
+          tr: ({ children }) => <tr>{children}</tr>,
           th: ({ children }) => (
             <th className="px-4 py-2 text-left text-xs font-semibold text-neutral-700 uppercase tracking-wider border-b border-neutral-200">
               {children}
             </th>
           ),
           td: ({ children }) => (
-            <td className="px-4 py-2 text-sm text-neutral-700">
-              {children}
-            </td>
+            <td className="px-4 py-2 text-sm text-neutral-700">{children}</td>
           ),
         }}
       >
         {formattedContent}
       </ReactMarkdown>
     </div>
-  )
+  );
 }

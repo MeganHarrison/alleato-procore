@@ -1,7 +1,7 @@
-import { createClient } from '@/lib/supabase/server';
-import { NextRequest, NextResponse } from 'next/server';
-import { rejectChangeOrderSchema } from '../../validation';
-import { ZodError } from 'zod';
+import { createClient } from "@/lib/supabase/server";
+import { NextRequest, NextResponse } from "next/server";
+import { rejectChangeOrderSchema } from "../../validation";
+import { ZodError } from "zod";
 
 interface RouteParams {
   params: Promise<{ id: string; contractId: string; changeOrderId: string }>;
@@ -11,10 +11,7 @@ interface RouteParams {
  * POST /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]/reject
  * Rejects a change order with a reason
  */
-export async function POST(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, contractId, changeOrderId } = await params;
     const supabase = await createClient();
@@ -24,88 +21,94 @@ export async function POST(
     const validatedData = rejectChangeOrderSchema.parse(body);
 
     // Get current user
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check if user has admin/owner access to this project (rejection permission)
     const { data: projectMember } = await supabase
-      .from('project_members')
-      .select('access')
-      .eq('project_id', parseInt(projectId, 10))
-      .eq('user_id', user.id)
+      .from("project_members")
+      .select("access")
+      .eq("project_id", parseInt(projectId, 10))
+      .eq("user_id", user.id)
       .single();
 
-    if (!projectMember || !['admin', 'owner'].includes(projectMember.access)) {
+    if (!projectMember || !["admin", "owner"].includes(projectMember.access)) {
       return NextResponse.json(
-        { error: 'Forbidden: You do not have permission to reject change orders for this project' },
-        { status: 403 }
+        {
+          error:
+            "Forbidden: You do not have permission to reject change orders for this project",
+        },
+        { status: 403 },
       );
     }
 
     // Verify contract exists and belongs to project
     const { data: contract } = await supabase
-      .from('prime_contracts')
-      .select('id')
-      .eq('id', contractId)
-      .eq('project_id', parseInt(projectId, 10))
+      .from("prime_contracts")
+      .select("id")
+      .eq("id", contractId)
+      .eq("project_id", parseInt(projectId, 10))
       .single();
 
     if (!contract) {
       return NextResponse.json(
-        { error: 'Contract not found' },
-        { status: 404 }
+        { error: "Contract not found" },
+        { status: 404 },
       );
     }
 
     // Get the change order
     const { data: changeOrder } = await supabase
-      .from('contract_change_orders')
-      .select('id, status')
-      .eq('id', changeOrderId)
-      .eq('contract_id', contractId)
+      .from("contract_change_orders")
+      .select("id, status")
+      .eq("id", changeOrderId)
+      .eq("contract_id", contractId)
       .single();
 
     if (!changeOrder) {
       return NextResponse.json(
-        { error: 'Change order not found' },
-        { status: 404 }
+        { error: "Change order not found" },
+        { status: 404 },
       );
     }
 
     // Check if already rejected
-    if (changeOrder.status === 'rejected') {
+    if (changeOrder.status === "rejected") {
       return NextResponse.json(
-        { error: 'Change order is already rejected' },
-        { status: 400 }
+        { error: "Change order is already rejected" },
+        { status: 400 },
       );
     }
 
     // Update change order to rejected status
     const now = new Date().toISOString();
     const { data: updatedChangeOrder, error: updateError } = await supabase
-      .from('contract_change_orders')
+      .from("contract_change_orders")
       .update({
-        status: 'rejected',
+        status: "rejected",
         approved_by: user.id,
         approved_date: now,
         rejection_reason: validatedData.rejection_reason,
       })
-      .eq('id', changeOrderId)
-      .eq('contract_id', contractId)
-      .select('*')
+      .eq("id", changeOrderId)
+      .eq("contract_id", contractId)
+      .select("*")
       .single();
 
     if (updateError) {
-      console.error('Error rejecting change order:', updateError);
+      console.error("Error rejecting change order:", updateError);
       return NextResponse.json(
-        { error: 'Failed to reject change order', details: updateError.message },
-        { status: 400 }
+        {
+          error: "Failed to reject change order",
+          details: updateError.message,
+        },
+        { status: 400 },
       );
     }
 
@@ -114,17 +117,23 @@ export async function POST(
     if (error instanceof ZodError) {
       return NextResponse.json(
         {
-          error: 'Validation error',
-          details: error.issues.map(e => ({ field: e.path.join('.'), message: e.message }))
+          error: "Validation error",
+          details: error.issues.map((e) => ({
+            field: e.path.join("."),
+            message: e.message,
+          })),
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    console.error('Error in POST /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]/reject:', error);
+    console.error(
+      "Error in POST /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]/reject:",
+      error,
+    );
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

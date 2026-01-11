@@ -1,15 +1,15 @@
-import { notFound, redirect } from 'next/navigation';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { AutoForm } from '@/components/admin/table-explorer';
-import { getFormColumns } from '@/server/db/introspection';
+import { notFound, redirect } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { AutoForm } from "@/components/admin/table-explorer";
+import { getFormColumns } from "@/server/db/introspection";
 import {
   isTableAllowed,
   getTableConfig,
   hasPermission,
   type TableName,
-} from '@/lib/table-registry';
+} from "@/lib/table-registry";
 
 interface NewRowPageProps {
   params: Promise<{ table: string }>;
@@ -23,7 +23,7 @@ export async function generateMetadata({
   const { table } = await params;
 
   if (!isTableAllowed(table)) {
-    return { title: 'Table Not Found' };
+    return { title: "Table Not Found" };
   }
 
   const config = getTableConfig(table as TableName);
@@ -45,12 +45,12 @@ export default async function NewRowPage({ params }: NewRowPageProps) {
   const config = getTableConfig(tableName);
 
   // Check create permission
-  if (!hasPermission(tableName, 'create')) {
+  if (!hasPermission(tableName, "create")) {
     redirect(`/admin/tables/${table}`);
   }
 
   // Get form columns
-  const columns = await getFormColumns(tableName, 'create');
+  const columns = await getFormColumns(tableName, "create");
 
   return (
     <div className="container max-w-2xl py-6">
@@ -65,7 +65,7 @@ export default async function NewRowPage({ params }: NewRowPageProps) {
           </Button>
         </div>
         <h1 className="text-2xl font-bold tracking-tight">
-          Create New {config.label.replace(/s$/, '')}
+          Create New {config.label.replace(/s$/, "")}
         </h1>
         <p className="text-muted-foreground">
           Fill in the details below to create a new record
@@ -73,11 +73,7 @@ export default async function NewRowPage({ params }: NewRowPageProps) {
       </div>
 
       {/* Form */}
-      <AutoForm
-        table={tableName}
-        columns={columns}
-        mode="create"
-      />
+      <AutoForm table={tableName} columns={columns} mode="create" />
     </div>
   );
 }

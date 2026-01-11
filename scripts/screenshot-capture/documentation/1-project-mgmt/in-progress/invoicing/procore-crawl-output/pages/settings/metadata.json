@@ -1,0 +1,162 @@
+{
+  "url": "https://us02.procore.com/webclients/host/companies/562949953443325/projects/562949954728542/tools/invoicing/settings",
+  "pageName": "settings",
+  "category": "invoicing",
+  "pageId": "settings",
+  "timestamp": "2026-01-10T18:21:56.022Z",
+  "analysis": {
+    "components": {
+      "buttons": 4,
+      "forms": 0,
+      "inputs": 8,
+      "tables": 0,
+      "modals": 0,
+      "navigation": 3,
+      "cards": 0,
+      "lists": 0,
+      "tabs": 0,
+      "dropdowns": 0,
+      "icons": 19
+    },
+    "tables": [],
+    "title": "Invoicing • Goodwill Bart",
+    "h1": "Settings"
+  },
+  "links": 8,
+  "linkDetails": [
+    {
+      "href": "https://us02.procore.com/set_company/562949953443325",
+      "text": "",
+      "classes": "HomeLink-Afxbq eFQsYW",
+      "id": null,
+      "index": 0
+    },
+    {
+      "href": "https://us02.procore.com/562949954728542/project/home",
+      "text": "",
+      "classes": "LogoContainer-gkeIlB cVoHYA",
+      "id": null,
+      "index": 1
+    },
+    {
+      "href": "https://us02.procore.com/562949954728542/project/conversations",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 2
+    },
+    {
+      "href": "https://us02.procore.com/webclients/host/companies/562949953443325/projects/562949954728542/tools/invoicing/subcontractor",
+      "text": "Invoicing",
+      "classes": "",
+      "id": null,
+      "index": 3
+    },
+    {
+      "href": "https://support.procore.com/faq/how-do-i-bill-for-stored-materials-in-a-subcontractor-invoice",
+      "text": "learn more",
+      "classes": "",
+      "id": null,
+      "index": 5
+    },
+    {
+      "href": "https://www.procore.com/fine-print/terms",
+      "text": "Terms of Service",
+      "classes": "StyledFooterTOSLink-kAPoEu dpVPSM",
+      "id": null,
+      "index": 6
+    },
+    {
+      "href": "https://www.procore.com/fine-print/privacy-policy",
+      "text": "Privacy Policy",
+      "classes": "StyledFooterPrivacyPolicyLink-ktAqMk kwxcAj",
+      "id": null,
+      "index": 7
+    },
+    {
+      "href": "http://www.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": null,
+      "index": 8
+    }
+  ],
+  "clickables": 8,
+  "clickableDetails": [
+    {
+      "text": "SearchCmdK",
+      "id": "nav-bar-search",
+      "type": "button",
+      "classes": "StyledButton-core-12_25_2__sc-c5bhwh-3 gVQXyT StyledNewButton-procore-search__sc-jq3ytc-1 bzskPA",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "More",
+      "id": "StyledTabBase-core-12_25_2__sc-17s58xs-0 StyledDropdownTabBase-core-12_25_2__sc-17s58xs-2 StyledDropdownTab-core-12_25_2__sc-17s58xs-5 cRXGze NzXIe jCkbQx",
+      "type": "button",
+      "classes": "StyledTabBase-core-12_25_2__sc-17s58xs-0 StyledDropdownTabBase-core-12_25_2__sc-17s58xs-2 StyledDropdownTab-core-12_25_2__sc-17s58xs-5 cRXGze NzXIe jCkbQx",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "1st of the month",
+      "id": "StyledSelectButton-core-12_25_2__sc-mr8gwe-6 flQUlJ",
+      "type": "div",
+      "classes": "StyledSelectButton-core-12_25_2__sc-mr8gwe-6 flQUlJ",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "31st of the month",
+      "id": "StyledSelectButton-core-12_25_2__sc-mr8gwe-6 flQUlJ",
+      "type": "div",
+      "classes": "StyledSelectButton-core-12_25_2__sc-mr8gwe-6 flQUlJ",
+      "hasDropdown": false,
+      "index": 3
+    },
+    {
+      "text": "25th of the month",
+      "id": "StyledSelectButton-core-12_25_2__sc-mr8gwe-6 flQUlJ",
+      "type": "div",
+      "classes": "StyledSelectButton-core-12_25_2__sc-mr8gwe-6 flQUlJ",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "Work, Materials & Retainage",
+      "id": "StyledSelectButton-core-12_25_2__sc-mr8gwe-6 flQUlJ",
+      "type": "div",
+      "classes": "StyledSelectButton-core-12_25_2__sc-mr8gwe-6 flQUlJ",
+      "hasDropdown": false,
+      "index": 5
+    },
+    {
+      "text": "Cancel",
+      "id": "StyledButton-core-12_25_2__sc-c5bhwh-3 cdUkSq",
+      "type": "button",
+      "classes": "StyledButton-core-12_25_2__sc-c5bhwh-3 cdUkSq",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "Save",
+      "id": "StyledButton-core-12_25_2__sc-c5bhwh-3 gUkcTl",
+      "type": "button",
+      "classes": "StyledButton-core-12_25_2__sc-c5bhwh-3 gUkcTl",
+      "hasDropdown": false,
+      "index": 7
+    }
+  ],
+  "dropdowns": 1,
+  "dropdownDetails": [
+    {
+      "text": "More",
+      "classes": "StyledTabBase-core-12_25_2__sc-17s58xs-0 StyledDropdownTabBase-core-12_25_2__sc-17s58xs-2 StyledDropdownTab-core-12_25_2__sc-17s58xs-5 cRXGze NzXIe jCkbQx",
+      "id": null,
+      "hasMenu": false,
+      "index": 0
+    }
+  ],
+  "screenshotPath": "pages/settings/screenshot.png"
+}

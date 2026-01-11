@@ -1,25 +1,25 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from 'react';
-import { 
+import React, { useState, useMemo, useEffect } from "react";
+import {
   Table,
   TableBody,
   TableCell,
   TableHead,
   TableHeader,
-  TableRow 
-} from '@/components/ui/table';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Checkbox } from '@/components/ui/checkbox';
+  TableRow,
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Badge } from "@/components/ui/badge";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   ChevronDown,
   ChevronRight,
@@ -35,19 +35,25 @@ import {
   Filter,
   Download,
   Upload,
-  Settings2
-} from 'lucide-react';
-import { DirectoryFilters, type PersonWithDetails } from '@/components/directory/DirectoryFilters';
-import { ColumnManager, type ColumnConfig } from '@/components/directory/ColumnManager';
-import { useDirectory } from '@/hooks/useDirectory';
-import { cn } from '@/lib/utils';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+  Settings2,
+} from "lucide-react";
+import {
+  DirectoryFilters,
+  type PersonWithDetails,
+} from "@/components/directory/DirectoryFilters";
+import {
+  ColumnManager,
+  type ColumnConfig,
+} from "@/components/directory/ColumnManager";
+import { useDirectory } from "@/hooks/useDirectory";
+import { cn } from "@/lib/utils";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 
 interface DirectoryTableProps {
   projectId: string;
-  type: 'users' | 'contacts' | 'companies' | 'groups';
-  status?: 'active' | 'inactive';
-  defaultGroupBy?: 'company' | 'none';
+  type: "users" | "contacts" | "companies" | "groups";
+  status?: "active" | "inactive";
+  defaultGroupBy?: "company" | "none";
   onInvite?: (person: PersonWithDetails) => void;
   onEdit?: (person: PersonWithDetails) => void;
   onDeactivate?: (person: PersonWithDetails) => void;
@@ -55,15 +61,15 @@ interface DirectoryTableProps {
 }
 
 const defaultColumns: ColumnConfig[] = [
-  { id: 'select', label: '', visible: true, order: 0, width: '40px' },
-  { id: 'name', label: 'Name', visible: true, order: 1 },
-  { id: 'email', label: 'Email', visible: true, order: 2 },
-  { id: 'phone', label: 'Phone', visible: true, order: 3 },
-  { id: 'job_title', label: 'Job Title', visible: true, order: 4 },
-  { id: 'company', label: 'Company', visible: true, order: 5 },
-  { id: 'permission_template', label: 'Permission', visible: true, order: 6 },
-  { id: 'invite_status', label: 'Status', visible: true, order: 7 },
-  { id: 'actions', label: '', visible: true, order: 8, width: '80px' }
+  { id: "select", label: "", visible: true, order: 0, width: "40px" },
+  { id: "name", label: "Name", visible: true, order: 1 },
+  { id: "email", label: "Email", visible: true, order: 2 },
+  { id: "phone", label: "Phone", visible: true, order: 3 },
+  { id: "job_title", label: "Job Title", visible: true, order: 4 },
+  { id: "company", label: "Company", visible: true, order: 5 },
+  { id: "permission_template", label: "Permission", visible: true, order: 6 },
+  { id: "invite_status", label: "Status", visible: true, order: 7 },
+  { id: "actions", label: "", visible: true, order: 8, width: "80px" },
 ];
 
 /**
@@ -85,36 +91,32 @@ const defaultColumns: ColumnConfig[] = [
 export function DirectoryTable({
   projectId,
   type,
-  status = 'active',
-  defaultGroupBy = 'company',
+  status = "active",
+  defaultGroupBy = "company",
   onInvite,
   onEdit,
   onDeactivate,
-  onReactivate
+  onReactivate,
 }: DirectoryTableProps) {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(new Set());
   const [showFilters, setShowFilters] = useState(false);
   const [showColumnManager, setShowColumnManager] = useState(false);
   const [columns, setColumns] = useState(defaultColumns);
   const [filters, setFilters] = useState<DirectoryFilters>({
-    type: type === 'users' ? 'user' : type === 'contacts' ? 'contact' : 'all',
+    type: type === "users" ? "user" : type === "contacts" ? "contact" : "all",
     status,
-    groupBy: defaultGroupBy
+    groupBy: defaultGroupBy,
   });
 
-  const {
-    data,
-    groups,
-    loading,
-    error,
-    refetch,
-    updateFilters
-  } = useDirectory(projectId, {
-    ...filters,
-    search
-  });
+  const { data, groups, loading, error, refetch, updateFilters } = useDirectory(
+    projectId,
+    {
+      ...filters,
+      search,
+    },
+  );
 
   // Sort columns by order
   const sortedColumns = useMemo(() => {
@@ -123,7 +125,7 @@ export function DirectoryTable({
 
   // Toggle group expansion
   const toggleGroup = (groupKey: string) => {
-    setExpandedGroups(prev => {
+    setExpandedGroups((prev) => {
       const next = new Set(prev);
       if (next.has(groupKey)) {
         next.delete(groupKey);
@@ -140,14 +142,14 @@ export function DirectoryTable({
       if (expandedGroups.size === groups.length) {
         setExpandedGroups(new Set());
       } else {
-        setExpandedGroups(new Set(groups.map(g => g.key)));
+        setExpandedGroups(new Set(groups.map((g) => g.key)));
       }
     }
   };
 
   // Selection handling
   const toggleSelection = (id: string) => {
-    setSelectedIds(prev => {
+    setSelectedIds((prev) => {
       const next = new Set(prev);
       if (next.has(id)) {
         next.delete(id);
@@ -162,24 +164,24 @@ export function DirectoryTable({
     if (selectedIds.size === data.length) {
       setSelectedIds(new Set());
     } else {
-      setSelectedIds(new Set(data.map(p => p.id)));
+      setSelectedIds(new Set(data.map((p) => p.id)));
     }
   };
 
   // Get initials for avatar
   const getInitials = (person: PersonWithDetails) => {
-    return `${person.first_name?.[0] || ''}${person.last_name?.[0] || ''}`.toUpperCase();
+    return `${person.first_name?.[0] || ""}${person.last_name?.[0] || ""}`.toUpperCase();
   };
 
   // Render person row
   const renderPersonRow = (person: PersonWithDetails) => {
-    const visibleColumns = sortedColumns.filter(c => c.visible);
-    
+    const visibleColumns = sortedColumns.filter((c) => c.visible);
+
     return (
       <TableRow key={person.id} className="hover:bg-muted/50">
-        {visibleColumns.map(column => {
+        {visibleColumns.map((column) => {
           switch (column.id) {
-            case 'select':
+            case "select":
               return (
                 <TableCell key={column.id} style={{ width: column.width }}>
                   <Checkbox
@@ -188,8 +190,8 @@ export function DirectoryTable({
                   />
                 </TableCell>
               );
-            
-            case 'name':
+
+            case "name":
               return (
                 <TableCell key={column.id}>
                   <div className="flex items-center gap-3">
@@ -201,19 +203,21 @@ export function DirectoryTable({
                       <div className="font-medium">
                         {person.first_name} {person.last_name}
                       </div>
-                      {person.person_type === 'user' && (
-                        <div className="text-xs text-muted-foreground">User</div>
+                      {person.person_type === "user" && (
+                        <div className="text-xs text-muted-foreground">
+                          User
+                        </div>
                       )}
                     </div>
                   </div>
                 </TableCell>
               );
-            
-            case 'email':
+
+            case "email":
               return (
                 <TableCell key={column.id}>
                   {person.email && (
-                    <a 
+                    <a
                       href={`mailto:${person.email}`}
                       className="text-blue-600 hover:underline"
                     >
@@ -222,29 +226,23 @@ export function DirectoryTable({
                   )}
                 </TableCell>
               );
-            
-            case 'phone':
+
+            case "phone":
               return (
                 <TableCell key={column.id}>
                   {person.phone_mobile || person.phone_business}
                 </TableCell>
               );
-            
-            case 'job_title':
+
+            case "job_title":
+              return <TableCell key={column.id}>{person.job_title}</TableCell>;
+
+            case "company":
               return (
-                <TableCell key={column.id}>
-                  {person.job_title}
-                </TableCell>
+                <TableCell key={column.id}>{person.company?.name}</TableCell>
               );
-            
-            case 'company':
-              return (
-                <TableCell key={column.id}>
-                  {person.company?.name}
-                </TableCell>
-              );
-            
-            case 'permission_template':
+
+            case "permission_template":
               return (
                 <TableCell key={column.id}>
                   {person.permission_template?.name && (
@@ -254,16 +252,18 @@ export function DirectoryTable({
                   )}
                 </TableCell>
               );
-            
-            case 'invite_status':
+
+            case "invite_status":
               return (
                 <TableCell key={column.id}>
                   {person.membership?.invite_status && (
-                    <Badge 
+                    <Badge
                       variant={
-                        person.membership.invite_status === 'accepted' ? 'default' :
-                        person.membership.invite_status === 'invited' ? 'secondary' :
-                        'outline'
+                        person.membership.invite_status === "accepted"
+                          ? "default"
+                          : person.membership.invite_status === "invited"
+                            ? "secondary"
+                            : "outline"
                       }
                     >
                       {person.membership.invite_status}
@@ -271,8 +271,8 @@ export function DirectoryTable({
                   )}
                 </TableCell>
               );
-            
-            case 'actions':
+
+            case "actions":
               return (
                 <TableCell key={column.id} style={{ width: column.width }}>
                   <DropdownMenu>
@@ -288,18 +288,22 @@ export function DirectoryTable({
                           Edit
                         </DropdownMenuItem>
                       )}
-                      
-                      {person.person_type === 'user' && person.membership?.invite_status !== 'accepted' && onInvite && (
-                        <DropdownMenuItem onClick={() => onInvite(person)}>
-                          <Mail className="mr-2 h-4 w-4" />
-                          {person.membership?.invite_status === 'invited' ? 'Resend Invite' : 'Send Invite'}
-                        </DropdownMenuItem>
-                      )}
-                      
+
+                      {person.person_type === "user" &&
+                        person.membership?.invite_status !== "accepted" &&
+                        onInvite && (
+                          <DropdownMenuItem onClick={() => onInvite(person)}>
+                            <Mail className="mr-2 h-4 w-4" />
+                            {person.membership?.invite_status === "invited"
+                              ? "Resend Invite"
+                              : "Send Invite"}
+                          </DropdownMenuItem>
+                        )}
+
                       <DropdownMenuSeparator />
-                      
-                      {status === 'active' && onDeactivate && (
-                        <DropdownMenuItem 
+
+                      {status === "active" && onDeactivate && (
+                        <DropdownMenuItem
                           onClick={() => onDeactivate(person)}
                           className="text-destructive"
                         >
@@ -307,8 +311,8 @@ export function DirectoryTable({
                           Deactivate
                         </DropdownMenuItem>
                       )}
-                      
-                      {status === 'inactive' && onReactivate && (
+
+                      {status === "inactive" && onReactivate && (
                         <DropdownMenuItem onClick={() => onReactivate(person)}>
                           <UserPlus className="mr-2 h-4 w-4" />
                           Reactivate
@@ -318,7 +322,7 @@ export function DirectoryTable({
                   </DropdownMenu>
                 </TableCell>
               );
-            
+
             default:
               return null;
           }
@@ -332,10 +336,14 @@ export function DirectoryTable({
   }
 
   if (error) {
-    return <div className="p-8 text-center text-destructive">Error: {error.message}</div>;
+    return (
+      <div className="p-8 text-center text-destructive">
+        Error: {error.message}
+      </div>
+    );
   }
 
-  const visibleColumns = sortedColumns.filter(c => c.visible);
+  const visibleColumns = sortedColumns.filter((c) => c.visible);
 
   return (
     <div className="space-y-4">
@@ -351,7 +359,7 @@ export function DirectoryTable({
               className="pl-9"
             />
           </div>
-          
+
           <Button
             variant="outline"
             onClick={() => setShowFilters(!showFilters)}
@@ -366,11 +374,11 @@ export function DirectoryTable({
           <Button variant="outline" size="icon">
             <Upload className="h-4 w-4" />
           </Button>
-          
+
           <Button variant="outline" size="icon">
             <Download className="h-4 w-4" />
           </Button>
-          
+
           <Button
             variant="outline"
             size="icon"
@@ -378,8 +386,8 @@ export function DirectoryTable({
           >
             <Settings2 className="h-4 w-4" />
           </Button>
-          
-          {type === 'users' && (
+
+          {type === "users" && (
             <Button>
               <UserPlus className="mr-2 h-4 w-4" />
               Add User
@@ -404,7 +412,8 @@ export function DirectoryTable({
       {selectedIds.size > 0 && (
         <div className="flex items-center gap-4 rounded-md border bg-muted/50 p-2">
           <span className="text-sm">
-            {selectedIds.size} {selectedIds.size === 1 ? 'item' : 'items'} selected
+            {selectedIds.size} {selectedIds.size === 1 ? "item" : "items"}{" "}
+            selected
           </span>
           <Button variant="outline" size="sm">
             <Mail className="mr-2 h-4 w-4" />
@@ -422,7 +431,7 @@ export function DirectoryTable({
         <Table>
           <TableHeader>
             <TableRow>
-              {filters.groupBy === 'company' && (
+              {filters.groupBy === "company" && (
                 <TableHead colSpan={visibleColumns.length}>
                   <Button
                     variant="ghost"
@@ -439,102 +448,117 @@ export function DirectoryTable({
                   </Button>
                 </TableHead>
               )}
-              {filters.groupBy === 'none' && visibleColumns.map(column => (
-                <TableHead 
-                  key={column.id} 
-                  style={{ width: column.width }}
-                  className={column.id === 'select' ? 'w-12' : ''}
-                >
-                  {column.id === 'select' ? (
-                    <Checkbox
-                      checked={selectedIds.size === data.length && data.length > 0}
-                      onCheckedChange={selectAll}
-                    />
-                  ) : (
-                    column.label
-                  )}
-                </TableHead>
-              ))}
+              {filters.groupBy === "none" &&
+                visibleColumns.map((column) => (
+                  <TableHead
+                    key={column.id}
+                    style={{ width: column.width }}
+                    className={column.id === "select" ? "w-12" : ""}
+                  >
+                    {column.id === "select" ? (
+                      <Checkbox
+                        checked={
+                          selectedIds.size === data.length && data.length > 0
+                        }
+                        onCheckedChange={selectAll}
+                      />
+                    ) : (
+                      column.label
+                    )}
+                  </TableHead>
+                ))}
             </TableRow>
           </TableHeader>
-          
+
           <TableBody>
-            {filters.groupBy === 'company' && groups ? (
-              // Grouped view
-              groups.map(group => (
-                <React.Fragment key={group.key}>
-                  <TableRow 
-                    className="hover:bg-muted/50 cursor-pointer"
-                    onClick={() => toggleGroup(group.key)}
-                  >
-                    <TableCell colSpan={visibleColumns.length}>
-                      <div className="flex items-center gap-2">
-                        <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
-                          {expandedGroups.has(group.key) ? (
-                            <ChevronDown className="h-4 w-4" />
-                          ) : (
-                            <ChevronRight className="h-4 w-4" />
-                          )}
-                        </Button>
-                        <Building2 className="h-4 w-4 text-muted-foreground" />
-                        <span className="font-medium">{group.label}</span>
-                        <Badge variant="secondary" className="ml-auto">
-                          {group.items.length} {group.items.length === 1 ? 'person' : 'people'}
-                        </Badge>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                  
-                  {expandedGroups.has(group.key) && (
-                    <>
-                      {/* Sub-header */}
-                      <TableRow className="bg-muted/30">
-                        {visibleColumns.map(column => (
-                          <TableHead 
-                            key={column.id} 
-                            style={{ width: column.width }}
-                            className="h-8 text-xs"
+            {filters.groupBy === "company" && groups
+              ? // Grouped view
+                groups.map((group) => (
+                  <React.Fragment key={group.key}>
+                    <TableRow
+                      className="hover:bg-muted/50 cursor-pointer"
+                      onClick={() => toggleGroup(group.key)}
+                    >
+                      <TableCell colSpan={visibleColumns.length}>
+                        <div className="flex items-center gap-2">
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            className="h-6 w-6 p-0"
                           >
-                            {column.id === 'select' ? (
-                              <Checkbox
-                                checked={group.items.every(p => selectedIds.has(p.id))}
-                                onCheckedChange={(checked) => {
-                                  if (checked) {
-                                    setSelectedIds(prev => {
-                                      const next = new Set(prev);
-                                      group.items.forEach(p => next.add(p.id));
-                                      return next;
-                                    });
-                                  } else {
-                                    setSelectedIds(prev => {
-                                      const next = new Set(prev);
-                                      group.items.forEach(p => next.delete(p.id));
-                                      return next;
-                                    });
-                                  }
-                                }}
-                              />
+                            {expandedGroups.has(group.key) ? (
+                              <ChevronDown className="h-4 w-4" />
                             ) : (
-                              column.label
+                              <ChevronRight className="h-4 w-4" />
                             )}
-                          </TableHead>
-                        ))}
-                      </TableRow>
-                      
-                      {/* Group items */}
-                      {group.items.map(person => renderPersonRow(person))}
-                    </>
-                  )}
-                </React.Fragment>
-              ))
-            ) : (
-              // Flat view
-              data.map(person => renderPersonRow(person))
-            )}
-            
+                          </Button>
+                          <Building2 className="h-4 w-4 text-muted-foreground" />
+                          <span className="font-medium">{group.label}</span>
+                          <Badge variant="secondary" className="ml-auto">
+                            {group.items.length}{" "}
+                            {group.items.length === 1 ? "person" : "people"}
+                          </Badge>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+
+                    {expandedGroups.has(group.key) && (
+                      <>
+                        {/* Sub-header */}
+                        <TableRow className="bg-muted/30">
+                          {visibleColumns.map((column) => (
+                            <TableHead
+                              key={column.id}
+                              style={{ width: column.width }}
+                              className="h-8 text-xs"
+                            >
+                              {column.id === "select" ? (
+                                <Checkbox
+                                  checked={group.items.every((p) =>
+                                    selectedIds.has(p.id),
+                                  )}
+                                  onCheckedChange={(checked) => {
+                                    if (checked) {
+                                      setSelectedIds((prev) => {
+                                        const next = new Set(prev);
+                                        group.items.forEach((p) =>
+                                          next.add(p.id),
+                                        );
+                                        return next;
+                                      });
+                                    } else {
+                                      setSelectedIds((prev) => {
+                                        const next = new Set(prev);
+                                        group.items.forEach((p) =>
+                                          next.delete(p.id),
+                                        );
+                                        return next;
+                                      });
+                                    }
+                                  }}
+                                />
+                              ) : (
+                                column.label
+                              )}
+                            </TableHead>
+                          ))}
+                        </TableRow>
+
+                        {/* Group items */}
+                        {group.items.map((person) => renderPersonRow(person))}
+                      </>
+                    )}
+                  </React.Fragment>
+                ))
+              : // Flat view
+                data.map((person) => renderPersonRow(person))}
+
             {data.length === 0 && (
               <TableRow>
-                <TableCell colSpan={visibleColumns.length} className="text-center py-8">
+                <TableCell
+                  colSpan={visibleColumns.length}
+                  className="text-center py-8"
+                >
                   No {type} found
                 </TableCell>
               </TableRow>

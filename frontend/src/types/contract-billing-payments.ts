@@ -3,9 +3,9 @@
  * Generated from database schema
  */
 
-export type BillingPeriodStatus = 'draft' | 'submitted' | 'approved' | 'paid';
-export type PaymentType = 'progress' | 'retention' | 'final' | 'advance';
-export type PaymentStatus = 'pending' | 'approved' | 'paid' | 'cancelled';
+export type BillingPeriodStatus = "draft" | "submitted" | "approved" | "paid";
+export type PaymentType = "progress" | "retention" | "final" | "advance";
+export type PaymentStatus = "pending" | "approved" | "paid" | "cancelled";
 
 export interface ContractBillingPeriod {
   id: string;

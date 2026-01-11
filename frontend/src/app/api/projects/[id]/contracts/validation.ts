@@ -1,10 +1,16 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * Validation schemas for Prime Contracts API endpoints
  */
 
-export const contractStatusSchema = z.enum(['draft', 'active', 'completed', 'cancelled', 'on_hold']);
+export const contractStatusSchema = z.enum([
+  "draft",
+  "active",
+  "completed",
+  "cancelled",
+  "on_hold",
+]);
 
 export const createContractSchema = z.object({
   project_id: z.number().int().positive(),
@@ -12,7 +18,7 @@ export const createContractSchema = z.object({
   title: z.string().min(1).max(500),
   vendor_id: z.string().uuid().optional().nullable(),
   description: z.string().max(5000).optional().nullable(),
-  status: contractStatusSchema.optional().default('draft'),
+  status: contractStatusSchema.optional().default("draft"),
   original_contract_value: z.number().min(0),
   revised_contract_value: z.number().min(0).optional(),
   start_date: z.string().datetime().optional().nullable(),

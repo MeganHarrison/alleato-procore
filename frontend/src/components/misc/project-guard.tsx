@@ -1,16 +1,22 @@
-'use client'
+"use client";
 
-import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
-import { useProject } from '@/contexts/project-context'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { AlertCircle, FolderOpen } from 'lucide-react'
+import { useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useProject } from "@/contexts/project-context";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { AlertCircle, FolderOpen } from "lucide-react";
 
 interface ProjectGuardProps {
-  children: React.ReactNode
-  message?: string
-  redirectTo?: string
+  children: React.ReactNode;
+  message?: string;
+  redirectTo?: string;
 }
 
 /**
@@ -20,14 +26,14 @@ interface ProjectGuardProps {
 export function ProjectGuard({
   children,
   message = "Please select a project to view this page.",
-  redirectTo = "/"
+  redirectTo = "/",
 }: ProjectGuardProps) {
-  const { selectedProject, isLoading, projectId } = useProject()
-  const router = useRouter()
+  const { selectedProject, isLoading, projectId } = useProject();
+  const router = useRouter();
 
   // If we have a project (either from context or URL), render children
   if (selectedProject || projectId) {
-    return <>{children}</>
+    return <>{children}</>;
   }
 
   // While loading, show a loading state
@@ -39,7 +45,7 @@ export function ProjectGuard({
           <p className="text-muted-foreground">Loading project...</p>
         </div>
       </div>
-    )
+    );
   }
 
   // No project selected - show selection prompt
@@ -57,7 +63,8 @@ export function ProjectGuard({
         </CardHeader>
         <CardContent className="space-y-4">
           <p className="text-sm text-muted-foreground text-center">
-            You can select a project from the project dropdown in the header or return to the homepage to choose a project.
+            You can select a project from the project dropdown in the header or
+            return to the homepage to choose a project.
           </p>
           <div className="flex gap-3">
             <Button
@@ -72,7 +79,7 @@ export function ProjectGuard({
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
 
 /**
@@ -80,13 +87,13 @@ export function ProjectGuard({
  */
 export function withProjectGuard<P extends object>(
   Component: React.ComponentType<P>,
-  guardProps?: Omit<ProjectGuardProps, 'children'>
+  guardProps?: Omit<ProjectGuardProps, "children">,
 ) {
   return function ProjectGuardedComponent(props: P) {
     return (
       <ProjectGuard {...guardProps}>
         <Component {...props} />
       </ProjectGuard>
-    )
-  }
+    );
+  };
 }

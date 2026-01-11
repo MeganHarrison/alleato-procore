@@ -17,7 +17,9 @@ interface SimpleRagChatProps {
   placeholder?: string;
 }
 
-export function SimpleRagChat({ placeholder = "Message Alleato AI..." }: SimpleRagChatProps) {
+export function SimpleRagChat({
+  placeholder = "Message Alleato AI...",
+}: SimpleRagChatProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -70,7 +72,10 @@ export function SimpleRagChat({ placeholder = "Message Alleato AI..." }: SimpleR
       const assistantMessage: Message = {
         id: crypto.randomUUID(),
         role: "assistant",
-        content: data.response || data.message || "I received your message but couldn't generate a response.",
+        content:
+          data.response ||
+          data.message ||
+          "I received your message but couldn't generate a response.",
         timestamp: new Date(),
       };
 
@@ -97,7 +102,10 @@ export function SimpleRagChat({ placeholder = "Message Alleato AI..." }: SimpleR
   };
 
   return (
-    <div className="flex flex-col h-full w-full bg-white" data-testid="simple-rag-chat">
+    <div
+      className="flex flex-col h-full w-full bg-white"
+      data-testid="simple-rag-chat"
+    >
       {/* Messages Area */}
       <div className="flex-1 overflow-y-auto p-4 space-y-4">
         {messages.length === 0 ? (
@@ -107,8 +115,8 @@ export function SimpleRagChat({ placeholder = "Message Alleato AI..." }: SimpleR
               Alleato AI Assistant
             </h3>
             <p className="text-sm text-gray-500 max-w-md">
-              Ask me about your projects, tasks, meetings, or anything else.
-              I have access to your Supabase data.
+              Ask me about your projects, tasks, meetings, or anything else. I
+              have access to your Supabase data.
             </p>
             <div className="flex flex-wrap gap-2 mt-4 justify-center">
               {[
@@ -132,7 +140,7 @@ export function SimpleRagChat({ placeholder = "Message Alleato AI..." }: SimpleR
               key={message.id}
               className={cn(
                 "flex gap-3 animate-in fade-in slide-in-from-bottom-2",
-                message.role === "user" ? "justify-end" : "justify-start"
+                message.role === "user" ? "justify-end" : "justify-start",
               )}
             >
               {message.role === "assistant" && (
@@ -145,7 +153,7 @@ export function SimpleRagChat({ placeholder = "Message Alleato AI..." }: SimpleR
                   "max-w-[80%] rounded-2xl px-4 py-2",
                   message.role === "user"
                     ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-900"
+                    : "bg-gray-100 text-gray-900",
                 )}
               >
                 <p className="text-sm whitespace-pre-wrap">{message.content}</p>

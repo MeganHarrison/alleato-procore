@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,22 +8,22 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, Mail, AlertCircle } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import type { PersonWithDetails } from '@/components/directory/DirectoryFilters';
+} from "@/components/ui/select";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, Mail, AlertCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import type { PersonWithDetails } from "@/components/directory/DirectoryFilters";
 
 interface InviteDialogProps {
   person: PersonWithDetails | null;
@@ -43,19 +43,19 @@ interface InviteDialogProps {
  * @param onSuccess - Optional callback invoked after a successful invite or reinvite.
  * @returns The dialog JSX when `person` is provided; `null` otherwise.
  */
-export function InviteDialog({ 
-  person, 
+export function InviteDialog({
+  person,
   projectId,
-  open, 
+  open,
   onOpenChange,
-  onSuccess 
+  onSuccess,
 }: InviteDialogProps) {
   const { toast } = useToast();
   const [sending, setSending] = useState(false);
-  const [customMessage, setCustomMessage] = useState('');
+  const [customMessage, setCustomMessage] = useState("");
   const [error, setError] = useState<string | null>(null);
 
-  const isReinvite = person?.membership?.invite_status === 'invited';
+  const isReinvite = person?.membership?.invite_status === "invited";
 
   const handleSend = async () => {
     if (!person) return;
@@ -64,34 +64,36 @@ export function InviteDialog({
     setError(null);
 
     try {
-      const endpoint = isReinvite 
+      const endpoint = isReinvite
         ? `/api/projects/${projectId}/directory/people/${person.id}/reinvite`
         : `/api/projects/${projectId}/directory/people/${person.id}/invite`;
 
       const response = await fetch(endpoint, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          customMessage
-        })
+          customMessage,
+        }),
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Failed to send invitation');
+        throw new Error(result.error || "Failed to send invitation");
       }
 
-      toast.success(`Invitation ${isReinvite ? 'resent' : 'sent'} to ${person.email}`);
+      toast.success(
+        `Invitation ${isReinvite ? "resent" : "sent"} to ${person.email}`,
+      );
 
       onOpenChange(false);
       onSuccess?.();
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'An error occurred';
+      const message = err instanceof Error ? err.message : "An error occurred";
       setError(message);
-      
+
       toast.error(`Failed to send invitation: ${message}`);
     } finally {
       setSending(false);
@@ -105,13 +107,12 @@ export function InviteDialog({
       <DialogContent>
         <DialogHeader>
           <DialogTitle>
-            {isReinvite ? 'Resend Invitation' : 'Send Invitation'}
+            {isReinvite ? "Resend Invitation" : "Send Invitation"}
           </DialogTitle>
           <DialogDescription>
-            {isReinvite 
+            {isReinvite
               ? `Resend the project invitation to ${person.first_name} ${person.last_name}`
-              : `Send a project invitation to ${person.first_name} ${person.last_name}`
-            }
+              : `Send a project invitation to ${person.first_name} ${person.last_name}`}
           </DialogDescription>
         </DialogHeader>
 
@@ -123,7 +124,9 @@ export function InviteDialog({
               <div className="font-medium">
                 {person.first_name} {person.last_name}
               </div>
-              <div className="text-sm text-muted-foreground">{person.email}</div>
+              <div className="text-sm text-muted-foreground">
+                {person.email}
+              </div>
               {person.company && (
                 <div className="text-sm text-muted-foreground">
                   {person.company.name}
@@ -137,7 +140,9 @@ export function InviteDialog({
             <div className="space-y-2">
               <Label>Permission Level</Label>
               <div className="rounded-md border bg-muted/50 p-3">
-                <div className="font-medium">{person.permission_template.name}</div>
+                <div className="font-medium">
+                  {person.permission_template.name}
+                </div>
                 {person.permission_template.description && (
                   <div className="text-sm text-muted-foreground">
                     {person.permission_template.description}
@@ -149,9 +154,7 @@ export function InviteDialog({
 
           {/* Custom Message */}
           <div className="space-y-2">
-            <Label htmlFor="custom-message">
-              Custom Message (Optional)
-            </Label>
+            <Label htmlFor="custom-message">Custom Message (Optional)</Label>
             <Textarea
               id="custom-message"
               placeholder="Add a personal message to include in the invitation email..."
@@ -174,9 +177,8 @@ export function InviteDialog({
             <Mail className="h-4 w-4" />
             <AlertDescription>
               {isReinvite
-                ? 'A new invitation link will be sent to the recipient\'s email address.'
-                : 'An invitation email will be sent with a secure link to join the project.'
-              }
+                ? "A new invitation link will be sent to the recipient's email address."
+                : "An invitation email will be sent with a secure link to join the project."}
             </AlertDescription>
           </Alert>
         </div>
@@ -189,13 +191,10 @@ export function InviteDialog({
           >
             Cancel
           </Button>
-          <Button
-            onClick={handleSend}
-            disabled={sending || !person.email}
-          >
+          <Button onClick={handleSend} disabled={sending || !person.email}>
             {sending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             <Mail className="mr-2 h-4 w-4" />
-            {isReinvite ? 'Resend Invitation' : 'Send Invitation'}
+            {isReinvite ? "Resend Invitation" : "Send Invitation"}
           </Button>
         </DialogFooter>
       </DialogContent>

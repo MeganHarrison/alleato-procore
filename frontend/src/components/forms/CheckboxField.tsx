@@ -1,17 +1,17 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Checkbox } from "@/components/ui/checkbox"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { cn } from "@/lib/utils";
 
 interface CheckboxFieldProps {
-  label: string
-  checked?: boolean
-  onCheckedChange?: (checked: boolean) => void
-  error?: string
-  hint?: string
-  disabled?: boolean
-  className?: string
+  label: string;
+  checked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
+  error?: string;
+  hint?: string;
+  disabled?: boolean;
+  className?: string;
 }
 
 export function CheckboxField({
@@ -35,16 +35,10 @@ export function CheckboxField({
         />
       </div>
       <div className="ml-3">
-        <label className="text-sm font-medium text-gray-700">
-          {label}
-        </label>
-        {hint && !error && (
-          <p className="text-sm text-gray-500">{hint}</p>
-        )}
-        {error && (
-          <p className="text-sm text-red-600">{error}</p>
-        )}
+        <label className="text-sm font-medium text-gray-700">{label}</label>
+        {hint && !error && <p className="text-sm text-gray-500">{hint}</p>}
+        {error && <p className="text-sm text-red-600">{error}</p>}
       </div>
     </div>
-  )
+  );
 }

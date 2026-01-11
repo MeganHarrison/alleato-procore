@@ -16,7 +16,9 @@ type CitationsResponse = {
 };
 
 export function useThreadCitations(threadId: string | null) {
-  const [activeDocumentIds, setActiveDocumentIds] = useState<Set<string>>(new Set());
+  const [activeDocumentIds, setActiveDocumentIds] = useState<Set<string>>(
+    new Set(),
+  );
   const [citations, setCitations] = useState<CitationRecord[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);

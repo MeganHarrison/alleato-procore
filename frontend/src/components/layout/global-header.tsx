@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 import {
   Search,
   Star,
@@ -9,25 +9,25 @@ import {
   Bell,
   ChevronDown,
   Command,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
-import { SidebarTrigger } from '@/components/ui/sidebar';
-import { useHeader } from './header-context';
+} from "@/components/ui/dropdown-menu";
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { useHeader } from "./header-context";
 
 export function GlobalHeader() {
   const { header } = useHeader();
   const {
-    companyName = 'Alleato Group',
-    projectName = '24-104 - Goodwill Bart',
-    currentTool = 'Budget',
-    userInitials = 'BC',
+    companyName = "Alleato Group",
+    projectName = "24-104 - Goodwill Bart",
+    currentTool = "Budget",
+    userInitials = "BC",
   } = header;
 
   return (
@@ -45,7 +45,9 @@ export function GlobalHeader() {
                 className="w-6 h-6 object-contain"
               />
             </div>
-            <span className="font-semibold text-sm hidden sm:inline">PROCORE</span>
+            <span className="font-semibold text-sm hidden sm:inline">
+              PROCORE
+            </span>
           </div>
 
           {/* Company/Project Selector */}
@@ -85,7 +87,9 @@ export function GlobalHeader() {
               <DropdownMenuItem>Home</DropdownMenuItem>
               <DropdownMenuItem>Directory</DropdownMenuItem>
               <DropdownMenuSeparator />
-              <DropdownMenuItem className="font-semibold">Budget</DropdownMenuItem>
+              <DropdownMenuItem className="font-semibold">
+                Budget
+              </DropdownMenuItem>
               <DropdownMenuItem>Commitments</DropdownMenuItem>
               <DropdownMenuItem>Prime Contracts</DropdownMenuItem>
               <DropdownMenuItem>Invoicing</DropdownMenuItem>

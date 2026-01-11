@@ -1,106 +1,106 @@
-'use client'
+"use client";
 
-import { useState, useRef, useEffect } from 'react'
-import { Button } from '@/components/ui/button'
-import { Textarea } from '@/components/ui/textarea'
-import { Send, Loader2, Bot, User, Sparkles } from 'lucide-react'
-import ReactMarkdown from 'react-markdown'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
-import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
+import { useState, useRef, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import { Send, Loader2, Bot, User, Sparkles } from "lucide-react";
+import ReactMarkdown from "react-markdown";
+import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
+import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 
 interface Message {
-  role: 'user' | 'assistant'
-  content: string
-  timestamp: Date
+  role: "user" | "assistant";
+  content: string;
+  timestamp: Date;
 }
 
 export default function SimpleChatPage() {
-  const [messages, setMessages] = useState<Message[]>([])
-  const [input, setInput] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const messagesEndRef = useRef<HTMLDivElement>(null)
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [input, setInput] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
-    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
-  }
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
 
   useEffect(() => {
-    scrollToBottom()
-  }, [messages])
+    scrollToBottom();
+  }, [messages]);
 
   const sendMessage = async () => {
-    if (!input.trim() || isLoading) return
+    if (!input.trim() || isLoading) return;
 
     const userMessage: Message = {
-      role: 'user',
+      role: "user",
       content: input.trim(),
-      timestamp: new Date()
-    }
+      timestamp: new Date(),
+    };
 
-    setMessages(prev => [...prev, userMessage])
-    setInput('')
-    setIsLoading(true)
+    setMessages((prev) => [...prev, userMessage]);
+    setInput("");
+    setIsLoading(true);
 
     try {
       // Call the RAG chat API endpoint
-      const response = await fetch('/api/rag-chat', {
-        method: 'POST',
+      const response = await fetch("/api/rag-chat", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           message: userMessage.content,
-          history: messages.map(m => ({
+          history: messages.map((m) => ({
             role: m.role,
-            text: m.content
-          }))
-        })
-      })
+            text: m.content,
+          })),
+        }),
+      });
 
       if (!response.ok) {
-        const errorText = await response.text()
-        throw new Error(`HTTP error! status: ${response.status}, ${errorText}`)
+        const errorText = await response.text();
+        throw new Error(`HTTP error! status: ${response.status}, ${errorText}`);
       }
 
-      const data = await response.json()
+      const data = await response.json();
 
       const assistantMessage: Message = {
-        role: 'assistant',
-        content: data.response || data.message || 'No response received',
-        timestamp: new Date()
-      }
+        role: "assistant",
+        content: data.response || data.message || "No response received",
+        timestamp: new Date(),
+      };
 
-      setMessages(prev => [...prev, assistantMessage])
+      setMessages((prev) => [...prev, assistantMessage]);
 
       // Log retrieved documents if any
       if (data.retrieved && data.retrieved.length > 0) {
-        console.log('Retrieved documents:', data.retrieved)
+        console.log("Retrieved documents:", data.retrieved);
       }
     } catch (error) {
-      console.error('Error sending message:', error)
+      console.error("Error sending message:", error);
 
       const errorMessage: Message = {
-        role: 'assistant',
-        content: `Error: ${error instanceof Error ? error.message : 'Failed to send message'}`,
-        timestamp: new Date()
-      }
+        role: "assistant",
+        content: `Error: ${error instanceof Error ? error.message : "Failed to send message"}`,
+        timestamp: new Date(),
+      };
 
-      setMessages(prev => [...prev, errorMessage])
+      setMessages((prev) => [...prev, errorMessage]);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }
+  };
 
   const handleKeyPress = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault()
-      sendMessage()
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault();
+      sendMessage();
     }
-  }
+  };
 
   const clearChat = () => {
-    setMessages([])
-  }
+    setMessages([]);
+  };
 
   return (
     <div className="flex flex-col h-screen bg-white">
@@ -126,23 +126,28 @@ export default function SimpleChatPage() {
               {messages.length === 0 ? (
                 <div className="flex flex-col items-center justify-center h-full text-center py-20">
                   <Bot className="h-12 w-12 text-gray-300 mb-4" />
-                  <h2 className="text-2xl font-medium text-gray-900 mb-2">How can I help you today?</h2>
+                  <h2 className="text-2xl font-medium text-gray-900 mb-2">
+                    How can I help you today?
+                  </h2>
                   <p className="text-gray-600 mb-8 max-w-lg">
-                    I can help you with questions about your projects, tasks, meetings, and more.
+                    I can help you with questions about your projects, tasks,
+                    meetings, and more.
                   </p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-xl">
                     {[
-                      'Show me active projects',
-                      'What are my recent tasks?',
-                      'Summarize latest meetings',
-                      'Help me plan a project'
+                      "Show me active projects",
+                      "What are my recent tasks?",
+                      "Summarize latest meetings",
+                      "Help me plan a project",
                     ].map((prompt) => (
                       <button
                         key={prompt}
                         onClick={() => setInput(prompt)}
                         className="text-left p-3 rounded-lg border border-gray-200 hover:bg-gray-50 transition-colors"
                       >
-                        <p className="text-sm font-medium text-gray-900">{prompt}</p>
+                        <p className="text-sm font-medium text-gray-900">
+                          {prompt}
+                        </p>
                       </button>
                     ))}
                   </div>
@@ -153,7 +158,7 @@ export default function SimpleChatPage() {
                     <div key={index} className="group">
                       <div className="flex gap-3">
                         <div className="flex-shrink-0">
-                          {message.role === 'user' ? (
+                          {message.role === "user" ? (
                             <div className="w-8 h-8 bg-gray-600 rounded-sm flex items-center justify-center">
                               <User className="h-5 w-5 text-white" />
                             </div>
@@ -165,15 +170,22 @@ export default function SimpleChatPage() {
                         </div>
                         <div className="flex-1 overflow-hidden">
                           <div className="font-semibold text-sm mb-1">
-                            {message.role === 'user' ? 'You' : 'Alleato AI'}
+                            {message.role === "user" ? "You" : "Alleato AI"}
                           </div>
-                          {message.role === 'assistant' ? (
+                          {message.role === "assistant" ? (
                             <div className="prose prose-sm max-w-none">
                               <ReactMarkdown
                                 components={{
-                                  code({ node, className, children, ...props }) {
-                                    const match = /language-(\w+)/.exec(className || '')
-                                    const inline = !match
+                                  code({
+                                    node,
+                                    className,
+                                    children,
+                                    ...props
+                                  }) {
+                                    const match = /language-(\w+)/.exec(
+                                      className || "",
+                                    );
+                                    const inline = !match;
                                     return !inline && match ? (
                                       <SyntaxHighlighter
                                         style={oneDark}
@@ -182,20 +194,45 @@ export default function SimpleChatPage() {
                                         className="rounded-md my-2"
                                         {...props}
                                       >
-                                        {String(children).replace(/\n$/, '')}
+                                        {String(children).replace(/\n$/, "")}
                                       </SyntaxHighlighter>
                                     ) : (
-                                      <code className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono" {...props}>
+                                      <code
+                                        className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono"
+                                        {...props}
+                                      >
                                         {children}
                                       </code>
-                                    )
+                                    );
                                   },
-                                  p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                                  ul: ({ children }) => <ul className="list-disc pl-5 mb-2">{children}</ul>,
-                                  ol: ({ children }) => <ol className="list-decimal pl-5 mb-2">{children}</ol>,
-                                  h1: ({ children }) => <h1 className="text-xl font-bold mb-2">{children}</h1>,
-                                  h2: ({ children }) => <h2 className="text-lg font-bold mb-2">{children}</h2>,
-                                  h3: ({ children }) => <h3 className="text-base font-bold mb-2">{children}</h3>,
+                                  p: ({ children }) => (
+                                    <p className="mb-2 last:mb-0">{children}</p>
+                                  ),
+                                  ul: ({ children }) => (
+                                    <ul className="list-disc pl-5 mb-2">
+                                      {children}
+                                    </ul>
+                                  ),
+                                  ol: ({ children }) => (
+                                    <ol className="list-decimal pl-5 mb-2">
+                                      {children}
+                                    </ol>
+                                  ),
+                                  h1: ({ children }) => (
+                                    <h1 className="text-xl font-bold mb-2">
+                                      {children}
+                                    </h1>
+                                  ),
+                                  h2: ({ children }) => (
+                                    <h2 className="text-lg font-bold mb-2">
+                                      {children}
+                                    </h2>
+                                  ),
+                                  h3: ({ children }) => (
+                                    <h3 className="text-base font-bold mb-2">
+                                      {children}
+                                    </h3>
+                                  ),
                                   blockquote: ({ children }) => (
                                     <blockquote className="border-l-4 border-gray-300 pl-4 italic my-2">
                                       {children}
@@ -273,5 +310,5 @@ export default function SimpleChatPage() {
         </div>
       </div>
     </div>
-  )
+  );
 }

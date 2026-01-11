@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -18,10 +18,10 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Switch } from "@/components/ui/switch"
+} from "@/components/ui/dialog";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import {
   Table,
   TableBody,
@@ -29,35 +29,35 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Textarea } from "@/components/ui/textarea"
+} from "@/components/ui/table";
+import { Textarea } from "@/components/ui/textarea";
 
-type ProviderStatus = "enabled" | "disabled"
+type ProviderStatus = "enabled" | "disabled";
 
 type Provider = {
-  id: string
-  name: string
-  description: string
-  status: ProviderStatus
-  region: string
-  audience: string
-  lastUpdated: string
-}
+  id: string;
+  name: string;
+  description: string;
+  status: ProviderStatus;
+  region: string;
+  audience: string;
+  lastUpdated: string;
+};
 
 type Policy = {
-  id: string
-  name: string
-  description: string
-  enforced: boolean
-}
+  id: string;
+  name: string;
+  description: string;
+  enforced: boolean;
+};
 
 type AuditEvent = {
-  id: string
-  actor: string
-  action: string
-  target: string
-  timestamp: string
-}
+  id: string;
+  actor: string;
+  action: string;
+  target: string;
+  timestamp: string;
+};
 
 const PROVIDERS: Provider[] = [
   {
@@ -87,7 +87,7 @@ const PROVIDERS: Provider[] = [
     audience: "trusted partners",
     lastUpdated: "1 day ago",
   },
-]
+];
 
 const POLICIES: Policy[] = [
   {
@@ -108,7 +108,7 @@ const POLICIES: Policy[] = [
     description: "Restrict admin logins to office network ranges",
     enforced: false,
   },
-]
+];
 
 const AUDIT_EVENTS: AuditEvent[] = [
   {
@@ -132,11 +132,11 @@ const AUDIT_EVENTS: AuditEvent[] = [
     target: "All providers",
     timestamp: "Yesterday",
   },
-]
+];
 
 export function SupabaseAuthManager() {
-  const [providers, setProviders] = useState(PROVIDERS)
-  const [activeProvider, setActiveProvider] = useState<Provider | null>(null)
+  const [providers, setProviders] = useState(PROVIDERS);
+  const [activeProvider, setActiveProvider] = useState<Provider | null>(null);
 
   const handleToggle = (id: string) => {
     setProviders((prev) =>
@@ -147,10 +147,10 @@ export function SupabaseAuthManager() {
               status: provider.status === "enabled" ? "disabled" : "enabled",
               lastUpdated: "Just now",
             }
-          : provider
-      )
-    )
-  }
+          : provider,
+      ),
+    );
+  };
 
   return (
     <div className="space-y-6">
@@ -171,13 +171,20 @@ export function SupabaseAuthManager() {
                 <div>
                   <div className="flex items-center gap-2">
                     <p className="font-medium">{provider.name}</p>
-                    <Badge variant={provider.status === "enabled" ? "default" : "secondary"}>
+                    <Badge
+                      variant={
+                        provider.status === "enabled" ? "default" : "secondary"
+                      }
+                    >
                       {provider.status === "enabled" ? "Enabled" : "Disabled"}
                     </Badge>
                   </div>
-                  <p className="text-muted-foreground text-sm">{provider.description}</p>
+                  <p className="text-muted-foreground text-sm">
+                    {provider.description}
+                  </p>
                   <p className="text-muted-foreground text-xs">
-                    Target audience: {provider.audience} • Updated {provider.lastUpdated}
+                    Target audience: {provider.audience} • Updated{" "}
+                    {provider.lastUpdated}
                   </p>
                 </div>
                 <div className="flex flex-col items-end gap-3">
@@ -204,7 +211,8 @@ export function SupabaseAuthManager() {
           <CardHeader>
             <CardTitle>Security policies & audit</CardTitle>
             <CardDescription>
-              Enforce consistent controls and keep a pulse on administrative changes.
+              Enforce consistent controls and keep a pulse on administrative
+              changes.
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-5">
@@ -212,7 +220,9 @@ export function SupabaseAuthManager() {
               <div key={policy.id} className="flex items-start justify-between">
                 <div>
                   <p className="font-medium">{policy.name}</p>
-                  <p className="text-muted-foreground text-sm">{policy.description}</p>
+                  <p className="text-muted-foreground text-sm">
+                    {policy.description}
+                  </p>
                 </div>
                 <Switch
                   checked={policy.enforced}
@@ -241,7 +251,9 @@ export function SupabaseAuthManager() {
                 <TableBody>
                   {AUDIT_EVENTS.map((event) => (
                     <TableRow key={event.id}>
-                      <TableCell className="font-medium">{event.actor}</TableCell>
+                      <TableCell className="font-medium">
+                        {event.actor}
+                      </TableCell>
                       <TableCell>{event.action}</TableCell>
                       <TableCell>{event.target}</TableCell>
                       <TableCell className="text-right text-sm text-muted-foreground">
@@ -256,7 +268,10 @@ export function SupabaseAuthManager() {
         </Card>
       </div>
 
-      <Dialog open={!!activeProvider} onOpenChange={(open) => !open && setActiveProvider(null)}>
+      <Dialog
+        open={!!activeProvider}
+        onOpenChange={(open) => !open && setActiveProvider(null)}
+      >
         <DialogContent className="max-w-lg">
           <DialogHeader>
             <DialogTitle>
@@ -277,7 +292,12 @@ export function SupabaseAuthManager() {
             </div>
             <div className="grid gap-2">
               <Label htmlFor="secret">Client secret</Label>
-              <Input id="secret" type="password" placeholder="••••••" defaultValue="••••••" />
+              <Input
+                id="secret"
+                type="password"
+                placeholder="••••••"
+                defaultValue="••••••"
+              />
             </div>
             <div className="grid gap-2">
               <Label htmlFor="redirects">Redirect URLs</Label>
@@ -297,7 +317,7 @@ export function SupabaseAuthManager() {
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }
 
-export default SupabaseAuthManager
+export default SupabaseAuthManager;

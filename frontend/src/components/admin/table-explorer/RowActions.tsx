@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useState, useTransition } from 'react';
-import { useRouter } from 'next/navigation';
-import { MoreHorizontal, Pencil, Eye, Trash2, Copy } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
+import { MoreHorizontal, Pencil, Eye, Trash2, Copy } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { DeleteConfirmation } from './DeleteConfirmation';
-import { duplicateTableRow } from '@/app/actions/admin-table-actions';
-import { type TableConfig } from '@/lib/table-registry';
-import { toast } from 'sonner';
+} from "@/components/ui/dropdown-menu";
+import { DeleteConfirmation } from "./DeleteConfirmation";
+import { duplicateTableRow } from "@/app/actions/admin-table-actions";
+import { type TableConfig } from "@/lib/table-registry";
+import { toast } from "sonner";
 
 interface RowActionsProps {
   table: string;
@@ -23,7 +23,12 @@ interface RowActionsProps {
   config: TableConfig;
 }
 
-export function RowActions({ table, rowId, rowTitle, config }: RowActionsProps) {
+export function RowActions({
+  table,
+  rowId,
+  rowTitle,
+  config,
+}: RowActionsProps) {
   const router = useRouter();
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const [isPending, startTransition] = useTransition();
@@ -41,10 +46,10 @@ export function RowActions({ table, rowId, rowTitle, config }: RowActionsProps) 
       const result = await duplicateTableRow(table, rowId);
 
       if (result.success) {
-        toast.success('Row duplicated successfully');
+        toast.success("Row duplicated successfully");
         router.refresh();
       } else {
-        toast.error(result.error ?? 'Failed to duplicate row');
+        toast.error(result.error ?? "Failed to duplicate row");
       }
     });
   };

@@ -1,20 +1,23 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Input } from "@/components/ui/input"
-import { FormField } from "./FormField"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { Input } from "@/components/ui/input";
+import { FormField } from "./FormField";
+import { cn } from "@/lib/utils";
 
-interface NumberFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange'> {
-  label: string
-  value?: number
-  onChange?: (value: number | undefined) => void
-  error?: string
-  hint?: string
-  required?: boolean
-  fullWidth?: boolean
-  prefix?: string
-  suffix?: string
+interface NumberFieldProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "type" | "onChange"
+> {
+  label: string;
+  value?: number;
+  onChange?: (value: number | undefined) => void;
+  error?: string;
+  hint?: string;
+  required?: boolean;
+  fullWidth?: boolean;
+  prefix?: string;
+  suffix?: string;
 }
 
 export function NumberField({
@@ -31,16 +34,16 @@ export function NumberField({
   ...inputProps
 }: NumberFieldProps) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value
-    if (val === '') {
-      onChange?.(undefined)
+    const val = e.target.value;
+    if (val === "") {
+      onChange?.(undefined);
     } else {
-      const numVal = parseFloat(val)
+      const numVal = parseFloat(val);
       if (!isNaN(numVal)) {
-        onChange?.(numVal)
+        onChange?.(numVal);
       }
     }
-  }
+  };
 
   return (
     <FormField
@@ -58,13 +61,13 @@ export function NumberField({
         )}
         <Input
           type="number"
-          value={value ?? ''}
+          value={value ?? ""}
           onChange={handleChange}
           className={cn(
             error && "border-red-300",
             prefix && "pl-8",
             suffix && "pr-12",
-            className
+            className,
           )}
           aria-invalid={!!error}
           aria-describedby={error ? `${inputProps.id}-error` : undefined}
@@ -77,5 +80,5 @@ export function NumberField({
         )}
       </div>
     </FormField>
-  )
+  );
 }

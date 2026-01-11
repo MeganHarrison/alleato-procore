@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import { useState, useMemo } from 'react'
-import { useRouter } from 'next/navigation'
-import { format } from 'date-fns'
+import { useState, useMemo } from "react";
+import { useRouter } from "next/navigation";
+import { format } from "date-fns";
 import {
   Table,
   TableBody,
@@ -10,10 +10,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { Badge } from '@/components/ui/badge'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
+} from "@/components/ui/table";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -22,7 +22,7 @@ import {
   DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
+} from "@/components/ui/dropdown-menu";
 import {
   Dialog,
   DialogContent,
@@ -30,9 +30,9 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Label } from "@/components/ui/label"
-import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar"
+} from "@/components/ui/dialog";
+import { Label } from "@/components/ui/label";
+import { Avatar, AvatarImage, AvatarFallback } from "@/components/ui/avatar";
 import {
   Search,
   Download,
@@ -49,32 +49,32 @@ import {
   ArrowUpDown,
   Building2,
   Briefcase,
-} from 'lucide-react'
-import { toast } from 'sonner'
-import { createClient } from '@/lib/supabase/client'
+} from "lucide-react";
+import { toast } from "sonner";
+import { createClient } from "@/lib/supabase/client";
 
 export interface Employee {
-  id: number
-  first_name: string | null
-  last_name: string | null
-  email: string | null
-  phone: string | null
-  department: string | null
-  salery: number | null
-  start_date: string | null
-  supervisor: number | null
-  company_card: boolean | null
-  truck_allowance: number | null
-  phone_allowance: number | null
-  created_at: string | null
-  updated_at: string | null
-  job_title: string | null
-  supervisor_name: string | null
-  photo: string | null
+  id: number;
+  first_name: string | null;
+  last_name: string | null;
+  email: string | null;
+  phone: string | null;
+  department: string | null;
+  salery: number | null;
+  start_date: string | null;
+  supervisor: number | null;
+  company_card: boolean | null;
+  truck_allowance: number | null;
+  phone_allowance: number | null;
+  created_at: string | null;
+  updated_at: string | null;
+  job_title: string | null;
+  supervisor_name: string | null;
+  photo: string | null;
 }
 
 interface EmployeesDataTableProps {
-  employees: Employee[]
+  employees: Employee[];
 }
 
 const COLUMNS = [
@@ -85,130 +85,146 @@ const COLUMNS = [
   { id: "department", label: "Department", defaultVisible: true },
   { id: "supervisor_name", label: "Supervisor", defaultVisible: true },
   { id: "start_date", label: "Start Date", defaultVisible: false },
-]
+];
 
-export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDataTableProps) {
-  const router = useRouter()
-  const [employees, setEmployees] = useState(initialEmployees)
-  const [searchTerm, setSearchTerm] = useState('')
+export function EmployeesDataTable({
+  employees: initialEmployees,
+}: EmployeesDataTableProps) {
+  const router = useRouter();
+  const [employees, setEmployees] = useState(initialEmployees);
+  const [searchTerm, setSearchTerm] = useState("");
   const [visibleColumns, setVisibleColumns] = useState<Set<string>>(
-    new Set(COLUMNS.filter(col => col.defaultVisible).map(col => col.id))
-  )
-  const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null)
-  const [editData, setEditData] = useState<Partial<Employee>>({})
-  const [isDeleting, setIsDeleting] = useState<number | null>(null)
-  const [sortColumn, setSortColumn] = useState<string>('name')
-  const [sortDirection, setSortDirection] = useState<'asc' | 'desc'>('asc')
+    new Set(COLUMNS.filter((col) => col.defaultVisible).map((col) => col.id)),
+  );
+  const [editingEmployee, setEditingEmployee] = useState<Employee | null>(null);
+  const [editData, setEditData] = useState<Partial<Employee>>({});
+  const [isDeleting, setIsDeleting] = useState<number | null>(null);
+  const [sortColumn, setSortColumn] = useState<string>("name");
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
   const filteredEmployees = useMemo(() => {
-    return employees.filter(employee => {
-      const fullName = `${employee.first_name || ''} ${employee.last_name || ''}`.toLowerCase()
+    return employees.filter((employee) => {
+      const fullName =
+        `${employee.first_name || ""} ${employee.last_name || ""}`.toLowerCase();
       const matchesSearch =
         fullName.includes(searchTerm.toLowerCase()) ||
         employee.email?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         employee.phone?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         employee.department?.toLowerCase().includes(searchTerm.toLowerCase()) ||
         employee.job_title?.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        employee.supervisor_name?.toLowerCase().includes(searchTerm.toLowerCase())
+        employee.supervisor_name
+          ?.toLowerCase()
+          .includes(searchTerm.toLowerCase());
 
-      return matchesSearch
-    })
-  }, [employees, searchTerm])
+      return matchesSearch;
+    });
+  }, [employees, searchTerm]);
 
   const getSortValue = (employee: Employee, columnId: string) => {
     switch (columnId) {
-      case 'name':
-        return `${employee.first_name || ''} ${employee.last_name || ''}`.toLowerCase()
-      case 'email':
-        return employee.email?.toLowerCase() || ''
-      case 'phone':
-        return employee.phone?.toLowerCase() || ''
-      case 'job_title':
-        return employee.job_title?.toLowerCase() || ''
-      case 'department':
-        return employee.department?.toLowerCase() || ''
-      case 'supervisor_name':
-        return employee.supervisor_name?.toLowerCase() || ''
-      case 'start_date':
-        return employee.start_date ? new Date(employee.start_date).getTime() : 0
+      case "name":
+        return `${employee.first_name || ""} ${employee.last_name || ""}`.toLowerCase();
+      case "email":
+        return employee.email?.toLowerCase() || "";
+      case "phone":
+        return employee.phone?.toLowerCase() || "";
+      case "job_title":
+        return employee.job_title?.toLowerCase() || "";
+      case "department":
+        return employee.department?.toLowerCase() || "";
+      case "supervisor_name":
+        return employee.supervisor_name?.toLowerCase() || "";
+      case "start_date":
+        return employee.start_date
+          ? new Date(employee.start_date).getTime()
+          : 0;
       default:
-        return ''
+        return "";
     }
-  }
+  };
 
   const sortedEmployees = useMemo(() => {
-    if (!sortColumn) return filteredEmployees
+    if (!sortColumn) return filteredEmployees;
 
     const sorted = [...filteredEmployees].sort((a, b) => {
-      const valueA = getSortValue(a, sortColumn)
-      const valueB = getSortValue(b, sortColumn)
+      const valueA = getSortValue(a, sortColumn);
+      const valueB = getSortValue(b, sortColumn);
 
-      if (typeof valueA === 'number' && typeof valueB === 'number') {
-        return sortDirection === 'asc' ? valueA - valueB : valueB - valueA
+      if (typeof valueA === "number" && typeof valueB === "number") {
+        return sortDirection === "asc" ? valueA - valueB : valueB - valueA;
       }
 
-      return sortDirection === 'asc'
+      return sortDirection === "asc"
         ? String(valueA).localeCompare(String(valueB))
-        : String(valueB).localeCompare(String(valueA))
-    })
+        : String(valueB).localeCompare(String(valueA));
+    });
 
-    return sorted
-  }, [filteredEmployees, sortColumn, sortDirection])
+    return sorted;
+  }, [filteredEmployees, sortColumn, sortDirection]);
 
   const handleSort = (columnId: string) => {
     if (sortColumn === columnId) {
-      setSortDirection((prev) => (prev === 'asc' ? 'desc' : 'asc'))
+      setSortDirection((prev) => (prev === "asc" ? "desc" : "asc"));
     } else {
-      setSortColumn(columnId)
-      setSortDirection('asc')
+      setSortColumn(columnId);
+      setSortDirection("asc");
     }
-  }
+  };
 
   const renderSortIcon = (columnId: string) => {
     if (sortColumn !== columnId) {
-      return <ArrowUpDown className="ml-1 h-3.5 w-3.5 text-muted-foreground" />
+      return <ArrowUpDown className="ml-1 h-3.5 w-3.5 text-muted-foreground" />;
     }
 
-    return sortDirection === 'asc' ? (
+    return sortDirection === "asc" ? (
       <ChevronUp className="ml-1 h-3.5 w-3.5" />
     ) : (
       <ChevronDown className="ml-1 h-3.5 w-3.5" />
-    )
-  }
+    );
+  };
 
   const exportToCSV = () => {
-    const headers = ['First Name', 'Last Name', 'Email', 'Phone', 'Job Title', 'Department', 'Supervisor', 'Start Date']
-    const rows = sortedEmployees.map(e => [
-      e.first_name || '',
-      e.last_name || '',
-      e.email || '',
-      e.phone || '',
-      e.job_title || '',
-      e.department || '',
-      e.supervisor_name || '',
-      e.start_date ? format(new Date(e.start_date), 'yyyy-MM-dd') : ''
-    ])
+    const headers = [
+      "First Name",
+      "Last Name",
+      "Email",
+      "Phone",
+      "Job Title",
+      "Department",
+      "Supervisor",
+      "Start Date",
+    ];
+    const rows = sortedEmployees.map((e) => [
+      e.first_name || "",
+      e.last_name || "",
+      e.email || "",
+      e.phone || "",
+      e.job_title || "",
+      e.department || "",
+      e.supervisor_name || "",
+      e.start_date ? format(new Date(e.start_date), "yyyy-MM-dd") : "",
+    ]);
 
     const csvContent = [headers, ...rows]
-      .map(row => row.map(cell => `"${cell}"`).join(','))
-      .join('\n')
+      .map((row) => row.map((cell) => `"${cell}"`).join(","))
+      .join("\n");
 
-    const blob = new Blob([csvContent], { type: 'text/csv' })
-    const url = window.URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `employees-${format(new Date(), 'yyyy-MM-dd')}.csv`
-    a.click()
-    toast.success('Exported to CSV')
-  }
+    const blob = new Blob([csvContent], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `employees-${format(new Date(), "yyyy-MM-dd")}.csv`;
+    a.click();
+    toast.success("Exported to CSV");
+  };
 
   const handleRowClick = (employeeId: number) => {
     // Future: navigate to employee detail page
-    console.log('Employee clicked:', employeeId)
-  }
+    console.log("Employee clicked:", employeeId);
+  };
 
   const startEditingEmployee = (employee: Employee) => {
-    setEditingEmployee(employee)
+    setEditingEmployee(employee);
     setEditData({
       first_name: employee.first_name,
       last_name: employee.last_name,
@@ -217,75 +233,79 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
       job_title: employee.job_title,
       department: employee.department,
       start_date: employee.start_date,
-    })
-  }
+    });
+  };
 
   const handleEdit = (e: React.MouseEvent, employee: Employee) => {
-    e.stopPropagation()
-    startEditingEmployee(employee)
-  }
+    e.stopPropagation();
+    startEditingEmployee(employee);
+  };
 
   const handleCellEdit = (employee: Employee) => (e: React.MouseEvent) => {
-    e.stopPropagation()
-    startEditingEmployee(employee)
-  }
+    e.stopPropagation();
+    startEditingEmployee(employee);
+  };
 
   const handleSave = async () => {
-    if (!editingEmployee) return
+    if (!editingEmployee) return;
 
     try {
-      const supabase = createClient()
+      const supabase = createClient();
       const { error } = await supabase
-        .from('employees')
+        .from("employees")
         .update(editData)
-        .eq('id', editingEmployee.id)
+        .eq("id", editingEmployee.id);
 
-      if (error) throw error
+      if (error) throw error;
 
-      setEmployees(prev => prev.map(e => e.id === editingEmployee.id ? { ...e, ...editData } : e))
-      toast.success('Employee updated successfully')
-      setEditingEmployee(null)
-      setEditData({})
+      setEmployees((prev) =>
+        prev.map((e) =>
+          e.id === editingEmployee.id ? { ...e, ...editData } : e,
+        ),
+      );
+      toast.success("Employee updated successfully");
+      setEditingEmployee(null);
+      setEditData({});
     } catch (error) {
-      console.error('Error updating employee:', error)
-      toast.error('Failed to update employee')
+      console.error("Error updating employee:", error);
+      toast.error("Failed to update employee");
     }
-  }
+  };
 
   const handleDelete = async (e: React.MouseEvent, id: number) => {
-    e.stopPropagation()
-    setIsDeleting(id)
-  }
+    e.stopPropagation();
+    setIsDeleting(id);
+  };
 
   const confirmDelete = async () => {
-    if (!isDeleting) return
+    if (!isDeleting) return;
 
     try {
-      const supabase = createClient()
+      const supabase = createClient();
       const { error } = await supabase
-        .from('employees')
+        .from("employees")
         .delete()
-        .eq('id', isDeleting)
+        .eq("id", isDeleting);
 
-      if (error) throw error
+      if (error) throw error;
 
-      setEmployees(prev => prev.filter(e => e.id !== isDeleting))
-      toast.success('Employee deleted successfully')
-      setIsDeleting(null)
+      setEmployees((prev) => prev.filter((e) => e.id !== isDeleting));
+      toast.success("Employee deleted successfully");
+      setIsDeleting(null);
     } catch (error) {
-      console.error('Error deleting employee:', error)
-      toast.error('Failed to delete employee')
-      setIsDeleting(null)
+      console.error("Error deleting employee:", error);
+      toast.error("Failed to delete employee");
+      setIsDeleting(null);
     }
-  }
+  };
 
   const getInitials = (employee: Employee) => {
-    const first = employee.first_name?.[0] || ''
-    const last = employee.last_name?.[0] || ''
-    return (first + last).toUpperCase() || 'NA'
-  }
+    const first = employee.first_name?.[0] || "";
+    const last = employee.last_name?.[0] || "";
+    return (first + last).toUpperCase() || "NA";
+  };
 
-  const visibleColumnCount = visibleColumns.size + 1
+  const visibleColumnCount = visibleColumns.size + 1;
 
   return (
     <>
@@ -318,18 +338,18 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
             <DropdownMenuContent align="end" className="w-[200px]">
               <DropdownMenuLabel>Toggle columns</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              {COLUMNS.map(column => (
+              {COLUMNS.map((column) => (
                 <DropdownMenuCheckboxItem
                   key={column.id}
                   checked={visibleColumns.has(column.id)}
                   onCheckedChange={(checked) => {
-                    const newColumns = new Set(visibleColumns)
+                    const newColumns = new Set(visibleColumns);
                     if (checked) {
-                      newColumns.add(column.id)
+                      newColumns.add(column.id);
                     } else {
-                      newColumns.delete(column.id)
+                      newColumns.delete(column.id);
                     }
-                    setVisibleColumns(newColumns)
+                    setVisibleColumns(newColumns);
                   }}
                 >
                   {column.label}
@@ -349,80 +369,80 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
             <Table>
               <TableHeader>
                 <TableRow>
-                  {visibleColumns.has('name') && (
+                  {visibleColumns.has("name") && (
                     <TableHead
                       className="w-[250px] cursor-pointer select-none"
-                      onClick={() => handleSort('name')}
+                      onClick={() => handleSort("name")}
                     >
                       <div className="flex items-center">
                         Name
-                        {renderSortIcon('name')}
+                        {renderSortIcon("name")}
                       </div>
                     </TableHead>
                   )}
-                  {visibleColumns.has('email') && (
+                  {visibleColumns.has("email") && (
                     <TableHead
                       className="w-[200px] cursor-pointer select-none"
-                      onClick={() => handleSort('email')}
+                      onClick={() => handleSort("email")}
                     >
                       <div className="flex items-center">
                         Email
-                        {renderSortIcon('email')}
+                        {renderSortIcon("email")}
                       </div>
                     </TableHead>
                   )}
-                  {visibleColumns.has('phone') && (
+                  {visibleColumns.has("phone") && (
                     <TableHead
                       className="w-[140px] cursor-pointer select-none"
-                      onClick={() => handleSort('phone')}
+                      onClick={() => handleSort("phone")}
                     >
                       <div className="flex items-center">
                         Phone
-                        {renderSortIcon('phone')}
+                        {renderSortIcon("phone")}
                       </div>
                     </TableHead>
                   )}
-                  {visibleColumns.has('job_title') && (
+                  {visibleColumns.has("job_title") && (
                     <TableHead
                       className="w-[160px] cursor-pointer select-none"
-                      onClick={() => handleSort('job_title')}
+                      onClick={() => handleSort("job_title")}
                     >
                       <div className="flex items-center">
                         Job Title
-                        {renderSortIcon('job_title')}
+                        {renderSortIcon("job_title")}
                       </div>
                     </TableHead>
                   )}
-                  {visibleColumns.has('department') && (
+                  {visibleColumns.has("department") && (
                     <TableHead
                       className="w-[140px] cursor-pointer select-none"
-                      onClick={() => handleSort('department')}
+                      onClick={() => handleSort("department")}
                     >
                       <div className="flex items-center">
                         Department
-                        {renderSortIcon('department')}
+                        {renderSortIcon("department")}
                       </div>
                     </TableHead>
                   )}
-                  {visibleColumns.has('supervisor_name') && (
+                  {visibleColumns.has("supervisor_name") && (
                     <TableHead
                       className="w-[150px] cursor-pointer select-none"
-                      onClick={() => handleSort('supervisor_name')}
+                      onClick={() => handleSort("supervisor_name")}
                     >
                       <div className="flex items-center">
                         Supervisor
-                        {renderSortIcon('supervisor_name')}
+                        {renderSortIcon("supervisor_name")}
                       </div>
                     </TableHead>
                   )}
-                  {visibleColumns.has('start_date') && (
+                  {visibleColumns.has("start_date") && (
                     <TableHead
                       className="w-[140px] cursor-pointer select-none"
-                      onClick={() => handleSort('start_date')}
+                      onClick={() => handleSort("start_date")}
                     >
                       <div className="flex items-center">
                         Start Date
-                        {renderSortIcon('start_date')}
+                        {renderSortIcon("start_date")}
                       </div>
                     </TableHead>
                   )}
@@ -432,7 +452,10 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
               <TableBody>
                 {filteredEmployees.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={visibleColumnCount} className="text-center text-muted-foreground h-32">
+                    <TableCell
+                      colSpan={visibleColumnCount}
+                      className="text-center text-muted-foreground h-32"
+                    >
                       No employees found
                     </TableCell>
                   </TableRow>
@@ -443,12 +466,17 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
                       className="cursor-pointer hover:bg-muted/50"
                       onClick={() => handleRowClick(employee.id)}
                     >
-                      {visibleColumns.has('name') && (
+                      {visibleColumns.has("name") && (
                         <TableCell>
                           <div className="flex items-center gap-3">
                             <Avatar className="h-8 w-8">
-                              <AvatarImage src={employee.photo || undefined} alt={`${employee.first_name} ${employee.last_name}`} />
-                              <AvatarFallback>{getInitials(employee)}</AvatarFallback>
+                              <AvatarImage
+                                src={employee.photo || undefined}
+                                alt={`${employee.first_name} ${employee.last_name}`}
+                              />
+                              <AvatarFallback>
+                                {getInitials(employee)}
+                              </AvatarFallback>
                             </Avatar>
                             <div className="font-medium">
                               {employee.first_name} {employee.last_name}
@@ -456,7 +484,7 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
                           </div>
                         </TableCell>
                       )}
-                      {visibleColumns.has('email') && (
+                      {visibleColumns.has("email") && (
                         <TableCell
                           className="cursor-text"
                           onClick={handleCellEdit(employee)}
@@ -467,11 +495,11 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
                               <span className="truncate">{employee.email}</span>
                             </div>
                           ) : (
-                            '-'
+                            "-"
                           )}
                         </TableCell>
                       )}
-                      {visibleColumns.has('phone') && (
+                      {visibleColumns.has("phone") && (
                         <TableCell
                           className="cursor-text"
                           onClick={handleCellEdit(employee)}
@@ -482,11 +510,11 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
                               <span>{employee.phone}</span>
                             </div>
                           ) : (
-                            '-'
+                            "-"
                           )}
                         </TableCell>
                       )}
-                      {visibleColumns.has('job_title') && (
+                      {visibleColumns.has("job_title") && (
                         <TableCell
                           className="cursor-text"
                           onClick={handleCellEdit(employee)}
@@ -494,16 +522,19 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
                           {employee.job_title ? (
                             <div className="flex items-center gap-2">
                               <Briefcase className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
-                              <Badge variant="secondary" className="font-normal">
+                              <Badge
+                                variant="secondary"
+                                className="font-normal"
+                              >
                                 {employee.job_title}
                               </Badge>
                             </div>
                           ) : (
-                            '-'
+                            "-"
                           )}
                         </TableCell>
                       )}
-                      {visibleColumns.has('department') && (
+                      {visibleColumns.has("department") && (
                         <TableCell
                           className="cursor-text"
                           onClick={handleCellEdit(employee)}
@@ -516,19 +547,19 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
                               </Badge>
                             </div>
                           ) : (
-                            '-'
+                            "-"
                           )}
                         </TableCell>
                       )}
-                      {visibleColumns.has('supervisor_name') && (
+                      {visibleColumns.has("supervisor_name") && (
                         <TableCell
                           className="cursor-text"
                           onClick={handleCellEdit(employee)}
                         >
-                          {employee.supervisor_name || '-'}
+                          {employee.supervisor_name || "-"}
                         </TableCell>
                       )}
-                      {visibleColumns.has('start_date') && (
+                      {visibleColumns.has("start_date") && (
                         <TableCell
                           className="whitespace-nowrap cursor-text"
                           onClick={handleCellEdit(employee)}
@@ -536,22 +567,32 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
                           {employee.start_date ? (
                             <div className="flex items-center gap-2">
                               <Calendar className="h-3.5 w-3.5 text-muted-foreground flex-shrink-0" />
-                              <span className="text-sm">{format(new Date(employee.start_date), 'MMM d, yyyy')}</span>
+                              <span className="text-sm">
+                                {format(
+                                  new Date(employee.start_date),
+                                  "MMM d, yyyy",
+                                )}
+                              </span>
                             </div>
                           ) : (
-                            '-'
+                            "-"
                           )}
                         </TableCell>
                       )}
                       <TableCell className="text-right">
                         <DropdownMenu>
-                          <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
+                          <DropdownMenuTrigger
+                            asChild
+                            onClick={(e) => e.stopPropagation()}
+                          >
                             <Button variant="ghost" size="sm">
                               <MoreHorizontal className="h-4 w-4" />
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem onClick={(e) => handleEdit(e, employee)}>
+                            <DropdownMenuItem
+                              onClick={(e) => handleEdit(e, employee)}
+                            >
                               <Pencil className="h-4 w-4 mr-2" />
                               Edit
                             </DropdownMenuItem>
@@ -576,7 +617,10 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
 
       {/* Edit Dialog */}
       {editingEmployee && (
-        <Dialog open={!!editingEmployee} onOpenChange={() => setEditingEmployee(null)}>
+        <Dialog
+          open={!!editingEmployee}
+          onOpenChange={() => setEditingEmployee(null)}
+        >
           <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Edit Employee</DialogTitle>
@@ -589,15 +633,19 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
                 <div className="grid gap-2">
                   <Label>First Name</Label>
                   <Input
-                    value={editData.first_name || ''}
-                    onChange={(e) => setEditData({ ...editData, first_name: e.target.value })}
+                    value={editData.first_name || ""}
+                    onChange={(e) =>
+                      setEditData({ ...editData, first_name: e.target.value })
+                    }
                   />
                 </div>
                 <div className="grid gap-2">
                   <Label>Last Name</Label>
                   <Input
-                    value={editData.last_name || ''}
-                    onChange={(e) => setEditData({ ...editData, last_name: e.target.value })}
+                    value={editData.last_name || ""}
+                    onChange={(e) =>
+                      setEditData({ ...editData, last_name: e.target.value })
+                    }
                   />
                 </div>
               </div>
@@ -605,46 +653,66 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
                 <Label>Email</Label>
                 <Input
                   type="email"
-                  value={editData.email || ''}
-                  onChange={(e) => setEditData({ ...editData, email: e.target.value })}
+                  value={editData.email || ""}
+                  onChange={(e) =>
+                    setEditData({ ...editData, email: e.target.value })
+                  }
                 />
               </div>
               <div className="grid gap-2">
                 <Label>Phone</Label>
                 <Input
                   type="tel"
-                  value={editData.phone || ''}
-                  onChange={(e) => setEditData({ ...editData, phone: e.target.value })}
+                  value={editData.phone || ""}
+                  onChange={(e) =>
+                    setEditData({ ...editData, phone: e.target.value })
+                  }
                 />
               </div>
               <div className="grid gap-2">
                 <Label>Job Title</Label>
                 <Input
-                  value={editData.job_title || ''}
-                  onChange={(e) => setEditData({ ...editData, job_title: e.target.value })}
+                  value={editData.job_title || ""}
+                  onChange={(e) =>
+                    setEditData({ ...editData, job_title: e.target.value })
+                  }
                 />
               </div>
               <div className="grid gap-2">
                 <Label>Department</Label>
                 <Input
-                  value={editData.department || ''}
-                  onChange={(e) => setEditData({ ...editData, department: e.target.value })}
+                  value={editData.department || ""}
+                  onChange={(e) =>
+                    setEditData({ ...editData, department: e.target.value })
+                  }
                 />
               </div>
               <div className="grid gap-2">
                 <Label>Start Date</Label>
                 <Input
                   type="date"
-                  value={editData.start_date ? new Date(editData.start_date).toISOString().split('T')[0] : ''}
+                  value={
+                    editData.start_date
+                      ? new Date(editData.start_date)
+                          .toISOString()
+                          .split("T")[0]
+                      : ""
+                  }
                   onChange={(e) => {
-                    const localDate = new Date(e.target.value + 'T12:00:00')
-                    setEditData({ ...editData, start_date: localDate.toISOString() })
+                    const localDate = new Date(e.target.value + "T12:00:00");
+                    setEditData({
+                      ...editData,
+                      start_date: localDate.toISOString(),
+                    });
                   }}
                 />
               </div>
             </div>
             <DialogFooter>
-              <Button variant="outline" onClick={() => setEditingEmployee(null)}>
+              <Button
+                variant="outline"
+                onClick={() => setEditingEmployee(null)}
+              >
                 Cancel
               </Button>
               <Button onClick={handleSave}>Save changes</Button>
@@ -660,7 +728,8 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
             <DialogHeader>
               <DialogTitle>Confirm Deletion</DialogTitle>
               <DialogDescription>
-                Are you sure you want to delete this employee? This action cannot be undone.
+                Are you sure you want to delete this employee? This action
+                cannot be undone.
               </DialogDescription>
             </DialogHeader>
             <DialogFooter>
@@ -675,5 +744,5 @@ export function EmployeesDataTable({ employees: initialEmployees }: EmployeesDat
         </Dialog>
       )}
     </>
-  )
+  );
 }

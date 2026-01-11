@@ -1,42 +1,42 @@
-import { createClient } from '@/lib/supabase/server';
-import { NextResponse } from 'next/server';
-import type { PaginatedResponse, Commitment } from '@/app/api/types';
+import { createClient } from "@/lib/supabase/server";
+import { NextResponse } from "next/server";
+import type { PaginatedResponse, Commitment } from "@/app/api/types";
 
 export async function GET(request: Request) {
   try {
     const supabase = await createClient();
     const { searchParams } = new URL(request.url);
 
-    const page = parseInt(searchParams.get('page') || '1');
-    const limit = parseInt(searchParams.get('limit') || '100');
-    const status = searchParams.get('status');
-    const search = searchParams.get('search');
-    const companyId = searchParams.get('companyId');
-    const projectId = searchParams.get('projectId');
-    const type = searchParams.get('type'); // 'subcontract' or 'purchase_order'
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "100");
+    const status = searchParams.get("status");
+    const search = searchParams.get("search");
+    const companyId = searchParams.get("companyId");
+    const projectId = searchParams.get("projectId");
+    const type = searchParams.get("type"); // 'subcontract' or 'purchase_order'
 
     // Query from commitments_unified view which combines subcontracts and purchase_orders
     let query = supabase
-      .from('commitments_unified')
-      .select('*')
-      .order('created_at', { ascending: false });
+      .from("commitments_unified")
+      .select("*")
+      .order("created_at", { ascending: false });
 
     // Filter by project if projectId is provided
     if (projectId) {
-      query = query.eq('project_id', projectId);
+      query = query.eq("project_id", projectId);
     }
 
     // Filter by type (subcontract or purchase_order)
     if (type) {
-      query = query.eq('type', type);
+      query = query.eq("type", type);
     }
 
     if (status) {
-      query = query.ilike('status', status);
+      query = query.ilike("status", status);
     }
 
     if (companyId) {
-      query = query.eq('contract_company_id', companyId);
+      query = query.eq("contract_company_id", companyId);
     }
 
     if (search) {
@@ -60,8 +60,8 @@ export async function GET(request: Request) {
       project_id: row.project_id,
       number: row.number,
       title: row.title,
-      status: row.status?.toLowerCase() || 'draft',
-      type: row.type as 'subcontract' | 'purchase_order',
+      status: row.status?.toLowerCase() || "draft",
+      type: row.type as "subcontract" | "purchase_order",
       executed: row.executed,
       contract_company_id: row.contract_company_id,
       contract_company: null, // TODO: join company data if needed
@@ -85,19 +85,19 @@ export async function GET(request: Request) {
         limit,
         total: count || mappedData.length,
         totalPages: count ? Math.ceil(count / limit) : 1,
-      }
+      },
     };
     return NextResponse.json(response);
   } catch (error) {
     if (error instanceof Error) {
       return NextResponse.json(
-        { error: 'Internal server error', message: error.message },
-        { status: 500 }
+        { error: "Internal server error", message: error.message },
+        { status: 500 },
       );
     }
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -106,9 +106,10 @@ export async function GET(request: Request) {
 export async function POST() {
   return NextResponse.json(
     {
-      error: 'Deprecated endpoint',
-      message: 'Use /api/projects/[id]/subcontracts for subcontracts or /api/projects/[id]/purchase-orders for purchase orders'
+      error: "Deprecated endpoint",
+      message:
+        "Use /api/projects/[id]/subcontracts for subcontracts or /api/projects/[id]/purchase-orders for purchase orders",
     },
-    { status: 410 }
+    { status: 410 },
   );
 }

@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React, { Component, ReactNode } from 'react';
-import { AlertCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
+import React, { Component, ReactNode } from "react";
+import { AlertCircle } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface Props {
   children: ReactNode;
@@ -21,20 +21,20 @@ export class DirectoryErrorBoundary extends Component<Props, State> {
     super(props);
     this.state = {
       hasError: false,
-      error: null
+      error: null,
     };
   }
 
   static getDerivedStateFromError(error: Error): State {
     return {
       hasError: true,
-      error
+      error,
     };
   }
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // Log error to monitoring service
-    console.error('Directory Error Boundary caught error:', error, errorInfo);
+    console.error("Directory Error Boundary caught error:", error, errorInfo);
 
     // Call optional error handler
     if (this.props.onError) {
@@ -48,7 +48,7 @@ export class DirectoryErrorBoundary extends Component<Props, State> {
   handleReset = () => {
     this.setState({
       hasError: false,
-      error: null
+      error: null,
     });
   };
 
@@ -67,7 +67,8 @@ export class DirectoryErrorBoundary extends Component<Props, State> {
             <AlertTitle>Something went wrong</AlertTitle>
             <AlertDescription className="mt-2 space-y-4">
               <p>
-                An error occurred while loading the directory. This has been logged and our team will look into it.
+                An error occurred while loading the directory. This has been
+                logged and our team will look into it.
               </p>
               {this.state.error && (
                 <details className="mt-2">
@@ -80,10 +81,7 @@ export class DirectoryErrorBoundary extends Component<Props, State> {
                 </details>
               )}
               <div className="flex gap-2 mt-4">
-                <Button
-                  onClick={this.handleReset}
-                  variant="outline"
-                >
+                <Button onClick={this.handleReset} variant="outline">
                   Try Again
                 </Button>
                 <Button
@@ -109,7 +107,10 @@ interface DirectoryErrorWrapperProps {
   fallback?: ReactNode;
 }
 
-export function DirectoryErrorWrapper({ children, fallback }: DirectoryErrorWrapperProps) {
+export function DirectoryErrorWrapper({
+  children,
+  fallback,
+}: DirectoryErrorWrapperProps) {
   return (
     <DirectoryErrorBoundary fallback={fallback}>
       {children}

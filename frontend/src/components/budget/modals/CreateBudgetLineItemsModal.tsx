@@ -1,19 +1,19 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { BaseModal, ModalBody, ModalFooter } from './BaseModal';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+import { useState } from "react";
+import { BaseModal, ModalBody, ModalFooter } from "./BaseModal";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Plus, Trash2 } from 'lucide-react';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/select";
+import { Plus, Trash2 } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 interface BudgetLineItem {
   id: string;
@@ -44,7 +44,7 @@ export function CreateBudgetLineItemsModal({
   isOpen,
   onClose,
   onSave,
-  availableCostCodes = []
+  availableCostCodes = [],
 }: CreateBudgetLineItemsModalProps) {
   const [items, setItems] = useState<BudgetLineItem[]>([]);
   const [isSaving, setIsSaving] = useState(false);
@@ -54,31 +54,40 @@ export function CreateBudgetLineItemsModal({
       ...items,
       {
         id: Math.random().toString(36).substring(7),
-        costCode: '',
-        quantity: '',
-        uom: ''
-      }
+        costCode: "",
+        quantity: "",
+        uom: "",
+      },
     ]);
   };
 
   const removeLine = (id: string) => {
-    setItems(items.filter(item => item.id !== id));
+    setItems(items.filter((item) => item.id !== id));
   };
 
-  const updateLine = (id: string, field: keyof BudgetLineItem, value: string) => {
-    setItems(items.map(item =>
-      item.id === id ? { ...item, [field]: value } : item
-    ));
+  const updateLine = (
+    id: string,
+    field: keyof BudgetLineItem,
+    value: string,
+  ) => {
+    setItems(
+      items.map((item) =>
+        item.id === id ? { ...item, [field]: value } : item,
+      ),
+    );
   };
 
   const handleSave = async () => {
     // Validate
-    const invalidItems = items.filter(item =>
-      !item.costCode || !item.quantity || parseFloat(item.quantity) <= 0
+    const invalidItems = items.filter(
+      (item) =>
+        !item.costCode || !item.quantity || parseFloat(item.quantity) <= 0,
     );
 
     if (invalidItems.length > 0) {
-      alert('Please fill in all required fields. Quantity must be greater than 0.');
+      alert(
+        "Please fill in all required fields. Quantity must be greater than 0.",
+      );
       return;
     }
 
@@ -88,8 +97,8 @@ export function CreateBudgetLineItemsModal({
       setItems([]);
       onClose();
     } catch (error) {
-      console.error('Error creating budget line items:', error);
-      alert('Failed to create budget items. Please try again.');
+      console.error("Error creating budget line items:", error);
+      alert("Failed to create budget items. Please try again.");
     } finally {
       setIsSaving(false);
     }
@@ -97,7 +106,11 @@ export function CreateBudgetLineItemsModal({
 
   const handleClose = () => {
     if (items.length > 0) {
-      if (confirm('You have unsaved Budget Line Items. Are you sure you want to close?')) {
+      if (
+        confirm(
+          "You have unsaved Budget Line Items. Are you sure you want to close?",
+        )
+      ) {
         setItems([]);
         onClose();
       }
@@ -106,9 +119,11 @@ export function CreateBudgetLineItemsModal({
     }
   };
 
-  const isValid = items.length > 0 && items.every(item =>
-    item.costCode && item.quantity && parseFloat(item.quantity) > 0
-  );
+  const isValid =
+    items.length > 0 &&
+    items.every(
+      (item) => item.costCode && item.quantity && parseFloat(item.quantity) > 0,
+    );
 
   return (
     <BaseModal
@@ -120,11 +135,15 @@ export function CreateBudgetLineItemsModal({
       <ModalBody className="min-h-[420px] space-y-6 bg-white">
         <div className="rounded-xl border border-slate-200 bg-gradient-to-r from-white via-slate-50 to-white px-4 py-3 shadow-sm flex items-center justify-between gap-3 flex-wrap">
           <div>
-            <p className="text-xs uppercase tracking-[0.18em] text-slate-500">Batch Creation</p>
-            <p className="text-sm text-slate-700">Add one or many lines with clean, mobile-first cards.</p>
+            <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
+              Batch Creation
+            </p>
+            <p className="text-sm text-slate-700">
+              Add one or many lines with clean, mobile-first cards.
+            </p>
           </div>
           <div className="hidden sm:flex items-center gap-2 text-xs font-semibold text-orange-600 bg-orange-50 border border-orange-100 px-3 py-1 rounded-full">
-            {items.length || 0} line{items.length === 1 ? '' : 's'}
+            {items.length || 0} line{items.length === 1 ? "" : "s"}
           </div>
         </div>
 
@@ -175,15 +194,20 @@ export function CreateBudgetLineItemsModal({
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {items.map((item, index) => (
-                    <tr key={item.id} className="hover:bg-orange-50/40 transition-colors">
+                    <tr
+                      key={item.id}
+                      className="hover:bg-orange-50/40 transition-colors"
+                    >
                       <td className="px-4 py-3">
                         <Select
                           value={item.costCode}
-                          onValueChange={(value) => updateLine(item.id, 'costCode', value)}
+                          onValueChange={(value) =>
+                            updateLine(item.id, "costCode", value)
+                          }
                         >
-                          <SelectTrigger className={cn(
-                            !item.costCode && 'border-red-300'
-                          )}>
+                          <SelectTrigger
+                            className={cn(!item.costCode && "border-red-300")}
+                          >
                             <SelectValue placeholder="Select Cost Code" />
                           </SelectTrigger>
                           <SelectContent>
@@ -193,7 +217,9 @@ export function CreateBudgetLineItemsModal({
                               </SelectItem>
                             ))}
                             {availableCostCodes.length === 0 && (
-                              <SelectItem value="01-1000">01-1000 - General Conditions</SelectItem>
+                              <SelectItem value="01-1000">
+                                01-1000 - General Conditions
+                              </SelectItem>
                             )}
                           </SelectContent>
                         </Select>
@@ -203,18 +229,22 @@ export function CreateBudgetLineItemsModal({
                           type="number"
                           step="0.01"
                           value={item.quantity}
-                          onChange={(e) => updateLine(item.id, 'quantity', e.target.value)}
+                          onChange={(e) =>
+                            updateLine(item.id, "quantity", e.target.value)
+                          }
                           placeholder="0.00"
                           className={cn(
-                            'text-right',
-                            !item.quantity && 'border-red-300'
+                            "text-right",
+                            !item.quantity && "border-red-300",
                           )}
                         />
                       </td>
                       <td className="px-4 py-3">
                         <Select
                           value={item.uom}
-                          onValueChange={(value) => updateLine(item.id, 'uom', value)}
+                          onValueChange={(value) =>
+                            updateLine(item.id, "uom", value)
+                          }
                         >
                           <SelectTrigger>
                             <SelectValue placeholder="Select" />
@@ -246,9 +276,14 @@ export function CreateBudgetLineItemsModal({
             {/* Mobile Cards */}
             <div className="sm:hidden space-y-4">
               {items.map((item, index) => (
-                <div key={item.id} className="border border-slate-200 rounded-xl p-4 space-y-3 shadow-sm bg-white/90">
+                <div
+                  key={item.id}
+                  className="border border-slate-200 rounded-xl p-4 space-y-3 shadow-sm bg-white/90"
+                >
                   <div className="flex justify-between items-start">
-                    <span className="text-sm font-semibold text-slate-800">Line {index + 1}</span>
+                    <span className="text-sm font-semibold text-slate-800">
+                      Line {index + 1}
+                    </span>
                     <button
                       onClick={() => removeLine(item.id)}
                       className="text-red-500 hover:text-red-700 rounded-full p-2 -mr-2 -mt-2"
@@ -261,13 +296,17 @@ export function CreateBudgetLineItemsModal({
                     <Label className="text-xs">Budget Code *</Label>
                     <Select
                       value={item.costCode}
-                      onValueChange={(value) => updateLine(item.id, 'costCode', value)}
+                      onValueChange={(value) =>
+                        updateLine(item.id, "costCode", value)
+                      }
                     >
                       <SelectTrigger className="mt-1">
                         <SelectValue placeholder="Select Cost Code" />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="01-1000">01-1000 - General Conditions</SelectItem>
+                        <SelectItem value="01-1000">
+                          01-1000 - General Conditions
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
@@ -279,7 +318,9 @@ export function CreateBudgetLineItemsModal({
                         type="number"
                         step="0.01"
                         value={item.quantity}
-                        onChange={(e) => updateLine(item.id, 'quantity', e.target.value)}
+                        onChange={(e) =>
+                          updateLine(item.id, "quantity", e.target.value)
+                        }
                         className="mt-1"
                       />
                     </div>
@@ -287,7 +328,9 @@ export function CreateBudgetLineItemsModal({
                       <Label className="text-xs">UOM</Label>
                       <Select
                         value={item.uom}
-                        onValueChange={(value) => updateLine(item.id, 'uom', value)}
+                        onValueChange={(value) =>
+                          updateLine(item.id, "uom", value)
+                        }
                       >
                         <SelectTrigger className="mt-1">
                           <SelectValue placeholder="Select" />
@@ -326,13 +369,13 @@ export function CreateBudgetLineItemsModal({
           onClick={handleSave}
           disabled={!isValid || isSaving}
           className={cn(
-            'transition-colors',
+            "transition-colors",
             isValid
-              ? 'bg-orange-500 hover:bg-orange-600 text-white'
-              : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+              ? "bg-orange-500 hover:bg-orange-600 text-white"
+              : "bg-gray-300 text-gray-500 cursor-not-allowed",
           )}
         >
-          {isSaving ? 'Creating...' : 'Create'}
+          {isSaving ? "Creating..." : "Create"}
         </Button>
       </ModalFooter>
     </BaseModal>

@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -18,23 +18,26 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { toast } from 'sonner';
-import { contactSchema, type ContactFormData } from '@/lib/schemas/contact-schema';
-import { createContact, updateContact } from '@/app/actions/table-actions';
-import { createClient } from '@/lib/supabase/client';
-import { CompanyFormDialog } from '@/components/domain/companies/CompanyFormDialog';
-import { Building2, Plus } from 'lucide-react';
+} from "@/components/ui/select";
+import { toast } from "sonner";
+import {
+  contactSchema,
+  type ContactFormData,
+} from "@/lib/schemas/contact-schema";
+import { createContact, updateContact } from "@/app/actions/table-actions";
+import { createClient } from "@/lib/supabase/client";
+import { CompanyFormDialog } from "@/components/domain/companies/CompanyFormDialog";
+import { Building2, Plus } from "lucide-react";
 
 interface Contact {
   id: number;
@@ -65,11 +68,56 @@ interface Company {
 }
 
 const US_STATES = [
-  'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
-  'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
-  'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
-  'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
-  'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY',
+  "AL",
+  "AK",
+  "AZ",
+  "AR",
+  "CA",
+  "CO",
+  "CT",
+  "DE",
+  "FL",
+  "GA",
+  "HI",
+  "ID",
+  "IL",
+  "IN",
+  "IA",
+  "KS",
+  "KY",
+  "LA",
+  "ME",
+  "MD",
+  "MA",
+  "MI",
+  "MN",
+  "MS",
+  "MO",
+  "MT",
+  "NE",
+  "NV",
+  "NH",
+  "NJ",
+  "NM",
+  "NY",
+  "NC",
+  "ND",
+  "OH",
+  "OK",
+  "OR",
+  "PA",
+  "RI",
+  "SC",
+  "SD",
+  "TN",
+  "TX",
+  "UT",
+  "VT",
+  "VA",
+  "WA",
+  "WV",
+  "WI",
+  "WY",
 ];
 
 export function ContactFormDialog({
@@ -87,18 +135,18 @@ export function ContactFormDialog({
   const form = useForm<ContactFormData>({
     resolver: zodResolver(contactSchema),
     defaultValues: {
-      first_name: contact?.first_name || '',
-      last_name: contact?.last_name || '',
-      email: contact?.email || '',
-      phone: contact?.phone || '',
-      company_id: contact?.company_id || '',
-      job_title: contact?.job_title || '',
-      department: contact?.department || '',
-      address: contact?.address || '',
-      city: contact?.city || '',
-      state: contact?.state || '',
-      zip: contact?.zip || '',
-      notes: contact?.notes || '',
+      first_name: contact?.first_name || "",
+      last_name: contact?.last_name || "",
+      email: contact?.email || "",
+      phone: contact?.phone || "",
+      company_id: contact?.company_id || "",
+      job_title: contact?.job_title || "",
+      department: contact?.department || "",
+      address: contact?.address || "",
+      city: contact?.city || "",
+      state: contact?.state || "",
+      zip: contact?.zip || "",
+      notes: contact?.notes || "",
     },
   });
 
@@ -108,14 +156,14 @@ export function ContactFormDialog({
     try {
       const supabase = createClient();
       const { data, error } = await supabase
-        .from('companies')
-        .select('id, name')
-        .order('name', { ascending: true });
+        .from("companies")
+        .select("id, name")
+        .order("name", { ascending: true });
 
       if (error) throw error;
       setCompanies(data || []);
     } catch {
-      toast.error('Failed to load companies');
+      toast.error("Failed to load companies");
     } finally {
       setIsLoadingCompanies(false);
     }
@@ -138,18 +186,18 @@ export function ContactFormDialog({
   React.useEffect(() => {
     if (open) {
       form.reset({
-        first_name: contact?.first_name || '',
-        last_name: contact?.last_name || '',
-        email: contact?.email || '',
-        phone: contact?.phone || '',
-        company_id: contact?.company_id || '',
-        job_title: contact?.job_title || '',
-        department: contact?.department || '',
-        address: contact?.address || '',
-        city: contact?.city || '',
-        state: contact?.state || '',
-        zip: contact?.zip || '',
-        notes: contact?.notes || '',
+        first_name: contact?.first_name || "",
+        last_name: contact?.last_name || "",
+        email: contact?.email || "",
+        phone: contact?.phone || "",
+        company_id: contact?.company_id || "",
+        job_title: contact?.job_title || "",
+        department: contact?.department || "",
+        address: contact?.address || "",
+        city: contact?.city || "",
+        state: contact?.state || "",
+        zip: contact?.zip || "",
+        notes: contact?.notes || "",
       });
     }
   }, [open, contact, form]);
@@ -161,7 +209,10 @@ export function ContactFormDialog({
         ...data,
         email: data.email || null,
         phone: data.phone || null,
-        company_id: data.company_id && data.company_id.trim() !== '' ? data.company_id : null,
+        company_id:
+          data.company_id && data.company_id.trim() !== ""
+            ? data.company_id
+            : null,
         job_title: data.job_title || null,
         department: data.department || null,
         address: data.address || null,
@@ -183,11 +234,15 @@ export function ContactFormDialog({
         return;
       }
 
-      toast.success(isEdit ? 'Contact updated successfully' : 'Contact created successfully');
+      toast.success(
+        isEdit
+          ? "Contact updated successfully"
+          : "Contact created successfully",
+      );
       onOpenChange(false);
       onSuccess?.();
     } catch {
-      toast.error('An unexpected error occurred');
+      toast.error("An unexpected error occurred");
     } finally {
       setIsSubmitting(false);
     }
@@ -197,11 +252,11 @@ export function ContactFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{isEdit ? 'Edit Contact' : 'New Contact'}</DialogTitle>
+          <DialogTitle>{isEdit ? "Edit Contact" : "New Contact"}</DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Update the contact information below.'
-              : 'Fill in the details to create a new contact.'}
+              ? "Update the contact information below."
+              : "Fill in the details to create a new contact."}
           </DialogDescription>
         </DialogHeader>
 
@@ -244,7 +299,11 @@ export function ContactFormDialog({
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="email@example.com" type="email" {...field} />
+                    <Input
+                      placeholder="email@example.com"
+                      type="email"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -273,12 +332,18 @@ export function ContactFormDialog({
                   <FormLabel>Company</FormLabel>
                   <Select
                     onValueChange={field.onChange}
-                    value={field.value || ''}
+                    value={field.value || ""}
                     disabled={isLoadingCompanies}
                   >
                     <FormControl>
                       <SelectTrigger>
-                        <SelectValue placeholder={isLoadingCompanies ? "Loading companies..." : "Select company"} />
+                        <SelectValue
+                          placeholder={
+                            isLoadingCompanies
+                              ? "Loading companies..."
+                              : "Select company"
+                          }
+                        />
                       </SelectTrigger>
                     </FormControl>
                     <SelectContent>
@@ -378,7 +443,10 @@ export function ContactFormDialog({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>State</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value || ''}>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value || ""}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="State" />
@@ -441,7 +509,11 @@ export function ContactFormDialog({
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Saving...' : isEdit ? 'Save Changes' : 'Create Contact'}
+                {isSubmitting
+                  ? "Saving..."
+                  : isEdit
+                    ? "Save Changes"
+                    : "Create Contact"}
               </Button>
             </DialogFooter>
           </form>

@@ -1,14 +1,14 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import { ChevronRight } from 'lucide-react';
-import { RowActions } from '../RowActions';
+import { useRouter } from "next/navigation";
+import { ChevronRight } from "lucide-react";
+import { RowActions } from "../RowActions";
 import {
   type TableConfig,
   type TableName,
   getRowTitle,
   getRowSubtitle,
-} from '@/lib/table-registry';
+} from "@/lib/table-registry";
 
 interface ListViewProps {
   table: TableName;
@@ -64,7 +64,10 @@ export function ListView({ table, config, rows }: ListViewProps) {
                 </p>
               )}
             </div>
-            <div className="flex items-center gap-2" onClick={(e) => e.stopPropagation()}>
+            <div
+              className="flex items-center gap-2"
+              onClick={(e) => e.stopPropagation()}
+            >
               <RowActions
                 table={table}
                 rowId={rowId}
@@ -91,11 +94,11 @@ function formatRelativeDate(dateStr: string): string {
       const diffHours = Math.floor(diffMs / (1000 * 60 * 60));
       if (diffHours === 0) {
         const diffMins = Math.floor(diffMs / (1000 * 60));
-        return diffMins <= 1 ? 'just now' : `${diffMins} minutes ago`;
+        return diffMins <= 1 ? "just now" : `${diffMins} minutes ago`;
       }
-      return diffHours === 1 ? '1 hour ago' : `${diffHours} hours ago`;
+      return diffHours === 1 ? "1 hour ago" : `${diffHours} hours ago`;
     }
-    if (diffDays === 1) return 'yesterday';
+    if (diffDays === 1) return "yesterday";
     if (diffDays < 7) return `${diffDays} days ago`;
     if (diffDays < 30) return `${Math.floor(diffDays / 7)} weeks ago`;
     if (diffDays < 365) return `${Math.floor(diffDays / 30)} months ago`;

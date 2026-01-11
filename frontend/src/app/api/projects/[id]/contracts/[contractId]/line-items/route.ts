@@ -1,7 +1,7 @@
-import { createClient } from '@/lib/supabase/server';
-import { NextRequest, NextResponse } from 'next/server';
-import { createLineItemSchema } from './validation';
-import { ZodError } from 'zod';
+import { createClient } from "@/lib/supabase/server";
+import { NextRequest, NextResponse } from "next/server";
+import { createLineItemSchema } from "./validation";
+import { ZodError } from "zod";
 
 interface RouteParams {
   params: Promise<{ id: string; contractId: string }>;
@@ -11,50 +11,50 @@ interface RouteParams {
  * GET /api/projects/[id]/contracts/[contractId]/line-items
  * Returns all line items for a specific contract
  */
-export async function GET(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, contractId } = await params;
     const supabase = await createClient();
 
     // Verify contract exists and belongs to project
     const { data: contract } = await supabase
-      .from('prime_contracts')
-      .select('id')
-      .eq('id', contractId)
-      .eq('project_id', parseInt(projectId, 10))
+      .from("prime_contracts")
+      .select("id")
+      .eq("id", contractId)
+      .eq("project_id", parseInt(projectId, 10))
       .single();
 
     if (!contract) {
       return NextResponse.json(
-        { error: 'Contract not found' },
-        { status: 404 }
+        { error: "Contract not found" },
+        { status: 404 },
       );
     }
 
     // Get all line items for this contract
     const { data, error } = await supabase
-      .from('contract_line_items')
-      .select('*')
-      .eq('contract_id', contractId)
-      .order('line_number', { ascending: true });
+      .from("contract_line_items")
+      .select("*")
+      .eq("contract_id", contractId)
+      .order("line_number", { ascending: true });
 
     if (error) {
-      console.error('Error fetching line items:', error);
+      console.error("Error fetching line items:", error);
       return NextResponse.json(
-        { error: 'Failed to fetch line items', details: error.message },
-        { status: 400 }
+        { error: "Failed to fetch line items", details: error.message },
+        { status: 400 },
       );
     }
 
     return NextResponse.json(data || []);
   } catch (error) {
-    console.error('Error in GET /api/projects/[id]/contracts/[contractId]/line-items:', error);
+    console.error(
+      "Error in GET /api/projects/[id]/contracts/[contractId]/line-items:",
+      error,
+    );
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -63,10 +63,7 @@ export async function GET(
  * POST /api/projects/[id]/contracts/[contractId]/line-items
  * Creates a new line item for a contract
  */
-export async function POST(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, contractId } = await params;
     const supabase = await createClient();
@@ -79,72 +76,78 @@ export async function POST(
     });
 
     // Get current user
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check if user has access to this project
     const { data: projectMember } = await supabase
-      .from('project_members')
-      .select('access')
-      .eq('project_id', parseInt(projectId, 10))
-      .eq('user_id', user.id)
+      .from("project_members")
+      .select("access")
+      .eq("project_id", parseInt(projectId, 10))
+      .eq("user_id", user.id)
       .single();
 
-    if (!projectMember || !['editor', 'admin', 'owner'].includes(projectMember.access)) {
+    if (
+      !projectMember ||
+      !["editor", "admin", "owner"].includes(projectMember.access)
+    ) {
       return NextResponse.json(
-        { error: 'Forbidden: You do not have permission to create line items for this project' },
-        { status: 403 }
+        {
+          error:
+            "Forbidden: You do not have permission to create line items for this project",
+        },
+        { status: 403 },
       );
     }
 
     // Verify contract exists and belongs to project
     const { data: contract } = await supabase
-      .from('prime_contracts')
-      .select('id')
-      .eq('id', contractId)
-      .eq('project_id', parseInt(projectId, 10))
+      .from("prime_contracts")
+      .select("id")
+      .eq("id", contractId)
+      .eq("project_id", parseInt(projectId, 10))
       .single();
 
     if (!contract) {
       return NextResponse.json(
-        { error: 'Contract not found' },
-        { status: 404 }
+        { error: "Contract not found" },
+        { status: 404 },
       );
     }
 
     // Check for unique line_number within contract
     const { data: existingLineItem } = await supabase
-      .from('contract_line_items')
-      .select('id')
-      .eq('contract_id', contractId)
-      .eq('line_number', validatedData.line_number)
+      .from("contract_line_items")
+      .select("id")
+      .eq("contract_id", contractId)
+      .eq("line_number", validatedData.line_number)
       .single();
 
     if (existingLineItem) {
       return NextResponse.json(
-        { error: 'Line number already exists for this contract' },
-        { status: 400 }
+        { error: "Line number already exists for this contract" },
+        { status: 400 },
       );
     }
 
     // Create the line item
     const { data, error } = await supabase
-      .from('contract_line_items')
+      .from("contract_line_items")
       .insert(validatedData)
-      .select('*')
+      .select("*")
       .single();
 
     if (error) {
-      console.error('Error creating line item:', error);
+      console.error("Error creating line item:", error);
       return NextResponse.json(
-        { error: 'Failed to create line item', details: error.message },
-        { status: 400 }
+        { error: "Failed to create line item", details: error.message },
+        { status: 400 },
       );
     }
 
@@ -153,17 +156,23 @@ export async function POST(
     if (error instanceof ZodError) {
       return NextResponse.json(
         {
-          error: 'Validation error',
-          details: error.issues.map(e => ({ field: e.path.join('.'), message: e.message }))
+          error: "Validation error",
+          details: error.issues.map((e) => ({
+            field: e.path.join("."),
+            message: e.message,
+          })),
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    console.error('Error in POST /api/projects/[id]/contracts/[contractId]/line-items:', error);
+    console.error(
+      "Error in POST /api/projects/[id]/contracts/[contractId]/line-items:",
+      error,
+    );
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

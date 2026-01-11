@@ -1,13 +1,13 @@
-import { Suspense } from "react"
+import { Suspense } from "react";
 
 // import { ChartAreaInteractive } from "@/components/chart-area-interactive"
-import { DataTable } from "@/components/misc/data-table"
-import { PageContainer } from "@/components/layout/PageContainer"
-import { PageHeader } from "@/components/layout/PageHeader"
-import { SectionCards } from "@/components/misc/section-cards"
-import { Skeleton } from "@/components/ui/skeleton"
+import { DataTable } from "@/components/misc/data-table";
+import { PageContainer } from "@/components/layout/PageContainer";
+import { PageHeader } from "@/components/layout/PageHeader";
+import { SectionCards } from "@/components/misc/section-cards";
+import { Skeleton } from "@/components/ui/skeleton";
 
-import data from "./data.json"
+import data from "./data.json";
 
 // Loading component for the data table
 function DataTableSkeleton() {
@@ -16,7 +16,7 @@ function DataTableSkeleton() {
       <Skeleton className="h-10 w-full" />
       <Skeleton className="h-64 w-full" />
     </div>
-  )
+  );
 }
 
 export default function Page() {
@@ -34,5 +34,5 @@ export default function Page() {
         </Suspense>
       </div>
     </PageContainer>
-  )
+  );
 }

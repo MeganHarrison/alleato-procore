@@ -83,7 +83,7 @@ export default function Ai01() {
                 isExpanded,
               "rounded-[28px] grid grid-cols-[auto_1fr_auto] grid-rows-[auto_1fr_auto]":
                 !isExpanded,
-            }
+            },
           )}
           style={{
             gridTemplateAreas: isExpanded
@@ -97,7 +97,7 @@ export default function Ai01() {
               {
                 "px-2 py-1 mb-0": isExpanded,
                 "-my-2.5": !isExpanded,
-              }
+              },
             )}
             style={{ gridArea: "primary" }}
           >

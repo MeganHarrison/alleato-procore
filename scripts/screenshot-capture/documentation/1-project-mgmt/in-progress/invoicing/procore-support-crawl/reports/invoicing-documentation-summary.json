@@ -1,0 +1,80 @@
+{
+  "crawlDate": "2026-01-10T21:26:29.127Z",
+  "startUrl": "https://support.procore.com/products/online/user-guide/project-level/invoicing#chapt2",
+  "totalPages": 100,
+  "statistics": {
+    "totalLinks": 7419,
+    "totalClickables": 1306,
+    "totalExpandables": 1731,
+    "totalImages": 430,
+    "totalCodeBlocks": 0,
+    "totalTables": 64
+  },
+  "categories": {
+    "documentation": 27,
+    "invoicing": 12,
+    "tutorial": 61
+  },
+  "topPages": [
+    {
+      "name": "view-requirements",
+      "url": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/view-requirements",
+      "links": 122,
+      "category": "documentation"
+    },
+    {
+      "name": "manage-insurance-documents--statuses",
+      "url": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/manage-insurance-documents--statuses",
+      "links": 117,
+      "category": "documentation"
+    },
+    {
+      "name": "release-holds",
+      "url": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/release-holds",
+      "links": 112,
+      "category": "documentation"
+    },
+    {
+      "name": "invite-beneficiaries-to-pay",
+      "url": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/invite-beneficiaries-to-pay",
+      "links": 110,
+      "category": "documentation"
+    },
+    {
+      "name": "enable-waivers--set-default-templates",
+      "url": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/enable-waivers--set-default-templates",
+      "links": 109,
+      "category": "documentation"
+    },
+    {
+      "name": "generate-lien-waivers",
+      "url": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/generate-lien-waivers",
+      "links": 109,
+      "category": "documentation"
+    },
+    {
+      "name": "what-is-an-invoice-administrator",
+      "url": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/what-is-an-invoice-administrator",
+      "links": 108,
+      "category": "documentation"
+    },
+    {
+      "name": "tutorials",
+      "url": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials",
+      "links": 107,
+      "category": "invoicing"
+    },
+    {
+      "name": "view-sub-tier-information-on-a-subcontractor-invoice",
+      "url": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/view-sub-tier-information-on-a-subcontractor-invoice",
+      "links": 107,
+      "category": "documentation"
+    },
+    {
+      "name": "tutorials",
+      "url": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/",
+      "links": 106,
+      "category": "tutorial"
+    }
+  ]
+}

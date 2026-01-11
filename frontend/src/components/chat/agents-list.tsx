@@ -7,7 +7,6 @@ import { PanelSection } from "../misc/panel-section";
 import type { Agent } from "@/lib/types";
 import { BackendStatusIndicator } from "@/components/misc/backend-status-indicator";
 
-
 interface AgentsListProps {
   agents: Agent[];
   currentAgent: string;
@@ -31,7 +30,9 @@ export function AgentsList({ agents, currentAgent }: AgentsListProps) {
                 ? ""
                 : "opacity-50 filter grayscale cursor-not-allowed pointer-events-none"
             } ${
-              agent.name === currentAgent ? "ring-1 ring-orange-500 shadow-md" : ""
+              agent.name === currentAgent
+                ? "ring-1 ring-orange-500 shadow-md"
+                : ""
             }`}
           >
             <CardHeader className="p-3 pb-1">

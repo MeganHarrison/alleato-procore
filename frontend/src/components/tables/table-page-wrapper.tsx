@@ -1,10 +1,10 @@
-import { PageHeader } from '@/components/design-system'
-import { PageContainer } from '@/components/layout/PageContainer'
+import { PageHeader } from "@/components/design-system";
+import { PageContainer } from "@/components/layout/PageContainer";
 
 interface TablePageWrapperProps {
-  title: string
-  description?: string
-  children: React.ReactNode
+  title: string;
+  description?: string;
+  children: React.ReactNode;
 }
 
 /**
@@ -12,11 +12,15 @@ interface TablePageWrapperProps {
  * Provides consistent PageHeader + PageContainer layout
  * Pages just pass title, description, and their table content
  */
-export function TablePageWrapper({ title, description, children }: TablePageWrapperProps) {
+export function TablePageWrapper({
+  title,
+  description,
+  children,
+}: TablePageWrapperProps) {
   return (
     <PageContainer>
       <PageHeader title={title} description={description} />
       {children}
     </PageContainer>
-  )
+  );
 }

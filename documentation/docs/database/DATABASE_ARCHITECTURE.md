@@ -22,6 +22,18 @@
 
 The Alleato-Procore financial management system is built on a comprehensive PostgreSQL database that manages all aspects of construction project financials. The system tracks money flow from initial budgeting through prime contracts, commitments to subcontractors, change management, direct costs, and owner invoicing.
 
+### Type Generation
+
+Types are auto-generated from the live Supabase schema:
+
+```bash
+npx supabase gen types typescript \
+  --project-id "lgveqfnpkxvzbnnwuled" \
+  --schema public > frontend/src/types/database.types.ts
+```
+
+**Always regenerate types after schema changes!**
+
 ### Key Design Principles
 
 - **Project-Centric**: All financial data is organized by `project_id`

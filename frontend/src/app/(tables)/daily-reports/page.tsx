@@ -1,122 +1,132 @@
-import { createClient } from '@/lib/supabase/server'
-import { GenericDataTable, type GenericTableConfig } from '@/components/tables/generic-table-factory'
-import { Database } from '@/types/database.types'
+import { createClient } from "@/lib/supabase/server";
+import {
+  GenericDataTable,
+  type GenericTableConfig,
+} from "@/components/tables/generic-table-factory";
+import { Database } from "@/types/database.types";
 
-type DailyRecap = Database['public']['Tables']['daily_recaps']['Row']
+type DailyRecap = Database["public"]["Tables"]["daily_recaps"]["Row"];
 
 const config: GenericTableConfig = {
-  title: 'Daily Recaps',
-  description: 'AI-generated daily summaries of meetings and decisions',
-  searchFields: ['recap_text', 'model_used'],
-  exportFilename: 'daily-recaps-export.csv',
+  title: "Daily Recaps",
+  description: "AI-generated daily summaries of meetings and decisions",
+  searchFields: ["recap_text", "model_used"],
+  exportFilename: "daily-recaps-export.csv",
   editConfig: {
-    tableName: 'daily_recaps',
-    editableFields: ['recap_date', 'date_range_start', 'date_range_end', 'recap_text', 'model_used', 'token_count'],
+    tableName: "daily_recaps",
+    editableFields: [
+      "recap_date",
+      "date_range_start",
+      "date_range_end",
+      "recap_text",
+      "model_used",
+      "token_count",
+    ],
   },
   columns: [
     {
-      id: 'recap_date',
-      label: 'Recap Date',
+      id: "recap_date",
+      label: "Recap Date",
       defaultVisible: true,
-      type: 'date',
+      type: "date",
     },
     {
-      id: 'date_range_start',
-      label: 'Period Start',
+      id: "date_range_start",
+      label: "Period Start",
       defaultVisible: true,
-      type: 'date',
+      type: "date",
     },
     {
-      id: 'date_range_end',
-      label: 'Period End',
+      id: "date_range_end",
+      label: "Period End",
       defaultVisible: true,
-      type: 'date',
+      type: "date",
     },
     {
-      id: 'meeting_count',
-      label: 'Meetings',
+      id: "meeting_count",
+      label: "Meetings",
       defaultVisible: true,
-      type: 'number',
+      type: "number",
     },
     {
-      id: 'project_count',
-      label: 'Projects',
+      id: "project_count",
+      label: "Projects",
       defaultVisible: true,
-      type: 'number',
+      type: "number",
     },
     {
-      id: 'recap_text',
-      label: 'Summary',
+      id: "recap_text",
+      label: "Summary",
       defaultVisible: true,
       renderConfig: {
-        type: 'truncate',
+        type: "truncate",
         maxLength: 100,
       },
     },
     {
-      id: 'sent_email',
-      label: 'Sent Email',
+      id: "sent_email",
+      label: "Sent Email",
       defaultVisible: false,
       renderConfig: {
-        type: 'badge',
+        type: "badge",
         variantMap: {
-          'true': 'default',
-          'false': 'outline',
+          true: "default",
+          false: "outline",
         },
-        defaultVariant: 'outline',
+        defaultVariant: "outline",
       },
     },
     {
-      id: 'sent_teams',
-      label: 'Sent Teams',
+      id: "sent_teams",
+      label: "Sent Teams",
       defaultVisible: false,
       renderConfig: {
-        type: 'badge',
+        type: "badge",
         variantMap: {
-          'true': 'default',
-          'false': 'outline',
+          true: "default",
+          false: "outline",
         },
-        defaultVariant: 'outline',
+        defaultVariant: "outline",
       },
     },
     {
-      id: 'model_used',
-      label: 'Model',
+      id: "model_used",
+      label: "Model",
       defaultVisible: false,
-      type: 'text',
+      type: "text",
     },
     {
-      id: 'generation_time_seconds',
-      label: 'Generation Time (s)',
+      id: "generation_time_seconds",
+      label: "Generation Time (s)",
       defaultVisible: false,
-      type: 'number',
+      type: "number",
     },
     {
-      id: 'created_at',
-      label: 'Created',
+      id: "created_at",
+      label: "Created",
       defaultVisible: true,
-      type: 'date',
+      type: "date",
     },
   ],
-  rowClickPath: '/daily-recaps/{id}',
-}
+  rowClickPath: "/daily-recaps/{id}",
+};
 
 export default async function DailyRecapsPage() {
-  const supabase = await createClient()
+  const supabase = await createClient();
 
   const { data: dailyRecaps, error } = await supabase
-    .from('daily_recaps')
-    .select('*')
-    .order('recap_date', { ascending: false })
+    .from("daily_recaps")
+    .select("*")
+    .order("recap_date", { ascending: false });
 
   if (error) {
-    console.error('Error fetching daily recaps:', error)
+    console.error("Error fetching daily recaps:", error);
     return (
       <div className="text-center text-red-600">
         Error loading daily recaps. Please try again later.
       </div>
-    )
+    );
   }
 
-  return <GenericDataTable data={dailyRecaps || []} config={config} />
+  return <GenericDataTable data={dailyRecaps || []} config={config} />;
 }

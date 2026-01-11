@@ -4,7 +4,7 @@ declare module "@openai/chatkit" {
   export interface ChatKitOptions {
     [key: string]: any; // Allow any options
   }
-  
+
   export interface ChatKitElement extends HTMLElement {
     setOptions(options: any): void;
     focusComposer(): void;
@@ -14,7 +14,7 @@ declare module "@openai/chatkit" {
     fetchUpdates(): void;
     sendCustomAction(action: any): void;
   }
-  
+
   export interface ChatKitElementEventMap {
     // Add any specific events if needed
   }

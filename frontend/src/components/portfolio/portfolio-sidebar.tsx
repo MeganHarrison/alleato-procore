@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Plus, FileText, ChevronRight } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import * as React from "react";
+import { Plus, FileText, ChevronRight } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface PortfolioSidebarProps {
   customReports: { id: string; name: string }[];
@@ -40,8 +40,8 @@ export function PortfolioSidebar({
           <span>Custom Reports</span>
           <ChevronRight
             className={cn(
-              'w-4 h-4 text-gray-400 transition-transform',
-              isReportsExpanded && 'rotate-90'
+              "w-4 h-4 text-gray-400 transition-transform",
+              isReportsExpanded && "rotate-90",
             )}
           />
         </button>
@@ -71,7 +71,8 @@ export function PortfolioSidebar({
       {/* Bottom section */}
       <div className="p-4 border-t border-gray-200">
         <p className="text-xs text-gray-500 text-center">
-          {customReports.length} custom report{customReports.length !== 1 ? 's' : ''}
+          {customReports.length} custom report
+          {customReports.length !== 1 ? "s" : ""}
         </p>
       </div>
     </div>

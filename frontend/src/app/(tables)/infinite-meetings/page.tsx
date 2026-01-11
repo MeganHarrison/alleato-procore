@@ -1,44 +1,55 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useInfiniteQuery } from '@/hooks/use-infinite-query';
-import { PortfolioFilters } from '@/components/portfolio';
-import { Button } from '@/components/ui/button';
-import { format } from 'date-fns';
-import { Users, Calendar, Clock, ExternalLink, Settings, ChevronDown, FileText } from 'lucide-react';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Badge } from '@/components/ui/badge';
-import { GenericEditableTable, type EditableColumn } from '@/components/tables/generic-editable-table';
-import { updateMeeting, deleteMeeting } from '@/app/actions/table-actions';
-import { PageHeader } from '@/components/design-system'
+import * as React from "react";
+import { useInfiniteQuery } from "@/hooks/use-infinite-query";
+import { PortfolioFilters } from "@/components/portfolio";
+import { Button } from "@/components/ui/button";
+import { format } from "date-fns";
+import {
+  Users,
+  Calendar,
+  Clock,
+  ExternalLink,
+  Settings,
+  ChevronDown,
+  FileText,
+} from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Badge } from "@/components/ui/badge";
+import {
+  GenericEditableTable,
+  type EditableColumn,
+} from "@/components/tables/generic-editable-table";
+import { updateMeeting, deleteMeeting } from "@/app/actions/table-actions";
+import { PageHeader } from "@/components/design-system";
 
-const PAGE_TITLE = 'Meetings'
-const PAGE_DESCRIPTION = 'Manage your meetings'
+const PAGE_TITLE = "Meetings";
+const PAGE_DESCRIPTION = "Manage your meetings";
 
 interface Meeting {
-  id: string
-  title: string | null
-  url: string | null
-  created_at: string | null
-  type: string | null
-  date: string | null
-  duration_minutes: number | null
-  participants: string | null
-  summary: string | null
-  project: string | null
-  project_id: bigint | null
-  status: string | null
-  phase: string | null
-  category: string | null
-  employee: string | null
-  fireflies_link: string | null
+  id: string;
+  title: string | null;
+  url: string | null;
+  created_at: string | null;
+  type: string | null;
+  date: string | null;
+  duration_minutes: number | null;
+  participants: string | null;
+  summary: string | null;
+  project: string | null;
+  project_id: bigint | null;
+  status: string | null;
+  phase: string | null;
+  category: string | null;
+  employee: string | null;
+  fireflies_link: string | null;
 }
 
-type StatusFilter = 'all' | 'completed' | 'scheduled' | 'cancelled' | 'pending';
+type StatusFilter = "all" | "completed" | "scheduled" | "cancelled" | "pending";
 
 export default function MeetingsPage() {
-  const [searchQuery, setSearchQuery] = React.useState('');
-  const [statusFilter, setStatusFilter] = React.useState<StatusFilter>('all');
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [statusFilter, setStatusFilter] = React.useState<StatusFilter>("all");
   const [projectFilter, setProjectFilter] = React.useState<string | null>(null);
 
   const {
@@ -51,87 +62,89 @@ export default function MeetingsPage() {
     hasMore,
     fetchNextPage,
   } = useInfiniteQuery<Meeting>({
-    tableName: 'document_metadata',
-    columns: '*',
+    tableName: "document_metadata",
+    columns: "*",
     pageSize: 20,
     trailingQuery: (query) => {
       let filteredQuery = query
-        .eq('type', 'meeting')
-        .order('date', { ascending: false })
+        .eq("type", "meeting")
+        .order("date", { ascending: false });
 
       // Apply search filter
       if (searchQuery && searchQuery.length > 0) {
-        filteredQuery = filteredQuery.ilike('title', `%${searchQuery}%`)
+        filteredQuery = filteredQuery.ilike("title", `%${searchQuery}%`);
       }
 
       // Apply status filter
-      if (statusFilter !== 'all') {
-        filteredQuery = filteredQuery.eq('status', statusFilter)
+      if (statusFilter !== "all") {
+        filteredQuery = filteredQuery.eq("status", statusFilter);
       }
 
       // Apply project filter
-      if (projectFilter && projectFilter !== 'all') {
-        filteredQuery = filteredQuery.eq('project', projectFilter)
+      if (projectFilter && projectFilter !== "all") {
+        filteredQuery = filteredQuery.eq("project", projectFilter);
       }
 
-      return filteredQuery
+      return filteredQuery;
     },
-  })
+  });
 
   // Extract unique projects for filter options
   const projectOptions = React.useMemo(() => {
-    const projects = new Set(data.map((m: Meeting) => m.project).filter(Boolean));
+    const projects = new Set(
+      data.map((m: Meeting) => m.project).filter(Boolean),
+    );
     return Array.from(projects).sort();
   }, [data]);
 
-  const handleExport = (format: 'pdf' | 'csv') => {
-    console.log('Export to', format);
+  const handleExport = (format: "pdf" | "csv") => {
+    console.log("Export to", format);
   };
 
   const handleClearFilters = () => {
-    setSearchQuery('');
-    setStatusFilter('all');
+    setSearchQuery("");
+    setStatusFilter("all");
     setProjectFilter(null);
   };
 
   const getStatusColor = (status: string | null) => {
     switch (status?.toLowerCase()) {
-      case 'completed':
-        return 'bg-green-100 text-green-800'
-      case 'scheduled':
-        return 'bg-blue-100 text-blue-800'
-      case 'cancelled':
-        return 'bg-gray-100 text-gray-800'
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800'
+      case "completed":
+        return "bg-green-100 text-green-800";
+      case "scheduled":
+        return "bg-blue-100 text-blue-800";
+      case "cancelled":
+        return "bg-gray-100 text-gray-800";
+      case "pending":
+        return "bg-yellow-100 text-yellow-800";
       default:
-        return 'bg-slate-100 text-slate-800'
+        return "bg-slate-100 text-slate-800";
     }
-  }
+  };
 
   const formatDuration = (minutes: number | null) => {
-    if (!minutes) return '-'
-    const hours = Math.floor(minutes / 60)
-    const mins = minutes % 60
+    if (!minutes) return "-";
+    const hours = Math.floor(minutes / 60);
+    const mins = minutes % 60;
     if (hours > 0) {
-      return `${hours}h ${mins}m`
+      return `${hours}h ${mins}m`;
     }
-    return `${mins}m`
-  }
+    return `${mins}m`;
+  };
 
   // Define editable columns
   const columns: EditableColumn<Meeting>[] = [
     {
-      key: 'title',
-      header: 'Title',
-      type: 'text',
-      width: 'w-[300px]',
+      key: "title",
+      header: "Title",
+      type: "text",
+      width: "w-[300px]",
       render: (value, row) => (
         <div className="flex items-start gap-2">
           <Users className="h-4 w-4 text-muted-foreground mt-0.5 flex-shrink-0" />
           <div className="flex-1">
             <div className="line-clamp-2 font-medium">
-              {value || 'Untitled Meeting'}
+              {value || "Untitled Meeting"}
             </div>
             {row.summary && (
               <div className="text-xs text-muted-foreground line-clamp-1 mt-1">
@@ -143,24 +156,27 @@ export default function MeetingsPage() {
       ),
     },
     {
-      key: 'date',
-      header: 'Date',
-      type: 'datetime-local',
-      width: 'w-[180px]',
-      render: (value) => value ? (
-        <div className="flex items-center gap-2">
-          <Calendar className="h-3 w-3 text-muted-foreground" />
-          <div className="text-sm">
-            {format(new Date(value), 'MMM d, yyyy')}
+      key: "date",
+      header: "Date",
+      type: "datetime-local",
+      width: "w-[180px]",
+      render: (value) =>
+        value ? (
+          <div className="flex items-center gap-2">
+            <Calendar className="h-3 w-3 text-muted-foreground" />
+            <div className="text-sm">
+              {format(new Date(value), "MMM d, yyyy")}
+            </div>
           </div>
-        </div>
-      ) : <span className="text-muted-foreground">-</span>,
+        ) : (
+          <span className="text-muted-foreground">-</span>
+        ),
     },
     {
-      key: 'duration_minutes',
-      header: 'Duration',
-      type: 'number',
-      width: 'w-[100px]',
+      key: "duration_minutes",
+      header: "Duration",
+      type: "number",
+      width: "w-[100px]",
       render: (value) => (
         <div className="flex items-center gap-2">
           <Clock className="h-3 w-3 text-muted-foreground" />
@@ -169,60 +185,62 @@ export default function MeetingsPage() {
       ),
     },
     {
-      key: 'participants',
-      header: 'Participants',
-      type: 'text',
+      key: "participants",
+      header: "Participants",
+      type: "text",
       render: (value) => (
-        <div className="text-sm line-clamp-1">
-          {value || '-'}
-        </div>
+        <div className="text-sm line-clamp-1">{value || "-"}</div>
       ),
     },
     {
-      key: 'project',
-      header: 'Project',
-      type: 'text',
-      render: (value) => value ? (
-        <Badge variant="outline" className="text-xs">
-          {value}
-        </Badge>
-      ) : <span className="text-muted-foreground">-</span>,
+      key: "project",
+      header: "Project",
+      type: "text",
+      render: (value) =>
+        value ? (
+          <Badge variant="outline" className="text-xs">
+            {value}
+          </Badge>
+        ) : (
+          <span className="text-muted-foreground">-</span>
+        ),
     },
     {
-      key: 'phase',
-      header: 'Phase',
-      type: 'select',
+      key: "phase",
+      header: "Phase",
+      type: "select",
       selectOptions: [
-        { value: 'current', label: 'Current' },
-        { value: 'completed', label: 'Completed' },
-        { value: 'planning', label: 'Planning' },
-        { value: 'lost', label: 'Lost' },
+        { value: "current", label: "Current" },
+        { value: "completed", label: "Completed" },
+        { value: "planning", label: "Planning" },
+        { value: "lost", label: "Lost" },
       ],
-      render: (value) => value ? (
-        <Badge
-          variant="secondary"
-          className={getStatusColor(value)}
-        >
-          {value}
-        </Badge>
-      ) : <span className="text-muted-foreground">-</span>,
+      render: (value) =>
+        value ? (
+          <Badge variant="secondary" className={getStatusColor(value)}>
+            {value}
+          </Badge>
+        ) : (
+          <span className="text-muted-foreground">-</span>
+        ),
     },
     {
-      key: 'url',
-      header: 'Links',
+      key: "url",
+      header: "Links",
       editable: false,
-      width: 'w-[100px]',
-      render: (value, row) => (row.url || row.fireflies_link) ? (
-        <a
-          href={row.url || row.fireflies_link || '#'}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
-        >
-          View
-          <ExternalLink className="h-3 w-3" />
-        </a>
-      ) : null,
+      width: "w-[100px]",
+      render: (value, row) =>
+        row.url || row.fireflies_link ? (
+          <a
+            href={row.url || row.fireflies_link || "#"}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1 text-sm text-primary hover:underline"
+          >
+            View
+            <ExternalLink className="h-3 w-3" />
+          </a>
+        ) : null,
     },
   ];
 
@@ -230,7 +248,9 @@ export default function MeetingsPage() {
     return (
       <div className="flex flex-col h-[calc(100vh-50px)] min-h-0 bg-gray-50 rounded-lg overflow-hidden">
         <div className="flex items-center justify-center h-full">
-          <div className="text-red-600">Error loading meetings: {error.message}</div>
+          <div className="text-red-600">
+            Error loading meetings: {error.message}
+          </div>
         </div>
       </div>
     );
@@ -238,27 +258,29 @@ export default function MeetingsPage() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-50px)] min-h-0 bg-gray-50 rounded-lg overflow-hidden">
-
       {/* Header - matching portfolio header style */}
       <PageHeader title={PAGE_TITLE} description={PAGE_DESCRIPTION} />
 
       {/* Main content area */}
       <div className="flex-1 flex flex-col overflow-hidden">
-
         {/* Filters - using the same PortfolioFilters component */}
         <PortfolioFilters
           searchQuery={searchQuery}
           onSearchChange={setSearchQuery}
           statusFilter={statusFilter}
-          onStatusFilterChange={(status) => setStatusFilter(status as StatusFilter)}
+          onStatusFilterChange={(status) =>
+            setStatusFilter(status as StatusFilter)
+          }
           viewType="list"
           onViewTypeChange={() => {}}
           stageFilter={projectFilter}
           onStageFilterChange={setProjectFilter}
-          typeFilter={statusFilter !== 'all' ? statusFilter : null}
-          onTypeFilterChange={(type) => setStatusFilter(type as StatusFilter || 'all')}
+          typeFilter={statusFilter !== "all" ? statusFilter : null}
+          onTypeFilterChange={(type) =>
+            setStatusFilter((type as StatusFilter) || "all")
+          }
           stageOptions={projectOptions}
-          typeOptions={['completed', 'scheduled', 'cancelled', 'pending']}
+          typeOptions={["completed", "scheduled", "cancelled", "pending"]}
           onClearFilters={handleClearFilters}
           stageLabel="Project"
           typeLabel="Status"
@@ -267,7 +289,9 @@ export default function MeetingsPage() {
 
         {/* Count */}
         <div className="px-4 py-2 text-sm text-gray-600 bg-white border-b border-gray-200">
-          <span className="font-medium">{isSuccess ? data.length : 0}</span> of <span className="font-medium">{count}</span> meeting{count !== 1 ? 's' : ''} loaded
+          <span className="font-medium">{isSuccess ? data.length : 0}</span> of{" "}
+          <span className="font-medium">{count}</span> meeting
+          {count !== 1 ? "s" : ""} loaded
         </div>
 
         {/* Table */}
@@ -293,9 +317,9 @@ export default function MeetingsPage() {
               <Users className="h-12 w-12 text-muted-foreground mb-4" />
               <h3 className="text-lg font-semibold mb-2">No meetings found</h3>
               <p className="text-muted-foreground">
-                {searchQuery || statusFilter !== 'all' || projectFilter
-                  ? 'Try adjusting your filters or search query.'
-                  : 'No meetings have been added yet.'}
+                {searchQuery || statusFilter !== "all" || projectFilter
+                  ? "Try adjusting your filters or search query."
+                  : "No meetings have been added yet."}
               </p>
             </div>
           ) : (
@@ -326,7 +350,7 @@ export default function MeetingsPage() {
                 variant="outline"
                 size="lg"
               >
-                {isFetching ? 'Loading...' : 'Load More Meetings'}
+                {isFetching ? "Loading..." : "Load More Meetings"}
               </Button>
             </div>
           )}

@@ -1,34 +1,34 @@
-'use client'
+"use client";
 
-import { useEffect, useMemo, useCallback } from 'react'
-import { Plus, ChevronDown, Eye, Edit, Trash2 } from 'lucide-react'
-import { useRouter, useParams } from 'next/navigation'
-import { ColumnDef } from '@tanstack/react-table'
-import { toast } from 'sonner'
+import { useEffect, useMemo, useCallback } from "react";
+import { Plus, ChevronDown, Eye, Edit, Trash2 } from "lucide-react";
+import { useRouter, useParams } from "next/navigation";
+import { ColumnDef } from "@tanstack/react-table";
+import { toast } from "sonner";
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { StatusBadge } from '@/components/misc/status-badge'
-import { DataTablePage } from '@/components/templates'
-import { Stack } from '@/components/ui/stack'
-import { Inline } from '@/components/ui/inline'
-import { Text } from '@/components/ui/text'
-import { Link } from '@/components/ui/link'
-import { MobileCard } from '@/components/ui/mobile-card'
-import { useFinancialStore } from '@/lib/stores/financial-store'
-import { useProjectTitle } from '@/hooks/useProjectTitle'
-import type { Commitment } from '@/types/financial'
+} from "@/components/ui/dropdown-menu";
+import { StatusBadge } from "@/components/misc/status-badge";
+import { DataTablePage } from "@/components/templates";
+import { Stack } from "@/components/ui/stack";
+import { Inline } from "@/components/ui/inline";
+import { Text } from "@/components/ui/text";
+import { Link } from "@/components/ui/link";
+import { MobileCard } from "@/components/ui/mobile-card";
+import { useFinancialStore } from "@/lib/stores/financial-store";
+import { useProjectTitle } from "@/hooks/useProjectTitle";
+import type { Commitment } from "@/types/financial";
 import {
   getCommitmentsTabs,
   commitmentsFilterOptions,
   commitmentsMobileColumns,
   formatCurrency,
-} from '@/config/tables'
+} from "@/config/tables";
 
 /**
  * Project Commitments Page
@@ -37,10 +37,10 @@ import {
  * Uses the standardized DataTablePage template for consistent styling.
  */
 export default function ProjectCommitmentsPage() {
-  const router = useRouter()
-  const params = useParams()
-  const projectId = parseInt(params.projectId as string)
-  useProjectTitle('Commitments')
+  const router = useRouter();
+  const params = useParams();
+  const projectId = parseInt(params.projectId as string);
+  useProjectTitle("Commitments");
 
   const {
     commitments,
@@ -49,154 +49,170 @@ export default function ProjectCommitmentsPage() {
     errors,
     setLoading,
     setError,
-  } = useFinancialStore()
+  } = useFinancialStore();
 
   // Fetch commitments on mount
   useEffect(() => {
     if (projectId) {
-      fetchCommitments()
+      fetchCommitments();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projectId])
+  }, [projectId]);
 
   const fetchCommitments = useCallback(async () => {
-    if (!projectId) return
+    if (!projectId) return;
 
-    setLoading('commitments', true)
-    setError('commitments', null)
+    setLoading("commitments", true);
+    setError("commitments", null);
 
     try {
-      const response = await fetch(`/api/commitments?projectId=${projectId}`)
+      const response = await fetch(`/api/commitments?projectId=${projectId}`);
       if (!response.ok) {
-        throw new Error('Failed to fetch commitments')
+        throw new Error("Failed to fetch commitments");
       }
 
-      const data = await response.json()
-      setCommitments(data.data || [])
+      const data = await response.json();
+      setCommitments(data.data || []);
     } catch (error) {
       setError(
-        'commitments',
-        error instanceof Error ? error.message : 'Failed to fetch commitments'
-      )
+        "commitments",
+        error instanceof Error ? error.message : "Failed to fetch commitments",
+      );
     } finally {
-      setLoading('commitments', false)
+      setLoading("commitments", false);
     }
-  }, [projectId, setLoading, setError, setCommitments])
+  }, [projectId, setLoading, setError, setCommitments]);
 
   // Navigation handlers
   const handleCreateSubcontract = useCallback(() => {
-    router.push(`/${projectId}/commitments/new?type=subcontract`)
-  }, [router, projectId])
+    router.push(`/${projectId}/commitments/new?type=subcontract`);
+  }, [router, projectId]);
 
   const handleCreatePurchaseOrder = useCallback(() => {
-    router.push(`/${projectId}/commitments/new?type=purchase_order`)
-  }, [router, projectId])
+    router.push(`/${projectId}/commitments/new?type=purchase_order`);
+  }, [router, projectId]);
 
   const handleView = useCallback(
     (commitment: Commitment) => {
-      router.push(`/${projectId}/commitments/${commitment.id}`)
+      router.push(`/${projectId}/commitments/${commitment.id}`);
     },
-    [router, projectId]
-  )
+    [router, projectId],
+  );
 
   const handleEdit = useCallback(
     (commitment: Commitment) => {
-      router.push(`/${projectId}/commitments/${commitment.id}`)
+      router.push(`/${projectId}/commitments/${commitment.id}`);
     },
-    [router, projectId]
-  )
+    [router, projectId],
+  );
 
   const handleDelete = useCallback(
     async (commitment: Commitment) => {
-      if (!confirm(`Are you sure you want to delete commitment ${commitment.number}?`)) {
-        return
+      if (
+        !confirm(
+          `Are you sure you want to delete commitment ${commitment.number}?`,
+        )
+      ) {
+        return;
       }
 
       try {
         const response = await fetch(`/api/commitments/${commitment.id}`, {
-          method: 'DELETE',
-        })
+          method: "DELETE",
+        });
 
         if (!response.ok) {
-          const error = await response.json()
-          throw new Error(error.message || 'Failed to delete commitment')
+          const error = await response.json();
+          throw new Error(error.message || "Failed to delete commitment");
         }
 
-        toast.success('Commitment deleted successfully')
-        fetchCommitments()
+        toast.success("Commitment deleted successfully");
+        fetchCommitments();
       } catch (error) {
         toast.error(
-          error instanceof Error ? error.message : 'Failed to delete commitment'
-        )
+          error instanceof Error
+            ? error.message
+            : "Failed to delete commitment",
+        );
       }
     },
-    [fetchCommitments]
-  )
+    [fetchCommitments],
+  );
 
   // Column definitions with action handlers
   const columns: ColumnDef<Commitment>[] = useMemo(
     () => [
       {
-        accessorKey: 'number',
-        header: 'Number',
+        accessorKey: "number",
+        header: "Number",
         cell: ({ row }) => (
           <Link
             onClick={(e) => {
-              e.stopPropagation()
-              handleView(row.original)
+              e.stopPropagation();
+              handleView(row.original);
             }}
           >
-            {row.getValue('number')}
+            {row.getValue("number")}
           </Link>
         ),
       },
       {
-        accessorKey: 'title',
-        header: 'Title',
+        accessorKey: "title",
+        header: "Title",
       },
       {
-        accessorKey: 'contract_company_name',
-        header: 'Company',
+        accessorKey: "contract_company_name",
+        header: "Company",
         cell: ({ row }) => {
-          const company = row.original.contract_company
-          return company?.name || (row.getValue('contract_company_name') as string) || '—'
+          const company = row.original.contract_company;
+          return (
+            company?.name ||
+            (row.getValue("contract_company_name") as string) ||
+            "—"
+          );
         },
       },
       {
-        accessorKey: 'status',
-        header: 'Status',
+        accessorKey: "status",
+        header: "Status",
         cell: ({ row }) => (
-          <StatusBadge status={row.getValue('status')} type="commitment" />
+          <StatusBadge status={row.getValue("status")} type="commitment" />
         ),
       },
       {
-        accessorKey: 'type',
-        header: 'Type',
+        accessorKey: "type",
+        header: "Type",
         cell: ({ row }) => {
-          const type = row.getValue('type') as string | undefined
-          return <Text as="span" transform="capitalize">{type?.replace(/_/g, ' ') || '—'}</Text>
+          const type = row.getValue("type") as string | undefined;
+          return (
+            <Text as="span" transform="capitalize">
+              {type?.replace(/_/g, " ") || "—"}
+            </Text>
+          );
         },
       },
       {
-        accessorKey: 'original_amount',
-        header: 'Original Amount',
-        cell: ({ row }) => formatCurrency(row.getValue('original_amount') || 0),
+        accessorKey: "original_amount",
+        header: "Original Amount",
+        cell: ({ row }) => formatCurrency(row.getValue("original_amount") || 0),
       },
       {
-        accessorKey: 'revised_contract_amount',
-        header: 'Revised Amount',
-        cell: ({ row }) => formatCurrency(row.getValue('revised_contract_amount') || 0),
+        accessorKey: "revised_contract_amount",
+        header: "Revised Amount",
+        cell: ({ row }) =>
+          formatCurrency(row.getValue("revised_contract_amount") || 0),
       },
       {
-        accessorKey: 'balance_to_finish',
-        header: 'Balance to Finish',
-        cell: ({ row }) => formatCurrency(row.getValue('balance_to_finish') || 0),
+        accessorKey: "balance_to_finish",
+        header: "Balance to Finish",
+        cell: ({ row }) =>
+          formatCurrency(row.getValue("balance_to_finish") || 0),
       },
       {
-        id: 'actions',
-        header: 'Actions',
+        id: "actions",
+        header: "Actions",
         cell: ({ row }) => {
-          const commitment = row.original
+          const commitment = row.original;
           return (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -228,18 +244,18 @@ export default function ProjectCommitmentsPage() {
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
-          )
+          );
         },
       },
     ],
-    [handleView, handleEdit, handleDelete]
-  )
+    [handleView, handleEdit, handleDelete],
+  );
 
   // Generate configuration from data
   const tabs = useMemo(
     () => getCommitmentsTabs(projectId, commitments.length),
-    [projectId, commitments.length]
-  )
+    [projectId, commitments.length],
+  );
 
   // Mobile card renderer
   const mobileCardRenderer = useCallback(
@@ -248,7 +264,9 @@ export default function ProjectCommitmentsPage() {
         <MobileCard.Header>
           <Stack gap="xs">
             <Link>{commitment.number}</Link>
-            <Text size="sm" tone="muted">{commitment.title}</Text>
+            <Text size="sm" tone="muted">
+              {commitment.title}
+            </Text>
             {commitment.contract_company && (
               <Text size="sm" tone="muted">
                 {commitment.contract_company.name}
@@ -258,15 +276,17 @@ export default function ProjectCommitmentsPage() {
           <StatusBadge status={commitment.status} type="commitment" />
         </MobileCard.Header>
         <MobileCard.Footer>
-          <Text size="sm" tone="muted">Revised Amount</Text>
+          <Text size="sm" tone="muted">
+            Revised Amount
+          </Text>
           <Text weight="medium">
             {formatCurrency(commitment.revised_contract_amount || 0)}
           </Text>
         </MobileCard.Footer>
       </MobileCard>
     ),
-    []
-  )
+    [],
+  );
 
   // Create action button
   const createButton = (
@@ -289,7 +309,7 @@ export default function ProjectCommitmentsPage() {
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
+  );
 
   return (
     <DataTablePage<Commitment>
@@ -331,8 +351,8 @@ export default function ProjectCommitmentsPage() {
       mobileColumns={commitmentsMobileColumns}
       mobileCardRenderer={mobileCardRenderer}
       showExportButton={true}
-      onExportCSV={() => toast.info('CSV export coming soon')}
-      onExportPDF={() => toast.info('PDF export coming soon')}
+      onExportCSV={() => toast.info("CSV export coming soon")}
+      onExportPDF={() => toast.info("PDF export coming soon")}
     />
-  )
+  );
 }

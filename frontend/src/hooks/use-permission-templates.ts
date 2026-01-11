@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useQuery } from '@tanstack/react-query';
-import { createClient } from '@/lib/supabase/client';
+import { useQuery } from "@tanstack/react-query";
+import { createClient } from "@/lib/supabase/client";
 
 export interface PermissionTemplate {
   id: string;
@@ -16,13 +16,13 @@ export function usePermissionTemplates(projectId: string) {
   const supabase = createClient();
 
   return useQuery({
-    queryKey: ['permission-templates', projectId],
+    queryKey: ["permission-templates", projectId],
     queryFn: async () => {
       const { data, error } = await supabase
-        .from('permission_templates')
-        .select('*')
-        .eq('project_id', parseInt(projectId, 10))
-        .order('name');
+        .from("permission_templates")
+        .select("*")
+        .eq("project_id", parseInt(projectId, 10))
+        .order("name");
 
       if (error) {
         throw new Error(error.message);
@@ -30,6 +30,6 @@ export function usePermissionTemplates(projectId: string) {
 
       return data as PermissionTemplate[];
     },
-    enabled: !!projectId
+    enabled: !!projectId,
   });
 }

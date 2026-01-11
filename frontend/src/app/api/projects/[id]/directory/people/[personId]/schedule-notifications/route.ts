@@ -1,6 +1,6 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { PermissionService } from '@/services/permissionService';
+import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { PermissionService } from "@/services/permissionService";
 
 interface RouteParams {
   params: Promise<{ id: string; personId: string }>;
@@ -17,18 +17,18 @@ interface ScheduleNotificationPreferences {
 /**
  * Get schedule notification preferences for a user in a project.
  */
-export async function GET(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, personId } = await params;
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions
@@ -36,18 +36,18 @@ export async function GET(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'read'
+      "directory",
+      "read",
     );
 
     if (!hasPermission) {
       return NextResponse.json(
         {
-          error: 'insufficient_permissions',
-          message: 'You do not have permission to view user notifications.',
-          code: 'PERMISSION_DENIED'
+          error: "insufficient_permissions",
+          message: "You do not have permission to view user notifications.",
+          code: "PERMISSION_DENIED",
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -55,43 +55,48 @@ export async function GET(
 
     // Get schedule notification preferences
     const { data, error } = await supabase
-      .from('user_schedule_notifications')
-      .select('*')
-      .eq('project_id', projectIdNum)
-      .eq('person_id', personId)
+      .from("user_schedule_notifications")
+      .select("*")
+      .eq("project_id", projectIdNum)
+      .eq("person_id", personId)
       .maybeSingle();
 
     if (error) throw error;
 
     // If no record exists, return default preferences
-    const preferences: ScheduleNotificationPreferences = data ? {
-      all_project_tasks_weekly: data.all_project_tasks_weekly ?? false,
-      resource_tasks_assigned_to_id: data.resource_tasks_assigned_to_id || null,
-      upon_schedule_changes: data.upon_schedule_changes ?? false,
-      upon_schedule_change_requests: data.upon_schedule_change_requests ?? false,
-      project_schedule_lookahead_weekly: data.project_schedule_lookahead_weekly ?? false,
-    } : {
-      all_project_tasks_weekly: false,
-      resource_tasks_assigned_to_id: null,
-      upon_schedule_changes: false,
-      upon_schedule_change_requests: false,
-      project_schedule_lookahead_weekly: false,
-    };
+    const preferences: ScheduleNotificationPreferences = data
+      ? {
+          all_project_tasks_weekly: data.all_project_tasks_weekly ?? false,
+          resource_tasks_assigned_to_id:
+            data.resource_tasks_assigned_to_id || null,
+          upon_schedule_changes: data.upon_schedule_changes ?? false,
+          upon_schedule_change_requests:
+            data.upon_schedule_change_requests ?? false,
+          project_schedule_lookahead_weekly:
+            data.project_schedule_lookahead_weekly ?? false,
+        }
+      : {
+          all_project_tasks_weekly: false,
+          resource_tasks_assigned_to_id: null,
+          upon_schedule_changes: false,
+          upon_schedule_change_requests: false,
+          project_schedule_lookahead_weekly: false,
+        };
 
     return NextResponse.json({
       user_id: personId,
       preferences,
-      updated_at: data?.updated_at || null
+      updated_at: data?.updated_at || null,
     });
   } catch (error) {
-    console.error('Error fetching schedule notifications:', error);
+    console.error("Error fetching schedule notifications:", error);
     return NextResponse.json(
       {
-        error: 'server_error',
-        message: 'An unexpected error occurred',
-        code: 'INTERNAL_ERROR'
+        error: "server_error",
+        message: "An unexpected error occurred",
+        code: "INTERNAL_ERROR",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -99,18 +104,18 @@ export async function GET(
 /**
  * Update schedule notification preferences for a user in a project.
  */
-export async function PATCH(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, personId } = await params;
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions - users can update their own notifications
@@ -119,9 +124,9 @@ export async function PATCH(
 
     // Check if user is updating their own notifications
     const { data: personData } = await supabase
-      .from('users_auth')
-      .select('person_id')
-      .eq('auth_user_id', user.id)
+      .from("users_auth")
+      .select("person_id")
+      .eq("auth_user_id", user.id)
       .single();
 
     const isOwnNotifications = personData?.person_id === personId;
@@ -130,18 +135,19 @@ export async function PATCH(
       const hasAdminPermission = await permissionService.hasPermission(
         user.id,
         projectId,
-        'directory',
-        'admin'
+        "directory",
+        "admin",
       );
 
       if (!hasAdminPermission) {
         return NextResponse.json(
           {
-            error: 'insufficient_permissions',
-            message: 'You do not have permission to update this user\'s notifications.',
-            code: 'PERMISSION_DENIED'
+            error: "insufficient_permissions",
+            message:
+              "You do not have permission to update this user's notifications.",
+            code: "PERMISSION_DENIED",
           },
-          { status: 403 }
+          { status: 403 },
         );
       }
     }
@@ -150,14 +156,14 @@ export async function PATCH(
     const body = await request.json();
     const { preferences } = body;
 
-    if (!preferences || typeof preferences !== 'object') {
+    if (!preferences || typeof preferences !== "object") {
       return NextResponse.json(
         {
-          error: 'invalid_request',
-          message: 'Preferences object is required',
-          code: 'VALIDATION_ERROR'
+          error: "invalid_request",
+          message: "Preferences object is required",
+          code: "VALIDATION_ERROR",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -165,15 +171,18 @@ export async function PATCH(
 
     // Upsert schedule notification preferences
     const { data, error } = await supabase
-      .from('user_schedule_notifications')
-      .upsert({
-        person_id: personId,
-        project_id: projectIdNum,
-        ...preferences,
-        updated_at: new Date().toISOString()
-      }, {
-        onConflict: 'person_id,project_id'
-      })
+      .from("user_schedule_notifications")
+      .upsert(
+        {
+          person_id: personId,
+          project_id: projectIdNum,
+          ...preferences,
+          updated_at: new Date().toISOString(),
+        },
+        {
+          onConflict: "person_id,project_id",
+        },
+      )
       .select()
       .single();
 
@@ -186,19 +195,20 @@ export async function PATCH(
         resource_tasks_assigned_to_id: data.resource_tasks_assigned_to_id,
         upon_schedule_changes: data.upon_schedule_changes,
         upon_schedule_change_requests: data.upon_schedule_change_requests,
-        project_schedule_lookahead_weekly: data.project_schedule_lookahead_weekly,
+        project_schedule_lookahead_weekly:
+          data.project_schedule_lookahead_weekly,
       },
-      updated_at: data.updated_at
+      updated_at: data.updated_at,
     });
   } catch (error) {
-    console.error('Error updating schedule notifications:', error);
+    console.error("Error updating schedule notifications:", error);
     return NextResponse.json(
       {
-        error: 'server_error',
-        message: 'An unexpected error occurred',
-        code: 'INTERNAL_ERROR'
+        error: "server_error",
+        message: "An unexpected error occurred",
+        code: "INTERNAL_ERROR",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

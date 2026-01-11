@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,27 +8,27 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Loader2, Save, AlertCircle } from 'lucide-react';
-import { useToast } from '@/hooks/use-toast';
-import { useSupabase } from '@/hooks/useSupabase';
-import type { PersonWithDetails } from '@/components/directory/DirectoryFilters';
-import type { Database } from '@/types/database.types';
+} from "@/components/ui/select";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Loader2, Save, AlertCircle } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
+import { useSupabase } from "@/hooks/useSupabase";
+import type { PersonWithDetails } from "@/components/directory/DirectoryFilters";
+import type { Database } from "@/types/database.types";
 
-type Tables = Database['public']['Tables'];
-type Company = Tables['companies']['Row'];
-type PermissionTemplate = Tables['permission_templates']['Row'];
+type Tables = Database["public"]["Tables"];
+type Company = Tables["companies"]["Row"];
+type PermissionTemplate = Tables["permission_templates"]["Row"];
 
 interface PersonEditDialogProps {
   person: PersonWithDetails | null;
@@ -36,7 +36,7 @@ interface PersonEditDialogProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   onSuccess?: () => void;
-  mode?: 'create' | 'edit';
+  mode?: "create" | "edit";
 }
 
 interface FormData {
@@ -47,7 +47,7 @@ interface FormData {
   phone_business: string;
   job_title: string;
   company_id: string;
-  person_type: 'user' | 'contact';
+  person_type: "user" | "contact";
   permission_template_id: string;
 }
 
@@ -67,58 +67,63 @@ interface FormData {
  * @param mode - Explicit mode override, either `"create"` or `"edit"`. Defaults to `"edit"` when `person` is provided, otherwise `"create"`.
  * @returns The dialog UI element for creating or editing a person.
  */
-export function PersonEditDialog({ 
-  person, 
+export function PersonEditDialog({
+  person,
   projectId,
-  open, 
+  open,
   onOpenChange,
   onSuccess,
-  mode = person ? 'edit' : 'create'
+  mode = person ? "edit" : "create",
 }: PersonEditDialogProps) {
   const { toast } = useToast();
   const supabase = useSupabase();
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [companies, setCompanies] = useState<Company[]>([]);
-  const [permissionTemplates, setPermissionTemplates] = useState<PermissionTemplate[]>([]);
+  const [permissionTemplates, setPermissionTemplates] = useState<
+    PermissionTemplate[]
+  >([]);
   const [formData, setFormData] = useState<FormData>({
-    first_name: '',
-    last_name: '',
-    email: '',
-    phone_mobile: '',
-    phone_business: '',
-    job_title: '',
-    company_id: '',
-    person_type: 'user',
-    permission_template_id: ''
+    first_name: "",
+    last_name: "",
+    email: "",
+    phone_mobile: "",
+    phone_business: "",
+    job_title: "",
+    company_id: "",
+    person_type: "user",
+    permission_template_id: "",
   });
 
   // Load form data when person changes
   useEffect(() => {
     if (person) {
       setFormData({
-        first_name: person.first_name || '',
-        last_name: person.last_name || '',
-        email: person.email || '',
-        phone_mobile: person.phone_mobile || '',
-        phone_business: person.phone_business || '',
-        job_title: person.job_title || '',
-        company_id: person.company?.id || '',
+        first_name: person.first_name || "",
+        last_name: person.last_name || "",
+        email: person.email || "",
+        phone_mobile: person.phone_mobile || "",
+        phone_business: person.phone_business || "",
+        job_title: person.job_title || "",
+        company_id: person.company?.id || "",
         person_type: person.person_type,
-        permission_template_id: person.permission_template?.id || person.membership?.permission_template_id || ''
+        permission_template_id:
+          person.permission_template?.id ||
+          person.membership?.permission_template_id ||
+          "",
       });
     } else {
       // Reset for create mode
       setFormData({
-        first_name: '',
-        last_name: '',
-        email: '',
-        phone_mobile: '',
-        phone_business: '',
-        job_title: '',
-        company_id: '',
-        person_type: 'user',
-        permission_template_id: ''
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone_mobile: "",
+        phone_business: "",
+        job_title: "",
+        company_id: "",
+        person_type: "user",
+        permission_template_id: "",
       });
     }
   }, [person]);
@@ -129,26 +134,26 @@ export function PersonEditDialog({
       try {
         // Load companies
         const { data: companiesData } = await supabase
-          .from('companies')
-          .select('*')
-          .order('name');
-        
+          .from("companies")
+          .select("*")
+          .order("name");
+
         if (companiesData) {
           setCompanies(companiesData);
         }
 
         // Load permission templates
         const { data: templatesData } = await supabase
-          .from('permission_templates')
-          .select('*')
-          .eq('scope', 'project')
-          .order('name');
-        
+          .from("permission_templates")
+          .select("*")
+          .eq("scope", "project")
+          .order("name");
+
         if (templatesData) {
           setPermissionTemplates(templatesData);
         }
       } catch (error) {
-        console.error('Error loading data:', error);
+        console.error("Error loading data:", error);
       }
     };
 
@@ -163,50 +168,53 @@ export function PersonEditDialog({
 
     // Validation
     if (!formData.first_name || !formData.last_name) {
-      setError('First name and last name are required');
+      setError("First name and last name are required");
       setSaving(false);
       return;
     }
 
-    if (formData.person_type === 'user' && !formData.email) {
-      setError('Email is required for users');
+    if (formData.person_type === "user" && !formData.email) {
+      setError("Email is required for users");
       setSaving(false);
       return;
     }
 
     try {
-      const url = mode === 'create'
-        ? `/api/projects/${projectId}/directory/people`
-        : `/api/projects/${projectId}/directory/people/${person?.id}`;
-      
-      const method = mode === 'create' ? 'POST' : 'PATCH';
+      const url =
+        mode === "create"
+          ? `/api/projects/${projectId}/directory/people`
+          : `/api/projects/${projectId}/directory/people/${person?.id}`;
+
+      const method = mode === "create" ? "POST" : "PATCH";
 
       const response = await fetch(url, {
         method,
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           ...formData,
           company_id: formData.company_id || null,
-          permission_template_id: formData.permission_template_id || null
-        })
+          permission_template_id: formData.permission_template_id || null,
+        }),
       });
 
       const result = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || 'Failed to save person');
+        throw new Error(result.error || "Failed to save person");
       }
 
-      toast.success(`${formData.first_name} ${formData.last_name} has been ${mode === 'create' ? 'created' : 'updated'}.`);
+      toast.success(
+        `${formData.first_name} ${formData.last_name} has been ${mode === "create" ? "created" : "updated"}.`,
+      );
 
       onOpenChange(false);
       onSuccess?.();
     } catch (err) {
-      const message = err instanceof Error ? err.message : 'An error occurred';
+      const message = err instanceof Error ? err.message : "An error occurred";
       setError(message);
-      
+
       toast.error(`Failed to ${mode} person: ${message}`);
     } finally {
       setSaving(false);
@@ -214,7 +222,7 @@ export function PersonEditDialog({
   };
 
   const updateField = (field: keyof FormData, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -222,13 +230,12 @@ export function PersonEditDialog({
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
           <DialogTitle>
-            {mode === 'create' ? 'Add New Person' : 'Edit Person'}
+            {mode === "create" ? "Add New Person" : "Edit Person"}
           </DialogTitle>
           <DialogDescription>
-            {mode === 'create' 
-              ? 'Add a new person to the project directory'
-              : 'Update person information and permissions'
-            }
+            {mode === "create"
+              ? "Add a new person to the project directory"
+              : "Update person information and permissions"}
           </DialogDescription>
         </DialogHeader>
 
@@ -239,8 +246,10 @@ export function PersonEditDialog({
               <Label htmlFor="person-type">Type</Label>
               <Select
                 value={formData.person_type}
-                onValueChange={(value) => updateField('person_type', value as 'user' | 'contact')}
-                disabled={mode === 'edit'}
+                onValueChange={(value) =>
+                  updateField("person_type", value as "user" | "contact")
+                }
+                disabled={mode === "edit"}
               >
                 <SelectTrigger id="person-type">
                   <SelectValue />
@@ -262,11 +271,11 @@ export function PersonEditDialog({
               <Input
                 id="first-name"
                 value={formData.first_name}
-                onChange={(e) => updateField('first_name', e.target.value)}
+                onChange={(e) => updateField("first_name", e.target.value)}
                 placeholder="John"
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="last-name">
                 Last Name <span className="text-destructive">*</span>
@@ -274,7 +283,7 @@ export function PersonEditDialog({
               <Input
                 id="last-name"
                 value={formData.last_name}
-                onChange={(e) => updateField('last_name', e.target.value)}
+                onChange={(e) => updateField("last_name", e.target.value)}
                 placeholder="Doe"
               />
             </div>
@@ -283,13 +292,16 @@ export function PersonEditDialog({
           {/* Email */}
           <div className="space-y-2">
             <Label htmlFor="email">
-              Email {formData.person_type === 'user' && <span className="text-destructive">*</span>}
+              Email{" "}
+              {formData.person_type === "user" && (
+                <span className="text-destructive">*</span>
+              )}
             </Label>
             <Input
               id="email"
               type="email"
               value={formData.email}
-              onChange={(e) => updateField('email', e.target.value)}
+              onChange={(e) => updateField("email", e.target.value)}
               placeholder="john.doe@example.com"
             />
           </div>
@@ -302,18 +314,18 @@ export function PersonEditDialog({
                 id="phone-mobile"
                 type="tel"
                 value={formData.phone_mobile}
-                onChange={(e) => updateField('phone_mobile', e.target.value)}
+                onChange={(e) => updateField("phone_mobile", e.target.value)}
                 placeholder="+1 (555) 123-4567"
               />
             </div>
-            
+
             <div className="space-y-2">
               <Label htmlFor="phone-business">Business Phone</Label>
               <Input
                 id="phone-business"
                 type="tel"
                 value={formData.phone_business}
-                onChange={(e) => updateField('phone_business', e.target.value)}
+                onChange={(e) => updateField("phone_business", e.target.value)}
                 placeholder="+1 (555) 987-6543"
               />
             </div>
@@ -325,7 +337,7 @@ export function PersonEditDialog({
             <Input
               id="job-title"
               value={formData.job_title}
-              onChange={(e) => updateField('job_title', e.target.value)}
+              onChange={(e) => updateField("job_title", e.target.value)}
               placeholder="Project Manager"
             />
           </div>
@@ -335,14 +347,14 @@ export function PersonEditDialog({
             <Label htmlFor="company">Company</Label>
             <Select
               value={formData.company_id}
-              onValueChange={(value) => updateField('company_id', value)}
+              onValueChange={(value) => updateField("company_id", value)}
             >
               <SelectTrigger id="company">
                 <SelectValue placeholder="Select a company" />
               </SelectTrigger>
               <SelectContent>
                 <SelectItem value="">No Company</SelectItem>
-                {companies.map(company => (
+                {companies.map((company) => (
                   <SelectItem key={company.id} value={company.id}>
                     {company.name}
                   </SelectItem>
@@ -352,19 +364,21 @@ export function PersonEditDialog({
           </div>
 
           {/* Permission Template */}
-          {formData.person_type === 'user' && (
+          {formData.person_type === "user" && (
             <div className="space-y-2">
               <Label htmlFor="permission-template">Permission Template</Label>
               <Select
                 value={formData.permission_template_id}
-                onValueChange={(value) => updateField('permission_template_id', value)}
+                onValueChange={(value) =>
+                  updateField("permission_template_id", value)
+                }
               >
                 <SelectTrigger id="permission-template">
                   <SelectValue placeholder="Select permissions" />
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="">No Permissions</SelectItem>
-                  {permissionTemplates.map(template => (
+                  {permissionTemplates.map((template) => (
                     <SelectItem key={template.id} value={template.id}>
                       {template.name}
                     </SelectItem>
@@ -391,13 +405,10 @@ export function PersonEditDialog({
           >
             Cancel
           </Button>
-          <Button
-            onClick={handleSave}
-            disabled={saving}
-          >
+          <Button onClick={handleSave} disabled={saving}>
             {saving && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             <Save className="mr-2 h-4 w-4" />
-            {mode === 'create' ? 'Create Person' : 'Save Changes'}
+            {mode === "create" ? "Create Person" : "Save Changes"}
           </Button>
         </DialogFooter>
       </DialogContent>

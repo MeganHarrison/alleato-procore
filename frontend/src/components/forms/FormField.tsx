@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 interface FormFieldProps {
-  label: string
-  children: React.ReactNode
-  error?: string
-  hint?: string
-  required?: boolean
-  className?: string
-  fullWidth?: boolean
+  label: string;
+  children: React.ReactNode;
+  error?: string;
+  hint?: string;
+  required?: boolean;
+  className?: string;
+  fullWidth?: boolean;
 }
 
 export function FormField({
@@ -30,13 +30,9 @@ export function FormField({
       </label>
       <div className="mt-1">
         {children}
-        {hint && !error && (
-          <p className="mt-2 text-sm text-gray-500">{hint}</p>
-        )}
-        {error && (
-          <p className="mt-2 text-sm text-red-600">{error}</p>
-        )}
+        {hint && !error && <p className="mt-2 text-sm text-gray-500">{hint}</p>}
+        {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
       </div>
     </div>
-  )
+  );
 }

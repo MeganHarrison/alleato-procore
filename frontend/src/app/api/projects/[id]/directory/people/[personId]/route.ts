@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { DirectoryService } from '@/services/directoryService';
-import { PermissionService } from '@/services/permissionService';
+import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { DirectoryService } from "@/services/directoryService";
+import { PermissionService } from "@/services/permissionService";
 
 interface RouteParams {
   params: Promise<{ id: string; personId: string }>;
@@ -16,18 +16,18 @@ interface RouteParams {
  * @param params.personId - The person identifier within the project's directory
  * @returns A NextResponse containing the person object on success; returns a JSON error with status 401 if the requester is unauthorized, 403 if the requester lacks directory read permission, or 500 on internal server error
  */
-export async function GET(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, personId } = await params;
     const supabase = await createClient();
-    
+
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions
@@ -35,12 +35,12 @@ export async function GET(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'read'
+      "directory",
+      "read",
     );
 
     if (!hasPermission) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     // Get person
@@ -49,10 +49,10 @@ export async function GET(
 
     return NextResponse.json(person);
   } catch (error) {
-    console.error('Error fetching person:', error);
+    console.error("Error fetching person:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -66,18 +66,18 @@ export async function GET(
  * @param params.personId - ID of the person to update.
  * @returns The updated person object, or an error payload on failure.
  */
-export async function PATCH(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, personId } = await params;
     const supabase = await createClient();
-    
+
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions
@@ -85,12 +85,12 @@ export async function PATCH(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'write'
+      "directory",
+      "write",
     );
 
     if (!hasPermission) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     // Parse request body
@@ -101,15 +101,15 @@ export async function PATCH(
     const person = await directoryService.updatePerson(
       projectId,
       personId,
-      body
+      body,
     );
 
     return NextResponse.json(person);
   } catch (error) {
-    console.error('Error updating person:', error);
+    console.error("Error updating person:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -122,18 +122,18 @@ export async function PATCH(
  * @param params.personId - ID of the person to deactivate
  * @returns JSON response: `{ success: true }` on success; on failure returns an error JSON with HTTP status `401` (unauthorized), `403` (forbidden), or `500` (internal server error)
  */
-export async function DELETE(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, personId } = await params;
     const supabase = await createClient();
-    
+
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions
@@ -141,12 +141,12 @@ export async function DELETE(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'write'
+      "directory",
+      "write",
     );
 
     if (!hasPermission) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     // Soft delete by deactivating
@@ -155,10 +155,10 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Error deactivating person:', error);
+    console.error("Error deactivating person:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

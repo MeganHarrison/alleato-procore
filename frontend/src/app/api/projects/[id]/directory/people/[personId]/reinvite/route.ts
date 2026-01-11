@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { InviteService } from '@/services/inviteService';
-import { PermissionService } from '@/services/permissionService';
+import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { InviteService } from "@/services/inviteService";
+import { PermissionService } from "@/services/permissionService";
 
 interface RouteParams {
   params: Promise<{ id: string; personId: string }>;
@@ -15,18 +15,18 @@ interface RouteParams {
  * @param params.personId - The ID of the person whose invite should be resent.
  * @returns A JSON NextResponse: on success contains the invite operation result; on failure contains an `error` message and an appropriate HTTP status (401 for unauthorized, 403 for forbidden, 400 for bad request, 500 for internal server error).
  */
-export async function POST(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, personId } = await params;
     const supabase = await createClient();
-    
+
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions
@@ -34,12 +34,12 @@ export async function POST(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'write'
+      "directory",
+      "write",
     );
 
     if (!hasPermission) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     // Resend invite
@@ -48,17 +48,17 @@ export async function POST(
 
     if (!result.success) {
       return NextResponse.json(
-        { error: result.error || 'Failed to resend invite' },
-        { status: 400 }
+        { error: result.error || "Failed to resend invite" },
+        { status: 400 },
       );
     }
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('Error resending invite:', error);
+    console.error("Error resending invite:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

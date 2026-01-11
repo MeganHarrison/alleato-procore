@@ -1,9 +1,16 @@
-'use server';
+"use server";
 
-import { revalidatePath } from 'next/cache';
-import { listRows, getRow, createRow, updateRow, deleteRow, duplicateRow } from '@/server/db/crud';
-import { getColumnMetadata, getFormColumns } from '@/server/db/introspection';
-import { assertTableAllowed, type TableName } from '@/lib/table-registry';
+import { revalidatePath } from "next/cache";
+import {
+  listRows,
+  getRow,
+  createRow,
+  updateRow,
+  deleteRow,
+  duplicateRow,
+} from "@/server/db/crud";
+import { getColumnMetadata, getFormColumns } from "@/server/db/introspection";
+import { assertTableAllowed, type TableName } from "@/lib/table-registry";
 
 /**
  * Server action to list rows from a table
@@ -14,10 +21,10 @@ export async function listTableRows(
     limit?: number;
     offset?: number;
     sort?: string;
-    dir?: 'asc' | 'desc';
+    dir?: "asc" | "desc";
     search?: string;
     filters?: Record<string, string>;
-  } = {}
+  } = {},
 ) {
   assertTableAllowed(table);
   return listRows({ table, ...options });
@@ -36,14 +43,14 @@ export async function getTableRow(table: string, id: string | number) {
  */
 export async function createTableRow(
   table: string,
-  data: Record<string, unknown>
+  data: Record<string, unknown>,
 ) {
   assertTableAllowed(table);
   const result = await createRow({ table, data });
 
   if (result.success) {
     revalidatePath(`/admin/tables/${table}`);
-    revalidatePath('/admin/tables');
+    revalidatePath("/admin/tables");
   }
 
   return result;
@@ -55,7 +62,7 @@ export async function createTableRow(
 export async function updateTableRow(
   table: string,
   id: string | number,
-  data: Record<string, unknown>
+  data: Record<string, unknown>,
 ) {
   assertTableAllowed(table);
   const result = await updateRow({ table, id, data });
@@ -63,7 +70,7 @@ export async function updateTableRow(
   if (result.success) {
     revalidatePath(`/admin/tables/${table}`);
     revalidatePath(`/admin/tables/${table}/${id}`);
-    revalidatePath('/admin/tables');
+    revalidatePath("/admin/tables");
   }
 
   return result;
@@ -78,7 +85,7 @@ export async function deleteTableRow(table: string, id: string | number) {
 
   if (result.success) {
     revalidatePath(`/admin/tables/${table}`);
-    revalidatePath('/admin/tables');
+    revalidatePath("/admin/tables");
   }
 
   return result;
@@ -93,7 +100,7 @@ export async function duplicateTableRow(table: string, id: string | number) {
 
   if (result.success) {
     revalidatePath(`/admin/tables/${table}`);
-    revalidatePath('/admin/tables');
+    revalidatePath("/admin/tables");
   }
 
   return result;
@@ -108,7 +115,7 @@ export async function getTableColumnMetadata(table: string) {
     const columns = await getColumnMetadata(table as TableName);
     return { success: true, data: columns };
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
+    const message = err instanceof Error ? err.message : "Unknown error";
     return { success: false, error: message };
   }
 }
@@ -118,14 +125,14 @@ export async function getTableColumnMetadata(table: string) {
  */
 export async function getTableFormColumns(
   table: string,
-  mode: 'create' | 'edit'
+  mode: "create" | "edit",
 ) {
   assertTableAllowed(table);
   try {
     const columns = await getFormColumns(table as TableName, mode);
     return { success: true, data: columns };
   } catch (err) {
-    const message = err instanceof Error ? err.message : 'Unknown error';
+    const message = err instanceof Error ? err.message : "Unknown error";
     return { success: false, error: message };
   }
 }

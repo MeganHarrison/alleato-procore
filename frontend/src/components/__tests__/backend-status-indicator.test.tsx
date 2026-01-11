@@ -1,15 +1,15 @@
 /**
  * @jest-environment jsdom
  */
-import React from 'react';
-import { render, screen, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { BackendStatusIndicator } from '../misc/backend-status-indicator';
+import React from "react";
+import { render, screen, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { BackendStatusIndicator } from "../misc/backend-status-indicator";
 
 // Mock fetch
 global.fetch = jest.fn();
 
-describe('BackendStatusIndicator', () => {
+describe("BackendStatusIndicator", () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -18,22 +18,22 @@ describe('BackendStatusIndicator', () => {
     jest.useRealTimers();
   });
 
-  it('shows loading state initially', () => {
+  it("shows loading state initially", () => {
     (global.fetch as jest.Mock).mockImplementation(
-      () => new Promise(() => {}) // Never resolves
+      () => new Promise(() => {}), // Never resolves
     );
 
     render(<BackendStatusIndicator />);
     // There are two "Checking..." texts (one for Backend, one for OpenAI)
-    const checkingTexts = screen.getAllByText('Checking...');
+    const checkingTexts = screen.getAllByText("Checking...");
     expect(checkingTexts.length).toBeGreaterThan(0);
   });
 
-  it('shows connected state when backend is healthy', async () => {
+  it("shows connected state when backend is healthy", async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => ({
-        status: 'healthy',
+        status: "healthy",
         backend: true,
         openai_configured: true,
         timestamp: new Date().toISOString(),
@@ -43,25 +43,27 @@ describe('BackendStatusIndicator', () => {
     render(<BackendStatusIndicator />);
 
     await waitFor(() => {
-      expect(screen.getByText('Connected')).toBeInTheDocument();
+      expect(screen.getByText("Connected")).toBeInTheDocument();
     });
   });
 
-  it('shows disconnected state when fetch fails', async () => {
-    (global.fetch as jest.Mock).mockRejectedValueOnce(new Error('Network error'));
+  it("shows disconnected state when fetch fails", async () => {
+    (global.fetch as jest.Mock).mockRejectedValueOnce(
+      new Error("Network error"),
+    );
 
     render(<BackendStatusIndicator />);
 
     await waitFor(() => {
-      expect(screen.getByText('Disconnected')).toBeInTheDocument();
+      expect(screen.getByText("Disconnected")).toBeInTheDocument();
     });
   });
 
-  it('shows OpenAI not configured when openai_configured is false', async () => {
+  it("shows OpenAI not configured when openai_configured is false", async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => ({
-        status: 'healthy',
+        status: "healthy",
         backend: true,
         openai_configured: false,
         timestamp: new Date().toISOString(),
@@ -71,36 +73,36 @@ describe('BackendStatusIndicator', () => {
     render(<BackendStatusIndicator />);
 
     await waitFor(() => {
-      expect(screen.getByText('Not configured')).toBeInTheDocument();
+      expect(screen.getByText("Not configured")).toBeInTheDocument();
     });
   });
 
-  it('shows error message when backend returns error', async () => {
+  it("shows error message when backend returns error", async () => {
     (global.fetch as jest.Mock).mockResolvedValueOnce({
       ok: true,
       json: async () => ({
-        status: 'error',
+        status: "error",
         backend: false,
         openai_configured: false,
         timestamp: new Date().toISOString(),
-        error: 'Backend unavailable',
+        error: "Backend unavailable",
       }),
     });
 
     render(<BackendStatusIndicator />);
 
     await waitFor(() => {
-      expect(screen.getByText('Backend unavailable')).toBeInTheDocument();
+      expect(screen.getByText("Backend unavailable")).toBeInTheDocument();
     });
   });
 
-  it('polls health check periodically', async () => {
+  it("polls health check periodically", async () => {
     jest.useFakeTimers();
 
     (global.fetch as jest.Mock).mockResolvedValue({
       ok: true,
       json: async () => ({
-        status: 'healthy',
+        status: "healthy",
         backend: true,
         openai_configured: true,
         timestamp: new Date().toISOString(),

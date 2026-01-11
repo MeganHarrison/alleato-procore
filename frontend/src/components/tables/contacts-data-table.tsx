@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,7 +12,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 import {
   ChevronDownIcon,
   ChevronLeftIcon,
@@ -23,9 +23,9 @@ import {
   MoreVerticalIcon,
   PlusIcon,
   UserIcon,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Checkbox } from "@/components/ui/checkbox"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -33,15 +33,15 @@ import {
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/dropdown-menu";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Table,
   TableBody,
@@ -49,21 +49,21 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { Text } from "@/components/ui/text"
-import type { Database } from "@/types/database.types"
-import { ContactDetailsSheet } from "./contact-details-sheet"
+} from "@/components/ui/table";
+import { Text } from "@/components/ui/text";
+import type { Database } from "@/types/database.types";
+import { ContactDetailsSheet } from "./contact-details-sheet";
 
-type Contact = Database["public"]["Tables"]["contacts"]["Row"]
-type Company = Database["public"]["Tables"]["companies"]["Row"]
+type Contact = Database["public"]["Tables"]["contacts"]["Row"];
+type Company = Database["public"]["Tables"]["companies"]["Row"];
 
 interface ContactWithCompany extends Contact {
-  company?: Company | null
+  company?: Company | null;
 }
 
 interface ContactsDataTableProps {
-  contacts: ContactWithCompany[]
-  showEmployeesOnly?: boolean
+  contacts: ContactWithCompany[];
+  showEmployeesOnly?: boolean;
 }
 
 const columns: ColumnDef<ContactWithCompany>[] = [
@@ -76,8 +76,8 @@ const columns: ColumnDef<ContactWithCompany>[] = [
             table.getIsAllPageRowsSelected()
               ? true
               : table.getIsSomePageRowsSelected()
-              ? "indeterminate"
-              : false
+                ? "indeterminate"
+                : false
           }
           onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
           aria-label="Select all"
@@ -100,83 +100,106 @@ const columns: ColumnDef<ContactWithCompany>[] = [
     accessorKey: "full_name",
     header: "Name",
     cell: ({ row }) => {
-      const contact = row.original
-      const fullName = `${contact.first_name || ""} ${contact.last_name || ""}`.trim() || "Unnamed Contact"
-      
+      const contact = row.original;
+      const fullName =
+        `${contact.first_name || ""} ${contact.last_name || ""}`.trim() ||
+        "Unnamed Contact";
+
       return (
         <ContactDetailsSheet
           contact={contact}
           trigger={
-            <Button variant="link" className="w-fit px-0 text-left text-foreground">
+            <Button
+              variant="link"
+              className="w-fit px-0 text-left text-foreground"
+            >
               <UserIcon className="mr-2 size-4" />
               {fullName}
             </Button>
           }
         />
-      )
+      );
     },
     enableHiding: false,
     filterFn: (row, columnId, filterValue) => {
-      const contact = row.original
-      const fullName = `${contact.first_name || ""} ${contact.last_name || ""}`.trim().toLowerCase()
-      return fullName.includes(filterValue.toLowerCase())
+      const contact = row.original;
+      const fullName = `${contact.first_name || ""} ${contact.last_name || ""}`
+        .trim()
+        .toLowerCase();
+      return fullName.includes(filterValue.toLowerCase());
     },
   },
   {
     accessorKey: "email",
     header: "Email",
     cell: ({ row }) => {
-      const email = row.original.email
+      const email = row.original.email;
 
       return email ? (
         <a href={`mailto:${email}`} className="text-primary hover:underline">
-          <Text as="span" size="sm">{email}</Text>
+          <Text as="span" size="sm">
+            {email}
+          </Text>
         </a>
       ) : (
-        <Text as="span" tone="muted" size="sm">N/A</Text>
-      )
+        <Text as="span" tone="muted" size="sm">
+          N/A
+        </Text>
+      );
     },
   },
   {
     accessorKey: "company.name",
     header: "Company",
     cell: ({ row }) => {
-      const company = row.original.company
+      const company = row.original.company;
 
       return company ? (
-        <Text as="div" size="sm">{company.name}</Text>
+        <Text as="div" size="sm">
+          {company.name}
+        </Text>
       ) : (
-        <Text as="span" tone="muted" size="sm">No company</Text>
-      )
+        <Text as="span" tone="muted" size="sm">
+          No company
+        </Text>
+      );
     },
   },
   {
     accessorKey: "phone",
     header: "Phone",
     cell: ({ row }) => {
-      const phone = row.original.phone
+      const phone = row.original.phone;
 
       return phone ? (
         <a href={`tel:${phone}`} className="text-primary hover:underline">
-          <Text as="span" size="sm">{phone}</Text>
+          <Text as="span" size="sm">
+            {phone}
+          </Text>
         </a>
       ) : (
-        <Text as="span" tone="muted" size="sm">N/A</Text>
-      )
+        <Text as="span" tone="muted" size="sm">
+          N/A
+        </Text>
+      );
     },
   },
   {
     accessorKey: "created_at",
     header: "Created",
     cell: ({ row }) => {
-      const date = row.original.created_at
-      return <Text as="span" size="sm" tone="muted">{new Date(date).toLocaleDateString()}</Text>
+      const date = row.original.created_at;
+      return (
+        <Text as="span" size="sm" tone="muted">
+          {new Date(date).toLocaleDateString()}
+        </Text>
+      );
     },
   },
   {
     id: "actions",
     cell: ({ row }) => {
-      const contact = row.original
+      const contact = row.original;
       return (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -194,31 +217,39 @@ const columns: ColumnDef<ContactWithCompany>[] = [
             <DropdownMenuItem>Send Email</DropdownMenuItem>
             <DropdownMenuItem>Call</DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-destructive">Delete</DropdownMenuItem>
+            <DropdownMenuItem className="text-destructive">
+              Delete
+            </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
+      );
     },
   },
-]
+];
 
-export function ContactsDataTable({ contacts, showEmployeesOnly = false }: ContactsDataTableProps) {
-  const [rowSelection, setRowSelection] = React.useState({})
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [sorting, setSorting] = React.useState<SortingState>([])
+export function ContactsDataTable({
+  contacts,
+  showEmployeesOnly = false,
+}: ContactsDataTableProps) {
+  const [rowSelection, setRowSelection] = React.useState({});
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState({
     pageIndex: 0,
     pageSize: 10,
-  })
+  });
 
   // Filter for employees if needed (contacts without company_id)
   const filteredContacts = React.useMemo(() => {
     if (showEmployeesOnly) {
-      return contacts.filter(contact => !contact.company)
+      return contacts.filter((contact) => !contact.company);
     }
-    return contacts
-  }, [contacts, showEmployeesOnly])
+    return contacts;
+  }, [contacts, showEmployeesOnly]);
 
   const table = useReactTable({
     data: filteredContacts,
@@ -241,7 +272,7 @@ export function ContactsDataTable({ contacts, showEmployeesOnly = false }: Conta
     getFilteredRowModel: getFilteredRowModel(),
     getPaginationRowModel: getPaginationRowModel(),
     getSortedRowModel: getSortedRowModel(),
-  })
+  });
 
   return (
     <div className="flex w-full flex-col justify-start gap-6">
@@ -265,7 +296,7 @@ export function ContactsDataTable({ contacts, showEmployeesOnly = false }: Conta
                 .filter(
                   (column) =>
                     typeof column.accessorFn !== "undefined" &&
-                    column.getCanHide()
+                    column.getCanHide(),
                 )
                 .map((column) => {
                   return (
@@ -279,7 +310,7 @@ export function ContactsDataTable({ contacts, showEmployeesOnly = false }: Conta
                     >
                       {column.id}
                     </DropdownMenuCheckboxItem>
-                  )
+                  );
                 })}
             </DropdownMenuContent>
           </DropdownMenu>
@@ -304,10 +335,10 @@ export function ContactsDataTable({ contacts, showEmployeesOnly = false }: Conta
                           ? null
                           : flexRender(
                               header.column.columnDef.header,
-                              header.getContext()
+                              header.getContext(),
                             )}
                       </TableHead>
-                    )
+                    );
                   })}
                 </TableRow>
               ))}
@@ -321,7 +352,10 @@ export function ContactsDataTable({ contacts, showEmployeesOnly = false }: Conta
                   >
                     {row.getVisibleCells().map((cell) => (
                       <TableCell key={cell.id}>
-                        {flexRender(cell.column.columnDef.cell, cell.getContext())}
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
+                        )}
                       </TableCell>
                     ))}
                   </TableRow>
@@ -352,7 +386,7 @@ export function ContactsDataTable({ contacts, showEmployeesOnly = false }: Conta
               <Select
                 value={`${table.getState().pagination.pageSize}`}
                 onValueChange={(value) => {
-                  table.setPageSize(Number(value))
+                  table.setPageSize(Number(value));
                 }}
               >
                 <SelectTrigger className="w-20" id="rows-per-page">
@@ -418,5 +452,5 @@ export function ContactsDataTable({ contacts, showEmployeesOnly = false }: Conta
         </div>
       </div>
     </div>
-  )
+  );
 }

@@ -1,11 +1,19 @@
-import type { createClient } from '@supabase/supabase-js';
-import type { Database } from '../types/database.types';
+import type { createClient } from "@supabase/supabase-js";
+import type { Database } from "../types/database.types";
 
-type Tables = Database['public']['Tables'];
-type PermissionTemplate = Tables['permission_templates']['Row'];
+type Tables = Database["public"]["Tables"];
+type PermissionTemplate = Tables["permission_templates"]["Row"];
 
-export type Permission = 'read' | 'write' | 'admin';
-export type Module = 'directory' | 'budget' | 'contracts' | 'documents' | 'schedule' | 'submittals' | 'rfis' | 'change_orders';
+export type Permission = "read" | "write" | "admin";
+export type Module =
+  | "directory"
+  | "budget"
+  | "contracts"
+  | "documents"
+  | "schedule"
+  | "submittals"
+  | "rfis"
+  | "change_orders";
 
 export interface PermissionRules {
   [module: string]: Permission[];
@@ -20,10 +28,13 @@ export interface UserPermissions {
 
 export class PermissionService {
   private cache: Map<string, UserPermissions> = new Map();
-  
+
   constructor(private supabase: ReturnType<typeof createClient<Database>>) {}
 
-  async getUserPermissions(userId: string, projectId: string): Promise<UserPermissions> {
+  async getUserPermissions(
+    userId: string,
+    projectId: string,
+  ): Promise<UserPermissions> {
     const projectIdNum = Number.parseInt(projectId, 10);
     const cacheKey = `${userId}:${projectId}`;
 
@@ -35,18 +46,20 @@ export class PermissionService {
     try {
       // Get user's membership and permission template
       const { data: membership, error } = await this.supabase
-        .from('project_directory_memberships')
-        .select(`
+        .from("project_directory_memberships")
+        .select(
+          `
           *,
           person:people!inner(
             *,
             users_auth!inner(auth_user_id)
           ),
           permission_template:permission_templates(*)
-        `)
-        .eq('project_id', projectIdNum)
-        .eq('person.users_auth.auth_user_id', userId)
-        .eq('status', 'active')
+        `,
+        )
+        .eq("project_id", projectIdNum)
+        .eq("person.users_auth.auth_user_id", userId)
+        .eq("status", "active")
         .single();
 
       if (error || !membership) {
@@ -54,18 +67,18 @@ export class PermissionService {
         return {
           userId,
           projectId,
-          rules: {}
+          rules: {},
         };
       }
 
       const template = membership.permission_template;
-      const rules = template?.rules_json as PermissionRules || {};
+      const rules = (template?.rules_json as PermissionRules) || {};
 
       const permissions: UserPermissions = {
         userId,
         projectId,
         template,
-        rules
+        rules,
       };
 
       // Cache for 5 minutes
@@ -74,57 +87,64 @@ export class PermissionService {
 
       return permissions;
     } catch (error) {
-      console.error('Error fetching permissions:', error);
+      console.error("Error fetching permissions:", error);
       return {
         userId,
         projectId,
-        rules: {}
+        rules: {},
       };
     }
   }
 
   async hasPermission(
-    userId: string, 
-    projectId: string, 
-    module: Module, 
-    permission: Permission
+    userId: string,
+    projectId: string,
+    module: Module,
+    permission: Permission,
   ): Promise<boolean> {
     const userPermissions = await this.getUserPermissions(userId, projectId);
     const modulePermissions = userPermissions.rules[module] || [];
-    
+
     // Admin permission includes all others
-    if (modulePermissions.includes('admin')) {
+    if (modulePermissions.includes("admin")) {
       return true;
     }
-    
+
     // Write permission includes read
-    if (permission === 'read' && modulePermissions.includes('write')) {
+    if (permission === "read" && modulePermissions.includes("write")) {
       return true;
     }
-    
+
     return modulePermissions.includes(permission);
   }
 
   async requirePermission(
-    userId: string, 
-    projectId: string, 
-    module: Module, 
-    permission: Permission
+    userId: string,
+    projectId: string,
+    module: Module,
+    permission: Permission,
   ): Promise<void> {
-    const hasAccess = await this.hasPermission(userId, projectId, module, permission);
+    const hasAccess = await this.hasPermission(
+      userId,
+      projectId,
+      module,
+      permission,
+    );
     if (!hasAccess) {
       throw new Error(`Insufficient permissions: ${module}:${permission}`);
     }
   }
 
-  async getPermissionTemplates(scope?: 'project' | 'company' | 'global'): Promise<PermissionTemplate[]> {
+  async getPermissionTemplates(
+    scope?: "project" | "company" | "global",
+  ): Promise<PermissionTemplate[]> {
     let query = this.supabase
-      .from('permission_templates')
-      .select('*')
-      .order('name');
+      .from("permission_templates")
+      .select("*")
+      .order("name");
 
     if (scope) {
-      query = query.eq('scope', scope);
+      query = query.eq("scope", scope);
     }
 
     const { data, error } = await query;
@@ -137,16 +157,16 @@ export class PermissionService {
     name: string,
     description: string,
     rules: PermissionRules,
-    scope: 'project' | 'company' | 'global' = 'project'
+    scope: "project" | "company" | "global" = "project",
   ): Promise<PermissionTemplate> {
     const { data, error } = await this.supabase
-      .from('permission_templates')
+      .from("permission_templates")
       .insert({
         name,
         description,
         scope,
         rules_json: rules,
-        is_system: false
+        is_system: false,
       })
       .select()
       .single();
@@ -161,7 +181,7 @@ export class PermissionService {
       name?: string;
       description?: string;
       rules?: PermissionRules;
-    }
+    },
   ): Promise<PermissionTemplate> {
     const updateData: Record<string, unknown> = {};
     if (updates.name) updateData.name = updates.name;
@@ -169,10 +189,10 @@ export class PermissionService {
     if (updates.rules) updateData.rules_json = updates.rules;
 
     const { data, error } = await this.supabase
-      .from('permission_templates')
+      .from("permission_templates")
       .update(updateData)
-      .eq('id', templateId)
-      .eq('is_system', false) // Prevent updating system templates
+      .eq("id", templateId)
+      .eq("is_system", false) // Prevent updating system templates
       .select()
       .single();
 
@@ -182,10 +202,10 @@ export class PermissionService {
 
   async deletePermissionTemplate(templateId: string): Promise<void> {
     const { error } = await this.supabase
-      .from('permission_templates')
+      .from("permission_templates")
       .delete()
-      .eq('id', templateId)
-      .eq('is_system', false); // Prevent deleting system templates
+      .eq("id", templateId)
+      .eq("is_system", false); // Prevent deleting system templates
 
     if (error) throw error;
   }
@@ -193,15 +213,15 @@ export class PermissionService {
   async assignPermissionTemplate(
     projectId: string,
     personId: string,
-    templateId: string
+    templateId: string,
   ): Promise<void> {
     const projectIdNum = Number.parseInt(projectId, 10);
 
     const { error } = await this.supabase
-      .from('project_directory_memberships')
+      .from("project_directory_memberships")
       .update({ permission_template_id: templateId })
-      .eq('project_id', projectIdNum)
-      .eq('person_id', personId);
+      .eq("project_id", projectIdNum)
+      .eq("person_id", personId);
 
     if (error) throw error;
 
@@ -227,10 +247,17 @@ export class PermissionService {
   async hasAnyPermission(
     userId: string,
     projectId: string,
-    checks: Array<{ module: Module; permission: Permission }>
+    checks: Array<{ module: Module; permission: Permission }>,
   ): Promise<boolean> {
     for (const check of checks) {
-      if (await this.hasPermission(userId, projectId, check.module, check.permission)) {
+      if (
+        await this.hasPermission(
+          userId,
+          projectId,
+          check.module,
+          check.permission,
+        )
+      ) {
         return true;
       }
     }
@@ -238,14 +265,17 @@ export class PermissionService {
   }
 
   // Helper method to get all user permissions for a project
-  async getAllPermissions(userId: string, projectId: string): Promise<Map<Module, Permission[]>> {
+  async getAllPermissions(
+    userId: string,
+    projectId: string,
+  ): Promise<Map<Module, Permission[]>> {
     const userPermissions = await this.getUserPermissions(userId, projectId);
     const result = new Map<Module, Permission[]>();
-    
+
     for (const [module, permissions] of Object.entries(userPermissions.rules)) {
       result.set(module as Module, permissions);
     }
-    
+
     return result;
   }
 }

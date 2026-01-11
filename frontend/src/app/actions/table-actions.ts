@@ -1,21 +1,18 @@
-'use server';
+"use server";
 
-import { createClient as createSupabaseClient } from '@/lib/supabase/server';
-import { revalidatePath } from 'next/cache';
+import { createClient as createSupabaseClient } from "@/lib/supabase/server";
+import { revalidatePath } from "next/cache";
 
 export async function updateTableRow(
   tableName: string,
   id: string | number,
   data: Record<string, any>,
-  revalidatePaths?: string[]
+  revalidatePaths?: string[],
 ) {
   try {
     const supabase = await createSupabaseClient();
-    
-    const { error } = await supabase
-      .from(tableName)
-      .update(data)
-      .eq('id', id);
+
+    const { error } = await supabase.from(tableName).update(data).eq("id", id);
 
     if (error) {
       return { error: error.message };
@@ -23,30 +20,27 @@ export async function updateTableRow(
 
     // Revalidate specified paths
     if (revalidatePaths) {
-      revalidatePaths.forEach(path => revalidatePath(path));
+      revalidatePaths.forEach((path) => revalidatePath(path));
     } else {
       // Default revalidation
-      revalidatePath('/');
+      revalidatePath("/");
     }
 
     return { success: true };
   } catch (error) {
-    return { error: 'Failed to update record' };
+    return { error: "Failed to update record" };
   }
 }
 
 export async function deleteTableRow(
   tableName: string,
   id: string | number,
-  revalidatePaths?: string[]
+  revalidatePaths?: string[],
 ) {
   try {
     const supabase = await createSupabaseClient();
-    
-    const { error } = await supabase
-      .from(tableName)
-      .delete()
-      .eq('id', id);
+
+    const { error } = await supabase.from(tableName).delete().eq("id", id);
 
     if (error) {
       return { error: error.message };
@@ -54,33 +48,36 @@ export async function deleteTableRow(
 
     // Revalidate specified paths
     if (revalidatePaths) {
-      revalidatePaths.forEach(path => revalidatePath(path));
+      revalidatePaths.forEach((path) => revalidatePath(path));
     } else {
       // Default revalidation
-      revalidatePath('/');
+      revalidatePath("/");
     }
 
     return { success: true };
   } catch (error) {
-    return { error: 'Failed to delete record' };
+    return { error: "Failed to delete record" };
   }
 }
 
 // Specific actions for different tables
 export async function updateMeeting(id: string, data: Record<string, any>) {
-  return updateTableRow('document_metadata', id, data, ['/meetings']);
+  return updateTableRow("document_metadata", id, data, ["/meetings"]);
 }
 
 export async function deleteMeeting(id: string) {
-  return deleteTableRow('document_metadata', id, ['/meetings']);
+  return deleteTableRow("document_metadata", id, ["/meetings"]);
 }
 
-export async function updateProject(id: string | number, data: Record<string, any>) {
-  return updateTableRow('projects', id, data, ['/projects', '/']);
+export async function updateProject(
+  id: string | number,
+  data: Record<string, any>,
+) {
+  return updateTableRow("projects", id, data, ["/projects", "/"]);
 }
 
 export async function deleteProject(id: string | number) {
-  return deleteTableRow('projects', id, ['/projects', '/']);
+  return deleteTableRow("projects", id, ["/projects", "/"]);
 }
 
 export async function createCompany(data: Record<string, any>) {
@@ -88,7 +85,7 @@ export async function createCompany(data: Record<string, any>) {
     const supabase = await createSupabaseClient();
 
     const { data: company, error } = await supabase
-      .from('companies')
+      .from("companies")
       .insert(data)
       .select()
       .single();
@@ -97,20 +94,26 @@ export async function createCompany(data: Record<string, any>) {
       return { error: error.message };
     }
 
-    revalidatePath('/companies');
-    revalidatePath('/directory/companies');
+    revalidatePath("/companies");
+    revalidatePath("/directory/companies");
     return { success: true, data: company };
   } catch (error) {
-    return { error: 'Failed to create company' };
+    return { error: "Failed to create company" };
   }
 }
 
 export async function updateCompany(id: string, data: Record<string, any>) {
-  return updateTableRow('companies', id, data, ['/companies', '/directory/companies']);
+  return updateTableRow("companies", id, data, [
+    "/companies",
+    "/directory/companies",
+  ]);
 }
 
 export async function deleteCompany(id: string) {
-  return deleteTableRow('companies', id, ['/companies', '/directory/companies']);
+  return deleteTableRow("companies", id, [
+    "/companies",
+    "/directory/companies",
+  ]);
 }
 
 export async function createClient(data: Record<string, any>) {
@@ -118,7 +121,7 @@ export async function createClient(data: Record<string, any>) {
     const supabase = await createSupabaseClient();
 
     const { data: client, error } = await supabase
-      .from('clients')
+      .from("clients")
       .insert(data)
       .select()
       .single();
@@ -127,20 +130,23 @@ export async function createClient(data: Record<string, any>) {
       return { error: error.message };
     }
 
-    revalidatePath('/clients');
-    revalidatePath('/directory/clients');
+    revalidatePath("/clients");
+    revalidatePath("/directory/clients");
     return { success: true, data: client };
   } catch (error) {
-    return { error: 'Failed to create client' };
+    return { error: "Failed to create client" };
   }
 }
 
 export async function updateClient(id: number, data: Record<string, any>) {
-  return updateTableRow('clients', id, data, ['/clients', '/directory/clients']);
+  return updateTableRow("clients", id, data, [
+    "/clients",
+    "/directory/clients",
+  ]);
 }
 
 export async function deleteClient(id: number) {
-  return deleteTableRow('clients', id, ['/clients', '/directory/clients']);
+  return deleteTableRow("clients", id, ["/clients", "/directory/clients"]);
 }
 
 export async function createContact(data: Record<string, any>) {
@@ -148,7 +154,7 @@ export async function createContact(data: Record<string, any>) {
     const supabase = await createSupabaseClient();
 
     const { data: contact, error } = await supabase
-      .from('contacts')
+      .from("contacts")
       .insert(data)
       .select()
       .single();
@@ -157,18 +163,21 @@ export async function createContact(data: Record<string, any>) {
       return { error: error.message };
     }
 
-    revalidatePath('/contacts');
-    revalidatePath('/directory/contacts');
+    revalidatePath("/contacts");
+    revalidatePath("/directory/contacts");
     return { success: true, data: contact };
   } catch (error) {
-    return { error: 'Failed to create contact' };
+    return { error: "Failed to create contact" };
   }
 }
 
 export async function updateContact(id: string, data: Record<string, any>) {
-  return updateTableRow('contacts', id, data, ['/contacts', '/directory/contacts']);
+  return updateTableRow("contacts", id, data, [
+    "/contacts",
+    "/directory/contacts",
+  ]);
 }
 
 export async function deleteContact(id: string) {
-  return deleteTableRow('contacts', id, ['/contacts', '/directory/contacts']);
+  return deleteTableRow("contacts", id, ["/contacts", "/directory/contacts"]);
 }

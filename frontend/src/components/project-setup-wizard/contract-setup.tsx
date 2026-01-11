@@ -1,39 +1,38 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { createClient } from "@/lib/supabase/client"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Textarea } from "@/components/ui/textarea"
-import { Alert, AlertDescription } from "@/components/ui/alert"
-import { Card } from "@/components/ui/card"
+import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Card } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { Switch } from "@/components/ui/switch"
-import { Badge } from "@/components/ui/badge"
-import {
-  AlertCircle,
-  FileText,
-  DollarSign,
-  Wand2,
-} from "lucide-react"
-import { StepComponentProps } from "./project-setup-wizard"
-import type { Database } from "@/types/database.types"
-import { isDevelopment, getAutoFillData } from "@/lib/dev-autofill"
+} from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
+import { Badge } from "@/components/ui/badge";
+import { AlertCircle, FileText, DollarSign, Wand2 } from "lucide-react";
+import { StepComponentProps } from "./project-setup-wizard";
+import type { Database } from "@/types/database.types";
+import { isDevelopment, getAutoFillData } from "@/lib/dev-autofill";
 
-type Contract = Database["public"]["Tables"]["contracts"]["Row"]
+type Contract = Database["public"]["Tables"]["contracts"]["Row"];
 
-export function ContractSetup({ projectId, onNext, onSkip }: StepComponentProps) {
-  const [saving, setSaving] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  const [includeSOV, setIncludeSOV] = useState(false)
-  
+export function ContractSetup({
+  projectId,
+  onNext,
+  onSkip,
+}: StepComponentProps) {
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [includeSOV, setIncludeSOV] = useState(false);
+
   const [contract, setContract] = useState<Partial<Contract>>({
     project_id: parseInt(projectId),
     contract_number: "",
@@ -41,39 +40,47 @@ export function ContractSetup({ projectId, onNext, onSkip }: StepComponentProps)
     status: "draft",
     original_contract_amount: 0,
     client_id: 1, // This would need to come from project data
-  })
-  
-  const supabase = createClient()
+  });
+
+  const supabase = createClient();
 
   const updateContract = (field: keyof Contract, value: any) => {
-    setContract(prev => ({
+    setContract((prev) => ({
       ...prev,
       [field]: value,
-    }))
-  }
+    }));
+  };
 
   // Auto-fill contract with test data
   const autoFillContract = () => {
-    if (!isDevelopment) return
+    if (!isDevelopment) return;
 
-    const data = getAutoFillData("primeContract")
-    setContract(prev => ({
+    const data = getAutoFillData("primeContract");
+    setContract((prev) => ({
       ...prev,
-      contract_number: data.number || `PC-2024-${Math.floor(Math.random() * 999).toString().padStart(3, "0")}`,
+      contract_number:
+        data.number ||
+        `PC-2024-${Math.floor(Math.random() * 999)
+          .toString()
+          .padStart(3, "0")}`,
       title: data.title || "Prime Construction Contract",
       original_contract_amount: data.original_amount || 0,
       notes: data.description || "",
-    }))
-  }
+    }));
+  };
 
   const saveContract = async () => {
     try {
-      setSaving(true)
-      setError(null)
+      setSaving(true);
+      setError(null);
 
-      if (!contract.title || !contract.original_contract_amount || contract.original_contract_amount <= 0) {
-        setError("Please provide a contract title and amount")
-        return
+      if (
+        !contract.title ||
+        !contract.original_contract_amount ||
+        contract.original_contract_amount <= 0
+      ) {
+        setError("Please provide a contract title and amount");
+        return;
       }
 
       // Insert the contract
@@ -89,9 +96,9 @@ export function ContractSetup({ projectId, onNext, onSkip }: StepComponentProps)
           client_id: contract.client_id || 1,
         })
         .select()
-        .single()
+        .single();
 
-      if (contractError) throw contractError
+      if (contractError) throw contractError;
 
       // If including SOV, create a basic schedule of values
       if (includeSOV && newContract) {
@@ -101,23 +108,22 @@ export function ContractSetup({ projectId, onNext, onSkip }: StepComponentProps)
             contract_id: newContract.id,
             total_amount: newContract.original_contract_amount || 0,
             status: "draft",
-          })
+          });
 
         if (sovError) {
-          console.error("Error creating SOV:", sovError)
-          throw sovError
+          console.error("Error creating SOV:", sovError);
+          throw sovError;
         }
       }
 
-      onNext()
-
+      onNext();
     } catch (err) {
-      console.error("Error saving contract:", err)
-      setError(err instanceof Error ? err.message : "Failed to save contract")
+      console.error("Error saving contract:", err);
+      setError(err instanceof Error ? err.message : "Failed to save contract");
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
   return (
     <div className="space-y-6">
@@ -130,8 +136,8 @@ export function ContractSetup({ projectId, onNext, onSkip }: StepComponentProps)
 
       <div className="space-y-4">
         <p className="text-muted-foreground">
-          Set up your prime contract with the project owner. This step is optional
-          and can be completed later.
+          Set up your prime contract with the project owner. This step is
+          optional and can be completed later.
         </p>
 
         <Card className="p-6">
@@ -162,7 +168,9 @@ export function ContractSetup({ projectId, onNext, onSkip }: StepComponentProps)
               <Input
                 id="contract-number"
                 value={contract.contract_number || ""}
-                onChange={(e) => updateContract("contract_number", e.target.value)}
+                onChange={(e) =>
+                  updateContract("contract_number", e.target.value)
+                }
                 placeholder="e.g., PC-2024-001"
               />
             </div>
@@ -187,7 +195,12 @@ export function ContractSetup({ projectId, onNext, onSkip }: StepComponentProps)
                   id="amount"
                   type="number"
                   value={contract.original_contract_amount || ""}
-                  onChange={(e) => updateContract("original_contract_amount", parseFloat(e.target.value) || 0)}
+                  onChange={(e) =>
+                    updateContract(
+                      "original_contract_amount",
+                      parseFloat(e.target.value) || 0,
+                    )
+                  }
                   className="pl-9"
                   placeholder="0.00"
                 />
@@ -212,7 +225,10 @@ export function ContractSetup({ projectId, onNext, onSkip }: StepComponentProps)
             {/* Schedule of Values Option */}
             <div className="flex items-center justify-between rounded-lg border p-4">
               <div className="space-y-0.5">
-                <Label htmlFor="include-sov" className="font-medium cursor-pointer">
+                <Label
+                  htmlFor="include-sov"
+                  className="font-medium cursor-pointer"
+                >
                   Include Schedule of Values
                 </Label>
                 <p className="text-sm text-muted-foreground">
@@ -239,15 +255,20 @@ export function ContractSetup({ projectId, onNext, onSkip }: StepComponentProps)
                   <span className="font-medium">{contract.title}</span>
                 </div>
               )}
-              {contract.original_contract_amount && contract.original_contract_amount > 0 && (
-                <div className="flex items-center justify-between">
-                  <span className="text-muted-foreground">Amount:</span>
-                  <span className="font-medium">${contract.original_contract_amount.toLocaleString()}</span>
-                </div>
-              )}
+              {contract.original_contract_amount &&
+                contract.original_contract_amount > 0 && (
+                  <div className="flex items-center justify-between">
+                    <span className="text-muted-foreground">Amount:</span>
+                    <span className="font-medium">
+                      ${contract.original_contract_amount.toLocaleString()}
+                    </span>
+                  </div>
+                )}
               {includeSOV && (
                 <div className="flex items-center justify-between pt-2 border-t">
-                  <span className="text-muted-foreground">Schedule of Values:</span>
+                  <span className="text-muted-foreground">
+                    Schedule of Values:
+                  </span>
                   <Badge variant="secondary">Will be created</Badge>
                 </div>
               )}
@@ -263,11 +284,16 @@ export function ContractSetup({ projectId, onNext, onSkip }: StepComponentProps)
         </Button>
         <Button
           onClick={saveContract}
-          disabled={saving || !contract.title || !contract.original_contract_amount || contract.original_contract_amount <= 0}
+          disabled={
+            saving ||
+            !contract.title ||
+            !contract.original_contract_amount ||
+            contract.original_contract_amount <= 0
+          }
         >
           {saving ? "Saving..." : "Complete Setup"}
         </Button>
       </div>
     </div>
-  )
+  );
 }

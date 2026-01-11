@@ -1,17 +1,23 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { Search, MessageSquare, HelpCircle, Bell, ChevronDown } from "lucide-react"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
+import { useState } from "react";
+import {
+  Search,
+  MessageSquare,
+  HelpCircle,
+  Bell,
+  ChevronDown,
+} from "lucide-react";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
-import { Button } from "@/components/ui/button"
-import Link from "next/link"
+} from "@/components/ui/dropdown-menu";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 // Tool categories for the dropdown
 const coreTools = [
@@ -21,8 +27,8 @@ const coreTools = [
   { name: "Directory", href: "/directory" },
   { name: "Tasks", href: "/tasks" },
   { name: "Admin", href: "/admin" },
-  { name: "Connection Manager", href: "/connection-manager", badge: "New" }
-]
+  { name: "Connection Manager", href: "/connection-manager", badge: "New" },
+];
 
 const projectManagementTools = [
   { name: "Emails", href: "/emails" },
@@ -35,8 +41,8 @@ const projectManagementTools = [
   { name: "Daily Log", href: "/daily-log" },
   { name: "Photos", href: "/photos", isFavorite: true },
   { name: "Drawings", href: "/drawings" },
-  { name: "Specifications", href: "/specifications" }
-]
+  { name: "Specifications", href: "/specifications" },
+];
 
 const financialManagementTools = [
   { name: "Contracts", href: "/contracts" },
@@ -45,15 +51,19 @@ const financialManagementTools = [
   { name: "Change Orders", href: "/change-orders" },
   { name: "Change Events", href: "/change-events", hasCreateAction: true },
   { name: "Direct Costs", href: "/direct-costs" },
-  { name: "Invoicing", href: "/invoices" }
-]
+  { name: "Invoicing", href: "/invoices" },
+];
 
-const allTools = [...coreTools, ...projectManagementTools, ...financialManagementTools]
+const allTools = [
+  ...coreTools,
+  ...projectManagementTools,
+  ...financialManagementTools,
+];
 
 interface SimplifiedHeaderProps {
-  projectName?: string
-  currentTool?: string
-  userAvatar?: string
+  projectName?: string;
+  currentTool?: string;
+  userAvatar?: string;
 }
 
 export function SimplifiedHeader({
@@ -61,22 +71,26 @@ export function SimplifiedHeader({
   currentTool = "Contracts",
   userAvatar = "/favicon-light.png",
 }: SimplifiedHeaderProps) {
-  const [selectedProject, setSelectedProject] = useState(projectName)
-  const [selectedTool, setSelectedTool] = useState(currentTool)
+  const [selectedProject, setSelectedProject] = useState(projectName);
+  const [selectedTool, setSelectedTool] = useState(currentTool);
 
   return (
     <header className="h-14 bg-[#2d2d2d] text-white flex items-center justify-between px-6 border-b border-gray-700">
       {/* Left: Logo */}
       <div className="flex items-center gap-8">
         <Link href="/" className="text-sm font-bold tracking-wider">
-          ALLEATO<br />GROUP
+          ALLEATO
+          <br />
+          GROUP
         </Link>
 
         {/* Center-Left: Dropdowns */}
         <div className="flex items-center gap-4">
           {/* Project Dropdown */}
           <div>
-            <label className="block text-[10px] text-gray-400 uppercase mb-0.5">Project</label>
+            <label className="block text-[10px] text-gray-400 uppercase mb-0.5">
+              Project
+            </label>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -88,13 +102,19 @@ export function SimplifiedHeader({
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="start" className="w-64">
-                <DropdownMenuItem onClick={() => setSelectedProject("Goodwill Bart")}>
+                <DropdownMenuItem
+                  onClick={() => setSelectedProject("Goodwill Bart")}
+                >
                   Goodwill Bart
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSelectedProject("Alleato Finance")}>
+                <DropdownMenuItem
+                  onClick={() => setSelectedProject("Alleato Finance")}
+                >
                   Alleato Finance
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => setSelectedProject("Alleato Marketing")}>
+                <DropdownMenuItem
+                  onClick={() => setSelectedProject("Alleato Marketing")}
+                >
                   Alleato Marketing
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
@@ -105,7 +125,9 @@ export function SimplifiedHeader({
 
           {/* Tools Dropdown */}
           <div>
-            <label className="block text-[10px] text-gray-400 uppercase mb-0.5">Tools</label>
+            <label className="block text-[10px] text-gray-400 uppercase mb-0.5">
+              Tools
+            </label>
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
@@ -123,9 +145,12 @@ export function SimplifiedHeader({
                     onClick={() => setSelectedTool(tool.name)}
                     asChild
                   >
-                    <Link href={tool.href} className="flex items-center justify-between">
+                    <Link
+                      href={tool.href}
+                      className="flex items-center justify-between"
+                    >
                       <span>{tool.name}</span>
-                      {'badge' in tool && tool.badge && (
+                      {"badge" in tool && tool.badge && (
                         <span className="rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
                           {tool.badge}
                         </span>
@@ -179,5 +204,5 @@ export function SimplifiedHeader({
         </Avatar>
       </div>
     </header>
-  )
+  );
 }

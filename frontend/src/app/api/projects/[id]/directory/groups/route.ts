@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { DistributionGroupService } from '@/services/distributionGroupService';
-import { PermissionService } from '@/services/permissionService';
+import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { DistributionGroupService } from "@/services/distributionGroupService";
+import { PermissionService } from "@/services/permissionService";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -17,18 +17,18 @@ interface RouteParams {
  * @param params.id - The project identifier to fetch groups for.
  * @returns A JSON response containing the retrieved distribution groups, or an error object on failure.
  */
-export async function GET(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId } = await params;
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions
@@ -36,29 +36,34 @@ export async function GET(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'read'
+      "directory",
+      "read",
     );
 
     if (!hasPermission) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     // Get query parameters
     const searchParams = request.nextUrl.searchParams;
-    const includeMembers = searchParams.get('include_members') === 'true';
-    const status = searchParams.get('status') as 'active' | 'inactive' | 'all' || 'active';
+    const includeMembers = searchParams.get("include_members") === "true";
+    const status =
+      (searchParams.get("status") as "active" | "inactive" | "all") || "active";
 
     // Get groups
     const groupService = new DistributionGroupService(supabase);
-    const groups = await groupService.getGroups(projectId, includeMembers, status);
+    const groups = await groupService.getGroups(
+      projectId,
+      includeMembers,
+      status,
+    );
 
     return NextResponse.json(groups);
   } catch (error) {
-    console.error('Error fetching distribution groups:', error);
+    console.error("Error fetching distribution groups:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -71,18 +76,18 @@ export async function GET(
  * @param params - Route parameters containing `id`, the identifier of the project to scope the new group.
  * @returns A NextResponse containing the created distribution group as JSON, or a NextResponse with an error message on failure.
  */
-export async function POST(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId } = await params;
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions
@@ -90,12 +95,12 @@ export async function POST(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'admin'
+      "directory",
+      "admin",
     );
 
     if (!hasPermission) {
-      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     }
 
     // Parse request body
@@ -104,8 +109,8 @@ export async function POST(
     // Validate required fields
     if (!body.name) {
       return NextResponse.json(
-        { error: 'Group name is required' },
-        { status: 400 }
+        { error: "Group name is required" },
+        { status: 400 },
       );
     }
 
@@ -115,10 +120,10 @@ export async function POST(
 
     return NextResponse.json(group, { status: 201 });
   } catch (error) {
-    console.error('Error creating distribution group:', error);
+    console.error("Error creating distribution group:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

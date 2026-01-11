@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import Link from 'next/link';
+import * as React from "react";
+import Link from "next/link";
 import {
   Calendar,
   FileText,
   HelpCircle,
   ClipboardCheck,
   LucideIcon,
-} from 'lucide-react';
-import { MyOpenItem } from '@/types/project-home';
+} from "lucide-react";
+import { MyOpenItem } from "@/types/project-home";
 import {
   Table,
   TableBody,
@@ -17,7 +17,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
 interface MyOpenItemsProps {
   items: MyOpenItem[];
@@ -32,11 +32,11 @@ const iconMap: Record<string, LucideIcon> = {
 };
 
 function formatDate(date: Date | undefined): string {
-  if (!date) return '';
-  return new Intl.DateTimeFormat('en-US', {
-    month: 'short',
-    day: 'numeric',
-    year: 'numeric',
+  if (!date) return "";
+  return new Intl.DateTimeFormat("en-US", {
+    month: "short",
+    day: "numeric",
+    year: "numeric",
   }).format(date);
 }
 
@@ -59,7 +59,7 @@ export function MyOpenItems({ items, projectId }: MyOpenItemsProps) {
         <TableBody>
           {items.map((item) => {
             const Icon = iconMap[item.icon] || FileText;
-            const href = item.link.replace('[projectId]', projectId);
+            const href = item.link.replace("[projectId]", projectId);
             return (
               <TableRow key={item.id}>
                 <TableCell>
@@ -69,10 +69,7 @@ export function MyOpenItems({ items, projectId }: MyOpenItemsProps) {
                   {item.itemType}
                 </TableCell>
                 <TableCell>
-                  <Link
-                    href={href}
-                    className="text-blue-600 hover:underline"
-                  >
+                  <Link href={href} className="text-blue-600 hover:underline">
                     {item.details}
                   </Link>
                 </TableCell>

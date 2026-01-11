@@ -1,21 +1,19 @@
-import { Metadata } from 'next'
+import { Metadata } from "next";
 
 export const metadata: Metadata = {
   title: {
-    template: '%s | Documentation',
-    default: 'Documentation',
+    template: "%s | Documentation",
+    default: "Documentation",
   },
-  description: 'Browse Alleato-Procore documentation',
-}
+  description: "Browse Alleato-Procore documentation",
+};
 
 export default function DocsLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      {children}
-    </div>
-  )
+    <div className="min-h-screen bg-gray-50 dark:bg-gray-950">{children}</div>
+  );
 }

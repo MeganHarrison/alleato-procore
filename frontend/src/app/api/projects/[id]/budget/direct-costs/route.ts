@@ -1,5 +1,5 @@
-import { createClient } from '@/lib/supabase/server';
-import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from "@/lib/supabase/server";
+import { NextRequest, NextResponse } from "next/server";
 
 /**
  * Direct Costs API Endpoint
@@ -11,10 +11,15 @@ import { NextRequest, NextResponse } from 'next/server';
  */
 
 // Cost types that count towards Job to Date (all approved)
-const JTD_COST_TYPES = ['Invoice', 'Expense', 'Payroll', 'Subcontractor Invoice'];
+const JTD_COST_TYPES = [
+  "Invoice",
+  "Expense",
+  "Payroll",
+  "Subcontractor Invoice",
+];
 
 // Cost types that count towards Direct Costs (excludes Subcontractor Invoice)
-const DIRECT_COST_TYPES = ['Invoice', 'Expense', 'Payroll'];
+const DIRECT_COST_TYPES = ["Invoice", "Expense", "Payroll"];
 
 interface DirectCostLineItem {
   id: string;
@@ -36,13 +41,13 @@ interface CostBreakdown {
   Invoice: number;
   Expense: number;
   Payroll: number;
-  'Subcontractor Invoice': number;
+  "Subcontractor Invoice": number;
 }
 
 // GET /api/projects/[id]/budget/direct-costs
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -50,14 +55,14 @@ export async function GET(
 
     if (Number.isNaN(projectId)) {
       return NextResponse.json(
-        { error: 'Invalid project ID' },
-        { status: 400 }
+        { error: "Invalid project ID" },
+        { status: 400 },
       );
     }
 
     const { searchParams } = new URL(request.url);
-    const budgetLineId = searchParams.get('budgetLineId');
-    const statusFilter = searchParams.get('status'); // 'approved', 'pending', 'all'
+    const budgetLineId = searchParams.get("budgetLineId");
+    const statusFilter = searchParams.get("status"); // 'approved', 'pending', 'all'
 
     const supabase = await createClient();
 
@@ -65,15 +70,15 @@ export async function GET(
     let costCodeId: string | null = null;
     if (budgetLineId) {
       const { data: budgetLine, error: lineError } = await supabase
-        .from('budget_lines')
-        .select('cost_code_id')
-        .eq('id', budgetLineId)
+        .from("budget_lines")
+        .select("cost_code_id")
+        .eq("id", budgetLineId)
         .single();
 
       if (lineError || !budgetLine) {
         return NextResponse.json(
-          { error: 'Budget line not found' },
-          { status: 404 }
+          { error: "Budget line not found" },
+          { status: 404 },
         );
       }
       costCodeId = budgetLine.cost_code_id;
@@ -81,31 +86,31 @@ export async function GET(
 
     // Build query for direct_cost_line_items
     let query = supabase
-      .from('direct_cost_line_items')
-      .select('*')
-      .eq('project_id', projectId)
-      .order('transaction_date', { ascending: false });
+      .from("direct_cost_line_items")
+      .select("*")
+      .eq("project_id", projectId)
+      .order("transaction_date", { ascending: false });
 
     // Filter by cost_code_id if budgetLineId was provided
     if (costCodeId) {
-      query = query.eq('cost_code_id', costCodeId);
+      query = query.eq("cost_code_id", costCodeId);
     }
 
     // Filter by approval status if requested
-    if (statusFilter === 'approved') {
-      query = query.eq('approved', true);
-    } else if (statusFilter === 'pending') {
-      query = query.or('approved.eq.false,approved.is.null');
+    if (statusFilter === "approved") {
+      query = query.eq("approved", true);
+    } else if (statusFilter === "pending") {
+      query = query.or("approved.eq.false,approved.is.null");
     }
     // 'all' or undefined = no filter
 
     const { data: costs, error } = await query;
 
     if (error) {
-      console.error('Error fetching direct costs:', error);
+      console.error("Error fetching direct costs:", error);
       return NextResponse.json(
-        { error: 'Failed to fetch direct costs' },
-        { status: 500 }
+        { error: "Failed to fetch direct costs" },
+        { status: 500 },
       );
     }
 
@@ -118,11 +123,11 @@ export async function GET(
       Invoice: 0,
       Expense: 0,
       Payroll: 0,
-      'Subcontractor Invoice': 0,
+      "Subcontractor Invoice": 0,
     };
 
     for (const cost of (costs || []) as DirectCostLineItem[]) {
-      const costType = cost.cost_type || 'Invoice';
+      const costType = cost.cost_type || "Invoice";
       const amount = cost.amount || 0;
       const isApproved = cost.approved === true;
 
@@ -174,14 +179,14 @@ export async function GET(
       meta: {
         costCodeId,
         projectId,
-        statusFilter: statusFilter || 'all',
+        statusFilter: statusFilter || "all",
       },
     });
   } catch (error) {
-    console.error('Error in direct costs GET route:', error);
+    console.error("Error in direct costs GET route:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

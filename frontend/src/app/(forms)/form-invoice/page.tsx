@@ -1,29 +1,35 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Calendar } from '@/components/ui/calendar';
+} from "@/components/ui/select";
+import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { CalendarIcon, ArrowLeft, Plus, Trash2 } from 'lucide-react';
-import { format } from 'date-fns';
-import { cn } from '@/lib/utils';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+} from "@/components/ui/popover";
+import { CalendarIcon, ArrowLeft, Plus, Trash2 } from "lucide-react";
+import { format } from "date-fns";
+import { cn } from "@/lib/utils";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Table,
   TableBody,
@@ -31,10 +37,10 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Checkbox } from '@/components/ui/checkbox';
-import { useContracts } from '@/hooks/use-contracts';
-import { useCommitments } from '@/hooks/use-commitments';
+} from "@/components/ui/table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useContracts } from "@/hooks/use-contracts";
+import { useCommitments } from "@/hooks/use-commitments";
 
 interface LineItem {
   id: string;
@@ -55,100 +61,116 @@ export default function NewInvoicePage() {
   const [loading, setLoading] = useState(false);
 
   // Data hooks for contracts and commitments
-  const { options: contractOptions, isLoading: contractsLoading } = useContracts();
-  const { options: commitmentOptions, isLoading: commitmentsLoading } = useCommitments();
+  const { options: contractOptions, isLoading: contractsLoading } =
+    useContracts();
+  const { options: commitmentOptions, isLoading: commitmentsLoading } =
+    useCommitments();
 
   // Form state
   const [invoiceData, setInvoiceData] = useState({
-    invoiceNumber: '',
-    contractId: '',
-    contractType: 'prime', // prime or commitment
-    billingPeriod: '',
+    invoiceNumber: "",
+    contractId: "",
+    contractType: "prime", // prime or commitment
+    billingPeriod: "",
     invoiceDate: new Date(),
     dueDate: null as Date | null,
-    status: 'draft',
-    description: '',
-    contractAmount: '0.00',
-    previouslyBilled: '0.00',
-    thisMonthBilling: '0.00',
-    totalCompleted: '0.00',
-    retentionAmount: '0.00',
-    netDue: '0.00',
+    status: "draft",
+    description: "",
+    contractAmount: "0.00",
+    previouslyBilled: "0.00",
+    thisMonthBilling: "0.00",
+    totalCompleted: "0.00",
+    retentionAmount: "0.00",
+    netDue: "0.00",
   });
 
   const [lineItems, setLineItems] = useState<LineItem[]>([
     {
-      id: '1',
-      costCode: '',
-      description: '',
-      contractAmount: '0.00',
-      previouslyBilled: '0.00',
-      thisMonthAmount: '0.00',
-      thisMonthPercent: '0',
-      totalCompleted: '0.00',
-      percentComplete: '0',
-      retention: '0.00',
-      netDue: '0.00',
+      id: "1",
+      costCode: "",
+      description: "",
+      contractAmount: "0.00",
+      previouslyBilled: "0.00",
+      thisMonthAmount: "0.00",
+      thisMonthPercent: "0",
+      totalCompleted: "0.00",
+      percentComplete: "0",
+      retention: "0.00",
+      netDue: "0.00",
     },
   ]);
 
   const [includeRetention, setIncludeRetention] = useState(true);
-  const [retentionPercentage, setRetentionPercentage] = useState('10');
+  const [retentionPercentage, setRetentionPercentage] = useState("10");
 
   const addLineItem = () => {
     setLineItems([
       ...lineItems,
       {
         id: Date.now().toString(),
-        costCode: '',
-        description: '',
-        contractAmount: '0.00',
-        previouslyBilled: '0.00',
-        thisMonthAmount: '0.00',
-        thisMonthPercent: '0',
-        totalCompleted: '0.00',
-        percentComplete: '0',
-        retention: '0.00',
-        netDue: '0.00',
+        costCode: "",
+        description: "",
+        contractAmount: "0.00",
+        previouslyBilled: "0.00",
+        thisMonthAmount: "0.00",
+        thisMonthPercent: "0",
+        totalCompleted: "0.00",
+        percentComplete: "0",
+        retention: "0.00",
+        netDue: "0.00",
       },
     ]);
   };
 
   const removeLineItem = (id: string) => {
-    setLineItems(lineItems.filter(item => item.id !== id));
+    setLineItems(lineItems.filter((item) => item.id !== id));
     calculateTotals();
   };
 
   const updateLineItem = (id: string, field: keyof LineItem, value: string) => {
-    const updatedItems = lineItems.map(item => {
+    const updatedItems = lineItems.map((item) => {
       if (item.id === id) {
         const updatedItem = { ...item, [field]: value };
-        
+
         // Auto-calculate related fields
-        if (field === 'thisMonthAmount' || field === 'previouslyBilled') {
-          const thisMonth = parseFloat(field === 'thisMonthAmount' ? value : updatedItem.thisMonthAmount) || 0;
-          const previous = parseFloat(field === 'previouslyBilled' ? value : updatedItem.previouslyBilled) || 0;
+        if (field === "thisMonthAmount" || field === "previouslyBilled") {
+          const thisMonth =
+            parseFloat(
+              field === "thisMonthAmount" ? value : updatedItem.thisMonthAmount,
+            ) || 0;
+          const previous =
+            parseFloat(
+              field === "previouslyBilled"
+                ? value
+                : updatedItem.previouslyBilled,
+            ) || 0;
           const contract = parseFloat(updatedItem.contractAmount) || 0;
           const total = previous + thisMonth;
-          const percent = contract > 0 ? (total / contract * 100).toFixed(2) : '0';
-          const retention = includeRetention ? (thisMonth * parseFloat(retentionPercentage) / 100) : 0;
+          const percent =
+            contract > 0 ? ((total / contract) * 100).toFixed(2) : "0";
+          const retention = includeRetention
+            ? (thisMonth * parseFloat(retentionPercentage)) / 100
+            : 0;
           const netDue = thisMonth - retention;
-          
+
           updatedItem.totalCompleted = total.toFixed(2);
           updatedItem.percentComplete = percent;
           updatedItem.retention = retention.toFixed(2);
           updatedItem.netDue = netDue.toFixed(2);
-          
-          if (field === 'thisMonthAmount' && contract > 0) {
-            updatedItem.thisMonthPercent = ((thisMonth / contract) * 100).toFixed(2);
+
+          if (field === "thisMonthAmount" && contract > 0) {
+            updatedItem.thisMonthPercent = (
+              (thisMonth / contract) *
+              100
+            ).toFixed(2);
           }
         }
-        
+
         return updatedItem;
       }
       return item;
     });
-    
+
     setLineItems(updatedItems);
     calculateTotals(updatedItems);
   };
@@ -156,12 +178,17 @@ export default function NewInvoicePage() {
   const calculateTotals = (items = lineItems) => {
     const totals = items.reduce(
       (acc, item) => ({
-        contractAmount: acc.contractAmount + parseFloat(item.contractAmount || '0'),
-        previouslyBilled: acc.previouslyBilled + parseFloat(item.previouslyBilled || '0'),
-        thisMonthBilling: acc.thisMonthBilling + parseFloat(item.thisMonthAmount || '0'),
-        totalCompleted: acc.totalCompleted + parseFloat(item.totalCompleted || '0'),
-        retentionAmount: acc.retentionAmount + parseFloat(item.retention || '0'),
-        netDue: acc.netDue + parseFloat(item.netDue || '0'),
+        contractAmount:
+          acc.contractAmount + parseFloat(item.contractAmount || "0"),
+        previouslyBilled:
+          acc.previouslyBilled + parseFloat(item.previouslyBilled || "0"),
+        thisMonthBilling:
+          acc.thisMonthBilling + parseFloat(item.thisMonthAmount || "0"),
+        totalCompleted:
+          acc.totalCompleted + parseFloat(item.totalCompleted || "0"),
+        retentionAmount:
+          acc.retentionAmount + parseFloat(item.retention || "0"),
+        netDue: acc.netDue + parseFloat(item.netDue || "0"),
       }),
       {
         contractAmount: 0,
@@ -170,7 +197,7 @@ export default function NewInvoicePage() {
         totalCompleted: 0,
         retentionAmount: 0,
         netDue: 0,
-      }
+      },
     );
 
     setInvoiceData({
@@ -189,15 +216,21 @@ export default function NewInvoicePage() {
     setLoading(true);
 
     try {
-      const response = await fetch('/api/invoices', {
-        method: 'POST',
+      const response = await fetch("/api/invoices", {
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           invoice_number: invoiceData.invoiceNumber,
-          contract_id: invoiceData.contractType === 'prime' ? invoiceData.contractId : null,
-          commitment_id: invoiceData.contractType === 'commitment' ? invoiceData.contractId : null,
+          contract_id:
+            invoiceData.contractType === "prime"
+              ? invoiceData.contractId
+              : null,
+          commitment_id:
+            invoiceData.contractType === "commitment"
+              ? invoiceData.contractId
+              : null,
           billing_period_start: invoiceData.billingPeriod,
           billing_period_end: invoiceData.billingPeriod,
           invoice_date: invoiceData.invoiceDate?.toISOString(),
@@ -212,20 +245,22 @@ export default function NewInvoicePage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create invoice');
+        throw new Error(errorData.error || "Failed to create invoice");
       }
 
-      router.push('/invoices');
+      router.push("/invoices");
     } catch (error) {
-      console.error('Error creating invoice:', error);
-      alert(error instanceof Error ? error.message : 'Failed to create invoice');
+      console.error("Error creating invoice:", error);
+      alert(
+        error instanceof Error ? error.message : "Failed to create invoice",
+      );
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = () => {
-    router.push('/invoices');
+    router.push("/invoices");
   };
 
   return (
@@ -259,7 +294,9 @@ export default function NewInvoicePage() {
             <Card>
               <CardHeader>
                 <CardTitle>Invoice Information</CardTitle>
-                <CardDescription>Basic invoice details and billing period</CardDescription>
+                <CardDescription>
+                  Basic invoice details and billing period
+                </CardDescription>
               </CardHeader>
               <CardContent className="grid gap-6">
                 <div className="grid gap-4 md:grid-cols-2">
@@ -268,7 +305,12 @@ export default function NewInvoicePage() {
                     <Input
                       id="invoiceNumber"
                       value={invoiceData.invoiceNumber}
-                      onChange={(e) => setInvoiceData({ ...invoiceData, invoiceNumber: e.target.value })}
+                      onChange={(e) =>
+                        setInvoiceData({
+                          ...invoiceData,
+                          invoiceNumber: e.target.value,
+                        })
+                      }
                       placeholder="INV-001"
                       required
                     />
@@ -278,7 +320,12 @@ export default function NewInvoicePage() {
                     <Input
                       id="billingPeriod"
                       value={invoiceData.billingPeriod}
-                      onChange={(e) => setInvoiceData({ ...invoiceData, billingPeriod: e.target.value })}
+                      onChange={(e) =>
+                        setInvoiceData({
+                          ...invoiceData,
+                          billingPeriod: e.target.value,
+                        })
+                      }
                       placeholder="January 2024"
                       required
                     />
@@ -290,41 +337,64 @@ export default function NewInvoicePage() {
                     <Label htmlFor="contractType">Contract Type*</Label>
                     <Select
                       value={invoiceData.contractType}
-                      onValueChange={(value) => setInvoiceData({ ...invoiceData, contractType: value, contractId: '' })}
+                      onValueChange={(value) =>
+                        setInvoiceData({
+                          ...invoiceData,
+                          contractType: value,
+                          contractId: "",
+                        })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select contract type" />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectItem value="prime">Prime Contract</SelectItem>
-                        <SelectItem value="commitment">Commitment/Subcontract</SelectItem>
+                        <SelectItem value="commitment">
+                          Commitment/Subcontract
+                        </SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
                     <Label htmlFor="contractId">
-                      {invoiceData.contractType === 'prime' ? 'Contract*' : 'Commitment*'}
+                      {invoiceData.contractType === "prime"
+                        ? "Contract*"
+                        : "Commitment*"}
                     </Label>
                     <Select
                       value={invoiceData.contractId}
-                      onValueChange={(value) => setInvoiceData({ ...invoiceData, contractId: value })}
-                      disabled={invoiceData.contractType === 'prime' ? contractsLoading : commitmentsLoading}
+                      onValueChange={(value) =>
+                        setInvoiceData({ ...invoiceData, contractId: value })
+                      }
+                      disabled={
+                        invoiceData.contractType === "prime"
+                          ? contractsLoading
+                          : commitmentsLoading
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue
                           placeholder={
-                            invoiceData.contractType === 'prime'
-                              ? (contractsLoading ? 'Loading contracts...' : 'Select contract')
-                              : (commitmentsLoading ? 'Loading commitments...' : 'Select commitment')
+                            invoiceData.contractType === "prime"
+                              ? contractsLoading
+                                ? "Loading contracts..."
+                                : "Select contract"
+                              : commitmentsLoading
+                                ? "Loading commitments..."
+                                : "Select commitment"
                           }
                         />
                       </SelectTrigger>
                       <SelectContent>
-                        {invoiceData.contractType === 'prime' ? (
+                        {invoiceData.contractType === "prime" ? (
                           // Show prime contracts
                           contractOptions.length > 0 ? (
                             contractOptions.map((contract) => (
-                              <SelectItem key={contract.value} value={contract.value}>
+                              <SelectItem
+                                key={contract.value}
+                                value={contract.value}
+                              >
                                 {contract.label}
                               </SelectItem>
                             ))
@@ -333,19 +403,20 @@ export default function NewInvoicePage() {
                               No contracts found
                             </div>
                           )
+                        ) : // Show commitments (subcontracts/purchase orders)
+                        commitmentOptions.length > 0 ? (
+                          commitmentOptions.map((commitment) => (
+                            <SelectItem
+                              key={commitment.value}
+                              value={commitment.value}
+                            >
+                              {commitment.label}
+                            </SelectItem>
+                          ))
                         ) : (
-                          // Show commitments (subcontracts/purchase orders)
-                          commitmentOptions.length > 0 ? (
-                            commitmentOptions.map((commitment) => (
-                              <SelectItem key={commitment.value} value={commitment.value}>
-                                {commitment.label}
-                              </SelectItem>
-                            ))
-                          ) : (
-                            <div className="px-2 py-1.5 text-sm text-muted-foreground">
-                              No commitments found
-                            </div>
-                          )
+                          <div className="px-2 py-1.5 text-sm text-muted-foreground">
+                            No commitments found
+                          </div>
                         )}
                       </SelectContent>
                     </Select>
@@ -361,18 +432,25 @@ export default function NewInvoicePage() {
                           variant="outline"
                           className={cn(
                             "w-full justify-start text-left font-normal",
-                            !invoiceData.invoiceDate && "text-muted-foreground"
+                            !invoiceData.invoiceDate && "text-muted-foreground",
                           )}
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
-                          {invoiceData.invoiceDate ? format(invoiceData.invoiceDate, "PPP") : "Select date"}
+                          {invoiceData.invoiceDate
+                            ? format(invoiceData.invoiceDate, "PPP")
+                            : "Select date"}
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
                           mode="single"
                           selected={invoiceData.invoiceDate}
-                          onSelect={(date) => setInvoiceData({ ...invoiceData, invoiceDate: date || new Date() })}
+                          onSelect={(date) =>
+                            setInvoiceData({
+                              ...invoiceData,
+                              invoiceDate: date || new Date(),
+                            })
+                          }
                           initialFocus
                         />
                       </PopoverContent>
@@ -387,18 +465,25 @@ export default function NewInvoicePage() {
                           variant="outline"
                           className={cn(
                             "w-full justify-start text-left font-normal",
-                            !invoiceData.dueDate && "text-muted-foreground"
+                            !invoiceData.dueDate && "text-muted-foreground",
                           )}
                         >
                           <CalendarIcon className="mr-2 h-4 w-4" />
-                          {invoiceData.dueDate ? format(invoiceData.dueDate, "PPP") : "Select date"}
+                          {invoiceData.dueDate
+                            ? format(invoiceData.dueDate, "PPP")
+                            : "Select date"}
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-0" align="start">
                         <Calendar
                           mode="single"
                           selected={invoiceData.dueDate ?? undefined}
-                          onSelect={(date) => setInvoiceData({ ...invoiceData, dueDate: date ?? null })}
+                          onSelect={(date) =>
+                            setInvoiceData({
+                              ...invoiceData,
+                              dueDate: date ?? null,
+                            })
+                          }
                           initialFocus
                         />
                       </PopoverContent>
@@ -409,7 +494,9 @@ export default function NewInvoicePage() {
                     <Label htmlFor="status">Status</Label>
                     <Select
                       value={invoiceData.status}
-                      onValueChange={(value) => setInvoiceData({ ...invoiceData, status: value })}
+                      onValueChange={(value) =>
+                        setInvoiceData({ ...invoiceData, status: value })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select status" />
@@ -430,7 +517,12 @@ export default function NewInvoicePage() {
                   <Textarea
                     id="description"
                     value={invoiceData.description}
-                    onChange={(e) => setInvoiceData({ ...invoiceData, description: e.target.value })}
+                    onChange={(e) =>
+                      setInvoiceData({
+                        ...invoiceData,
+                        description: e.target.value,
+                      })
+                    }
                     placeholder="Invoice description or notes..."
                     rows={3}
                   />
@@ -441,7 +533,9 @@ export default function NewInvoicePage() {
                     <Checkbox
                       id="retention"
                       checked={includeRetention}
-                      onCheckedChange={(checked) => setIncludeRetention(checked as boolean)}
+                      onCheckedChange={(checked) =>
+                        setIncludeRetention(checked as boolean)
+                      }
                     />
                     <Label htmlFor="retention">Include Retention</Label>
                   </div>
@@ -476,16 +570,36 @@ export default function NewInvoicePage() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead className="min-w-[100px]">Cost Code</TableHead>
-                        <TableHead className="min-w-[200px]">Description</TableHead>
-                        <TableHead className="min-w-[120px] text-right">Contract</TableHead>
-                        <TableHead className="min-w-[120px] text-right">Previously</TableHead>
-                        <TableHead className="min-w-[120px] text-right">This Month</TableHead>
-                        <TableHead className="min-w-[80px] text-right">%</TableHead>
-                        <TableHead className="min-w-[120px] text-right">Total</TableHead>
-                        <TableHead className="min-w-[80px] text-right">% Complete</TableHead>
-                        <TableHead className="min-w-[100px] text-right">Retention</TableHead>
-                        <TableHead className="min-w-[120px] text-right">Net Due</TableHead>
+                        <TableHead className="min-w-[100px]">
+                          Cost Code
+                        </TableHead>
+                        <TableHead className="min-w-[200px]">
+                          Description
+                        </TableHead>
+                        <TableHead className="min-w-[120px] text-right">
+                          Contract
+                        </TableHead>
+                        <TableHead className="min-w-[120px] text-right">
+                          Previously
+                        </TableHead>
+                        <TableHead className="min-w-[120px] text-right">
+                          This Month
+                        </TableHead>
+                        <TableHead className="min-w-[80px] text-right">
+                          %
+                        </TableHead>
+                        <TableHead className="min-w-[120px] text-right">
+                          Total
+                        </TableHead>
+                        <TableHead className="min-w-[80px] text-right">
+                          % Complete
+                        </TableHead>
+                        <TableHead className="min-w-[100px] text-right">
+                          Retention
+                        </TableHead>
+                        <TableHead className="min-w-[120px] text-right">
+                          Net Due
+                        </TableHead>
                         <TableHead className="w-[50px]"></TableHead>
                       </TableRow>
                     </TableHeader>
@@ -495,7 +609,13 @@ export default function NewInvoicePage() {
                           <TableCell>
                             <Input
                               value={item.costCode}
-                              onChange={(e) => updateLineItem(item.id, 'costCode', e.target.value)}
+                              onChange={(e) =>
+                                updateLineItem(
+                                  item.id,
+                                  "costCode",
+                                  e.target.value,
+                                )
+                              }
                               placeholder="01-000"
                               className="min-w-[80px]"
                             />
@@ -503,7 +623,13 @@ export default function NewInvoicePage() {
                           <TableCell>
                             <Input
                               value={item.description}
-                              onChange={(e) => updateLineItem(item.id, 'description', e.target.value)}
+                              onChange={(e) =>
+                                updateLineItem(
+                                  item.id,
+                                  "description",
+                                  e.target.value,
+                                )
+                              }
                               placeholder="Work description"
                               className="min-w-[150px]"
                             />
@@ -513,7 +639,13 @@ export default function NewInvoicePage() {
                               type="number"
                               step="0.01"
                               value={item.contractAmount}
-                              onChange={(e) => updateLineItem(item.id, 'contractAmount', e.target.value)}
+                              onChange={(e) =>
+                                updateLineItem(
+                                  item.id,
+                                  "contractAmount",
+                                  e.target.value,
+                                )
+                              }
                               className="text-right min-w-[100px]"
                             />
                           </TableCell>
@@ -522,7 +654,13 @@ export default function NewInvoicePage() {
                               type="number"
                               step="0.01"
                               value={item.previouslyBilled}
-                              onChange={(e) => updateLineItem(item.id, 'previouslyBilled', e.target.value)}
+                              onChange={(e) =>
+                                updateLineItem(
+                                  item.id,
+                                  "previouslyBilled",
+                                  e.target.value,
+                                )
+                              }
                               className="text-right min-w-[100px]"
                             />
                           </TableCell>
@@ -531,7 +669,13 @@ export default function NewInvoicePage() {
                               type="number"
                               step="0.01"
                               value={item.thisMonthAmount}
-                              onChange={(e) => updateLineItem(item.id, 'thisMonthAmount', e.target.value)}
+                              onChange={(e) =>
+                                updateLineItem(
+                                  item.id,
+                                  "thisMonthAmount",
+                                  e.target.value,
+                                )
+                              }
                               className="text-right min-w-[100px]"
                             />
                           </TableCell>
@@ -567,7 +711,7 @@ export default function NewInvoicePage() {
                     </TableBody>
                   </Table>
                 </div>
-                
+
                 <div className="mt-4">
                   <Button type="button" variant="outline" onClick={addLineItem}>
                     <Plus className="h-4 w-4 mr-2" />
@@ -582,44 +726,70 @@ export default function NewInvoicePage() {
             <Card>
               <CardHeader>
                 <CardTitle>Invoice Summary</CardTitle>
-                <CardDescription>Review invoice totals before submission</CardDescription>
+                <CardDescription>
+                  Review invoice totals before submission
+                </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="space-y-4">
                   <div className="grid gap-4 md:grid-cols-2">
                     <div className="space-y-4">
                       <div className="flex justify-between">
-                        <span className="text-gray-600">Original Contract Amount:</span>
-                        <span className="font-medium">${invoiceData.contractAmount}</span>
+                        <span className="text-gray-600">
+                          Original Contract Amount:
+                        </span>
+                        <span className="font-medium">
+                          ${invoiceData.contractAmount}
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-600">Previously Billed:</span>
-                        <span className="font-medium">${invoiceData.previouslyBilled}</span>
+                        <span className="text-gray-600">
+                          Previously Billed:
+                        </span>
+                        <span className="font-medium">
+                          ${invoiceData.previouslyBilled}
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span className="text-gray-600">This Month Billing:</span>
-                        <span className="font-medium">${invoiceData.thisMonthBilling}</span>
+                        <span className="text-gray-600">
+                          This Month Billing:
+                        </span>
+                        <span className="font-medium">
+                          ${invoiceData.thisMonthBilling}
+                        </span>
                       </div>
                       <div className="flex justify-between border-t pt-2">
-                        <span className="text-gray-600">Total Completed to Date:</span>
-                        <span className="font-medium">${invoiceData.totalCompleted}</span>
+                        <span className="text-gray-600">
+                          Total Completed to Date:
+                        </span>
+                        <span className="font-medium">
+                          ${invoiceData.totalCompleted}
+                        </span>
                       </div>
                     </div>
-                    
+
                     <div className="space-y-4">
                       <div className="flex justify-between">
                         <span className="text-gray-600">Current Billing:</span>
-                        <span className="font-medium">${invoiceData.thisMonthBilling}</span>
+                        <span className="font-medium">
+                          ${invoiceData.thisMonthBilling}
+                        </span>
                       </div>
                       {includeRetention && (
                         <div className="flex justify-between">
-                          <span className="text-gray-600">Less Retention ({retentionPercentage}%):</span>
-                          <span className="font-medium text-red-600">-${invoiceData.retentionAmount}</span>
+                          <span className="text-gray-600">
+                            Less Retention ({retentionPercentage}%):
+                          </span>
+                          <span className="font-medium text-red-600">
+                            -${invoiceData.retentionAmount}
+                          </span>
                         </div>
                       )}
                       <div className="flex justify-between border-t pt-2">
                         <span className="text-lg font-semibold">Net Due:</span>
-                        <span className="text-lg font-bold">${invoiceData.netDue}</span>
+                        <span className="text-lg font-bold">
+                          ${invoiceData.netDue}
+                        </span>
                       </div>
                     </div>
                   </div>
@@ -635,7 +805,7 @@ export default function NewInvoicePage() {
             Cancel
           </Button>
           <Button type="submit" disabled={loading}>
-            {loading ? 'Creating...' : 'Create Invoice'}
+            {loading ? "Creating..." : "Create Invoice"}
           </Button>
         </div>
       </form>

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 export default function DebugSetupPage() {
   return (
@@ -9,5 +9,5 @@ export default function DebugSetupPage() {
         <p>If you can see this, the routing is working correctly.</p>
       </div>
     </div>
-  )
+  );
 }

@@ -171,7 +171,7 @@ export default function Ai02() {
               size="icon"
               className={cn(
                 "h-6 w-6 rounded-full transition-all duration-100 cursor-pointer bg-primary",
-                inputValue && "bg-primary hover:bg-primary/90!"
+                inputValue && "bg-primary hover:bg-primary/90!",
               )}
               disabled={!inputValue}
             >

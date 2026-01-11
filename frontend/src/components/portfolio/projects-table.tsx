@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 
 import {
   Column,
@@ -14,8 +14,15 @@ import {
   PaginationState,
   getFilteredRowModel,
   ColumnFiltersState,
-} from '@tanstack/react-table';
-import { ArrowUpDown, ChevronLeft, ChevronRight, ChevronsLeft, ChevronsRight, Pencil } from 'lucide-react';
+} from "@tanstack/react-table";
+import {
+  ArrowUpDown,
+  ChevronLeft,
+  ChevronRight,
+  ChevronsLeft,
+  ChevronsRight,
+  Pencil,
+} from "lucide-react";
 import {
   Table,
   TableBody,
@@ -23,28 +30,36 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Project } from '@/types/portfolio';
-import { cn } from '@/lib/utils';
-import { EditableCell } from './editable-cell';
-import { EditProjectDialog } from './edit-project-dialog';
-import { toast } from 'sonner';
-import Link from 'next/link';
+} from "@/components/ui/table";
+import { Project } from "@/types/portfolio";
+import { cn } from "@/lib/utils";
+import { EditableCell } from "./editable-cell";
+import { EditProjectDialog } from "./edit-project-dialog";
+import { toast } from "sonner";
+import Link from "next/link";
 
 interface ProjectsTableProps {
   data: Project[];
   onProjectClick?: (project: Project) => void;
-  viewType?: 'list' | 'grid';
+  viewType?: "list" | "grid";
 }
 
-export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: ProjectsTableProps) {
+export function ProjectsTable({
+  data,
+  onProjectClick,
+  viewType = "list",
+}: ProjectsTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([]);
   const [pagination, setPagination] = React.useState<PaginationState>({
     pageIndex: 0,
-    pageSize: viewType === 'grid' ? 24 : 50,
+    pageSize: viewType === "grid" ? 24 : 50,
   });
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([]);
-  const [editingProject, setEditingProject] = React.useState<Project | null>(null);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [editingProject, setEditingProject] = React.useState<Project | null>(
+    null,
+  );
   const [isEditDialogOpen, setIsEditDialogOpen] = React.useState(false);
 
   // Update page size when view type changes
@@ -52,37 +67,41 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
     setPagination((prev) => ({
       ...prev,
       pageIndex: 0,
-      pageSize: viewType === 'grid' ? 24 : 50,
+      pageSize: viewType === "grid" ? 24 : 50,
     }));
   }, [viewType]);
 
   // Function to update project field
   // Maps camelCase field names to database column names (with spaces)
-  const updateProject = async (projectId: string, field: string, value: string) => {
+  const updateProject = async (
+    projectId: string,
+    field: string,
+    value: string,
+  ) => {
     try {
       // Map camelCase to database field names
       const fieldMap: Record<string, string> = {
-        'jobNumber': 'job number',
-        'client': 'client',
-        'startDate': 'start date',
-        'state': 'state',
-        'phase': 'phase',
-        'category': 'category',
+        jobNumber: "job number",
+        client: "client",
+        startDate: "start date",
+        state: "state",
+        phase: "phase",
+        category: "category",
       };
 
       const dbField = fieldMap[field] || field;
       const dbValue: string | number | null = value;
 
       const response = await fetch(`/api/projects/${projectId}`, {
-        method: 'PATCH',
+        method: "PATCH",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({ [dbField]: dbValue }),
       });
 
       if (!response.ok) {
-        throw new Error('Failed to update project');
+        throw new Error("Failed to update project");
       }
 
       toast.success(`Updated ${field}`);
@@ -90,7 +109,7 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
       // Reload the page to show updated data
       window.location.reload();
     } catch (error) {
-      console.error('Error updating project:', error);
+      console.error("Error updating project:", error);
       toast.error(`Failed to update ${field}`);
       throw error;
     }
@@ -99,13 +118,13 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
   // Column order: name, job number, client, start date, state, phase, category
   const columns: ColumnDef<Project>[] = [
     {
-      accessorKey: 'name',
+      accessorKey: "name",
       meta: { sticky: true, left: 0 },
       header: ({ column }) => (
         <button
           type="button"
           className="flex items-center gap-1 hover:text-gray-900"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Name
           <ArrowUpDown className="w-3.5 h-3.5" />
@@ -120,18 +139,18 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
           }}
           className="font-medium text-[hsl(var(--procore-orange))] hover:underline text-left"
         >
-          {row.getValue('name')}
+          {row.getValue("name")}
         </button>
       ),
       size: 250,
     },
     {
-      accessorKey: 'jobNumber',
+      accessorKey: "jobNumber",
       header: ({ column }) => (
         <button
           type="button"
           className="flex items-center gap-1 hover:text-gray-900"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Job Number
           <ArrowUpDown className="w-3.5 h-3.5" />
@@ -139,19 +158,19 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
       ),
       cell: ({ row }) => (
         <EditableCell
-          value={row.getValue('jobNumber')}
-          onSave={(value) => updateProject(row.original.id, 'jobNumber', value)}
+          value={row.getValue("jobNumber")}
+          onSave={(value) => updateProject(row.original.id, "jobNumber", value)}
         />
       ),
       size: 130,
     },
     {
-      accessorKey: 'client',
+      accessorKey: "client",
       header: ({ column }) => (
         <button
           type="button"
           className="flex items-center gap-1 hover:text-gray-900"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Client
           <ArrowUpDown className="w-3.5 h-3.5" />
@@ -159,44 +178,48 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
       ),
       cell: ({ row }) => (
         <EditableCell
-          value={row.getValue('client')}
-          onSave={(value) => updateProject(row.original.id, 'client', value)}
+          value={row.getValue("client")}
+          onSave={(value) => updateProject(row.original.id, "client", value)}
         />
       ),
       size: 180,
     },
     {
-      accessorKey: 'startDate',
+      accessorKey: "startDate",
       header: ({ column }) => (
         <button
           type="button"
           className="flex items-center gap-1 hover:text-gray-900"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Start Date
           <ArrowUpDown className="w-3.5 h-3.5" />
         </button>
       ),
       cell: ({ row }) => {
-        const date = row.getValue('startDate') as string | null;
-        const displayDate = date ? new Date(date).toISOString().split('T')[0] : '';
+        const date = row.getValue("startDate") as string | null;
+        const displayDate = date
+          ? new Date(date).toISOString().split("T")[0]
+          : "";
         return (
           <EditableCell
             value={displayDate}
             type="date"
-            onSave={(value) => updateProject(row.original.id, 'startDate', value)}
+            onSave={(value) =>
+              updateProject(row.original.id, "startDate", value)
+            }
           />
         );
       },
       size: 120,
     },
     {
-      accessorKey: 'state',
+      accessorKey: "state",
       header: ({ column }) => (
         <button
           type="button"
           className="flex items-center gap-1 hover:text-gray-900"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           State
           <ArrowUpDown className="w-3.5 h-3.5" />
@@ -204,19 +227,19 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
       ),
       cell: ({ row }) => (
         <EditableCell
-          value={row.getValue('state')}
-          onSave={(value) => updateProject(row.original.id, 'state', value)}
+          value={row.getValue("state")}
+          onSave={(value) => updateProject(row.original.id, "state", value)}
         />
       ),
       size: 100,
     },
     {
-      accessorKey: 'phase',
+      accessorKey: "phase",
       header: ({ column }) => (
         <button
           type="button"
           className="flex items-center gap-1 hover:text-gray-900"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Phase
           <ArrowUpDown className="w-3.5 h-3.5" />
@@ -228,28 +251,35 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
         return cellValue?.toLowerCase().includes(value.toLowerCase());
       },
       cell: ({ row }) => {
-        const phase = row.getValue('phase') as string;
+        const phase = row.getValue("phase") as string;
         const phaseColors: Record<string, string> = {
-          'current': 'bg-blue-100 text-blue-700',
-          'bid': 'bg-purple-100 text-purple-700',
-          'preconstruction': 'bg-yellow-100 text-yellow-700',
-          'complete': 'bg-green-100 text-green-700',
+          current: "bg-blue-100 text-blue-700",
+          bid: "bg-purple-100 text-purple-700",
+          preconstruction: "bg-yellow-100 text-yellow-700",
+          complete: "bg-green-100 text-green-700",
         };
         return phase ? (
-          <span className={cn('px-2 py-1 text-xs font-medium rounded', phaseColors[phase.toLowerCase()] || 'bg-gray-100 text-gray-600')}>
+          <span
+            className={cn(
+              "px-2 py-1 text-xs font-medium rounded",
+              phaseColors[phase.toLowerCase()] || "bg-gray-100 text-gray-600",
+            )}
+          >
             {phase}
           </span>
-        ) : '-';
+        ) : (
+          "-"
+        );
       },
       size: 120,
     },
     {
-      accessorKey: 'category',
+      accessorKey: "category",
       header: ({ column }) => (
         <button
           type="button"
           className="flex items-center gap-1 hover:text-gray-900"
-          onClick={() => column.toggleSorting(column.getIsSorted() === 'asc')}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Category
           <ArrowUpDown className="w-3.5 h-3.5" />
@@ -257,14 +287,14 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
       ),
       cell: ({ row }) => (
         <EditableCell
-          value={row.getValue('category')}
-          onSave={(value) => updateProject(row.original.id, 'category', value)}
+          value={row.getValue("category")}
+          onSave={(value) => updateProject(row.original.id, "category", value)}
         />
       ),
       size: 150,
     },
     {
-      id: 'actions',
+      id: "actions",
       header: () => <span className="sr-only">Actions</span>,
       cell: ({ row }) => (
         <button
@@ -301,13 +331,17 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
     getFilteredRowModel: getFilteredRowModel(),
   });
 
-  const getStickyStyles = (column: Column<Project, unknown>, fallbackBg: string) => {
-    const meta = (column.columnDef.meta as { sticky?: boolean; left?: number }) || {};
+  const getStickyStyles = (
+    column: Column<Project, unknown>,
+    fallbackBg: string,
+  ) => {
+    const meta =
+      (column.columnDef.meta as { sticky?: boolean; left?: number }) || {};
     if (!meta.sticky) {
       return {};
     }
     return {
-      position: 'sticky',
+      position: "sticky",
       left: meta.left ?? 0,
       zIndex: 5,
       backgroundColor: fallbackBg,
@@ -315,7 +349,7 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
   };
 
   // Grid view rendering
-  if (viewType === 'grid') {
+  if (viewType === "grid") {
     return (
       <div className="flex flex-col h-full">
         <div className="flex-1 overflow-y-auto p-4">
@@ -339,14 +373,22 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
 
                     <div className="space-y-1 text-xs text-gray-500">
                       <div className="flex items-center gap-2">
-                        <span className="font-semibold text-[0.65rem] text-gray-500">Job #:</span>
-                        <span className="font-medium text-gray-700 text-[0.75rem]">{project.jobNumber}</span>
+                        <span className="font-semibold text-[0.65rem] text-gray-500">
+                          Job #:
+                        </span>
+                        <span className="font-medium text-gray-700 text-[0.75rem]">
+                          {project.jobNumber}
+                        </span>
                       </div>
 
                       {project.client && (
                         <div className="flex items-center gap-2">
-                          <span className="font-semibold text-[0.65rem] text-gray-500">Client:</span>
-                          <span className="text-gray-700 text-[0.75rem] truncate">{project.client}</span>
+                          <span className="font-semibold text-[0.65rem] text-gray-500">
+                            Client:
+                          </span>
+                          <span className="text-gray-700 text-[0.75rem] truncate">
+                            {project.client}
+                          </span>
                         </div>
                       )}
                     </div>
@@ -367,13 +409,13 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
             <span className="hidden sm:inline">Showing</span>
             <select
               value={pagination.pageSize}
-              onChange={e => {
+              onChange={(e) => {
                 table.setPageSize(Number(e.target.value));
               }}
               aria-label="Items per page"
               className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[hsl(var(--procore-orange))] focus:border-transparent"
             >
-              {[12, 24, 48, 96].map(pageSize => (
+              {[12, 24, 48, 96].map((pageSize) => (
                 <option key={pageSize} value={pageSize}>
                   {pageSize}
                 </option>
@@ -382,7 +424,8 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
             <span className="text-xs">
               <span className="hidden sm:inline">of </span>
               <span className="sm:hidden">/ </span>
-              {data.length}<span className="hidden sm:inline"> total cards</span>
+              {data.length}
+              <span className="hidden sm:inline"> total cards</span>
             </span>
           </div>
 
@@ -406,7 +449,8 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
               <ChevronLeft className="w-3.5 h-3.5" />
             </button>
             <span className="text-xs text-gray-700 px-2">
-              {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
+              {table.getState().pagination.pageIndex + 1} /{" "}
+              {table.getPageCount()}
             </span>
             <button
               type="button"
@@ -437,137 +481,147 @@ export function ProjectsTable({ data, onProjectClick, viewType = 'list' }: Proje
     <div className="flex flex-col h-full">
       <div className="flex-1 overflow-x-auto overflow-y-auto">
         <Table>
-        <TableHeader className="sticky top-0 bg-gray-50 z-10">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id} className="border-b border-gray-200">
-              {headerGroup.headers.map((header) => (
-                <TableHead
-                  key={header.id}
-                  className="text-xs font-semibold text-gray-600 py-3 px-4 bg-gray-50"
-                  style={{
-                    width: header.getSize(),
-                    ...getStickyStyles(header.column, 'rgb(249 250 251)'),
-                  }}
-                >
-                  {header.isPlaceholder
-                    ? null
-                    : flexRender(
-                        header.column.columnDef.header,
-                        header.getContext()
-                      )}
-                </TableHead>
-              ))}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
+          <TableHeader className="sticky top-0 bg-gray-50 z-10">
+            {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
-                key={row.id}
-                className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors cursor-pointer"
-                onClick={() => onProjectClick?.(row.original)}
+                key={headerGroup.id}
+                className="border-b border-gray-200"
               >
-                {row.getVisibleCells().map((cell) => (
-                  <TableCell
-                    key={cell.id}
-                    className="py-3 px-4 text-sm"
+                {headerGroup.headers.map((header) => (
+                  <TableHead
+                    key={header.id}
+                    className="text-xs font-semibold text-gray-600 py-3 px-4 bg-gray-50"
                     style={{
-                      width: cell.column.getSize(),
-                      ...getStickyStyles(cell.column, '#fff'),
+                      width: header.getSize(),
+                      ...getStickyStyles(header.column, "rgb(249 250 251)"),
                     }}
                   >
-                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
-                  </TableCell>
+                    {header.isPlaceholder
+                      ? null
+                      : flexRender(
+                          header.column.columnDef.header,
+                          header.getContext(),
+                        )}
+                  </TableHead>
                 ))}
               </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No projects found.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-    </div>
-    
-    {/* Pagination Controls */}
-    <div className="flex flex-col sm:flex-row items-center justify-between px-4 py-3 bg-white border-t border-gray-200 gap-3">
-      <div className="flex items-center gap-2 text-xs text-gray-600">
-        <span className="hidden sm:inline">Showing</span>
-        <select
-          value={pagination.pageSize}
-          onChange={e => {
-            table.setPageSize(Number(e.target.value));
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <TableRow
+                  key={row.id}
+                  className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors cursor-pointer"
+                  onClick={() => onProjectClick?.(row.original)}
+                >
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className="py-3 px-4 text-sm"
+                      style={{
+                        width: cell.column.getSize(),
+                        ...getStickyStyles(cell.column, "#fff"),
+                      }}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell
+                  colSpan={columns.length}
+                  className="h-24 text-center"
+                >
+                  No projects found.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </div>
+
+      {/* Pagination Controls */}
+      <div className="flex flex-col sm:flex-row items-center justify-between px-4 py-3 bg-white border-t border-gray-200 gap-3">
+        <div className="flex items-center gap-2 text-xs text-gray-600">
+          <span className="hidden sm:inline">Showing</span>
+          <select
+            value={pagination.pageSize}
+            onChange={(e) => {
+              table.setPageSize(Number(e.target.value));
+            }}
+            className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[hsl(var(--procore-orange))] focus:border-transparent"
+          >
+            {[10, 25, 50, 100].map((pageSize) => (
+              <option key={pageSize} value={pageSize}>
+                {pageSize}
+              </option>
+            ))}
+          </select>
+          <span className="text-xs">
+            <span className="hidden sm:inline">of </span>
+            <span className="sm:hidden">/ </span>
+            {data.length}
+            <span className="hidden sm:inline"> total rows</span>
+          </span>
+        </div>
+
+        <div className="flex items-center gap-1 sm:gap-2">
+          <button
+            type="button"
+            className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={() => table.setPageIndex(0)}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ChevronsLeft className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={() => table.previousPage()}
+            disabled={!table.getCanPreviousPage()}
+          >
+            <ChevronLeft className="w-3.5 h-3.5" />
+          </button>
+          <span className="text-xs text-gray-600 px-2">
+            {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
+          </span>
+          <button
+            type="button"
+            className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={() => table.nextPage()}
+            disabled={!table.getCanNextPage()}
+          >
+            <ChevronRight className="w-3.5 h-3.5" />
+          </button>
+          <button
+            type="button"
+            className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
+            disabled={!table.getCanNextPage()}
+          >
+            <ChevronsRight className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+
+      {/* Edit Project Dialog */}
+      {editingProject && (
+        <EditProjectDialog
+          project={editingProject}
+          open={isEditDialogOpen}
+          onOpenChange={setIsEditDialogOpen}
+          onSuccess={() => {
+            // Reload the page to show updated data
+            window.location.reload();
           }}
-          className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[hsl(var(--procore-orange))] focus:border-transparent"
-        >
-          {[10, 25, 50, 100].map(pageSize => (
-            <option key={pageSize} value={pageSize}>
-              {pageSize}
-            </option>
-          ))}
-        </select>
-        <span className="text-xs">
-          <span className="hidden sm:inline">of </span>
-          <span className="sm:hidden">/ </span>
-          {data.length}<span className="hidden sm:inline"> total rows</span>
-        </span>
-      </div>
-
-      <div className="flex items-center gap-1 sm:gap-2">
-        <button
-          type="button"
-          className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={() => table.setPageIndex(0)}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <ChevronsLeft className="w-3.5 h-3.5" />
-        </button>
-        <button
-          type="button"
-          className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={() => table.previousPage()}
-          disabled={!table.getCanPreviousPage()}
-        >
-          <ChevronLeft className="w-3.5 h-3.5" />
-        </button>
-        <span className="text-xs text-gray-600 px-2">
-          {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
-        </span>
-        <button
-          type="button"
-          className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={() => table.nextPage()}
-          disabled={!table.getCanNextPage()}
-        >
-          <ChevronRight className="w-3.5 h-3.5" />
-        </button>
-        <button
-          type="button"
-          className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-          onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-          disabled={!table.getCanNextPage()}
-        >
-          <ChevronsRight className="w-3.5 h-3.5" />
-        </button>
-      </div>
-    </div>
-
-    {/* Edit Project Dialog */}
-    {editingProject && (
-      <EditProjectDialog
-        project={editingProject}
-        open={isEditDialogOpen}
-        onOpenChange={setIsEditDialogOpen}
-        onSuccess={() => {
-          // Reload the page to show updated data
-          window.location.reload();
-        }}
-      />
-    )}
+        />
+      )}
     </div>
   );
 }

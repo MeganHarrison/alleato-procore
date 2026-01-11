@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import Link from 'next/link';
-import { Loader2, Search, Check, X } from 'lucide-react';
+import * as React from "react";
+import Link from "next/link";
+import { Loader2, Search, Check, X } from "lucide-react";
 import {
   useDirectoryPermissions,
   PermissionLevel,
   DirectoryUser,
-} from '@/hooks/use-directory-permissions';
+} from "@/hooks/use-directory-permissions";
 import {
   Table,
   TableBody,
@@ -15,25 +15,25 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
-import { Input } from '@/components/ui/input';
-import { cn } from '@/lib/utils';
+} from "@/components/ui/table";
+import { Input } from "@/components/ui/input";
+import { cn } from "@/lib/utils";
 
 interface PermissionsTableTabProps {
   projectId: string;
 }
 
 const PERMISSION_LEVELS: { key: PermissionLevel; label: string }[] = [
-  { key: 'none', label: 'None' },
-  { key: 'read_only', label: 'Read Only' },
-  { key: 'standard', label: 'Standard' },
-  { key: 'admin', label: 'Admin' },
+  { key: "none", label: "None" },
+  { key: "read_only", label: "Read Only" },
+  { key: "standard", label: "Standard" },
+  { key: "admin", label: "Admin" },
 ];
 
 export function PermissionsTableTab({ projectId }: PermissionsTableTabProps) {
   const { users, isLoading, error, updatePermission, searchUsers } =
     useDirectoryPermissions(projectId);
-  const [searchValue, setSearchValue] = React.useState('');
+  const [searchValue, setSearchValue] = React.useState("");
   const [updatingUser, setUpdatingUser] = React.useState<string | null>(null);
 
   // Debounce search
@@ -46,13 +46,13 @@ export function PermissionsTableTab({ projectId }: PermissionsTableTabProps) {
 
   const handlePermissionChange = async (
     personId: string,
-    level: PermissionLevel
+    level: PermissionLevel,
   ) => {
     setUpdatingUser(personId);
     try {
       await updatePermission(personId, level);
     } catch (err) {
-      console.error('Failed to update permission:', err);
+      console.error("Failed to update permission:", err);
     } finally {
       setUpdatingUser(null);
     }
@@ -70,7 +70,9 @@ export function PermissionsTableTab({ projectId }: PermissionsTableTabProps) {
   if (error) {
     return (
       <div className="text-center py-12">
-        <p className="text-red-500">Error loading permissions: {error.message}</p>
+        <p className="text-red-500">
+          Error loading permissions: {error.message}
+        </p>
       </div>
     );
   }
@@ -92,10 +94,7 @@ export function PermissionsTableTab({ projectId }: PermissionsTableTabProps) {
                 <TableHead className="w-[200px]">Name ▲</TableHead>
                 <TableHead className="w-[200px]">Company</TableHead>
                 {PERMISSION_LEVELS.map((level) => (
-                  <TableHead
-                    key={level.key}
-                    className="text-center w-[100px]"
-                  >
+                  <TableHead key={level.key} className="text-center w-[100px]">
                     {level.label}
                   </TableHead>
                 ))}
@@ -164,7 +163,7 @@ function PermissionRow({
   onPermissionChange,
 }: PermissionRowProps) {
   return (
-    <TableRow className={cn(isUpdating && 'opacity-50')}>
+    <TableRow className={cn(isUpdating && "opacity-50")}>
       <TableCell>
         <Link
           href={`/${projectId}/directory/users/${user.person_id}`}
@@ -173,7 +172,9 @@ function PermissionRow({
           {user.full_name}
         </Link>
       </TableCell>
-      <TableCell className="text-gray-600">{user.company_name || '-'}</TableCell>
+      <TableCell className="text-gray-600">
+        {user.company_name || "-"}
+      </TableCell>
       {PERMISSION_LEVELS.map((level) => (
         <TableCell key={level.key} className="text-center">
           <PermissionIndicator
@@ -206,7 +207,7 @@ function PermissionIndicator({
   // Inactive: gray X
 
   if (isActive) {
-    if (level === 'none') {
+    if (level === "none") {
       return (
         <button
           onClick={onClick}

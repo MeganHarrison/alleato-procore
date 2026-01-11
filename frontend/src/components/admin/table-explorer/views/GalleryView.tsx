@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
-import { RowActions } from '../RowActions';
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { RowActions } from "../RowActions";
 import {
   type TableConfig,
   type TableName,
   getRowTitle,
   getRowSubtitle,
   getRowImage,
-} from '@/lib/table-registry';
+} from "@/lib/table-registry";
 
 interface GalleryViewProps {
   table: TableName;
@@ -102,5 +102,5 @@ function getInitials(text: string): string {
   if (words.length === 1) {
     return words[0].substring(0, 2).toUpperCase();
   }
-  return (words[0][0] + (words[1]?.[0] ?? '')).toUpperCase();
+  return (words[0][0] + (words[1]?.[0] ?? "")).toUpperCase();
 }

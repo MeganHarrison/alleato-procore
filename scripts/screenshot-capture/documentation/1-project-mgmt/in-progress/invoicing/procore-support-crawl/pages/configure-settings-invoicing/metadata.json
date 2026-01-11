@@ -1,0 +1,1054 @@
+{
+  "url": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/configure-settings-invoicing",
+  "pageName": "configure-settings-invoicing",
+  "category": "tutorial",
+  "pageId": "configure-settings-invoicing",
+  "timestamp": "2026-01-10T20:33:12.775Z",
+  "analysis": {
+    "components": {
+      "buttons": 11,
+      "forms": 1,
+      "inputs": 1,
+      "tables": 1,
+      "modals": 0,
+      "navigation": 1,
+      "cards": 0,
+      "lists": 25,
+      "tabs": 0,
+      "dropdowns": 2,
+      "icons": 46,
+      "headings": {
+        "h1": 1,
+        "h2": 5,
+        "h3": 6,
+        "h4": 4
+      },
+      "codeBlocks": 0,
+      "images": 6,
+      "videos": 0
+    },
+    "articleContent": {
+      "title": "Configure Settings: Invoicing",
+      "headings": [
+        {
+          "level": "h4",
+          "text": "Resources",
+          "id": null
+        },
+        {
+          "level": "h4",
+          "text": "United States",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Background",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Things to Consider",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Steps",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "Default Billing Period",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "Lien Waivers",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "Emails",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "Other",
+          "id": null
+        },
+        {
+          "level": "h4",
+          "text": "Beta Subcontractor Workflow Settings",
+          "id": null
+        },
+        {
+          "level": "h4",
+          "text": "Beta Owner Invoicing Workflow Settings",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "Next Steps",
+          "id": null
+        },
+        {
+          "level": "h2",
+          "text": "See Also",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "About Procore",
+          "id": null
+        },
+        {
+          "level": "h3",
+          "text": "Downloads",
+          "id": null
+        }
+      ],
+      "paragraphs": 109,
+      "sections": 9
+    },
+    "tables": [
+      {
+        "index": 1,
+        "headers": [
+          "General Contractors English (United States) - Default",
+          "Owners English (Owner Terminology V2)",
+          "Specialty Contractors English (Specialty Contractor Terminology)"
+        ],
+        "rows": 9,
+        "classes": "",
+        "id": null
+      }
+    ],
+    "breadcrumbs": [
+      {
+        "text": "Support Home",
+        "href": "https://v2.support.procore.com/"
+      },
+      {
+        "text": "Invoicing",
+        "href": "https://v2.support.procore.com/product-manuals/invoicing-project/"
+      },
+      {
+        "text": "Configure Settings: Invoicing",
+        "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/configure-settings-invoicing/"
+      }
+    ],
+    "title": "Configure Settings: Invoicing",
+    "h1": "Configure Settings: Invoicing",
+    "metaDescription": "How to configure settings for the Project level Invoicing tool in Procore."
+  },
+  "links": 77,
+  "linkDetails": [
+    {
+      "href": "https://v2.support.procore.com/contact-support",
+      "text": "enhanced Webform",
+      "classes": "",
+      "id": null,
+      "index": 0,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": "icon",
+      "index": 1,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/",
+      "text": "",
+      "classes": "",
+      "id": "mobile-icon",
+      "index": 2,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/",
+      "text": "Product Manuals",
+      "classes": "",
+      "id": null,
+      "index": 3,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/",
+      "text": "Process Guides",
+      "classes": "",
+      "id": null,
+      "index": 4,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/video-library/",
+      "text": "Training Video Library   Search our library of training videos",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 6,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/",
+      "text": "Permissions Matrix",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 7,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/glossary-of-terms/",
+      "text": "Glossary of Terms",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 8,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/release-notes/",
+      "text": "Release Notes",
+      "classes": "",
+      "id": null,
+      "index": 13,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/",
+      "text": "Product Manuals",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 14,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/",
+      "text": "Process Guides",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 15,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://learn.procore.com/",
+      "text": "Certifications",
+      "classes": "",
+      "id": null,
+      "index": 16,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/video-library/",
+      "text": "Training Video Library",
+      "classes": "",
+      "id": null,
+      "index": 17,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/permissions-matrix/",
+      "text": "Permissions Matrix",
+      "classes": "",
+      "id": null,
+      "index": 18,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/glossary-of-terms/",
+      "text": "Glossary of Terms",
+      "classes": "",
+      "id": null,
+      "index": 19,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://status.procore.com/",
+      "text": "System Status",
+      "classes": "",
+      "id": null,
+      "index": 20,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://community.procore.com/s/",
+      "text": "Community",
+      "classes": "",
+      "id": null,
+      "index": 21,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://www.procore.com/whats-new/en/",
+      "text": "Product Updates",
+      "classes": "",
+      "id": null,
+      "index": 22,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/https://developers.procore.com%20/",
+      "text": "Developers",
+      "classes": "",
+      "id": null,
+      "index": 23,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/release-notes/",
+      "text": "Release Notes",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "index": 24,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 25,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 26,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 27,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 28,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 29,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 30,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 31,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Latinoamérica (Español)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 32,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://pl-pl.support.procore.com/",
+      "text": "Polska (Polski)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 33,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 34,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/configure-settings-invoicing/",
+      "text": "United States (English)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 35,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡 (中文)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 36,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本 (日本語)",
+      "classes": "astro-zw5levfn",
+      "id": null,
+      "index": 37,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://en-au.support.procore.com/",
+      "text": "Australia (English)",
+      "classes": "",
+      "id": null,
+      "index": 38,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://pt-br.support.procore.com/",
+      "text": "Brasil (Português)",
+      "classes": "",
+      "id": null,
+      "index": 39,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://en-ca.support.procore.com/",
+      "text": "Canada (English)",
+      "classes": "",
+      "id": null,
+      "index": 40,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://fr-ca.support.procore.com/",
+      "text": "Canada (Français)",
+      "classes": "",
+      "id": null,
+      "index": 41,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://de.support.procore.com/",
+      "text": "Deutschland (Deutsch)",
+      "classes": "",
+      "id": null,
+      "index": 42,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://es-es.support.procore.com/",
+      "text": "España (Español)",
+      "classes": "",
+      "id": null,
+      "index": 43,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://fr.support.procore.com/",
+      "text": "France (Français)",
+      "classes": "",
+      "id": null,
+      "index": 44,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://es.support.procore.com/",
+      "text": "Latinoamérica (Español)",
+      "classes": "",
+      "id": null,
+      "index": 45,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://pl-pl.support.procore.com/",
+      "text": "Polska (Polski)",
+      "classes": "",
+      "id": null,
+      "index": 46,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://en-gb.support.procore.com/",
+      "text": "United Kingdom (English)",
+      "classes": "",
+      "id": null,
+      "index": 47,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/configure-settings-invoicing/",
+      "text": "United States (English)",
+      "classes": "",
+      "id": null,
+      "index": 48,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://zh-sg.support.procore.com/",
+      "text": "新加坡 (中文)",
+      "classes": "",
+      "id": null,
+      "index": 49,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://ja-jp.support.procore.com/",
+      "text": "日本 (日本語)",
+      "classes": "",
+      "id": null,
+      "index": 50,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/",
+      "text": "Support Home",
+      "classes": "",
+      "id": null,
+      "index": 51,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/",
+      "text": "Invoicing",
+      "classes": "",
+      "id": null,
+      "index": 52,
+      "isInvoicing": true,
+      "category": "invoicing"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/configure-settings-invoicing/",
+      "text": "Configure Settings: Invoicing",
+      "classes": "current-page",
+      "id": null,
+      "index": 53,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/faq-what-tool-names-and-terms-are-different-in-procore-for-general-contractors-owners-and-specialty-contractors",
+      "text": "how to apply the dictionary options.",
+      "classes": "",
+      "id": null,
+      "index": 54,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/payor-setup-guide/add-invoice-administrators",
+      "text": "invoice administrator",
+      "classes": "",
+      "id": null,
+      "index": 55,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/permissions",
+      "text": "Required User Permissions",
+      "classes": "",
+      "id": null,
+      "index": 56,
+      "isInvoicing": true,
+      "category": "invoicing"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/create-manual-billing-periods",
+      "text": "Create Manual Billing Periods with the Invoicing Tool",
+      "classes": "",
+      "id": null,
+      "index": 57,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/payor-setup-guide/add-invoice-administrators",
+      "text": "invoice administrator",
+      "classes": "",
+      "id": null,
+      "index": 58,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/create-manual-billing-periods",
+      "text": "Create Manual Billing",
+      "classes": "",
+      "id": null,
+      "index": 59,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/create-manual-billing-periods",
+      "text": "Periods with the Invoicing Tool",
+      "classes": "",
+      "id": null,
+      "index": 60,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://support.procore.com/products/online/procore-pay",
+      "text": "Procore Pay",
+      "classes": "",
+      "id": null,
+      "index": 63,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/payor-setup-guide/enable-templates-on-projects",
+      "text": "Enable Lien Waivers & Set Default Templates on Projects",
+      "classes": "",
+      "id": null,
+      "index": 64,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/payor-setup-guide/enable-sub-tier-waivers",
+      "text": "Enable Sub-Tier Waivers on Project Invoices",
+      "classes": "",
+      "id": null,
+      "index": 65,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/send-an-invite-to-bill-to-an-invoice-contact",
+      "text": "Send an 'Invite to Bill' to an Invoice Contact",
+      "classes": "",
+      "id": null,
+      "index": 66,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/commitments-project/tutorials/configure-advanced-settings-commitments",
+      "text": "Configure Settings: Commitments",
+      "classes": "",
+      "id": null,
+      "index": 67,
+      "isInvoicing": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/review--approve-invoices",
+      "text": "Review a Subcontractor Invoice as an Invoice Administrator",
+      "classes": "",
+      "id": null,
+      "index": 68,
+      "isInvoicing": true,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/export-a-subcontractor-invoice",
+      "text": "Export a Subcontractor Invoice",
+      "classes": "",
+      "id": null,
+      "index": 69,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/review--approve-invoices",
+      "text": "Review a Subcontractor Invoice as an Administrator",
+      "classes": "",
+      "id": null,
+      "index": 70,
+      "isInvoicing": true,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/create-a-payment-schedule",
+      "text": "Create a Payment Schedule",
+      "classes": "",
+      "id": null,
+      "index": 71,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/review--approve-invoices",
+      "text": "Review a Subcontractor Invoice as an Invoice Administrator",
+      "classes": "",
+      "id": null,
+      "index": 72,
+      "isInvoicing": true,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/faq-how-do-i-prevent-or-allow-overbilling-on-a-subcontractor-invoice",
+      "text": "How do I prevent or allow overbilling on a subcontractor invoice?",
+      "classes": "",
+      "id": null,
+      "index": 73,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/admin-company/tutorials/set-the-defaults-for-your-projects",
+      "text": "Set the Defaults for Your Projects",
+      "classes": "",
+      "id": null,
+      "index": 74,
+      "isInvoicing": false,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/company-level-workflow-templates-creators-guide/assign-the-template-to-a-project",
+      "text": "Assign a Custom Workflow Template to a Project",
+      "classes": "",
+      "id": null,
+      "index": 75,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/configure-a-custom-workflow-template-for-subcontractor-invoices-on-a-project",
+      "text": "Configure a Custom Workflow Template for Subcontractor Invoices on a Project",
+      "classes": "",
+      "id": null,
+      "index": 76,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/process-guides/company-level-workflow-templates-creators-guide/assign-the-template-to-a-project",
+      "text": "Assign a Custom Workflow Template to a Project",
+      "classes": "",
+      "id": null,
+      "index": 77,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/best-practices-for-creating-an-owner-invoice-workflow",
+      "text": "Best Practices for Creating an Owner Invoice Workflow (Beta)",
+      "classes": "",
+      "id": null,
+      "index": 78,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/manage-billing-periods",
+      "text": "Manage Billing Periods",
+      "classes": "",
+      "id": null,
+      "index": 79,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/automated-commitment-invoice-numbering",
+      "text": "Automated Commitment Invoice Numbering",
+      "classes": "see-also-link",
+      "id": null,
+      "index": 80,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/product-manuals/invoicing-project/tutorials/enable-the-payments-issued-tab-for-invoicing",
+      "text": "Enable the Payments Issued Tab for Invoicing",
+      "classes": "see-also-link",
+      "id": null,
+      "index": 81,
+      "isInvoicing": true,
+      "category": "tutorial"
+    },
+    {
+      "href": "https://v2.support.procore.com/faq-which-fields-in-the-invoicing-or-progress-billings-tools-can-be-configured-as-required-optional-or-hidden",
+      "text": "Which fields in the Invoicing or Progress Billings tools can be configured as required, optional, or hidden?",
+      "classes": "see-also-link",
+      "id": null,
+      "index": 82,
+      "isInvoicing": false,
+      "category": "general"
+    },
+    {
+      "href": "https://v2.support.procore.com/contact-support",
+      "text": "Contact Support",
+      "classes": "",
+      "id": null,
+      "index": 91,
+      "isInvoicing": false,
+      "category": "general"
+    }
+  ],
+  "clickables": 11,
+  "clickableDetails": [
+    {
+      "text": "",
+      "id": "banner-close-button",
+      "type": "button",
+      "classes": "banner-close-button",
+      "hasDropdown": false,
+      "index": 0
+    },
+    {
+      "text": "Menu",
+      "id": "mobile-nav-toggle",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 1
+    },
+    {
+      "text": "What do you need help with?",
+      "id": "autocomplete-0-label",
+      "type": "button",
+      "classes": "aa-DetachedSearchButton",
+      "hasDropdown": false,
+      "index": 2
+    },
+    {
+      "text": "Resources",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": true,
+      "index": 3
+    },
+    {
+      "text": "Resources",
+      "id": "mobile-nav-accordion-button",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "hasDropdown": false,
+      "index": 4
+    },
+    {
+      "text": "United States",
+      "id": "",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": true,
+      "index": 5
+    },
+    {
+      "text": "United States",
+      "id": "mobile-nav-accordion-button",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "hasDropdown": false,
+      "index": 6
+    },
+    {
+      "text": "Procore Administrator",
+      "id": "tool-tip-button-3b",
+      "type": "button",
+      "classes": "tool-tip-button",
+      "hasDropdown": false,
+      "index": 7
+    },
+    {
+      "text": "",
+      "id": "back-to-top-button",
+      "type": "button",
+      "classes": "",
+      "hasDropdown": false,
+      "index": 8
+    },
+    {
+      "text": "About Procore",
+      "id": "footer-accordion-button",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "hasDropdown": false,
+      "index": 9
+    },
+    {
+      "text": "Downloads",
+      "id": "footer-accordion-button",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "hasDropdown": false,
+      "index": 10
+    }
+  ],
+  "expandables": 15,
+  "expandableDetails": [
+    {
+      "text": "Product Manuals",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 0
+    },
+    {
+      "text": "Product Manuals",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 1
+    },
+    {
+      "text": "Process Guides",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 2
+    },
+    {
+      "text": "Process Guides",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 3
+    },
+    {
+      "text": "Resources",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 4
+    },
+    {
+      "text": "Resources",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 5
+    },
+    {
+      "text": "Release Notes",
+      "type": "a",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 6
+    },
+    {
+      "text": "Release Notes",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 7
+    },
+    {
+      "text": "United States",
+      "type": "button",
+      "classes": "mobile-nav-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 8
+    },
+    {
+      "text": "United States",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 9
+    },
+    {
+      "text": "To learn the differences: Show/HideThis table shows the differences in tool names (bold) and terms a",
+      "type": "div",
+      "classes": "collapsible use-icon",
+      "id": null,
+      "isExpanded": false,
+      "index": 10
+    },
+    {
+      "text": "About Procore",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 11
+    },
+    {
+      "text": "About Procore",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 12
+    },
+    {
+      "text": "Downloads",
+      "type": "button",
+      "classes": "footer-accordion-button",
+      "id": null,
+      "isExpanded": false,
+      "index": 13
+    },
+    {
+      "text": "Downloads",
+      "type": "span",
+      "classes": "mobile-nav-accordion-button-title",
+      "id": null,
+      "isExpanded": false,
+      "index": 14
+    }
+  ],
+  "screenshotPath": "pages/configure-settings-invoicing/screenshot.png"
+}

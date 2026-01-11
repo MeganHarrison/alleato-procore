@@ -36,12 +36,13 @@ export default function ExecutiveDashboard() {
   useEffect(() => {
     async function loadExecutiveData() {
       try {
-        const [summaryData, heatMapData, scoresData, patternsData] = await Promise.all([
-          generateExecutiveSummary(),
-          getCompanyRiskHeatMap(),
-          getAllProjectHealthScores(),
-          detectPatterns(),
-        ]);
+        const [summaryData, heatMapData, scoresData, patternsData] =
+          await Promise.all([
+            generateExecutiveSummary(),
+            getCompanyRiskHeatMap(),
+            getAllProjectHealthScores(),
+            detectPatterns(),
+          ]);
 
         setSummary(summaryData);
         setHeatMap(heatMapData);
@@ -58,14 +59,16 @@ export default function ExecutiveDashboard() {
   if (loading) {
     return (
       <div className="flex items-center justify-center h-full">
-        <div className="text-neutral-500">Loading executive intelligence...</div>
+        <div className="text-neutral-500">
+          Loading executive intelligence...
+        </div>
       </div>
     );
   }
 
-  const projectsNeedingAttention = healthScores.filter(
-    (p) => p.status === "critical" || p.status === "at_risk"
-  ).slice(0, 8);
+  const projectsNeedingAttention = healthScores
+    .filter((p) => p.status === "critical" || p.status === "at_risk")
+    .slice(0, 8);
 
   return (
     <div className="flex flex-col flex-1 min-h-0 overflow-hidden">
@@ -81,9 +84,7 @@ export default function ExecutiveDashboard() {
               <p className="text-4xl md:text-5xl font-light tabular-nums tracking-tight text-brand">
                 {summary?.company_health_score || 0}
               </p>
-              <p className="text-xs text-neutral-500">
-                Portfolio score
-              </p>
+              <p className="text-xs text-neutral-500">Portfolio score</p>
             </div>
           </div>
         </div>
@@ -103,12 +104,16 @@ export default function ExecutiveDashboard() {
                   <>
                     <TrendingUp className="h-3.5 w-3.5 text-red-700" />
                     <span className="text-xs font-medium text-red-700 tabular-nums">
-                      {heatMap?.trend_percentage && heatMap.trend_percentage > 0 ? "+" : ""}
+                      {heatMap?.trend_percentage && heatMap.trend_percentage > 0
+                        ? "+"
+                        : ""}
                       {heatMap?.trend_percentage || 0}% vs 30d
                     </span>
                   </>
                 ) : (
-                  <span className="text-xs text-neutral-500">Require immediate action</span>
+                  <span className="text-xs text-neutral-500">
+                    Require immediate action
+                  </span>
                 )}
               </div>
             </div>
@@ -142,9 +147,7 @@ export default function ExecutiveDashboard() {
               <p className="text-3xl md:text-4xl font-light tabular-nums tracking-tight text-neutral-900">
                 {patterns.length}
               </p>
-              <p className="text-xs text-neutral-500">
-                Systemic issues
-              </p>
+              <p className="text-xs text-neutral-500">Systemic issues</p>
             </div>
           </div>
         </div>
@@ -163,7 +166,10 @@ export default function ExecutiveDashboard() {
               {summary?.top_priorities && summary.top_priorities.length > 0 ? (
                 <ul className="space-y-2.5">
                   {summary.top_priorities.slice(0, 5).map((priority) => (
-                    <li key={priority} className="flex items-start gap-3 text-sm text-neutral-700">
+                    <li
+                      key={priority}
+                      className="flex items-start gap-3 text-sm text-neutral-700"
+                    >
                       <span className="flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-red-100 text-[10px] font-semibold text-red-700">
                         {summary.top_priorities.indexOf(priority) + 1}
                       </span>
@@ -172,7 +178,9 @@ export default function ExecutiveDashboard() {
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-neutral-400">No critical priorities at this time</p>
+                <p className="text-sm text-neutral-400">
+                  No critical priorities at this time
+                </p>
               )}
             </div>
 
@@ -184,14 +192,19 @@ export default function ExecutiveDashboard() {
               {summary?.quick_wins && summary.quick_wins.length > 0 ? (
                 <ul className="space-y-2.5">
                   {summary.quick_wins.slice(0, 5).map((win) => (
-                    <li key={win} className="flex items-start gap-3 text-sm text-neutral-700">
+                    <li
+                      key={win}
+                      className="flex items-start gap-3 text-sm text-neutral-700"
+                    >
                       <CheckCircle2 className="h-4 w-4 shrink-0 text-green-600 mt-0.5" />
                       <span className="leading-relaxed">{win}</span>
                     </li>
                   ))}
                 </ul>
               ) : (
-                <p className="text-sm text-neutral-400">Focus on top priorities first</p>
+                <p className="text-sm text-neutral-400">
+                  Focus on top priorities first
+                </p>
               )}
             </div>
           </div>
@@ -210,8 +223,8 @@ export default function ExecutiveDashboard() {
                       pattern.severity === "high"
                         ? "border-red-500"
                         : pattern.severity === "medium"
-                        ? "border-yellow-500"
-                        : "border-blue-500"
+                          ? "border-yellow-500"
+                          : "border-blue-500"
                     }`}
                   >
                     <div className="flex items-start justify-between gap-4">
@@ -220,7 +233,8 @@ export default function ExecutiveDashboard() {
                           {pattern.description}
                         </h4>
                         <p className="text-xs text-neutral-500">
-                          {pattern.affected_projects.length} projects · {pattern.frequency} occurrences
+                          {pattern.affected_projects.length} projects ·{" "}
+                          {pattern.frequency} occurrences
                         </p>
                         <div className="bg-neutral-50 rounded px-3 py-2">
                           <p className="text-xs font-medium text-neutral-700">
@@ -233,8 +247,8 @@ export default function ExecutiveDashboard() {
                           pattern.severity === "high"
                             ? "bg-red-100 text-red-700"
                             : pattern.severity === "medium"
-                            ? "bg-yellow-100 text-yellow-700"
-                            : "bg-blue-100 text-blue-700"
+                              ? "bg-yellow-100 text-yellow-700"
+                              : "bg-blue-100 text-blue-700"
                         }`}
                       >
                         {pattern.severity}
@@ -277,7 +291,9 @@ export default function ExecutiveDashboard() {
             {projectsNeedingAttention.length === 0 ? (
               <div className="text-center py-8">
                 <CheckCircle2 className="h-8 w-8 text-green-600 mx-auto mb-2" />
-                <p className="text-sm text-neutral-500">All projects are healthy</p>
+                <p className="text-sm text-neutral-500">
+                  All projects are healthy
+                </p>
               </div>
             ) : (
               <div className="space-y-3">
@@ -299,10 +315,15 @@ export default function ExecutiveDashboard() {
                         <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-neutral-500">
                           <span className="flex items-center gap-1">
                             <AlertTriangle className="h-3 w-3" />
-                            {project.critical_risks_count} critical, {project.open_risks_count} total risks
+                            {project.critical_risks_count} critical,{" "}
+                            {project.open_risks_count} total risks
                           </span>
-                          <span>{project.overdue_tasks_count} overdue tasks</span>
-                          <span>Last meeting {project.last_meeting_days_ago}d ago</span>
+                          <span>
+                            {project.overdue_tasks_count} overdue tasks
+                          </span>
+                          <span>
+                            Last meeting {project.last_meeting_days_ago}d ago
+                          </span>
                         </div>
                       </div>
                       <div className="text-right shrink-0">

@@ -1,28 +1,28 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 
 import {
   Conversation,
   ConversationContent,
   ConversationScrollButton,
-} from "@/components/ai-elements/conversation"
+} from "@/components/ai-elements/conversation";
 import {
   Message,
   MessageAction,
   MessageActions,
   MessageContent,
   MessageResponse,
-} from "@/components/ai-elements/message"
+} from "@/components/ai-elements/message";
 import {
   PromptInput,
   PromptInputBody,
   PromptInputSubmit,
   PromptInputTextarea,
-} from "@/components/ai-elements/prompt-input"
-import { Reasoning } from "@/components/ai-elements/reasoning"
-import { Sources } from "@/components/ai-elements/sources"
-import { Button } from "@/components/ui/button"
+} from "@/components/ai-elements/prompt-input";
+import { Reasoning } from "@/components/ai-elements/reasoning";
+import { Sources } from "@/components/ai-elements/sources";
+import { Button } from "@/components/ui/button";
 import {
   Brain,
   Copy,
@@ -32,14 +32,14 @@ import {
   Sparkles,
   ThumbsDown,
   ThumbsUp,
-} from "lucide-react"
-import { motion, AnimatePresence } from "motion/react"
+} from "lucide-react";
+import { motion, AnimatePresence } from "motion/react";
 
 type ChatMessage = {
-  id: string
-  role: "user" | "assistant"
-  content: string
-}
+  id: string;
+  role: "user" | "assistant";
+  content: string;
+};
 
 const initialMessages: ChatMessage[] = [
   {
@@ -48,7 +48,7 @@ const initialMessages: ChatMessage[] = [
     content:
       "Hello! I'm your construction project AI assistant. I can help you with project planning, documentation, safety protocols, and more. How can I assist you today?",
   },
-]
+];
 
 const sampleSources = [
   {
@@ -61,31 +61,31 @@ const sampleSources = [
     url: "https://pmi.org/construction-best-practices",
     description: "Industry standards for project execution",
   },
-]
+];
 
 const sampleReasoning = `I'm analyzing the latest construction safety requirements and cross-referencing them with your project specifications. The key considerations include:
 1. Worker safety protocols for elevated work
 2. Material handling procedures
-3. Environmental compliance requirements`
+3. Environmental compliance requirements`;
 
 export default function AIChat() {
-  const [messages, setMessages] = useState(initialMessages)
-  const [isLoading, setIsLoading] = useState(false)
-  const [showReasoning, setShowReasoning] = useState(false)
-  const [showSources, setShowSources] = useState(false)
+  const [messages, setMessages] = useState(initialMessages);
+  const [isLoading, setIsLoading] = useState(false);
+  const [showReasoning, setShowReasoning] = useState(false);
+  const [showSources, setShowSources] = useState(false);
 
   const handleSubmit = async (message: { content?: string; text?: string }) => {
-    const content = message.content || message.text || ""
-    if (!content.trim()) return
+    const content = message.content || message.text || "";
+    if (!content.trim()) return;
 
     const userMessage: ChatMessage = {
       id: Date.now().toString(),
       role: "user",
       content: content.trim(),
-    }
+    };
 
-    setMessages((prev) => [...prev, userMessage])
-    setIsLoading(true)
+    setMessages((prev) => [...prev, userMessage]);
+    setIsLoading(true);
 
     // Simulate AI response
     setTimeout(() => {
@@ -93,11 +93,11 @@ export default function AIChat() {
         id: (Date.now() + 1).toString(),
         role: "assistant",
         content: `I understand you're asking about "${content.trim()}". Based on current industry standards and best practices, here's what I recommend:\n\n**Key Points:**\n- Ensure all safety protocols are in place\n- Review project timeline and milestones\n- Coordinate with relevant stakeholders\n\nWould you like me to provide more specific details on any of these areas?`,
-      }
-      setMessages((prev) => [...prev, aiResponse])
-      setIsLoading(false)
-    }, 1500)
-  }
+      };
+      setMessages((prev) => [...prev, aiResponse]);
+      setIsLoading(false);
+    }, 1500);
+  };
 
   return (
     <div className="relative flex h-screen max-h-screen w-full flex-col overflow-hidden bg-gradient-to-br from-[#FAF8F5] via-[#FFF] to-[#F5F1ED]">
@@ -120,7 +120,9 @@ export default function AIChat() {
               <h1 className="font-sans text-xl font-semibold tracking-tight text-[#2D2D2D]">
                 Alleato AI
               </h1>
-              <p className="text-xs text-[#6B6B6B]">Construction Intelligence</p>
+              <p className="text-xs text-[#6B6B6B]">
+                Construction Intelligence
+              </p>
             </div>
           </div>
 
@@ -385,5 +387,5 @@ export default function AIChat() {
       <div className="pointer-events-none absolute top-0 right-0 size-96 bg-gradient-radial from-[#E07856]/5 via-transparent to-transparent" />
       <div className="pointer-events-none absolute bottom-0 left-0 size-96 bg-gradient-radial from-[#E07856]/5 via-transparent to-transparent" />
     </div>
-  )
+  );
 }

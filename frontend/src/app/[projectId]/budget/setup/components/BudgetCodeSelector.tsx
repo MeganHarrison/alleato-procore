@@ -1,16 +1,23 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import { Plus, ChevronRight, ChevronDown, Check, ChevronsUpDown, Search } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
+import { useState, useMemo } from "react";
+import {
+  Plus,
+  ChevronRight,
+  ChevronDown,
+  Check,
+  ChevronsUpDown,
+  Search,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
-import { cn } from '@/lib/utils';
-import type { ProjectCostCode } from '../types';
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import type { ProjectCostCode } from "../types";
 
 interface BudgetCodeSelectorProps {
   /** Available project cost codes to select from */
@@ -37,19 +44,21 @@ export function BudgetCodeSelector({
   onSelect,
   onCreateNew,
   onOpenChange,
-  placeholder = 'Select',
+  placeholder = "Select",
   className,
 }: BudgetCodeSelectorProps) {
   // Use internal state for popover instead of controlled props
   const [isOpen, setIsOpen] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [expandedDivisions, setExpandedDivisions] = useState<Set<string>>(new Set());
+  const [searchQuery, setSearchQuery] = useState("");
+  const [expandedDivisions, setExpandedDivisions] = useState<Set<string>>(
+    new Set(),
+  );
 
   const handleOpenChange = (newOpen: boolean) => {
     setIsOpen(newOpen);
     // Reset search when closing
     if (!newOpen) {
-      setSearchQuery('');
+      setSearchQuery("");
     }
     // Notify parent if callback provided
     onOpenChange?.(newOpen);
@@ -74,9 +83,9 @@ export function BudgetCodeSelector({
     if (!searchQuery) return projectCostCodes;
     const query = searchQuery.toLowerCase();
     return projectCostCodes.filter((code) => {
-      const costCodeTitle = code.cost_codes?.title || '';
-      const costTypeCode = code.cost_code_types?.code || '';
-      const costTypeDesc = code.cost_code_types?.description || '';
+      const costCodeTitle = code.cost_codes?.title || "";
+      const costTypeCode = code.cost_code_types?.code || "";
+      const costTypeDesc = code.cost_code_types?.description || "";
       return (
         code.cost_code_id.toLowerCase().includes(query) ||
         costCodeTitle.toLowerCase().includes(query) ||
@@ -90,14 +99,14 @@ export function BudgetCodeSelector({
   const groupedCostCodes = useMemo(() => {
     return filteredCostCodes.reduce(
       (acc, code) => {
-        const division = code.cost_codes?.division_title || 'Other';
+        const division = code.cost_codes?.division_title || "Other";
         if (!acc[division]) {
           acc[division] = [];
         }
         acc[division].push(code);
         return acc;
       },
-      {} as Record<string, ProjectCostCode[]>
+      {} as Record<string, ProjectCostCode[]>,
     );
   }, [filteredCostCodes]);
 
@@ -120,9 +129,14 @@ export function BudgetCodeSelector({
           variant="outline"
           role="combobox"
           aria-expanded={isOpen}
-          className={cn('w-full justify-between font-normal', className)}
+          className={cn("w-full justify-between font-normal", className)}
         >
-          <span className={cn('truncate', selectedLabel ? 'text-gray-900' : 'text-muted-foreground')}>
+          <span
+            className={cn(
+              "truncate",
+              selectedLabel ? "text-gray-900" : "text-muted-foreground",
+            )}
+          >
             {selectedLabel || placeholder}
           </span>
           <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
@@ -169,7 +183,7 @@ export function BudgetCodeSelector({
                   {/* Division Items */}
                   {expandedDivisions.has(division) &&
                     groupedCostCodes[division].map((code) => {
-                      const costCodeTitle = code.cost_codes?.title || '';
+                      const costCodeTitle = code.cost_codes?.title || "";
                       const displayLabel = `${code.cost_code_id} – ${costCodeTitle}`;
                       const isSelected = selectedLabel === displayLabel;
 
@@ -178,14 +192,14 @@ export function BudgetCodeSelector({
                           key={code.id}
                           className={cn(
                             "relative flex cursor-pointer select-none items-center pl-8 pr-3 py-2 text-sm hover:bg-accent hover:text-accent-foreground",
-                            isSelected && "bg-accent"
+                            isSelected && "bg-accent",
                           )}
                           onClick={() => handleSelect(code)}
                         >
                           <Check
                             className={cn(
                               "mr-2 h-4 w-4",
-                              isSelected ? "opacity-100" : "opacity-0"
+                              isSelected ? "opacity-100" : "opacity-0",
                             )}
                           />
                           {displayLabel}

@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { useEffect } from 'react';
+import { useEffect } from "react";
 import {
   Modal,
   ModalBody,
   ModalContent,
   useModal,
-} from '@/components/ui/modal/animated-modal';
-import { BudgetLineItemForm } from './budget-line-item-form';
+} from "@/components/ui/modal/animated-modal";
+import { BudgetLineItemForm } from "./budget-line-item-form";
 
 interface BudgetLineItemModalAnimatedProps {
   open: boolean;
@@ -50,7 +50,9 @@ function ModalController({
   );
 }
 
-export function BudgetLineItemModalAnimated(props: BudgetLineItemModalAnimatedProps) {
+export function BudgetLineItemModalAnimated(
+  props: BudgetLineItemModalAnimatedProps,
+) {
   if (!props.open) return null;
 
   return (

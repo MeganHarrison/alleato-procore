@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { X, Plus, Trash2, GripVertical, Eye, EyeOff, Lock } from 'lucide-react';
-import { toast } from 'sonner';
+import * as React from "react";
+import { X, Plus, Trash2, GripVertical, Eye, EyeOff, Lock } from "lucide-react";
+import { toast } from "sonner";
 
 import {
   Dialog,
@@ -10,34 +10,34 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
-import { Checkbox } from '@/components/ui/checkbox';
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { ScrollArea } from '@/components/ui/scroll-area';
+} from "@/components/ui/select";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 import type {
   BudgetViewDefinition,
   CreateBudgetViewRequest,
   UpdateBudgetViewRequest,
-} from '@/types/budget-views';
-import { AVAILABLE_BUDGET_COLUMNS } from '@/types/budget-views';
+} from "@/types/budget-views";
+import { AVAILABLE_BUDGET_COLUMNS } from "@/types/budget-views";
 
 interface BudgetViewsModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   projectId: string;
   view?: BudgetViewDefinition | null;
-  mode: 'create' | 'edit';
+  mode: "create" | "edit";
   onSuccess: () => void;
 }
 
@@ -58,62 +58,65 @@ export function BudgetViewsModal({
   mode,
   onSuccess,
 }: BudgetViewsModalProps) {
-  const [name, setName] = React.useState('');
-  const [description, setDescription] = React.useState('');
+  const [name, setName] = React.useState("");
+  const [description, setDescription] = React.useState("");
   const [isDefault, setIsDefault] = React.useState(false);
   const [columns, setColumns] = React.useState<ColumnConfig[]>([]);
-  const [availableColumns, setAvailableColumns] = React.useState<Array<typeof AVAILABLE_BUDGET_COLUMNS[number]>>([]);
+  const [availableColumns, setAvailableColumns] = React.useState<
+    Array<(typeof AVAILABLE_BUDGET_COLUMNS)[number]>
+  >([]);
   const [loading, setLoading] = React.useState(false);
 
   // Initialize form when view changes or modal opens
   React.useEffect(() => {
     if (open) {
-      if (view && mode === 'edit') {
+      if (view && mode === "edit") {
         setName(view.name);
-        setDescription(view.description || '');
+        setDescription(view.description || "");
         setIsDefault(view.is_default);
 
         // Convert view columns to column configs
-        const configs: ColumnConfig[] = view.columns?.map(col => ({
-          column_key: col.column_key,
-          display_name: col.display_name || undefined,
-          display_order: col.display_order,
-          width: col.width || undefined,
-          is_visible: col.is_visible,
-          is_locked: col.is_locked,
-        })) || [];
+        const configs: ColumnConfig[] =
+          view.columns?.map((col) => ({
+            column_key: col.column_key,
+            display_name: col.display_name || undefined,
+            display_order: col.display_order,
+            width: col.width || undefined,
+            is_visible: col.is_visible,
+            is_locked: col.is_locked,
+          })) || [];
         setColumns(configs);
 
         // Get columns not in the view
-        const usedKeys = new Set(configs.map(c => c.column_key));
+        const usedKeys = new Set(configs.map((c) => c.column_key));
         setAvailableColumns(
-          AVAILABLE_BUDGET_COLUMNS.filter(col => !usedKeys.has(col.key))
+          AVAILABLE_BUDGET_COLUMNS.filter((col) => !usedKeys.has(col.key)),
         );
       } else {
         // Create mode - start with default columns
-        const defaultColumns: ColumnConfig[] = AVAILABLE_BUDGET_COLUMNS
-          .filter(col => col.defaultVisible)
-          .map((col, index) => ({
-            column_key: col.key,
-            display_order: index + 1,
-            is_visible: true,
-            is_locked: col.locked,
-          }));
+        const defaultColumns: ColumnConfig[] = AVAILABLE_BUDGET_COLUMNS.filter(
+          (col) => col.defaultVisible,
+        ).map((col, index) => ({
+          column_key: col.key,
+          display_order: index + 1,
+          is_visible: true,
+          is_locked: col.locked,
+        }));
         setColumns(defaultColumns);
 
-        const usedKeys = new Set(defaultColumns.map(c => c.column_key));
+        const usedKeys = new Set(defaultColumns.map((c) => c.column_key));
         setAvailableColumns(
-          AVAILABLE_BUDGET_COLUMNS.filter(col => !usedKeys.has(col.key))
+          AVAILABLE_BUDGET_COLUMNS.filter((col) => !usedKeys.has(col.key)),
         );
-        setName('');
-        setDescription('');
+        setName("");
+        setDescription("");
         setIsDefault(false);
       }
     }
   }, [open, view, mode]);
 
   const handleAddColumn = (columnKey: string) => {
-    const column = AVAILABLE_BUDGET_COLUMNS.find(c => c.key === columnKey);
+    const column = AVAILABLE_BUDGET_COLUMNS.find((c) => c.key === columnKey);
     if (!column) return;
 
     const newColumn: ColumnConfig = {
@@ -124,16 +127,18 @@ export function BudgetViewsModal({
     };
 
     setColumns([...columns, newColumn]);
-    setAvailableColumns(availableColumns.filter(c => c.key !== columnKey));
+    setAvailableColumns(availableColumns.filter((c) => c.key !== columnKey));
   };
 
   const handleRemoveColumn = (columnKey: string) => {
-    const column = columns.find(c => c.column_key === columnKey);
+    const column = columns.find((c) => c.column_key === columnKey);
     if (!column || column.is_locked) return;
 
-    setColumns(columns.filter(c => c.column_key !== columnKey));
+    setColumns(columns.filter((c) => c.column_key !== columnKey));
 
-    const availableCol = AVAILABLE_BUDGET_COLUMNS.find(c => c.key === columnKey);
+    const availableCol = AVAILABLE_BUDGET_COLUMNS.find(
+      (c) => c.key === columnKey,
+    );
     if (availableCol) {
       setAvailableColumns([...availableColumns, availableCol]);
     }
@@ -141,23 +146,26 @@ export function BudgetViewsModal({
 
   const handleToggleVisibility = (columnKey: string) => {
     setColumns(
-      columns.map(col =>
+      columns.map((col) =>
         col.column_key === columnKey
           ? { ...col, is_visible: !col.is_visible }
-          : col
-      )
+          : col,
+      ),
     );
   };
 
-  const handleMoveColumn = (columnKey: string, direction: 'up' | 'down') => {
-    const index = columns.findIndex(c => c.column_key === columnKey);
+  const handleMoveColumn = (columnKey: string, direction: "up" | "down") => {
+    const index = columns.findIndex((c) => c.column_key === columnKey);
     if (index === -1) return;
-    if (direction === 'up' && index === 0) return;
-    if (direction === 'down' && index === columns.length - 1) return;
+    if (direction === "up" && index === 0) return;
+    if (direction === "down" && index === columns.length - 1) return;
 
     const newColumns = [...columns];
-    const targetIndex = direction === 'up' ? index - 1 : index + 1;
-    [newColumns[index], newColumns[targetIndex]] = [newColumns[targetIndex], newColumns[index]];
+    const targetIndex = direction === "up" ? index - 1 : index + 1;
+    [newColumns[index], newColumns[targetIndex]] = [
+      newColumns[targetIndex],
+      newColumns[index],
+    ];
 
     // Reorder display_order
     newColumns.forEach((col, idx) => {
@@ -169,29 +177,30 @@ export function BudgetViewsModal({
 
   const handleSubmit = async () => {
     if (!name.trim()) {
-      toast.error('View name is required');
+      toast.error("View name is required");
       return;
     }
 
     if (columns.length === 0) {
-      toast.error('At least one column is required');
+      toast.error("At least one column is required");
       return;
     }
 
     setLoading(true);
 
     try {
-      const url = mode === 'create'
-        ? `/api/projects/${projectId}/budget/views`
-        : `/api/projects/${projectId}/budget/views/${view?.id}`;
+      const url =
+        mode === "create"
+          ? `/api/projects/${projectId}/budget/views`
+          : `/api/projects/${projectId}/budget/views/${view?.id}`;
 
-      const method = mode === 'create' ? 'POST' : 'PATCH';
+      const method = mode === "create" ? "POST" : "PATCH";
 
       const payload: CreateBudgetViewRequest | UpdateBudgetViewRequest = {
         name: name.trim(),
         description: description.trim() || undefined,
         is_default: isDefault,
-        columns: columns.map(col => ({
+        columns: columns.map((col) => ({
           column_key: col.column_key,
           display_name: col.display_name,
           display_order: col.display_order,
@@ -203,28 +212,34 @@ export function BudgetViewsModal({
 
       const response = await fetch(url, {
         method,
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to save view');
+        throw new Error(error.error || "Failed to save view");
       }
 
-      toast.success(mode === 'create' ? 'View created successfully' : 'View updated successfully');
+      toast.success(
+        mode === "create"
+          ? "View created successfully"
+          : "View updated successfully",
+      );
       onSuccess();
       onOpenChange(false);
     } catch (error) {
-      console.error('Error saving view:', error);
-      toast.error(error instanceof Error ? error.message : 'Failed to save view');
+      console.error("Error saving view:", error);
+      toast.error(
+        error instanceof Error ? error.message : "Failed to save view",
+      );
     } finally {
       setLoading(false);
     }
   };
 
   const getColumnLabel = (columnKey: string): string => {
-    const col = AVAILABLE_BUDGET_COLUMNS.find(c => c.key === columnKey);
+    const col = AVAILABLE_BUDGET_COLUMNS.find((c) => c.key === columnKey);
     return col?.label || columnKey;
   };
 
@@ -233,12 +248,14 @@ export function BudgetViewsModal({
       <DialogContent className="max-w-3xl max-h-[90vh] flex flex-col">
         <DialogHeader>
           <DialogTitle>
-            {mode === 'create' ? 'Create Budget View' : `Edit ${view?.name || 'View'}`}
+            {mode === "create"
+              ? "Create Budget View"
+              : `Edit ${view?.name || "View"}`}
           </DialogTitle>
           <DialogDescription>
-            {mode === 'create'
-              ? 'Configure which columns to display in your custom budget view'
-              : 'Update your budget view configuration'}
+            {mode === "create"
+              ? "Configure which columns to display in your custom budget view"
+              : "Update your budget view configuration"}
           </DialogDescription>
         </DialogHeader>
 
@@ -273,10 +290,15 @@ export function BudgetViewsModal({
                 <Checkbox
                   id="isDefault"
                   checked={isDefault}
-                  onCheckedChange={(checked) => setIsDefault(checked as boolean)}
+                  onCheckedChange={(checked) =>
+                    setIsDefault(checked as boolean)
+                  }
                   disabled={view?.is_system}
                 />
-                <Label htmlFor="isDefault" className="font-normal cursor-pointer">
+                <Label
+                  htmlFor="isDefault"
+                  className="font-normal cursor-pointer"
+                >
                   Set as default view
                 </Label>
               </div>
@@ -292,7 +314,7 @@ export function BudgetViewsModal({
                       <SelectValue placeholder="Add column..." />
                     </SelectTrigger>
                     <SelectContent>
-                      {availableColumns.map(col => (
+                      {availableColumns.map((col) => (
                         <SelectItem key={col.key} value={col.key}>
                           {col.label}
                         </SelectItem>
@@ -338,7 +360,7 @@ export function BudgetViewsModal({
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleMoveColumn(col.column_key, 'up')}
+                          onClick={() => handleMoveColumn(col.column_key, "up")}
                           disabled={index === 0 || view?.is_system}
                           className="h-8 w-8 p-0"
                         >
@@ -347,8 +369,12 @@ export function BudgetViewsModal({
                         <Button
                           variant="ghost"
                           size="sm"
-                          onClick={() => handleMoveColumn(col.column_key, 'down')}
-                          disabled={index === columns.length - 1 || view?.is_system}
+                          onClick={() =>
+                            handleMoveColumn(col.column_key, "down")
+                          }
+                          disabled={
+                            index === columns.length - 1 || view?.is_system
+                          }
                           className="h-8 w-8 p-0"
                         >
                           ↓
@@ -385,11 +411,19 @@ export function BudgetViewsModal({
         </ScrollArea>
 
         <div className="flex justify-end gap-2 pt-4 border-t">
-          <Button variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>
+          <Button
+            variant="outline"
+            onClick={() => onOpenChange(false)}
+            disabled={loading}
+          >
             Cancel
           </Button>
           <Button onClick={handleSubmit} disabled={loading || view?.is_system}>
-            {loading ? 'Saving...' : mode === 'create' ? 'Create View' : 'Save Changes'}
+            {loading
+              ? "Saving..."
+              : mode === "create"
+                ? "Create View"
+                : "Save Changes"}
           </Button>
         </div>
       </DialogContent>

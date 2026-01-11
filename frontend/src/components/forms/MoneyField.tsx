@@ -1,20 +1,23 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Input } from "@/components/ui/input"
-import { FormField } from "./FormField"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { Input } from "@/components/ui/input";
+import { FormField } from "./FormField";
+import { cn } from "@/lib/utils";
 
-interface MoneyFieldProps extends Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'onChange'> {
-  label: string
-  value?: number
-  onChange?: (value: number | undefined) => void
-  error?: string
-  hint?: string
-  required?: boolean
-  fullWidth?: boolean
-  currency?: string
-  showCurrency?: boolean
+interface MoneyFieldProps extends Omit<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  "type" | "onChange"
+> {
+  label: string;
+  value?: number;
+  onChange?: (value: number | undefined) => void;
+  error?: string;
+  hint?: string;
+  required?: boolean;
+  fullWidth?: boolean;
+  currency?: string;
+  showCurrency?: boolean;
 }
 
 export function MoneyField({
@@ -30,58 +33,58 @@ export function MoneyField({
   className,
   ...inputProps
 }: MoneyFieldProps) {
-  const [displayValue, setDisplayValue] = React.useState<string>('')
+  const [displayValue, setDisplayValue] = React.useState<string>("");
 
   // Format number to display with commas
   const formatMoney = (val: number): string => {
-    return val.toLocaleString('en-US', {
+    return val.toLocaleString("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
-    })
-  }
+    });
+  };
 
   // Update display value when prop value changes
   React.useEffect(() => {
     if (value !== undefined) {
-      setDisplayValue(formatMoney(value))
+      setDisplayValue(formatMoney(value));
     } else {
-      setDisplayValue('')
+      setDisplayValue("");
     }
-  }, [value])
+  }, [value]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.target.value
+    const val = e.target.value;
 
     // Allow only numbers, decimal point, and commas
-    const cleanedVal = val.replace(/[^0-9.]/g, '')
+    const cleanedVal = val.replace(/[^0-9.]/g, "");
 
-    if (cleanedVal === '') {
-      setDisplayValue('')
-      onChange?.(undefined)
+    if (cleanedVal === "") {
+      setDisplayValue("");
+      onChange?.(undefined);
     } else {
       // Parse the cleaned value
-      const numVal = parseFloat(cleanedVal)
+      const numVal = parseFloat(cleanedVal);
       if (!isNaN(numVal)) {
-        setDisplayValue(val) // Keep user's input while typing
-        onChange?.(numVal)
+        setDisplayValue(val); // Keep user's input while typing
+        onChange?.(numVal);
       }
     }
-  }
+  };
 
   const handleBlur = () => {
     // Format the value on blur
     if (value !== undefined) {
-      setDisplayValue(formatMoney(value))
+      setDisplayValue(formatMoney(value));
     }
-  }
+  };
 
   const handleFocus = (e: React.FocusEvent<HTMLInputElement>) => {
     // Remove formatting on focus for easier editing
     if (value !== undefined) {
-      setDisplayValue(value.toString())
+      setDisplayValue(value.toString());
     }
-    e.target.select()
-  }
+    e.target.select();
+  };
 
   return (
     <FormField
@@ -106,7 +109,7 @@ export function MoneyField({
             "pl-8",
             showCurrency && currency === "USD" && "pr-12",
             error && "border-red-300",
-            className
+            className,
           )}
           placeholder="0.00"
           aria-invalid={!!error}
@@ -120,5 +123,5 @@ export function MoneyField({
         )}
       </div>
     </FormField>
-  )
+  );
 }

@@ -1,66 +1,68 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Pencil, Check, X } from 'lucide-react'
+import { useState } from "react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Pencil, Check, X } from "lucide-react";
 
 interface EditableField {
-  label: string
-  value: string
-  key: string
+  label: string;
+  value: string;
+  key: string;
 }
 
 interface EditableCardProps {
-  title: string
-  fields: EditableField[]
-  onSave: (updates: Record<string, string>) => Promise<void>
+  title: string;
+  fields: EditableField[];
+  onSave: (updates: Record<string, string>) => Promise<void>;
 }
 
 export function EditableCard({ title, fields, onSave }: EditableCardProps) {
-  const [isEditing, setIsEditing] = useState(false)
-  const [editedValues, setEditedValues] = useState<Record<string, string>>({})
-  const [isSaving, setIsSaving] = useState(false)
+  const [isEditing, setIsEditing] = useState(false);
+  const [editedValues, setEditedValues] = useState<Record<string, string>>({});
+  const [isSaving, setIsSaving] = useState(false);
 
   const handleEdit = () => {
     // Initialize edited values with current values
-    const initialValues: Record<string, string> = {}
-    fields.forEach(field => {
-      initialValues[field.key] = field.value
-    })
-    setEditedValues(initialValues)
-    setIsEditing(true)
-  }
+    const initialValues: Record<string, string> = {};
+    fields.forEach((field) => {
+      initialValues[field.key] = field.value;
+    });
+    setEditedValues(initialValues);
+    setIsEditing(true);
+  };
 
   const handleCancel = () => {
-    setIsEditing(false)
-    setEditedValues({})
-  }
+    setIsEditing(false);
+    setEditedValues({});
+  };
 
   const handleSave = async () => {
-    setIsSaving(true)
+    setIsSaving(true);
     try {
-      await onSave(editedValues)
-      setIsEditing(false)
-      setEditedValues({})
+      await onSave(editedValues);
+      setIsEditing(false);
+      setEditedValues({});
     } catch (error) {
-      console.error('Failed to save:', error)
+      console.error("Failed to save:", error);
       // Keep edit mode open on error
     } finally {
-      setIsSaving(false)
+      setIsSaving(false);
     }
-  }
+  };
 
   const handleFieldChange = (key: string, value: string) => {
-    setEditedValues(prev => ({ ...prev, [key]: value }))
-  }
+    setEditedValues((prev) => ({ ...prev, [key]: value }));
+  };
 
   return (
     <Card className="shadow-sm">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-sm font-medium text-gray-600">{title}</CardTitle>
+          <CardTitle className="text-sm font-medium text-gray-600">
+            {title}
+          </CardTitle>
           {!isEditing ? (
             <Button
               variant="ghost"
@@ -103,7 +105,7 @@ export function EditableCard({ title, fields, onSave }: EditableCardProps) {
             <span className="text-sm font-medium">{field.label}:</span>
             {isEditing ? (
               <Input
-                value={editedValues[field.key] || ''}
+                value={editedValues[field.key] || ""}
                 onChange={(e) => handleFieldChange(field.key, e.target.value)}
                 className="ml-1 mt-1 h-8 text-sm"
                 disabled={isSaving}
@@ -115,5 +117,5 @@ export function EditableCard({ title, fields, onSave }: EditableCardProps) {
         ))}
       </CardContent>
     </Card>
-  )
+  );
 }

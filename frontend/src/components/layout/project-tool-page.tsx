@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { ReactNode } from 'react';
-import {PageHeader } from '@/components/design-system'
-import {PageContainer } from '@/components/layout';
+import { ReactNode } from "react";
+import { PageHeader } from "@/components/design-system";
+import { PageContainer } from "@/components/layout";
 
 interface ProjectToolPageProps {
   project?: string;
@@ -33,10 +33,8 @@ export function ProjectToolPage({
         title={title}
         description={description}
         actions={actions}
-        />
-      <PageContainer>
-        {children}
-      </PageContainer>
+      />
+      <PageContainer>{children}</PageContainer>
     </>
   );
 }

@@ -1,7 +1,7 @@
-import { createClient } from '@/lib/supabase/server';
-import { NextRequest, NextResponse } from 'next/server';
-import { updateChangeOrderSchema } from '../validation';
-import { ZodError } from 'zod';
+import { createClient } from "@/lib/supabase/server";
+import { NextRequest, NextResponse } from "next/server";
+import { updateChangeOrderSchema } from "../validation";
+import { ZodError } from "zod";
 
 interface RouteParams {
   params: Promise<{ id: string; contractId: string; changeOrderId: string }>;
@@ -11,56 +11,56 @@ interface RouteParams {
  * GET /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]
  * Returns a single change order by ID
  */
-export async function GET(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, contractId, changeOrderId } = await params;
     const supabase = await createClient();
 
     // Verify contract exists and belongs to project
     const { data: contract } = await supabase
-      .from('prime_contracts')
-      .select('id')
-      .eq('id', contractId)
-      .eq('project_id', parseInt(projectId, 10))
+      .from("prime_contracts")
+      .select("id")
+      .eq("id", contractId)
+      .eq("project_id", parseInt(projectId, 10))
       .single();
 
     if (!contract) {
       return NextResponse.json(
-        { error: 'Contract not found' },
-        { status: 404 }
+        { error: "Contract not found" },
+        { status: 404 },
       );
     }
 
     const { data, error } = await supabase
-      .from('contract_change_orders')
-      .select('*')
-      .eq('id', changeOrderId)
-      .eq('contract_id', contractId)
+      .from("contract_change_orders")
+      .select("*")
+      .eq("id", changeOrderId)
+      .eq("contract_id", contractId)
       .single();
 
     if (error) {
-      if (error.code === 'PGRST116') {
+      if (error.code === "PGRST116") {
         return NextResponse.json(
-          { error: 'Change order not found' },
-          { status: 404 }
+          { error: "Change order not found" },
+          { status: 404 },
         );
       }
-      console.error('Error fetching change order:', error);
+      console.error("Error fetching change order:", error);
       return NextResponse.json(
-        { error: 'Failed to fetch change order', details: error.message },
-        { status: 400 }
+        { error: "Failed to fetch change order", details: error.message },
+        { status: 400 },
       );
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error('Error in GET /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]:', error);
+    console.error(
+      "Error in GET /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]:",
+      error,
+    );
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -69,10 +69,7 @@ export async function GET(
  * PUT /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]
  * Updates a change order
  */
-export async function PUT(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, contractId, changeOrderId } = await params;
     const supabase = await createClient();
@@ -82,92 +79,102 @@ export async function PUT(
     const validatedData = updateChangeOrderSchema.parse(body);
 
     // Get current user
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check if user has access to this project
     const { data: projectMember } = await supabase
-      .from('project_members')
-      .select('access')
-      .eq('project_id', parseInt(projectId, 10))
-      .eq('user_id', user.id)
+      .from("project_members")
+      .select("access")
+      .eq("project_id", parseInt(projectId, 10))
+      .eq("user_id", user.id)
       .single();
 
-    if (!projectMember || !['editor', 'admin', 'owner'].includes(projectMember.access)) {
+    if (
+      !projectMember ||
+      !["editor", "admin", "owner"].includes(projectMember.access)
+    ) {
       return NextResponse.json(
-        { error: 'Forbidden: You do not have permission to update change orders for this project' },
-        { status: 403 }
+        {
+          error:
+            "Forbidden: You do not have permission to update change orders for this project",
+        },
+        { status: 403 },
       );
     }
 
     // Verify contract exists and belongs to project
     const { data: contract } = await supabase
-      .from('prime_contracts')
-      .select('id')
-      .eq('id', contractId)
-      .eq('project_id', parseInt(projectId, 10))
+      .from("prime_contracts")
+      .select("id")
+      .eq("id", contractId)
+      .eq("project_id", parseInt(projectId, 10))
       .single();
 
     if (!contract) {
       return NextResponse.json(
-        { error: 'Contract not found' },
-        { status: 404 }
+        { error: "Contract not found" },
+        { status: 404 },
       );
     }
 
     // Check if change order exists and belongs to this contract
     const { data: existingChangeOrder } = await supabase
-      .from('contract_change_orders')
-      .select('id, change_order_number')
-      .eq('id', changeOrderId)
-      .eq('contract_id', contractId)
+      .from("contract_change_orders")
+      .select("id, change_order_number")
+      .eq("id", changeOrderId)
+      .eq("contract_id", contractId)
       .single();
 
     if (!existingChangeOrder) {
       return NextResponse.json(
-        { error: 'Change order not found' },
-        { status: 404 }
+        { error: "Change order not found" },
+        { status: 404 },
       );
     }
 
     // If updating change_order_number, check for uniqueness
-    if (validatedData.change_order_number && validatedData.change_order_number !== existingChangeOrder.change_order_number) {
+    if (
+      validatedData.change_order_number &&
+      validatedData.change_order_number !==
+        existingChangeOrder.change_order_number
+    ) {
       const { data: duplicateChangeOrder } = await supabase
-        .from('contract_change_orders')
-        .select('id')
-        .eq('contract_id', contractId)
-        .eq('change_order_number', validatedData.change_order_number)
-        .neq('id', changeOrderId)
+        .from("contract_change_orders")
+        .select("id")
+        .eq("contract_id", contractId)
+        .eq("change_order_number", validatedData.change_order_number)
+        .neq("id", changeOrderId)
         .single();
 
       if (duplicateChangeOrder) {
         return NextResponse.json(
-          { error: 'Change order number already exists for this contract' },
-          { status: 400 }
+          { error: "Change order number already exists for this contract" },
+          { status: 400 },
         );
       }
     }
 
     // Update the change order
     const { data, error } = await supabase
-      .from('contract_change_orders')
+      .from("contract_change_orders")
       .update(validatedData)
-      .eq('id', changeOrderId)
-      .eq('contract_id', contractId)
-      .select('*')
+      .eq("id", changeOrderId)
+      .eq("contract_id", contractId)
+      .select("*")
       .single();
 
     if (error) {
-      console.error('Error updating change order:', error);
+      console.error("Error updating change order:", error);
       return NextResponse.json(
-        { error: 'Failed to update change order', details: error.message },
-        { status: 400 }
+        { error: "Failed to update change order", details: error.message },
+        { status: 400 },
       );
     }
 
@@ -176,17 +183,23 @@ export async function PUT(
     if (error instanceof ZodError) {
       return NextResponse.json(
         {
-          error: 'Validation error',
-          details: error.issues.map(e => ({ field: e.path.join('.'), message: e.message }))
+          error: "Validation error",
+          details: error.issues.map((e) => ({
+            field: e.path.join("."),
+            message: e.message,
+          })),
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
-    console.error('Error in PUT /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]:', error);
+    console.error(
+      "Error in PUT /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]:",
+      error,
+    );
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -195,90 +208,96 @@ export async function PUT(
  * DELETE /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]
  * Deletes a change order
  */
-export async function DELETE(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, contractId, changeOrderId } = await params;
     const supabase = await createClient();
 
     // Get current user
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check if user has admin/owner access to this project
     const { data: projectMember } = await supabase
-      .from('project_members')
-      .select('access')
-      .eq('project_id', parseInt(projectId, 10))
-      .eq('user_id', user.id)
+      .from("project_members")
+      .select("access")
+      .eq("project_id", parseInt(projectId, 10))
+      .eq("user_id", user.id)
       .single();
 
-    if (!projectMember || !['admin', 'owner'].includes(projectMember.access)) {
+    if (!projectMember || !["admin", "owner"].includes(projectMember.access)) {
       return NextResponse.json(
-        { error: 'Forbidden: You do not have permission to delete change orders for this project' },
-        { status: 403 }
+        {
+          error:
+            "Forbidden: You do not have permission to delete change orders for this project",
+        },
+        { status: 403 },
       );
     }
 
     // Verify contract exists and belongs to project
     const { data: contract } = await supabase
-      .from('prime_contracts')
-      .select('id')
-      .eq('id', contractId)
-      .eq('project_id', parseInt(projectId, 10))
+      .from("prime_contracts")
+      .select("id")
+      .eq("id", contractId)
+      .eq("project_id", parseInt(projectId, 10))
       .single();
 
     if (!contract) {
       return NextResponse.json(
-        { error: 'Contract not found' },
-        { status: 404 }
+        { error: "Contract not found" },
+        { status: 404 },
       );
     }
 
     // Check if change order exists before deleting
     const { data: existingChangeOrder } = await supabase
-      .from('contract_change_orders')
-      .select('id')
-      .eq('id', changeOrderId)
-      .eq('contract_id', contractId)
+      .from("contract_change_orders")
+      .select("id")
+      .eq("id", changeOrderId)
+      .eq("contract_id", contractId)
       .single();
 
     if (!existingChangeOrder) {
       return NextResponse.json(
-        { error: 'Change order not found' },
-        { status: 404 }
+        { error: "Change order not found" },
+        { status: 404 },
       );
     }
 
     // Delete the change order
     const { error } = await supabase
-      .from('contract_change_orders')
+      .from("contract_change_orders")
       .delete()
-      .eq('id', changeOrderId)
-      .eq('contract_id', contractId);
+      .eq("id", changeOrderId)
+      .eq("contract_id", contractId);
 
     if (error) {
-      console.error('Error deleting change order:', error);
+      console.error("Error deleting change order:", error);
       return NextResponse.json(
-        { error: 'Failed to delete change order', details: error.message },
-        { status: 400 }
+        { error: "Failed to delete change order", details: error.message },
+        { status: 400 },
       );
     }
 
-    return NextResponse.json({ message: 'Change order deleted successfully' }, { status: 200 });
-  } catch (error) {
-    console.error('Error in DELETE /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { message: "Change order deleted successfully" },
+      { status: 200 },
+    );
+  } catch (error) {
+    console.error(
+      "Error in DELETE /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]:",
+      error,
+    );
+    return NextResponse.json(
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

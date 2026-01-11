@@ -1,8 +1,8 @@
-'use client'
+"use client";
 
-import * as React from 'react'
-import { useState } from 'react'
-import { createClient } from '@/lib/supabase/client'
+import * as React from "react";
+import { useState } from "react";
+import { createClient } from "@/lib/supabase/client";
 import {
   Dialog,
   DialogContent,
@@ -10,29 +10,29 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
-import { Textarea } from '@/components/ui/textarea'
-import type { Database } from '@/types/database.types'
-import { Loader2 } from 'lucide-react'
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
+import type { Database } from "@/types/database.types";
+import { Loader2 } from "lucide-react";
 
-type Meeting = Database['public']['Tables']['document_metadata']['Row']
-type Project = Database['public']['Tables']['projects']['Row']
+type Meeting = Database["public"]["Tables"]["document_metadata"]["Row"];
+type Project = Database["public"]["Tables"]["projects"]["Row"];
 
 interface EditMeetingModalProps {
-  meeting: Meeting | null
-  open: boolean
-  onOpenChange: (open: boolean) => void
-  onSuccess?: () => void
+  meeting: Meeting | null;
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  onSuccess?: () => void;
 }
 
 export function EditMeetingModal({
@@ -41,76 +41,78 @@ export function EditMeetingModal({
   onOpenChange,
   onSuccess,
 }: EditMeetingModalProps) {
-  const [loading, setLoading] = useState(false)
-  const [projectSearch, setProjectSearch] = useState('')
-  const [projectOptions, setProjectOptions] = useState<Project[]>([])
-  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(meeting?.project_id || null)
-  const [showProjectDropdown, setShowProjectDropdown] = useState(false)
+  const [loading, setLoading] = useState(false);
+  const [projectSearch, setProjectSearch] = useState("");
+  const [projectOptions, setProjectOptions] = useState<Project[]>([]);
+  const [selectedProjectId, setSelectedProjectId] = useState<number | null>(
+    meeting?.project_id || null,
+  );
+  const [showProjectDropdown, setShowProjectDropdown] = useState(false);
 
   const [formData, setFormData] = useState({
-    title: meeting?.title || '',
-    summary: meeting?.summary || '',
-    status: meeting?.status || '',
-    access_level: meeting?.access_level || '',
-    date: meeting?.date ? meeting.date.split('T')[0] : '',
+    title: meeting?.title || "",
+    summary: meeting?.summary || "",
+    status: meeting?.status || "",
+    access_level: meeting?.access_level || "",
+    date: meeting?.date ? meeting.date.split("T")[0] : "",
     duration_minutes: meeting?.duration_minutes || null,
-    participants: meeting?.participants || '',
-  })
+    participants: meeting?.participants || "",
+  });
 
   // Search projects as user types
   React.useEffect(() => {
     const searchProjects = async () => {
       if (projectSearch.length < 2) {
-        setProjectOptions([])
-        return
+        setProjectOptions([]);
+        return;
       }
 
-      const supabase = createClient()
+      const supabase = createClient();
       const { data, error } = await supabase
-        .from('projects')
-        .select('id, name, client')
-        .ilike('name', `%${projectSearch}%`)
-        .order('name')
-        .limit(10)
+        .from("projects")
+        .select("id, name, client")
+        .ilike("name", `%${projectSearch}%`)
+        .order("name")
+        .limit(10);
 
       if (!error && data) {
-        setProjectOptions(data as unknown as typeof projectOptions)
+        setProjectOptions(data as unknown as typeof projectOptions);
       }
-    }
+    };
 
-    const debounce = setTimeout(searchProjects, 300)
-    return () => clearTimeout(debounce)
-  }, [projectSearch])
+    const debounce = setTimeout(searchProjects, 300);
+    return () => clearTimeout(debounce);
+  }, [projectSearch]);
 
   // Get current project name for display
   React.useEffect(() => {
     const getCurrentProject = async () => {
-      if (!selectedProjectId || !meeting) return
+      if (!selectedProjectId || !meeting) return;
 
-      const supabase = createClient()
+      const supabase = createClient();
       const { data } = await supabase
-        .from('projects')
-        .select('name')
-        .eq('id', selectedProjectId)
-        .single()
+        .from("projects")
+        .select("name")
+        .eq("id", selectedProjectId)
+        .single();
 
       if (data) {
-        setProjectSearch(data.name)
+        setProjectSearch(data.name);
       }
-    }
+    };
 
-    getCurrentProject()
-  }, [selectedProjectId, meeting])
+    getCurrentProject();
+  }, [selectedProjectId, meeting]);
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    if (!meeting) return
+    e.preventDefault();
+    if (!meeting) return;
 
-    setLoading(true)
+    setLoading(true);
     try {
-      const supabase = createClient()
+      const supabase = createClient();
       const { error } = await supabase
-        .from('document_metadata')
+        .from("document_metadata")
         .update({
           title: formData.title,
           summary: formData.summary,
@@ -121,21 +123,21 @@ export function EditMeetingModal({
           participants: formData.participants,
           project_id: selectedProjectId,
         })
-        .eq('id', meeting.id)
+        .eq("id", meeting.id);
 
-      if (error) throw error
+      if (error) throw error;
 
-      onSuccess?.()
-      onOpenChange(false)
+      onSuccess?.();
+      onOpenChange(false);
     } catch (error) {
-      console.error('Error updating meeting:', error)
+      console.error("Error updating meeting:", error);
       // TODO: Replace with proper toast notification
       // eslint-disable-next-line no-alert
-      alert('Failed to update meeting. Please try again.')
+      alert("Failed to update meeting. Please try again.");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -155,7 +157,9 @@ export function EditMeetingModal({
               <Input
                 id="title"
                 value={formData.title}
-                onChange={(e) => setFormData({ ...formData, title: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, title: e.target.value })
+                }
                 placeholder="Meeting title"
               />
             </div>
@@ -168,8 +172,8 @@ export function EditMeetingModal({
                   id="project"
                   value={projectSearch}
                   onChange={(e) => {
-                    setProjectSearch(e.target.value)
-                    setShowProjectDropdown(true)
+                    setProjectSearch(e.target.value);
+                    setShowProjectDropdown(true);
                   }}
                   onFocus={() => setShowProjectDropdown(true)}
                   placeholder="Type to search projects..."
@@ -183,14 +187,18 @@ export function EditMeetingModal({
                         type="button"
                         className="w-full px-4 py-2 text-left text-sm hover:bg-neutral-100 focus:bg-neutral-100 focus:outline-none"
                         onClick={() => {
-                          setSelectedProjectId(project.id)
-                          setProjectSearch(project.name)
-                          setShowProjectDropdown(false)
+                          setSelectedProjectId(project.id);
+                          setProjectSearch(project.name);
+                          setShowProjectDropdown(false);
                         }}
                       >
-                        <div className="font-medium text-neutral-900">{project.name}</div>
+                        <div className="font-medium text-neutral-900">
+                          {project.name}
+                        </div>
                         {project.client && (
-                          <div className="text-xs text-neutral-500">{project.client}</div>
+                          <div className="text-xs text-neutral-500">
+                            {project.client}
+                          </div>
                         )}
                       </button>
                     ))}
@@ -206,7 +214,9 @@ export function EditMeetingModal({
                 id="date"
                 type="date"
                 value={formData.date}
-                onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, date: e.target.value })
+                }
               />
             </div>
 
@@ -216,8 +226,13 @@ export function EditMeetingModal({
               <Input
                 id="duration"
                 type="number"
-                value={formData.duration_minutes || ''}
-                onChange={(e) => setFormData({ ...formData, duration_minutes: parseInt(e.target.value) || null })}
+                value={formData.duration_minutes || ""}
+                onChange={(e) =>
+                  setFormData({
+                    ...formData,
+                    duration_minutes: parseInt(e.target.value) || null,
+                  })
+                }
                 placeholder="60"
               />
             </div>
@@ -228,7 +243,9 @@ export function EditMeetingModal({
               <Input
                 id="participants"
                 value={formData.participants}
-                onChange={(e) => setFormData({ ...formData, participants: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, participants: e.target.value })
+                }
                 placeholder="Comma-separated names"
               />
             </div>
@@ -238,7 +255,9 @@ export function EditMeetingModal({
               <Label htmlFor="status">Status</Label>
               <Select
                 value={formData.status}
-                onValueChange={(value) => setFormData({ ...formData, status: value })}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, status: value })
+                }
               >
                 <SelectTrigger id="status">
                   <SelectValue placeholder="Select status" />
@@ -257,7 +276,9 @@ export function EditMeetingModal({
               <Label htmlFor="access">Access Level</Label>
               <Select
                 value={formData.access_level}
-                onValueChange={(value) => setFormData({ ...formData, access_level: value })}
+                onValueChange={(value) =>
+                  setFormData({ ...formData, access_level: value })
+                }
               >
                 <SelectTrigger id="access">
                   <SelectValue placeholder="Select access level" />
@@ -276,7 +297,9 @@ export function EditMeetingModal({
               <Textarea
                 id="summary"
                 value={formData.summary}
-                onChange={(e) => setFormData({ ...formData, summary: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, summary: e.target.value })
+                }
                 placeholder="Meeting summary"
                 rows={4}
               />
@@ -300,5 +323,5 @@ export function EditMeetingModal({
         </form>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

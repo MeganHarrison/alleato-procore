@@ -45,7 +45,7 @@ export default function Home() {
         data.events.map((e: any) => ({
           ...e,
           timestamp: new Date(e.timestamp ?? Date.now()),
-        }))
+        })),
       );
     }
     if (Array.isArray(data.guardrails)) {
@@ -53,7 +53,7 @@ export default function Home() {
         data.guardrails.map((g: any) => ({
           ...g,
           timestamp: new Date(g.timestamp ?? Date.now()),
-        }))
+        })),
       );
     }
   }, []);
@@ -79,8 +79,8 @@ export default function Home() {
             bootstrap.events.map((e: any) => ({
               ...e,
               timestamp: new Date(e.timestamp ?? Date.now()),
-            }))
-          )
+            })),
+          ),
         );
       }
       if (Array.isArray(bootstrap.guardrails)) {
@@ -88,7 +88,7 @@ export default function Home() {
           bootstrap.guardrails.map((g: any) => ({
             ...g,
             timestamp: new Date(g.timestamp ?? Date.now()),
-          }))
+          })),
         );
       }
     })();

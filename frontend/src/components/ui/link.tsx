@@ -1,5 +1,5 @@
-import * as React from 'react';
-import { cn } from '@/lib/utils';
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 /**
  * Link component for consistent clickable text styling.
@@ -11,22 +11,22 @@ import { cn } from '@/lib/utils';
  */
 
 const variantMap = {
-  primary: 'text-primary hover:text-primary/80',
-  muted: 'text-muted-foreground hover:text-foreground',
-  destructive: 'text-destructive hover:text-destructive/80',
+  primary: "text-primary hover:text-primary/80",
+  muted: "text-muted-foreground hover:text-foreground",
+  destructive: "text-destructive hover:text-destructive/80",
 } as const;
 
 const sizeMap = {
-  xs: 'text-xs',
-  sm: 'text-sm',
-  base: 'text-base',
-  lg: 'text-lg',
+  xs: "text-xs",
+  sm: "text-sm",
+  base: "text-base",
+  lg: "text-lg",
 } as const;
 
 const weightMap = {
-  normal: 'font-normal',
-  medium: 'font-medium',
-  semibold: 'font-semibold',
+  normal: "font-normal",
+  medium: "font-medium",
+  semibold: "font-semibold",
 } as const;
 
 export interface LinkProps {
@@ -45,23 +45,23 @@ export interface LinkProps {
 }
 
 export function Link({
-  variant = 'primary',
-  size = 'base',
-  weight = 'medium',
+  variant = "primary",
+  size = "base",
+  weight = "medium",
   onClick,
   className,
-  children
+  children,
 }: LinkProps) {
   return (
     <button
       type="button"
       onClick={onClick}
       className={cn(
-        'cursor-pointer transition-colors',
+        "cursor-pointer transition-colors",
         variantMap[variant],
         sizeMap[size],
         weightMap[weight],
-        className
+        className,
       )}
     >
       {children}

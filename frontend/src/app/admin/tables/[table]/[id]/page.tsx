@@ -1,20 +1,20 @@
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { AutoForm } from '@/components/admin/table-explorer';
-import { getRow } from '@/server/db/crud';
-import { getColumnMetadata, getFormColumns } from '@/server/db/introspection';
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { AutoForm } from "@/components/admin/table-explorer";
+import { getRow } from "@/server/db/crud";
+import { getColumnMetadata, getFormColumns } from "@/server/db/introspection";
 import {
   isTableAllowed,
   getTableConfig,
   getRowTitle,
   hasPermission,
   type TableName,
-} from '@/lib/table-registry';
-import { RowDetailClient } from './RowDetailClient';
+} from "@/lib/table-registry";
+import { RowDetailClient } from "./RowDetailClient";
 
 interface RowDetailPageProps {
   params: Promise<{ table: string; id: string }>;
@@ -29,7 +29,7 @@ export async function generateMetadata({
   const { table, id } = await params;
 
   if (!isTableAllowed(table)) {
-    return { title: 'Table Not Found' };
+    return { title: "Table Not Found" };
   }
 
   const config = getTableConfig(table as TableName);
@@ -63,16 +63,16 @@ export default async function RowDetailPage({
 
   const row = result.data;
   const rowTitle = getRowTitle(tableName, row);
-  const isEditMode = search.edit === 'true';
+  const isEditMode = search.edit === "true";
 
   // Get columns
   const [allColumns, formColumns] = await Promise.all([
     getColumnMetadata(tableName),
-    getFormColumns(tableName, 'edit'),
+    getFormColumns(tableName, "edit"),
   ]);
 
-  const canEdit = hasPermission(tableName, 'update');
-  const canDelete = hasPermission(tableName, 'delete');
+  const canEdit = hasPermission(tableName, "update");
+  const canDelete = hasPermission(tableName, "delete");
 
   return (
     <div className="container max-w-3xl py-6">
@@ -146,7 +146,7 @@ export default async function RowDetailPage({
   );
 }
 
-import { type ColumnMetadata } from '@/server/db/introspection';
+import { type ColumnMetadata } from "@/server/db/introspection";
 
 interface FieldValueProps {
   value: unknown;
@@ -159,26 +159,26 @@ function FieldValue({ value, column }: FieldValueProps) {
   }
 
   // Boolean
-  if (column.inputType === 'boolean') {
+  if (column.inputType === "boolean") {
     return (
-      <Badge variant={value ? 'success' : 'secondary'}>
-        {value ? 'Yes' : 'No'}
+      <Badge variant={value ? "success" : "secondary"}>
+        {value ? "Yes" : "No"}
       </Badge>
     );
   }
 
   // Dates
-  if (column.inputType === 'datetime' || column.inputType === 'date') {
+  if (column.inputType === "datetime" || column.inputType === "date") {
     try {
       const date = new Date(String(value));
       return (
         <span>
           {date.toLocaleDateString(undefined, {
-            year: 'numeric',
-            month: 'long',
-            day: 'numeric',
-            ...(column.inputType === 'datetime'
-              ? { hour: '2-digit', minute: '2-digit' }
+            year: "numeric",
+            month: "long",
+            day: "numeric",
+            ...(column.inputType === "datetime"
+              ? { hour: "2-digit", minute: "2-digit" }
               : {}),
           })}
         </span>
@@ -189,19 +189,20 @@ function FieldValue({ value, column }: FieldValueProps) {
   }
 
   // Numbers
-  if (column.inputType === 'number') {
-    const numValue = typeof value === 'number' ? value : parseFloat(String(value));
+  if (column.inputType === "number") {
+    const numValue =
+      typeof value === "number" ? value : parseFloat(String(value));
     if (!isNaN(numValue)) {
       if (
-        column.column_name.includes('amount') ||
-        column.column_name.includes('price') ||
-        column.column_name.includes('cost')
+        column.column_name.includes("amount") ||
+        column.column_name.includes("price") ||
+        column.column_name.includes("cost")
       ) {
         return (
           <span className="font-mono">
-            {new Intl.NumberFormat('en-US', {
-              style: 'currency',
-              currency: 'USD',
+            {new Intl.NumberFormat("en-US", {
+              style: "currency",
+              currency: "USD",
             }).format(numValue)}
           </span>
         );
@@ -211,9 +212,10 @@ function FieldValue({ value, column }: FieldValueProps) {
   }
 
   // JSON
-  if (column.inputType === 'json') {
+  if (column.inputType === "json") {
     try {
-      const str = typeof value === 'string' ? value : JSON.stringify(value, null, 2);
+      const str =
+        typeof value === "string" ? value : JSON.stringify(value, null, 2);
       return (
         <pre className="bg-muted p-2 rounded-md text-xs overflow-x-auto max-w-full">
           <code>{str}</code>
@@ -225,12 +227,16 @@ function FieldValue({ value, column }: FieldValueProps) {
   }
 
   // UUID
-  if (column.inputType === 'uuid') {
+  if (column.inputType === "uuid") {
     return <span className="font-mono text-sm">{String(value)}</span>;
   }
 
   // URL
-  if (column.inputType === 'url' && typeof value === 'string' && value.startsWith('http')) {
+  if (
+    column.inputType === "url" &&
+    typeof value === "string" &&
+    value.startsWith("http")
+  ) {
     return (
       <a
         href={value}
@@ -244,7 +250,7 @@ function FieldValue({ value, column }: FieldValueProps) {
   }
 
   // Email
-  if (column.inputType === 'email' && typeof value === 'string') {
+  if (column.inputType === "email" && typeof value === "string") {
     return (
       <a href={`mailto:${value}`} className="text-primary hover:underline">
         {value}

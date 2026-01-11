@@ -1,5 +1,5 @@
 interface DateDividerProps {
-  label: string
+  label: string;
 }
 
 export function DateDivider({ label }: DateDividerProps) {
@@ -14,5 +14,5 @@ export function DateDivider({ label }: DateDividerProps) {
         </span>
       </div>
     </div>
-  )
+  );
 }

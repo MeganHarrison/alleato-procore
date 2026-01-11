@@ -1,24 +1,24 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { ArrowLeft, Upload, Loader2, Plus } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Checkbox } from '@/components/ui/checkbox';
-import { useCompanies } from '@/hooks/use-companies';
-import { useCommitments } from '@/hooks/use-commitments';
+} from "@/components/ui/select";
+import { ArrowLeft, Upload, Loader2, Plus } from "lucide-react";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Checkbox } from "@/components/ui/checkbox";
+import { useCompanies } from "@/hooks/use-companies";
+import { useCommitments } from "@/hooks/use-commitments";
 import {
   Dialog,
   DialogContent,
@@ -27,32 +27,36 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 
 export default function NewSubcontractPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
 
   // Data hooks
-  const { companies, isLoading: companiesLoading, createCompany } = useCompanies();
+  const {
+    companies,
+    isLoading: companiesLoading,
+    createCompany,
+  } = useCompanies();
   const { createCommitment } = useCommitments();
 
   // Add New Company dialog state
   const [showAddCompany, setShowAddCompany] = useState(false);
-  const [newCompanyName, setNewCompanyName] = useState('');
+  const [newCompanyName, setNewCompanyName] = useState("");
   const [isCreatingCompany, setIsCreatingCompany] = useState(false);
 
   // Form state
   const [subcontractData, setSubcontractData] = useState({
-    contractNumber: 'SC-018',
-    contractCompany: '',
-    title: '',
-    status: 'draft',
+    contractNumber: "SC-018",
+    contractCompany: "",
+    title: "",
+    status: "draft",
     executed: false,
-    retentionPercentage: '0',
-    description: '',
-    inclusions: '',
-    exclusions: '',
+    retentionPercentage: "0",
+    description: "",
+    inclusions: "",
+    exclusions: "",
     attachments: [] as File[],
   });
 
@@ -63,8 +67,11 @@ export default function NewSubcontractPage() {
     setIsCreatingCompany(true);
     const newCompany = await createCompany({ name: newCompanyName.trim() });
     if (newCompany) {
-      setSubcontractData({ ...subcontractData, contractCompany: newCompany.id });
-      setNewCompanyName('');
+      setSubcontractData({
+        ...subcontractData,
+        contractCompany: newCompany.id,
+      });
+      setNewCompanyName("");
       setShowAddCompany(false);
     }
     setIsCreatingCompany(false);
@@ -81,26 +88,26 @@ export default function NewSubcontractPage() {
         title: subcontractData.title,
         contract_company_id: subcontractData.contractCompany,
         status: subcontractData.status,
-        type: 'subcontract',
+        type: "subcontract",
         original_amount: 0, // Will be set via line items later
       });
 
       if (newCommitment) {
         // Navigate back to commitments list
-        router.push('/commitments');
+        router.push("/commitments");
       } else {
-        alert('Failed to create subcontract. Please try again.');
+        alert("Failed to create subcontract. Please try again.");
       }
     } catch (error) {
-      console.error('Error creating subcontract:', error);
-      alert('An error occurred while creating the subcontract.');
+      console.error("Error creating subcontract:", error);
+      alert("An error occurred while creating the subcontract.");
     } finally {
       setLoading(false);
     }
   };
 
   const handleCancel = () => {
-    router.push('/commitments');
+    router.push("/commitments");
   };
 
   return (
@@ -125,7 +132,9 @@ export default function NewSubcontractPage() {
         <Tabs defaultValue="general" className="space-y-4">
           <TabsList>
             <TabsTrigger value="general">General Information</TabsTrigger>
-            <TabsTrigger value="inclusions">Inclusions & Exclusions</TabsTrigger>
+            <TabsTrigger value="inclusions">
+              Inclusions & Exclusions
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="general">
@@ -140,7 +149,12 @@ export default function NewSubcontractPage() {
                     <Input
                       id="contractNumber"
                       value={subcontractData.contractNumber}
-                      onChange={(e) => setSubcontractData({ ...subcontractData, contractNumber: e.target.value })}
+                      onChange={(e) =>
+                        setSubcontractData({
+                          ...subcontractData,
+                          contractNumber: e.target.value,
+                        })
+                      }
                       placeholder="Enter contract number"
                     />
                   </div>
@@ -149,16 +163,25 @@ export default function NewSubcontractPage() {
                     <div className="flex gap-2">
                       <Select
                         value={subcontractData.contractCompany}
-                        onValueChange={(value) => setSubcontractData({ ...subcontractData, contractCompany: value })}
+                        onValueChange={(value) =>
+                          setSubcontractData({
+                            ...subcontractData,
+                            contractCompany: value,
+                          })
+                        }
                         disabled={companiesLoading}
                       >
                         <SelectTrigger className="flex-1">
-                          <SelectValue placeholder={companiesLoading ? "Loading..." : "Select company"} />
+                          <SelectValue
+                            placeholder={
+                              companiesLoading ? "Loading..." : "Select company"
+                            }
+                          />
                         </SelectTrigger>
                         <SelectContent>
                           {companies.map((company) => (
                             <SelectItem key={company.id} value={company.id}>
-                              {company.name || 'Unnamed Company'}
+                              {company.name || "Unnamed Company"}
                             </SelectItem>
                           ))}
                           {companies.length === 0 && !companiesLoading && (
@@ -168,7 +191,10 @@ export default function NewSubcontractPage() {
                           )}
                         </SelectContent>
                       </Select>
-                      <Dialog open={showAddCompany} onOpenChange={setShowAddCompany}>
+                      <Dialog
+                        open={showAddCompany}
+                        onOpenChange={setShowAddCompany}
+                      >
                         <DialogTrigger asChild>
                           <Button type="button" variant="outline" size="icon">
                             <Plus className="h-4 w-4" />
@@ -178,28 +204,39 @@ export default function NewSubcontractPage() {
                           <DialogHeader>
                             <DialogTitle>Add New Company</DialogTitle>
                             <DialogDescription>
-                              Create a new contractor company for this subcontract.
+                              Create a new contractor company for this
+                              subcontract.
                             </DialogDescription>
                           </DialogHeader>
                           <div className="grid gap-4 py-4">
                             <div className="grid gap-2">
-                              <Label htmlFor="new-company-name">Company Name *</Label>
+                              <Label htmlFor="new-company-name">
+                                Company Name *
+                              </Label>
                               <Input
                                 id="new-company-name"
                                 value={newCompanyName}
-                                onChange={(e) => setNewCompanyName(e.target.value)}
+                                onChange={(e) =>
+                                  setNewCompanyName(e.target.value)
+                                }
                                 placeholder="Enter company name"
                               />
                             </div>
                           </div>
                           <DialogFooter>
-                            <Button type="button" variant="outline" onClick={() => setShowAddCompany(false)}>
+                            <Button
+                              type="button"
+                              variant="outline"
+                              onClick={() => setShowAddCompany(false)}
+                            >
                               Cancel
                             </Button>
                             <Button
                               type="button"
                               onClick={handleCreateCompany}
-                              disabled={!newCompanyName.trim() || isCreatingCompany}
+                              disabled={
+                                !newCompanyName.trim() || isCreatingCompany
+                              }
                             >
                               {isCreatingCompany ? (
                                 <>
@@ -207,7 +244,7 @@ export default function NewSubcontractPage() {
                                   Creating...
                                 </>
                               ) : (
-                                'Create Company'
+                                "Create Company"
                               )}
                             </Button>
                           </DialogFooter>
@@ -220,7 +257,12 @@ export default function NewSubcontractPage() {
                     <Input
                       id="title"
                       value={subcontractData.title}
-                      onChange={(e) => setSubcontractData({ ...subcontractData, title: e.target.value })}
+                      onChange={(e) =>
+                        setSubcontractData({
+                          ...subcontractData,
+                          title: e.target.value,
+                        })
+                      }
                       placeholder="Enter title"
                     />
                   </div>
@@ -231,7 +273,12 @@ export default function NewSubcontractPage() {
                     <Label htmlFor="status">Status *</Label>
                     <Select
                       value={subcontractData.status}
-                      onValueChange={(value) => setSubcontractData({ ...subcontractData, status: value })}
+                      onValueChange={(value) =>
+                        setSubcontractData({
+                          ...subcontractData,
+                          status: value,
+                        })
+                      }
                     >
                       <SelectTrigger>
                         <SelectValue placeholder="Select status" />
@@ -239,7 +286,9 @@ export default function NewSubcontractPage() {
                       <SelectContent>
                         <SelectItem value="draft">Draft</SelectItem>
                         <SelectItem value="out-for-bid">Out for Bid</SelectItem>
-                        <SelectItem value="out-for-signature">Out for Signature</SelectItem>
+                        <SelectItem value="out-for-signature">
+                          Out for Signature
+                        </SelectItem>
                         <SelectItem value="approved">Approved</SelectItem>
                         <SelectItem value="complete">Complete</SelectItem>
                       </SelectContent>
@@ -251,7 +300,12 @@ export default function NewSubcontractPage() {
                       <Checkbox
                         id="executed"
                         checked={subcontractData.executed}
-                        onCheckedChange={(checked) => setSubcontractData({ ...subcontractData, executed: checked as boolean })}
+                        onCheckedChange={(checked) =>
+                          setSubcontractData({
+                            ...subcontractData,
+                            executed: checked as boolean,
+                          })
+                        }
                       />
                     </div>
                   </div>
@@ -262,11 +316,18 @@ export default function NewSubcontractPage() {
                         id="retainage"
                         type="number"
                         value={subcontractData.retentionPercentage}
-                        onChange={(e) => setSubcontractData({ ...subcontractData, retentionPercentage: e.target.value })}
+                        onChange={(e) =>
+                          setSubcontractData({
+                            ...subcontractData,
+                            retentionPercentage: e.target.value,
+                          })
+                        }
                         placeholder="0"
                         className="pr-8"
                       />
-                      <span className="absolute right-3 top-2 text-muted-foreground">%</span>
+                      <span className="absolute right-3 top-2 text-muted-foreground">
+                        %
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -276,13 +337,20 @@ export default function NewSubcontractPage() {
                   <Textarea
                     id="description"
                     value={subcontractData.description}
-                    onChange={(e) => setSubcontractData({ ...subcontractData, description: e.target.value })}
+                    onChange={(e) =>
+                      setSubcontractData({
+                        ...subcontractData,
+                        description: e.target.value,
+                      })
+                    }
                     placeholder="Enter description..."
                     rows={4}
                     className="min-h-[120px]"
                   />
                   {/* Rich text editor toolbar placeholder */}
-                  <div className="text-xs text-muted-foreground">Use the formatting toolbar above to style your text</div>
+                  <div className="text-xs text-muted-foreground">
+                    Use the formatting toolbar above to style your text
+                  </div>
                 </div>
 
                 <div className="space-y-2">
@@ -290,10 +358,13 @@ export default function NewSubcontractPage() {
                   <div className="border-2 border-dashed rounded-lg p-8 text-center">
                     <Upload className="mx-auto h-8 w-8 text-muted-foreground mb-2" />
                     <p className="text-sm text-muted-foreground">
-                      <label htmlFor="file-upload" className="cursor-pointer text-primary hover:underline">
+                      <label
+                        htmlFor="file-upload"
+                        className="cursor-pointer text-primary hover:underline"
+                      >
                         Attach Files
-                      </label>
-                      {' '}or Drag & Drop
+                      </label>{" "}
+                      or Drag & Drop
                     </p>
                     <input
                       id="file-upload"
@@ -302,14 +373,23 @@ export default function NewSubcontractPage() {
                       className="hidden"
                       onChange={(e) => {
                         const files = Array.from(e.target.files || []);
-                        setSubcontractData({ ...subcontractData, attachments: [...subcontractData.attachments, ...files] });
+                        setSubcontractData({
+                          ...subcontractData,
+                          attachments: [
+                            ...subcontractData.attachments,
+                            ...files,
+                          ],
+                        });
                       }}
                     />
                   </div>
                   {subcontractData.attachments.length > 0 && (
                     <div className="mt-2 space-y-1">
                       {subcontractData.attachments.map((file, index) => (
-                        <div key={index} className="text-sm text-muted-foreground">
+                        <div
+                          key={index}
+                          className="text-sm text-muted-foreground"
+                        >
                           • {file.name}
                         </div>
                       ))}
@@ -331,13 +411,20 @@ export default function NewSubcontractPage() {
                   <Textarea
                     id="inclusions"
                     value={subcontractData.inclusions}
-                    onChange={(e) => setSubcontractData({ ...subcontractData, inclusions: e.target.value })}
+                    onChange={(e) =>
+                      setSubcontractData({
+                        ...subcontractData,
+                        inclusions: e.target.value,
+                      })
+                    }
                     placeholder="List what is included in this subcontract..."
                     rows={6}
                     className="min-h-[150px]"
                   />
                   {/* Rich text editor toolbar placeholder */}
-                  <div className="text-xs text-muted-foreground">Use the formatting toolbar above to style your text</div>
+                  <div className="text-xs text-muted-foreground">
+                    Use the formatting toolbar above to style your text
+                  </div>
                 </div>
 
                 <div className="space-y-2">
@@ -345,13 +432,20 @@ export default function NewSubcontractPage() {
                   <Textarea
                     id="exclusions"
                     value={subcontractData.exclusions}
-                    onChange={(e) => setSubcontractData({ ...subcontractData, exclusions: e.target.value })}
+                    onChange={(e) =>
+                      setSubcontractData({
+                        ...subcontractData,
+                        exclusions: e.target.value,
+                      })
+                    }
                     placeholder="List what is excluded from this subcontract..."
                     rows={6}
                     className="min-h-[150px]"
                   />
                   {/* Rich text editor toolbar placeholder */}
-                  <div className="text-xs text-muted-foreground">Use the formatting toolbar above to style your text</div>
+                  <div className="text-xs text-muted-foreground">
+                    Use the formatting toolbar above to style your text
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -365,8 +459,12 @@ export default function NewSubcontractPage() {
             <Button type="button" variant="outline" onClick={handleCancel}>
               Cancel
             </Button>
-            <Button type="submit" disabled={loading} className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange-hover))] text-white">
-              {loading ? 'Creating...' : 'Create'}
+            <Button
+              type="submit"
+              disabled={loading}
+              className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange-hover))] text-white"
+            >
+              {loading ? "Creating..." : "Create"}
             </Button>
           </div>
         </div>

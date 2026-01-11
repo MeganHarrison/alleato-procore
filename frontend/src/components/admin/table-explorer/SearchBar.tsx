@@ -1,50 +1,50 @@
-'use client';
+"use client";
 
-import { useCallback, useState, useTransition } from 'react';
-import { useRouter, useSearchParams } from 'next/navigation';
-import { Search, X } from 'lucide-react';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+import { useCallback, useState, useTransition } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Search, X } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 
 interface SearchBarProps {
   placeholder?: string;
 }
 
-export function SearchBar({ placeholder = 'Search...' }: SearchBarProps) {
+export function SearchBar({ placeholder = "Search..." }: SearchBarProps) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [isPending, startTransition] = useTransition();
-  const [value, setValue] = useState(searchParams.get('q') ?? '');
+  const [value, setValue] = useState(searchParams.get("q") ?? "");
 
   const handleSearch = useCallback(
     (searchValue: string) => {
       const params = new URLSearchParams(searchParams.toString());
 
       if (searchValue.trim()) {
-        params.set('q', searchValue.trim());
+        params.set("q", searchValue.trim());
       } else {
-        params.delete('q');
+        params.delete("q");
       }
 
       // Reset to first page on new search
-      params.delete('page');
+      params.delete("page");
 
       startTransition(() => {
         router.push(`?${params.toString()}`);
       });
     },
-    [router, searchParams]
+    [router, searchParams],
   );
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       handleSearch(value);
     }
   };
 
   const handleClear = () => {
-    setValue('');
-    handleSearch('');
+    setValue("");
+    handleSearch("");
   };
 
   return (

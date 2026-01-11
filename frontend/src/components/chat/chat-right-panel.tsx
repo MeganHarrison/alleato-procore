@@ -1,16 +1,19 @@
-"use client"
+"use client";
 
-import { X, MessageSquare, Info } from "lucide-react"
-import { Button } from "@/components/ui/button"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { ScrollArea } from "@/components/ui/scroll-area"
+import { X, MessageSquare, Info } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 interface ChatRightPanelProps {
-  selectedMessageId: string | null
-  onClose: () => void
+  selectedMessageId: string | null;
+  onClose: () => void;
 }
 
-export function ChatRightPanel({ selectedMessageId, onClose }: ChatRightPanelProps) {
+export function ChatRightPanel({
+  selectedMessageId,
+  onClose,
+}: ChatRightPanelProps) {
   return (
     <div className="w-80 h-full bg-[hsl(var(--chat-panel))] border-l border-[hsl(var(--chat-border))] flex flex-col">
       {/* Header */}
@@ -51,7 +54,9 @@ export function ChatRightPanel({ selectedMessageId, onClose }: ChatRightPanelPro
               {selectedMessageId ? (
                 <div className="text-sm text-[hsl(var(--chat-muted))]">
                   <p>Thread view for message: {selectedMessageId}</p>
-                  <p className="mt-2 text-xs">Thread replies will appear here.</p>
+                  <p className="mt-2 text-xs">
+                    Thread replies will appear here.
+                  </p>
                 </div>
               ) : (
                 <div className="text-center text-sm text-[hsl(var(--chat-muted))] mt-8">
@@ -100,5 +105,5 @@ export function ChatRightPanel({ selectedMessageId, onClose }: ChatRightPanelPro
         </TabsContent>
       </Tabs>
     </div>
-  )
+  );
 }

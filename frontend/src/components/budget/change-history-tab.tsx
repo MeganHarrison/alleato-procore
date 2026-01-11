@@ -1,11 +1,17 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { FileText, Filter, Download, Clock, Loader2 } from 'lucide-react';
-import { toast } from 'sonner';
+import * as React from "react";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { FileText, Filter, Download, Clock, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface ChangeHistoryTabProps {
   projectId: string;
@@ -37,7 +43,9 @@ interface HistoryData {
 
 export function ChangeHistoryTab({ projectId }: ChangeHistoryTabProps) {
   const [loading, setLoading] = React.useState(true);
-  const [historyData, setHistoryData] = React.useState<HistoryData | null>(null);
+  const [historyData, setHistoryData] = React.useState<HistoryData | null>(
+    null,
+  );
 
   const fetchHistory = React.useCallback(async () => {
     try {
@@ -45,14 +53,14 @@ export function ChangeHistoryTab({ projectId }: ChangeHistoryTabProps) {
       const response = await fetch(`/api/projects/${projectId}/budget/history`);
 
       if (!response.ok) {
-        throw new Error('Failed to fetch change history');
+        throw new Error("Failed to fetch change history");
       }
 
       const data = await response.json();
       setHistoryData(data);
     } catch (error) {
-      console.error('Error fetching change history:', error);
-      toast.error('Failed to load change history');
+      console.error("Error fetching change history:", error);
+      toast.error("Failed to load change history");
     } finally {
       setLoading(false);
     }
@@ -64,24 +72,26 @@ export function ChangeHistoryTab({ projectId }: ChangeHistoryTabProps) {
 
   const formatFieldName = (field: string) => {
     return field
-      .split('_')
-      .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-      .join(' ');
+      .split("_")
+      .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+      .join(" ");
   };
 
-  const getActionBadgeVariant = (action: string): "default" | "secondary" | "destructive" | "outline" => {
+  const getActionBadgeVariant = (
+    action: string,
+  ): "default" | "secondary" | "destructive" | "outline" => {
     switch (action.toLowerCase()) {
-      case 'insert':
-      case 'create':
-        return 'default';
-      case 'update':
-      case 'modify':
-        return 'secondary';
-      case 'delete':
-      case 'remove':
-        return 'destructive';
+      case "insert":
+      case "create":
+        return "default";
+      case "update":
+      case "modify":
+        return "secondary";
+      case "delete":
+      case "remove":
+        return "destructive";
       default:
-        return 'outline';
+        return "outline";
     }
   };
 
@@ -100,7 +110,9 @@ export function ChangeHistoryTab({ projectId }: ChangeHistoryTabProps) {
     <div className="space-y-6 p-6">
       <div className="flex items-center justify-between">
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">Budget Change History</h2>
+          <h2 className="text-2xl font-bold tracking-tight">
+            Budget Change History
+          </h2>
           <p className="text-muted-foreground">
             Complete audit trail of all budget modifications
           </p>
@@ -110,7 +122,9 @@ export function ChangeHistoryTab({ projectId }: ChangeHistoryTabProps) {
             <Filter className="mr-2 h-4 w-4" />
             Refresh
           </Button>
-          <Button onClick={() => toast.info('Export functionality coming soon')}>
+          <Button
+            onClick={() => toast.info("Export functionality coming soon")}
+          >
             <Download className="mr-2 h-4 w-4" />
             Export Log
           </Button>
@@ -124,10 +138,10 @@ export function ChangeHistoryTab({ projectId }: ChangeHistoryTabProps) {
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{statistics?.totalChanges || 0}</div>
-            <p className="text-xs text-muted-foreground">
-              All time
-            </p>
+            <div className="text-2xl font-bold">
+              {statistics?.totalChanges || 0}
+            </div>
+            <p className="text-xs text-muted-foreground">All time</p>
           </CardContent>
         </Card>
 
@@ -137,7 +151,9 @@ export function ChangeHistoryTab({ projectId }: ChangeHistoryTabProps) {
             <Clock className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{statistics?.changesThisMonth || 0}</div>
+            <div className="text-2xl font-bold">
+              {statistics?.changesThisMonth || 0}
+            </div>
             <p className="text-xs text-muted-foreground">
               Budget modifications
             </p>
@@ -153,12 +169,12 @@ export function ChangeHistoryTab({ projectId }: ChangeHistoryTabProps) {
             <div className="text-2xl font-bold">
               {statistics?.lastChange
                 ? new Date(statistics.lastChange).toLocaleDateString()
-                : '--'}
+                : "--"}
             </div>
             <p className="text-xs text-muted-foreground">
               {statistics?.lastChange
                 ? new Date(statistics.lastChange).toLocaleTimeString()
-                : 'No changes yet'}
+                : "No changes yet"}
             </p>
           </CardContent>
         </Card>
@@ -169,10 +185,10 @@ export function ChangeHistoryTab({ projectId }: ChangeHistoryTabProps) {
             <FileText className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">{statistics?.activeUsers || 0}</div>
-            <p className="text-xs text-muted-foreground">
-              Making changes
-            </p>
+            <div className="text-2xl font-bold">
+              {statistics?.activeUsers || 0}
+            </div>
+            <p className="text-xs text-muted-foreground">Making changes</p>
           </CardContent>
         </Card>
       </div>
@@ -203,7 +219,10 @@ export function ChangeHistoryTab({ projectId }: ChangeHistoryTabProps) {
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
                       <span className="font-medium">{change.user}</span>
-                      <Badge variant={getActionBadgeVariant(change.action)} className="text-xs">
+                      <Badge
+                        variant={getActionBadgeVariant(change.action)}
+                        className="text-xs"
+                      >
                         {change.action}
                       </Badge>
                       {change.costCode && (
@@ -218,9 +237,15 @@ export function ChangeHistoryTab({ projectId }: ChangeHistoryTabProps) {
                       </div>
                     )}
                     <div className="text-sm text-muted-foreground">
-                      Changed <strong>{formatFieldName(change.field)}</strong> from{' '}
-                      <span className="font-mono">{change.oldValue || '(empty)'}</span> to{' '}
-                      <span className="font-mono">{change.newValue || '(empty)'}</span>
+                      Changed <strong>{formatFieldName(change.field)}</strong>{" "}
+                      from{" "}
+                      <span className="font-mono">
+                        {change.oldValue || "(empty)"}
+                      </span>{" "}
+                      to{" "}
+                      <span className="font-mono">
+                        {change.newValue || "(empty)"}
+                      </span>
                     </div>
                     <div className="text-xs text-muted-foreground mt-1">
                       {new Date(change.timestamp).toLocaleString()}
@@ -235,8 +260,9 @@ export function ChangeHistoryTab({ projectId }: ChangeHistoryTabProps) {
 
       <div className="text-sm text-muted-foreground">
         <p>
-          <strong>Note:</strong> All budget changes are automatically tracked and logged.
-          This audit trail is permanent and cannot be modified to ensure data integrity.
+          <strong>Note:</strong> All budget changes are automatically tracked
+          and logged. This audit trail is permanent and cannot be modified to
+          ensure data integrity.
         </p>
       </div>
     </div>

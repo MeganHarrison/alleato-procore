@@ -1,6 +1,6 @@
-import { Building2 } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { EmptyState } from '@/components/ui/empty-state';
+import { Building2 } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface EmptyCompaniesListProps {
   onAddCompany?: () => void;
@@ -8,7 +8,11 @@ interface EmptyCompaniesListProps {
   onClearFilters?: () => void;
 }
 
-export function EmptyCompaniesList({ onAddCompany, hasFilters, onClearFilters }: EmptyCompaniesListProps) {
+export function EmptyCompaniesList({
+  onAddCompany,
+  hasFilters,
+  onClearFilters,
+}: EmptyCompaniesListProps) {
   if (hasFilters) {
     return (
       <EmptyState
@@ -32,11 +36,7 @@ export function EmptyCompaniesList({ onAddCompany, hasFilters, onClearFilters }:
       title="No companies yet"
       description="Get started by adding your first company to the project directory."
       action={
-        onAddCompany && (
-          <Button onClick={onAddCompany}>
-            Add Company
-          </Button>
-        )
+        onAddCompany && <Button onClick={onAddCompany}>Add Company</Button>
       }
     />
   );

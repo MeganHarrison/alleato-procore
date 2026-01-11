@@ -15,7 +15,9 @@ export async function POST(request: NextRequest) {
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("document_metadata")
-    .select("id,title,summary,participants,project,date,fireflies_link,type,source,url")
+    .select(
+      "id,title,summary,participants,project,date,fireflies_link,type,source,url",
+    )
     .ilike("content", `%${search}%`)
     .order("date", { ascending: false })
     .limit(MAX_RESULTS);

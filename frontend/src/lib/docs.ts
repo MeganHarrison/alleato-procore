@@ -40,7 +40,9 @@ async function resolveDocsDir(): Promise<string | null> {
 export async function getDocFiles(): Promise<DocFile[]> {
   const docsDir = await resolveDocsDir();
   if (!docsDir) {
-    console.warn("[docs] Source directory not found. Skipping docs generation.");
+    console.warn(
+      "[docs] Source directory not found. Skipping docs generation.",
+    );
     return [];
   }
 
@@ -56,7 +58,9 @@ export async function getDocFiles(): Promise<DocFile[]> {
       console.warn(`[docs] Unable to read directory ${dir}:`, error);
       return;
     }
-    entries.sort((a, b) => a.name.localeCompare(b.name, undefined, { numeric: true }));
+    entries.sort((a, b) =>
+      a.name.localeCompare(b.name, undefined, { numeric: true }),
+    );
 
     for (const entry of entries) {
       if (entry.name.startsWith(".") || entry.name === "node_modules") continue;

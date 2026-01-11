@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * Common Zod Schema Helpers for Form Validation
@@ -30,7 +30,7 @@ export const optionalNumber = z
   .union([z.number(), z.nan()])
   .optional()
   .transform((val): number | undefined =>
-    val === undefined || Number.isNaN(val) ? undefined : val
+    val === undefined || Number.isNaN(val) ? undefined : val,
   );
 
 /**
@@ -43,7 +43,7 @@ export const optionalPercent = z
   .union([z.number().min(0).max(100), z.nan()])
   .optional()
   .transform((val): number | undefined =>
-    val === undefined || Number.isNaN(val) ? undefined : val
+    val === undefined || Number.isNaN(val) ? undefined : val,
   );
 
 /**
@@ -56,7 +56,7 @@ export const optionalPositiveNumber = z
   .union([z.number().min(0), z.nan()])
   .optional()
   .transform((val): number | undefined =>
-    val === undefined || Number.isNaN(val) ? undefined : val
+    val === undefined || Number.isNaN(val) ? undefined : val,
   );
 
 /**
@@ -69,7 +69,7 @@ export const optionalPositiveNumber = z
 export const requiredNumber = z
   .union([z.number(), z.nan()])
   .refine((val) => !Number.isNaN(val), {
-    message: 'This field is required',
+    message: "This field is required",
   })
   .transform((val) => val as number);
 
@@ -82,7 +82,7 @@ export const requiredNumber = z
 export const requiredPositiveNumber = z
   .union([z.number().min(0), z.nan()])
   .refine((val) => !Number.isNaN(val), {
-    message: 'This field is required',
+    message: "This field is required",
   })
   .transform((val) => val as number);
 
@@ -97,7 +97,7 @@ export const optionalNumberInRange = (min: number, max: number) =>
     .union([z.number().min(min).max(max), z.nan()])
     .optional()
     .transform((val): number | undefined =>
-      val === undefined || Number.isNaN(val) ? undefined : val
+      val === undefined || Number.isNaN(val) ? undefined : val,
     );
 
 /**
@@ -110,6 +110,6 @@ export const requiredNumberInRange = (min: number, max: number) =>
   z
     .union([z.number().min(min).max(max), z.nan()])
     .refine((val) => !Number.isNaN(val), {
-      message: 'This field is required',
+      message: "This field is required",
     })
     .transform((val) => val as number);

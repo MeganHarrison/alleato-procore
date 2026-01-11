@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { DEFAULT_HEADER_STATE, useHeader } from './header-context';
+import * as React from "react";
+import { DEFAULT_HEADER_STATE, useHeader } from "./header-context";
 
 interface AppShellProps {
   children: React.ReactNode;

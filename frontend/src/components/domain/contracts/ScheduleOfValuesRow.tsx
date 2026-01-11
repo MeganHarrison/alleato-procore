@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Trash2 } from "lucide-react"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
-import { CostCodeSelector } from "./CostCodeSelector"
-import type { SOVItem } from "./ScheduleOfValuesGrid"
+import * as React from "react";
+import { Trash2 } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { CostCodeSelector } from "./CostCodeSelector";
+import type { SOVItem } from "./ScheduleOfValuesGrid";
 
 interface ScheduleOfValuesRowProps {
-  item: SOVItem
-  onChange: (updates: Partial<SOVItem>) => void
-  onRemove: () => void
+  item: SOVItem;
+  onChange: (updates: Partial<SOVItem>) => void;
+  onRemove: () => void;
 }
 
 export function ScheduleOfValuesRow({
@@ -18,24 +18,21 @@ export function ScheduleOfValuesRow({
   onChange,
   onRemove,
 }: ScheduleOfValuesRowProps) {
-  const handleNumberChange = (
-    field: keyof SOVItem,
-    value: string
-  ) => {
-    const numValue = parseFloat(value) || 0
-    onChange({ [field]: numValue })
+  const handleNumberChange = (field: keyof SOVItem, value: string) => {
+    const numValue = parseFloat(value) || 0;
+    onChange({ [field]: numValue });
 
     // Auto-calculate percentage when work or materials change
     if (field === "workCompleted" || field === "materialsStored") {
-      const work = field === "workCompleted" ? numValue : item.workCompleted
-      const materials = field === "materialsStored" ? numValue : item.materialsStored
-      const total = work + materials
-      const percent = item.scheduledValue > 0 
-        ? (total / item.scheduledValue) * 100 
-        : 0
-      onChange({ percentComplete: Math.min(100, percent) })
+      const work = field === "workCompleted" ? numValue : item.workCompleted;
+      const materials =
+        field === "materialsStored" ? numValue : item.materialsStored;
+      const total = work + materials;
+      const percent =
+        item.scheduledValue > 0 ? (total / item.scheduledValue) * 100 : 0;
+      onChange({ percentComplete: Math.min(100, percent) });
     }
-  }
+  };
 
   return (
     <tr className="border-b hover:bg-gray-50">
@@ -75,15 +72,15 @@ export function ScheduleOfValuesRow({
         <Input
           type="number"
           value={item.materialsStored || ""}
-          onChange={(e) => handleNumberChange("materialsStored", e.target.value)}
+          onChange={(e) =>
+            handleNumberChange("materialsStored", e.target.value)
+          }
           placeholder="0.00"
           className="w-32 text-right"
         />
       </td>
       <td className="px-4 py-2 text-right">
-        <span className="font-medium">
-          {item.percentComplete.toFixed(1)}%
-        </span>
+        <span className="font-medium">{item.percentComplete.toFixed(1)}%</span>
       </td>
       <td className="px-4 py-2 text-center">
         <Button
@@ -96,5 +93,5 @@ export function ScheduleOfValuesRow({
         </Button>
       </td>
     </tr>
-  )
+  );
 }

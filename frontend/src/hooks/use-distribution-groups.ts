@@ -1,5 +1,9 @@
-import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import type { DistributionGroupWithMembers, GroupCreateDTO, GroupUpdateDTO } from '@/services/distributionGroupService';
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import type {
+  DistributionGroupWithMembers,
+  GroupCreateDTO,
+  GroupUpdateDTO,
+} from "@/services/distributionGroupService";
 
 interface UseDistributionGroupsResult {
   groups: DistributionGroupWithMembers[];
@@ -11,18 +15,20 @@ interface UseDistributionGroupsResult {
 export function useDistributionGroups(
   projectId: string,
   includeMembers = true,
-  status: 'active' | 'inactive' | 'all' = 'active'
+  status: "active" | "inactive" | "all" = "active",
 ): UseDistributionGroupsResult {
   const query = useQuery<DistributionGroupWithMembers[], Error>({
-    queryKey: ['distribution-groups', projectId, includeMembers, status],
+    queryKey: ["distribution-groups", projectId, includeMembers, status],
     queryFn: async () => {
       const params = new URLSearchParams({
         include_members: String(includeMembers),
         status,
       });
-      const response = await fetch(`/api/projects/${projectId}/directory/groups?${params}`);
+      const response = await fetch(
+        `/api/projects/${projectId}/directory/groups?${params}`,
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch distribution groups');
+        throw new Error("Failed to fetch distribution groups");
       }
       return response.json();
     },
@@ -37,13 +43,18 @@ export function useDistributionGroups(
   };
 }
 
-export function useDistributionGroup(projectId: string, groupId: string | null) {
+export function useDistributionGroup(
+  projectId: string,
+  groupId: string | null,
+) {
   return useQuery<DistributionGroupWithMembers, Error>({
-    queryKey: ['distribution-group', projectId, groupId],
+    queryKey: ["distribution-group", projectId, groupId],
     queryFn: async () => {
-      const response = await fetch(`/api/projects/${projectId}/directory/groups/${groupId}`);
+      const response = await fetch(
+        `/api/projects/${projectId}/directory/groups/${groupId}`,
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch distribution group');
+        throw new Error("Failed to fetch distribution group");
       }
       return response.json();
     },
@@ -56,19 +67,24 @@ export function useCreateGroup(projectId: string) {
 
   return useMutation({
     mutationFn: async (data: GroupCreateDTO) => {
-      const response = await fetch(`/api/projects/${projectId}/directory/groups`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+      const response = await fetch(
+        `/api/projects/${projectId}/directory/groups`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        },
+      );
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to create group');
+        throw new Error(error.error || "Failed to create group");
       }
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['distribution-groups', projectId] });
+      queryClient.invalidateQueries({
+        queryKey: ["distribution-groups", projectId],
+      });
     },
   });
 }
@@ -77,21 +93,34 @@ export function useUpdateGroup(projectId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async ({ groupId, data }: { groupId: string; data: GroupUpdateDTO }) => {
-      const response = await fetch(`/api/projects/${projectId}/directory/groups/${groupId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
-      });
+    mutationFn: async ({
+      groupId,
+      data,
+    }: {
+      groupId: string;
+      data: GroupUpdateDTO;
+    }) => {
+      const response = await fetch(
+        `/api/projects/${projectId}/directory/groups/${groupId}`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        },
+      );
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to update group');
+        throw new Error(error.error || "Failed to update group");
       }
       return response.json();
     },
     onSuccess: (_, { groupId }) => {
-      queryClient.invalidateQueries({ queryKey: ['distribution-groups', projectId] });
-      queryClient.invalidateQueries({ queryKey: ['distribution-group', projectId, groupId] });
+      queryClient.invalidateQueries({
+        queryKey: ["distribution-groups", projectId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["distribution-group", projectId, groupId],
+      });
     },
   });
 }
@@ -101,17 +130,22 @@ export function useDeleteGroup(projectId: string) {
 
   return useMutation({
     mutationFn: async (groupId: string) => {
-      const response = await fetch(`/api/projects/${projectId}/directory/groups/${groupId}`, {
-        method: 'DELETE',
-      });
+      const response = await fetch(
+        `/api/projects/${projectId}/directory/groups/${groupId}`,
+        {
+          method: "DELETE",
+        },
+      );
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to delete group');
+        throw new Error(error.error || "Failed to delete group");
       }
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['distribution-groups', projectId] });
+      queryClient.invalidateQueries({
+        queryKey: ["distribution-groups", projectId],
+      });
     },
   });
 }
@@ -120,21 +154,31 @@ export function useUpdateGroupMembers(projectId: string, groupId: string) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: async (operation: { add_user_ids?: string[]; remove_user_ids?: string[] }) => {
-      const response = await fetch(`/api/projects/${projectId}/directory/groups/${groupId}/members`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(operation),
-      });
+    mutationFn: async (operation: {
+      add_user_ids?: string[];
+      remove_user_ids?: string[];
+    }) => {
+      const response = await fetch(
+        `/api/projects/${projectId}/directory/groups/${groupId}/members`,
+        {
+          method: "PATCH",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(operation),
+        },
+      );
       if (!response.ok) {
         const error = await response.json();
-        throw new Error(error.error || 'Failed to update group members');
+        throw new Error(error.error || "Failed to update group members");
       }
       return response.json();
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['distribution-groups', projectId] });
-      queryClient.invalidateQueries({ queryKey: ['distribution-group', projectId, groupId] });
+      queryClient.invalidateQueries({
+        queryKey: ["distribution-groups", projectId],
+      });
+      queryClient.invalidateQueries({
+        queryKey: ["distribution-group", projectId, groupId],
+      });
     },
   });
 }

@@ -1,17 +1,17 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { createClient } from '@/lib/supabase/client';
-import { Button } from '@/components/ui/button';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
-import { ChevronDown, ChevronRight, Search, X } from 'lucide-react';
+import { useEffect, useState } from "react";
+import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Input } from "@/components/ui/input";
+import { toast } from "sonner";
+import { ChevronDown, ChevronRight, Search, X } from "lucide-react";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover';
+} from "@/components/ui/popover";
 
 interface CostCode {
   id: string;
@@ -27,11 +27,15 @@ interface CostCodesTabProps {
 
 export function CostCodesTab({ projectId }: CostCodesTabProps) {
   const [costCodes, setCostCodes] = useState<CostCode[]>([]);
-  const [selectedCostCodes, setSelectedCostCodes] = useState<Set<string>>(new Set());
+  const [selectedCostCodes, setSelectedCostCodes] = useState<Set<string>>(
+    new Set(),
+  );
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [expandedDivisions, setExpandedDivisions] = useState<Set<string>>(new Set());
+  const [searchQuery, setSearchQuery] = useState("");
+  const [expandedDivisions, setExpandedDivisions] = useState<Set<string>>(
+    new Set(),
+  );
 
   useEffect(() => {
     const loadData = async () => {
@@ -41,27 +45,30 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
 
         // Fetch all cost codes
         const { data: codesData, error: codesError } = await supabase
-          .from('cost_codes')
-          .select('id, division_id, division_title, title')
-          .order('division_id', { ascending: true })
-          .order('id', { ascending: true });
+          .from("cost_codes")
+          .select("id, division_id, division_title, title")
+          .order("division_id", { ascending: true })
+          .order("id", { ascending: true });
 
         if (codesError) throw codesError;
 
         // Fetch project cost codes (selected ones)
-        const { data: projectCodesData, error: projectCodesError } = await supabase
-          .from('project_cost_codes')
-          .select('cost_code_id')
-          .eq('project_id', parseInt(projectId, 10))
-          .eq('is_active', true);
+        const { data: projectCodesData, error: projectCodesError } =
+          await supabase
+            .from("project_cost_codes")
+            .select("cost_code_id")
+            .eq("project_id", parseInt(projectId, 10))
+            .eq("is_active", true);
 
         if (projectCodesError) throw projectCodesError;
 
         setCostCodes(codesData || []);
-        setSelectedCostCodes(new Set((projectCodesData || []).map(pc => pc.cost_code_id)));
+        setSelectedCostCodes(
+          new Set((projectCodesData || []).map((pc) => pc.cost_code_id)),
+        );
       } catch (error) {
-        console.error('Error loading cost codes:', error);
-        toast.error('Failed to load cost codes');
+        console.error("Error loading cost codes:", error);
+        toast.error("Failed to load cost codes");
       } finally {
         setLoading(false);
       }
@@ -71,14 +78,17 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
   }, [projectId]);
 
   // Group cost codes by division
-  const groupedCostCodes = costCodes.reduce((acc, code) => {
-    const divisionKey = code.division_title || 'No Division';
-    if (!acc[divisionKey]) {
-      acc[divisionKey] = [];
-    }
-    acc[divisionKey].push(code);
-    return acc;
-  }, {} as Record<string, CostCode[]>);
+  const groupedCostCodes = costCodes.reduce(
+    (acc, code) => {
+      const divisionKey = code.division_title || "No Division";
+      if (!acc[divisionKey]) {
+        acc[divisionKey] = [];
+      }
+      acc[divisionKey].push(code);
+      return acc;
+    },
+    {} as Record<string, CostCode[]>,
+  );
 
   // Filter by search query and sort alphabetically
   const filteredDivisions = Object.entries(groupedCostCodes)
@@ -87,16 +97,17 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
       const query = searchQuery.toLowerCase();
       return (
         division.toLowerCase().includes(query) ||
-        codes.some(code =>
-          code.id.toLowerCase().includes(query) ||
-          code.title?.toLowerCase().includes(query)
+        codes.some(
+          (code) =>
+            code.id.toLowerCase().includes(query) ||
+            code.title?.toLowerCase().includes(query),
         )
       );
     })
     .sort(([divisionA], [divisionB]) => divisionA.localeCompare(divisionB));
 
   const toggleDivision = (division: string) => {
-    setExpandedDivisions(prev => {
+    setExpandedDivisions((prev) => {
       const next = new Set(prev);
       if (next.has(division)) {
         next.delete(division);
@@ -108,7 +119,7 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
   };
 
   const toggleCostCode = (costCodeId: string) => {
-    setSelectedCostCodes(prev => {
+    setSelectedCostCodes((prev) => {
       const next = new Set(prev);
       if (next.has(costCodeId)) {
         next.delete(costCodeId);
@@ -120,9 +131,9 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
   };
 
   const selectAllInDivision = (codes: CostCode[], select: boolean) => {
-    setSelectedCostCodes(prev => {
+    setSelectedCostCodes((prev) => {
       const next = new Set(prev);
-      codes.forEach(code => {
+      codes.forEach((code) => {
         if (select) {
           next.add(code.id);
         } else {
@@ -135,7 +146,7 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
 
   const selectAll = (select: boolean) => {
     if (select) {
-      setSelectedCostCodes(new Set(costCodes.map(code => code.id)));
+      setSelectedCostCodes(new Set(costCodes.map((code) => code.id)));
     } else {
       setSelectedCostCodes(new Set());
     }
@@ -149,28 +160,34 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
 
       // Get current project cost codes
       const { data: currentProjectCodes, error: fetchError } = await supabase
-        .from('project_cost_codes')
-        .select('id, cost_code_id')
-        .eq('project_id', projectIdNum);
+        .from("project_cost_codes")
+        .select("id, cost_code_id")
+        .eq("project_id", projectIdNum);
 
       if (fetchError) throw fetchError;
 
-      const currentCodeIds = new Set((currentProjectCodes || []).map(pc => pc.cost_code_id));
+      const currentCodeIds = new Set(
+        (currentProjectCodes || []).map((pc) => pc.cost_code_id),
+      );
 
       // Determine what to add and what to remove
-      const toAdd = Array.from(selectedCostCodes).filter(id => !currentCodeIds.has(id));
-      const toRemove = Array.from(currentCodeIds).filter(id => !selectedCostCodes.has(id));
+      const toAdd = Array.from(selectedCostCodes).filter(
+        (id) => !currentCodeIds.has(id),
+      );
+      const toRemove = Array.from(currentCodeIds).filter(
+        (id) => !selectedCostCodes.has(id),
+      );
 
       // Add new cost codes
       if (toAdd.length > 0) {
         const { error: insertError } = await supabase
-          .from('project_cost_codes')
+          .from("project_cost_codes")
           .insert(
-            toAdd.map(costCodeId => ({
+            toAdd.map((costCodeId) => ({
               project_id: projectIdNum,
               cost_code_id: costCodeId,
               is_active: true,
-            }))
+            })),
           );
 
         if (insertError) throw insertError;
@@ -179,21 +196,23 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
       // Remove unselected cost codes
       if (toRemove.length > 0) {
         const idsToDelete = (currentProjectCodes || [])
-          .filter(pc => toRemove.includes(pc.cost_code_id))
-          .map(pc => pc.id);
+          .filter((pc) => toRemove.includes(pc.cost_code_id))
+          .map((pc) => pc.id);
 
         const { error: deleteError } = await supabase
-          .from('project_cost_codes')
+          .from("project_cost_codes")
           .delete()
-          .in('id', idsToDelete);
+          .in("id", idsToDelete);
 
         if (deleteError) throw deleteError;
       }
 
-      toast.success(`Successfully updated project cost codes (${selectedCostCodes.size} selected)`);
+      toast.success(
+        `Successfully updated project cost codes (${selectedCostCodes.size} selected)`,
+      );
     } catch (error) {
-      console.error('Error saving cost codes:', error);
-      toast.error('Failed to save cost codes');
+      console.error("Error saving cost codes:", error);
+      toast.error("Failed to save cost codes");
     } finally {
       setSaving(false);
     }
@@ -207,7 +226,8 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
     );
   }
 
-  const allCodesSelected = costCodes.length > 0 && selectedCostCodes.size === costCodes.length;
+  const allCodesSelected =
+    costCodes.length > 0 && selectedCostCodes.size === costCodes.length;
 
   return (
     <div className="space-y-4">
@@ -216,7 +236,8 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
         <div>
           <h2 className="text-lg font-semibold">Project Cost Codes</h2>
           <p className="text-sm text-gray-600">
-            Select which cost codes are active for this project ({selectedCostCodes.size} selected)
+            Select which cost codes are active for this project (
+            {selectedCostCodes.size} selected)
           </p>
         </div>
         <div className="flex gap-2">
@@ -239,7 +260,7 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
                   />
                   {searchQuery && (
                     <button
-                      onClick={() => setSearchQuery('')}
+                      onClick={() => setSearchQuery("")}
                       className="absolute right-2 top-2.5 text-muted-foreground hover:text-foreground"
                       type="button"
                       aria-label="Clear search"
@@ -255,10 +276,10 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
             variant="outline"
             onClick={() => selectAll(!allCodesSelected)}
           >
-            {allCodesSelected ? 'Deselect All' : 'Select All'}
+            {allCodesSelected ? "Deselect All" : "Select All"}
           </Button>
           <Button onClick={handleSave} disabled={saving}>
-            {saving ? 'Saving...' : 'Save Changes'}
+            {saving ? "Saving..." : "Save Changes"}
           </Button>
         </div>
       </div>
@@ -272,13 +293,15 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
         ) : (
           filteredDivisions.map(([division, codes], index) => {
             const isExpanded = expandedDivisions.has(division);
-            const allSelected = codes.every(code => selectedCostCodes.has(code.id));
+            const allSelected = codes.every((code) =>
+              selectedCostCodes.has(code.id),
+            );
             const isEvenDivision = index % 2 === 0;
 
             return (
               <div
                 key={division}
-                className={isEvenDivision ? 'bg-gray-50/50' : 'bg-white'}
+                className={isEvenDivision ? "bg-gray-50/50" : "bg-white"}
               >
                 <div className="flex items-center justify-between py-2 px-3 hover:bg-gray-100/50">
                   <button
@@ -291,9 +314,12 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
                     ) : (
                       <ChevronRight className="h-4 w-4 text-gray-600" />
                     )}
-                    <span className="text-sm font-medium text-gray-900">{division}</span>
+                    <span className="text-sm font-medium text-gray-900">
+                      {division}
+                    </span>
                     <span className="text-xs text-gray-500">
-                      ({codes.filter(c => selectedCostCodes.has(c.id)).length}/{codes.length})
+                      ({codes.filter((c) => selectedCostCodes.has(c.id)).length}
+                      /{codes.length})
                     </span>
                   </button>
                   <Button
@@ -302,13 +328,13 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
                     onClick={() => selectAllInDivision(codes, !allSelected)}
                     className="h-7 text-xs"
                   >
-                    {allSelected ? 'Deselect All' : 'Select All'}
+                    {allSelected ? "Deselect All" : "Select All"}
                   </Button>
                 </div>
 
                 {isExpanded && (
                   <div className="px-3 pb-2 space-y-0.5">
-                    {codes.map(code => {
+                    {codes.map((code) => {
                       const isSelected = selectedCostCodes.has(code.id);
 
                       return (
@@ -325,7 +351,10 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
                           <div className="flex-1 text-sm text-gray-700">
                             <span className="font-medium">{code.id}</span>
                             {code.title && (
-                              <span className="text-gray-600"> - {code.title}</span>
+                              <span className="text-gray-600">
+                                {" "}
+                                - {code.title}
+                              </span>
                             )}
                           </div>
                         </button>

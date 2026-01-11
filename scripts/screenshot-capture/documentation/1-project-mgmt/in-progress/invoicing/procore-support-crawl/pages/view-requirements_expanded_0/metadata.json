@@ -1,0 +1,18 @@
+{
+  "parentPage": "view-requirements",
+  "parentUrl": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/view-requirements",
+  "expandableIndex": 0,
+  "revealedContent": [
+    {
+      "text": "Welcome           Get Started as an Invoice Administrator    What is Pay?    What is an invoice administrator?",
+      "type": "details",
+      "classes": "toc-subNav-desktop"
+    },
+    {
+      "text": "Manage Payment Requirements           Configure Requirements    View Requirements",
+      "type": "details",
+      "classes": "toc-subNav-desktop"
+    }
+  ],
+  "timestamp": "2026-01-10T20:11:57.824Z"
+}

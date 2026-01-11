@@ -1,9 +1,9 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Upload, X } from 'lucide-react'
-import { createClient } from '@/lib/supabase/client'
-import { Button } from '@/components/ui/button'
+import { useState } from "react";
+import { Upload, X } from "lucide-react";
+import { createClient } from "@/lib/supabase/client";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,15 +11,15 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
-import { toast } from 'sonner'
+} from "@/components/ui/dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { toast } from "sonner";
 
 interface ProfileImageUploadProps {
-  currentImage?: string
-  userEmail: string
-  userName: string
-  onUploadComplete?: (url: string) => void
+  currentImage?: string;
+  userEmail: string;
+  userName: string;
+  onUploadComplete?: (url: string) => void;
 }
 
 export function ProfileImageUpload({
@@ -28,108 +28,115 @@ export function ProfileImageUpload({
   userName,
   onUploadComplete,
 }: ProfileImageUploadProps) {
-  const [open, setOpen] = useState(false)
-  const [uploading, setUploading] = useState(false)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
-  const supabase = createClient()
+  const [open, setOpen] = useState(false);
+  const [uploading, setUploading] = useState(false);
+  const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const supabase = createClient();
 
-  const initials = userName
-    ?.split(' ')
-    ?.map((word) => word[0])
-    ?.join('')
-    ?.toUpperCase()
-    ?.slice(0, 2) || '??'
+  const initials =
+    userName
+      ?.split(" ")
+      ?.map((word) => word[0])
+      ?.join("")
+      ?.toUpperCase()
+      ?.slice(0, 2) || "??";
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file) return
+    const file = event.target.files?.[0];
+    if (!file) return;
 
     // Validate file type
-    if (!file.type.startsWith('image/')) {
-      toast.error('Please select an image file')
-      return
+    if (!file.type.startsWith("image/")) {
+      toast.error("Please select an image file");
+      return;
     }
 
     // Validate file size (max 5MB)
     if (file.size > 5 * 1024 * 1024) {
-      toast.error('Image must be smaller than 5MB')
-      return
+      toast.error("Image must be smaller than 5MB");
+      return;
     }
 
-    setSelectedFile(file)
-    const reader = new FileReader()
+    setSelectedFile(file);
+    const reader = new FileReader();
     reader.onloadend = () => {
-      setPreviewUrl(reader.result as string)
-    }
-    reader.readAsDataURL(file)
-  }
+      setPreviewUrl(reader.result as string);
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleUpload = async () => {
-    if (!selectedFile) return
+    if (!selectedFile) return;
 
-    setUploading(true)
+    setUploading(true);
     try {
       // Get current user
-      const { data: { user }, error: userError } = await supabase.auth.getUser()
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
       if (userError || !user) {
-        throw new Error('Not authenticated')
+        throw new Error("Not authenticated");
       }
 
       // Create unique file name
-      const fileExt = selectedFile.name.split('.').pop()
-      const fileName = `${user.id}-${Date.now()}.${fileExt}`
-      const filePath = `avatars/${fileName}`
+      const fileExt = selectedFile.name.split(".").pop();
+      const fileName = `${user.id}-${Date.now()}.${fileExt}`;
+      const filePath = `avatars/${fileName}`;
 
       // Upload to Supabase Storage
       const { error: uploadError } = await supabase.storage
-        .from('profile-images')
+        .from("profile-images")
         .upload(filePath, selectedFile, {
-          cacheControl: '3600',
+          cacheControl: "3600",
           upsert: true,
-        })
+        });
 
       if (uploadError) {
-        throw uploadError
+        throw uploadError;
       }
 
       // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('profile-images')
-        .getPublicUrl(filePath)
+      const {
+        data: { publicUrl },
+      } = supabase.storage.from("profile-images").getPublicUrl(filePath);
 
       // Update user metadata with avatar URL
       const { error: updateError } = await supabase.auth.updateUser({
         data: {
           avatar_url: publicUrl,
         },
-      })
+      });
 
       if (updateError) {
-        throw updateError
+        throw updateError;
       }
 
-      toast.success('Profile image updated successfully')
-      onUploadComplete?.(publicUrl)
-      setOpen(false)
-      setPreviewUrl(null)
-      setSelectedFile(null)
+      toast.success("Profile image updated successfully");
+      onUploadComplete?.(publicUrl);
+      setOpen(false);
+      setPreviewUrl(null);
+      setSelectedFile(null);
 
       // Refresh the page to show new avatar
-      window.location.reload()
+      window.location.reload();
     } catch (error) {
-      console.error('Upload error:', error)
-      toast.error('Failed to upload image. Please try again.')
+      console.error("Upload error:", error);
+      toast.error("Failed to upload image. Please try again.");
     } finally {
-      setUploading(false)
+      setUploading(false);
     }
-  }
+  };
 
   const handleRemove = async () => {
     try {
-      const { data: { user }, error: userError } = await supabase.auth.getUser()
+      const {
+        data: { user },
+        error: userError,
+      } = await supabase.auth.getUser();
       if (userError || !user) {
-        throw new Error('Not authenticated')
+        throw new Error("Not authenticated");
       }
 
       // Remove avatar URL from user metadata
@@ -137,30 +144,30 @@ export function ProfileImageUpload({
         data: {
           avatar_url: null,
         },
-      })
+      });
 
       if (updateError) {
-        throw updateError
+        throw updateError;
       }
 
-      toast.success('Profile image removed')
-      onUploadComplete?.('')
-      setOpen(false)
-      window.location.reload()
+      toast.success("Profile image removed");
+      onUploadComplete?.("");
+      setOpen(false);
+      window.location.reload();
     } catch (error) {
-      console.error('Remove error:', error)
-      toast.error('Failed to remove image')
+      console.error("Remove error:", error);
+      toast.error("Failed to remove image");
     }
-  }
+  };
 
   // Generate Gravatar URL as fallback
   const getGravatarUrl = (email: string) => {
     // Simple MD5 hash for Gravatar (in production, use a proper crypto library)
-    const hash = email.trim().toLowerCase()
-    return `https://www.gravatar.com/avatar/${hash}?d=mp&s=200`
-  }
+    const hash = email.trim().toLowerCase();
+    return `https://www.gravatar.com/avatar/${hash}?d=mp&s=200`;
+  };
 
-  const displayImage = previewUrl || currentImage || getGravatarUrl(userEmail)
+  const displayImage = previewUrl || currentImage || getGravatarUrl(userEmail);
 
   return (
     <>
@@ -173,8 +180,8 @@ export function ProfileImageUpload({
           <DialogHeader>
             <DialogTitle>Update profile photo</DialogTitle>
             <DialogDescription>
-              Upload a new profile photo or remove your current one.
-              Accepted formats: JPG, PNG, GIF (max 5MB)
+              Upload a new profile photo or remove your current one. Accepted
+              formats: JPG, PNG, GIF (max 5MB)
             </DialogDescription>
           </DialogHeader>
 
@@ -188,7 +195,7 @@ export function ProfileImageUpload({
               <Button
                 variant="outline"
                 size="sm"
-                onClick={() => document.getElementById('file-input')?.click()}
+                onClick={() => document.getElementById("file-input")?.click()}
                 disabled={uploading}
               >
                 <Upload className="mr-2 h-4 w-4" />
@@ -227,9 +234,9 @@ export function ProfileImageUpload({
               type="button"
               variant="outline"
               onClick={() => {
-                setOpen(false)
-                setPreviewUrl(null)
-                setSelectedFile(null)
+                setOpen(false);
+                setPreviewUrl(null);
+                setSelectedFile(null);
               }}
               disabled={uploading}
             >
@@ -240,11 +247,11 @@ export function ProfileImageUpload({
               onClick={handleUpload}
               disabled={!selectedFile || uploading}
             >
-              {uploading ? 'Uploading...' : 'Upload'}
+              {uploading ? "Uploading..." : "Upload"}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
     </>
-  )
+  );
 }

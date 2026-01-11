@@ -1,19 +1,24 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Checkbox } from '@/components/ui/checkbox';
+import * as React from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { createClient } from '@/lib/supabase/client';
+} from "@/components/ui/select";
+import { createClient } from "@/lib/supabase/client";
 
 interface UserFormDialogProps {
   open: boolean;
@@ -31,14 +36,19 @@ interface UserFormData {
   companyName: string;
 }
 
-export function UserFormDialog({ open, onOpenChange, projectId, onSuccess }: UserFormDialogProps) {
+export function UserFormDialog({
+  open,
+  onOpenChange,
+  projectId,
+  onSuccess,
+}: UserFormDialogProps) {
   const [formData, setFormData] = React.useState<UserFormData>({
-    firstName: '',
-    lastName: '',
-    email: '',
-    permissionTemplate: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    permissionTemplate: "",
     isInternalEmployee: false,
-    companyName: '',
+    companyName: "",
   });
   const [isSubmitting, setIsSubmitting] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
@@ -58,28 +68,28 @@ export function UserFormDialog({ open, onOpenChange, projectId, onSuccess }: Use
       // 3. Associating the person with the project
       // 4. Setting up permissions
 
-      console.warn('User creation not yet implemented', {
+      console.warn("User creation not yet implemented", {
         projectId,
         formData,
       });
 
       // Simulate success for now
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
 
       // Reset form
       setFormData({
-        firstName: '',
-        lastName: '',
-        email: '',
-        permissionTemplate: '',
+        firstName: "",
+        lastName: "",
+        email: "",
+        permissionTemplate: "",
         isInternalEmployee: false,
-        companyName: '',
+        companyName: "",
       });
 
       onSuccess?.();
       onOpenChange(false);
     } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create user');
+      setError(err instanceof Error ? err.message : "Failed to create user");
     } finally {
       setIsSubmitting(false);
     }
@@ -87,12 +97,12 @@ export function UserFormDialog({ open, onOpenChange, projectId, onSuccess }: Use
 
   const handleCancel = () => {
     setFormData({
-      firstName: '',
-      lastName: '',
-      email: '',
-      permissionTemplate: '',
+      firstName: "",
+      lastName: "",
+      email: "",
+      permissionTemplate: "",
       isInternalEmployee: false,
-      companyName: '',
+      companyName: "",
     });
     setError(null);
     onOpenChange(false);
@@ -121,7 +131,9 @@ export function UserFormDialog({ open, onOpenChange, projectId, onSuccess }: Use
               <Input
                 id="firstName"
                 value={formData.firstName}
-                onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, firstName: e.target.value })
+                }
                 placeholder="John"
                 required
               />
@@ -135,7 +147,9 @@ export function UserFormDialog({ open, onOpenChange, projectId, onSuccess }: Use
               <Input
                 id="lastName"
                 value={formData.lastName}
-                onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, lastName: e.target.value })
+                }
                 placeholder="Doe"
                 required
               />
@@ -151,7 +165,9 @@ export function UserFormDialog({ open, onOpenChange, projectId, onSuccess }: Use
               id="email"
               type="email"
               value={formData.email}
-              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              onChange={(e) =>
+                setFormData({ ...formData, email: e.target.value })
+              }
               placeholder="john.doe@example.com"
               required
             />
@@ -162,7 +178,9 @@ export function UserFormDialog({ open, onOpenChange, projectId, onSuccess }: Use
             <Label htmlFor="permissionTemplate">Permission Template</Label>
             <Select
               value={formData.permissionTemplate}
-              onValueChange={(value) => setFormData({ ...formData, permissionTemplate: value })}
+              onValueChange={(value) =>
+                setFormData({ ...formData, permissionTemplate: value })
+              }
             >
               <SelectTrigger id="permissionTemplate">
                 <SelectValue placeholder="Select a permission template" />
@@ -187,11 +205,17 @@ export function UserFormDialog({ open, onOpenChange, projectId, onSuccess }: Use
               id="isInternalEmployee"
               checked={formData.isInternalEmployee}
               onCheckedChange={(checked) =>
-                setFormData({ ...formData, isInternalEmployee: checked === true })
+                setFormData({
+                  ...formData,
+                  isInternalEmployee: checked === true,
+                })
               }
             />
             <div className="space-y-1">
-              <Label htmlFor="isInternalEmployee" className="font-normal cursor-pointer">
+              <Label
+                htmlFor="isInternalEmployee"
+                className="font-normal cursor-pointer"
+              >
                 Internal Employee?
               </Label>
               <p className="text-xs text-muted-foreground">
@@ -209,23 +233,30 @@ export function UserFormDialog({ open, onOpenChange, projectId, onSuccess }: Use
               <Input
                 id="companyName"
                 value={formData.companyName}
-                onChange={(e) => setFormData({ ...formData, companyName: e.target.value })}
+                onChange={(e) =>
+                  setFormData({ ...formData, companyName: e.target.value })
+                }
                 placeholder="Start typing company name..."
               />
               <p className="text-xs text-muted-foreground">
-                To locate an existing user by their company name, start typing the company name
-                here, and then select the user
+                To locate an existing user by their company name, start typing
+                the company name here, and then select the user
               </p>
             </div>
           </div>
 
           {/* Form Actions */}
           <div className="flex justify-end gap-3 pt-4 border-t">
-            <Button type="button" variant="outline" onClick={handleCancel} disabled={isSubmitting}>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handleCancel}
+              disabled={isSubmitting}
+            >
               Cancel
             </Button>
             <Button type="submit" disabled={isSubmitting}>
-              {isSubmitting ? 'Adding User...' : 'Add User'}
+              {isSubmitting ? "Adding User..." : "Add User"}
             </Button>
           </div>
         </form>

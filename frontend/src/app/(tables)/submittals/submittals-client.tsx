@@ -1,21 +1,28 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useRouter } from 'next/navigation';
-import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from '@/components/tables/DataTable';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Plus, MoreHorizontal, Eye, Edit, Trash2, Download } from 'lucide-react';
+import * as React from "react";
+import { useRouter } from "next/navigation";
+import { ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "@/components/tables/DataTable";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import {
+  Plus,
+  MoreHorizontal,
+  Eye,
+  Edit,
+  Trash2,
+  Download,
+} from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import type { Database } from '@/types/database.types';
+} from "@/components/ui/dropdown-menu";
+import type { Database } from "@/types/database.types";
 
-type SubmittalRow = Database['public']['Tables']['submittals']['Row'] & {
+type SubmittalRow = Database["public"]["Tables"]["submittals"]["Row"] & {
   projects?: {
     id: number;
     name: string;
@@ -32,75 +39,77 @@ export function SubmittalsClient({ submittals }: SubmittalsClientProps) {
 
   const columns: ColumnDef<SubmittalRow>[] = [
     {
-      accessorKey: 'submittal_number',
-      header: 'Number',
+      accessorKey: "submittal_number",
+      header: "Number",
       cell: ({ row }) => (
         <button
           type="button"
           className="font-medium text-[hsl(var(--procore-orange))] hover:underline"
         >
-          {row.getValue('submittal_number')}
+          {row.getValue("submittal_number")}
         </button>
       ),
     },
     {
-      accessorKey: 'title',
-      header: 'Title',
+      accessorKey: "title",
+      header: "Title",
     },
     {
-      accessorKey: 'submittal_type_id',
-      header: 'Type',
+      accessorKey: "submittal_type_id",
+      header: "Type",
       cell: ({ row }) => {
         // For now, show the ID - in a real app, you'd join with submittal_types table
-        return <span>Type {row.getValue('submittal_type_id')}</span>;
+        return <span>Type {row.getValue("submittal_type_id")}</span>;
       },
     },
     {
-      accessorKey: 'status',
-      header: 'Status',
+      accessorKey: "status",
+      header: "Status",
       cell: ({ row }) => {
-        const status = row.getValue('status') as string;
+        const status = row.getValue("status") as string;
         const statusColors: Record<string, string> = {
-          draft: 'bg-gray-100 text-gray-700',
-          submitted: 'bg-blue-100 text-blue-700',
-          under_review: 'bg-yellow-100 text-yellow-700',
-          requires_revision: 'bg-orange-100 text-orange-700',
-          approved: 'bg-green-100 text-green-700',
-          rejected: 'bg-red-100 text-red-700',
-          superseded: 'bg-gray-100 text-gray-700',
+          draft: "bg-gray-100 text-gray-700",
+          submitted: "bg-blue-100 text-blue-700",
+          under_review: "bg-yellow-100 text-yellow-700",
+          requires_revision: "bg-orange-100 text-orange-700",
+          approved: "bg-green-100 text-green-700",
+          rejected: "bg-red-100 text-red-700",
+          superseded: "bg-gray-100 text-gray-700",
         };
         return (
-          <Badge className={statusColors[status] || 'bg-gray-100 text-gray-700'}>
-            {status?.replace('_', ' ')}
+          <Badge
+            className={statusColors[status] || "bg-gray-100 text-gray-700"}
+          >
+            {status?.replace("_", " ")}
           </Badge>
         );
       },
     },
     {
-      accessorKey: 'submitter_company',
-      header: 'Submitted By',
+      accessorKey: "submitter_company",
+      header: "Submitted By",
     },
     {
-      accessorKey: 'current_version',
-      header: 'Rev',
+      accessorKey: "current_version",
+      header: "Rev",
     },
     {
-      accessorKey: 'required_approval_date',
-      header: 'Due Date',
+      accessorKey: "required_approval_date",
+      header: "Due Date",
       cell: ({ row }) => {
-        const date = row.getValue('required_approval_date') as string | null;
-        return date ? new Date(date).toLocaleDateString() : '-';
+        const date = row.getValue("required_approval_date") as string | null;
+        return date ? new Date(date).toLocaleDateString() : "-";
       },
     },
     {
-      accessorKey: 'projects.name',
-      header: 'Project',
+      accessorKey: "projects.name",
+      header: "Project",
       cell: ({ row }) => {
-        return row.original.projects?.name || '-';
+        return row.original.projects?.name || "-";
       },
     },
     {
-      id: 'actions',
+      id: "actions",
       cell: ({ row }) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -132,11 +141,11 @@ export function SubmittalsClient({ submittals }: SubmittalsClientProps) {
   ];
 
   const statusCounts = {
-    draft: data.filter(item => item.status === 'draft').length,
-    submitted: data.filter(item => item.status === 'submitted').length,
-    approved: data.filter(item => item.status === 'approved').length,
-    under_review: data.filter(item => item.status === 'under_review').length,
-    rejected: data.filter(item => item.status === 'rejected').length,
+    draft: data.filter((item) => item.status === "draft").length,
+    submitted: data.filter((item) => item.status === "submitted").length,
+    approved: data.filter((item) => item.status === "approved").length,
+    under_review: data.filter((item) => item.status === "under_review").length,
+    rejected: data.filter((item) => item.status === "rejected").length,
   };
 
   return (
@@ -145,11 +154,13 @@ export function SubmittalsClient({ submittals }: SubmittalsClientProps) {
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Submittals</h1>
-          <p className="text-sm text-gray-500 mt-1">Track submittal review and approval</p>
+          <p className="text-sm text-gray-500 mt-1">
+            Track submittal review and approval
+          </p>
         </div>
-        <Button 
+        <Button
           className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange))]/90"
-          onClick={() => router.push('/rfi-form')}
+          onClick={() => router.push("/rfi-form")}
         >
           <Plus className="h-4 w-4 mr-2" />
           Create Submittal

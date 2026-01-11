@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { ReactNode } from 'react';
-import { X } from 'lucide-react';
-import { Sheet, SheetContent } from '@/components/ui/sheet';
-import { cn } from '@/lib/utils';
+import { ReactNode } from "react";
+import { X } from "lucide-react";
+import { Sheet, SheetContent } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 
 interface BaseSidebarProps {
   open: boolean;
@@ -11,7 +11,7 @@ interface BaseSidebarProps {
   title: string;
   subtitle?: string;
   children: ReactNode;
-  size?: 'sm' | 'md' | 'lg' | 'xl';
+  size?: "sm" | "md" | "lg" | "xl";
 }
 
 /**
@@ -28,23 +28,20 @@ export function BaseSidebar({
   title,
   subtitle,
   children,
-  size = 'lg'
+  size = "lg",
 }: BaseSidebarProps) {
   const sizeClasses = {
-    sm: 'sm:max-w-md',
-    md: 'sm:max-w-lg',
-    lg: 'sm:max-w-xl',
-    xl: 'sm:max-w-2xl'
+    sm: "sm:max-w-md",
+    md: "sm:max-w-lg",
+    lg: "sm:max-w-xl",
+    xl: "sm:max-w-2xl",
   };
 
   return (
     <Sheet open={open} onOpenChange={(isOpen) => !isOpen && onClose()}>
       <SheetContent
         side="right"
-        className={cn(
-          'w-full p-0 flex flex-col',
-          sizeClasses[size]
-        )}
+        className={cn("w-full p-0 flex flex-col", sizeClasses[size])}
       >
         {/* Header */}
         <div className="bg-slate-900 text-white px-6 py-4 flex-shrink-0">
@@ -77,15 +74,13 @@ export function BaseSidebar({
  */
 export function SidebarBody({
   children,
-  className
+  className,
 }: {
   children: ReactNode;
   className?: string;
 }) {
   return (
-    <div className={cn('flex-1 overflow-y-auto', className)}>
-      {children}
-    </div>
+    <div className={cn("flex-1 overflow-y-auto", className)}>{children}</div>
   );
 }
 
@@ -94,16 +89,18 @@ export function SidebarBody({
  */
 export function SidebarFooter({
   children,
-  className
+  className,
 }: {
   children: ReactNode;
   className?: string;
 }) {
   return (
-    <div className={cn(
-      'border-t border-slate-200 bg-slate-50 px-6 py-4 flex-shrink-0',
-      className
-    )}>
+    <div
+      className={cn(
+        "border-t border-slate-200 bg-slate-50 px-6 py-4 flex-shrink-0",
+        className,
+      )}
+    >
       {children}
     </div>
   );
@@ -115,7 +112,7 @@ export function SidebarFooter({
 export function SidebarTabs({
   tabs,
   activeTab,
-  onTabChange
+  onTabChange,
 }: {
   tabs: Array<{ id: string; label: string }>;
   activeTab: string;
@@ -129,10 +126,10 @@ export function SidebarTabs({
             key={tab.id}
             onClick={() => onTabChange(tab.id)}
             className={cn(
-              'px-4 py-2 text-sm font-medium rounded-md transition-all',
+              "px-4 py-2 text-sm font-medium rounded-md transition-all",
               activeTab === tab.id
-                ? 'bg-white text-orange-600 shadow-sm border border-gray-200'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
+                ? "bg-white text-orange-600 shadow-sm border border-gray-200"
+                : "text-gray-600 hover:text-gray-900 hover:bg-white/50",
             )}
           >
             {tab.label}

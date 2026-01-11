@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { cn } from "@/lib/utils"
+import * as React from "react";
+import { cn } from "@/lib/utils";
 
 interface FormContainerProps {
-  children: React.ReactNode
-  className?: string
+  children: React.ReactNode;
+  className?: string;
   /**
    * Form max width based on UX best practices:
    * - 'sm' (512px): Narrow forms like login, signup
@@ -13,23 +13,23 @@ interface FormContainerProps {
    * - 'lg' (896px): Forms with more fields or side-by-side inputs
    * - 'xl' (1024px): Complex multi-column forms or forms with tables
    */
-  maxWidth?: "sm" | "md" | "lg" | "xl"
+  maxWidth?: "sm" | "md" | "lg" | "xl";
   /**
    * Enable/disable padding (default: true)
    */
-  padding?: boolean
+  padding?: boolean;
   /**
    * Enable/disable card styling with background, border, and shadow (default: true)
    */
-  withCard?: boolean
+  withCard?: boolean;
 }
 
 const maxWidthClasses = {
-  sm: "max-w-lg",   // 512px - Login, signup, simple forms
-  md: "max-w-2xl",  // 672px - Standard forms (optimal for readability)
-  lg: "max-w-4xl",  // 896px - Forms with more content
-  xl: "max-w-5xl",  // 1024px - Complex forms with tables/multi-column
-}
+  sm: "max-w-lg", // 512px - Login, signup, simple forms
+  md: "max-w-2xl", // 672px - Standard forms (optimal for readability)
+  lg: "max-w-4xl", // 896px - Forms with more content
+  xl: "max-w-5xl", // 1024px - Complex forms with tables/multi-column
+};
 
 /**
  * FormContainer component for form pages
@@ -74,10 +74,10 @@ export function FormContainer({
         padding && "px-4 sm:px-6 lg:px-8 py-6 sm:py-8",
         // Prevent horizontal overflow
         "overflow-x-hidden",
-        className
+        className,
       )}
     >
       {children}
     </div>
-  )
+  );
 }

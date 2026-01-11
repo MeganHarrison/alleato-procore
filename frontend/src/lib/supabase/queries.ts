@@ -11,8 +11,8 @@
  * - Easy to test and mock
  */
 
-import type { SupabaseClient } from '@supabase/supabase-js'
-import type { Database } from '@/types/database.types'
+import type { SupabaseClient } from "@supabase/supabase-js";
+import type { Database } from "@/types/database.types";
 
 // =============================================================================
 // Project Queries
@@ -20,31 +20,29 @@ import type { Database } from '@/types/database.types'
 
 export async function getProjectById(
   supabase: SupabaseClient<Database>,
-  projectId: number
+  projectId: number,
 ) {
-  return supabase
-    .from('projects')
-    .select('*')
-    .eq('id', projectId)
-    .single()
+  return supabase.from("projects").select("*").eq("id", projectId).single();
 }
 
 export async function getProjectWithDetails(
   supabase: SupabaseClient<Database>,
-  projectId: number
+  projectId: number,
 ) {
   // Note: commitments table no longer exists - use subcontracts and purchase_orders
   return supabase
-    .from('projects')
-    .select(`
+    .from("projects")
+    .select(
+      `
       *,
       project_tasks (count),
       subcontracts (count),
       purchase_orders (count),
       contracts (count)
-    `)
-    .eq('id', projectId)
-    .single()
+    `,
+    )
+    .eq("id", projectId)
+    .single();
 }
 
 // =============================================================================
@@ -55,27 +53,27 @@ export async function getProjectTasks(
   supabase: SupabaseClient<Database>,
   projectId: number,
   options?: {
-    status?: string
-    priority?: string
-    limit?: number
-  }
+    status?: string;
+    priority?: string;
+    limit?: number;
+  },
 ) {
   let query = supabase
-    .from('project_tasks')
-    .select('*')
-    .eq('project_id', projectId)
+    .from("project_tasks")
+    .select("*")
+    .eq("project_id", projectId);
 
   if (options?.status) {
-    query = query.eq('status', options.status)
+    query = query.eq("status", options.status);
   }
   if (options?.priority) {
-    query = query.eq('priority', options.priority)
+    query = query.eq("priority", options.priority);
   }
   if (options?.limit) {
-    query = query.limit(options.limit)
+    query = query.limit(options.limit);
   }
 
-  return query.order('created_at', { ascending: false })
+  return query.order("created_at", { ascending: false });
 }
 
 // =============================================================================
@@ -86,42 +84,42 @@ export async function getProjectMeetings(
   supabase: SupabaseClient<Database>,
   projectId: number,
   options?: {
-    limit?: number
-  }
+    limit?: number;
+  },
 ) {
   let query = supabase
-    .from('document_metadata')
-    .select('*')
-    .eq('project_id', projectId)
-    .eq('type', 'meeting')
+    .from("document_metadata")
+    .select("*")
+    .eq("project_id", projectId)
+    .eq("type", "meeting");
 
   if (options?.limit) {
-    query = query.limit(options.limit)
+    query = query.limit(options.limit);
   }
 
-  return query.order('date', { ascending: false })
+  return query.order("date", { ascending: false });
 }
 
 export async function getMeetingById(
   supabase: SupabaseClient<Database>,
-  meetingId: string
+  meetingId: string,
 ) {
   return supabase
-    .from('document_metadata')
-    .select('*')
-    .eq('id', meetingId)
-    .single()
+    .from("document_metadata")
+    .select("*")
+    .eq("id", meetingId)
+    .single();
 }
 
 export async function getMeetingSegments(
   supabase: SupabaseClient<Database>,
-  metadataId: string
+  metadataId: string,
 ) {
   return supabase
-    .from('meeting_segments')
-    .select('*')
-    .eq('metadata_id', metadataId)
-    .order('segment_index', { ascending: true })
+    .from("meeting_segments")
+    .select("*")
+    .eq("metadata_id", metadataId)
+    .order("segment_index", { ascending: true });
 }
 
 // =============================================================================
@@ -130,47 +128,47 @@ export async function getMeetingSegments(
 
 export async function getProjectContracts(
   supabase: SupabaseClient<Database>,
-  projectId: number
+  projectId: number,
 ) {
   return supabase
-    .from('contracts')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('created_at', { ascending: false })
+    .from("contracts")
+    .select("*")
+    .eq("project_id", projectId)
+    .order("created_at", { ascending: false });
 }
 
 export async function getProjectCommitments(
   supabase: SupabaseClient<Database>,
-  projectId: number
+  projectId: number,
 ) {
   // Query from commitments_unified view which combines subcontracts and purchase_orders
   return supabase
-    .from('commitments_unified')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('created_at', { ascending: false })
+    .from("commitments_unified")
+    .select("*")
+    .eq("project_id", projectId)
+    .order("created_at", { ascending: false });
 }
 
 export async function getProjectSubcontracts(
   supabase: SupabaseClient<Database>,
-  projectId: number
+  projectId: number,
 ) {
   return supabase
-    .from('subcontracts')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('created_at', { ascending: false })
+    .from("subcontracts")
+    .select("*")
+    .eq("project_id", projectId)
+    .order("created_at", { ascending: false });
 }
 
 export async function getProjectPurchaseOrders(
   supabase: SupabaseClient<Database>,
-  projectId: number
+  projectId: number,
 ) {
   return supabase
-    .from('purchase_orders')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('created_at', { ascending: false })
+    .from("purchase_orders")
+    .select("*")
+    .eq("project_id", projectId)
+    .order("created_at", { ascending: false });
 }
 
 // =============================================================================
@@ -181,23 +179,20 @@ export async function getProjectRfis(
   supabase: SupabaseClient<Database>,
   projectId: number,
   options?: {
-    status?: string
-    limit?: number
-  }
+    status?: string;
+    limit?: number;
+  },
 ) {
-  let query = supabase
-    .from('rfis')
-    .select('*')
-    .eq('project_id', projectId)
+  let query = supabase.from("rfis").select("*").eq("project_id", projectId);
 
   if (options?.status) {
-    query = query.eq('status', options.status)
+    query = query.eq("status", options.status);
   }
   if (options?.limit) {
-    query = query.limit(options.limit)
+    query = query.limit(options.limit);
   }
 
-  return query.order('created_at', { ascending: false })
+  return query.order("created_at", { ascending: false });
 }
 
 // =============================================================================
@@ -206,13 +201,13 @@ export async function getProjectRfis(
 
 export async function getProjectChangeOrders(
   supabase: SupabaseClient<Database>,
-  projectId: number
+  projectId: number,
 ) {
   return supabase
-    .from('change_orders')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('created_at', { ascending: false })
+    .from("change_orders")
+    .select("*")
+    .eq("project_id", projectId)
+    .order("created_at", { ascending: false });
 }
 
 // =============================================================================
@@ -228,13 +223,13 @@ export async function getProjectChangeOrders(
 
 export async function getProjectSchedule(
   supabase: SupabaseClient<Database>,
-  projectId: number
+  projectId: number,
 ) {
   return supabase
-    .from('schedule_tasks')
-    .select('*')
-    .eq('project_id', projectId)
-    .order('start_date', { ascending: true })
+    .from("schedule_tasks")
+    .select("*")
+    .eq("project_id", projectId)
+    .order("start_date", { ascending: true });
 }
 
 // =============================================================================
@@ -245,19 +240,19 @@ export async function getProjectInsights(
   supabase: SupabaseClient<Database>,
   projectId: number,
   options?: {
-    limit?: number
-  }
+    limit?: number;
+  },
 ) {
   let query = supabase
-    .from('ai_insights')
-    .select('*')
-    .eq('project_id', projectId)
+    .from("ai_insights")
+    .select("*")
+    .eq("project_id", projectId);
 
   if (options?.limit) {
-    query = query.limit(options.limit)
+    query = query.limit(options.limit);
   }
 
-  return query.order('created_at', { ascending: false })
+  return query.order("created_at", { ascending: false });
 }
 
 // =============================================================================
@@ -268,17 +263,17 @@ export async function getProjectDailyLogs(
   supabase: SupabaseClient<Database>,
   projectId: number,
   options?: {
-    limit?: number
-  }
+    limit?: number;
+  },
 ) {
   let query = supabase
-    .from('daily_logs')
-    .select('*')
-    .eq('project_id', projectId)
+    .from("daily_logs")
+    .select("*")
+    .eq("project_id", projectId);
 
   if (options?.limit) {
-    query = query.limit(options.limit)
+    query = query.limit(options.limit);
   }
 
-  return query.order('log_date', { ascending: false })
+  return query.order("log_date", { ascending: false });
 }

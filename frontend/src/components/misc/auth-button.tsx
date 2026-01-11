@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import { LogoutButton } from '@/components/misc/logout-button';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { LogoutButton } from "@/components/misc/logout-button";
+import { Button } from "@/components/ui/button";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 export function AuthButton() {
   const router = useRouter();

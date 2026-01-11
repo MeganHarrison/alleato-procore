@@ -1,4 +1,4 @@
-import Image from 'next/image';
+import Image from "next/image";
 
 type SVGPropsType = React.SVGProps<SVGSVGElement>;
 

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 import {
   Plus,
   ArrowRight,
@@ -12,16 +12,16 @@ import {
   MessageSquare,
   ChevronDown,
   AlertTriangle,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
   DropdownMenuSeparator,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -31,8 +31,8 @@ import {
   AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
-} from '@/components/ui/alert-dialog';
-import { ProjectPageHeader } from '@/components/layout/ProjectPageHeader';
+} from "@/components/ui/alert-dialog";
+import { ProjectPageHeader } from "@/components/layout/ProjectPageHeader";
 
 interface BudgetPageHeaderProps {
   title?: string;
@@ -49,7 +49,7 @@ interface BudgetPageHeaderProps {
 }
 
 export function BudgetPageHeader({
-  title = 'Budget',
+  title = "Budget",
   isLocked = false,
   lockedAt,
   lockedBy,
@@ -75,13 +75,13 @@ export function BudgetPageHeader({
   };
 
   const formatDate = (dateString: string | null | undefined) => {
-    if (!dateString) return '';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: 'short',
-      day: 'numeric',
-      year: 'numeric',
-      hour: '2-digit',
-      minute: '2-digit',
+    if (!dateString) return "";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "short",
+      day: "numeric",
+      year: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
     });
   };
 
@@ -97,9 +97,10 @@ export function BudgetPageHeader({
     </div>
   );
 
-  const statusDescription = isLocked && lockedAt
-    ? `Locked ${formatDate(lockedAt)}${lockedBy ? ` by ${lockedBy}` : ''}`
-    : undefined;
+  const statusDescription =
+    isLocked && lockedAt
+      ? `Locked ${formatDate(lockedAt)}${lockedBy ? ` by ${lockedBy}` : ""}`
+      : undefined;
 
   const actionButtons = (
     <div className="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-center md:justify-end">
@@ -129,11 +130,7 @@ export function BudgetPageHeader({
       </DropdownMenu>
 
       {/* Resend to ERP Button */}
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={onResendToERP}
-      >
+      <Button variant="outline" size="sm" onClick={onResendToERP}>
         <ArrowRight className="w-4 h-4 mr-2" />
         Resend to ERP
       </Button>
@@ -160,11 +157,7 @@ export function BudgetPageHeader({
       )}
 
       {/* Import Button */}
-      <Button
-        variant="outline"
-        size="sm"
-        onClick={onImport}
-      >
+      <Button variant="outline" size="sm" onClick={onImport}>
         <Upload className="w-4 h-4 mr-2" />
         Import
       </Button>
@@ -172,23 +165,20 @@ export function BudgetPageHeader({
       {/* Export Dropdown */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button
-            variant="outline"
-            size="sm"
-          >
+          <Button variant="outline" size="sm">
             <Download className="w-4 h-4 mr-2" />
             Export
             <ChevronDown className="w-4 h-4 ml-2" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => onExport?.('pdf')}>
+          <DropdownMenuItem onClick={() => onExport?.("pdf")}>
             Export to PDF
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onExport?.('excel')}>
+          <DropdownMenuItem onClick={() => onExport?.("excel")}>
             Export to Excel
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onExport?.('csv')}>
+          <DropdownMenuItem onClick={() => onExport?.("csv")}>
             Export to CSV
           </DropdownMenuItem>
         </DropdownMenuContent>
@@ -234,18 +224,20 @@ export function BudgetPageHeader({
               Lock Budget
             </AlertDialogTitle>
             <AlertDialogDescription className="space-y-2">
-              <p>
-                Are you sure you want to lock the budget for this project?
-              </p>
+              <p>Are you sure you want to lock the budget for this project?</p>
               <div className="bg-muted border rounded-md p-3 mt-3">
                 <div className="flex items-start gap-2">
                   <AlertTriangle className="w-5 h-5 mt-0.5" />
                   <div className="text-sm">
                     <p className="font-medium">What happens when you lock:</p>
                     <ul className="list-disc list-inside mt-1 space-y-1">
-                      <li>Budget line items cannot be added, edited, or deleted</li>
+                      <li>
+                        Budget line items cannot be added, edited, or deleted
+                      </li>
                       <li>Original budget amounts become read-only</li>
-                      <li>Changes can only be made through approved change orders</li>
+                      <li>
+                        Changes can only be made through approved change orders
+                      </li>
                       <li>Budget modifications require unlock permission</li>
                     </ul>
                   </div>
@@ -280,9 +272,13 @@ export function BudgetPageHeader({
                   <div className="text-sm">
                     <p className="font-medium">What happens when you unlock:</p>
                     <ul className="list-disc list-inside mt-1 space-y-1">
-                      <li>Budget line items can be added, edited, or deleted</li>
+                      <li>
+                        Budget line items can be added, edited, or deleted
+                      </li>
                       <li>Original budget amounts become editable</li>
-                      <li>All users with budget permissions can make changes</li>
+                      <li>
+                        All users with budget permissions can make changes
+                      </li>
                       <li>Changes will be tracked in the audit log</li>
                     </ul>
                   </div>

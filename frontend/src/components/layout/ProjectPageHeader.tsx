@@ -1,28 +1,28 @@
-"use client"
+"use client";
 
 // This component is deprecated - use page-header-unified.tsx instead
 // Keeping for backwards compatibility during migration
 
-import * as React from "react"
-import { PageHeader as UnifiedPageHeader } from "./page-header-unified"
+import * as React from "react";
+import { PageHeader as UnifiedPageHeader } from "./page-header-unified";
 
 interface BreadcrumbItem {
-  label: string
-  href?: string
+  label: string;
+  href?: string;
 }
 
 interface ProjectPageHeaderProps {
-  title: string
-  titleContent?: React.ReactNode
-  description?: string
-  breadcrumbs?: BreadcrumbItem[]
-  actions?: React.ReactNode
-  className?: string
-  showProjectName?: boolean
-  showExportButton?: boolean
-  onExportCSV?: () => void
-  onExportPDF?: () => void
-  exportLabel?: string
+  title: string;
+  titleContent?: React.ReactNode;
+  description?: string;
+  breadcrumbs?: BreadcrumbItem[];
+  actions?: React.ReactNode;
+  className?: string;
+  showProjectName?: boolean;
+  showExportButton?: boolean;
+  onExportCSV?: () => void;
+  onExportPDF?: () => void;
+  exportLabel?: string;
 }
 
 /**
@@ -31,5 +31,10 @@ interface ProjectPageHeaderProps {
  */
 export function ProjectPageHeader(props: ProjectPageHeaderProps) {
   // Default showProjectName to true for backwards compatibility
-  return <UnifiedPageHeader {...props} showProjectName={props.showProjectName ?? true} />
+  return (
+    <UnifiedPageHeader
+      {...props}
+      showProjectName={props.showProjectName ?? true}
+    />
+  );
 }

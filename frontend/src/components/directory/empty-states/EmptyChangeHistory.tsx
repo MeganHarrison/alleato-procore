@@ -1,12 +1,19 @@
-import { History } from 'lucide-react';
-import { EmptyState } from '@/components/ui/empty-state';
+import { History } from "lucide-react";
+import { EmptyState } from "@/components/ui/empty-state";
 
 interface EmptyChangeHistoryProps {
-  entityType?: 'company' | 'user' | 'project';
+  entityType?: "company" | "user" | "project";
 }
 
-export function EmptyChangeHistory({ entityType = 'project' }: EmptyChangeHistoryProps) {
-  const entityLabel = entityType === 'company' ? 'company' : entityType === 'user' ? 'user' : 'project';
+export function EmptyChangeHistory({
+  entityType = "project",
+}: EmptyChangeHistoryProps) {
+  const entityLabel =
+    entityType === "company"
+      ? "company"
+      : entityType === "user"
+        ? "user"
+        : "project";
 
   return (
     <EmptyState

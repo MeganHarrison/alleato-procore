@@ -4,12 +4,12 @@
  */
 
 // Only import and setup browser-specific mocks when in jsdom environment
-if (typeof window !== 'undefined') {
+if (typeof window !== "undefined") {
   // Import jest-dom matchers for DOM assertions
-  require('@testing-library/jest-dom');
+  require("@testing-library/jest-dom");
 
   // Mock window.matchMedia for components that use media queries
-  Object.defineProperty(window, 'matchMedia', {
+  Object.defineProperty(window, "matchMedia", {
     writable: true,
     value: jest.fn().mockImplementation((query: string) => ({
       matches: false,

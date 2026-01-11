@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import Link from 'next/link';
-import { Edit2 } from 'lucide-react';
-import { ProjectTeamMember } from '@/types/project-home';
+import * as React from "react";
+import Link from "next/link";
+import { Edit2 } from "lucide-react";
+import { ProjectTeamMember } from "@/types/project-home";
 import {
   Table,
   TableBody,
@@ -11,7 +11,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table';
+} from "@/components/ui/table";
 
 interface ProjectTeamProps {
   team: ProjectTeamMember[];
@@ -55,8 +55,8 @@ export function ProjectTeam({ team, projectId }: ProjectTeamProps) {
                   {member.email}
                 </a>
               </TableCell>
-              <TableCell>{member.office || '-'}</TableCell>
-              <TableCell>{member.mobile || '-'}</TableCell>
+              <TableCell>{member.office || "-"}</TableCell>
+              <TableCell>{member.mobile || "-"}</TableCell>
             </TableRow>
           ))}
           {team.length === 0 && (

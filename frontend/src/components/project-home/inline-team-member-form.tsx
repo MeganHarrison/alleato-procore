@@ -1,11 +1,11 @@
-'use client'
+"use client";
 
-import * as React from 'react'
-import { useState, useEffect, useRef } from 'react'
-import Link from 'next/link'
-import { Check, ChevronsUpDown, X, Loader2, UserPlus } from 'lucide-react'
-import { cn } from '@/lib/utils'
-import { Button } from '@/components/ui/button'
+import * as React from "react";
+import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
+import { Check, ChevronsUpDown, X, Loader2, UserPlus } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -13,49 +13,49 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from '@/components/ui/command'
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
+} from "@/components/ui/popover";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select'
+} from "@/components/ui/select";
 
 interface DirectoryPerson {
-  id: string
-  first_name: string
-  last_name: string
-  email?: string
+  id: string;
+  first_name: string;
+  last_name: string;
+  email?: string;
   company?: {
-    name?: string
-  }
+    name?: string;
+  };
 }
 
 interface TeamMember {
-  name: string
-  role: string
-  personId?: string
+  name: string;
+  role: string;
+  personId?: string;
 }
 
 interface InlineTeamMemberFormProps {
-  projectId: number
-  existingMembers: TeamMember[]
-  onSave: (members: TeamMember[]) => Promise<void>
-  onCancel: () => void
-  directoryUrl?: string
+  projectId: number;
+  existingMembers: TeamMember[];
+  onSave: (members: TeamMember[]) => Promise<void>;
+  onCancel: () => void;
+  directoryUrl?: string;
 }
 
 const ROLE_OPTIONS = [
-  { value: 'Architect', label: 'Architect' },
-  { value: 'Project Manager', label: 'Project Manager' },
-  { value: 'Superintendent', label: 'Superintendent' },
-]
+  { value: "Architect", label: "Architect" },
+  { value: "Project Manager", label: "Project Manager" },
+  { value: "Superintendent", label: "Superintendent" },
+];
 
 export function InlineTeamMemberForm({
   projectId,
@@ -64,67 +64,78 @@ export function InlineTeamMemberForm({
   onCancel,
   directoryUrl,
 }: InlineTeamMemberFormProps) {
-  const [people, setPeople] = useState<DirectoryPerson[]>([])
-  const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
-  const [selectedRole, setSelectedRole] = useState<string>('')
-  const [selectedPerson, setSelectedPerson] = useState<DirectoryPerson | null>(null)
-  const [openCombobox, setOpenCombobox] = useState(false)
-  const [searchValue, setSearchValue] = useState('')
-  const formRef = useRef<HTMLDivElement>(null)
+  const [people, setPeople] = useState<DirectoryPerson[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [selectedRole, setSelectedRole] = useState<string>("");
+  const [selectedPerson, setSelectedPerson] = useState<DirectoryPerson | null>(
+    null,
+  );
+  const [openCombobox, setOpenCombobox] = useState(false);
+  const [searchValue, setSearchValue] = useState("");
+  const formRef = useRef<HTMLDivElement>(null);
 
   // Fetch directory people
   useEffect(() => {
     async function fetchPeople() {
       try {
-        const response = await fetch(`/api/projects/${projectId}/directory/people?type=all&status=active&per_page=200`)
+        const response = await fetch(
+          `/api/projects/${projectId}/directory/people?type=all&status=active&per_page=200`,
+        );
         if (response.ok) {
-          const result = await response.json()
-          setPeople(result.data || [])
+          const result = await response.json();
+          setPeople(result.data || []);
         }
       } catch (error) {
-        console.error('Error fetching directory people:', error)
+        console.error("Error fetching directory people:", error);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
     }
-    fetchPeople()
-  }, [projectId])
+    fetchPeople();
+  }, [projectId]);
 
   // Filter people based on search
   const filteredPeople = people.filter((person) => {
-    const fullName = `${person.first_name} ${person.last_name}`.toLowerCase()
-    const searchLower = searchValue.toLowerCase()
-    return fullName.includes(searchLower) ||
-           person.email?.toLowerCase().includes(searchLower) ||
-           person.company?.name?.toLowerCase().includes(searchLower)
-  })
+    const fullName = `${person.first_name} ${person.last_name}`.toLowerCase();
+    const searchLower = searchValue.toLowerCase();
+    return (
+      fullName.includes(searchLower) ||
+      person.email?.toLowerCase().includes(searchLower) ||
+      person.company?.name?.toLowerCase().includes(searchLower)
+    );
+  });
 
   const handleSave = async () => {
-    if (!selectedRole || !selectedPerson) return
+    if (!selectedRole || !selectedPerson) return;
 
-    setSaving(true)
+    setSaving(true);
     try {
       const newMember: TeamMember = {
         name: `${selectedPerson.first_name} ${selectedPerson.last_name}`,
         role: selectedRole,
         personId: selectedPerson.id,
-      }
-      const updatedMembers = [...existingMembers, newMember]
-      await onSave(updatedMembers)
+      };
+      const updatedMembers = [...existingMembers, newMember];
+      await onSave(updatedMembers);
     } catch (error) {
-      console.error('Error saving team member:', error)
+      console.error("Error saving team member:", error);
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
-  const isValid = selectedRole && selectedPerson
+  const isValid = selectedRole && selectedPerson;
 
   return (
-    <div ref={formRef} className="border border-neutral-200 rounded-md p-4 bg-neutral-50 space-y-4">
+    <div
+      ref={formRef}
+      className="border border-neutral-200 rounded-md p-4 bg-neutral-50 space-y-4"
+    >
       <div className="flex items-center justify-between">
-        <span className="text-xs font-medium text-neutral-600 uppercase tracking-wider">Add Team Member</span>
+        <span className="text-xs font-medium text-neutral-600 uppercase tracking-wider">
+          Add Team Member
+        </span>
         <button
           type="button"
           onClick={onCancel}
@@ -190,7 +201,9 @@ export function InlineTeamMemberForm({
                 <CommandList>
                   <CommandEmpty>
                     <div className="py-2 text-center">
-                      <p className="text-sm text-neutral-500 mb-2">No members found.</p>
+                      <p className="text-sm text-neutral-500 mb-2">
+                        No members found.
+                      </p>
                       {directoryUrl && (
                         <Link
                           href={directoryUrl}
@@ -208,15 +221,17 @@ export function InlineTeamMemberForm({
                         key={person.id}
                         value={person.id}
                         onSelect={() => {
-                          setSelectedPerson(person)
-                          setOpenCombobox(false)
-                          setSearchValue('')
+                          setSelectedPerson(person);
+                          setOpenCombobox(false);
+                          setSearchValue("");
                         }}
                       >
                         <Check
                           className={cn(
-                            'mr-2 h-4 w-4',
-                            selectedPerson?.id === person.id ? 'opacity-100' : 'opacity-0'
+                            "mr-2 h-4 w-4",
+                            selectedPerson?.id === person.id
+                              ? "opacity-100"
+                              : "opacity-0",
                           )}
                         />
                         <div className="flex flex-col">
@@ -263,10 +278,10 @@ export function InlineTeamMemberForm({
               Saving...
             </>
           ) : (
-            'Add Member'
+            "Add Member"
           )}
         </Button>
       </div>
     </div>
-  )
+  );
 }

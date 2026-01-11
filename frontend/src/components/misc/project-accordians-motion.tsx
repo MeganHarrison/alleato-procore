@@ -1,9 +1,9 @@
-"use client"
+"use client";
 
-import type React from "react"
-import { useState } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { ArrowRight } from "lucide-react"
+import type React from "react";
+import { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ArrowRight } from "lucide-react";
 
 const articles = [
   {
@@ -26,15 +26,15 @@ const articles = [
     category: "Inspiration",
     image: "/placeholder.svg?height=200&width=300",
   },
-]
+];
 
 export function InsightsSection() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null)
-  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 })
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
 
   const handleMouseMove = (e: React.MouseEvent) => {
-    setMousePosition({ x: e.clientX, y: e.clientY })
-  }
+    setMousePosition({ x: e.clientX, y: e.clientY });
+  };
 
   return (
     <section className="bg-background px-6 py-24" onMouseMove={handleMouseMove}>
@@ -64,7 +64,9 @@ export function InsightsSection() {
               data-clickable
             >
               <div className="flex-1">
-                <span className="text-xs text-muted-foreground uppercase tracking-wider">{article.category}</span>
+                <span className="text-xs text-muted-foreground uppercase tracking-wider">
+                  {article.category}
+                </span>
                 <h3 className="font-sans text-xl md:text-2xl text-foreground mt-1 group-hover:text-primary transition-colors">
                   {article.title}
                 </h3>
@@ -99,5 +101,5 @@ export function InsightsSection() {
         </AnimatePresence>
       </div>
     </section>
-  )
+  );
 }

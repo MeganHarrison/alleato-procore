@@ -1,7 +1,11 @@
-import { Skeleton } from '@/components/ui/skeleton';
-import { Card } from '@/components/ui/card';
+import { Skeleton } from "@/components/ui/skeleton";
+import { Card } from "@/components/ui/card";
 
-export function DistributionGroupListSkeleton({ count = 5 }: { count?: number }) {
+export function DistributionGroupListSkeleton({
+  count = 5,
+}: {
+  count?: number;
+}) {
   return (
     <div className="space-y-3">
       {Array.from({ length: count }).map((_, i) => (

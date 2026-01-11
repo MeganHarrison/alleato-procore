@@ -1,28 +1,28 @@
-import { BudgetLineItem } from '@/types/budget';
-import { QuickFilterType } from '@/components/budget/budget-filters';
+import { BudgetLineItem } from "@/types/budget";
+import { QuickFilterType } from "@/components/budget/budget-filters";
 
 /**
  * Apply quick filter to budget line items
  */
 export function applyQuickFilter(
   items: BudgetLineItem[],
-  filterType: QuickFilterType
+  filterType: QuickFilterType,
 ): BudgetLineItem[] {
-  if (filterType === 'all') {
+  if (filterType === "all") {
     return items;
   }
 
   const filterItem = (item: BudgetLineItem): boolean => {
     switch (filterType) {
-      case 'over-budget':
+      case "over-budget":
         // Over budget: Projected Costs > Projected Budget
         return item.projectedCosts > item.projectedBudget;
 
-      case 'under-budget':
+      case "under-budget":
         // Under budget: Projected Costs < Projected Budget
         return item.projectedCosts < item.projectedBudget;
 
-      case 'no-activity':
+      case "no-activity":
         // No activity: No Direct Costs, Committed Costs, or Pending Changes
         return (
           item.directCosts === 0 &&
@@ -41,8 +41,8 @@ export function applyQuickFilter(
 
     if (hasChildren) {
       // For parent items, filter children
-      const filteredChildren = item.children!
-        .map(filterRecursive)
+      const filteredChildren = item
+        .children!.map(filterRecursive)
         .filter((child): child is BudgetLineItem => child !== null);
 
       // Include parent if it has matching children OR if parent itself matches
@@ -69,9 +69,9 @@ export function applyQuickFilter(
  */
 export function getQuickFilterCount(
   items: BudgetLineItem[],
-  filterType: QuickFilterType
+  filterType: QuickFilterType,
 ): number {
-  if (filterType === 'all') {
+  if (filterType === "all") {
     return items.length;
   }
 
@@ -93,13 +93,10 @@ export function getQuickFilterCount(
  */
 export function saveQuickFilterPreference(
   projectId: string,
-  filterType: QuickFilterType
+  filterType: QuickFilterType,
 ): void {
-  if (typeof window !== 'undefined') {
-    localStorage.setItem(
-      `budget-quick-filter-${projectId}`,
-      filterType
-    );
+  if (typeof window !== "undefined") {
+    localStorage.setItem(`budget-quick-filter-${projectId}`, filterType);
   }
 }
 
@@ -107,11 +104,14 @@ export function saveQuickFilterPreference(
  * Load quick filter preference from localStorage
  */
 export function loadQuickFilterPreference(projectId: string): QuickFilterType {
-  if (typeof window !== 'undefined') {
+  if (typeof window !== "undefined") {
     const saved = localStorage.getItem(`budget-quick-filter-${projectId}`);
-    if (saved && ['all', 'over-budget', 'under-budget', 'no-activity'].includes(saved)) {
+    if (
+      saved &&
+      ["all", "over-budget", "under-budget", "no-activity"].includes(saved)
+    ) {
       return saved as QuickFilterType;
     }
   }
-  return 'all';
+  return "all";
 }

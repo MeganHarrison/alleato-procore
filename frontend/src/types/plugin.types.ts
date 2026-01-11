@@ -3,7 +3,7 @@
  * This file defines the plugin architecture interfaces and types
  */
 
-import { z } from 'zod';
+import { z } from "zod";
 
 // Plugin metadata schema
 export const pluginMetadataSchema = z.object({
@@ -24,7 +24,10 @@ export const pluginMetadataSchema = z.object({
   requiredPermissions: z.array(z.string()).optional(),
   compatibleVersions: z.object({
     min: z.string().regex(/^\d+\.\d+\.\d+$/),
-    max: z.string().regex(/^\d+\.\d+\.\d+$/).optional(),
+    max: z
+      .string()
+      .regex(/^\d+\.\d+\.\d+$/)
+      .optional(),
   }),
 });
 
@@ -40,24 +43,24 @@ export interface PluginLifecycle {
 }
 
 // Plugin hook types
-export type HookType = 
-  | 'before:project:create'
-  | 'after:project:create'
-  | 'before:project:update'
-  | 'after:project:update'
-  | 'before:project:delete'
-  | 'after:project:delete'
-  | 'before:document:upload'
-  | 'after:document:upload'
-  | 'before:ai:analysis'
-  | 'after:ai:analysis'
-  | 'menu:project:actions'
-  | 'menu:document:actions'
-  | 'dashboard:widget'
-  | 'project:tab'
-  | 'ui:toolbar'
-  | 'api:request'
-  | 'api:response';
+export type HookType =
+  | "before:project:create"
+  | "after:project:create"
+  | "before:project:update"
+  | "after:project:update"
+  | "before:project:delete"
+  | "after:project:delete"
+  | "before:document:upload"
+  | "after:document:upload"
+  | "before:ai:analysis"
+  | "after:ai:analysis"
+  | "menu:project:actions"
+  | "menu:document:actions"
+  | "dashboard:widget"
+  | "project:tab"
+  | "ui:toolbar"
+  | "api:request"
+  | "api:response";
 
 // Hook context for different hook types
 export interface HookContext {
@@ -83,16 +86,19 @@ export interface PluginAPI {
     delete: (key: string) => Promise<void>;
     clear: () => Promise<void>;
   };
-  
+
   // UI API
   ui: {
-    showNotification: (message: string, type: 'info' | 'success' | 'warning' | 'error') => void;
+    showNotification: (
+      message: string,
+      type: "info" | "success" | "warning" | "error",
+    ) => void;
     showModal: (content: React.ReactNode) => void;
     registerMenuItem: (menu: string, item: MenuItem) => void;
     registerWidget: (widget: DashboardWidget) => void;
     registerTab: (projectId: string, tab: ProjectTab) => void;
   };
-  
+
   // Data API
   data: {
     query: (table: string, query: any) => Promise<any[]>;
@@ -100,14 +106,14 @@ export interface PluginAPI {
     update: (table: string, id: string, data: any) => Promise<any>;
     delete: (table: string, id: string) => Promise<void>;
   };
-  
+
   // Events API
   events: {
     emit: (event: string, data: any) => void;
     on: (event: string, handler: (data: any) => void) => () => void;
     off: (event: string, handler: (data: any) => void) => void;
   };
-  
+
   // HTTP API
   http: {
     get: (url: string, options?: RequestInit) => Promise<Response>;
@@ -172,11 +178,11 @@ export type PluginManifest = z.infer<typeof pluginManifestSchema>;
 
 // Plugin status in the system
 export enum PluginStatus {
-  INSTALLED = 'installed',
-  ENABLED = 'enabled',
-  DISABLED = 'disabled',
-  ERROR = 'error',
-  UPDATING = 'updating',
+  INSTALLED = "installed",
+  ENABLED = "enabled",
+  DISABLED = "disabled",
+  ERROR = "error",
+  UPDATING = "updating",
 }
 
 // Plugin database record
@@ -195,17 +201,17 @@ export interface PluginRecord {
 
 // Plugin permission types
 export enum PluginPermission {
-  READ_PROJECTS = 'read:projects',
-  WRITE_PROJECTS = 'write:projects',
-  READ_DOCUMENTS = 'read:documents',
-  WRITE_DOCUMENTS = 'write:documents',
-  READ_USERS = 'read:users',
-  WRITE_USERS = 'write:users',
-  USE_AI = 'use:ai',
-  SEND_NOTIFICATIONS = 'send:notifications',
-  ACCESS_API = 'access:api',
-  MODIFY_UI = 'modify:ui',
-  ACCESS_STORAGE = 'access:storage',
+  READ_PROJECTS = "read:projects",
+  WRITE_PROJECTS = "write:projects",
+  READ_DOCUMENTS = "read:documents",
+  WRITE_DOCUMENTS = "write:documents",
+  READ_USERS = "read:users",
+  WRITE_USERS = "write:users",
+  USE_AI = "use:ai",
+  SEND_NOTIFICATIONS = "send:notifications",
+  ACCESS_API = "access:api",
+  MODIFY_UI = "modify:ui",
+  ACCESS_STORAGE = "access:storage",
 }
 
 // Plugin error types
@@ -213,10 +219,10 @@ export class PluginError extends Error {
   constructor(
     message: string,
     public code: string,
-    public pluginId?: string
+    public pluginId?: string,
   ) {
     super(message);
-    this.name = 'PluginError';
+    this.name = "PluginError";
   }
 }
 

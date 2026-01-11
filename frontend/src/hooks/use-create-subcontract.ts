@@ -1,7 +1,7 @@
-'use client';
+"use client";
 
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import type { CreateSubcontractInput } from '@/lib/schemas/create-subcontract-schema';
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import type { CreateSubcontractInput } from "@/lib/schemas/create-subcontract-schema";
 
 interface SubcontractPayload {
   projectId: number;
@@ -22,13 +22,15 @@ interface SubcontractResponse {
  * Maps form values to the API payload format.
  * This is the typed mapping layer that prevents schema mismatches.
  */
-function mapFormToPayload(data: CreateSubcontractInput): Record<string, unknown> {
+function mapFormToPayload(
+  data: CreateSubcontractInput,
+): Record<string, unknown> {
   return {
-    contractNumber: data.contractNumber?.trim() || '',
+    contractNumber: data.contractNumber?.trim() || "",
     // contractCompanyId is already a UUID from EntitySelect
     contractCompanyId: data.contractCompanyId || null,
     title: data.title || null,
-    status: data.status || 'Draft',
+    status: data.status || "Draft",
     executed: data.executed ?? false,
     defaultRetainagePercent: data.defaultRetainagePercent ?? null,
     description: data.description || null,
@@ -48,8 +50,8 @@ async function createSubcontract({
   const payload = mapFormToPayload(data);
 
   const response = await fetch(`/api/projects/${projectId}/subcontracts`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload),
   });
 
@@ -57,7 +59,7 @@ async function createSubcontract({
 
   if (!response.ok) {
     const apiError = result as ApiError;
-    const error = new Error(apiError.error || 'Failed to create subcontract');
+    const error = new Error(apiError.error || "Failed to create subcontract");
     (error as Error & { details?: unknown }).details = apiError.details;
     throw error;
   }
@@ -87,7 +89,7 @@ export function useCreateSubcontract(
   options?: {
     onSuccess?: (data: SubcontractResponse) => void;
     onError?: (error: Error & { details?: unknown }) => void;
-  }
+  },
 ) {
   const queryClient = useQueryClient();
 
@@ -96,8 +98,8 @@ export function useCreateSubcontract(
       createSubcontract({ projectId, data }),
     onSuccess: (data) => {
       // Invalidate relevant queries to refetch fresh data
-      queryClient.invalidateQueries({ queryKey: ['subcontracts', projectId] });
-      queryClient.invalidateQueries({ queryKey: ['commitments', projectId] });
+      queryClient.invalidateQueries({ queryKey: ["subcontracts", projectId] });
+      queryClient.invalidateQueries({ queryKey: ["commitments", projectId] });
       options?.onSuccess?.(data);
     },
     onError: (error: Error & { details?: unknown }) => {

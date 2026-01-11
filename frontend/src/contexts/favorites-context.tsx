@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 
 export interface Favorite {
   name: string;
@@ -19,7 +19,7 @@ const FavoritesContext = React.createContext<FavoritesContextValue | undefined>(
   undefined,
 );
 
-const FAVORITES_STORAGE_KEY = 'alleato_favorites';
+const FAVORITES_STORAGE_KEY = "alleato_favorites";
 
 export function FavoritesProvider({ children }: { children: React.ReactNode }) {
   const [favorites, setFavorites] = React.useState<Favorite[]>([]);
@@ -34,7 +34,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
         setFavorites(Array.isArray(parsed) ? parsed : []);
       }
     } catch (error) {
-      console.error('Failed to load favorites:', error);
+      console.error("Failed to load favorites:", error);
     } finally {
       setIsLoaded(true);
     }
@@ -46,7 +46,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
       try {
         localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favorites));
       } catch (error) {
-        console.error('Failed to save favorites:', error);
+        console.error("Failed to save favorites:", error);
       }
     }
   }, [favorites, isLoaded]);
@@ -97,7 +97,7 @@ export function useFavorites() {
   const context = React.useContext(FavoritesContext);
 
   if (!context) {
-    throw new Error('useFavorites must be used within a FavoritesProvider');
+    throw new Error("useFavorites must be used within a FavoritesProvider");
   }
 
   return context;

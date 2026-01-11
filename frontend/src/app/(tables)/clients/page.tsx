@@ -1,50 +1,55 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import { Plus, Search, Filter, Download, Eye, Edit, Trash2 } from 'lucide-react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
+import { useState, useMemo } from "react";
+import {
+  Plus,
+  Search,
+  Filter,
+  Download,
+  Eye,
+  Edit,
+  Trash2,
+} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
+} from "@/components/ui/select";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
-import { Badge } from '@/components/ui/badge';
-import { PageHeader, PageContainer } from '@/components/layout';
-import { DataTableResponsive } from '@/components/tables';
-import { ColumnDef } from '@tanstack/react-table';
-import { useClients, Client } from '@/hooks/use-clients';
-import { useProjectTitle } from '@/hooks/useProjectTitle';
+} from "@/components/ui/dropdown-menu";
+import { Badge } from "@/components/ui/badge";
+import { PageHeader, PageContainer } from "@/components/layout";
+import { DataTableResponsive } from "@/components/tables";
+import { ColumnDef } from "@tanstack/react-table";
+import { useClients, Client } from "@/hooks/use-clients";
+import { useProjectTitle } from "@/hooks/useProjectTitle";
 
 export default function ClientsPage() {
   const router = useRouter();
-  useProjectTitle('Clients', false); // Don't include project name for directory pages
+  useProjectTitle("Clients", false); // Don't include project name for directory pages
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState<'active' | 'inactive' | 'all'>('all');
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState<
+    "active" | "inactive" | "all"
+  >("all");
 
-  const {
-    clients,
-    isLoading,
-    error,
-    refetch,
-  } = useClients({
+  const { clients, isLoading, error, refetch } = useClients({
     search: searchTerm,
-    status: statusFilter === 'all' ? null : statusFilter,
+    status: statusFilter === "all" ? null : statusFilter,
   });
 
   const handleCreateClient = () => {
-    router.push('/clients/new');
+    router.push("/clients/new");
   };
 
   const handleViewClient = (client: Client) => {
@@ -62,40 +67,41 @@ export default function ClientsPage() {
 
     try {
       const response = await fetch(`/api/clients/${client.id}`, {
-        method: 'DELETE',
+        method: "DELETE",
       });
 
       if (!response.ok) {
-        throw new Error('Failed to delete client');
+        throw new Error("Failed to delete client");
       }
 
       await refetch();
     } catch (error) {
-      alert(`Error: ${error instanceof Error ? error.message : 'Failed to delete client'}`);
+      alert(
+        `Error: ${error instanceof Error ? error.message : "Failed to delete client"}`,
+      );
     }
   };
 
   const handleExport = () => {
     // Export clients to CSV
-    const headers = ['ID', 'Name', 'Company', 'Status', 'Created At'];
-    const rows = clients.map(client => [
+    const headers = ["ID", "Name", "Company", "Status", "Created At"];
+    const rows = clients.map((client) => [
       client.id,
-      client.name || '',
-      client.company?.name || '',
-      client.status || '',
+      client.name || "",
+      client.company?.name || "",
+      client.status || "",
       new Date(client.created_at).toLocaleDateString(),
     ]);
 
-    const csv = [
-      headers.join(','),
-      ...rows.map(row => row.join(',')),
-    ].join('\n');
+    const csv = [headers.join(","), ...rows.map((row) => row.join(","))].join(
+      "\n",
+    );
 
-    const blob = new Blob([csv], { type: 'text/csv' });
+    const blob = new Blob([csv], { type: "text/csv" });
     const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
+    const a = document.createElement("a");
     a.href = url;
-    a.download = `clients-${new Date().toISOString().split('T')[0]}.csv`;
+    a.download = `clients-${new Date().toISOString().split("T")[0]}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
   };
@@ -104,29 +110,31 @@ export default function ClientsPage() {
   const columns: ColumnDef<Client>[] = useMemo(
     () => [
       {
-        accessorKey: 'id',
-        header: 'ID',
+        accessorKey: "id",
+        header: "ID",
         cell: ({ row }) => (
           <div className="font-medium text-blue-600 hover:text-blue-800 cursor-pointer">
-            #{row.getValue('id')}
+            #{row.getValue("id")}
           </div>
         ),
       },
       {
-        accessorKey: 'name',
-        header: 'Client Name',
+        accessorKey: "name",
+        header: "Client Name",
         cell: ({ row }) => (
-          <div className="font-semibold">{row.getValue('name') || 'Unnamed Client'}</div>
+          <div className="font-semibold">
+            {row.getValue("name") || "Unnamed Client"}
+          </div>
         ),
       },
       {
-        accessorKey: 'company',
-        header: 'Company',
+        accessorKey: "company",
+        header: "Company",
         cell: ({ row }) => {
-          const company = row.getValue('company') as Client['company'];
+          const company = row.getValue("company") as Client["company"];
           return (
             <div>
-              <div className="font-medium">{company?.name || 'N/A'}</div>
+              <div className="font-medium">{company?.name || "N/A"}</div>
               {company?.city && company?.state && (
                 <div className="text-sm text-muted-foreground">
                   {company.city}, {company.state}
@@ -137,25 +145,27 @@ export default function ClientsPage() {
         },
       },
       {
-        accessorKey: 'status',
-        header: 'Status',
+        accessorKey: "status",
+        header: "Status",
         cell: ({ row }) => {
-          const status = row.getValue('status') as string;
+          const status = row.getValue("status") as string;
           return (
             <Badge
-              variant={status === 'active' ? 'default' : 'secondary'}
-              className={status === 'active' ? 'bg-green-100 text-green-800' : ''}
+              variant={status === "active" ? "default" : "secondary"}
+              className={
+                status === "active" ? "bg-green-100 text-green-800" : ""
+              }
             >
-              {status || 'Active'}
+              {status || "Active"}
             </Badge>
           );
         },
       },
       {
-        accessorKey: 'created_at',
-        header: 'Created',
+        accessorKey: "created_at",
+        header: "Created",
         cell: ({ row }) => {
-          const date = new Date(row.getValue('created_at'));
+          const date = new Date(row.getValue("created_at"));
           return (
             <div className="text-sm text-muted-foreground">
               {date.toLocaleDateString()}
@@ -164,8 +174,8 @@ export default function ClientsPage() {
         },
       },
       {
-        id: 'actions',
-        header: 'Actions',
+        id: "actions",
+        header: "Actions",
         cell: ({ row }) => {
           const client = row.original;
           return (
@@ -198,7 +208,7 @@ export default function ClientsPage() {
         },
       },
     ],
-    []
+    [],
   );
 
   if (error) {
@@ -208,9 +218,9 @@ export default function ClientsPage() {
           title="Clients"
           description="Manage your client contacts and companies"
           breadcrumbs={[
-            { label: 'Home', href: '/' },
-            { label: 'Directory', href: '/directory' },
-            { label: 'Clients' },
+            { label: "Home", href: "/" },
+            { label: "Directory", href: "/directory" },
+            { label: "Clients" },
           ]}
         />
         <PageContainer>
@@ -232,9 +242,9 @@ export default function ClientsPage() {
         title="Clients"
         description="Manage your client contacts and companies"
         breadcrumbs={[
-          { label: 'Home', href: '/' },
-          { label: 'Directory', href: '/directory' },
-          { label: 'Clients' },
+          { label: "Home", href: "/" },
+          { label: "Directory", href: "/directory" },
+          { label: "Clients" },
         ]}
         actions={
           <div className="flex gap-2">
@@ -254,7 +264,6 @@ export default function ClientsPage() {
       />
 
       <PageContainer>
-
         {/* Filters */}
         <Card className="p-4 mb-6">
           <div className="flex flex-col sm:flex-row gap-4">
@@ -269,7 +278,9 @@ export default function ClientsPage() {
             </div>
             <Select
               value={statusFilter}
-              onValueChange={(value: 'active' | 'inactive' | 'all') => setStatusFilter(value)}
+              onValueChange={(value: "active" | "inactive" | "all") =>
+                setStatusFilter(value)
+              }
             >
               <SelectTrigger className="w-full sm:w-[180px]">
                 <Filter className="mr-2 h-4 w-4" />
@@ -301,31 +312,37 @@ export default function ClientsPage() {
             searchPlaceholder="Search clients..."
             filterOptions={[
               {
-                column: 'status',
-                title: 'Status',
+                column: "status",
+                title: "Status",
                 options: [
-                  { label: 'Active', value: 'active' },
-                  { label: 'Inactive', value: 'inactive' },
+                  { label: "Active", value: "active" },
+                  { label: "Inactive", value: "inactive" },
                 ],
               },
             ]}
-            mobileColumns={['name', 'company', 'status']}
+            mobileColumns={["name", "company", "status"]}
             mobileCardRenderer={(client: Client) => (
               <div className="space-y-2">
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="font-semibold text-blue-600">
-                      {client.name || 'Unnamed Client'}
+                      {client.name || "Unnamed Client"}
                     </div>
                     <div className="text-sm text-muted-foreground">
-                      {client.company?.name || 'No company'}
+                      {client.company?.name || "No company"}
                     </div>
                   </div>
                   <Badge
-                    variant={client.status === 'active' ? 'default' : 'secondary'}
-                    className={client.status === 'active' ? 'bg-green-100 text-green-800' : ''}
+                    variant={
+                      client.status === "active" ? "default" : "secondary"
+                    }
+                    className={
+                      client.status === "active"
+                        ? "bg-green-100 text-green-800"
+                        : ""
+                    }
                   >
-                    {client.status || 'Active'}
+                    {client.status || "Active"}
                   </Badge>
                 </div>
                 <div className="text-sm text-muted-foreground">

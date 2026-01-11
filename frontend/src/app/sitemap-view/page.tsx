@@ -1,36 +1,50 @@
-'use client';
+"use client";
 
-import { useState, useMemo } from 'react';
-import { Input } from '@/components/ui/input';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
-import { 
-  Search, 
-  ChevronRight, 
-  FileText, 
-  LayoutDashboard, 
-  DollarSign, 
-  FolderOpen, 
+import { useState, useMemo } from "react";
+import { Input } from "@/components/ui/input";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
+import {
+  Search,
+  ChevronRight,
+  FileText,
+  LayoutDashboard,
+  DollarSign,
+  FolderOpen,
   Shield,
-  Wrench
-} from 'lucide-react';
-import Link from 'next/link';
-import { staticRoutes, getRoutesByCategory, searchRoutes, SitemapRoute } from '@/lib/sitemap-utils';
-import { cn } from '@/lib/utils';
+  Wrench,
+} from "lucide-react";
+import Link from "next/link";
+import {
+  staticRoutes,
+  getRoutesByCategory,
+  searchRoutes,
+  SitemapRoute,
+} from "@/lib/sitemap-utils";
+import { cn } from "@/lib/utils";
 
-const categoryIcons: Record<string, React.ComponentType<{ className?: string }>> = {
-  'Main': LayoutDashboard,
-  'Financial': DollarSign,
-  'Project Management': FolderOpen,
-  'Forms': FileText,
-  'Auth': Shield,
-  'Utility': Wrench,
+const categoryIcons: Record<
+  string,
+  React.ComponentType<{ className?: string }>
+> = {
+  Main: LayoutDashboard,
+  Financial: DollarSign,
+  "Project Management": FolderOpen,
+  Forms: FileText,
+  Auth: Shield,
+  Utility: Wrench,
 };
 
 function RouteCard({ route }: { route: SitemapRoute }) {
   const Icon = categoryIcons[route.category] || FileText;
-  
+
   return (
     <Link href={route.url} className="block">
       <Card className="hover:shadow-md transition-shadow cursor-pointer">
@@ -45,9 +59,11 @@ function RouteCard({ route }: { route: SitemapRoute }) {
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-between text-sm">
-            <code className="text-xs bg-gray-100 px-2 py-1 rounded">{route.url}</code>
+            <code className="text-xs bg-gray-100 px-2 py-1 rounded">
+              {route.url}
+            </code>
             <Badge variant="outline" className="text-xs">
-              {route.priority ? `Priority: ${route.priority}` : 'Standard'}
+              {route.priority ? `Priority: ${route.priority}` : "Standard"}
             </Badge>
           </div>
         </CardContent>
@@ -56,18 +72,31 @@ function RouteCard({ route }: { route: SitemapRoute }) {
   );
 }
 
-function RouteTree({ routes, level = 0 }: { routes: SitemapRoute[], level?: number }) {
+function RouteTree({
+  routes,
+  level = 0,
+}: {
+  routes: SitemapRoute[];
+  level?: number;
+}) {
   return (
-    <div className={cn("space-y-1", level > 0 && "ml-4 border-l-2 border-gray-200 pl-4")}>
+    <div
+      className={cn(
+        "space-y-1",
+        level > 0 && "ml-4 border-l-2 border-gray-200 pl-4",
+      )}
+    >
       {routes.map((route) => (
         <div key={route.url}>
-          <Link 
+          <Link
             href={route.url}
             className="flex items-center gap-2 p-2 hover:bg-gray-50 rounded-md transition-colors"
           >
             <ChevronRight className="h-3 w-3 text-gray-400" />
             <span className="text-sm font-medium">{route.title}</span>
-            <code className="text-xs bg-gray-100 px-2 py-0.5 rounded ml-auto">{route.url}</code>
+            <code className="text-xs bg-gray-100 px-2 py-0.5 rounded ml-auto">
+              {route.url}
+            </code>
           </Link>
           {route.children && route.children.length > 0 && (
             <RouteTree routes={route.children} level={level + 1} />
@@ -79,17 +108,20 @@ function RouteTree({ routes, level = 0 }: { routes: SitemapRoute[], level?: numb
 }
 
 export default function SitemapPage() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [viewMode, setViewMode] = useState<'tree' | 'cards'>('cards');
-  
+  const [searchQuery, setSearchQuery] = useState("");
+  const [viewMode, setViewMode] = useState<"tree" | "cards">("cards");
+
   const categorizedRoutes = useMemo(() => getRoutesByCategory(), []);
   const searchResults = useMemo(() => {
     if (!searchQuery) return null;
     return searchRoutes(searchQuery);
   }, [searchQuery]);
-  
+
   const totalRoutes = useMemo(() => {
-    return Object.values(categorizedRoutes).reduce((acc, routes) => acc + routes.length, 0);
+    return Object.values(categorizedRoutes).reduce(
+      (acc, routes) => acc + routes.length,
+      0,
+    );
   }, [categorizedRoutes]);
 
   return (
@@ -113,19 +145,19 @@ export default function SitemapPage() {
             className="pl-10"
           />
         </div>
-        
+
         <div className="flex items-center gap-2">
           <Button
-            variant={viewMode === 'cards' ? 'default' : 'outline'}
+            variant={viewMode === "cards" ? "default" : "outline"}
             size="sm"
-            onClick={() => setViewMode('cards')}
+            onClick={() => setViewMode("cards")}
           >
             Card View
           </Button>
           <Button
-            variant={viewMode === 'tree' ? 'default' : 'outline'}
+            variant={viewMode === "tree" ? "default" : "outline"}
             size="sm"
-            onClick={() => setViewMode('tree')}
+            onClick={() => setViewMode("tree")}
           >
             Tree View
           </Button>
@@ -147,12 +179,14 @@ export default function SitemapPage() {
           </h2>
           {searchResults.length > 0 ? (
             <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-              {searchResults.map(route => (
+              {searchResults.map((route) => (
                 <RouteCard key={route.url} route={route} />
               ))}
             </div>
           ) : (
-            <p className="text-muted-foreground">No results found for &quot;{searchQuery}&quot;</p>
+            <p className="text-muted-foreground">
+              No results found for &quot;{searchQuery}&quot;
+            </p>
           )}
         </div>
       )}
@@ -160,7 +194,7 @@ export default function SitemapPage() {
       {/* All Routes */}
       {!searchQuery && (
         <>
-          {viewMode === 'cards' ? (
+          {viewMode === "cards" ? (
             // Card View
             Object.entries(categorizedRoutes).map(([category, routes]) => {
               const Icon = categoryIcons[category] || FileText;
@@ -174,7 +208,7 @@ export default function SitemapPage() {
                     </Badge>
                   </div>
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {routes.map(route => (
+                    {routes.map((route) => (
                       <RouteCard key={route.url} route={route} />
                     ))}
                   </div>
@@ -195,7 +229,7 @@ export default function SitemapPage() {
 
       {/* Statistics */}
       <div className="mt-8">
-          <h3>Sitemap Statistics</h3>
+        <h3>Sitemap Statistics</h3>
         <div>
           <div className="grid gap-4 md:grid-cols-3">
             <div>
@@ -204,7 +238,9 @@ export default function SitemapPage() {
             </div>
             <div>
               <p className="text-sm text-muted-foreground">Categories</p>
-              <p className="text-2xl font-bold">{Object.keys(categorizedRoutes).length}</p>
+              <p className="text-2xl font-bold">
+                {Object.keys(categorizedRoutes).length}
+              </p>
             </div>
           </div>
         </div>

@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Camera, Calendar, User, Download, Maximize2 } from 'lucide-react';
-import { format } from 'date-fns';
-import Link from 'next/link';
-import Image from 'next/image';
-import { Button } from '@/components/ui/button';
-import { Dialog, DialogContent, DialogTrigger } from '@/components/ui/dialog';
+import * as React from "react";
+import { Camera, Calendar, User, Download, Maximize2 } from "lucide-react";
+import { format } from "date-fns";
+import Link from "next/link";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 
 interface ProjectPhoto {
   id: string;
@@ -25,75 +25,87 @@ interface RecentPhotosProps {
 }
 
 export function RecentPhotos({ projectId }: RecentPhotosProps) {
-  const [selectedPhoto, setSelectedPhoto] = React.useState<ProjectPhoto | null>(null);
-  
+  const [selectedPhoto, setSelectedPhoto] = React.useState<ProjectPhoto | null>(
+    null,
+  );
+
   // Mock data - in production this would come from Supabase storage
   const mockPhotos: ProjectPhoto[] = [
     {
-      id: '1',
-      url: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5',
-      thumbnailUrl: 'https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=300&h=200&fit=crop',
-      title: 'Foundation Pour - West Wing',
-      description: 'Concrete foundation being poured for the west wing of the building',
-      dateTaken: new Date('2024-03-18'),
-      uploadedBy: 'John Smith',
-      tags: ['foundation', 'concrete', 'west-wing'],
-      location: 'West Wing - Grid A-5',
+      id: "1",
+      url: "https://images.unsplash.com/photo-1541888946425-d81bb19240f5",
+      thumbnailUrl:
+        "https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=300&h=200&fit=crop",
+      title: "Foundation Pour - West Wing",
+      description:
+        "Concrete foundation being poured for the west wing of the building",
+      dateTaken: new Date("2024-03-18"),
+      uploadedBy: "John Smith",
+      tags: ["foundation", "concrete", "west-wing"],
+      location: "West Wing - Grid A-5",
     },
     {
-      id: '2',
-      url: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd',
-      thumbnailUrl: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=300&h=200&fit=crop',
-      title: 'Steel Frame Installation',
-      description: 'Steel beams being installed on the second floor',
-      dateTaken: new Date('2024-03-17'),
-      uploadedBy: 'Jane Doe',
-      tags: ['steel', 'framing', 'structural'],
-      location: 'Level 2 - Grid B-3',
+      id: "2",
+      url: "https://images.unsplash.com/photo-1504307651254-35680f356dfd",
+      thumbnailUrl:
+        "https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=300&h=200&fit=crop",
+      title: "Steel Frame Installation",
+      description: "Steel beams being installed on the second floor",
+      dateTaken: new Date("2024-03-17"),
+      uploadedBy: "Jane Doe",
+      tags: ["steel", "framing", "structural"],
+      location: "Level 2 - Grid B-3",
     },
     {
-      id: '3',
-      url: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e',
-      thumbnailUrl: 'https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=300&h=200&fit=crop',
-      title: 'Site Overview - March Update',
-      description: 'Aerial view of the construction site showing overall progress',
-      dateTaken: new Date('2024-03-16'),
-      uploadedBy: 'Mike Johnson',
-      tags: ['aerial', 'overview', 'progress'],
-      location: 'Full Site',
+      id: "3",
+      url: "https://images.unsplash.com/photo-1503387762-592deb58ef4e",
+      thumbnailUrl:
+        "https://images.unsplash.com/photo-1503387762-592deb58ef4e?w=300&h=200&fit=crop",
+      title: "Site Overview - March Update",
+      description:
+        "Aerial view of the construction site showing overall progress",
+      dateTaken: new Date("2024-03-16"),
+      uploadedBy: "Mike Johnson",
+      tags: ["aerial", "overview", "progress"],
+      location: "Full Site",
     },
     {
-      id: '4',
-      url: 'https://images.unsplash.com/photo-1581094794329-c8112c4e5190',
-      thumbnailUrl: 'https://images.unsplash.com/photo-1581094794329-c8112c4e5190?w=300&h=200&fit=crop',
-      title: 'MEP Rough-In Progress',
-      description: 'Mechanical, electrical, and plumbing installation in progress',
-      dateTaken: new Date('2024-03-15'),
-      uploadedBy: 'Sarah Wilson',
-      tags: ['MEP', 'electrical', 'plumbing'],
-      location: 'Level 1 - North Side',
+      id: "4",
+      url: "https://images.unsplash.com/photo-1581094794329-c8112c4e5190",
+      thumbnailUrl:
+        "https://images.unsplash.com/photo-1581094794329-c8112c4e5190?w=300&h=200&fit=crop",
+      title: "MEP Rough-In Progress",
+      description:
+        "Mechanical, electrical, and plumbing installation in progress",
+      dateTaken: new Date("2024-03-15"),
+      uploadedBy: "Sarah Wilson",
+      tags: ["MEP", "electrical", "plumbing"],
+      location: "Level 1 - North Side",
     },
     {
-      id: '5',
-      url: 'https://images.unsplash.com/photo-1486175060817-5663aacc6655',
-      thumbnailUrl: 'https://images.unsplash.com/photo-1486175060817-5663aacc6655?w=300&h=200&fit=crop',
-      title: 'Safety Inspection Documentation',
-      description: 'Weekly safety inspection showing compliance with regulations',
-      dateTaken: new Date('2024-03-14'),
-      uploadedBy: 'Tom Brown',
-      tags: ['safety', 'inspection', 'compliance'],
-      location: 'Main Entrance',
+      id: "5",
+      url: "https://images.unsplash.com/photo-1486175060817-5663aacc6655",
+      thumbnailUrl:
+        "https://images.unsplash.com/photo-1486175060817-5663aacc6655?w=300&h=200&fit=crop",
+      title: "Safety Inspection Documentation",
+      description:
+        "Weekly safety inspection showing compliance with regulations",
+      dateTaken: new Date("2024-03-14"),
+      uploadedBy: "Tom Brown",
+      tags: ["safety", "inspection", "compliance"],
+      location: "Main Entrance",
     },
     {
-      id: '6',
-      url: 'https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82',
-      thumbnailUrl: 'https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=300&h=200&fit=crop',
-      title: 'Material Delivery',
-      description: 'Steel beam delivery for phase 2 construction',
-      dateTaken: new Date('2024-03-13'),
-      uploadedBy: 'Lisa Chen',
-      tags: ['delivery', 'materials', 'steel'],
-      location: 'Storage Area A',
+      id: "6",
+      url: "https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82",
+      thumbnailUrl:
+        "https://images.unsplash.com/photo-1574482620811-1aa16ffe3c82?w=300&h=200&fit=crop",
+      title: "Material Delivery",
+      description: "Steel beam delivery for phase 2 construction",
+      dateTaken: new Date("2024-03-13"),
+      uploadedBy: "Lisa Chen",
+      tags: ["delivery", "materials", "steel"],
+      location: "Storage Area A",
     },
   ];
 
@@ -128,7 +140,7 @@ export function RecentPhotos({ projectId }: RecentPhotosProps) {
                     className="object-cover group-hover:scale-105 transition-transform"
                     sizes="(max-width: 768px) 50vw, 33vw"
                   />
-                  
+
                   {/* Overlay on hover */}
                   <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                     <Maximize2 className="w-6 h-6 text-white" />
@@ -143,7 +155,7 @@ export function RecentPhotos({ projectId }: RecentPhotosProps) {
                   <div className="flex items-center gap-2 text-xs text-gray-500">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
-                      <span>{format(photo.dateTaken, 'MMM d')}</span>
+                      <span>{format(photo.dateTaken, "MMM d")}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <User className="w-3 h-3" />
@@ -191,17 +203,21 @@ export function RecentPhotos({ projectId }: RecentPhotosProps) {
                       <div>
                         <p className="text-gray-500">Date Taken</p>
                         <p className="font-medium">
-                          {format(selectedPhoto.dateTaken, 'MMM d, yyyy')}
+                          {format(selectedPhoto.dateTaken, "MMM d, yyyy")}
                         </p>
                       </div>
                       <div>
                         <p className="text-gray-500">Uploaded By</p>
-                        <p className="font-medium">{selectedPhoto.uploadedBy}</p>
+                        <p className="font-medium">
+                          {selectedPhoto.uploadedBy}
+                        </p>
                       </div>
                       {selectedPhoto.location && (
                         <div>
                           <p className="text-gray-500">Location</p>
-                          <p className="font-medium">{selectedPhoto.location}</p>
+                          <p className="font-medium">
+                            {selectedPhoto.location}
+                          </p>
                         </div>
                       )}
                       <div className="flex items-end">

@@ -9,7 +9,7 @@
  * SECURITY: Only tables listed here can be accessed. This is enforced server-side.
  */
 
-export type ViewType = 'table' | 'list' | 'grid' | 'gallery';
+export type ViewType = "table" | "list" | "grid" | "gallery";
 
 export interface TablePermissions {
   read: boolean;
@@ -35,7 +35,7 @@ export interface TableConfig {
   /** Default sort configuration */
   defaultSort: {
     column: string;
-    direction: 'asc' | 'desc';
+    direction: "asc" | "desc";
   };
   /** Columns to hide by default */
   hiddenColumns: string[];
@@ -55,271 +55,271 @@ export interface TableConfig {
  */
 export const TABLE_REGISTRY = {
   projects: {
-    label: 'Projects',
-    description: 'Construction projects and their details',
-    primaryKey: 'id',
-    defaultSort: { column: 'created_at', direction: 'desc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['name', 'description', 'project_number'],
-    viewsEnabled: ['table', 'list', 'grid', 'gallery'],
+    label: "Projects",
+    description: "Construction projects and their details",
+    primaryKey: "id",
+    defaultSort: { column: "created_at", direction: "desc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["name", "description", "project_number"],
+    viewsEnabled: ["table", "list", "grid", "gallery"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'name',
-      subtitleColumns: ['project_number', 'status'],
-      imageColumn: 'image_url',
+      titleColumn: "name",
+      subtitleColumns: ["project_number", "status"],
+      imageColumn: "image_url",
     },
   },
   companies: {
-    label: 'Companies',
-    description: 'Companies and organizations',
-    primaryKey: 'id',
-    defaultSort: { column: 'name', direction: 'asc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['name', 'email', 'phone'],
-    viewsEnabled: ['table', 'list', 'grid'],
+    label: "Companies",
+    description: "Companies and organizations",
+    primaryKey: "id",
+    defaultSort: { column: "name", direction: "asc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["name", "email", "phone"],
+    viewsEnabled: ["table", "list", "grid"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'name',
-      subtitleColumns: ['email', 'phone'],
+      titleColumn: "name",
+      subtitleColumns: ["email", "phone"],
     },
   },
   clients: {
-    label: 'Clients',
-    description: 'Client organizations',
-    primaryKey: 'id',
-    defaultSort: { column: 'name', direction: 'asc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['name'],
-    viewsEnabled: ['table', 'list', 'grid'],
+    label: "Clients",
+    description: "Client organizations",
+    primaryKey: "id",
+    defaultSort: { column: "name", direction: "asc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["name"],
+    viewsEnabled: ["table", "list", "grid"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'name',
+      titleColumn: "name",
     },
   },
   contacts: {
-    label: 'Contacts',
-    description: 'People and contact information',
-    primaryKey: 'id',
-    defaultSort: { column: 'last_name', direction: 'asc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['first_name', 'last_name', 'email', 'phone'],
-    viewsEnabled: ['table', 'list', 'grid'],
+    label: "Contacts",
+    description: "People and contact information",
+    primaryKey: "id",
+    defaultSort: { column: "last_name", direction: "asc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["first_name", "last_name", "email", "phone"],
+    viewsEnabled: ["table", "list", "grid"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'first_name',
-      subtitleColumns: ['last_name', 'email'],
+      titleColumn: "first_name",
+      subtitleColumns: ["last_name", "email"],
     },
   },
   contracts: {
-    label: 'Contracts',
-    description: 'Project contracts and agreements',
-    primaryKey: 'id',
-    defaultSort: { column: 'created_at', direction: 'desc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['title', 'description', 'number'],
-    viewsEnabled: ['table', 'list'],
+    label: "Contracts",
+    description: "Project contracts and agreements",
+    primaryKey: "id",
+    defaultSort: { column: "created_at", direction: "desc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["title", "description", "number"],
+    viewsEnabled: ["table", "list"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'title',
-      subtitleColumns: ['number', 'status'],
+      titleColumn: "title",
+      subtitleColumns: ["number", "status"],
     },
   },
   change_orders: {
-    label: 'Change Orders',
-    description: 'Project change orders',
-    primaryKey: 'id',
-    defaultSort: { column: 'created_at', direction: 'desc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['title', 'number', 'description'],
-    viewsEnabled: ['table', 'list'],
+    label: "Change Orders",
+    description: "Project change orders",
+    primaryKey: "id",
+    defaultSort: { column: "created_at", direction: "desc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["title", "number", "description"],
+    viewsEnabled: ["table", "list"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'title',
-      subtitleColumns: ['number', 'status'],
+      titleColumn: "title",
+      subtitleColumns: ["number", "status"],
     },
   },
   rfis: {
-    label: 'RFIs',
-    description: 'Requests for Information',
-    primaryKey: 'id',
-    defaultSort: { column: 'created_at', direction: 'desc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['subject', 'number', 'question'],
-    viewsEnabled: ['table', 'list'],
+    label: "RFIs",
+    description: "Requests for Information",
+    primaryKey: "id",
+    defaultSort: { column: "created_at", direction: "desc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["subject", "number", "question"],
+    viewsEnabled: ["table", "list"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'subject',
-      subtitleColumns: ['number', 'status'],
+      titleColumn: "subject",
+      subtitleColumns: ["number", "status"],
     },
   },
   submittals: {
-    label: 'Submittals',
-    description: 'Project submittals',
-    primaryKey: 'id',
-    defaultSort: { column: 'created_at', direction: 'desc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['title', 'number', 'description'],
-    viewsEnabled: ['table', 'list'],
+    label: "Submittals",
+    description: "Project submittals",
+    primaryKey: "id",
+    defaultSort: { column: "created_at", direction: "desc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["title", "number", "description"],
+    viewsEnabled: ["table", "list"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'title',
-      subtitleColumns: ['number', 'status'],
+      titleColumn: "title",
+      subtitleColumns: ["number", "status"],
     },
   },
   cost_codes: {
-    label: 'Cost Codes',
-    description: 'Project cost codes',
-    primaryKey: 'id',
-    defaultSort: { column: 'code', direction: 'asc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['code', 'name', 'description'],
-    viewsEnabled: ['table', 'list'],
+    label: "Cost Codes",
+    description: "Project cost codes",
+    primaryKey: "id",
+    defaultSort: { column: "code", direction: "asc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["code", "name", "description"],
+    viewsEnabled: ["table", "list"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'name',
-      subtitleColumns: ['code'],
+      titleColumn: "name",
+      subtitleColumns: ["code"],
     },
   },
   budget_lines: {
-    label: 'Budget Lines',
-    description: 'Budget line items and allocations',
-    primaryKey: 'id',
-    defaultSort: { column: 'created_at', direction: 'desc' },
-    hiddenColumns: ['updated_at', 'sub_job_key'],
-    searchColumns: ['description'],
-    viewsEnabled: ['table', 'list'],
+    label: "Budget Lines",
+    description: "Budget line items and allocations",
+    primaryKey: "id",
+    defaultSort: { column: "created_at", direction: "desc" },
+    hiddenColumns: ["updated_at", "sub_job_key"],
+    searchColumns: ["description"],
+    viewsEnabled: ["table", "list"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'description',
-      subtitleColumns: ['original_amount'],
+      titleColumn: "description",
+      subtitleColumns: ["original_amount"],
     },
   },
   issues: {
-    label: 'Issues',
-    description: 'Project issues and tasks',
-    primaryKey: 'id',
-    defaultSort: { column: 'created_at', direction: 'desc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['title', 'description'],
-    viewsEnabled: ['table', 'list', 'grid'],
+    label: "Issues",
+    description: "Project issues and tasks",
+    primaryKey: "id",
+    defaultSort: { column: "created_at", direction: "desc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["title", "description"],
+    viewsEnabled: ["table", "list", "grid"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'title',
-      subtitleColumns: ['status', 'priority'],
+      titleColumn: "title",
+      subtitleColumns: ["status", "priority"],
     },
   },
   daily_logs: {
-    label: 'Daily Logs',
-    description: 'Daily construction logs',
-    primaryKey: 'id',
-    defaultSort: { column: 'log_date', direction: 'desc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['notes', 'weather_notes'],
-    viewsEnabled: ['table', 'list'],
+    label: "Daily Logs",
+    description: "Daily construction logs",
+    primaryKey: "id",
+    defaultSort: { column: "log_date", direction: "desc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["notes", "weather_notes"],
+    viewsEnabled: ["table", "list"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'log_date',
-      subtitleColumns: ['weather_summary'],
+      titleColumn: "log_date",
+      subtitleColumns: ["weather_summary"],
     },
   },
   documents: {
-    label: 'Documents',
-    description: 'Project documents and files',
-    primaryKey: 'id',
-    defaultSort: { column: 'created_at', direction: 'desc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['name', 'description'],
-    viewsEnabled: ['table', 'list', 'grid', 'gallery'],
+    label: "Documents",
+    description: "Project documents and files",
+    primaryKey: "id",
+    defaultSort: { column: "created_at", direction: "desc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["name", "description"],
+    viewsEnabled: ["table", "list", "grid", "gallery"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'name',
-      subtitleColumns: ['type', 'size'],
-      imageColumn: 'thumbnail_url',
+      titleColumn: "name",
+      subtitleColumns: ["type", "size"],
+      imageColumn: "thumbnail_url",
     },
   },
   profiles: {
-    label: 'User Profiles',
-    description: 'User profile information',
-    primaryKey: 'id',
-    defaultSort: { column: 'created_at', direction: 'desc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['full_name', 'email'],
-    viewsEnabled: ['table', 'list', 'grid'],
+    label: "User Profiles",
+    description: "User profile information",
+    primaryKey: "id",
+    defaultSort: { column: "created_at", direction: "desc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["full_name", "email"],
+    viewsEnabled: ["table", "list", "grid"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'full_name',
-      subtitleColumns: ['email', 'role'],
-      imageColumn: 'avatar_url',
+      titleColumn: "full_name",
+      subtitleColumns: ["email", "role"],
+      imageColumn: "avatar_url",
     },
   },
   subcontractors: {
-    label: 'Subcontractors',
-    description: 'Subcontractor companies',
-    primaryKey: 'id',
-    defaultSort: { column: 'name', direction: 'asc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['name', 'email', 'phone'],
-    viewsEnabled: ['table', 'list', 'grid'],
+    label: "Subcontractors",
+    description: "Subcontractor companies",
+    primaryKey: "id",
+    defaultSort: { column: "name", direction: "asc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["name", "email", "phone"],
+    viewsEnabled: ["table", "list", "grid"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'name',
-      subtitleColumns: ['trade', 'status'],
+      titleColumn: "name",
+      subtitleColumns: ["trade", "status"],
     },
   },
   subcontracts: {
-    label: 'Subcontracts',
-    description: 'Subcontract commitments',
-    primaryKey: 'id',
-    defaultSort: { column: 'created_at', direction: 'desc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['title', 'description', 'contract_number'],
-    viewsEnabled: ['table', 'list'],
+    label: "Subcontracts",
+    description: "Subcontract commitments",
+    primaryKey: "id",
+    defaultSort: { column: "created_at", direction: "desc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["title", "description", "contract_number"],
+    viewsEnabled: ["table", "list"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'title',
-      subtitleColumns: ['contract_number', 'status'],
+      titleColumn: "title",
+      subtitleColumns: ["contract_number", "status"],
     },
   },
   purchase_orders: {
-    label: 'Purchase Orders',
-    description: 'Purchase order commitments',
-    primaryKey: 'id',
-    defaultSort: { column: 'created_at', direction: 'desc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['title', 'description', 'contract_number'],
-    viewsEnabled: ['table', 'list'],
+    label: "Purchase Orders",
+    description: "Purchase order commitments",
+    primaryKey: "id",
+    defaultSort: { column: "created_at", direction: "desc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["title", "description", "contract_number"],
+    viewsEnabled: ["table", "list"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'title',
-      subtitleColumns: ['contract_number', 'status'],
+      titleColumn: "title",
+      subtitleColumns: ["contract_number", "status"],
     },
   },
   direct_costs: {
-    label: 'Direct Costs',
-    description: 'Direct project costs',
-    primaryKey: 'id',
-    defaultSort: { column: 'created_at', direction: 'desc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['description'],
-    viewsEnabled: ['table', 'list'],
+    label: "Direct Costs",
+    description: "Direct project costs",
+    primaryKey: "id",
+    defaultSort: { column: "created_at", direction: "desc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["description"],
+    viewsEnabled: ["table", "list"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'description',
-      subtitleColumns: ['amount'],
+      titleColumn: "description",
+      subtitleColumns: ["amount"],
     },
   },
   owner_invoices: {
-    label: 'Owner Invoices',
-    description: 'Invoices to project owners',
-    primaryKey: 'id',
-    defaultSort: { column: 'created_at', direction: 'desc' },
-    hiddenColumns: ['updated_at'],
-    searchColumns: ['number', 'description'],
-    viewsEnabled: ['table', 'list'],
+    label: "Owner Invoices",
+    description: "Invoices to project owners",
+    primaryKey: "id",
+    defaultSort: { column: "created_at", direction: "desc" },
+    hiddenColumns: ["updated_at"],
+    searchColumns: ["number", "description"],
+    viewsEnabled: ["table", "list"],
     permissions: { read: true, create: true, update: true, delete: true },
     display: {
-      titleColumn: 'number',
-      subtitleColumns: ['status', 'amount'],
+      titleColumn: "number",
+      subtitleColumns: ["status", "amount"],
     },
   },
 } satisfies Record<string, TableConfig>;
@@ -341,12 +341,10 @@ export function getTableConfig(table: TableName): TableConfig {
  * Security assertion - throws if table is not in the allowlist
  * Use this at the start of any server-side operation
  */
-export function assertTableAllowed(
-  table: string
-): asserts table is TableName {
+export function assertTableAllowed(table: string): asserts table is TableName {
   if (!(table in TABLE_REGISTRY)) {
     throw new Error(
-      `Access denied: Table "${table}" is not in the allowed table registry`
+      `Access denied: Table "${table}" is not in the allowed table registry`,
     );
   }
 }
@@ -363,7 +361,7 @@ export function isTableAllowed(table: string): table is TableName {
  */
 export function hasPermission(
   table: TableName,
-  permission: keyof TablePermissions
+  permission: keyof TablePermissions,
 ): boolean {
   return TABLE_REGISTRY[table].permissions[permission];
 }
@@ -373,7 +371,7 @@ export function hasPermission(
  */
 export function getRowTitle(
   table: TableName,
-  row: Record<string, unknown>
+  row: Record<string, unknown>,
 ): string {
   const config = getTableConfig(table);
   const titleColumn = config.display.titleColumn;
@@ -386,9 +384,9 @@ export function getRowTitle(
   if (row.id != null) return String(row.id);
 
   const firstStringValue = Object.values(row).find(
-    (v) => typeof v === 'string' && v.length > 0
+    (v) => typeof v === "string" && v.length > 0,
   );
-  return firstStringValue ? String(firstStringValue) : 'Untitled';
+  return firstStringValue ? String(firstStringValue) : "Untitled";
 }
 
 /**
@@ -396,17 +394,17 @@ export function getRowTitle(
  */
 export function getRowSubtitle(
   table: TableName,
-  row: Record<string, unknown>
+  row: Record<string, unknown>,
 ): string {
   const config = getTableConfig(table);
   const subtitleColumns = config.display.subtitleColumns ?? [];
 
   const parts = subtitleColumns
     .map((col) => row[col])
-    .filter((v) => v != null && v !== '')
+    .filter((v) => v != null && v !== "")
     .map(String);
 
-  return parts.join(' • ');
+  return parts.join(" • ");
 }
 
 /**
@@ -414,14 +412,14 @@ export function getRowSubtitle(
  */
 export function getRowImage(
   table: TableName,
-  row: Record<string, unknown>
+  row: Record<string, unknown>,
 ): string | null {
   const config = getTableConfig(table);
   const imageColumn = config.display.imageColumn;
 
   if (imageColumn && row[imageColumn]) {
     const value = row[imageColumn];
-    if (typeof value === 'string' && value.startsWith('http')) {
+    if (typeof value === "string" && value.startsWith("http")) {
       return value;
     }
   }

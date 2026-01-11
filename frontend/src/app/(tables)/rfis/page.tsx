@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { ColumnDef } from '@tanstack/react-table';
-import { DataTable } from '@/components/tables/DataTable';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Plus, MoreHorizontal, Eye, Edit, Trash2 } from 'lucide-react';
+import * as React from "react";
+import { ColumnDef } from "@tanstack/react-table";
+import { DataTable } from "@/components/tables/DataTable";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Plus, MoreHorizontal, Eye, Edit, Trash2 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu';
+} from "@/components/ui/dropdown-menu";
 
 interface RFI {
   id: string;
   number: string;
   subject: string;
   assignee: string;
-  status: 'draft' | 'open' | 'answered' | 'closed';
-  priority: 'low' | 'medium' | 'high';
+  status: "draft" | "open" | "answered" | "closed";
+  priority: "low" | "medium" | "high";
   dueDate: string | null;
   createdBy: string;
   createdAt: string;
@@ -27,26 +27,26 @@ interface RFI {
 
 const mockRFIs: RFI[] = [
   {
-    id: '1',
-    number: 'RFI-001',
-    subject: 'Clarification on structural beam specification',
-    assignee: 'Engineering Team',
-    status: 'open',
-    priority: 'high',
-    dueDate: '2025-12-14',
-    createdBy: 'John Smith',
-    createdAt: '2025-12-08',
+    id: "1",
+    number: "RFI-001",
+    subject: "Clarification on structural beam specification",
+    assignee: "Engineering Team",
+    status: "open",
+    priority: "high",
+    dueDate: "2025-12-14",
+    createdBy: "John Smith",
+    createdAt: "2025-12-08",
   },
   {
-    id: '2',
-    number: 'RFI-002',
-    subject: 'Material substitution approval for flooring',
-    assignee: 'Architect',
-    status: 'answered',
-    priority: 'medium',
-    dueDate: '2025-12-16',
-    createdBy: 'Jane Doe',
-    createdAt: '2025-12-09',
+    id: "2",
+    number: "RFI-002",
+    subject: "Material substitution approval for flooring",
+    assignee: "Architect",
+    status: "answered",
+    priority: "medium",
+    dueDate: "2025-12-16",
+    createdBy: "Jane Doe",
+    createdAt: "2025-12-09",
   },
 ];
 
@@ -55,74 +55,78 @@ export default function RFIsPage() {
 
   const columns: ColumnDef<RFI>[] = [
     {
-      accessorKey: 'number',
-      header: 'Number',
+      accessorKey: "number",
+      header: "Number",
       cell: ({ row }) => (
         <button
           type="button"
           className="font-medium text-[hsl(var(--procore-orange))] hover:underline"
         >
-          {row.getValue('number')}
+          {row.getValue("number")}
         </button>
       ),
     },
     {
-      accessorKey: 'subject',
-      header: 'Subject',
+      accessorKey: "subject",
+      header: "Subject",
     },
     {
-      accessorKey: 'assignee',
-      header: 'Assigned To',
+      accessorKey: "assignee",
+      header: "Assigned To",
     },
     {
-      accessorKey: 'status',
-      header: 'Status',
+      accessorKey: "status",
+      header: "Status",
       cell: ({ row }) => {
-        const status = row.getValue('status') as string;
+        const status = row.getValue("status") as string;
         const statusColors: Record<string, string> = {
-          draft: 'bg-gray-100 text-gray-700',
-          open: 'bg-blue-100 text-blue-700',
-          answered: 'bg-purple-100 text-purple-700',
-          closed: 'bg-green-100 text-green-700',
+          draft: "bg-gray-100 text-gray-700",
+          open: "bg-blue-100 text-blue-700",
+          answered: "bg-purple-100 text-purple-700",
+          closed: "bg-green-100 text-green-700",
         };
         return (
-          <Badge className={statusColors[status] || 'bg-gray-100 text-gray-700'}>
+          <Badge
+            className={statusColors[status] || "bg-gray-100 text-gray-700"}
+          >
             {status}
           </Badge>
         );
       },
     },
     {
-      accessorKey: 'priority',
-      header: 'Priority',
+      accessorKey: "priority",
+      header: "Priority",
       cell: ({ row }) => {
-        const priority = row.getValue('priority') as string;
+        const priority = row.getValue("priority") as string;
         const priorityColors: Record<string, string> = {
-          low: 'bg-gray-100 text-gray-700',
-          medium: 'bg-yellow-100 text-yellow-700',
-          high: 'bg-orange-100 text-orange-700',
+          low: "bg-gray-100 text-gray-700",
+          medium: "bg-yellow-100 text-yellow-700",
+          high: "bg-orange-100 text-orange-700",
         };
         return (
-          <Badge className={priorityColors[priority] || 'bg-gray-100 text-gray-700'}>
+          <Badge
+            className={priorityColors[priority] || "bg-gray-100 text-gray-700"}
+          >
             {priority}
           </Badge>
         );
       },
     },
     {
-      accessorKey: 'dueDate',
-      header: 'Due Date',
+      accessorKey: "dueDate",
+      header: "Due Date",
       cell: ({ row }) => {
-        const date = row.getValue('dueDate') as string | null;
-        return date ? new Date(date).toLocaleDateString() : '-';
+        const date = row.getValue("dueDate") as string | null;
+        return date ? new Date(date).toLocaleDateString() : "-";
       },
     },
     {
-      accessorKey: 'createdBy',
-      header: 'Created By',
+      accessorKey: "createdBy",
+      header: "Created By",
     },
     {
-      id: 'actions',
+      id: "actions",
       cell: ({ row }) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -168,25 +172,25 @@ export default function RFIsPage() {
         <div className="bg-white rounded-lg border p-4">
           <div className="text-sm font-medium text-gray-500">Draft</div>
           <div className="text-2xl font-bold text-gray-900 mt-1">
-            {data.filter(item => item.status === 'draft').length}
+            {data.filter((item) => item.status === "draft").length}
           </div>
         </div>
         <div className="bg-white rounded-lg border p-4">
           <div className="text-sm font-medium text-gray-500">Open</div>
           <div className="text-2xl font-bold text-gray-900 mt-1">
-            {data.filter(item => item.status === 'open').length}
+            {data.filter((item) => item.status === "open").length}
           </div>
         </div>
         <div className="bg-white rounded-lg border p-4">
           <div className="text-sm font-medium text-gray-500">Answered</div>
           <div className="text-2xl font-bold text-gray-900 mt-1">
-            {data.filter(item => item.status === 'answered').length}
+            {data.filter((item) => item.status === "answered").length}
           </div>
         </div>
         <div className="bg-white rounded-lg border p-4">
           <div className="text-sm font-medium text-gray-500">Closed</div>
           <div className="text-2xl font-bold text-gray-900 mt-1">
-            {data.filter(item => item.status === 'closed').length}
+            {data.filter((item) => item.status === "closed").length}
           </div>
         </div>
       </div>

@@ -1,16 +1,16 @@
-"use client"
+"use client";
 
-import { useMemo, useState } from "react"
+import { useMemo, useState } from "react";
 
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from "@/components/ui/card"
+} from "@/components/ui/card";
 import {
   Drawer,
   DrawerContent,
@@ -18,9 +18,9 @@ import {
   DrawerFooter,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/ui/drawer"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
+} from "@/components/ui/drawer";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import {
   Table,
   TableBody,
@@ -28,39 +28,39 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 
 type Column = {
-  name: string
-  type: string
-  notes: string
-}
+  name: string;
+  type: string;
+  notes: string;
+};
 
 type TableInfo = {
-  id: string
-  name: string
-  description: string
-  rows: string
-  health: "healthy" | "warning"
-  region: string
-  replicationLag: string
-  lastQuery: string
-  columns: Column[]
-}
+  id: string;
+  name: string;
+  description: string;
+  rows: string;
+  health: "healthy" | "warning";
+  region: string;
+  replicationLag: string;
+  lastQuery: string;
+  columns: Column[];
+};
 
 type Replica = {
-  id: string
-  target: string
-  lag: string
-  status: "online" | "replicating"
-}
+  id: string;
+  target: string;
+  lag: string;
+  status: "online" | "replicating";
+};
 
 type MaintenanceWindow = {
-  id: string
-  action: string
-  scheduled: string
-  owner: string
-}
+  id: string;
+  action: string;
+  scheduled: string;
+  owner: string;
+};
 
 const TABLES: TableInfo[] = [
   {
@@ -111,12 +111,12 @@ const TABLES: TableInfo[] = [
       { name: "facilitator", type: "text", notes: "" },
     ],
   },
-]
+];
 
 const REPLICAS: Replica[] = [
   { id: "rep-1", target: "eu-west-1", lag: "6s", status: "online" },
   { id: "rep-2", target: "us-west-2", lag: "10s", status: "replicating" },
-]
+];
 
 const MAINTENANCE: MaintenanceWindow[] = [
   {
@@ -131,7 +131,7 @@ const MAINTENANCE: MaintenanceWindow[] = [
     scheduled: "Friday, 18:00 UTC",
     owner: "marcus@alleato.com",
   },
-]
+];
 
 const QUERY_ACTIVITY = [
   {
@@ -148,15 +148,15 @@ const QUERY_ACTIVITY = [
     actor: "frontend",
     ranAt: "11:18 UTC",
   },
-]
+];
 
 export function SupabaseDatabaseManager() {
-  const [drawerTarget, setDrawerTarget] = useState<TableInfo | null>(null)
+  const [drawerTarget, setDrawerTarget] = useState<TableInfo | null>(null);
 
   const tableHealthSummary = useMemo(() => {
-    const healthy = TABLES.filter((table) => table.health === "healthy").length
-    return `${healthy}/${TABLES.length} tables healthy`
-  }, [])
+    const healthy = TABLES.filter((table) => table.health === "healthy").length;
+    return `${healthy}/${TABLES.length} tables healthy`;
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -175,16 +175,27 @@ export function SupabaseDatabaseManager() {
                 <div>
                   <div className="flex items-center gap-2">
                     <p className="font-medium">{table.name}</p>
-                    <Badge variant={table.health === "healthy" ? "default" : "destructive"}>
+                    <Badge
+                      variant={
+                        table.health === "healthy" ? "default" : "destructive"
+                      }
+                    >
                       {table.health === "healthy" ? "Healthy" : "Investigate"}
                     </Badge>
                   </div>
-                  <p className="text-muted-foreground text-sm">{table.description}</p>
+                  <p className="text-muted-foreground text-sm">
+                    {table.description}
+                  </p>
                   <p className="text-muted-foreground text-xs">
-                    {table.rows} rows • replication lag {table.replicationLag} • last query {table.lastQuery}
+                    {table.rows} rows • replication lag {table.replicationLag} •
+                    last query {table.lastQuery}
                   </p>
                 </div>
-                <Button size="sm" variant="outline" onClick={() => setDrawerTarget(table)}>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={() => setDrawerTarget(table)}
+                >
                   View structure
                 </Button>
               </div>
@@ -195,7 +206,9 @@ export function SupabaseDatabaseManager() {
         <Card>
           <CardHeader>
             <CardTitle>Replication & maintenance</CardTitle>
-            <CardDescription>Monitor cross-region replicas and upcoming jobs.</CardDescription>
+            <CardDescription>
+              Monitor cross-region replicas and upcoming jobs.
+            </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="rounded-xl border">
@@ -216,13 +229,23 @@ export function SupabaseDatabaseManager() {
                 <TableBody>
                   {REPLICAS.map((replica) => (
                     <TableRow key={replica.id}>
-                      <TableCell className="font-medium">{replica.target}</TableCell>
+                      <TableCell className="font-medium">
+                        {replica.target}
+                      </TableCell>
                       <TableCell>
-                        <Badge variant={replica.status === "online" ? "default" : "secondary"}>
+                        <Badge
+                          variant={
+                            replica.status === "online"
+                              ? "default"
+                              : "secondary"
+                          }
+                        >
                           {replica.status}
                         </Badge>
                       </TableCell>
-                      <TableCell className="text-right">{replica.lag}</TableCell>
+                      <TableCell className="text-right">
+                        {replica.lag}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -232,7 +255,9 @@ export function SupabaseDatabaseManager() {
             <div className="rounded-xl border">
               <div className="border-b px-4 py-3">
                 <p className="font-medium">Maintenance</p>
-                <p className="text-muted-foreground text-sm">Supabase guardrails keep the cluster tuned.</p>
+                <p className="text-muted-foreground text-sm">
+                  Supabase guardrails keep the cluster tuned.
+                </p>
               </div>
               <Table>
                 <TableHeader>
@@ -245,9 +270,13 @@ export function SupabaseDatabaseManager() {
                 <TableBody>
                   {MAINTENANCE.map((task) => (
                     <TableRow key={task.id}>
-                      <TableCell className="font-medium">{task.action}</TableCell>
+                      <TableCell className="font-medium">
+                        {task.action}
+                      </TableCell>
                       <TableCell>{task.owner}</TableCell>
-                      <TableCell className="text-right">{task.scheduled}</TableCell>
+                      <TableCell className="text-right">
+                        {task.scheduled}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -260,7 +289,9 @@ export function SupabaseDatabaseManager() {
       <Card>
         <CardHeader>
           <CardTitle>Query activity</CardTitle>
-          <CardDescription>High-impact statements hitting the cluster in the last hour.</CardDescription>
+          <CardDescription>
+            High-impact statements hitting the cluster in the last hour.
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <Table>
@@ -275,7 +306,9 @@ export function SupabaseDatabaseManager() {
             <TableBody>
               {QUERY_ACTIVITY.map((query) => (
                 <TableRow key={query.id}>
-                  <TableCell className="font-mono text-sm">{query.query}</TableCell>
+                  <TableCell className="font-mono text-sm">
+                    {query.query}
+                  </TableCell>
                   <TableCell>{query.actor}</TableCell>
                   <TableCell className="text-right">{query.duration}</TableCell>
                   <TableCell className="text-right">{query.ranAt}</TableCell>
@@ -286,18 +319,28 @@ export function SupabaseDatabaseManager() {
         </CardContent>
       </Card>
 
-      <Drawer open={!!drawerTarget} onOpenChange={(open) => !open && setDrawerTarget(null)}>
+      <Drawer
+        open={!!drawerTarget}
+        onOpenChange={(open) => !open && setDrawerTarget(null)}
+      >
         <DrawerContent className="max-h-[90vh] overflow-y-auto">
           <DrawerHeader>
             <DrawerTitle>{drawerTarget?.name ?? "Table"}</DrawerTitle>
             <DrawerDescription>
-              {drawerTarget?.description ?? "Inspect structure, constraints, and indexes."}
+              {drawerTarget?.description ??
+                "Inspect structure, constraints, and indexes."}
             </DrawerDescription>
           </DrawerHeader>
           <div className="space-y-4 px-6 pb-6">
             <div className="grid gap-2">
               <Label htmlFor="retention">Data retention (days)</Label>
-              <Input id="retention" type="number" min={30} max={365} defaultValue={90} />
+              <Input
+                id="retention"
+                type="number"
+                min={30}
+                max={365}
+                defaultValue={90}
+              />
             </div>
             <Table>
               <TableHeader>
@@ -310,7 +353,9 @@ export function SupabaseDatabaseManager() {
               <TableBody>
                 {drawerTarget?.columns.map((column) => (
                   <TableRow key={column.name}>
-                    <TableCell className="font-mono text-sm">{column.name}</TableCell>
+                    <TableCell className="font-mono text-sm">
+                      {column.name}
+                    </TableCell>
                     <TableCell>{column.type}</TableCell>
                     <TableCell>{column.notes || "—"}</TableCell>
                   </TableRow>
@@ -327,7 +372,7 @@ export function SupabaseDatabaseManager() {
         </DrawerContent>
       </Drawer>
     </div>
-  )
+  );
 }
 
-export default SupabaseDatabaseManager
+export default SupabaseDatabaseManager;

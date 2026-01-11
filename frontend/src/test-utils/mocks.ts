@@ -41,57 +41,57 @@ export const mockSupabaseClient = {
 // Mock project data
 export const mockProject = {
   id: 1,
-  name: 'Test Project',
-  client: 'Test Client',
-  state: 'construction',
-  'job number': 'JP-001',
-  address: '123 Main St',
-  city: 'Indianapolis',
-  country_state: 'United States - Indiana',
-  zip: '46202',
-  created_at: '2024-01-01T00:00:00Z',
-  updated_at: '2024-01-01T00:00:00Z',
+  name: "Test Project",
+  client: "Test Client",
+  state: "construction",
+  "job number": "JP-001",
+  address: "123 Main St",
+  city: "Indianapolis",
+  country_state: "United States - Indiana",
+  zip: "46202",
+  created_at: "2024-01-01T00:00:00Z",
+  updated_at: "2024-01-01T00:00:00Z",
 };
 
 // Mock company data
 export const mockCompany = {
-  id: 'company-1',
-  name: 'Test Company',
-  address: '456 Oak Ave',
-  city: 'Indianapolis',
-  country_state: 'United States - Indiana',
-  zip: '46250',
-  business_phone: '(317) 555-1234',
-  email_address: 'contact@testcompany.com',
-  company_type: 'VENDOR',
-  status: 'ACTIVE',
-  created_at: '2024-01-01T00:00:00Z',
-  updated_at: '2024-01-01T00:00:00Z',
+  id: "company-1",
+  name: "Test Company",
+  address: "456 Oak Ave",
+  city: "Indianapolis",
+  country_state: "United States - Indiana",
+  zip: "46250",
+  business_phone: "(317) 555-1234",
+  email_address: "contact@testcompany.com",
+  company_type: "VENDOR",
+  status: "ACTIVE",
+  created_at: "2024-01-01T00:00:00Z",
+  updated_at: "2024-01-01T00:00:00Z",
 };
 
 // Mock user/person data
 export const mockPerson = {
-  id: 'person-1',
-  first_name: 'John',
-  last_name: 'Doe',
-  email: 'john.doe@example.com',
-  phone_mobile: '(317) 555-5678',
-  job_title: 'Project Manager',
-  person_type: 'user',
-  company_id: 'company-1',
-  created_at: '2024-01-01T00:00:00Z',
-  updated_at: '2024-01-01T00:00:00Z',
+  id: "person-1",
+  first_name: "John",
+  last_name: "Doe",
+  email: "john.doe@example.com",
+  phone_mobile: "(317) 555-5678",
+  job_title: "Project Manager",
+  person_type: "user",
+  company_id: "company-1",
+  created_at: "2024-01-01T00:00:00Z",
+  updated_at: "2024-01-01T00:00:00Z",
 };
 
 // Mock API responses
 export const mockApiResponses = {
   health: {
-    status: 'healthy',
+    status: "healthy",
     backend: {
       connected: true,
       openai_configured: true,
     },
-    timestamp: '2024-01-01T00:00:00Z',
+    timestamp: "2024-01-01T00:00:00Z",
   },
   projects: {
     data: [mockProject],
@@ -116,7 +116,7 @@ export const mockApiResponses = {
 // Helper to reset all mocks
 export const resetAllMocks = () => {
   Object.values(mockSupabaseClient).forEach((mock) => {
-    if (typeof mock === 'function' && 'mockClear' in mock) {
+    if (typeof mock === "function" && "mockClear" in mock) {
       mock.mockClear();
       mock.mockReturnThis();
     }
@@ -124,7 +124,10 @@ export const resetAllMocks = () => {
 };
 
 // Helper to create a resolved mock value
-export const createResolvedMock = <T>(data: T, error: null | { message: string } = null) => ({
+export const createResolvedMock = <T>(
+  data: T,
+  error: null | { message: string } = null,
+) => ({
   data,
   error,
   count: Array.isArray(data) ? data.length : null,

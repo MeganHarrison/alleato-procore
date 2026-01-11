@@ -5,11 +5,11 @@
  * schema mismatches. All column names match the database exactly.
  */
 
-import type { Database } from '@/types/database.types';
+import type { Database } from "@/types/database.types";
 
 // Use the generated types - these are the source of truth
-type SubcontractRow = Database['public']['Tables']['subcontracts']['Row'];
-type SubcontractInsert = Database['public']['Tables']['subcontracts']['Insert'];
+type SubcontractRow = Database["public"]["Tables"]["subcontracts"]["Row"];
+type SubcontractInsert = Database["public"]["Tables"]["subcontracts"]["Insert"];
 
 /**
  * Form data uses camelCase (JavaScript convention).
@@ -66,7 +66,7 @@ function parseFormDate(dateStr: string | undefined): string | null {
   // Already ISO format or other valid date
   const parsed = new Date(dateStr);
   if (!isNaN(parsed.getTime())) {
-    return parsed.toISOString().split('T')[0];
+    return parsed.toISOString().split("T")[0];
   }
 
   return null;
@@ -81,13 +81,13 @@ function parseFormDate(dateStr: string | undefined): string | null {
 export function mapFormToInsert(
   formData: SubcontractFormData,
   projectId: number,
-  userId: string
+  userId: string,
 ): SubcontractInsert {
   return {
     // Required fields
     project_id: projectId,
-    contract_number: formData.contractNumber?.trim() || '',
-    status: formData.status || 'Draft',
+    contract_number: formData.contractNumber?.trim() || "",
+    status: formData.status || "Draft",
     executed: formData.executed ?? false,
 
     // Optional fields - map camelCase to snake_case
@@ -100,16 +100,21 @@ export function mapFormToInsert(
 
     // Date fields - convert mm/dd/yyyy to ISO
     start_date: parseFormDate(formData.dates?.startDate),
-    estimated_completion_date: parseFormDate(formData.dates?.estimatedCompletionDate),
+    estimated_completion_date: parseFormDate(
+      formData.dates?.estimatedCompletionDate,
+    ),
     actual_completion_date: parseFormDate(formData.dates?.actualCompletionDate),
     contract_date: parseFormDate(formData.dates?.contractDate),
-    signed_contract_received_date: parseFormDate(formData.dates?.signedContractReceivedDate),
+    signed_contract_received_date: parseFormDate(
+      formData.dates?.signedContractReceivedDate,
+    ),
     issued_on_date: parseFormDate(formData.dates?.issuedOnDate),
 
     // Privacy fields
     is_private: formData.privacy?.isPrivate ?? true,
     non_admin_user_ids: formData.privacy?.nonAdminUserIds || [],
-    allow_non_admin_view_sov_items: formData.privacy?.allowNonAdminViewSovItems ?? false,
+    allow_non_admin_view_sov_items:
+      formData.privacy?.allowNonAdminViewSovItems ?? false,
 
     // Other fields
     invoice_contact_ids: formData.invoiceContacts || [],

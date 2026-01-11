@@ -1,0 +1,18 @@
+{
+  "parentPage": "preview-lien-waivers",
+  "parentUrl": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/preview-lien-waivers",
+  "expandableIndex": 0,
+  "revealedContent": [
+    {
+      "text": "Welcome           Get Started as an Invoice Administrator    What is Pay?    What is an invoice administrator?",
+      "type": "details",
+      "classes": "toc-subNav-desktop"
+    },
+    {
+      "text": "Manage Lien Waivers           About Lien Waivers    Lien Waiver Types    Enable Waivers & Set Default Templates    Generate Lien Waivers    Preview Lien Waivers    Request to Unlock Signed Uncondition",
+      "type": "details",
+      "classes": "toc-subNav-desktop"
+    }
+  ],
+  "timestamp": "2026-01-10T20:20:07.453Z"
+}

@@ -1,55 +1,55 @@
-import type { NextRequest } from "next/server"
-import { NextResponse } from "next/server"
-import { createServiceClient } from "@/lib/supabase/service"
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import { createServiceClient } from "@/lib/supabase/service";
 
 export async function GET(request: NextRequest) {
   try {
     // Use service role client to bypass RLS for public project listing
-    const supabase = createServiceClient()
-    const { searchParams } = new URL(request.url)
+    const supabase = createServiceClient();
+    const { searchParams } = new URL(request.url);
 
     // Pagination params
-    const page = parseInt(searchParams.get("page") || "1")
-    const limit = parseInt(searchParams.get("limit") || "100")
-    const offset = (page - 1) * limit
+    const page = parseInt(searchParams.get("page") || "1");
+    const limit = parseInt(searchParams.get("limit") || "100");
+    const offset = (page - 1) * limit;
 
     // Filter params
-    const search = searchParams.get("search")
-    const state = searchParams.get("state")
-    const excludeState = searchParams.get("excludeState")
-    const archived = searchParams.get("archived")
+    const search = searchParams.get("search");
+    const state = searchParams.get("state");
+    const excludeState = searchParams.get("excludeState");
+    const archived = searchParams.get("archived");
 
     let query = supabase
       .from("projects")
       .select("*", { count: "exact" })
       .order("name", { ascending: true })
-      .range(offset, offset + limit - 1)
+      .range(offset, offset + limit - 1);
 
     // Add state filter if provided (case-insensitive)
     if (state) {
-      query = query.ilike("state", state)
+      query = query.ilike("state", state);
     }
 
     // Exclude specific state if provided (case-insensitive)
     if (excludeState) {
-      query = query.not("state", "ilike", excludeState)
+      query = query.not("state", "ilike", excludeState);
     }
 
     // Add search filter if provided
     if (search) {
-      query = query.or(`name.ilike.%${search}%,"job number".ilike.%${search}%`)
+      query = query.or(`name.ilike.%${search}%,"job number".ilike.%${search}%`);
     }
-    
+
     // Add archived filter if provided
     if (archived !== null) {
-      query = query.eq("archived", archived === "true")
+      query = query.eq("archived", archived === "true");
     }
 
-    const { data, error, count } = await query
+    const { data, error, count } = await query;
 
     if (error) {
-      console.error("Error fetching projects:", error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      console.error("Error fetching projects:", error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -60,39 +60,39 @@ export async function GET(request: NextRequest) {
         total: count,
         totalPages: count ? Math.ceil(count / limit) : 0,
       },
-    })
+    });
   } catch (error) {
-    console.error("Unexpected error:", error)
+    console.error("Unexpected error:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
-      { status: 500 }
-    )
+      { status: 500 },
+    );
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
     // Use service role client to bypass RLS for project creation
-    const supabase = createServiceClient()
-    const body = await request.json()
+    const supabase = createServiceClient();
+    const body = await request.json();
 
     const { data, error } = await supabase
       .from("projects")
       .insert(body)
       .select()
-      .single()
+      .single();
 
     if (error) {
-      console.error("Error creating project:", error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      console.error("Error creating project:", error);
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
-    return NextResponse.json(data, { status: 201 })
+    return NextResponse.json(data, { status: 201 });
   } catch (error) {
-    console.error("Unexpected error:", error)
+    console.error("Unexpected error:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
-      { status: 500 }
-    )
+      { status: 500 },
+    );
   }
 }

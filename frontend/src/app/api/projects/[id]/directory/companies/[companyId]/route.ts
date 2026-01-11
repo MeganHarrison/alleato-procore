@@ -1,7 +1,7 @@
-import { type NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
-import { CompanyService } from '@/services/companyService';
-import { PermissionService } from '@/services/permissionService';
+import { type NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { CompanyService } from "@/services/companyService";
+import { PermissionService } from "@/services/permissionService";
 
 interface RouteParams {
   params: Promise<{ id: string; companyId: string }>;
@@ -10,18 +10,18 @@ interface RouteParams {
 /**
  * Get detailed information for a specific company.
  */
-export async function GET(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, companyId } = await params;
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions
@@ -29,18 +29,18 @@ export async function GET(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'read'
+      "directory",
+      "read",
     );
 
     if (!hasPermission) {
       return NextResponse.json(
         {
-          error: 'insufficient_permissions',
-          message: 'You do not have permission to view companies.',
-          code: 'PERMISSION_DENIED'
+          error: "insufficient_permissions",
+          message: "You do not have permission to view companies.",
+          code: "PERMISSION_DENIED",
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -51,27 +51,30 @@ export async function GET(
       const company = await companyService.getCompany(projectId, companyId);
       return NextResponse.json(company);
     } catch (getError) {
-      if (getError instanceof Error && (getError as NodeJS.ErrnoException).code === 'RESOURCE_NOT_FOUND') {
+      if (
+        getError instanceof Error &&
+        (getError as NodeJS.ErrnoException).code === "RESOURCE_NOT_FOUND"
+      ) {
         return NextResponse.json(
           {
-            error: 'not_found',
+            error: "not_found",
             message: `Company with ID ${companyId} not found.`,
-            code: 'RESOURCE_NOT_FOUND'
+            code: "RESOURCE_NOT_FOUND",
           },
-          { status: 404 }
+          { status: 404 },
         );
       }
       throw getError;
     }
   } catch (error) {
-    console.error('Error fetching company:', error);
+    console.error("Error fetching company:", error);
     return NextResponse.json(
       {
-        error: 'server_error',
-        message: 'An unexpected error occurred',
-        code: 'INTERNAL_ERROR'
+        error: "server_error",
+        message: "An unexpected error occurred",
+        code: "INTERNAL_ERROR",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -90,18 +93,18 @@ export async function GET(
  * - status: ACTIVE or INACTIVE
  * - logo_url: Company logo URL
  */
-export async function PATCH(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, companyId } = await params;
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions
@@ -109,18 +112,18 @@ export async function PATCH(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'write'
+      "directory",
+      "write",
     );
 
     if (!hasPermission) {
       return NextResponse.json(
         {
-          error: 'insufficient_permissions',
-          message: 'You do not have permission to update companies.',
-          code: 'PERMISSION_DENIED'
+          error: "insufficient_permissions",
+          message: "You do not have permission to update companies.",
+          code: "PERMISSION_DENIED",
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -133,14 +136,17 @@ export async function PATCH(
     try {
       await companyService.getCompany(projectId, companyId);
     } catch (getError) {
-      if (getError instanceof Error && (getError as NodeJS.ErrnoException).code === 'RESOURCE_NOT_FOUND') {
+      if (
+        getError instanceof Error &&
+        (getError as NodeJS.ErrnoException).code === "RESOURCE_NOT_FOUND"
+      ) {
         return NextResponse.json(
           {
-            error: 'not_found',
+            error: "not_found",
             message: `Company with ID ${companyId} not found.`,
-            code: 'RESOURCE_NOT_FOUND'
+            code: "RESOURCE_NOT_FOUND",
           },
-          { status: 404 }
+          { status: 404 },
         );
       }
       throw getError;
@@ -148,34 +154,41 @@ export async function PATCH(
 
     // Update company
     try {
-      const company = await companyService.updateCompany(projectId, companyId, body);
+      const company = await companyService.updateCompany(
+        projectId,
+        companyId,
+        body,
+      );
       return NextResponse.json(company);
     } catch (updateError) {
       // Check for duplicate ERP vendor ID
-      if (updateError instanceof Error && updateError.message.includes('duplicate')) {
+      if (
+        updateError instanceof Error &&
+        updateError.message.includes("duplicate")
+      ) {
         return NextResponse.json(
           {
-            error: 'validation_error',
-            message: 'Validation failed',
+            error: "validation_error",
+            message: "Validation failed",
             errors: {
-              erp_vendor_id: ['ERP Vendor ID must be unique']
+              erp_vendor_id: ["ERP Vendor ID must be unique"],
             },
-            code: 'VALIDATION_FAILED'
+            code: "VALIDATION_FAILED",
           },
-          { status: 422 }
+          { status: 422 },
         );
       }
       throw updateError;
     }
   } catch (error) {
-    console.error('Error updating company:', error);
+    console.error("Error updating company:", error);
     return NextResponse.json(
       {
-        error: 'server_error',
-        message: 'An unexpected error occurred',
-        code: 'INTERNAL_ERROR'
+        error: "server_error",
+        message: "An unexpected error occurred",
+        code: "INTERNAL_ERROR",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -185,18 +198,18 @@ export async function PATCH(
  *
  * Note: Companies with assigned users cannot be deleted.
  */
-export async function DELETE(
-  request: NextRequest,
-  { params }: RouteParams
-) {
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     const { id: projectId, companyId } = await params;
     const supabase = await createClient();
 
     // Check authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Check permissions (admin required for delete)
@@ -204,18 +217,18 @@ export async function DELETE(
     const hasPermission = await permissionService.hasPermission(
       user.id,
       projectId,
-      'directory',
-      'admin'
+      "directory",
+      "admin",
     );
 
     if (!hasPermission) {
       return NextResponse.json(
         {
-          error: 'insufficient_permissions',
-          message: 'You do not have permission to delete companies.',
-          code: 'PERMISSION_DENIED'
+          error: "insufficient_permissions",
+          message: "You do not have permission to delete companies.",
+          code: "PERMISSION_DENIED",
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -225,29 +238,35 @@ export async function DELETE(
     try {
       await companyService.getCompany(projectId, companyId);
     } catch (getError) {
-      if (getError instanceof Error && (getError as NodeJS.ErrnoException).code === 'RESOURCE_NOT_FOUND') {
+      if (
+        getError instanceof Error &&
+        (getError as NodeJS.ErrnoException).code === "RESOURCE_NOT_FOUND"
+      ) {
         return NextResponse.json(
           {
-            error: 'not_found',
+            error: "not_found",
             message: `Company with ID ${companyId} not found.`,
-            code: 'RESOURCE_NOT_FOUND'
+            code: "RESOURCE_NOT_FOUND",
           },
-          { status: 404 }
+          { status: 404 },
         );
       }
       throw getError;
     }
 
     // Check if company can be deleted
-    const canDelete = await companyService.canDeleteCompany(projectId, companyId);
+    const canDelete = await companyService.canDeleteCompany(
+      projectId,
+      companyId,
+    );
     if (!canDelete.canDelete) {
       return NextResponse.json(
         {
-          error: 'business_rule_violation',
+          error: "business_rule_violation",
           message: canDelete.reason,
-          code: 'BUSINESS_RULE_VIOLATION'
+          code: "BUSINESS_RULE_VIOLATION",
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -255,22 +274,22 @@ export async function DELETE(
     // Note: We don't delete the global company record, just the project association
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error: deleteError } = await (supabase as any)
-      .from('project_companies')
+      .from("project_companies")
       .delete()
-      .eq('id', companyId);
+      .eq("id", companyId);
 
     if (deleteError) throw deleteError;
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {
-    console.error('Error deleting company:', error);
+    console.error("Error deleting company:", error);
     return NextResponse.json(
       {
-        error: 'server_error',
-        message: 'An unexpected error occurred',
-        code: 'INTERNAL_ERROR'
+        error: "server_error",
+        message: "An unexpected error occurred",
+        code: "INTERNAL_ERROR",
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

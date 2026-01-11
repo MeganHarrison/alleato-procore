@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 
 interface SidebarProjectAddressProps {
   address: string;
@@ -15,11 +15,13 @@ export function SidebarProjectAddress({
   city,
   state,
   zip,
-  country = 'United States',
+  country = "United States",
 }: SidebarProjectAddressProps) {
   return (
     <div className="bg-white rounded-md border border-gray-200 p-4">
-      <h3 className="text-sm font-semibold text-gray-900 mb-2">Project Address</h3>
+      <h3 className="text-sm font-semibold text-gray-900 mb-2">
+        Project Address
+      </h3>
       <p className="text-sm text-gray-600">
         {address}
         <br />

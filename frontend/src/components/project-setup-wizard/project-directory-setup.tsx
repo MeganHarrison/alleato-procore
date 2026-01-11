@@ -1,12 +1,16 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { createClient } from "@/lib/supabase/client"
-import { addToProjectDirectory, updateProjectDirectoryEntry, deleteProjectDirectoryEntry } from "@/app/actions/project-directory-actions"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Alert, AlertDescription } from "@/components/ui/alert"
+import { useState, useEffect } from "react";
+import { createClient } from "@/lib/supabase/client";
+import {
+  addToProjectDirectory,
+  updateProjectDirectoryEntry,
+  deleteProjectDirectoryEntry,
+} from "@/app/actions/project-directory-actions";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
   Table,
   TableBody,
@@ -14,14 +18,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
+} from "@/components/ui/table";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
+} from "@/components/ui/select";
 import {
   Dialog,
   DialogContent,
@@ -29,18 +33,19 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from "@/components/ui/dialog"
-import { Badge } from "@/components/ui/badge"
-import { Switch } from "@/components/ui/switch"
-import { Plus, Trash2, AlertCircle, Building, User } from "lucide-react"
-import { StepComponentProps } from "./project-setup-wizard"
-import type { Database } from "@/types/database.types"
+} from "@/components/ui/dialog";
+import { Badge } from "@/components/ui/badge";
+import { Switch } from "@/components/ui/switch";
+import { Plus, Trash2, AlertCircle, Building, User } from "lucide-react";
+import { StepComponentProps } from "./project-setup-wizard";
+import type { Database } from "@/types/database.types";
 
-type Company = Database["public"]["Tables"]["companies"]["Row"]
-type ProjectDirectory = Database["public"]["Tables"]["project_directory"]["Row"]
+type Company = Database["public"]["Tables"]["companies"]["Row"];
+type ProjectDirectory =
+  Database["public"]["Tables"]["project_directory"]["Row"];
 
 interface ProjectDirectoryWithCompany extends ProjectDirectory {
-  company?: Company
+  company?: Company;
 }
 
 const projectRoles = [
@@ -49,82 +54,89 @@ const projectRoles = [
   { value: "engineer", label: "Engineer" },
   { value: "subcontractor", label: "Subcontractor" },
   { value: "vendor", label: "Vendor" },
-]
+];
 
-export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepComponentProps) {
-  const [loading, setLoading] = useState(true)
-  const [saving, setSaving] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-  
-  const [companies, setCompanies] = useState<Company[]>([])
-  const [projectDirectory, setProjectDirectory] = useState<ProjectDirectoryWithCompany[]>([])
-  
-  const [showAddDialog, setShowAddDialog] = useState(false)
-  const [selectedCompanyId, setSelectedCompanyId] = useState<string>("")
-  const [selectedRole, setSelectedRole] = useState<string>("")
-  const [showNewCompanyForm, setShowNewCompanyForm] = useState(false)
+export function ProjectDirectorySetup({
+  projectId,
+  onNext,
+  onSkip,
+}: StepComponentProps) {
+  const [loading, setLoading] = useState(true);
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const [companies, setCompanies] = useState<Company[]>([]);
+  const [projectDirectory, setProjectDirectory] = useState<
+    ProjectDirectoryWithCompany[]
+  >([]);
+
+  const [showAddDialog, setShowAddDialog] = useState(false);
+  const [selectedCompanyId, setSelectedCompanyId] = useState<string>("");
+  const [selectedRole, setSelectedRole] = useState<string>("");
+  const [showNewCompanyForm, setShowNewCompanyForm] = useState(false);
   const [newCompany, setNewCompany] = useState({
     name: "",
     address: "",
     city: "",
     state: "",
-  })
-  
-  const supabase = createClient()
+  });
+
+  const supabase = createClient();
 
   useEffect(() => {
-    loadData()
-  }, [projectId])
+    loadData();
+  }, [projectId]);
 
   const loadData = async () => {
     try {
-      setLoading(true)
-      setError(null)
+      setLoading(true);
+      setError(null);
 
-      const numericProjectId = parseInt(projectId, 10)
+      const numericProjectId = parseInt(projectId, 10);
       if (isNaN(numericProjectId)) {
-        throw new Error("Invalid project ID")
+        throw new Error("Invalid project ID");
       }
 
       // Load companies
       const { data: companiesData, error: companiesError } = await supabase
         .from("companies")
         .select("*")
-        .order("name")
+        .order("name");
 
-      if (companiesError) throw companiesError
+      if (companiesError) throw companiesError;
 
       // Load project directory with companies
       const { data: directoryData, error: directoryError } = await supabase
         .from("project_directory")
-        .select(`
+        .select(
+          `
           *,
           company:companies(*)
-        `)
+        `,
+        )
         .eq("project_id", numericProjectId)
-        .order("created_at")
+        .order("created_at");
 
-      if (directoryError) throw directoryError
+      if (directoryError) throw directoryError;
 
-      setCompanies(companiesData || [])
-      setProjectDirectory(directoryData || [])
-
+      setCompanies(companiesData || []);
+      setProjectDirectory(directoryData || []);
     } catch (err) {
-      console.error("Error loading data:", err)
-      setError(err instanceof Error ? err.message : "Failed to load data")
+      console.error("Error loading data:", err);
+      setError(err instanceof Error ? err.message : "Failed to load data");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const createNewCompany = async () => {
     try {
-      setSaving(true)
-      setError(null)
+      setSaving(true);
+      setError(null);
 
       if (!newCompany.name) {
-        setError("Company name is required")
-        return
+        setError("Company name is required");
+        return;
       }
 
       const { data, error } = await supabase
@@ -136,50 +148,49 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
           state: newCompany.state || null,
         })
         .select()
-        .single()
+        .single();
 
-      if (error) throw error
+      if (error) throw error;
 
-      setCompanies([...companies, data])
-      setSelectedCompanyId(data.id)
-      setShowNewCompanyForm(false)
+      setCompanies([...companies, data]);
+      setSelectedCompanyId(data.id);
+      setShowNewCompanyForm(false);
       setNewCompany({
         name: "",
         address: "",
         city: "",
         state: "",
-      })
-
+      });
     } catch (err) {
-      console.error("Error creating company:", err)
-      setError(err instanceof Error ? err.message : "Failed to create company")
+      console.error("Error creating company:", err);
+      setError(err instanceof Error ? err.message : "Failed to create company");
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
   const addToDirectory = async () => {
     try {
-      setSaving(true)
-      setError(null)
+      setSaving(true);
+      setError(null);
 
       if (!selectedCompanyId || !selectedRole) {
-        setError("Please select a company and role")
-        return
+        setError("Please select a company and role");
+        return;
       }
 
-      const numericProjectId = parseInt(projectId, 10)
+      const numericProjectId = parseInt(projectId, 10);
       if (isNaN(numericProjectId)) {
-        throw new Error("Invalid project ID")
+        throw new Error("Invalid project ID");
       }
 
       // Check if already exists
       const exists = projectDirectory.some(
-        d => d.company_id === selectedCompanyId && d.role === selectedRole
-      )
+        (d) => d.company_id === selectedCompanyId && d.role === selectedRole,
+      );
       if (exists) {
-        setError("This company already has this role in the project")
-        return
+        setError("This company already has this role in the project");
+        return;
       }
 
       const data = await addToProjectDirectory({
@@ -193,55 +204,58 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
           can_approve: false,
           can_submit: true,
         },
-      })
+      });
 
-      setProjectDirectory([...projectDirectory, data])
-      setShowAddDialog(false)
-      setSelectedCompanyId("")
-      setSelectedRole("")
-
+      setProjectDirectory([...projectDirectory, data]);
+      setShowAddDialog(false);
+      setSelectedCompanyId("");
+      setSelectedRole("");
     } catch (err) {
-      console.error("Error adding to directory:", err)
-      setError(err instanceof Error ? err.message : "Failed to add to directory")
+      console.error("Error adding to directory:", err);
+      setError(
+        err instanceof Error ? err.message : "Failed to add to directory",
+      );
     } finally {
-      setSaving(false)
+      setSaving(false);
     }
-  }
+  };
 
   const toggleActive = async (entryId: string, isActive: boolean) => {
     try {
-      await updateProjectDirectoryEntry(entryId, { is_active: isActive })
+      await updateProjectDirectoryEntry(entryId, { is_active: isActive });
 
       setProjectDirectory(
-        projectDirectory.map(entry =>
-          entry.id === entryId ? { ...entry, is_active: isActive } : entry
-        )
-      )
-
+        projectDirectory.map((entry) =>
+          entry.id === entryId ? { ...entry, is_active: isActive } : entry,
+        ),
+      );
     } catch (err) {
-      console.error("Error updating directory entry:", err)
-      setError(err instanceof Error ? err.message : "Failed to update entry")
+      console.error("Error updating directory entry:", err);
+      setError(err instanceof Error ? err.message : "Failed to update entry");
     }
-  }
+  };
 
   const removeFromDirectory = async (entryId: string) => {
     try {
-      await deleteProjectDirectoryEntry(entryId)
+      await deleteProjectDirectoryEntry(entryId);
 
-      setProjectDirectory(projectDirectory.filter(entry => entry.id !== entryId))
-
+      setProjectDirectory(
+        projectDirectory.filter((entry) => entry.id !== entryId),
+      );
     } catch (err) {
-      console.error("Error removing from directory:", err)
-      setError(err instanceof Error ? err.message : "Failed to remove entry")
+      console.error("Error removing from directory:", err);
+      setError(err instanceof Error ? err.message : "Failed to remove entry");
     }
-  }
+  };
 
   if (loading) {
     return (
       <div className="flex items-center justify-center py-8">
-        <div className="text-muted-foreground">Loading project directory...</div>
+        <div className="text-muted-foreground">
+          Loading project directory...
+        </div>
       </div>
-    )
+    );
   }
 
   return (
@@ -282,7 +296,8 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
                   </TableCell>
                   <TableCell>
                     <Badge variant="secondary">
-                      {projectRoles.find(r => r.value === entry.role)?.label || entry.role}
+                      {projectRoles.find((r) => r.value === entry.role)
+                        ?.label || entry.role}
                     </Badge>
                   </TableCell>
                   <TableCell>
@@ -290,7 +305,9 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
                       <div className="text-sm text-muted-foreground">
                         {entry.company.address}
                         {entry.company.city && entry.company.state && (
-                          <>, {entry.company.city}, {entry.company.state}</>
+                          <>
+                            , {entry.company.city}, {entry.company.state}
+                          </>
                         )}
                       </div>
                     )}
@@ -298,7 +315,9 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
                   <TableCell>
                     <Switch
                       checked={entry.is_active ?? true}
-                      onCheckedChange={(checked) => toggleActive(entry.id, checked)}
+                      onCheckedChange={(checked) =>
+                        toggleActive(entry.id, checked)
+                      }
                     />
                   </TableCell>
                   <TableCell>
@@ -336,7 +355,9 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
         </Button>
         <Button
           onClick={onNext}
-          disabled={saving || projectDirectory.filter(d => d.is_active).length === 0}
+          disabled={
+            saving || projectDirectory.filter((d) => d.is_active).length === 0
+          }
         >
           Continue
         </Button>
@@ -351,12 +372,15 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
               Select a company and assign their role in this project
             </DialogDescription>
           </DialogHeader>
-          
+
           {!showNewCompanyForm ? (
             <div className="space-y-4">
               <div>
                 <Label htmlFor="company">Company</Label>
-                <Select value={selectedCompanyId} onValueChange={setSelectedCompanyId}>
+                <Select
+                  value={selectedCompanyId}
+                  onValueChange={setSelectedCompanyId}
+                >
                   <SelectTrigger id="company">
                     <SelectValue placeholder="Select a company" />
                   </SelectTrigger>
@@ -395,7 +419,10 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
               </div>
 
               <DialogFooter>
-                <Button variant="outline" onClick={() => setShowAddDialog(false)}>
+                <Button
+                  variant="outline"
+                  onClick={() => setShowAddDialog(false)}
+                >
                   Cancel
                 </Button>
                 <Button onClick={addToDirectory} disabled={saving}>
@@ -406,13 +433,15 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
           ) : (
             <div className="space-y-4">
               <h4 className="font-medium">Create New Company</h4>
-              
+
               <div>
                 <Label htmlFor="name">Company Name *</Label>
                 <Input
                   id="name"
                   value={newCompany.name}
-                  onChange={(e) => setNewCompany({ ...newCompany, name: e.target.value })}
+                  onChange={(e) =>
+                    setNewCompany({ ...newCompany, name: e.target.value })
+                  }
                   placeholder="Enter company name"
                 />
               </div>
@@ -422,7 +451,9 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
                 <Input
                   id="address"
                   value={newCompany.address}
-                  onChange={(e) => setNewCompany({ ...newCompany, address: e.target.value })}
+                  onChange={(e) =>
+                    setNewCompany({ ...newCompany, address: e.target.value })
+                  }
                   placeholder="123 Main St"
                 />
               </div>
@@ -433,7 +464,9 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
                   <Input
                     id="city"
                     value={newCompany.city}
-                    onChange={(e) => setNewCompany({ ...newCompany, city: e.target.value })}
+                    onChange={(e) =>
+                      setNewCompany({ ...newCompany, city: e.target.value })
+                    }
                     placeholder="New York"
                   />
                 </div>
@@ -442,7 +475,9 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
                   <Input
                     id="state"
                     value={newCompany.state}
-                    onChange={(e) => setNewCompany({ ...newCompany, state: e.target.value })}
+                    onChange={(e) =>
+                      setNewCompany({ ...newCompany, state: e.target.value })
+                    }
                     placeholder="NY"
                   />
                 </div>
@@ -452,13 +487,13 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
                 <Button
                   variant="outline"
                   onClick={() => {
-                    setShowNewCompanyForm(false)
+                    setShowNewCompanyForm(false);
                     setNewCompany({
                       name: "",
                       address: "",
                       city: "",
                       state: "",
-                    })
+                    });
                   }}
                 >
                   Back
@@ -472,5 +507,5 @@ export function ProjectDirectorySetup({ projectId, onNext, onSkip }: StepCompone
         </DialogContent>
       </Dialog>
     </div>
-  )
+  );
 }

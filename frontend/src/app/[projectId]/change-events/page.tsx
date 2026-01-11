@@ -1,9 +1,13 @@
-'use client';
+"use client";
 
-import { useParams, useRouter } from 'next/navigation';
-import { Plus } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { PageContainer, ProjectPageHeader, PageTabs } from '@/components/layout';
+import { useParams, useRouter } from "next/navigation";
+import { Plus } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import {
+  PageContainer,
+  ProjectPageHeader,
+  PageTabs,
+} from "@/components/layout";
 
 export default function ProjectChangeEventsPage() {
   const params = useParams();
@@ -28,9 +32,15 @@ export default function ProjectChangeEventsPage() {
 
       <PageTabs
         tabs={[
-          { label: 'All Change Events', href: `/${projectId}/change-events` },
-          { label: 'Pending', href: `/${projectId}/change-events?status=pending` },
-          { label: 'Approved', href: `/${projectId}/change-events?status=approved` },
+          { label: "All Change Events", href: `/${projectId}/change-events` },
+          {
+            label: "Pending",
+            href: `/${projectId}/change-events?status=pending`,
+          },
+          {
+            label: "Approved",
+            href: `/${projectId}/change-events?status=approved`,
+          },
         ]}
       />
 
@@ -38,7 +48,9 @@ export default function ProjectChangeEventsPage() {
         <div className="flex items-center justify-center h-64">
           <div className="text-center">
             <p className="text-muted-foreground mb-4">No change events found</p>
-            <Button onClick={() => router.push(`/${projectId}/change-events/new`)}>
+            <Button
+              onClick={() => router.push(`/${projectId}/change-events/new`)}
+            >
               <Plus className="h-4 w-4 mr-2" />
               Create your first change event
             </Button>

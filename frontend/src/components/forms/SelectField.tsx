@@ -1,33 +1,33 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { FormField } from "./FormField"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/select";
+import { FormField } from "./FormField";
+import { cn } from "@/lib/utils";
 
 interface SelectOption {
-  value: string
-  label: string
+  value: string;
+  label: string;
 }
 
 interface SelectFieldProps {
-  label: string
-  options: SelectOption[]
-  value?: string
-  onValueChange?: (value: string) => void
-  placeholder?: string
-  error?: string
-  hint?: string
-  required?: boolean
-  fullWidth?: boolean
-  className?: string
-  disabled?: boolean
+  label: string;
+  options: SelectOption[];
+  value?: string;
+  onValueChange?: (value: string) => void;
+  placeholder?: string;
+  error?: string;
+  hint?: string;
+  required?: boolean;
+  fullWidth?: boolean;
+  className?: string;
+  disabled?: boolean;
 }
 
 export function SelectField({
@@ -67,5 +67,5 @@ export function SelectField({
         </SelectContent>
       </Select>
     </FormField>
-  )
+  );
 }

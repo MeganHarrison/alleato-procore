@@ -24,7 +24,7 @@ export function AgentPanel({
 }: AgentPanelProps) {
   const activeAgent = agents.find((a) => a.name === currentAgent);
   const runnerEvents = events.filter(
-    (e) => e.type !== "message" && e.type !== "progress_update"
+    (e) => e.type !== "message" && e.type !== "progress_update",
   );
 
   return (

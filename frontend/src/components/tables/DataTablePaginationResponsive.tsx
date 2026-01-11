@@ -1,34 +1,34 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Table } from "@tanstack/react-table"
+import * as React from "react";
+import { Table } from "@tanstack/react-table";
 import {
   ChevronLeft,
   ChevronRight,
   ChevronsLeft,
   ChevronsRight,
-} from "lucide-react"
-import { Button } from "@/components/ui/button"
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/select";
+import { cn } from "@/lib/utils";
 
 interface DataTablePaginationProps<TData> {
-  table: Table<TData>
+  table: Table<TData>;
 }
 
 export function DataTablePaginationResponsive<TData>({
   table,
 }: DataTablePaginationProps<TData>) {
-  const selectedRows = table.getFilteredSelectedRowModel().rows.length
-  const totalRows = table.getFilteredRowModel().rows.length
-  const currentPage = table.getState().pagination.pageIndex + 1
-  const pageCount = table.getPageCount()
+  const selectedRows = table.getFilteredSelectedRowModel().rows.length;
+  const totalRows = table.getFilteredRowModel().rows.length;
+  const currentPage = table.getState().pagination.pageIndex + 1;
+  const pageCount = table.getPageCount();
 
   return (
     <div className="flex flex-col gap-4 px-2 py-4 lg:flex-row lg:items-center lg:justify-between">
@@ -40,7 +40,7 @@ export function DataTablePaginationResponsive<TData>({
             {selectedRows} of {totalRows} row(s) selected
           </div>
         )}
-        
+
         {/* Pagination controls */}
         <div className="flex items-center justify-between">
           <Button
@@ -52,11 +52,11 @@ export function DataTablePaginationResponsive<TData>({
             <ChevronLeft className="h-4 w-4 mr-1" />
             Previous
           </Button>
-          
+
           <div className="text-sm font-medium">
             {currentPage} / {pageCount}
           </div>
-          
+
           <Button
             variant="outline"
             size="sm"
@@ -67,7 +67,7 @@ export function DataTablePaginationResponsive<TData>({
             <ChevronRight className="h-4 w-4 ml-1" />
           </Button>
         </div>
-        
+
         {/* Rows per page selector */}
         <div className="flex items-center justify-center gap-2">
           <span className="text-sm">Rows:</span>
@@ -93,10 +93,12 @@ export function DataTablePaginationResponsive<TData>({
       <div className="hidden lg:flex lg:flex-1 lg:items-center lg:justify-between">
         <div className="flex-1 text-sm text-muted-foreground">
           {selectedRows > 0 && (
-            <>{selectedRows} of {totalRows} row(s) selected</>
+            <>
+              {selectedRows} of {totalRows} row(s) selected
+            </>
           )}
         </div>
-        
+
         <div className="flex items-center gap-6 lg:gap-8">
           <div className="flex items-center gap-2">
             <p className="text-sm font-medium">Rows per page</p>
@@ -116,11 +118,11 @@ export function DataTablePaginationResponsive<TData>({
               </SelectContent>
             </Select>
           </div>
-          
+
           <div className="flex w-[100px] items-center justify-center text-sm font-medium">
             Page {currentPage} of {pageCount}
           </div>
-          
+
           <div className="flex items-center gap-2">
             <Button
               variant="outline"
@@ -162,5 +164,5 @@ export function DataTablePaginationResponsive<TData>({
         </div>
       </div>
     </div>
-  )
+  );
 }

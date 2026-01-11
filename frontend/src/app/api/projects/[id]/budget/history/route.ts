@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createClient } from '@/lib/supabase/server';
+import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@/lib/supabase/server";
 
 interface HistoryParams {
   params: Promise<{
@@ -12,10 +12,7 @@ interface HistoryParams {
  *
  * Fetches budget change history (audit trail)
  */
-export async function GET(
-  request: NextRequest,
-  { params }: HistoryParams
-) {
+export async function GET(request: NextRequest, { params }: HistoryParams) {
   try {
     const { id: projectId } = await params;
     const supabase = await createClient();
@@ -27,12 +24,12 @@ export async function GET(
     } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Fetch change history
     const { data: changes, error: changesError } = await supabase
-      .from('budget_line_changes')
+      .from("budget_line_changes")
       .select(
         `
         id,
@@ -54,17 +51,17 @@ export async function GET(
         users:changed_by (
           email
         )
-      `
+      `,
       )
-      .eq('project_id', projectId)
-      .order('changed_at', { ascending: false })
+      .eq("project_id", projectId)
+      .order("changed_at", { ascending: false })
       .limit(100);
 
     if (changesError) {
-      console.error('Error fetching change history:', changesError);
+      console.error("Error fetching change history:", changesError);
       return NextResponse.json(
-        { error: 'Failed to fetch change history' },
-        { status: 500 }
+        { error: "Failed to fetch change history" },
+        { status: 500 },
       );
     }
 
@@ -80,7 +77,7 @@ export async function GET(
       return {
         id: change.id,
         timestamp: change.changed_at,
-        user: userInfo?.email || 'Unknown User',
+        user: userInfo?.email || "Unknown User",
         action: change.change_type,
         field: change.field_name,
         oldValue: change.old_value,
@@ -103,7 +100,8 @@ export async function GET(
     });
 
     const uniqueUsers = new Set(formattedChanges.map((c) => c.user));
-    const lastChange = formattedChanges.length > 0 ? formattedChanges[0].timestamp : null;
+    const lastChange =
+      formattedChanges.length > 0 ? formattedChanges[0].timestamp : null;
 
     return NextResponse.json({
       changes: formattedChanges,
@@ -115,10 +113,10 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error('Error fetching change history:', error);
+    console.error("Error fetching change history:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

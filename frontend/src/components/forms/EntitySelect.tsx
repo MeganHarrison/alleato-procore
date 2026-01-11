@@ -1,15 +1,15 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { Loader2 } from 'lucide-react';
+import * as React from "react";
+import { Loader2 } from "lucide-react";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
+} from "@/components/ui/select";
+import { Label } from "@/components/ui/label";
 
 export interface EntityOption {
   value: string;
@@ -61,19 +61,19 @@ export function EntitySelect({
   onChange,
   options,
   isLoading = false,
-  placeholder = 'Select...',
+  placeholder = "Select...",
   error,
   disabled = false,
   id,
-  emptyMessage = 'No options available',
+  emptyMessage = "No options available",
 }: EntitySelectProps) {
-  const selectId = id || label.toLowerCase().replace(/\s+/g, '-');
+  const selectId = id || label.toLowerCase().replace(/\s+/g, "-");
 
   return (
     <div className="space-y-2">
       <Label htmlFor={selectId}>{label}</Label>
       <Select
-        value={value || ''}
+        value={value || ""}
         onValueChange={onChange}
         disabled={disabled || isLoading}
       >

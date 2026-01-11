@@ -1,11 +1,11 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Separator } from "@/components/ui/separator"
-import { Textarea } from "@/components/ui/textarea"
+import * as React from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Sheet,
   SheetClose,
@@ -15,23 +15,29 @@ import {
   SheetHeader,
   SheetTitle,
   SheetTrigger,
-} from "@/components/ui/sheet"
-import type { Database } from "@/types/database.types"
+} from "@/components/ui/sheet";
+import type { Database } from "@/types/database.types";
 
-type Document = Database["public"]["Tables"]["documents"]["Row"]
+type Document = Database["public"]["Tables"]["documents"]["Row"];
 
 interface DocumentDetailsSheetProps {
-  document: Document
-  trigger: React.ReactNode
+  document: Document;
+  trigger: React.ReactNode;
 }
 
-export function DocumentDetailsSheet({ document, trigger }: DocumentDetailsSheetProps) {
-  const metadata = document.metadata as Record<string, any> || {}
-  
+export function DocumentDetailsSheet({
+  document,
+  trigger,
+}: DocumentDetailsSheetProps) {
+  const metadata = (document.metadata as Record<string, any>) || {};
+
   return (
     <Sheet>
       <SheetTrigger asChild>{trigger}</SheetTrigger>
-      <SheetContent side="right" className="flex flex-col w-[400px] sm:w-[540px]">
+      <SheetContent
+        side="right"
+        className="flex flex-col w-[400px] sm:w-[540px]"
+      >
         <SheetHeader className="gap-1">
           <SheetTitle>Document #{document.id}</SheetTitle>
           <SheetDescription>
@@ -63,7 +69,9 @@ export function DocumentDetailsSheet({ document, trigger }: DocumentDetailsSheet
                 {metadata.created && (
                   <div className="flex justify-between">
                     <span className="text-muted-foreground">Created:</span>
-                    <span>{new Date(metadata.created).toLocaleDateString()}</span>
+                    <span>
+                      {new Date(metadata.created).toLocaleDateString()}
+                    </span>
                   </div>
                 )}
               </div>
@@ -78,8 +86,8 @@ export function DocumentDetailsSheet({ document, trigger }: DocumentDetailsSheet
                   <h3 className="font-semibold mb-2">Content Preview</h3>
                   <div className="bg-muted p-3 rounded-lg max-h-40 overflow-y-auto">
                     <p className="text-sm whitespace-pre-wrap">
-                      {document.content.length > 500 
-                        ? document.content.substring(0, 500) + "..." 
+                      {document.content.length > 500
+                        ? document.content.substring(0, 500) + "..."
                         : document.content}
                     </p>
                   </div>
@@ -107,18 +115,18 @@ export function DocumentDetailsSheet({ document, trigger }: DocumentDetailsSheet
             <form className="flex flex-col gap-4">
               <div className="flex flex-col gap-3">
                 <Label htmlFor="title">Title</Label>
-                <Input 
-                  id="title" 
-                  defaultValue={metadata.title || ""} 
+                <Input
+                  id="title"
+                  defaultValue={metadata.title || ""}
                   placeholder="Document title"
                 />
               </div>
               {document.content && (
                 <div className="flex flex-col gap-3">
                   <Label htmlFor="content">Content</Label>
-                  <Textarea 
-                    id="content" 
-                    defaultValue={document.content} 
+                  <Textarea
+                    id="content"
+                    defaultValue={document.content}
                     className="min-h-[200px]"
                   />
                 </div>
@@ -136,5 +144,5 @@ export function DocumentDetailsSheet({ document, trigger }: DocumentDetailsSheet
         </SheetFooter>
       </SheetContent>
     </Sheet>
-  )
+  );
 }

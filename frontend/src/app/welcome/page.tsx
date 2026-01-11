@@ -1,14 +1,14 @@
-import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Card } from '@/components/ui/card'
+import Link from "next/link";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
 import {
   HardHat,
   Hammer,
   Sparkles,
   Trophy,
   Zap,
-  CheckCircle2
-} from 'lucide-react'
+  CheckCircle2,
+} from "lucide-react";
 
 export default function WelcomePage() {
   return (
@@ -27,12 +27,12 @@ export default function WelcomePage() {
 
           {/* Main Heading */}
           <h1 className="text-4xl md:text-5xl font-bold text-center mb-4 text-slate-900">
-            Hard Hat Status:{' '}
-            <span className="text-orange-600">ON</span>
+            Hard Hat Status: <span className="text-orange-600">ON</span>
           </h1>
 
           <p className="text-xl text-center text-slate-600 mb-8">
-            Welcome to Alleato! You're officially ready to build something amazing.
+            Welcome to Alleato! You're officially ready to build something
+            amazing.
           </p>
 
           {/* Witty Construction-Themed Messages */}
@@ -41,9 +41,12 @@ export default function WelcomePage() {
               <div className="flex items-start gap-3">
                 <Hammer className="h-6 w-6 text-orange-600 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-slate-900 mb-1">Foundation: Solid ✓</h3>
+                  <h3 className="font-semibold text-slate-900 mb-1">
+                    Foundation: Solid ✓
+                  </h3>
                   <p className="text-sm text-slate-600">
-                    Your account is set up and ready to roll. No cracks in this foundation.
+                    Your account is set up and ready to roll. No cracks in this
+                    foundation.
                   </p>
                 </div>
               </div>
@@ -53,9 +56,12 @@ export default function WelcomePage() {
               <div className="flex items-start gap-3">
                 <Sparkles className="h-6 w-6 text-blue-600 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-slate-900 mb-1">Plans: Approved ✓</h3>
+                  <h3 className="font-semibold text-slate-900 mb-1">
+                    Plans: Approved ✓
+                  </h3>
                   <p className="text-sm text-slate-600">
-                    Your projects are about to be managed better than a superintendent's clipboard.
+                    Your projects are about to be managed better than a
+                    superintendent's clipboard.
                   </p>
                 </div>
               </div>
@@ -65,9 +71,12 @@ export default function WelcomePage() {
               <div className="flex items-start gap-3">
                 <Trophy className="h-6 w-6 text-green-600 flex-shrink-0 mt-1" />
                 <div>
-                  <h3 className="font-semibold text-slate-900 mb-1">Safety First ✓</h3>
+                  <h3 className="font-semibold text-slate-900 mb-1">
+                    Safety First ✓
+                  </h3>
                   <p className="text-sm text-slate-600">
-                    Your data is more secure than a job site with six foremen watching.
+                    Your data is more secure than a job site with six foremen
+                    watching.
                   </p>
                 </div>
               </div>
@@ -83,7 +92,8 @@ export default function WelcomePage() {
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0" />
                 <span className="text-slate-700">
-                  <strong>80%</strong> of Procore's features at <strong>10%</strong> of the cost
+                  <strong>80%</strong> of Procore's features at{" "}
+                  <strong>10%</strong> of the cost
                 </span>
               </div>
               <div className="flex items-center gap-3">
@@ -95,7 +105,8 @@ export default function WelcomePage() {
               <div className="flex items-center gap-3">
                 <CheckCircle2 className="h-5 w-5 text-green-600 flex-shrink-0" />
                 <span className="text-slate-700">
-                  AI-powered insights (basically having a project manager who never sleeps)
+                  AI-powered insights (basically having a project manager who
+                  never sleeps)
                 </span>
               </div>
               <div className="flex items-center gap-3">
@@ -110,7 +121,8 @@ export default function WelcomePage() {
           {/* Witty One-Liner */}
           <div className="text-center mb-8">
             <p className="text-slate-500 italic text-sm">
-              "We can't build you a building, but we can help you build one without losing your mind."
+              "We can't build you a building, but we can help you build one
+              without losing your mind."
             </p>
           </div>
 
@@ -129,10 +141,11 @@ export default function WelcomePage() {
 
           {/* Footer Note */}
           <p className="text-center text-xs text-slate-400 mt-8">
-            Reminder: Alleato is not responsible for actual construction. Please consult licensed professionals for that.
+            Reminder: Alleato is not responsible for actual construction. Please
+            consult licensed professionals for that.
           </p>
         </Card>
       </div>
     </div>
-  )
+  );
 }

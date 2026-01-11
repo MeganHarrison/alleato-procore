@@ -1,22 +1,19 @@
-"use client"
+"use client";
 
-import { usePathname } from "next/navigation"
-import { SiteHeader } from "@/components/layout/site-header"
-import { AppSidebar } from "@/components/misc/app-sidebar"
-import Footer from "@/components/layout/Footer"
-import {
-  SidebarInset,
-  SidebarProvider,
-} from "@/components/ui/sidebar"
+import { usePathname } from "next/navigation";
+import { SiteHeader } from "@/components/layout/site-header";
+import { AppSidebar } from "@/components/misc/app-sidebar";
+import Footer from "@/components/layout/Footer";
+import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
 
 export function ConditionalLayout({ children }: { children: React.ReactNode }) {
-  const pathname = usePathname()
-  const isAuthRoute = pathname?.startsWith("/auth")
-  const isAIChatRoute = pathname === "/ai-chat"
+  const pathname = usePathname();
+  const isAuthRoute = pathname?.startsWith("/auth");
+  const isAIChatRoute = pathname === "/ai-chat";
 
   // Auth and AI Chat routes get no sidebar/header - just raw content
   if (isAuthRoute || isAIChatRoute) {
-    return <>{children}</>
+    return <>{children}</>;
   }
 
   // All other routes get the full layout with proper container structure
@@ -32,5 +29,5 @@ export function ConditionalLayout({ children }: { children: React.ReactNode }) {
         <Footer />
       </SidebarInset>
     </SidebarProvider>
-  )
+  );
 }

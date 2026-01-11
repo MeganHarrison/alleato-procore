@@ -1,6 +1,6 @@
-'use client'
+"use client";
 
-import * as React from 'react'
+import * as React from "react";
 import {
   ColumnDef,
   flexRender,
@@ -8,8 +8,14 @@ import {
   useReactTable,
   getSortedRowModel,
   SortingState,
-} from '@tanstack/react-table'
-import { Calendar, Video, Headphones, ExternalLink, MoreHorizontal } from 'lucide-react'
+} from "@tanstack/react-table";
+import {
+  Calendar,
+  Video,
+  Headphones,
+  ExternalLink,
+  MoreHorizontal,
+} from "lucide-react";
 import {
   Table,
   TableBody,
@@ -17,126 +23,137 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@/components/ui/table'
-import { Button } from '@/components/ui/button'
+} from "@/components/ui/table";
+import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
-} from '@/components/ui/dropdown-menu'
-import { format } from 'date-fns'
-import Link from 'next/link'
-import type { Database } from '@/types/database.types'
+} from "@/components/ui/dropdown-menu";
+import { format } from "date-fns";
+import Link from "next/link";
+import type { Database } from "@/types/database.types";
 
-type Meeting = Database['public']['Tables']['document_metadata']['Row']
+type Meeting = Database["public"]["Tables"]["document_metadata"]["Row"];
 
 interface MeetingsTableProps {
-  meetings: Meeting[]
-  projectId: string
-  onEdit?: (meeting: Meeting) => void
+  meetings: Meeting[];
+  projectId: string;
+  onEdit?: (meeting: Meeting) => void;
 }
 
-export function MeetingsTable({ meetings, projectId, onEdit }: MeetingsTableProps) {
+export function MeetingsTable({
+  meetings,
+  projectId,
+  onEdit,
+}: MeetingsTableProps) {
   const [sorting, setSorting] = React.useState<SortingState>([
-    { id: 'date', desc: true }
-  ])
+    { id: "date", desc: true },
+  ]);
 
   const columns: ColumnDef<Meeting>[] = [
     {
-      accessorKey: 'title',
-      header: 'Title',
+      accessorKey: "title",
+      header: "Title",
       cell: ({ row }) => (
         <Link
           href={`/${projectId}/meetings/${row.original.id}`}
           className="font-medium text-neutral-900 hover:text-brand transition-colors"
         >
-          {row.original.title || 'Untitled Meeting'}
+          {row.original.title || "Untitled Meeting"}
         </Link>
       ),
     },
     {
-      accessorKey: 'date',
-      header: 'Date',
+      accessorKey: "date",
+      header: "Date",
       cell: ({ row }) => {
-        if (!row.original.date) return <span className="text-neutral-400">—</span>
+        if (!row.original.date)
+          return <span className="text-neutral-400">—</span>;
         return (
           <div className="flex items-center gap-2 text-sm text-neutral-700">
             <Calendar className="h-4 w-4 text-neutral-400" />
-            {format(new Date(row.original.date), 'MMM d, yyyy')}
+            {format(new Date(row.original.date), "MMM d, yyyy")}
           </div>
-        )
+        );
       },
     },
     {
-      accessorKey: 'duration_minutes',
-      header: 'Duration',
+      accessorKey: "duration_minutes",
+      header: "Duration",
       cell: ({ row }) => {
-        if (!row.original.duration_minutes) return <span className="text-neutral-400">—</span>
+        if (!row.original.duration_minutes)
+          return <span className="text-neutral-400">—</span>;
         return (
           <span className="text-sm text-neutral-700">
             {row.original.duration_minutes} min
           </span>
-        )
+        );
       },
     },
     {
-      accessorKey: 'participants',
-      header: 'Participants',
+      accessorKey: "participants",
+      header: "Participants",
       cell: ({ row }) => {
-        if (!row.original.participants) return <span className="text-neutral-400">—</span>
-        const count = row.original.participants.split(',').length
+        if (!row.original.participants)
+          return <span className="text-neutral-400">—</span>;
+        const count = row.original.participants.split(",").length;
         return (
           <span className="text-sm text-neutral-700">
-            {count} {count === 1 ? 'person' : 'people'}
+            {count} {count === 1 ? "person" : "people"}
           </span>
-        )
+        );
       },
     },
     {
-      accessorKey: 'status',
-      header: 'Status',
+      accessorKey: "status",
+      header: "Status",
       cell: ({ row }) => {
-        const status = row.original.status
-        if (!status) return <span className="text-neutral-400">—</span>
+        const status = row.original.status;
+        if (!status) return <span className="text-neutral-400">—</span>;
 
         const statusColors: Record<string, string> = {
-          'complete': 'bg-green-100 text-green-800',
-          'processing': 'bg-blue-100 text-blue-800',
-          'pending': 'bg-yellow-100 text-yellow-800',
-          'error': 'bg-red-100 text-red-800',
-        }
+          complete: "bg-green-100 text-green-800",
+          processing: "bg-blue-100 text-blue-800",
+          pending: "bg-yellow-100 text-yellow-800",
+          error: "bg-red-100 text-red-800",
+        };
 
         return (
-          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[status.toLowerCase()] || 'bg-neutral-100 text-neutral-800'}`}>
+          <span
+            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[status.toLowerCase()] || "bg-neutral-100 text-neutral-800"}`}
+          >
             {status}
           </span>
-        )
+        );
       },
     },
     {
-      accessorKey: 'access_level',
-      header: 'Access',
+      accessorKey: "access_level",
+      header: "Access",
       cell: ({ row }) => {
-        const access = row.original.access_level
-        if (!access) return <span className="text-neutral-400">—</span>
+        const access = row.original.access_level;
+        if (!access) return <span className="text-neutral-400">—</span>;
 
         const accessColors: Record<string, string> = {
-          'public': 'bg-green-100 text-green-800',
-          'private': 'bg-orange-100 text-orange-800',
-          'restricted': 'bg-red-100 text-red-800',
-        }
+          public: "bg-green-100 text-green-800",
+          private: "bg-orange-100 text-orange-800",
+          restricted: "bg-red-100 text-red-800",
+        };
 
         return (
-          <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${accessColors[access.toLowerCase()] || 'bg-neutral-100 text-neutral-800'}`}>
+          <span
+            className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${accessColors[access.toLowerCase()] || "bg-neutral-100 text-neutral-800"}`}
+          >
             {access}
           </span>
-        )
+        );
       },
     },
     {
-      id: 'media',
-      header: 'Media',
+      id: "media",
+      header: "Media",
       cell: ({ row }) => (
         <div className="flex items-center gap-2">
           {row.original.video && (
@@ -172,15 +189,17 @@ export function MeetingsTable({ meetings, projectId, onEdit }: MeetingsTableProp
               <ExternalLink className="h-4 w-4" />
             </a>
           )}
-          {!row.original.video && !row.original.audio && !row.original.fireflies_link && (
-            <span className="text-neutral-400">—</span>
-          )}
+          {!row.original.video &&
+            !row.original.audio &&
+            !row.original.fireflies_link && (
+              <span className="text-neutral-400">—</span>
+            )}
         </div>
       ),
     },
     {
-      id: 'actions',
-      header: '',
+      id: "actions",
+      header: "",
       cell: ({ row }) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -204,7 +223,7 @@ export function MeetingsTable({ meetings, projectId, onEdit }: MeetingsTableProp
         </DropdownMenu>
       ),
     },
-  ]
+  ];
 
   const table = useReactTable({
     data: meetings,
@@ -215,7 +234,7 @@ export function MeetingsTable({ meetings, projectId, onEdit }: MeetingsTableProp
     state: {
       sorting,
     },
-  })
+  });
 
   return (
     <div className="border border-neutral-200 bg-white">
@@ -229,7 +248,7 @@ export function MeetingsTable({ meetings, projectId, onEdit }: MeetingsTableProp
                     ? null
                     : flexRender(
                         header.column.columnDef.header,
-                        header.getContext()
+                        header.getContext(),
                       )}
                 </TableHead>
               ))}
@@ -257,5 +276,5 @@ export function MeetingsTable({ meetings, projectId, onEdit }: MeetingsTableProp
         </TableBody>
       </Table>
     </div>
-  )
+  );
 }

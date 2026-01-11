@@ -21,7 +21,7 @@ export interface User {
   id: string;
   email: string;
   full_name: string;
-  role: 'admin' | 'project_manager' | 'accountant' | 'viewer';
+  role: "admin" | "project_manager" | "accountant" | "viewer";
   avatar_url?: string;
 }
 
@@ -30,7 +30,7 @@ export interface Project {
   name: string;
   code: string;
   description?: string;
-  status: 'active' | 'on_hold' | 'completed' | 'archived';
+  status: "active" | "on_hold" | "completed" | "archived";
   start_date: string;
   end_date?: string;
   budget_total: number;
@@ -45,7 +45,14 @@ export interface Commitment {
   contract_company?: Company;
   title: string;
   description?: string;
-  status: 'draft' | 'sent' | 'pending' | 'approved' | 'executed' | 'closed' | 'void';
+  status:
+    | "draft"
+    | "sent"
+    | "pending"
+    | "approved"
+    | "executed"
+    | "closed"
+    | "void";
   original_amount: number;
   approved_change_orders: number;
   revised_contract_amount: number;
@@ -54,7 +61,7 @@ export interface Commitment {
   executed_date?: string;
   start_date?: string;
   substantial_completion_date?: string;
-  accounting_method: 'amount' | 'unit' | 'percent';
+  accounting_method: "amount" | "unit" | "percent";
   retention_percentage?: number;
   vendor_invoice_number?: string;
   signed_received_date?: string;
@@ -84,7 +91,7 @@ export interface ChangeEvent {
   number: string;
   title: string;
   description?: string;
-  status: 'open' | 'pending' | 'approved' | 'closed';
+  status: "open" | "pending" | "approved" | "closed";
   commitment_id?: string;
   commitment?: Commitment;
   created_by_id: string;
@@ -102,7 +109,7 @@ export interface ChangeOrder {
   number: string;
   title: string;
   description?: string;
-  status: 'draft' | 'pending' | 'approved' | 'executed' | 'void';
+  status: "draft" | "pending" | "approved" | "executed" | "void";
   commitment_id: string;
   commitment?: Commitment;
   amount: number;
@@ -118,7 +125,7 @@ export interface PrimeContract {
   description?: string;
   owner_id: string;
   owner?: Company;
-  status: 'draft' | 'sent' | 'pending' | 'approved' | 'executed' | 'closed';
+  status: "draft" | "sent" | "pending" | "approved" | "executed" | "closed";
   contract_date?: string;
   start_date?: string;
   substantial_completion_date?: string;
@@ -138,7 +145,7 @@ export interface Invoice {
   number: string;
   billing_period_start: string;
   billing_period_end: string;
-  status: 'draft' | 'submitted' | 'approved' | 'paid' | 'void';
+  status: "draft" | "submitted" | "approved" | "paid" | "void";
   invoice_date: string;
   due_date?: string;
   subtotal: number;

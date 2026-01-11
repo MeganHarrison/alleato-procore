@@ -1,8 +1,8 @@
-import type { Metadata } from 'next';
-import Link from 'next/link';
+import type { Metadata } from "next";
+import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: 'Privacy Policy',
+  title: "Privacy Policy",
 };
 
 export default function PrivacyPage() {
@@ -102,10 +102,10 @@ export default function PrivacyPage() {
                 account settings right now but we are working on it.
               </p>
               <p className="text-gray-500 font-normal dark:text-gray-400 leading-6">
-                Still have any questions? feel free to open{' '}
+                Still have any questions? feel free to open{" "}
                 <Link href="/" className="text-primary-500 font-semibold">
                   Support Ticket
-                </Link>{' '}
+                </Link>{" "}
                 to communicate directly!
               </p>
             </div>

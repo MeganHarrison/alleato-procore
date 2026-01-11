@@ -1,0 +1,18 @@
+{
+  "parentPage": "add-invoice-contacts",
+  "parentUrl": "https://v2.support.procore.com/process-guides/invoice-administrator-guide/add-invoice-contacts",
+  "expandableIndex": 0,
+  "revealedContent": [
+    {
+      "text": "Welcome           Get Started as an Invoice Administrator    What is Pay?    What is an invoice administrator?",
+      "type": "details",
+      "classes": "toc-subNav-desktop"
+    },
+    {
+      "text": "Manage Invoices           Create Subcontractor Invoices    Add Invoice Contacts    Invite Beneficiaries to Pay    Review & Approve Invoices",
+      "type": "details",
+      "classes": "toc-subNav-desktop"
+    }
+  ],
+  "timestamp": "2026-01-10T19:57:14.797Z"
+}

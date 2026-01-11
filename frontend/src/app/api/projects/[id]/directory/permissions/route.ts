@@ -1,5 +1,5 @@
-import { NextRequest, NextResponse } from 'next/server';
-import { createServiceClient } from '@/lib/supabase/service';
+import { NextRequest, NextResponse } from "next/server";
+import { createServiceClient } from "@/lib/supabase/service";
 
 interface RouteParams {
   params: Promise<{ id: string }>;
@@ -15,12 +15,13 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     // Get search query if provided
     const { searchParams } = new URL(request.url);
-    const search = searchParams.get('search');
+    const search = searchParams.get("search");
 
     // Fetch all people in the project with their memberships
     const query = supabase
-      .from('project_directory_memberships')
-      .select(`
+      .from("project_directory_memberships")
+      .select(
+        `
         id,
         person_id,
         status,
@@ -39,28 +40,29 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
           name,
           rules_json
         )
-      `)
-      .eq('project_id', projectIdNum)
-      .eq('status', 'active');
+      `,
+      )
+      .eq("project_id", projectIdNum)
+      .eq("status", "active");
 
     const { data: memberships, error: membershipsError } = await query;
 
     if (membershipsError) {
-      console.error('Error fetching memberships:', membershipsError);
+      console.error("Error fetching memberships:", membershipsError);
       return NextResponse.json(
         { error: membershipsError.message },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     // Fetch explicit directory permissions
     const { data: directoryPerms, error: permsError } = await supabase
-      .from('user_directory_permissions')
-      .select('*')
-      .eq('project_id', projectIdNum);
+      .from("user_directory_permissions")
+      .select("*")
+      .eq("project_id", projectIdNum);
 
     if (permsError) {
-      console.error('Error fetching directory permissions:', permsError);
+      console.error("Error fetching directory permissions:", permsError);
       return NextResponse.json({ error: permsError.message }, { status: 500 });
     }
 
@@ -85,14 +87,14 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
           const rules = template.rules_json as Record<string, string[]>;
           const directoryRules = rules.directory || [];
 
-          if (directoryRules.includes('admin')) {
-            permissionLevel = 'admin';
-          } else if (directoryRules.includes('write')) {
-            permissionLevel = 'standard';
-          } else if (directoryRules.includes('read')) {
-            permissionLevel = 'read_only';
+          if (directoryRules.includes("admin")) {
+            permissionLevel = "admin";
+          } else if (directoryRules.includes("write")) {
+            permissionLevel = "standard";
+          } else if (directoryRules.includes("read")) {
+            permissionLevel = "read_only";
           } else {
-            permissionLevel = 'none';
+            permissionLevel = "none";
           }
         }
 
@@ -104,7 +106,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
           full_name: `${person.last_name}, ${person.first_name}`,
           email: person.email,
           company_name: person.company?.name || null,
-          permission_level: permissionLevel || 'none',
+          permission_level: permissionLevel || "none",
           has_explicit_permission: permissionMap.has(membership.person_id),
           template_name: template?.name || null,
         };
@@ -119,16 +121,16 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         (user) =>
           user.full_name.toLowerCase().includes(searchLower) ||
           user.email?.toLowerCase().includes(searchLower) ||
-          user.company_name?.toLowerCase().includes(searchLower)
+          user.company_name?.toLowerCase().includes(searchLower),
       );
     }
 
     return NextResponse.json({ data: filteredUsers });
   } catch (error) {
-    console.error('Unexpected error fetching directory permissions:', error);
+    console.error("Unexpected error fetching directory permissions:", error);
     return NextResponse.json(
-      { error: 'An unexpected error occurred' },
-      { status: 500 }
+      { error: "An unexpected error occurred" },
+      { status: 500 },
     );
   }
 }
@@ -144,18 +146,18 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     if (!person_id) {
       return NextResponse.json(
-        { error: 'person_id is required' },
-        { status: 400 }
+        { error: "person_id is required" },
+        { status: 400 },
       );
     }
 
-    const validLevels = ['none', 'read_only', 'standard', 'admin'];
+    const validLevels = ["none", "read_only", "standard", "admin"];
     if (!permission_level || !validLevels.includes(permission_level)) {
       return NextResponse.json(
         {
-          error: `permission_level must be one of: ${validLevels.join(', ')}`,
+          error: `permission_level must be one of: ${validLevels.join(", ")}`,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -163,7 +165,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     // Upsert the permission
     const { data, error } = await supabase
-      .from('user_directory_permissions')
+      .from("user_directory_permissions")
       .upsert(
         {
           project_id: projectIdNum,
@@ -171,23 +173,23 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
           permission_level,
         },
         {
-          onConflict: 'project_id,person_id',
-        }
+          onConflict: "project_id,person_id",
+        },
       )
       .select()
       .single();
 
     if (error) {
-      console.error('Error updating directory permission:', error);
+      console.error("Error updating directory permission:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error('Unexpected error updating directory permission:', error);
+    console.error("Unexpected error updating directory permission:", error);
     return NextResponse.json(
-      { error: 'An unexpected error occurred' },
-      { status: 500 }
+      { error: "An unexpected error occurred" },
+      { status: 500 },
     );
   }
 }
@@ -199,34 +201,34 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
     const { id: projectId } = await params;
     const projectIdNum = parseInt(projectId, 10);
     const { searchParams } = new URL(request.url);
-    const personId = searchParams.get('person_id');
+    const personId = searchParams.get("person_id");
 
     if (!personId) {
       return NextResponse.json(
-        { error: 'person_id query parameter is required' },
-        { status: 400 }
+        { error: "person_id query parameter is required" },
+        { status: 400 },
       );
     }
 
     const supabase = createServiceClient();
 
     const { error } = await supabase
-      .from('user_directory_permissions')
+      .from("user_directory_permissions")
       .delete()
-      .eq('project_id', projectIdNum)
-      .eq('person_id', personId);
+      .eq("project_id", projectIdNum)
+      .eq("person_id", personId);
 
     if (error) {
-      console.error('Error deleting directory permission:', error);
+      console.error("Error deleting directory permission:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error('Unexpected error deleting directory permission:', error);
+    console.error("Unexpected error deleting directory permission:", error);
     return NextResponse.json(
-      { error: 'An unexpected error occurred' },
-      { status: 500 }
+      { error: "An unexpected error occurred" },
+      { status: 500 },
     );
   }
 }

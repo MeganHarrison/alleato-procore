@@ -1,7 +1,7 @@
-import type { NextRequest } from 'next/server';
-import { NextResponse } from 'next/server';
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
 
-import { createClient } from '@/lib/supabase/server';
+import { createClient } from "@/lib/supabase/server";
 
 type BudgetCodeResponse = {
   budgetCodes: Array<{
@@ -33,16 +33,18 @@ const formatBudgetCode = (options: {
   costTypeDescription?: string | null;
 }) => {
   const { code, description, costType, costTypeDescription } = options;
-  const costTypeSuffix = costType ? `.${costType}` : '';
-  const typeDescription = costTypeDescription ? ` – ${costTypeDescription}` : '';
-  const safeDescription = description || 'No description available';
+  const costTypeSuffix = costType ? `.${costType}` : "";
+  const typeDescription = costTypeDescription
+    ? ` – ${costTypeDescription}`
+    : "";
+  const safeDescription = description || "No description available";
 
   return `${code}${costTypeSuffix} – ${safeDescription}${typeDescription}`;
 };
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -50,75 +52,83 @@ export async function GET(
 
     if (Number.isNaN(projectId)) {
       return NextResponse.json(
-        { error: 'Invalid project ID' },
-        { status: 400 }
+        { error: "Invalid project ID" },
+        { status: 400 },
       );
     }
 
     const supabase = await createClient();
 
     // Fetch project_budget_codes for this project (the chart of accounts)
-    const { data: projectBudgetCodesData, error: projectBudgetCodesError } = await supabase
-      .from('project_budget_codes')
-      .select(
-        `
+    const { data: projectBudgetCodesData, error: projectBudgetCodesError } =
+      await supabase
+        .from("project_budget_codes")
+        .select(
+          `
           id,
           cost_code_id,
           description,
           cost_codes ( title ),
           cost_code_types ( code, description )
-        `
-      )
-      .eq('project_id', projectId)
-      .eq('is_active', true)
-      .order('cost_code_id', { ascending: true });
+        `,
+        )
+        .eq("project_id", projectId)
+        .eq("is_active", true)
+        .order("cost_code_id", { ascending: true });
 
     if (projectBudgetCodesError) {
-      console.error('Error fetching project budget codes:', projectBudgetCodesError);
+      console.error(
+        "Error fetching project budget codes:",
+        projectBudgetCodesError,
+      );
       return NextResponse.json(
-        { error: 'Failed to load budget codes', details: projectBudgetCodesError.message },
-        { status: 500 }
+        {
+          error: "Failed to load budget codes",
+          details: projectBudgetCodesError.message,
+        },
+        { status: 500 },
       );
     }
 
     // Transform the data
-    const budgetCodes: BudgetCodeResponse['budgetCodes'] =
-      (projectBudgetCodesData || []).map((item: unknown) => {
-        const row = item as ProjectBudgetCodeRow;
-        const costType = row.cost_code_types?.code || null;
-        const costTypeDescription = row.cost_code_types?.description || null;
-        const costCodeTitle = Array.isArray(row.cost_codes)
-          ? row.cost_codes[0]?.title
-          : row.cost_codes?.title;
-        const description = row.description || costCodeTitle || '';
+    const budgetCodes: BudgetCodeResponse["budgetCodes"] = (
+      projectBudgetCodesData || []
+    ).map((item: unknown) => {
+      const row = item as ProjectBudgetCodeRow;
+      const costType = row.cost_code_types?.code || null;
+      const costTypeDescription = row.cost_code_types?.description || null;
+      const costCodeTitle = Array.isArray(row.cost_codes)
+        ? row.cost_codes[0]?.title
+        : row.cost_codes?.title;
+      const description = row.description || costCodeTitle || "";
 
-        return {
-          id: row.id,
+      return {
+        id: row.id,
+        code: row.cost_code_id,
+        description,
+        costType,
+        fullLabel: formatBudgetCode({
           code: row.cost_code_id,
           description,
           costType,
-          fullLabel: formatBudgetCode({
-            code: row.cost_code_id,
-            description,
-            costType,
-            costTypeDescription,
-          }),
-        };
-      });
+          costTypeDescription,
+        }),
+      };
+    });
 
     return NextResponse.json({ budgetCodes });
   } catch (error) {
-    console.error('Error in budget codes route:', error);
+    console.error("Error in budget codes route:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -126,8 +136,8 @@ export async function POST(
 
     if (Number.isNaN(projectId)) {
       return NextResponse.json(
-        { error: 'Invalid project ID' },
-        { status: 400 }
+        { error: "Invalid project ID" },
+        { status: 400 },
       );
     }
 
@@ -136,15 +146,15 @@ export async function POST(
 
     if (!cost_code_id) {
       return NextResponse.json(
-        { error: 'cost_code_id is required' },
-        { status: 400 }
+        { error: "cost_code_id is required" },
+        { status: 400 },
       );
     }
 
     if (!cost_type_id) {
       return NextResponse.json(
-        { error: 'cost_type_id is required' },
-        { status: 400 }
+        { error: "cost_type_id is required" },
+        { status: 400 },
       );
     }
 
@@ -156,18 +166,23 @@ export async function POST(
     } = await supabase.auth.getUser();
 
     if (!user) {
-      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
     // Resolve cost_type_id to UUID
     let costTypeUuid = cost_type_id;
 
     // If cost_type_id is a string like 'R', 'L', etc., look it up
-    if (typeof cost_type_id === 'string' && !cost_type_id.match(/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i)) {
+    if (
+      typeof cost_type_id === "string" &&
+      !cost_type_id.match(
+        /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
+      )
+    ) {
       const { data: costTypeData } = await supabase
-        .from('cost_code_types')
-        .select('id')
-        .ilike('code', cost_type_id)
+        .from("cost_code_types")
+        .select("id")
+        .ilike("code", cost_type_id)
         .single();
 
       if (costTypeData) {
@@ -177,13 +192,13 @@ export async function POST(
 
     // Insert new project_budget_code (the chart of accounts entry)
     const { data: newProjectBudgetCode, error: insertError } = await supabase
-      .from('project_budget_codes')
+      .from("project_budget_codes")
       .insert({
         project_id: projectId,
         cost_code_id,
         cost_type_id: costTypeUuid,
-        description: description || '',
-        description_mode: 'concatenated',
+        description: description || "",
+        description_mode: "concatenated",
         is_active: true,
         created_by: user.id,
       })
@@ -194,35 +209,37 @@ export async function POST(
           description,
           cost_codes ( title ),
           cost_code_types ( code, description )
-        `
+        `,
       )
       .single();
 
     if (insertError) {
-      console.error('Error creating project budget code:', insertError);
+      console.error("Error creating project budget code:", insertError);
 
       // Check if it's a unique constraint violation
-      if (insertError.code === '23505') {
+      if (insertError.code === "23505") {
         return NextResponse.json(
-          { error: 'This budget code already exists for this project' },
-          { status: 409 }
+          { error: "This budget code already exists for this project" },
+          { status: 409 },
         );
       }
 
       return NextResponse.json(
-        { error: 'Failed to create budget code', details: insertError.message },
-        { status: 500 }
+        { error: "Failed to create budget code", details: insertError.message },
+        { status: 500 },
       );
     }
 
     // Transform response to match frontend format
-    const typedBudgetCode = newProjectBudgetCode as unknown as ProjectBudgetCodeRow;
+    const typedBudgetCode =
+      newProjectBudgetCode as unknown as ProjectBudgetCodeRow;
     const costType = typedBudgetCode.cost_code_types?.code || null;
-    const costTypeDescription = typedBudgetCode.cost_code_types?.description || null;
+    const costTypeDescription =
+      typedBudgetCode.cost_code_types?.description || null;
     const costCodeTitle = Array.isArray(typedBudgetCode.cost_codes)
       ? typedBudgetCode.cost_codes[0]?.title
       : typedBudgetCode.cost_codes?.title;
-    const finalDescription = typedBudgetCode.description || costCodeTitle || '';
+    const finalDescription = typedBudgetCode.description || costCodeTitle || "";
 
     const budgetCode = {
       id: newProjectBudgetCode.id,
@@ -239,10 +256,10 @@ export async function POST(
 
     return NextResponse.json({ budgetCode });
   } catch (error) {
-    console.error('Error in POST budget codes route:', error);
+    console.error("Error in POST budget codes route:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

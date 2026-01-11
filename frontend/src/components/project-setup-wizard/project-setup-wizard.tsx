@@ -1,34 +1,34 @@
-"use client"
+"use client";
 
-import { useState } from "react"
-import { useRouter } from "next/navigation"
-import { Card } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { CheckCircle2, Circle } from "lucide-react"
-import { CostCodeSetup } from "./cost-code-setup"
-import { ProjectDirectorySetup } from "./project-directory-setup"
-import { DrawingsSetup } from "./drawings-setup"
-import { SpecificationsSetup } from "./specifications-setup"
-import { ScheduleSetup } from "./schedule-setup"
-import { BudgetSetup } from "./budget-setup"
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { CheckCircle2, Circle } from "lucide-react";
+import { CostCodeSetup } from "./cost-code-setup";
+import { ProjectDirectorySetup } from "./project-directory-setup";
+import { DrawingsSetup } from "./drawings-setup";
+import { SpecificationsSetup } from "./specifications-setup";
+import { ScheduleSetup } from "./schedule-setup";
+import { BudgetSetup } from "./budget-setup";
 
 interface ProjectSetupWizardProps {
-  projectId: string
+  projectId: string;
 }
 
 export type SetupStep = {
-  id: string
-  title: string
-  description: string
-  component: React.ComponentType<StepComponentProps>
-  required: boolean
-}
+  id: string;
+  title: string;
+  description: string;
+  component: React.ComponentType<StepComponentProps>;
+  required: boolean;
+};
 
 export interface StepComponentProps {
-  projectId: string
-  onNext: () => void
-  onSkip: () => void
+  projectId: string;
+  onNext: () => void;
+  onSkip: () => void;
 }
 
 const setupSteps: SetupStep[] = [
@@ -74,39 +74,39 @@ const setupSteps: SetupStep[] = [
     component: BudgetSetup,
     required: false,
   },
-]
+];
 
 export function ProjectSetupWizard({ projectId }: ProjectSetupWizardProps) {
-  const [currentStep, setCurrentStep] = useState(0)
-  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set())
-  const router = useRouter()
+  const [currentStep, setCurrentStep] = useState(0);
+  const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
+  const router = useRouter();
 
   const handleNext = () => {
-    setCompletedSteps(prev => new Set(prev).add(currentStep))
-    
+    setCompletedSteps((prev) => new Set(prev).add(currentStep));
+
     if (currentStep < setupSteps.length - 1) {
-      setCurrentStep(currentStep + 1)
+      setCurrentStep(currentStep + 1);
     } else {
       // Wizard complete
-      router.push(`/${projectId}/home`)
+      router.push(`/${projectId}/home`);
     }
-  }
+  };
 
   const handleSkip = () => {
     if (!setupSteps[currentStep].required) {
-      handleNext()
+      handleNext();
     }
-  }
+  };
 
   const handleStepClick = (stepIndex: number) => {
     // Allow navigation to completed steps or the next uncompleted step
     if (completedSteps.has(stepIndex) || stepIndex <= currentStep) {
-      setCurrentStep(stepIndex)
+      setCurrentStep(stepIndex);
     }
-  }
+  };
 
-  const CurrentStepComponent = setupSteps[currentStep].component
-  const progress = ((currentStep + 1) / setupSteps.length) * 100
+  const CurrentStepComponent = setupSteps[currentStep].component;
+  const progress = ((currentStep + 1) / setupSteps.length) * 100;
 
   return (
     <div className="w-full">
@@ -132,9 +132,9 @@ export function ProjectSetupWizard({ projectId }: ProjectSetupWizardProps) {
           <div className="lg:col-span-1">
             <nav className="space-y-2">
               {setupSteps.map((step, index) => {
-                const isCompleted = completedSteps.has(index)
-                const isCurrent = index === currentStep
-                const isClickable = isCompleted || index <= currentStep
+                const isCompleted = completedSteps.has(index);
+                const isCurrent = index === currentStep;
+                const isClickable = isCompleted || index <= currentStep;
 
                 return (
                   <button
@@ -145,11 +145,9 @@ export function ProjectSetupWizard({ projectId }: ProjectSetupWizardProps) {
                       isCurrent
                         ? "bg-primary text-primary-foreground"
                         : isCompleted
-                        ? "bg-muted hover:bg-muted/80"
-                        : "bg-background hover:bg-muted/50 text-muted-foreground"
-                    } ${
-                      !isClickable ? "cursor-not-allowed opacity-50" : ""
-                    }`}
+                          ? "bg-muted hover:bg-muted/80"
+                          : "bg-background hover:bg-muted/50 text-muted-foreground"
+                    } ${!isClickable ? "cursor-not-allowed opacity-50" : ""}`}
                   >
                     {isCompleted ? (
                       <CheckCircle2 className="h-5 w-5 mt-0.5 text-green-600" />
@@ -158,10 +156,12 @@ export function ProjectSetupWizard({ projectId }: ProjectSetupWizardProps) {
                     )}
                     <div>
                       <div className="font-medium">{step.title}</div>
-                      <div className="text-sm opacity-80">{step.description}</div>
+                      <div className="text-sm opacity-80">
+                        {step.description}
+                      </div>
                     </div>
                   </button>
-                )
+                );
               })}
             </nav>
           </div>
@@ -182,5 +182,5 @@ export function ProjectSetupWizard({ projectId }: ProjectSetupWizardProps) {
         </div>
       </div>
     </div>
-  )
+  );
 }

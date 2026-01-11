@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import Link from 'next/link';
-import { Plus, Calendar, Upload, Camera, LucideIcon } from 'lucide-react';
-import { QuickAction } from '@/types/project-home';
-import { Button } from '@/components/ui/button';
+import * as React from "react";
+import Link from "next/link";
+import { Plus, Calendar, Upload, Camera, LucideIcon } from "lucide-react";
+import { QuickAction } from "@/types/project-home";
+import { Button } from "@/components/ui/button";
 
 interface QuickActionsProps {
   actions: QuickAction[];
@@ -21,11 +21,13 @@ const iconMap: Record<string, LucideIcon> = {
 export function QuickActions({ actions, projectId }: QuickActionsProps) {
   return (
     <div className="bg-white rounded-md border border-gray-200 p-6">
-      <h3 className="text-sm font-semibold text-gray-900 mb-4">Quick Actions</h3>
+      <h3 className="text-sm font-semibold text-gray-900 mb-4">
+        Quick Actions
+      </h3>
       <div className="grid grid-cols-2 gap-3">
         {actions.map((action) => {
           const Icon = iconMap[action.icon] || Plus;
-          const href = action.href.replace('[projectId]', projectId);
+          const href = action.href.replace("[projectId]", projectId);
 
           return (
             <Link key={action.id} href={href}>

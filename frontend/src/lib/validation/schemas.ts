@@ -10,7 +10,7 @@
  * TypeScript alone cannot detect (e.g., malformed URL params).
  */
 
-import { z } from 'zod'
+import { z } from "zod";
 
 // =============================================================================
 // URL Parameter Schemas
@@ -28,72 +28,71 @@ import { z } from 'zod'
  */
 export const ProjectIdSchema = z.coerce
   .number()
-  .int('Project ID must be an integer')
-  .positive('Project ID must be positive')
+  .int("Project ID must be an integer")
+  .positive("Project ID must be positive");
 
 /**
  * Validates a UUID string (used for meeting IDs, document IDs, etc.)
  */
-export const UuidSchema = z.string().uuid('Invalid UUID format')
+export const UuidSchema = z.string().uuid("Invalid UUID format");
 
 /**
  * Validates a generic string ID (non-empty)
  */
-export const StringIdSchema = z.string().min(1, 'ID cannot be empty')
+export const StringIdSchema = z.string().min(1, "ID cannot be empty");
 
 // =============================================================================
 // Common Field Schemas
 // =============================================================================
 
-export const EmailSchema = z.string().email('Invalid email format')
+export const EmailSchema = z.string().email("Invalid email format");
 
 export const PhoneSchema = z
   .string()
-  .regex(/^[\d\s\-+()]+$/, 'Invalid phone number format')
-  .optional()
+  .regex(/^[\d\s\-+()]+$/, "Invalid phone number format")
+  .optional();
 
-export const DateStringSchema = z.string().refine(
-  (val) => !isNaN(Date.parse(val)),
-  'Invalid date format'
-)
+export const DateStringSchema = z
+  .string()
+  .refine((val) => !isNaN(Date.parse(val)), "Invalid date format");
 
 export const MoneySchema = z.coerce
   .number()
-  .nonnegative('Amount cannot be negative')
+  .nonnegative("Amount cannot be negative");
 
 export const PercentageSchema = z.coerce
   .number()
-  .min(0, 'Percentage must be at least 0')
-  .max(100, 'Percentage cannot exceed 100')
+  .min(0, "Percentage must be at least 0")
+  .max(100, "Percentage cannot exceed 100");
 
 // =============================================================================
 // Status Enums
 // =============================================================================
 
 export const TaskStatusSchema = z.enum([
-  'pending',
-  'in_progress',
-  'completed',
-  'blocked'
-])
+  "pending",
+  "in_progress",
+  "completed",
+  "blocked",
+]);
 
-export const TaskPrioritySchema = z.enum(['low', 'medium', 'high'])
+export const TaskPrioritySchema = z.enum(["low", "medium", "high"]);
 
 export const RfiStatusSchema = z.enum([
-  'draft',
-  'open',
-  'pending',
-  'closed',
-  'void'
-])
+  "draft",
+  "open",
+  "pending",
+  "closed",
+  "void",
+]);
 
 export const ChangeOrderStatusSchema = z.enum([
-  'draft',
-  'pending',
-  'approved',
-  'rejected',
-  'void'
-])
+  "draft",
+  "pending",
+  "approved",
+  "rejected",
+  "void",
+]);
 
 // =============================================================================
 // Entity Schemas
@@ -113,8 +112,8 @@ export const ProjectSchema = z.object({
   status: z.string().nullable(),
   contract_amount: z.number().nullable(),
   created_at: z.string().nullable(),
-  updated_at: z.string().nullable()
-})
+  updated_at: z.string().nullable(),
+});
 
 export const TaskSchema = z.object({
   id: z.number(),
@@ -125,8 +124,8 @@ export const TaskSchema = z.object({
   priority: TaskPrioritySchema.nullable(),
   due_date: z.string().nullable(),
   created_at: z.string().nullable(),
-  updated_at: z.string().nullable()
-})
+  updated_at: z.string().nullable(),
+});
 
 // =============================================================================
 // API Response Schemas
@@ -135,24 +134,28 @@ export const TaskSchema = z.object({
 /**
  * Wraps a schema to validate Supabase query responses
  */
-export function createQueryResponseSchema<T extends z.ZodTypeAny>(dataSchema: T) {
+export function createQueryResponseSchema<T extends z.ZodTypeAny>(
+  dataSchema: T,
+) {
   return z.object({
     data: dataSchema.nullable(),
     error: z
       .object({
         message: z.string(),
         code: z.string().optional(),
-        details: z.string().optional()
+        details: z.string().optional(),
       })
-      .nullable()
-  })
+      .nullable(),
+  });
 }
 
 /**
  * Wraps a schema for array responses
  */
-export function createArrayResponseSchema<T extends z.ZodTypeAny>(itemSchema: T) {
-  return createQueryResponseSchema(z.array(itemSchema))
+export function createArrayResponseSchema<T extends z.ZodTypeAny>(
+  itemSchema: T,
+) {
+  return createQueryResponseSchema(z.array(itemSchema));
 }
 
 // =============================================================================
@@ -164,7 +167,7 @@ export function createArrayResponseSchema<T extends z.ZodTypeAny>(itemSchema: T)
  */
 export type SafeParseResult<T> =
   | { success: true; data: T }
-  | { success: false; error: z.ZodError }
+  | { success: false; error: z.ZodError };
 
 /**
  * Safely parses a value with a schema, returning a result object instead of throwing.
@@ -180,13 +183,13 @@ export type SafeParseResult<T> =
  */
 export function safeParse<T extends z.ZodTypeAny>(
   schema: T,
-  value: unknown
+  value: unknown,
 ): SafeParseResult<z.infer<T>> {
-  const result = schema.safeParse(value)
+  const result = schema.safeParse(value);
   if (result.success) {
-    return { success: true, data: result.data }
+    return { success: true, data: result.data };
   }
-  return { success: false, error: result.error }
+  return { success: false, error: result.error };
 }
 
 /**
@@ -204,24 +207,24 @@ export function safeParse<T extends z.ZodTypeAny>(
  * ```
  */
 export function validateProjectId(projectId: string): SafeParseResult<number> {
-  return safeParse(ProjectIdSchema, projectId)
+  return safeParse(ProjectIdSchema, projectId);
 }
 
 /**
  * Validates a UUID from URL params.
  */
 export function validateUuid(id: string): SafeParseResult<string> {
-  return safeParse(UuidSchema, id)
+  return safeParse(UuidSchema, id);
 }
 
 // =============================================================================
 // Type Exports
 // =============================================================================
 
-export type ProjectId = z.infer<typeof ProjectIdSchema>
-export type TaskStatus = z.infer<typeof TaskStatusSchema>
-export type TaskPriority = z.infer<typeof TaskPrioritySchema>
-export type RfiStatus = z.infer<typeof RfiStatusSchema>
-export type ChangeOrderStatus = z.infer<typeof ChangeOrderStatusSchema>
-export type Project = z.infer<typeof ProjectSchema>
-export type Task = z.infer<typeof TaskSchema>
+export type ProjectId = z.infer<typeof ProjectIdSchema>;
+export type TaskStatus = z.infer<typeof TaskStatusSchema>;
+export type TaskPriority = z.infer<typeof TaskPrioritySchema>;
+export type RfiStatus = z.infer<typeof RfiStatusSchema>;
+export type ChangeOrderStatus = z.infer<typeof ChangeOrderStatusSchema>;
+export type Project = z.infer<typeof ProjectSchema>;
+export type Task = z.infer<typeof TaskSchema>;

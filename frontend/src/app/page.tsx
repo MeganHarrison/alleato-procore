@@ -1,43 +1,55 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 import {
   PortfolioHeader,
   PortfolioFilters,
   ProjectsTable,
-} from '@/components/portfolio';
-import { PortfolioViewType, StatusFilter, Project } from '@/types/portfolio';
-import { portfolioViews, financialViews } from '@/config/portfolio';
-import { useRouter } from 'next/navigation';
+} from "@/components/portfolio";
+import { PortfolioViewType, StatusFilter, Project } from "@/types/portfolio";
+import { portfolioViews, financialViews } from "@/config/portfolio";
+import { useRouter } from "next/navigation";
 
 export default function PortfolioPage() {
   const router = useRouter();
-  const [activeView, setActiveView] = React.useState('projects');
-  const [searchQuery, setSearchQuery] = React.useState('');
-  const [statusFilter, setStatusFilter] = React.useState<StatusFilter>('active');
-  const [viewType, setViewType] = React.useState<PortfolioViewType>('thumbnails');
-  const [phaseFilter, setPhaseFilter] = React.useState<string | null>('current');
-  const [categoryFilter, setCategoryFilter] = React.useState<string | null>(null);
+  const [activeView, setActiveView] = React.useState("projects");
+  const [searchQuery, setSearchQuery] = React.useState("");
+  const [statusFilter, setStatusFilter] =
+    React.useState<StatusFilter>("active");
+  const [viewType, setViewType] =
+    React.useState<PortfolioViewType>("thumbnails");
+  const [phaseFilter, setPhaseFilter] = React.useState<string | null>(
+    "current",
+  );
+  const [categoryFilter, setCategoryFilter] = React.useState<string | null>(
+    null,
+  );
   const [clientFilter, setClientFilter] = React.useState<string | null>(null);
   const [projects, setProjects] = React.useState<Project[]>([]);
   const [loading, setLoading] = React.useState(true);
 
-  const parseProjectsResponse = React.useCallback(async (response: Response) => {
-    const contentType = response.headers.get('content-type') || '';
+  const parseProjectsResponse = React.useCallback(
+    async (response: Response) => {
+      const contentType = response.headers.get("content-type") || "";
 
-    if (contentType.includes('application/json')) {
-      try {
-        return await response.json();
-      } catch (error) {
-        console.error('Failed to parse projects JSON:', error);
-        return null;
+      if (contentType.includes("application/json")) {
+        try {
+          return await response.json();
+        } catch (error) {
+          console.error("Failed to parse projects JSON:", error);
+          return null;
+        }
       }
-    }
 
-    const fallbackBody = await response.text();
-    console.error('Projects API returned non-JSON response:', fallbackBody.slice(0, 200));
-    return null;
-  }, []);
+      const fallbackBody = await response.text();
+      console.error(
+        "Projects API returned non-JSON response:",
+        fallbackBody.slice(0, 200),
+      );
+      return null;
+    },
+    [],
+  );
 
   // Fetch projects from Supabase
   React.useEffect(() => {
@@ -47,9 +59,9 @@ export default function PortfolioPage() {
         const params = new URLSearchParams();
 
         // Add filters to params
-        if (searchQuery) params.append('search', searchQuery);
-        if (statusFilter === 'active') params.append('archived', 'false');
-        else if (statusFilter === 'inactive') params.append('archived', 'true');
+        if (searchQuery) params.append("search", searchQuery);
+        if (statusFilter === "active") params.append("archived", "false");
+        else if (statusFilter === "inactive") params.append("archived", "true");
 
         const response = await fetch(`/api/projects?${params.toString()}`);
         const result = await parseProjectsResponse(response);
@@ -61,37 +73,45 @@ export default function PortfolioPage() {
 
         if (response.ok) {
           // Map Supabase data to our Project interface
-          const mappedProjects: Project[] = (result.data || []).map((p: Record<string, unknown>) => ({
-            id: p.id.toString(),
-            name: p.name || 'Untitled Project',
-            jobNumber: p['job number'] || p.id.toString(),
-            client: p.client || '',
-            startDate: p['start date'] || null,
-            state: p.state || '',
-            phase: p.phase || '',
-            estRevenue: p['est revenue'] || null,
-            estProfit: p['est profit'] || null,
-            category: p.category || '',
-            // Legacy fields for backward compatibility
-            projectNumber: p['job number'] || p.id.toString(),
-            address: p.address || '',
-            city: p.address && typeof p.address === 'string' ? p.address.split(',')[0] || '' : '',
-            zip: '',
-            phone: '',
-            status: p.archived ? 'Inactive' : 'Active',
-            stage: p.phase || 'Unknown',
-            type: p.category || 'General',
-            notes: p.summary || '',
-            isFlagged: false
-          }));
+          const mappedProjects: Project[] = (result.data || []).map(
+            (p: Record<string, unknown>) => ({
+              id: p.id.toString(),
+              name: p.name || "Untitled Project",
+              jobNumber: p["job number"] || p.id.toString(),
+              client: p.client || "",
+              startDate: p["start date"] || null,
+              state: p.state || "",
+              phase: p.phase || "",
+              estRevenue: p["est revenue"] || null,
+              estProfit: p["est profit"] || null,
+              category: p.category || "",
+              // Legacy fields for backward compatibility
+              projectNumber: p["job number"] || p.id.toString(),
+              address: p.address || "",
+              city:
+                p.address && typeof p.address === "string"
+                  ? p.address.split(",")[0] || ""
+                  : "",
+              zip: "",
+              phone: "",
+              status: p.archived ? "Inactive" : "Active",
+              stage: p.phase || "Unknown",
+              type: p.category || "General",
+              notes: p.summary || "",
+              isFlagged: false,
+            }),
+          );
 
           setProjects(mappedProjects);
         } else {
-          console.error('Failed to fetch projects:', result?.error || response.statusText);
+          console.error(
+            "Failed to fetch projects:",
+            result?.error || response.statusText,
+          );
           setProjects([]);
         }
       } catch (error) {
-        console.error('Error fetching projects:', error);
+        console.error("Error fetching projects:", error);
       } finally {
         setLoading(false);
       }
@@ -102,17 +122,23 @@ export default function PortfolioPage() {
 
   // Extract unique phase, category, and client options from projects
   const phaseOptions = React.useMemo(() => {
-    const phases = new Set(projects.map(p => p.phase).filter((p): p is string => Boolean(p)));
+    const phases = new Set(
+      projects.map((p) => p.phase).filter((p): p is string => Boolean(p)),
+    );
     return Array.from(phases).sort();
   }, [projects]);
 
   const categoryOptions = React.useMemo(() => {
-    const categories = new Set(projects.map(p => p.category).filter((c): c is string => Boolean(c)));
+    const categories = new Set(
+      projects.map((p) => p.category).filter((c): c is string => Boolean(c)),
+    );
     return Array.from(categories).sort();
   }, [projects]);
 
   const clientOptions = React.useMemo(() => {
-    const clients = new Set(projects.map(p => p.client).filter((c): c is string => Boolean(c)));
+    const clients = new Set(
+      projects.map((p) => p.client).filter((c): c is string => Boolean(c)),
+    );
     return Array.from(clients).sort();
   }, [projects]);
 
@@ -120,7 +146,12 @@ export default function PortfolioPage() {
   const filteredProjects = React.useMemo(() => {
     return projects.filter((project) => {
       // Phase filter (case insensitive)
-      if (phaseFilter && phaseFilter !== 'all' && project.phase?.toLowerCase() !== phaseFilter.toLowerCase()) return false;
+      if (
+        phaseFilter &&
+        phaseFilter !== "all" &&
+        project.phase?.toLowerCase() !== phaseFilter.toLowerCase()
+      )
+        return false;
 
       // Category filter
       if (categoryFilter && project.category !== categoryFilter) return false;
@@ -140,39 +171,47 @@ export default function PortfolioPage() {
     // Settings functionality to be implemented
   };
 
-  const handleExport = (format: 'pdf' | 'csv') => {
+  const handleExport = (format: "pdf" | "csv") => {
     // Export to CSV
-    if (format === 'csv') {
-      const headers = ['Job Number', 'Project Name', 'Client', 'Phase', 'Category', 'State', 'Status'];
-      const csvData = filteredProjects.map(project => [
+    if (format === "csv") {
+      const headers = [
+        "Job Number",
+        "Project Name",
+        "Client",
+        "Phase",
+        "Category",
+        "State",
+        "Status",
+      ];
+      const csvData = filteredProjects.map((project) => [
         project.jobNumber,
         project.name,
-        project.client || '',
-        project.phase || '',
-        project.category || '',
-        project.state || '',
-        project.status
+        project.client || "",
+        project.phase || "",
+        project.category || "",
+        project.state || "",
+        project.status,
       ]);
-      
+
       const csvContent = [
-        headers.join(','),
-        ...csvData.map(row => row.map(cell => `"${cell}"`).join(','))
-      ].join('\n');
-      
-      const blob = new Blob([csvContent], { type: 'text/csv' });
+        headers.join(","),
+        ...csvData.map((row) => row.map((cell) => `"${cell}"`).join(",")),
+      ].join("\n");
+
+      const blob = new Blob([csvContent], { type: "text/csv" });
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
+      const a = document.createElement("a");
       a.href = url;
-      a.download = `portfolio-${new Date().toISOString().split('T')[0]}.csv`;
+      a.download = `portfolio-${new Date().toISOString().split("T")[0]}.csv`;
       a.click();
       window.URL.revokeObjectURL(url);
-    } 
-    
+    }
+
     // Export to PDF
-    else if (format === 'pdf') {
+    else if (format === "pdf") {
       // For PDF, we'll open a print dialog as a simple solution
       // In production, you might want to use a library like jsPDF
-      const printWindow = window.open('', '', 'width=800,height=600');
+      const printWindow = window.open("", "", "width=800,height=600");
       if (printWindow) {
         const htmlContent = `
           <!DOCTYPE html>
@@ -209,27 +248,31 @@ export default function PortfolioPage() {
                 </tr>
               </thead>
               <tbody>
-                ${filteredProjects.map(project => `
+                ${filteredProjects
+                  .map(
+                    (project) => `
                   <tr>
                     <td>${project.jobNumber}</td>
                     <td>${project.name}</td>
-                    <td>${project.client || '-'}</td>
-                    <td>${project.phase || '-'}</td>
-                    <td>${project.category || '-'}</td>
-                    <td>${project.state || '-'}</td>
+                    <td>${project.client || "-"}</td>
+                    <td>${project.phase || "-"}</td>
+                    <td>${project.category || "-"}</td>
+                    <td>${project.state || "-"}</td>
                     <td>${project.status}</td>
                   </tr>
-                `).join('')}
+                `,
+                  )
+                  .join("")}
               </tbody>
             </table>
           </body>
           </html>
         `;
-        
+
         printWindow.document.write(htmlContent);
         printWindow.document.close();
         printWindow.focus();
-        
+
         // Give it time to render then trigger print
         setTimeout(() => {
           printWindow.print();
@@ -240,9 +283,9 @@ export default function PortfolioPage() {
   };
 
   const handleClearFilters = () => {
-    setSearchQuery('');
-    setStatusFilter('active');
-    setPhaseFilter('current');
+    setSearchQuery("");
+    setStatusFilter("active");
+    setPhaseFilter("current");
     setCategoryFilter(null);
     setClientFilter(null);
   };
@@ -252,7 +295,7 @@ export default function PortfolioPage() {
   };
 
   const handleCreateProject = () => {
-    router.push('/form-project');
+    router.push("/form-project");
   };
 
   return (
@@ -300,7 +343,7 @@ export default function PortfolioPage() {
             <ProjectsTable
               data={filteredProjects}
               onProjectClick={handleProjectClick}
-              viewType={viewType === 'list' ? 'list' : 'grid'}
+              viewType={viewType === "list" ? "list" : "grid"}
             />
           )}
         </div>

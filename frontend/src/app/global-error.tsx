@@ -1,18 +1,20 @@
-'use client'
+"use client";
 
 export default function GlobalError({
   error,
   reset,
 }: {
-  error: Error & { digest?: string }
-  reset: () => void
+  error: Error & { digest?: string };
+  reset: () => void;
 }) {
   return (
     <html>
       <body>
         <div className="flex h-screen flex-col items-center justify-center">
           <h2 className="text-2xl font-semibold mb-4">Something went wrong!</h2>
-          <p className="text-muted-foreground mb-6">{error.message || 'A critical error occurred'}</p>
+          <p className="text-muted-foreground mb-6">
+            {error.message || "A critical error occurred"}
+          </p>
           <button
             onClick={() => reset()}
             className="px-4 py-2 bg-primary text-primary-foreground rounded-md hover:bg-primary/90"
@@ -22,5 +24,5 @@ export default function GlobalError({
         </div>
       </body>
     </html>
-  )
+  );
 }

@@ -1,41 +1,41 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Check, ChevronsUpDown } from "lucide-react"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { Check, ChevronsUpDown } from "lucide-react";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { FormField } from "./FormField"
-import { Badge } from "@/components/ui/badge"
+} from "@/components/ui/popover";
+import { FormField } from "./FormField";
+import { Badge } from "@/components/ui/badge";
 
 interface Option {
-  value: string
-  label: string
+  value: string;
+  label: string;
 }
 
 interface MultiSelectFieldProps {
-  label: string
-  options: Option[]
-  value?: string[]
-  onChange?: (values: string[]) => void
-  placeholder?: string
-  error?: string
-  hint?: string
-  required?: boolean
-  fullWidth?: boolean
-  className?: string
-  disabled?: boolean
+  label: string;
+  options: Option[];
+  value?: string[];
+  onChange?: (values: string[]) => void;
+  placeholder?: string;
+  error?: string;
+  hint?: string;
+  required?: boolean;
+  fullWidth?: boolean;
+  className?: string;
+  disabled?: boolean;
 }
 
 export function MultiSelectField({
@@ -51,18 +51,18 @@ export function MultiSelectField({
   className,
   disabled = false,
 }: MultiSelectFieldProps) {
-  const [open, setOpen] = React.useState(false)
+  const [open, setOpen] = React.useState(false);
 
   const handleSelect = (optionValue: string) => {
     const newValue = value.includes(optionValue)
       ? value.filter((v) => v !== optionValue)
-      : [...value, optionValue]
-    onChange?.(newValue)
-  }
+      : [...value, optionValue];
+    onChange?.(newValue);
+  };
 
   const selectedLabels = value
     .map((v) => options.find((opt) => opt.value === v)?.label)
-    .filter(Boolean)
+    .filter(Boolean);
 
   return (
     <FormField
@@ -82,20 +82,18 @@ export function MultiSelectField({
               "w-full justify-between",
               !value.length && "text-muted-foreground",
               error && "border-red-300",
-              className
+              className,
             )}
             disabled={disabled}
           >
             <div className="flex flex-wrap gap-1">
-              {value.length > 0 ? (
-                selectedLabels.map((label, index) => (
-                  <Badge key={index} variant="secondary" className="mr-1">
-                    {label}
-                  </Badge>
-                ))
-              ) : (
-                placeholder
-              )}
+              {value.length > 0
+                ? selectedLabels.map((label, index) => (
+                    <Badge key={index} variant="secondary" className="mr-1">
+                      {label}
+                    </Badge>
+                  ))
+                : placeholder}
             </div>
             <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
           </Button>
@@ -114,7 +112,9 @@ export function MultiSelectField({
                   <Check
                     className={cn(
                       "mr-2 h-4 w-4",
-                      value.includes(option.value) ? "opacity-100" : "opacity-0"
+                      value.includes(option.value)
+                        ? "opacity-100"
+                        : "opacity-0",
                     )}
                   />
                   {option.label}
@@ -125,5 +125,5 @@ export function MultiSelectField({
         </PopoverContent>
       </Popover>
     </FormField>
-  )
+  );
 }

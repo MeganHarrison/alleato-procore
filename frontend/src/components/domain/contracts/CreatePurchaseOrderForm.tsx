@@ -1,27 +1,27 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Textarea } from '@/components/ui/textarea';
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { Upload, X, Plus, Sparkles, Loader2 } from 'lucide-react';
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Upload, X, Plus, Sparkles, Loader2 } from "lucide-react";
 import {
   CreatePurchaseOrderSchema,
   type CreatePurchaseOrderInput,
   type PurchaseOrderSovLineItem,
-} from '@/lib/schemas/create-purchase-order-schema';
-import { useCompanies } from '@/hooks/use-companies';
+} from "@/lib/schemas/create-purchase-order-schema";
+import { useCompanies } from "@/hooks/use-companies";
 
 interface CreatePurchaseOrderFormProps {
   projectId: number;
@@ -30,13 +30,13 @@ interface CreatePurchaseOrderFormProps {
 }
 
 const UNIT_OF_MEASURES = [
-  { value: 'EA', label: 'Each' },
-  { value: 'LF', label: 'Linear Foot' },
-  { value: 'SF', label: 'Square Foot' },
-  { value: 'CY', label: 'Cubic Yard' },
-  { value: 'TON', label: 'Ton' },
-  { value: 'HR', label: 'Hour' },
-  { value: 'LS', label: 'Lump Sum' },
+  { value: "EA", label: "Each" },
+  { value: "LF", label: "Linear Foot" },
+  { value: "SF", label: "Square Foot" },
+  { value: "CY", label: "Cubic Yard" },
+  { value: "TON", label: "Ton" },
+  { value: "HR", label: "Hour" },
+  { value: "LS", label: "Lump Sum" },
 ];
 
 export function CreatePurchaseOrderForm({
@@ -44,13 +44,18 @@ export function CreatePurchaseOrderForm({
   onCancel,
 }: CreatePurchaseOrderFormProps) {
   const [isSubmitting, setIsSubmitting] = React.useState(false);
-  const [sovLines, setSovLines] = React.useState<PurchaseOrderSovLineItem[]>([]);
-  const [accountingMethod, setAccountingMethod] = React.useState<'unit-quantity' | 'amount'>('unit-quantity');
+  const [sovLines, setSovLines] = React.useState<PurchaseOrderSovLineItem[]>(
+    [],
+  );
+  const [accountingMethod, setAccountingMethod] = React.useState<
+    "unit-quantity" | "amount"
+  >("unit-quantity");
   const [attachments, setAttachments] = React.useState<File[]>([]);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   // Use the companies hook - returns { value: uuid, label: name } options
-  const { options: companyOptions, isLoading: isLoadingCompanies } = useCompanies();
+  const { options: companyOptions, isLoading: isLoadingCompanies } =
+    useCompanies();
 
   const {
     register,
@@ -61,10 +66,10 @@ export function CreatePurchaseOrderForm({
   } = useForm<CreatePurchaseOrderInput>({
     resolver: zodResolver(CreatePurchaseOrderSchema),
     defaultValues: {
-      contractNumber: 'PO-001',
-      status: 'Draft',
+      contractNumber: "PO-001",
+      status: "Draft",
       executed: false,
-      accountingMethod: 'unit-quantity',
+      accountingMethod: "unit-quantity",
       sov: [],
       privacy: {
         isPrivate: true,
@@ -73,8 +78,8 @@ export function CreatePurchaseOrderForm({
     },
   });
 
-  const contractCompanyId = watch('contractCompanyId');
-  const privacyIsPrivate = watch('privacy.isPrivate') ?? true;
+  const contractCompanyId = watch("contractCompanyId");
+  const privacyIsPrivate = watch("privacy.isPrivate") ?? true;
 
   const handleFormSubmit = async (data: CreatePurchaseOrderInput) => {
     setIsSubmitting(true);
@@ -102,14 +107,20 @@ export function CreatePurchaseOrderForm({
     setSovLines([...sovLines, newLine as PurchaseOrderSovLineItem]);
   };
 
-  const updateSOVLine = (index: number, field: keyof PurchaseOrderSovLineItem, value: unknown) => {
+  const updateSOVLine = (
+    index: number,
+    field: keyof PurchaseOrderSovLineItem,
+    value: unknown,
+  ) => {
     const updated = [...sovLines];
     updated[index] = { ...updated[index], [field]: value };
 
     // Auto-calculate amount if quantity or unitCost changes
-    if (field === 'quantity' || field === 'unitCost') {
-      const qty = field === 'quantity' ? (value as number) : updated[index].quantity || 0;
-      const cost = field === 'unitCost' ? (value as number) : updated[index].unitCost || 0;
+    if (field === "quantity" || field === "unitCost") {
+      const qty =
+        field === "quantity" ? (value as number) : updated[index].quantity || 0;
+      const cost =
+        field === "unitCost" ? (value as number) : updated[index].unitCost || 0;
       updated[index].amount = qty * cost;
     }
 
@@ -130,7 +141,7 @@ export function CreatePurchaseOrderForm({
           billedToDate: acc.billedToDate + lineBilled,
         };
       },
-      { amount: 0, billedToDate: 0 }
+      { amount: 0, billedToDate: 0 },
     );
     return {
       ...totals,
@@ -141,19 +152,19 @@ export function CreatePurchaseOrderForm({
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
     if (files) {
-      setAttachments(prev => [...prev, ...Array.from(files)]);
+      setAttachments((prev) => [...prev, ...Array.from(files)]);
     }
   };
 
   const handleRemoveAttachment = (index: number) => {
-    setAttachments(prev => prev.filter((_, i) => i !== index));
+    setAttachments((prev) => prev.filter((_, i) => i !== index));
   };
 
   const handleDrop = (event: React.DragEvent<HTMLDivElement>) => {
     event.preventDefault();
     const files = event.dataTransfer.files;
     if (files) {
-      setAttachments(prev => [...prev, ...Array.from(files)]);
+      setAttachments((prev) => [...prev, ...Array.from(files)]);
     }
   };
 
@@ -167,26 +178,30 @@ export function CreatePurchaseOrderForm({
     <form onSubmit={handleSubmit(handleFormSubmit)} className="space-y-8">
       {/* General Information Section */}
       <section className="space-y-4">
-        <h2 className="text-lg font-semibold border-b pb-2">General Information</h2>
+        <h2 className="text-lg font-semibold border-b pb-2">
+          General Information
+        </h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div className="space-y-2">
             <Label htmlFor="contractNumber">Contract #</Label>
             <Input
               id="contractNumber"
-              {...register('contractNumber')}
+              {...register("contractNumber")}
               disabled={isSubmitting}
             />
             {errors.contractNumber && (
-              <p className="text-sm text-red-600">{errors.contractNumber.message}</p>
+              <p className="text-sm text-red-600">
+                {errors.contractNumber.message}
+              </p>
             )}
           </div>
 
           <div className="space-y-2">
             <Label htmlFor="contractCompanyId">Contract Company</Label>
             <Select
-              value={watch('contractCompanyId') || ''}
-              onValueChange={(value) => setValue('contractCompanyId', value)}
+              value={watch("contractCompanyId") || ""}
+              onValueChange={(value) => setValue("contractCompanyId", value)}
               disabled={isSubmitting || isLoadingCompanies}
             >
               <SelectTrigger>
@@ -218,19 +233,15 @@ export function CreatePurchaseOrderForm({
 
         <div className="space-y-2">
           <Label htmlFor="title">Title</Label>
-          <Input
-            id="title"
-            {...register('title')}
-            disabled={isSubmitting}
-          />
+          <Input id="title" {...register("title")} disabled={isSubmitting} />
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div className="space-y-2">
             <Label htmlFor="status">Status*</Label>
             <Select
-              value={watch('status')}
-              onValueChange={(value) => setValue('status', value as 'Draft')}
+              value={watch("status")}
+              onValueChange={(value) => setValue("status", value as "Draft")}
               disabled={isSubmitting}
             >
               <SelectTrigger>
@@ -253,8 +264,10 @@ export function CreatePurchaseOrderForm({
             <div className="flex items-center space-x-2 pt-8">
               <Checkbox
                 id="executed"
-                checked={watch('executed')}
-                onCheckedChange={(checked) => setValue('executed', checked as boolean)}
+                checked={watch("executed")}
+                onCheckedChange={(checked) =>
+                  setValue("executed", checked as boolean)
+                }
                 disabled={isSubmitting}
               />
               <Label htmlFor="executed" className="text-sm font-normal">
@@ -270,7 +283,9 @@ export function CreatePurchaseOrderForm({
                 id="defaultRetainagePercent"
                 type="number"
                 step="0.01"
-                {...register('defaultRetainagePercent', { valueAsNumber: true })}
+                {...register("defaultRetainagePercent", {
+                  valueAsNumber: true,
+                })}
                 disabled={isSubmitting}
               />
               <span className="text-sm text-gray-600">%</span>
@@ -281,8 +296,8 @@ export function CreatePurchaseOrderForm({
         <div className="space-y-2">
           <Label htmlFor="assignedTo">Assigned To</Label>
           <Select
-            value={watch('assignedTo') || ''}
-            onValueChange={(value) => setValue('assignedTo', value)}
+            value={watch("assignedTo") || ""}
+            onValueChange={(value) => setValue("assignedTo", value)}
             disabled={isSubmitting}
           >
             <SelectTrigger>
@@ -301,7 +316,7 @@ export function CreatePurchaseOrderForm({
             <Label htmlFor="billTo">Bill To</Label>
             <Textarea
               id="billTo"
-              {...register('billTo')}
+              {...register("billTo")}
               disabled={isSubmitting}
               className="min-h-[80px]"
               placeholder="Billing address..."
@@ -312,7 +327,7 @@ export function CreatePurchaseOrderForm({
             <Label htmlFor="shipTo">Ship To</Label>
             <Textarea
               id="shipTo"
-              {...register('shipTo')}
+              {...register("shipTo")}
               disabled={isSubmitting}
               className="min-h-[80px]"
               placeholder="Shipping address..."
@@ -325,7 +340,7 @@ export function CreatePurchaseOrderForm({
             <Label htmlFor="paymentTerms">Payment Terms</Label>
             <Input
               id="paymentTerms"
-              {...register('paymentTerms')}
+              {...register("paymentTerms")}
               disabled={isSubmitting}
               placeholder="e.g., Net 30"
             />
@@ -335,7 +350,7 @@ export function CreatePurchaseOrderForm({
             <Label htmlFor="shipVia">Ship Via</Label>
             <Input
               id="shipVia"
-              {...register('shipVia')}
+              {...register("shipVia")}
               disabled={isSubmitting}
               placeholder="Shipping method"
             />
@@ -346,7 +361,7 @@ export function CreatePurchaseOrderForm({
           <Label htmlFor="description">Description</Label>
           <Textarea
             id="description"
-            {...register('description')}
+            {...register("description")}
             disabled={isSubmitting}
             className="min-h-[100px]"
             placeholder="Purchase order description..."
@@ -421,22 +436,36 @@ export function CreatePurchaseOrderForm({
 
       {/* Schedule of Values Section */}
       <section className="space-y-4">
-        <h2 className="text-lg font-semibold border-b pb-2">Schedule of Values</h2>
+        <h2 className="text-lg font-semibold border-b pb-2">
+          Schedule of Values
+        </h2>
 
         {/* Accounting Method Banner */}
         <div className="bg-blue-50 border border-blue-200 rounded-md p-4">
           <div className="flex items-center justify-between">
             <p className="text-sm text-blue-900">
-              This purchase order&apos;s accounting method is {accountingMethod === 'unit-quantity' ? 'unit/quantity-based' : 'amount-based'}
+              This purchase order&apos;s accounting method is{" "}
+              {accountingMethod === "unit-quantity"
+                ? "unit/quantity-based"
+                : "amount-based"}
             </p>
             <Button
               type="button"
               variant="outline"
               size="sm"
-              onClick={() => setAccountingMethod(accountingMethod === 'unit-quantity' ? 'amount' : 'unit-quantity')}
+              onClick={() =>
+                setAccountingMethod(
+                  accountingMethod === "unit-quantity"
+                    ? "amount"
+                    : "unit-quantity",
+                )
+              }
               disabled={isSubmitting}
             >
-              Change to {accountingMethod === 'unit-quantity' ? 'Amount-Based' : 'Unit/Quantity'}
+              Change to{" "}
+              {accountingMethod === "unit-quantity"
+                ? "Amount-Based"
+                : "Unit/Quantity"}
             </Button>
           </div>
         </div>
@@ -449,7 +478,9 @@ export function CreatePurchaseOrderForm({
                 <span className="text-4xl">📦</span>
               </div>
             </div>
-            <p className="text-lg font-medium text-gray-600">You Have No Line Items Yet</p>
+            <p className="text-lg font-medium text-gray-600">
+              You Have No Line Items Yet
+            </p>
             <div className="flex gap-2">
               <Button
                 type="button"
@@ -459,11 +490,7 @@ export function CreatePurchaseOrderForm({
                 <Plus className="mr-2 h-4 w-4" />
                 Add Line
               </Button>
-              <Button
-                type="button"
-                variant="outline"
-                disabled={isSubmitting}
-              >
+              <Button type="button" variant="outline" disabled={isSubmitting}>
                 Import SOV from CSV
               </Button>
             </div>
@@ -494,52 +521,87 @@ export function CreatePurchaseOrderForm({
               <table className="w-full border">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700 w-12">#</th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">Change Event</th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">Budget Code</th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">Description</th>
-                    {accountingMethod === 'unit-quantity' && (
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700 w-12">
+                      #
+                    </th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">
+                      Change Event
+                    </th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">
+                      Budget Code
+                    </th>
+                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">
+                      Description
+                    </th>
+                    {accountingMethod === "unit-quantity" && (
                       <>
-                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">Qty</th>
-                        <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">UOM</th>
-                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">Unit Cost</th>
+                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">
+                          Qty
+                        </th>
+                        <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">
+                          UOM
+                        </th>
+                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">
+                          Unit Cost
+                        </th>
                       </>
                     )}
-                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">Amount</th>
-                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">Billed to Date</th>
-                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">Amount Remaining</th>
+                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">
+                      Amount
+                    </th>
+                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">
+                      Billed to Date
+                    </th>
+                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">
+                      Amount Remaining
+                    </th>
                     <th className="px-3 py-2 w-12" aria-label="Actions"></th>
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y">
                   {sovLines.map((line, index) => (
-                    <tr key={(line as PurchaseOrderSovLineItem & { _id?: string })._id || `line-${index}`}>
+                    <tr
+                      key={
+                        (line as PurchaseOrderSovLineItem & { _id?: string })
+                          ._id || `line-${index}`
+                      }
+                    >
                       <td className="px-3 py-2 text-sm">{index + 1}</td>
                       <td className="px-3 py-2">
                         <Input
                           className="text-sm"
                           placeholder="Change Event"
-                          value={line.changeEventLineItem || ''}
-                          onChange={(e) => updateSOVLine(index, 'changeEventLineItem', e.target.value)}
+                          value={line.changeEventLineItem || ""}
+                          onChange={(e) =>
+                            updateSOVLine(
+                              index,
+                              "changeEventLineItem",
+                              e.target.value,
+                            )
+                          }
                         />
                       </td>
                       <td className="px-3 py-2">
                         <Input
                           className="text-sm"
                           placeholder="Budget Code"
-                          value={line.budgetCode || ''}
-                          onChange={(e) => updateSOVLine(index, 'budgetCode', e.target.value)}
+                          value={line.budgetCode || ""}
+                          onChange={(e) =>
+                            updateSOVLine(index, "budgetCode", e.target.value)
+                          }
                         />
                       </td>
                       <td className="px-3 py-2">
                         <Input
                           className="text-sm"
                           placeholder="Description"
-                          value={line.description || ''}
-                          onChange={(e) => updateSOVLine(index, 'description', e.target.value)}
+                          value={line.description || ""}
+                          onChange={(e) =>
+                            updateSOVLine(index, "description", e.target.value)
+                          }
                         />
                       </td>
-                      {accountingMethod === 'unit-quantity' && (
+                      {accountingMethod === "unit-quantity" && (
                         <>
                           <td className="px-3 py-2">
                             <Input
@@ -548,13 +610,21 @@ export function CreatePurchaseOrderForm({
                               step="0.01"
                               placeholder="0"
                               value={line.quantity || 0}
-                              onChange={(e) => updateSOVLine(index, 'quantity', parseFloat(e.target.value) || 0)}
+                              onChange={(e) =>
+                                updateSOVLine(
+                                  index,
+                                  "quantity",
+                                  parseFloat(e.target.value) || 0,
+                                )
+                              }
                             />
                           </td>
                           <td className="px-3 py-2">
                             <Select
-                              value={line.uom || ''}
-                              onValueChange={(value) => updateSOVLine(index, 'uom', value)}
+                              value={line.uom || ""}
+                              onValueChange={(value) =>
+                                updateSOVLine(index, "uom", value)
+                              }
                             >
                               <SelectTrigger className="text-sm">
                                 <SelectValue placeholder="UOM" />
@@ -575,15 +645,28 @@ export function CreatePurchaseOrderForm({
                               step="0.01"
                               placeholder="$0.00"
                               value={line.unitCost || 0}
-                              onChange={(e) => updateSOVLine(index, 'unitCost', parseFloat(e.target.value) || 0)}
+                              onChange={(e) =>
+                                updateSOVLine(
+                                  index,
+                                  "unitCost",
+                                  parseFloat(e.target.value) || 0,
+                                )
+                              }
                             />
                           </td>
                         </>
                       )}
-                      <td className="px-3 py-2 text-sm text-right">${(line.amount || 0).toFixed(2)}</td>
-                      <td className="px-3 py-2 text-sm text-right">${(line.billedToDate || 0).toFixed(2)}</td>
                       <td className="px-3 py-2 text-sm text-right">
-                        ${((line.amount || 0) - (line.billedToDate || 0)).toFixed(2)}
+                        ${(line.amount || 0).toFixed(2)}
+                      </td>
+                      <td className="px-3 py-2 text-sm text-right">
+                        ${(line.billedToDate || 0).toFixed(2)}
+                      </td>
+                      <td className="px-3 py-2 text-sm text-right">
+                        $
+                        {(
+                          (line.amount || 0) - (line.billedToDate || 0)
+                        ).toFixed(2)}
                       </td>
                       <td className="px-3 py-2">
                         <Button
@@ -600,10 +683,21 @@ export function CreatePurchaseOrderForm({
                 </tbody>
                 <tfoot className="bg-gray-50 font-semibold">
                   <tr>
-                    <td colSpan={accountingMethod === 'unit-quantity' ? 7 : 4} className="px-3 py-2 text-sm">Total:</td>
-                    <td className="px-3 py-2 text-sm text-right">${totals.amount.toFixed(2)}</td>
-                    <td className="px-3 py-2 text-sm text-right">${totals.billedToDate.toFixed(2)}</td>
-                    <td className="px-3 py-2 text-sm text-right">${totals.amountRemaining.toFixed(2)}</td>
+                    <td
+                      colSpan={accountingMethod === "unit-quantity" ? 7 : 4}
+                      className="px-3 py-2 text-sm"
+                    >
+                      Total:
+                    </td>
+                    <td className="px-3 py-2 text-sm text-right">
+                      ${totals.amount.toFixed(2)}
+                    </td>
+                    <td className="px-3 py-2 text-sm text-right">
+                      ${totals.billedToDate.toFixed(2)}
+                    </td>
+                    <td className="px-3 py-2 text-sm text-right">
+                      ${totals.amountRemaining.toFixed(2)}
+                    </td>
                     <td></td>
                   </tr>
                 </tfoot>
@@ -623,7 +717,7 @@ export function CreatePurchaseOrderForm({
             <Input
               id="dates.contractDate"
               type="text"
-              {...register('dates.contractDate')}
+              {...register("dates.contractDate")}
               disabled={isSubmitting}
               placeholder="mm/dd/yyyy"
             />
@@ -634,18 +728,20 @@ export function CreatePurchaseOrderForm({
             <Input
               id="dates.deliveryDate"
               type="text"
-              {...register('dates.deliveryDate')}
+              {...register("dates.deliveryDate")}
               disabled={isSubmitting}
               placeholder="mm/dd/yyyy"
             />
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="dates.signedPoReceivedDate">Signed PO Received Date</Label>
+            <Label htmlFor="dates.signedPoReceivedDate">
+              Signed PO Received Date
+            </Label>
             <Input
               id="dates.signedPoReceivedDate"
               type="text"
-              {...register('dates.signedPoReceivedDate')}
+              {...register("dates.signedPoReceivedDate")}
               disabled={isSubmitting}
               placeholder="mm/dd/yyyy"
             />
@@ -656,7 +752,7 @@ export function CreatePurchaseOrderForm({
             <Input
               id="dates.issuedOnDate"
               type="text"
-              {...register('dates.issuedOnDate')}
+              {...register("dates.issuedOnDate")}
               disabled={isSubmitting}
               placeholder="mm/dd/yyyy"
             />
@@ -666,10 +762,13 @@ export function CreatePurchaseOrderForm({
 
       {/* Contract Privacy Section */}
       <section className="space-y-4">
-        <h2 className="text-lg font-semibold border-b pb-2">Privacy & Access</h2>
+        <h2 className="text-lg font-semibold border-b pb-2">
+          Privacy & Access
+        </h2>
 
         <p className="text-sm text-gray-600">
-          Using the privacy setting allows only project admins and select non-admin users access.
+          Using the privacy setting allows only project admins and select
+          non-admin users access.
         </p>
 
         <div className="space-y-4">
@@ -677,7 +776,9 @@ export function CreatePurchaseOrderForm({
             <Checkbox
               id="privacy.isPrivate"
               checked={privacyIsPrivate}
-              onCheckedChange={(checked) => setValue('privacy.isPrivate', checked as boolean)}
+              onCheckedChange={(checked) =>
+                setValue("privacy.isPrivate", checked as boolean)
+              }
               disabled={isSubmitting}
             />
             <Label htmlFor="privacy.isPrivate" className="text-sm font-normal">
@@ -692,18 +793,30 @@ export function CreatePurchaseOrderForm({
             <Input
               id="privacy.nonAdminUserIds"
               disabled={isSubmitting || !privacyIsPrivate}
-              placeholder={privacyIsPrivate ? 'Select users...' : 'Enable Private to use this field'}
+              placeholder={
+                privacyIsPrivate
+                  ? "Select users..."
+                  : "Enable Private to use this field"
+              }
             />
           </div>
 
           <div className="flex items-center space-x-2">
             <Checkbox
               id="privacy.allowNonAdminViewSovItems"
-              checked={watch('privacy.allowNonAdminViewSovItems')}
-              onCheckedChange={(checked) => setValue('privacy.allowNonAdminViewSovItems', checked as boolean)}
+              checked={watch("privacy.allowNonAdminViewSovItems")}
+              onCheckedChange={(checked) =>
+                setValue(
+                  "privacy.allowNonAdminViewSovItems",
+                  checked as boolean,
+                )
+              }
               disabled={isSubmitting || !privacyIsPrivate}
             />
-            <Label htmlFor="privacy.allowNonAdminViewSovItems" className="text-sm font-normal">
+            <Label
+              htmlFor="privacy.allowNonAdminViewSovItems"
+              className="text-sm font-normal"
+            >
               Allow these non-admin users to view the SOV items.
             </Label>
           </div>
@@ -712,10 +825,14 @@ export function CreatePurchaseOrderForm({
 
       {/* Invoice Contacts Section */}
       <section className="space-y-4">
-        <h2 className="text-lg font-semibold border-b pb-2">Invoice Contacts</h2>
+        <h2 className="text-lg font-semibold border-b pb-2">
+          Invoice Contacts
+        </h2>
 
         {!contractCompanyId ? (
-          <p className="text-sm text-gray-600">Please select a Contract Company first</p>
+          <p className="text-sm text-gray-600">
+            Please select a Contract Company first
+          </p>
         ) : (
           <div className="space-y-2">
             <Label htmlFor="invoiceContacts">Invoice Contacts</Label>
@@ -740,11 +857,8 @@ export function CreatePurchaseOrderForm({
           >
             Cancel
           </Button>
-          <Button
-            type="submit"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? 'Creating...' : 'Create Purchase Order'}
+          <Button type="submit" disabled={isSubmitting}>
+            {isSubmitting ? "Creating..." : "Create Purchase Order"}
           </Button>
         </div>
       </div>

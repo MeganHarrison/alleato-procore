@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import * as React from "react"
+import * as React from "react";
 import {
   ColumnDef,
   ColumnFiltersState,
@@ -12,7 +12,7 @@ import {
   getPaginationRowModel,
   getSortedRowModel,
   useReactTable,
-} from "@tanstack/react-table"
+} from "@tanstack/react-table";
 import {
   Table,
   TableBody,
@@ -20,33 +20,33 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table"
-import { DataTablePaginationResponsive } from "./DataTablePaginationResponsive"
-import { DataTableToolbarResponsive } from "./DataTableToolbarResponsive"
-import { cn } from "@/lib/utils"
-import { Card } from "@/components/ui/card"
-import { ChevronRight } from "lucide-react"
+} from "@/components/ui/table";
+import { DataTablePaginationResponsive } from "./DataTablePaginationResponsive";
+import { DataTableToolbarResponsive } from "./DataTableToolbarResponsive";
+import { cn } from "@/lib/utils";
+import { Card } from "@/components/ui/card";
+import { ChevronRight } from "lucide-react";
 
 interface DataTableResponsiveProps<TData, TValue> {
-  columns: ColumnDef<TData, TValue>[]
-  data: TData[]
-  showToolbar?: boolean
-  showPagination?: boolean
-  onRowClick?: (row: TData) => void
-  className?: string
-  searchKey?: string
-  searchPlaceholder?: string
+  columns: ColumnDef<TData, TValue>[];
+  data: TData[];
+  showToolbar?: boolean;
+  showPagination?: boolean;
+  onRowClick?: (row: TData) => void;
+  className?: string;
+  searchKey?: string;
+  searchPlaceholder?: string;
   filterOptions?: {
-    column: string
-    title: string
+    column: string;
+    title: string;
     options: {
-      label: string
-      value: string
-      icon?: React.ComponentType<{ className?: string }>
-    }[]
-  }[]
-  mobileColumns?: string[] // Columns to show on mobile
-  mobileCardRenderer?: (row: TData) => React.ReactNode // Custom mobile card renderer
+      label: string;
+      value: string;
+      icon?: React.ComponentType<{ className?: string }>;
+    }[];
+  }[];
+  mobileColumns?: string[]; // Columns to show on mobile
+  mobileCardRenderer?: (row: TData) => React.ReactNode; // Custom mobile card renderer
 }
 
 export function DataTableResponsive<TData, TValue>({
@@ -62,10 +62,13 @@ export function DataTableResponsive<TData, TValue>({
   mobileColumns,
   mobileCardRenderer,
 }: DataTableResponsiveProps<TData, TValue>) {
-  const [sorting, setSorting] = React.useState<SortingState>([])
-  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>([])
-  const [columnVisibility, setColumnVisibility] = React.useState<VisibilityState>({})
-  const [rowSelection, setRowSelection] = React.useState({})
+  const [sorting, setSorting] = React.useState<SortingState>([]);
+  const [columnFilters, setColumnFilters] = React.useState<ColumnFiltersState>(
+    [],
+  );
+  const [columnVisibility, setColumnVisibility] =
+    React.useState<VisibilityState>({});
+  const [rowSelection, setRowSelection] = React.useState({});
 
   const table = useReactTable({
     data,
@@ -84,41 +87,43 @@ export function DataTableResponsive<TData, TValue>({
       columnVisibility,
       rowSelection,
     },
-  })
+  });
 
   // Default mobile card renderer
   const defaultMobileCardRenderer = (row: any) => {
-    const displayColumns = mobileColumns || ['name', 'status'] // Default columns
+    const displayColumns = mobileColumns || ["name", "status"]; // Default columns
     return (
       <div className="space-y-2">
         {displayColumns.map((col) => {
-          const column = columns.find((c: any) => c.accessorKey === col)
-          if (!column || !row[col]) return null
-          
+          const column = columns.find((c: any) => c.accessorKey === col);
+          if (!column || !row[col]) return null;
+
           return (
             <div key={col} className="flex justify-between">
               <span className="text-sm text-muted-foreground capitalize">
-                {col.replace(/_/g, ' ')}:
+                {col.replace(/_/g, " ")}:
               </span>
               <span className="text-sm font-medium">
-                {typeof row[col] === 'object' ? JSON.stringify(row[col]) : row[col]}
+                {typeof row[col] === "object"
+                  ? JSON.stringify(row[col])
+                  : row[col]}
               </span>
             </div>
-          )
+          );
         })}
       </div>
-    )
-  }
+    );
+  };
 
   const renderMobileView = () => {
-    const rows = table.getRowModel().rows
-    
+    const rows = table.getRowModel().rows;
+
     if (!rows?.length) {
       return (
         <Card className="p-8 text-center text-muted-foreground">
           No results found.
         </Card>
-      )
+      );
     }
 
     return (
@@ -128,7 +133,8 @@ export function DataTableResponsive<TData, TValue>({
             key={row.id}
             className={cn(
               "p-4",
-              onRowClick && "cursor-pointer hover:bg-muted/50 transition-colors"
+              onRowClick &&
+                "cursor-pointer hover:bg-muted/50 transition-colors",
             )}
             onClick={() => onRowClick?.(row.original)}
           >
@@ -145,8 +151,8 @@ export function DataTableResponsive<TData, TValue>({
           </Card>
         ))}
       </div>
-    )
-  }
+    );
+  };
 
   const renderDesktopView = () => (
     <div className="rounded-md border">
@@ -161,10 +167,10 @@ export function DataTableResponsive<TData, TValue>({
                       ? null
                       : flexRender(
                           header.column.columnDef.header,
-                          header.getContext()
+                          header.getContext(),
                         )}
                   </TableHead>
-                )
+                );
               })}
             </TableRow>
           ))}
@@ -175,27 +181,19 @@ export function DataTableResponsive<TData, TValue>({
               <TableRow
                 key={row.id}
                 data-state={row.getIsSelected() && "selected"}
-                className={cn(
-                  onRowClick && "cursor-pointer hover:bg-muted/50"
-                )}
+                className={cn(onRowClick && "cursor-pointer hover:bg-muted/50")}
                 onClick={() => onRowClick?.(row.original)}
               >
                 {row.getVisibleCells().map((cell) => (
                   <TableCell key={cell.id}>
-                    {flexRender(
-                      cell.column.columnDef.cell,
-                      cell.getContext()
-                    )}
+                    {flexRender(cell.column.columnDef.cell, cell.getContext())}
                   </TableCell>
                 ))}
               </TableRow>
             ))
           ) : (
             <TableRow>
-              <TableCell
-                colSpan={columns.length}
-                className="h-24 text-center"
-              >
+              <TableCell colSpan={columns.length} className="h-24 text-center">
                 No results.
               </TableCell>
             </TableRow>
@@ -203,7 +201,7 @@ export function DataTableResponsive<TData, TValue>({
         </TableBody>
       </Table>
     </div>
-  )
+  );
 
   return (
     <div className={cn("space-y-4", className)}>
@@ -215,18 +213,14 @@ export function DataTableResponsive<TData, TValue>({
           filterOptions={filterOptions}
         />
       )}
-      
+
       {/* Mobile view */}
-      <div className="block lg:hidden">
-        {renderMobileView()}
-      </div>
-      
+      <div className="block lg:hidden">{renderMobileView()}</div>
+
       {/* Desktop view */}
-      <div className="hidden lg:block">
-        {renderDesktopView()}
-      </div>
-      
+      <div className="hidden lg:block">{renderDesktopView()}</div>
+
       {showPagination && <DataTablePaginationResponsive table={table} />}
     </div>
-  )
+  );
 }

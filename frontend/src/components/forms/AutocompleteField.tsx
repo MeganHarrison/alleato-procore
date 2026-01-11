@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Check, ChevronsUpDown, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { Check, ChevronsUpDown, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
@@ -10,38 +10,38 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "@/components/ui/command"
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from "@/components/ui/popover"
-import { FormField } from "./FormField"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/popover";
+import { FormField } from "./FormField";
+import { cn } from "@/lib/utils";
 
 export interface AutocompleteOption {
-  value: string
-  label: string
-  description?: string
+  value: string;
+  label: string;
+  description?: string;
 }
 
 interface AutocompleteFieldProps {
-  label: string
-  options: AutocompleteOption[]
-  value?: string
-  onValueChange?: (value: string | undefined) => void
-  placeholder?: string
-  searchPlaceholder?: string
-  emptyMessage?: string
-  error?: string
-  hint?: string
-  required?: boolean
-  fullWidth?: boolean
-  className?: string
-  disabled?: boolean
-  clearable?: boolean
-  loading?: boolean
-  onSearch?: (search: string) => void
+  label: string;
+  options: AutocompleteOption[];
+  value?: string;
+  onValueChange?: (value: string | undefined) => void;
+  placeholder?: string;
+  searchPlaceholder?: string;
+  emptyMessage?: string;
+  error?: string;
+  hint?: string;
+  required?: boolean;
+  fullWidth?: boolean;
+  className?: string;
+  disabled?: boolean;
+  clearable?: boolean;
+  loading?: boolean;
+  onSearch?: (search: string) => void;
 }
 
 export function AutocompleteField({
@@ -62,26 +62,26 @@ export function AutocompleteField({
   loading = false,
   onSearch,
 }: AutocompleteFieldProps) {
-  const [open, setOpen] = React.useState(false)
-  const [searchValue, setSearchValue] = React.useState("")
+  const [open, setOpen] = React.useState(false);
+  const [searchValue, setSearchValue] = React.useState("");
 
-  const selectedOption = options.find((option) => option.value === value)
+  const selectedOption = options.find((option) => option.value === value);
 
   const handleSelect = (currentValue: string) => {
-    const newValue = currentValue === value ? undefined : currentValue
-    onValueChange?.(newValue)
-    setOpen(false)
-  }
+    const newValue = currentValue === value ? undefined : currentValue;
+    onValueChange?.(newValue);
+    setOpen(false);
+  };
 
   const handleClear = (e: React.MouseEvent) => {
-    e.stopPropagation()
-    onValueChange?.(undefined)
-  }
+    e.stopPropagation();
+    onValueChange?.(undefined);
+  };
 
   const handleSearchChange = (search: string) => {
-    setSearchValue(search)
-    onSearch?.(search)
-  }
+    setSearchValue(search);
+    onSearch?.(search);
+  };
 
   return (
     <FormField
@@ -103,7 +103,7 @@ export function AutocompleteField({
               "w-full justify-between",
               !value && "text-muted-foreground",
               error && "border-red-300",
-              className
+              className,
             )}
           >
             <span className="truncate">
@@ -120,7 +120,10 @@ export function AutocompleteField({
             </div>
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-[--radix-popover-trigger-width] p-0" align="start">
+        <PopoverContent
+          className="w-[--radix-popover-trigger-width] p-0"
+          align="start"
+        >
           <Command>
             <CommandInput
               placeholder={searchPlaceholder}
@@ -142,7 +145,7 @@ export function AutocompleteField({
                     <Check
                       className={cn(
                         "h-4 w-4 shrink-0 mt-0.5",
-                        value === option.value ? "opacity-100" : "opacity-0"
+                        value === option.value ? "opacity-100" : "opacity-0",
                       )}
                     />
                     <div className="flex-1 min-w-0">
@@ -161,5 +164,5 @@ export function AutocompleteField({
         </PopoverContent>
       </Popover>
     </FormField>
-  )
+  );
 }

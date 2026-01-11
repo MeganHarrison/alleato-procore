@@ -3,7 +3,7 @@ import React from "react";
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 function isPlainObjectOrArray(
-  obj: unknown
+  obj: unknown,
 ): obj is Record<string, unknown> | unknown[] {
   return (
     (obj !== null &&
@@ -16,7 +16,7 @@ function isPlainObjectOrArray(
 export function deepEqualIgnoringFns(
   a: unknown,
   b: unknown,
-  seen = new WeakMap<WeakKey, unknown>()
+  seen = new WeakMap<WeakKey, unknown>(),
 ): boolean {
   if (Object.is(a, b)) return true;
 

@@ -1,6 +1,6 @@
-'use client';
+"use client";
 
-import * as React from 'react';
+import * as React from "react";
 import {
   Building2,
   ArrowLeft,
@@ -13,18 +13,24 @@ import {
   History,
   User,
   UserPlus,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Text } from '@/components/ui/text';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Avatar, AvatarFallback } from '@/components/ui/avatar';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Separator } from '@/components/ui/separator';
-import { useProjectCompany } from '@/hooks/use-project-companies';
-import type { ProjectCompany } from '@/services/companyService';
-import type { PersonWithDetails } from '@/services/directoryService';
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+import { Text } from "@/components/ui/text";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Separator } from "@/components/ui/separator";
+import { useProjectCompany } from "@/hooks/use-project-companies";
+import type { ProjectCompany } from "@/services/companyService";
+import type { PersonWithDetails } from "@/services/directoryService";
 
 interface CompanyDetailViewProps {
   projectId: string;
@@ -62,9 +68,7 @@ export function CompanyDetailView({
   if (error || !company) {
     return (
       <div className="text-center py-12">
-        <Text tone="destructive">
-          {error?.message || 'Company not found'}
-        </Text>
+        <Text tone="destructive">{error?.message || "Company not found"}</Text>
         <Button variant="outline" onClick={onBackClick} className="mt-4">
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back to Companies
@@ -88,15 +92,20 @@ export function CompanyDetailView({
               <Building2 className="h-6 w-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">{companyData?.name || 'Unnamed Company'}</h1>
+              <h1 className="text-2xl font-bold">
+                {companyData?.name || "Unnamed Company"}
+              </h1>
               <div className="flex items-center gap-2 mt-1">
-                <Badge variant={company.status === 'ACTIVE' ? 'active' : 'inactive'}>
+                <Badge
+                  variant={company.status === "ACTIVE" ? "active" : "inactive"}
+                >
                   {company.status}
                 </Badge>
                 <Badge variant="outline">{company.company_type}</Badge>
                 {company.user_count !== undefined && (
                   <Text size="sm" tone="muted">
-                    {company.user_count} user{company.user_count !== 1 ? 's' : ''}
+                    {company.user_count} user
+                    {company.user_count !== 1 ? "s" : ""}
                   </Text>
                 )}
               </div>
@@ -133,7 +142,9 @@ export function CompanyDetailView({
 
             {/* Address */}
             <div className="space-y-2">
-              {(companyData?.address || companyData?.city || companyData?.state) && (
+              {(companyData?.address ||
+                companyData?.city ||
+                companyData?.state) && (
                 <div className="flex items-start gap-2">
                   <MapPin className="h-4 w-4 text-muted-foreground mt-0.5" />
                   <div>
@@ -142,7 +153,9 @@ export function CompanyDetailView({
                     )}
                     {(companyData?.city || companyData?.state) && (
                       <Text size="sm">
-                        {[companyData?.city, companyData?.state].filter(Boolean).join(', ')}
+                        {[companyData?.city, companyData?.state]
+                          .filter(Boolean)
+                          .join(", ")}
                       </Text>
                     )}
                   </div>
@@ -156,9 +169,12 @@ export function CompanyDetailView({
                 <div className="flex items-center gap-2">
                   <User className="h-4 w-4 text-muted-foreground" />
                   <div>
-                    <Text size="sm" weight="medium">Primary Contact</Text>
+                    <Text size="sm" weight="medium">
+                      Primary Contact
+                    </Text>
                     <Text size="sm">
-                      {company.primary_contact.first_name} {company.primary_contact.last_name}
+                      {company.primary_contact.first_name}{" "}
+                      {company.primary_contact.last_name}
                     </Text>
                   </div>
                 </div>
@@ -206,38 +222,60 @@ export function CompanyDetailView({
             <CardContent className="space-y-4">
               <div className="grid gap-4 md:grid-cols-2">
                 <div>
-                  <Text size="sm" weight="medium" tone="muted">Company Name</Text>
-                  <Text>{companyData?.name || '-'}</Text>
+                  <Text size="sm" weight="medium" tone="muted">
+                    Company Name
+                  </Text>
+                  <Text>{companyData?.name || "-"}</Text>
                 </div>
                 <div>
-                  <Text size="sm" weight="medium" tone="muted">Company Type</Text>
-                  <Text>{company.company_type || '-'}</Text>
+                  <Text size="sm" weight="medium" tone="muted">
+                    Company Type
+                  </Text>
+                  <Text>{company.company_type || "-"}</Text>
                 </div>
                 <div>
-                  <Text size="sm" weight="medium" tone="muted">Email Address</Text>
-                  <Text>{company.email_address || '-'}</Text>
+                  <Text size="sm" weight="medium" tone="muted">
+                    Email Address
+                  </Text>
+                  <Text>{company.email_address || "-"}</Text>
                 </div>
                 <div>
-                  <Text size="sm" weight="medium" tone="muted">Business Phone</Text>
-                  <Text>{company.business_phone || '-'}</Text>
+                  <Text size="sm" weight="medium" tone="muted">
+                    Business Phone
+                  </Text>
+                  <Text>{company.business_phone || "-"}</Text>
                 </div>
                 <div>
-                  <Text size="sm" weight="medium" tone="muted">Address</Text>
-                  <Text>{companyData?.address || '-'}</Text>
+                  <Text size="sm" weight="medium" tone="muted">
+                    Address
+                  </Text>
+                  <Text>{companyData?.address || "-"}</Text>
                 </div>
                 <div>
-                  <Text size="sm" weight="medium" tone="muted">City / State</Text>
+                  <Text size="sm" weight="medium" tone="muted">
+                    City / State
+                  </Text>
                   <Text>
-                    {[companyData?.city, companyData?.state].filter(Boolean).join(', ') || '-'}
+                    {[companyData?.city, companyData?.state]
+                      .filter(Boolean)
+                      .join(", ") || "-"}
                   </Text>
                 </div>
                 <div>
-                  <Text size="sm" weight="medium" tone="muted">ERP Vendor ID</Text>
-                  <Text>{company.erp_vendor_id || '-'}</Text>
+                  <Text size="sm" weight="medium" tone="muted">
+                    ERP Vendor ID
+                  </Text>
+                  <Text>{company.erp_vendor_id || "-"}</Text>
                 </div>
                 <div>
-                  <Text size="sm" weight="medium" tone="muted">Status</Text>
-                  <Badge variant={company.status === 'ACTIVE' ? 'active' : 'inactive'}>
+                  <Text size="sm" weight="medium" tone="muted">
+                    Status
+                  </Text>
+                  <Badge
+                    variant={
+                      company.status === "ACTIVE" ? "active" : "inactive"
+                    }
+                  >
                     {company.status}
                   </Badge>
                 </div>
@@ -264,10 +302,14 @@ export function CompanyDetailView({
               )}
             </CardHeader>
             <CardContent>
-              {(company as ProjectCompany & { users?: PersonWithDetails[] }).users &&
-               (company as ProjectCompany & { users?: PersonWithDetails[] }).users!.length > 0 ? (
+              {(company as ProjectCompany & { users?: PersonWithDetails[] })
+                .users &&
+              (company as ProjectCompany & { users?: PersonWithDetails[] })
+                .users!.length > 0 ? (
                 <div className="space-y-2">
-                  {(company as ProjectCompany & { users?: PersonWithDetails[] }).users!.map((user) => (
+                  {(
+                    company as ProjectCompany & { users?: PersonWithDetails[] }
+                  ).users!.map((user) => (
                     <div
                       key={user.id}
                       className="flex items-center justify-between p-3 border rounded-lg"
@@ -275,7 +317,8 @@ export function CompanyDetailView({
                       <div className="flex items-center gap-3">
                         <Avatar className="h-8 w-8">
                           <AvatarFallback className="bg-primary/10 text-primary text-sm">
-                            {user.first_name?.[0]}{user.last_name?.[0]}
+                            {user.first_name?.[0]}
+                            {user.last_name?.[0]}
                           </AvatarFallback>
                         </Avatar>
                         <div>
@@ -283,7 +326,9 @@ export function CompanyDetailView({
                             {user.first_name} {user.last_name}
                           </Text>
                           {user.email && (
-                            <Text size="sm" tone="muted">{user.email}</Text>
+                            <Text size="sm" tone="muted">
+                              {user.email}
+                            </Text>
                           )}
                         </div>
                       </div>
@@ -291,7 +336,11 @@ export function CompanyDetailView({
                         {user.job_title && (
                           <Badge variant="outline">{user.job_title}</Badge>
                         )}
-                        <Badge variant={user.status === 'active' ? 'active' : 'inactive'}>
+                        <Badge
+                          variant={
+                            user.status === "active" ? "active" : "inactive"
+                          }
+                        >
                           {user.status}
                         </Badge>
                       </div>
@@ -301,9 +350,15 @@ export function CompanyDetailView({
               ) : (
                 <div className="text-center py-8">
                   <Users className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                  <Text tone="muted">No users from this company on this project</Text>
+                  <Text tone="muted">
+                    No users from this company on this project
+                  </Text>
                   {onAddUser && (
-                    <Button variant="outline" onClick={onAddUser} className="mt-4">
+                    <Button
+                      variant="outline"
+                      onClick={onAddUser}
+                      className="mt-4"
+                    >
                       <UserPlus className="h-4 w-4 mr-2" />
                       Add User
                     </Button>
@@ -326,7 +381,9 @@ export function CompanyDetailView({
             <CardContent>
               <div className="text-center py-8">
                 <ClipboardList className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                <Text tone="muted">Bidder information will be available in Phase 2</Text>
+                <Text tone="muted">
+                  Bidder information will be available in Phase 2
+                </Text>
                 {/* TODO: Phase 2 - Implement bidder info fields */}
               </div>
             </CardContent>
@@ -345,7 +402,9 @@ export function CompanyDetailView({
             <CardContent>
               <div className="text-center py-8">
                 <History className="mx-auto h-12 w-12 text-muted-foreground mb-4" />
-                <Text tone="muted">Change history will be available in Phase 1C</Text>
+                <Text tone="muted">
+                  Change history will be available in Phase 1C
+                </Text>
                 {/* TODO: Phase 1C - Implement change history log */}
               </div>
             </CardContent>

@@ -1,7 +1,7 @@
-import Image from "next/image"
-import Link from "next/link"
+import Image from "next/image";
+import Link from "next/link";
 
-import { LoginForm } from "@/components/misc/login-form"
+import { LoginForm } from "@/components/misc/login-form";
 
 export default function LoginPage() {
   return (
@@ -35,5 +35,5 @@ export default function LoginPage() {
         />
       </div>
     </div>
-  )
+  );
 }

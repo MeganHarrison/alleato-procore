@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { BaseSidebar, SidebarBody, SidebarFooter } from './BaseSidebar';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { Clock } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { BaseSidebar, SidebarBody, SidebarFooter } from "./BaseSidebar";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { Clock } from "lucide-react";
 
 interface PendingChangeOrder {
   id: string;
@@ -39,7 +39,7 @@ export function PendingBudgetChangesModal({
   onClose,
   costCode,
   budgetLineId,
-  projectId
+  projectId,
 }: PendingBudgetChangesModalProps) {
   const [changeOrders, setChangeOrders] = useState<PendingChangeOrder[]>([]);
   const [loading, setLoading] = useState(true);
@@ -60,7 +60,7 @@ export function PendingBudgetChangesModal({
         setChangeOrders(data.changeOrders || []);
       }
     } catch (error) {
-      console.error('Error fetching pending budget changes:', error);
+      console.error("Error fetching pending budget changes:", error);
     } finally {
       setLoading(false);
     }
@@ -68,7 +68,7 @@ export function PendingBudgetChangesModal({
 
   const formatCurrency = (value: number): string => {
     const isNegative = value < 0;
-    const formatted = new Intl.NumberFormat('en-US', {
+    const formatted = new Intl.NumberFormat("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(Math.abs(value));
@@ -80,18 +80,18 @@ export function PendingBudgetChangesModal({
   };
 
   const formatDate = (dateString: string | null): string => {
-    if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric'
+    if (!dateString) return "-";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
     });
   };
 
   const getStatusBadge = (status: string) => {
     return (
       <span className="inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full border bg-yellow-100 text-yellow-800 border-yellow-200">
-        {status.replace('pending_', '').replace(/_/g, ' ').toUpperCase()}
+        {status.replace("pending_", "").replace(/_/g, " ").toUpperCase()}
       </span>
     );
   };
@@ -134,8 +134,9 @@ export function PendingBudgetChangesModal({
               <div className="text-sm text-yellow-900">
                 <p className="font-semibold">About Pending Budget Changes</p>
                 <p className="mt-1">
-                  These are change orders from your prime contract that are pending approval.
-                  They will be included in projected budget calculations but not in the revised budget until approved.
+                  These are change orders from your prime contract that are
+                  pending approval. They will be included in projected budget
+                  calculations but not in the revised budget until approved.
                 </p>
               </div>
             </div>
@@ -146,43 +147,75 @@ export function PendingBudgetChangesModal({
             <table className="w-full text-sm">
               <thead className="bg-slate-50 border-b border-slate-200">
                 <tr>
-                  <th className="text-left px-4 py-3 font-semibold text-slate-800">CO Number</th>
-                  <th className="text-left px-4 py-3 font-semibold text-slate-800">Description</th>
-                  <th className="text-left px-4 py-3 font-semibold text-slate-800">Status</th>
-                  <th className="text-left px-4 py-3 font-semibold text-slate-800">Contract</th>
-                  <th className="text-right px-4 py-3 font-semibold text-slate-800">Amount</th>
-                  <th className="text-left px-4 py-3 font-semibold text-slate-800">Requested</th>
+                  <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                    CO Number
+                  </th>
+                  <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                    Description
+                  </th>
+                  <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                    Status
+                  </th>
+                  <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                    Contract
+                  </th>
+                  <th className="text-right px-4 py-3 font-semibold text-slate-800">
+                    Amount
+                  </th>
+                  <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                    Requested
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100">
                 {loading ? (
                   <tr>
-                    <td colSpan={6} className="px-4 py-10 text-center text-gray-500">
+                    <td
+                      colSpan={6}
+                      className="px-4 py-10 text-center text-gray-500"
+                    >
                       Loading pending changes...
                     </td>
                   </tr>
                 ) : changeOrders.length === 0 ? (
                   <tr>
-                    <td colSpan={6} className="px-4 py-10 text-center text-gray-500">
+                    <td
+                      colSpan={6}
+                      className="px-4 py-10 text-center text-gray-500"
+                    >
                       No pending budget changes found for this cost code.
                     </td>
                   </tr>
                 ) : (
                   changeOrders.map((co) => (
-                    <tr key={co.id} className="hover:bg-yellow-50/40 transition-colors">
-                      <td className="px-4 py-3 font-medium text-blue-600">{co.changeOrderNumber}</td>
-                      <td className="px-4 py-3 text-gray-700 max-w-xs truncate" title={co.description}>
+                    <tr
+                      key={co.id}
+                      className="hover:bg-yellow-50/40 transition-colors"
+                    >
+                      <td className="px-4 py-3 font-medium text-blue-600">
+                        {co.changeOrderNumber}
+                      </td>
+                      <td
+                        className="px-4 py-3 text-gray-700 max-w-xs truncate"
+                        title={co.description}
+                      >
                         {co.description}
                       </td>
                       <td className="px-4 py-3">{getStatusBadge(co.status)}</td>
-                      <td className="px-4 py-3 text-gray-600 text-xs">{co.contractNumber}</td>
-                      <td className={cn(
-                        'px-4 py-3 text-right font-semibold tabular-nums',
-                        co.amount < 0 ? 'text-red-600' : 'text-yellow-600'
-                      )}>
+                      <td className="px-4 py-3 text-gray-600 text-xs">
+                        {co.contractNumber}
+                      </td>
+                      <td
+                        className={cn(
+                          "px-4 py-3 text-right font-semibold tabular-nums",
+                          co.amount < 0 ? "text-red-600" : "text-yellow-600",
+                        )}
+                      >
                         {formatCurrency(co.amount)}
                       </td>
-                      <td className="px-4 py-3 text-gray-600">{formatDate(co.requestedDate)}</td>
+                      <td className="px-4 py-3 text-gray-600">
+                        {formatDate(co.requestedDate)}
+                      </td>
                     </tr>
                   ))
                 )}

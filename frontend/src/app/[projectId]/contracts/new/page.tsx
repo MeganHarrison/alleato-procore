@@ -1,12 +1,12 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { ProjectPageHeader, FormContainer } from '@/components/layout';
-import { ContractForm } from '@/components/domain/contracts';
-import type { ContractFormData } from '@/components/domain/contracts/ContractForm';
+import { useState } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { ProjectPageHeader, FormContainer } from "@/components/layout";
+import { ContractForm } from "@/components/domain/contracts";
+import type { ContractFormData } from "@/components/domain/contracts/ContractForm";
 
 export default function NewContractPage() {
   const router = useRouter();
@@ -20,18 +20,19 @@ export default function NewContractPage() {
     try {
       // Use the new prime_contracts API
       const response = await fetch(`/api/projects/${projectId}/contracts`, {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
           contract_number: data.number,
           title: data.title,
           vendor_id: data.ownerClientId || null, // Map ownerClientId to vendor_id
           description: data.description,
-          status: data.status || 'draft',
+          status: data.status || "draft",
           original_contract_value: data.originalAmount || 0,
-          revised_contract_value: data.revisedAmount || data.originalAmount || 0,
+          revised_contract_value:
+            data.revisedAmount || data.originalAmount || 0,
           start_date: data.startDate?.toISOString() || null,
           end_date: data.estimatedCompletionDate?.toISOString() || null,
           retention_percentage: data.defaultRetainage || 0,
@@ -42,14 +43,14 @@ export default function NewContractPage() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.error || 'Failed to create contract');
+        throw new Error(errorData.error || "Failed to create contract");
       }
 
       const newContract = await response.json();
       router.push(`/${projectId}/contracts/${newContract.id}`);
     } catch (err) {
-      console.error('Error creating contract:', err);
-      alert(err instanceof Error ? err.message : 'Failed to create contract');
+      console.error("Error creating contract:", err);
+      alert(err instanceof Error ? err.message : "Failed to create contract");
     } finally {
       setIsSaving(false);
     }
@@ -60,9 +61,9 @@ export default function NewContractPage() {
   };
 
   const initialData: Partial<ContractFormData> = {
-    number: '',
-    title: '',
-    status: 'draft',
+    number: "",
+    title: "",
+    status: "draft",
     executed: false,
     isPrivate: false,
     defaultRetainage: 10,
@@ -73,8 +74,8 @@ export default function NewContractPage() {
       <ProjectPageHeader
         title="New Prime Contract"
         breadcrumbs={[
-          { label: 'Contracts', href: `/${projectId}/contracts` },
-          { label: 'New Contract' },
+          { label: "Contracts", href: `/${projectId}/contracts` },
+          { label: "New Contract" },
         ]}
         actions={
           <Button

@@ -1,8 +1,8 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Filter, X } from "lucide-react"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { Filter, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
@@ -11,16 +11,16 @@ import {
   DialogTitle,
   DialogTrigger,
   DialogFooter,
-} from "@/components/ui/dialog"
-import { cn } from "@/lib/utils"
+} from "@/components/ui/dialog";
+import { cn } from "@/lib/utils";
 
 interface MobileFilterModalProps {
-  children: React.ReactNode
-  open?: boolean
-  onOpenChange?: (open: boolean) => void
-  onReset?: () => void
-  hasActiveFilters?: boolean
-  className?: string
+  children: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  onReset?: () => void;
+  hasActiveFilters?: boolean;
+  className?: string;
 }
 
 export function MobileFilterModal({
@@ -31,10 +31,10 @@ export function MobileFilterModal({
   hasActiveFilters = false,
   className,
 }: MobileFilterModalProps) {
-  const [isOpen, setIsOpen] = React.useState(false)
-  
-  const controlledOpen = open !== undefined ? open : isOpen
-  const controlledOnOpenChange = onOpenChange || setIsOpen
+  const [isOpen, setIsOpen] = React.useState(false);
+
+  const controlledOpen = open !== undefined ? open : isOpen;
+  const controlledOnOpenChange = onOpenChange || setIsOpen;
 
   return (
     <Dialog open={controlledOpen} onOpenChange={controlledOnOpenChange}>
@@ -58,15 +58,13 @@ export function MobileFilterModal({
             Apply filters to narrow down your results.
           </DialogDescription>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          {children}
-        </div>
+        <div className="grid gap-4 py-4">{children}</div>
         <DialogFooter className="flex gap-2">
           <Button
             variant="outline"
             onClick={() => {
-              onReset?.()
-              controlledOnOpenChange(false)
+              onReset?.();
+              controlledOnOpenChange(false);
             }}
             disabled={!hasActiveFilters}
           >
@@ -78,5 +76,5 @@ export function MobileFilterModal({
         </DialogFooter>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

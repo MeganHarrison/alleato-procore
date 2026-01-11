@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useForm, type Resolver } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import * as React from "react";
+import { useForm, type Resolver } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -18,20 +18,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { toast } from 'sonner';
-import { clientSchema, type ClientFormData } from '@/lib/schemas/financial-schemas';
-import { createClient, updateClient } from '@/app/actions/table-actions';
-import { useCompanies } from '@/hooks/use-companies';
+} from "@/components/ui/select";
+import { toast } from "sonner";
+import {
+  clientSchema,
+  type ClientFormData,
+} from "@/lib/schemas/financial-schemas";
+import { createClient, updateClient } from "@/app/actions/table-actions";
+import { useCompanies } from "@/hooks/use-companies";
 
 interface Client {
   id: number;
@@ -49,8 +52,8 @@ interface ClientFormDialogProps {
 }
 
 const CLIENT_STATUSES = [
-  { value: 'active', label: 'Active' },
-  { value: 'inactive', label: 'Inactive' },
+  { value: "active", label: "Active" },
+  { value: "inactive", label: "Inactive" },
 ];
 
 export function ClientFormDialog({
@@ -66,18 +69,18 @@ export function ClientFormDialog({
   const form = useForm<ClientFormData>({
     resolver: zodResolver(clientSchema) as Resolver<ClientFormData>,
     defaultValues: {
-      name: client?.name || '',
+      name: client?.name || "",
       company_id: client?.company_id || null,
-      status: (client?.status as 'active' | 'inactive') || 'active',
+      status: (client?.status as "active" | "inactive") || "active",
     },
   });
 
   React.useEffect(() => {
     if (open) {
       form.reset({
-        name: client?.name || '',
+        name: client?.name || "",
         company_id: client?.company_id || null,
-        status: (client?.status as 'active' | 'inactive') || 'active',
+        status: (client?.status as "active" | "inactive") || "active",
       });
     }
   }, [open, client, form]);
@@ -103,11 +106,13 @@ export function ClientFormDialog({
         return;
       }
 
-      toast.success(isEdit ? 'Client updated successfully' : 'Client created successfully');
+      toast.success(
+        isEdit ? "Client updated successfully" : "Client created successfully",
+      );
       onOpenChange(false);
       onSuccess?.();
     } catch (error) {
-      toast.error('An unexpected error occurred');
+      toast.error("An unexpected error occurred");
     } finally {
       setIsSubmitting(false);
     }
@@ -117,11 +122,11 @@ export function ClientFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[500px]">
         <DialogHeader>
-          <DialogTitle>{isEdit ? 'Edit Client' : 'Add New Client'}</DialogTitle>
+          <DialogTitle>{isEdit ? "Edit Client" : "Add New Client"}</DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Update the client information below.'
-              : 'Fill in the details to create a new client.'}
+              ? "Update the client information below."
+              : "Fill in the details to create a new client."}
           </DialogDescription>
         </DialogHeader>
 
@@ -148,8 +153,10 @@ export function ClientFormDialog({
                 <FormItem>
                   <FormLabel>Associated Company</FormLabel>
                   <Select
-                    onValueChange={(value) => field.onChange(value === 'none' ? null : value)}
-                    value={field.value || 'none'}
+                    onValueChange={(value) =>
+                      field.onChange(value === "none" ? null : value)
+                    }
+                    value={field.value || "none"}
                   >
                     <FormControl>
                       <SelectTrigger>
@@ -176,7 +183,10 @@ export function ClientFormDialog({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Status</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value || 'active'}>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || "active"}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select status" />
@@ -204,8 +214,15 @@ export function ClientFormDialog({
               >
                 Cancel
               </Button>
-              <Button type="submit" disabled={isSubmitting || isLoadingCompanies}>
-                {isSubmitting ? 'Saving...' : isEdit ? 'Save Changes' : 'Create Client'}
+              <Button
+                type="submit"
+                disabled={isSubmitting || isLoadingCompanies}
+              >
+                {isSubmitting
+                  ? "Saving..."
+                  : isEdit
+                    ? "Save Changes"
+                    : "Create Client"}
               </Button>
             </DialogFooter>
           </form>

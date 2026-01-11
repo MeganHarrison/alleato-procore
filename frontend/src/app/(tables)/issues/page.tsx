@@ -1,186 +1,202 @@
-import { createClient } from '@/lib/supabase/server'
-import { GenericDataTable, type GenericTableConfig } from '@/components/tables/generic-table-factory'
-import { TablePageWrapper } from '@/components/tables/table-page-wrapper'
+import { createClient } from "@/lib/supabase/server";
+import {
+  GenericDataTable,
+  type GenericTableConfig,
+} from "@/components/tables/generic-table-factory";
+import { TablePageWrapper } from "@/components/tables/table-page-wrapper";
 
-const PAGE_TITLE = 'Issues'
-const PAGE_DESCRIPTION = 'Track and manage project issues'
+const PAGE_TITLE = "Issues";
+const PAGE_DESCRIPTION = "Track and manage project issues";
 
 const config: GenericTableConfig = {
-  searchFields: ['title', 'description', 'reported_by', 'notes'],
-  exportFilename: 'issues-export.csv',
+  searchFields: ["title", "description", "reported_by", "notes"],
+  exportFilename: "issues-export.csv",
   editConfig: {
-    tableName: 'issues',
-    editableFields: ['title', 'category', 'severity', 'status', 'reported_by', 'date_reported', 'date_resolved', 'total_cost', 'direct_cost', 'indirect_cost', 'description', 'notes'],
+    tableName: "issues",
+    editableFields: [
+      "title",
+      "category",
+      "severity",
+      "status",
+      "reported_by",
+      "date_reported",
+      "date_resolved",
+      "total_cost",
+      "direct_cost",
+      "indirect_cost",
+      "description",
+      "notes",
+    ],
   },
   columns: [
     {
-      id: 'title',
-      label: 'Title',
+      id: "title",
+      label: "Title",
       defaultVisible: true,
-      type: 'text',
+      type: "text",
     },
     {
-      id: 'category',
-      label: 'Category',
+      id: "category",
+      label: "Category",
       defaultVisible: true,
-      type: 'badge',
+      type: "badge",
     },
     {
-      id: 'severity',
-      label: 'Severity',
+      id: "severity",
+      label: "Severity",
       defaultVisible: true,
       renderConfig: {
-        type: 'badge',
+        type: "badge",
         variantMap: {
-          'critical': 'destructive',
-          'high': 'destructive',
-          'medium': 'default',
-          'low': 'outline',
+          critical: "destructive",
+          high: "destructive",
+          medium: "default",
+          low: "outline",
         },
-        defaultVariant: 'outline',
+        defaultVariant: "outline",
       },
     },
     {
-      id: 'status',
-      label: 'Status',
+      id: "status",
+      label: "Status",
       defaultVisible: true,
       renderConfig: {
-        type: 'badge',
+        type: "badge",
         variantMap: {
-          'open': 'destructive',
-          'in_progress': 'default',
-          'resolved': 'outline',
-          'closed': 'outline',
+          open: "destructive",
+          in_progress: "default",
+          resolved: "outline",
+          closed: "outline",
         },
-        defaultVariant: 'outline',
+        defaultVariant: "outline",
       },
     },
     {
-      id: 'reported_by',
-      label: 'Reported By',
+      id: "reported_by",
+      label: "Reported By",
       defaultVisible: true,
-      type: 'text',
+      type: "text",
     },
     {
-      id: 'date_reported',
-      label: 'Date Reported',
+      id: "date_reported",
+      label: "Date Reported",
       defaultVisible: true,
-      type: 'date',
+      type: "date",
     },
     {
-      id: 'date_resolved',
-      label: 'Date Resolved',
+      id: "date_resolved",
+      label: "Date Resolved",
       defaultVisible: false,
-      type: 'date',
+      type: "date",
     },
     {
-      id: 'total_cost',
-      label: 'Total Cost',
+      id: "total_cost",
+      label: "Total Cost",
       defaultVisible: true,
       renderConfig: {
-        type: 'currency',
-        prefix: '$',
+        type: "currency",
+        prefix: "$",
       },
     },
     {
-      id: 'direct_cost',
-      label: 'Direct Cost',
+      id: "direct_cost",
+      label: "Direct Cost",
       defaultVisible: false,
       renderConfig: {
-        type: 'currency',
-        prefix: '$',
+        type: "currency",
+        prefix: "$",
       },
     },
     {
-      id: 'indirect_cost',
-      label: 'Indirect Cost',
+      id: "indirect_cost",
+      label: "Indirect Cost",
       defaultVisible: false,
       renderConfig: {
-        type: 'currency',
-        prefix: '$',
+        type: "currency",
+        prefix: "$",
       },
     },
     {
-      id: 'description',
-      label: 'Description',
+      id: "description",
+      label: "Description",
       defaultVisible: false,
-      type: 'text',
+      type: "text",
     },
     {
-      id: 'notes',
-      label: 'Notes',
+      id: "notes",
+      label: "Notes",
       defaultVisible: false,
-      type: 'text',
+      type: "text",
     },
     {
-      id: 'created_at',
-      label: 'Created',
+      id: "created_at",
+      label: "Created",
       defaultVisible: false,
-      type: 'date',
+      type: "date",
     },
   ],
   filters: [
     {
-      id: 'category',
-      label: 'Category',
-      field: 'category',
+      id: "category",
+      label: "Category",
+      field: "category",
       options: [
-        { value: 'safety', label: 'Safety' },
-        { value: 'quality', label: 'Quality' },
-        { value: 'schedule', label: 'Schedule' },
-        { value: 'cost', label: 'Cost' },
-        { value: 'technical', label: 'Technical' },
-        { value: 'other', label: 'Other' },
+        { value: "safety", label: "Safety" },
+        { value: "quality", label: "Quality" },
+        { value: "schedule", label: "Schedule" },
+        { value: "cost", label: "Cost" },
+        { value: "technical", label: "Technical" },
+        { value: "other", label: "Other" },
       ],
     },
     {
-      id: 'severity',
-      label: 'Severity',
-      field: 'severity',
+      id: "severity",
+      label: "Severity",
+      field: "severity",
       options: [
-        { value: 'critical', label: 'Critical' },
-        { value: 'high', label: 'High' },
-        { value: 'medium', label: 'Medium' },
-        { value: 'low', label: 'Low' },
+        { value: "critical", label: "Critical" },
+        { value: "high", label: "High" },
+        { value: "medium", label: "Medium" },
+        { value: "low", label: "Low" },
       ],
     },
     {
-      id: 'status',
-      label: 'Status',
-      field: 'status',
+      id: "status",
+      label: "Status",
+      field: "status",
       options: [
-        { value: 'open', label: 'Open' },
-        { value: 'in_progress', label: 'In Progress' },
-        { value: 'resolved', label: 'Resolved' },
-        { value: 'closed', label: 'Closed' },
+        { value: "open", label: "Open" },
+        { value: "in_progress", label: "In Progress" },
+        { value: "resolved", label: "Resolved" },
+        { value: "closed", label: "Closed" },
       ],
     },
   ],
-  rowClickPath: '/issues/{id}',
-}
+  rowClickPath: "/issues/{id}",
+};
 
 export default async function IssuesPage() {
-  const supabase = await createClient()
+  const supabase = await createClient();
 
   const { data, error } = await supabase
-    .from('issues')
-    .select('*')
-    .order('created_at', { ascending: false })
+    .from("issues")
+    .select("*")
+    .order("created_at", { ascending: false });
 
   if (error) {
-    console.error('Error fetching issues:', error)
+    console.error("Error fetching issues:", error);
     return (
       <TablePageWrapper title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
         <div className="text-center text-red-600 p-6">
           Error loading data. Please try again later.
         </div>
       </TablePageWrapper>
-    )
+    );
   }
 
   return (
     <TablePageWrapper title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
       <GenericDataTable data={data || []} config={config} />
     </TablePageWrapper>
-  )
+  );
 }

@@ -3,7 +3,7 @@
  * Generated from database schema
  */
 
-export type ChangeOrderStatus = 'pending' | 'approved' | 'rejected';
+export type ChangeOrderStatus = "pending" | "approved" | "rejected";
 
 export interface ContractChangeOrder {
   id: string;

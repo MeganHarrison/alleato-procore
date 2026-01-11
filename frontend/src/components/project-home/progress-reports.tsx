@@ -1,25 +1,25 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { FileText, Download, Calendar, TrendingUp } from 'lucide-react';
-import { format } from 'date-fns';
-import Link from 'next/link';
-import { Badge } from '@/components/ui/badge';
-import { Button } from '@/components/ui/button';
+import * as React from "react";
+import { FileText, Download, Calendar, TrendingUp } from "lucide-react";
+import { format } from "date-fns";
+import Link from "next/link";
+import { Badge } from "@/components/ui/badge";
+import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
   CardDescription,
   CardHeader,
   CardTitle,
-} from '@/components/ui/card';
+} from "@/components/ui/card";
 
 interface ProgressReport {
   id: string;
   title: string;
   date: Date;
-  type: 'weekly' | 'monthly' | 'daily';
-  status: 'draft' | 'published';
+  type: "weekly" | "monthly" | "daily";
+  status: "draft" | "published";
   completionPercentage: number;
   keyHighlights?: string[];
   author: string;
@@ -33,66 +33,66 @@ export function ProgressReports({ projectId }: ProgressReportsProps) {
   // Mock data - in production this would come from Supabase
   const mockReports: ProgressReport[] = [
     {
-      id: '1',
-      title: 'Week 12 Progress Report',
-      date: new Date('2024-03-15'),
-      type: 'weekly',
-      status: 'published',
+      id: "1",
+      title: "Week 12 Progress Report",
+      date: new Date("2024-03-15"),
+      type: "weekly",
+      status: "published",
       completionPercentage: 78,
       keyHighlights: [
-        'Foundation work completed',
-        'Steel structure 60% complete',
-        'MEP installation started',
+        "Foundation work completed",
+        "Steel structure 60% complete",
+        "MEP installation started",
       ],
-      author: 'John Smith',
+      author: "John Smith",
     },
     {
-      id: '2',
-      title: 'February Monthly Report',
-      date: new Date('2024-02-29'),
-      type: 'monthly',
-      status: 'published',
+      id: "2",
+      title: "February Monthly Report",
+      date: new Date("2024-02-29"),
+      type: "monthly",
+      status: "published",
       completionPercentage: 65,
       keyHighlights: [
-        'Sitework completed ahead of schedule',
-        'Resolved permitting issues',
-        'Material deliveries on track',
+        "Sitework completed ahead of schedule",
+        "Resolved permitting issues",
+        "Material deliveries on track",
       ],
-      author: 'Jane Doe',
+      author: "Jane Doe",
     },
     {
-      id: '3',
-      title: 'Daily Progress - March 18',
-      date: new Date('2024-03-18'),
-      type: 'daily',
-      status: 'draft',
+      id: "3",
+      title: "Daily Progress - March 18",
+      date: new Date("2024-03-18"),
+      type: "daily",
+      status: "draft",
       completionPercentage: 80,
       keyHighlights: [
-        'Concrete pour completed for Level 2',
-        '15 workers on site',
-        'Weather delay expected tomorrow',
+        "Concrete pour completed for Level 2",
+        "15 workers on site",
+        "Weather delay expected tomorrow",
       ],
-      author: 'Mike Johnson',
+      author: "Mike Johnson",
     },
   ];
 
   const getTypeColor = (type: string) => {
     switch (type) {
-      case 'weekly':
-        return 'bg-blue-100 text-blue-700';
-      case 'monthly':
-        return 'bg-purple-100 text-purple-700';
-      case 'daily':
-        return 'bg-green-100 text-green-700';
+      case "weekly":
+        return "bg-blue-100 text-blue-700";
+      case "monthly":
+        return "bg-purple-100 text-purple-700";
+      case "daily":
+        return "bg-green-100 text-green-700";
       default:
-        return 'bg-gray-100 text-gray-700';
+        return "bg-gray-100 text-gray-700";
     }
   };
 
   const getStatusColor = (status: string) => {
-    return status === 'published'
-      ? 'bg-green-100 text-green-700'
-      : 'bg-yellow-100 text-yellow-700';
+    return status === "published"
+      ? "bg-green-100 text-green-700"
+      : "bg-yellow-100 text-yellow-700";
   };
 
   return (
@@ -136,7 +136,7 @@ export function ProgressReports({ projectId }: ProgressReportsProps) {
                   <div className="flex items-center gap-4 text-xs text-gray-500 mb-3">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
-                      <span>{format(report.date, 'MMM d, yyyy')}</span>
+                      <span>{format(report.date, "MMM d, yyyy")}</span>
                     </div>
                     <div className="flex items-center gap-1">
                       <TrendingUp className="w-3 h-3" />

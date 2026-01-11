@@ -14,9 +14,13 @@
  * ```
  */
 
-import { useCallback } from 'react';
-import { getAutoFillData, isDevelopment, autoFillPresets } from '@/lib/dev-autofill';
-import { Wand2 } from 'lucide-react';
+import { useCallback } from "react";
+import {
+  getAutoFillData,
+  isDevelopment,
+  autoFillPresets,
+} from "@/lib/dev-autofill";
+import { Wand2 } from "lucide-react";
 
 type FormType = keyof typeof autoFillPresets;
 
@@ -38,20 +42,16 @@ interface UseDevAutoFillOptions {
 export function useDevAutoFill<T extends Record<string, any>>(
   formType: FormType,
   setValue: (name: keyof T, value: any) => void,
-  options: UseDevAutoFillOptions = {}
+  options: UseDevAutoFillOptions = {},
 ) {
-  const {
-    buttonText = 'Auto-Fill',
-    buttonClassName,
-    onAutoFill
-  } = options;
+  const { buttonText = "Auto-Fill", buttonClassName, onAutoFill } = options;
 
   /**
    * Auto-fill the form with fake data
    */
   const autoFill = useCallback(() => {
     if (!isDevelopment) {
-      console.warn('Auto-fill is only available in development mode');
+      console.warn("Auto-fill is only available in development mode");
       return;
     }
 
@@ -65,7 +65,9 @@ export function useDevAutoFill<T extends Record<string, any>>(
     // Call the callback if provided
     onAutoFill?.();
 
-    console.log(`[DevAutoFill] Filled ${Object.keys(data).length} fields for ${formType} form`);
+    console.log(
+      `[DevAutoFill] Filled ${Object.keys(data).length} fields for ${formType} form`,
+    );
   }, [formType, setValue, onAutoFill]);
 
   /**
@@ -82,7 +84,7 @@ export function useDevAutoFill<T extends Record<string, any>>(
         onClick={autoFill}
         className={
           buttonClassName ||
-          'inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-md transition-colors border border-purple-300'
+          "inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-md transition-colors border border-purple-300"
         }
         title="Development only: Fill form with test data"
       >
@@ -106,7 +108,7 @@ export function DevAutoFillButton({
   formType,
   onAutoFill,
   className,
-  children = 'Auto-Fill',
+  children = "Auto-Fill",
 }: {
   formType: FormType;
   onAutoFill: (data: Record<string, any>) => void;
@@ -129,7 +131,7 @@ export function DevAutoFillButton({
       onClick={handleClick}
       className={
         className ||
-        'inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-md transition-colors border border-purple-300'
+        "inline-flex items-center gap-2 px-3 py-1.5 text-sm bg-purple-100 text-purple-700 hover:bg-purple-200 rounded-md transition-colors border border-purple-300"
       }
       title="Development only: Fill form with test data"
     >

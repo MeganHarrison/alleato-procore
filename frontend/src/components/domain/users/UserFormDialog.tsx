@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useQuery } from '@tanstack/react-query';
-import { createClient } from '@/lib/supabase/client';
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useQuery } from "@tanstack/react-query";
+import { createClient } from "@/lib/supabase/client";
 import {
   Dialog,
   DialogContent,
@@ -12,7 +12,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -20,20 +20,20 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { Checkbox } from '@/components/ui/checkbox';
-import { userFormSchema, type UserFormData } from '@/lib/schemas/user-schemas';
-import { useAddUser, useUpdateUser } from '@/hooks/use-user-mutations';
-import { DirectoryService } from '@/services/directoryService';
+} from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { userFormSchema, type UserFormData } from "@/lib/schemas/user-schemas";
+import { useAddUser, useUpdateUser } from "@/hooks/use-user-mutations";
+import { DirectoryService } from "@/services/directoryService";
 
 interface User {
   id: string;
@@ -71,63 +71,63 @@ export function UserFormDialog({
 
   // Fetch companies for dropdown
   const { data: companies = [] } = useQuery({
-    queryKey: ['companies', projectId],
+    queryKey: ["companies", projectId],
     queryFn: () => directoryService.getCompanies(projectId),
-    enabled: open
+    enabled: open,
   });
 
   // Fetch permission templates for dropdown
   const { data: permissionTemplates = [] } = useQuery({
-    queryKey: ['permission-templates'],
+    queryKey: ["permission-templates"],
     queryFn: () => directoryService.getPermissionTemplates(),
-    enabled: open
+    enabled: open,
   });
 
   const addUserMutation = useAddUser(projectId);
-  const updateUserMutation = useUpdateUser(projectId, user?.id || '');
+  const updateUserMutation = useUpdateUser(projectId, user?.id || "");
 
   const form = useForm({
     resolver: zodResolver(userFormSchema),
     defaultValues: {
-      first_name: user?.first_name || '',
-      last_name: user?.last_name || '',
-      email: user?.email || '',
-      phone_mobile: user?.phone_mobile || '',
-      phone_business: user?.phone_business || '',
-      job_title: user?.job_title || '',
-      company_id: user?.company_id || '',
-      permission_template_id: user?.membership?.permission_template_id || '',
-      department: user?.membership?.department || '',
-      send_invite: false
+      first_name: user?.first_name || "",
+      last_name: user?.last_name || "",
+      email: user?.email || "",
+      phone_mobile: user?.phone_mobile || "",
+      phone_business: user?.phone_business || "",
+      job_title: user?.job_title || "",
+      company_id: user?.company_id || "",
+      permission_template_id: user?.membership?.permission_template_id || "",
+      department: user?.membership?.department || "",
+      send_invite: false,
     },
   });
 
   React.useEffect(() => {
     if (user) {
       form.reset({
-        first_name: user.first_name || '',
-        last_name: user.last_name || '',
-        email: user.email || '',
-        phone_mobile: user.phone_mobile || '',
-        phone_business: user.phone_business || '',
-        job_title: user.job_title || '',
-        company_id: user.company_id || '',
-        permission_template_id: user.membership?.permission_template_id || '',
-        department: user.membership?.department || '',
-        send_invite: false
+        first_name: user.first_name || "",
+        last_name: user.last_name || "",
+        email: user.email || "",
+        phone_mobile: user.phone_mobile || "",
+        phone_business: user.phone_business || "",
+        job_title: user.job_title || "",
+        company_id: user.company_id || "",
+        permission_template_id: user.membership?.permission_template_id || "",
+        department: user.membership?.department || "",
+        send_invite: false,
       });
     } else {
       form.reset({
-        first_name: '',
-        last_name: '',
-        email: '',
-        phone_mobile: '',
-        phone_business: '',
-        job_title: '',
-        company_id: '',
-        permission_template_id: '',
-        department: '',
-        send_invite: false
+        first_name: "",
+        last_name: "",
+        email: "",
+        phone_mobile: "",
+        phone_business: "",
+        job_title: "",
+        company_id: "",
+        permission_template_id: "",
+        department: "",
+        send_invite: false,
       });
     }
   }, [user, form]);
@@ -156,7 +156,7 @@ export function UserFormDialog({
           job_title: formData.job_title || undefined,
           company_id: formData.company_id || undefined,
           permission_template_id: formData.permission_template_id,
-          person_type: 'user'
+          person_type: "user",
         });
       }
 
@@ -164,21 +164,22 @@ export function UserFormDialog({
       onOpenChange(false);
       onSuccess?.();
     } catch (error) {
-      console.error('Error submitting user form:', error);
+      console.error("Error submitting user form:", error);
     }
   };
 
-  const isSubmitting = addUserMutation.isPending || updateUserMutation.isPending;
+  const isSubmitting =
+    addUserMutation.isPending || updateUserMutation.isPending;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{isEdit ? 'Edit User' : 'Add User'}</DialogTitle>
+          <DialogTitle>{isEdit ? "Edit User" : "Add User"}</DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Update user information and permissions.'
-              : 'Add a new team member to the project.'}
+              ? "Update user information and permissions."
+              : "Add a new team member to the project."}
           </DialogDescription>
         </DialogHeader>
 
@@ -221,7 +222,11 @@ export function UserFormDialog({
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input {...field} type="email" placeholder="john.doe@example.com" />
+                    <Input
+                      {...field}
+                      type="email"
+                      placeholder="john.doe@example.com"
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -351,7 +356,8 @@ export function UserFormDialog({
                     <div className="space-y-1 leading-none">
                       <FormLabel>Send invitation email</FormLabel>
                       <p className="text-sm text-muted-foreground">
-                        Send an email invitation to this user to join the project
+                        Send an email invitation to this user to join the
+                        project
                       </p>
                     </div>
                   </FormItem>
@@ -369,7 +375,11 @@ export function UserFormDialog({
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Saving...' : isEdit ? 'Update User' : 'Add User'}
+                {isSubmitting
+                  ? "Saving..."
+                  : isEdit
+                    ? "Update User"
+                    : "Add User"}
               </Button>
             </DialogFooter>
           </form>

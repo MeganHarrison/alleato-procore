@@ -1,32 +1,32 @@
-"use client"
+"use client";
 
-import * as React from "react"
-import { Upload, X, FileText } from "lucide-react"
-import { FormField } from "./FormField"
-import { cn } from "@/lib/utils"
-import { Button } from "@/components/ui/button"
+import * as React from "react";
+import { Upload, X, FileText } from "lucide-react";
+import { FormField } from "./FormField";
+import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface FileInfo {
-  name: string
-  size: number
-  type: string
-  url?: string
+  name: string;
+  size: number;
+  type: string;
+  url?: string;
 }
 
 interface FileUploadFieldProps {
-  label: string
-  value?: FileInfo[]
-  onChange?: (files: FileInfo[]) => void
-  accept?: string
-  multiple?: boolean
-  maxFiles?: number
-  maxSize?: number // in bytes
-  error?: string
-  hint?: string
-  required?: boolean
-  fullWidth?: boolean
-  className?: string
-  disabled?: boolean
+  label: string;
+  value?: FileInfo[];
+  onChange?: (files: FileInfo[]) => void;
+  accept?: string;
+  multiple?: boolean;
+  maxFiles?: number;
+  maxSize?: number; // in bytes
+  error?: string;
+  hint?: string;
+  required?: boolean;
+  fullWidth?: boolean;
+  className?: string;
+  disabled?: boolean;
 }
 
 export function FileUploadField({
@@ -44,69 +44,69 @@ export function FileUploadField({
   className,
   disabled = false,
 }: FileUploadFieldProps) {
-  const inputRef = React.useRef<HTMLInputElement>(null)
-  const [dragActive, setDragActive] = React.useState(false)
+  const inputRef = React.useRef<HTMLInputElement>(null);
+  const [dragActive, setDragActive] = React.useState(false);
 
   const handleDrag = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
+    e.preventDefault();
+    e.stopPropagation();
     if (e.type === "dragenter" || e.type === "dragover") {
-      setDragActive(true)
+      setDragActive(true);
     } else if (e.type === "dragleave") {
-      setDragActive(false)
+      setDragActive(false);
     }
-  }
+  };
 
   const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault()
-    e.stopPropagation()
-    setDragActive(false)
+    e.preventDefault();
+    e.stopPropagation();
+    setDragActive(false);
 
-    if (disabled) return
+    if (disabled) return;
 
-    const files = Array.from(e.dataTransfer.files)
-    handleFiles(files)
-  }
+    const files = Array.from(e.dataTransfer.files);
+    handleFiles(files);
+  };
 
   const handleFiles = (files: File[]) => {
     const validFiles = files.filter((file) => {
       if (maxSize && file.size > maxSize) {
-        return false
+        return false;
       }
-      return true
-    })
+      return true;
+    });
 
     const newFiles: FileInfo[] = validFiles.map((file) => ({
       name: file.name,
       size: file.size,
       type: file.type,
-    }))
+    }));
 
     if (multiple) {
-      const updatedFiles = [...value, ...newFiles].slice(0, maxFiles)
-      onChange?.(updatedFiles)
+      const updatedFiles = [...value, ...newFiles].slice(0, maxFiles);
+      onChange?.(updatedFiles);
     } else {
-      onChange?.(newFiles.slice(0, 1))
+      onChange?.(newFiles.slice(0, 1));
     }
-  }
+  };
 
   const handleFileInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const files = Array.from(e.target.files)
-      handleFiles(files)
+      const files = Array.from(e.target.files);
+      handleFiles(files);
     }
-  }
+  };
 
   const removeFile = (index: number) => {
-    const newFiles = value.filter((_, i) => i !== index)
-    onChange?.(newFiles)
-  }
+    const newFiles = value.filter((_, i) => i !== index);
+    onChange?.(newFiles);
+  };
 
   const formatFileSize = (bytes: number) => {
-    if (bytes < 1024) return bytes + " B"
-    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB"
-    return (bytes / (1024 * 1024)).toFixed(1) + " MB"
-  }
+    if (bytes < 1024) return bytes + " B";
+    if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
+    return (bytes / (1024 * 1024)).toFixed(1) + " MB";
+  };
 
   return (
     <FormField
@@ -127,7 +127,7 @@ export function FileUploadField({
             dragActive && "border-primary bg-primary/5",
             error && "border-red-300",
             disabled && "opacity-50 cursor-not-allowed",
-            className
+            className,
           )}
         >
           <input
@@ -189,5 +189,5 @@ export function FileUploadField({
         )}
       </div>
     </FormField>
-  )
+  );
 }

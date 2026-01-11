@@ -1,5 +1,5 @@
-import { createClient } from '@/lib/supabase/server';
-import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from "@/lib/supabase/server";
+import { NextRequest, NextResponse } from "next/server";
 
 export interface VerticalMarkupItem {
   id: string;
@@ -15,7 +15,7 @@ export interface VerticalMarkupItem {
 // GET /api/projects/[id]/vertical-markup - Fetch vertical markup settings
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -23,24 +23,24 @@ export async function GET(
 
     if (isNaN(projectId)) {
       return NextResponse.json(
-        { error: 'Invalid project ID' },
-        { status: 400 }
+        { error: "Invalid project ID" },
+        { status: 400 },
       );
     }
 
     const supabase = await createClient();
 
     const { data, error } = await supabase
-      .from('vertical_markup')
-      .select('*')
-      .eq('project_id', projectId)
-      .order('calculation_order', { ascending: true });
+      .from("vertical_markup")
+      .select("*")
+      .eq("project_id", projectId)
+      .order("calculation_order", { ascending: true });
 
     if (error) {
-      console.error('Error fetching vertical markup:', error);
+      console.error("Error fetching vertical markup:", error);
       return NextResponse.json(
-        { error: 'Failed to fetch vertical markup settings' },
-        { status: 500 }
+        { error: "Failed to fetch vertical markup settings" },
+        { status: 500 },
       );
     }
 
@@ -48,10 +48,10 @@ export async function GET(
       markups: data || [],
     });
   } catch (error) {
-    console.error('Error in vertical markup GET route:', error);
+    console.error("Error in vertical markup GET route:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -59,7 +59,7 @@ export async function GET(
 // POST /api/projects/[id]/vertical-markup - Create a new vertical markup
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -67,8 +67,8 @@ export async function POST(
 
     if (isNaN(projectId)) {
       return NextResponse.json(
-        { error: 'Invalid project ID' },
-        { status: 400 }
+        { error: "Invalid project ID" },
+        { status: 400 },
       );
     }
 
@@ -77,8 +77,8 @@ export async function POST(
 
     if (!markup_type || percentage === undefined) {
       return NextResponse.json(
-        { error: 'markup_type and percentage are required' },
-        { status: 400 }
+        { error: "markup_type and percentage are required" },
+        { status: 400 },
       );
     }
 
@@ -86,18 +86,19 @@ export async function POST(
 
     // Get the next calculation order
     const { data: existingMarkups } = await supabase
-      .from('vertical_markup')
-      .select('calculation_order')
-      .eq('project_id', projectId)
-      .order('calculation_order', { ascending: false })
+      .from("vertical_markup")
+      .select("calculation_order")
+      .eq("project_id", projectId)
+      .order("calculation_order", { ascending: false })
       .limit(1);
 
-    const nextOrder = existingMarkups && existingMarkups.length > 0
-      ? existingMarkups[0].calculation_order + 1
-      : 1;
+    const nextOrder =
+      existingMarkups && existingMarkups.length > 0
+        ? existingMarkups[0].calculation_order + 1
+        : 1;
 
     const { data, error } = await supabase
-      .from('vertical_markup')
+      .from("vertical_markup")
       .insert({
         project_id: projectId,
         markup_type,
@@ -109,10 +110,10 @@ export async function POST(
       .single();
 
     if (error) {
-      console.error('Error creating vertical markup:', error);
+      console.error("Error creating vertical markup:", error);
       return NextResponse.json(
-        { error: 'Failed to create vertical markup' },
-        { status: 500 }
+        { error: "Failed to create vertical markup" },
+        { status: 500 },
       );
     }
 
@@ -121,10 +122,10 @@ export async function POST(
       data,
     });
   } catch (error) {
-    console.error('Error in vertical markup POST route:', error);
+    console.error("Error in vertical markup POST route:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -132,7 +133,7 @@ export async function POST(
 // PUT /api/projects/[id]/vertical-markup - Update vertical markup (bulk update for reordering)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -140,8 +141,8 @@ export async function PUT(
 
     if (isNaN(projectId)) {
       return NextResponse.json(
-        { error: 'Invalid project ID' },
-        { status: 400 }
+        { error: "Invalid project ID" },
+        { status: 400 },
       );
     }
 
@@ -150,8 +151,8 @@ export async function PUT(
 
     if (!markups || !Array.isArray(markups)) {
       return NextResponse.json(
-        { error: 'markups array is required' },
-        { status: 400 }
+        { error: "markups array is required" },
+        { status: 400 },
       );
     }
 
@@ -160,7 +161,7 @@ export async function PUT(
     // Update each markup in order
     const updates = markups.map((markup: VerticalMarkupItem, index: number) =>
       supabase
-        .from('vertical_markup')
+        .from("vertical_markup")
         .update({
           markup_type: markup.markup_type,
           percentage: markup.percentage,
@@ -168,24 +169,24 @@ export async function PUT(
           calculation_order: index + 1,
           updated_at: new Date().toISOString(),
         })
-        .eq('id', markup.id)
-        .eq('project_id', projectId)
+        .eq("id", markup.id)
+        .eq("project_id", projectId),
     );
 
     await Promise.all(updates);
 
     // Fetch updated markups
     const { data, error } = await supabase
-      .from('vertical_markup')
-      .select('*')
-      .eq('project_id', projectId)
-      .order('calculation_order', { ascending: true });
+      .from("vertical_markup")
+      .select("*")
+      .eq("project_id", projectId)
+      .order("calculation_order", { ascending: true });
 
     if (error) {
-      console.error('Error fetching updated markups:', error);
+      console.error("Error fetching updated markups:", error);
       return NextResponse.json(
-        { error: 'Failed to update vertical markups' },
-        { status: 500 }
+        { error: "Failed to update vertical markups" },
+        { status: 500 },
       );
     }
 
@@ -194,10 +195,10 @@ export async function PUT(
       markups: data,
     });
   } catch (error) {
-    console.error('Error in vertical markup PUT route:', error);
+    console.error("Error in vertical markup PUT route:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }
@@ -205,7 +206,7 @@ export async function PUT(
 // DELETE /api/projects/[id]/vertical-markup - Delete a vertical markup
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     const { id } = await params;
@@ -213,46 +214,46 @@ export async function DELETE(
 
     if (isNaN(projectId)) {
       return NextResponse.json(
-        { error: 'Invalid project ID' },
-        { status: 400 }
+        { error: "Invalid project ID" },
+        { status: 400 },
       );
     }
 
     const { searchParams } = new URL(request.url);
-    const markupId = searchParams.get('markupId');
+    const markupId = searchParams.get("markupId");
 
     if (!markupId) {
       return NextResponse.json(
-        { error: 'markupId is required' },
-        { status: 400 }
+        { error: "markupId is required" },
+        { status: 400 },
       );
     }
 
     const supabase = await createClient();
 
     const { error } = await supabase
-      .from('vertical_markup')
+      .from("vertical_markup")
       .delete()
-      .eq('id', markupId)
-      .eq('project_id', projectId);
+      .eq("id", markupId)
+      .eq("project_id", projectId);
 
     if (error) {
-      console.error('Error deleting vertical markup:', error);
+      console.error("Error deleting vertical markup:", error);
       return NextResponse.json(
-        { error: 'Failed to delete vertical markup' },
-        { status: 500 }
+        { error: "Failed to delete vertical markup" },
+        { status: 500 },
       );
     }
 
     return NextResponse.json({
       success: true,
-      message: 'Vertical markup deleted successfully',
+      message: "Vertical markup deleted successfully",
     });
   } catch (error) {
-    console.error('Error in vertical markup DELETE route:', error);
+    console.error("Error in vertical markup DELETE route:", error);
     return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
+      { error: "Internal server error" },
+      { status: 500 },
     );
   }
 }

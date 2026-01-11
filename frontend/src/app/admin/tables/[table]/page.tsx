@@ -1,16 +1,16 @@
-import { notFound } from 'next/navigation';
-import Link from 'next/link';
-import { ArrowLeft } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { TableExplorerShell } from '@/components/admin/table-explorer';
-import { listRows } from '@/server/db/crud';
-import { getColumnMetadata } from '@/server/db/introspection';
+import { notFound } from "next/navigation";
+import Link from "next/link";
+import { ArrowLeft } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { TableExplorerShell } from "@/components/admin/table-explorer";
+import { listRows } from "@/server/db/crud";
+import { getColumnMetadata } from "@/server/db/introspection";
 import {
   isTableAllowed,
   getTableConfig,
   type TableName,
   type ViewType,
-} from '@/lib/table-registry';
+} from "@/lib/table-registry";
 
 interface TableExplorerPageProps {
   params: Promise<{ table: string }>;
@@ -33,7 +33,7 @@ export async function generateMetadata({
   const { table } = await params;
 
   if (!isTableAllowed(table)) {
-    return { title: 'Table Not Found' };
+    return { title: "Table Not Found" };
   }
 
   const config = getTableConfig(table as TableName);
@@ -59,19 +59,19 @@ export default async function TableExplorerPage({
   const config = getTableConfig(tableName);
 
   // Parse search params
-  const view = (search.view as ViewType) ?? 'table';
-  const query = search.q ?? '';
+  const view = (search.view as ViewType) ?? "table";
+  const query = search.q ?? "";
   const sort = search.sort;
-  const dir = (search.dir as 'asc' | 'desc') ?? config.defaultSort.direction;
-  const page = parseInt(search.page ?? '1', 10);
-  const limit = Math.min(parseInt(search.limit ?? '25', 10), 200);
+  const dir = (search.dir as "asc" | "desc") ?? config.defaultSort.direction;
+  const page = parseInt(search.page ?? "1", 10);
+  const limit = Math.min(parseInt(search.limit ?? "25", 10), 200);
   const offset = (page - 1) * limit;
 
   // Extract filters (keys that start with 'filter_')
   const filters: Record<string, string> = {};
   for (const [key, value] of Object.entries(search)) {
-    if (key.startsWith('filter_') && value) {
-      filters[key.replace('filter_', '')] = value;
+    if (key.startsWith("filter_") && value) {
+      filters[key.replace("filter_", "")] = value;
     }
   }
 
@@ -90,7 +90,7 @@ export default async function TableExplorerPage({
   ]);
 
   if (!rowsResult.success) {
-    throw new Error(rowsResult.error ?? 'Failed to load data');
+    throw new Error(rowsResult.error ?? "Failed to load data");
   }
 
   const { rows, count } = rowsResult.data!;
@@ -118,7 +118,7 @@ export default async function TableExplorerPage({
         columns={columnsResult}
         rows={rows}
         totalCount={count}
-        currentView={config.viewsEnabled.includes(view) ? view : 'table'}
+        currentView={config.viewsEnabled.includes(view) ? view : "table"}
         currentPage={page}
         pageSize={limit}
         currentSort={sort}

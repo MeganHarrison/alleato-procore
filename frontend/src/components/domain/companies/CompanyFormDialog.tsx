@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import * as React from 'react';
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
+import * as React from "react";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Dialog,
   DialogContent,
@@ -10,7 +10,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog';
+} from "@/components/ui/dialog";
 import {
   Form,
   FormControl,
@@ -18,20 +18,23 @@ import {
   FormItem,
   FormLabel,
   FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';
-import { Button } from '@/components/ui/button';
-import { Textarea } from '@/components/ui/textarea';
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from '@/components/ui/select';
-import { toast } from 'sonner';
-import { companySchema, type CompanyFormData } from '@/lib/schemas/financial-schemas';
-import { createCompany, updateCompany } from '@/app/actions/table-actions';
+} from "@/components/ui/select";
+import { toast } from "sonner";
+import {
+  companySchema,
+  type CompanyFormData,
+} from "@/lib/schemas/financial-schemas";
+import { createCompany, updateCompany } from "@/app/actions/table-actions";
 
 interface Company {
   id: string;
@@ -54,31 +57,76 @@ interface CompanyFormDialogProps {
 }
 
 const US_STATES = [
-  'AL', 'AK', 'AZ', 'AR', 'CA', 'CO', 'CT', 'DE', 'FL', 'GA',
-  'HI', 'ID', 'IL', 'IN', 'IA', 'KS', 'KY', 'LA', 'ME', 'MD',
-  'MA', 'MI', 'MN', 'MS', 'MO', 'MT', 'NE', 'NV', 'NH', 'NJ',
-  'NM', 'NY', 'NC', 'ND', 'OH', 'OK', 'OR', 'PA', 'RI', 'SC',
-  'SD', 'TN', 'TX', 'UT', 'VT', 'VA', 'WA', 'WV', 'WI', 'WY',
+  "AL",
+  "AK",
+  "AZ",
+  "AR",
+  "CA",
+  "CO",
+  "CT",
+  "DE",
+  "FL",
+  "GA",
+  "HI",
+  "ID",
+  "IL",
+  "IN",
+  "IA",
+  "KS",
+  "KY",
+  "LA",
+  "ME",
+  "MD",
+  "MA",
+  "MI",
+  "MN",
+  "MS",
+  "MO",
+  "MT",
+  "NE",
+  "NV",
+  "NH",
+  "NJ",
+  "NM",
+  "NY",
+  "NC",
+  "ND",
+  "OH",
+  "OK",
+  "OR",
+  "PA",
+  "RI",
+  "SC",
+  "SD",
+  "TN",
+  "TX",
+  "UT",
+  "VT",
+  "VA",
+  "WA",
+  "WV",
+  "WI",
+  "WY",
 ];
 
 const CURRENCIES = [
-  { code: 'USD', symbol: '$', name: 'US Dollar' },
-  { code: 'EUR', symbol: '€', name: 'Euro' },
-  { code: 'GBP', symbol: '£', name: 'British Pound' },
-  { code: 'CAD', symbol: 'C$', name: 'Canadian Dollar' },
+  { code: "USD", symbol: "$", name: "US Dollar" },
+  { code: "EUR", symbol: "€", name: "Euro" },
+  { code: "GBP", symbol: "£", name: "British Pound" },
+  { code: "CAD", symbol: "C$", name: "Canadian Dollar" },
 ];
 
 const COMPANY_TYPES = [
-  'General Contractor',
-  'Subcontractor',
-  'Supplier',
-  'Owner',
-  'Architect',
-  'Engineer',
-  'Consultant',
-  'Developer',
-  'Property Manager',
-  'Other',
+  "General Contractor",
+  "Subcontractor",
+  "Supplier",
+  "Owner",
+  "Architect",
+  "Engineer",
+  "Consultant",
+  "Developer",
+  "Property Manager",
+  "Other",
 ];
 
 export function CompanyFormDialog({
@@ -93,30 +141,30 @@ export function CompanyFormDialog({
   const form = useForm<CompanyFormData>({
     resolver: zodResolver(companySchema),
     defaultValues: {
-      name: company?.name || '',
-      title: company?.title || '',
-      address: company?.address || '',
-      city: company?.city || '',
-      state: company?.state || '',
-      website: company?.website || '',
-      currency_code: company?.currency_code || 'USD',
-      currency_symbol: company?.currency_symbol || '$',
-      notes: company?.notes || '',
+      name: company?.name || "",
+      title: company?.title || "",
+      address: company?.address || "",
+      city: company?.city || "",
+      state: company?.state || "",
+      website: company?.website || "",
+      currency_code: company?.currency_code || "USD",
+      currency_symbol: company?.currency_symbol || "$",
+      notes: company?.notes || "",
     },
   });
 
   React.useEffect(() => {
     if (open) {
       form.reset({
-        name: company?.name || '',
-        title: company?.title || '',
-        address: company?.address || '',
-        city: company?.city || '',
-        state: company?.state || '',
-        website: company?.website || '',
-        currency_code: company?.currency_code || 'USD',
-        currency_symbol: company?.currency_symbol || '$',
-        notes: company?.notes || '',
+        name: company?.name || "",
+        title: company?.title || "",
+        address: company?.address || "",
+        city: company?.city || "",
+        state: company?.state || "",
+        website: company?.website || "",
+        currency_code: company?.currency_code || "USD",
+        currency_symbol: company?.currency_symbol || "$",
+        notes: company?.notes || "",
       });
     }
   }, [open, company, form]);
@@ -124,8 +172,8 @@ export function CompanyFormDialog({
   const handleCurrencyChange = (currencyCode: string) => {
     const currency = CURRENCIES.find((c) => c.code === currencyCode);
     if (currency) {
-      form.setValue('currency_code', currency.code);
-      form.setValue('currency_symbol', currency.symbol);
+      form.setValue("currency_code", currency.code);
+      form.setValue("currency_symbol", currency.symbol);
     }
   };
 
@@ -154,11 +202,15 @@ export function CompanyFormDialog({
         return;
       }
 
-      toast.success(isEdit ? 'Company updated successfully' : 'Company created successfully');
+      toast.success(
+        isEdit
+          ? "Company updated successfully"
+          : "Company created successfully",
+      );
       onOpenChange(false);
       onSuccess?.();
     } catch (error) {
-      toast.error('An unexpected error occurred');
+      toast.error("An unexpected error occurred");
     } finally {
       setIsSubmitting(false);
     }
@@ -168,11 +220,13 @@ export function CompanyFormDialog({
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>{isEdit ? 'Edit Company' : 'Add New Company'}</DialogTitle>
+          <DialogTitle>
+            {isEdit ? "Edit Company" : "Add New Company"}
+          </DialogTitle>
           <DialogDescription>
             {isEdit
-              ? 'Update the company information below.'
-              : 'Fill in the details to create a new company.'}
+              ? "Update the company information below."
+              : "Fill in the details to create a new company."}
           </DialogDescription>
         </DialogHeader>
 
@@ -198,7 +252,10 @@ export function CompanyFormDialog({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Company Type</FormLabel>
-                  <Select onValueChange={field.onChange} value={field.value || ''}>
+                  <Select
+                    onValueChange={field.onChange}
+                    value={field.value || ""}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select type" />
@@ -252,7 +309,10 @@ export function CompanyFormDialog({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>State</FormLabel>
-                    <Select onValueChange={field.onChange} value={field.value || ''}>
+                    <Select
+                      onValueChange={field.onChange}
+                      value={field.value || ""}
+                    >
                       <FormControl>
                         <SelectTrigger>
                           <SelectValue placeholder="Select state" />
@@ -279,7 +339,11 @@ export function CompanyFormDialog({
                 <FormItem>
                   <FormLabel>Website</FormLabel>
                   <FormControl>
-                    <Input placeholder="https://example.com" type="url" {...field} />
+                    <Input
+                      placeholder="https://example.com"
+                      type="url"
+                      {...field}
+                    />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -292,7 +356,10 @@ export function CompanyFormDialog({
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Currency</FormLabel>
-                  <Select onValueChange={handleCurrencyChange} value={field.value || 'USD'}>
+                  <Select
+                    onValueChange={handleCurrencyChange}
+                    value={field.value || "USD"}
+                  >
                     <FormControl>
                       <SelectTrigger>
                         <SelectValue placeholder="Select currency" />
@@ -340,7 +407,11 @@ export function CompanyFormDialog({
                 Cancel
               </Button>
               <Button type="submit" disabled={isSubmitting}>
-                {isSubmitting ? 'Saving...' : isEdit ? 'Save Changes' : 'Create Company'}
+                {isSubmitting
+                  ? "Saving..."
+                  : isEdit
+                    ? "Save Changes"
+                    : "Create Company"}
               </Button>
             </DialogFooter>
           </form>

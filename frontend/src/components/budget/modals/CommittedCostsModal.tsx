@@ -1,10 +1,10 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { BaseSidebar, SidebarBody, SidebarFooter } from './BaseSidebar';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
-import { FileCheck } from 'lucide-react';
+import { useState, useEffect } from "react";
+import { BaseSidebar, SidebarBody, SidebarFooter } from "./BaseSidebar";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { FileCheck } from "lucide-react";
 
 interface Commitment {
   id: string;
@@ -13,7 +13,7 @@ interface Commitment {
   description: string;
   amount: number;
   status: string;
-  type: 'subcontract' | 'purchase_order';
+  type: "subcontract" | "purchase_order";
   executedDate: string | null;
   changeOrders: number;
 }
@@ -41,12 +41,16 @@ export function CommittedCostsModal({
   onClose,
   costCode,
   budgetLineId,
-  projectId
+  projectId,
 }: CommittedCostsModalProps) {
-  const [activeTab, setActiveTab] = useState<'commitments' | 'breakdown'>('commitments');
+  const [activeTab, setActiveTab] = useState<"commitments" | "breakdown">(
+    "commitments",
+  );
   const [commitments, setCommitments] = useState<Commitment[]>([]);
   const [loading, setLoading] = useState(true);
-  const [typeFilter, setTypeFilter] = useState<'all' | 'subcontract' | 'purchase_order'>('all');
+  const [typeFilter, setTypeFilter] = useState<
+    "all" | "subcontract" | "purchase_order"
+  >("all");
 
   useEffect(() => {
     if (open) {
@@ -57,14 +61,14 @@ export function CommittedCostsModal({
   const fetchCommitments = async () => {
     setLoading(true);
     try {
-      const url = `/api/projects/${projectId}/budget/commitments?budgetLineId=${budgetLineId}&status=approved,complete${typeFilter !== 'all' ? `&type=${typeFilter}` : ''}`;
+      const url = `/api/projects/${projectId}/budget/commitments?budgetLineId=${budgetLineId}&status=approved,complete${typeFilter !== "all" ? `&type=${typeFilter}` : ""}`;
       const response = await fetch(url);
       if (response.ok) {
         const data = await response.json();
         setCommitments(data.commitments || []);
       }
     } catch (error) {
-      console.error('Error fetching committed costs:', error);
+      console.error("Error fetching committed costs:", error);
     } finally {
       setLoading(false);
     }
@@ -72,7 +76,7 @@ export function CommittedCostsModal({
 
   const formatCurrency = (value: number): string => {
     const isNegative = value < 0;
-    const formatted = new Intl.NumberFormat('en-US', {
+    const formatted = new Intl.NumberFormat("en-US", {
       minimumFractionDigits: 2,
       maximumFractionDigits: 2,
     }).format(Math.abs(value));
@@ -84,25 +88,28 @@ export function CommittedCostsModal({
   };
 
   const formatDate = (dateString: string | null): string => {
-    if (!dateString) return '-';
-    return new Date(dateString).toLocaleDateString('en-US', {
-      month: '2-digit',
-      day: '2-digit',
-      year: 'numeric'
+    if (!dateString) return "-";
+    return new Date(dateString).toLocaleDateString("en-US", {
+      month: "2-digit",
+      day: "2-digit",
+      year: "numeric",
     });
   };
 
   const getTypeBadge = (type: string) => {
-    const config = type === 'subcontract'
-      ? 'bg-blue-100 text-blue-800 border-blue-200'
-      : 'bg-purple-100 text-purple-800 border-purple-200';
+    const config =
+      type === "subcontract"
+        ? "bg-blue-100 text-blue-800 border-blue-200"
+        : "bg-purple-100 text-purple-800 border-purple-200";
 
     return (
-      <span className={cn(
-        'inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full border',
-        config
-      )}>
-        {type === 'subcontract' ? 'SUBCONTRACT' : 'PURCHASE ORDER'}
+      <span
+        className={cn(
+          "inline-flex items-center px-2 py-1 text-xs font-semibold rounded-full border",
+          config,
+        )}
+      >
+        {type === "subcontract" ? "SUBCONTRACT" : "PURCHASE ORDER"}
       </span>
     );
   };
@@ -110,14 +117,17 @@ export function CommittedCostsModal({
   const totalAmount = commitments.reduce((sum, c) => sum + c.amount, 0);
 
   // Breakdown by type
-  const subcontracts = commitments.filter(c => c.type === 'subcontract');
-  const purchaseOrders = commitments.filter(c => c.type === 'purchase_order');
+  const subcontracts = commitments.filter((c) => c.type === "subcontract");
+  const purchaseOrders = commitments.filter((c) => c.type === "purchase_order");
   const subcontractTotal = subcontracts.reduce((sum, c) => sum + c.amount, 0);
-  const purchaseOrderTotal = purchaseOrders.reduce((sum, c) => sum + c.amount, 0);
+  const purchaseOrderTotal = purchaseOrders.reduce(
+    (sum, c) => sum + c.amount,
+    0,
+  );
 
   const tabs = [
-    { id: 'commitments', label: 'Commitments' },
-    { id: 'breakdown', label: 'Breakdown' }
+    { id: "commitments", label: "Commitments" },
+    { id: "breakdown", label: "Breakdown" },
   ];
 
   return (
@@ -136,12 +146,14 @@ export function CommittedCostsModal({
               <button
                 key={tab.id}
                 type="button"
-                onClick={() => setActiveTab(tab.id as 'commitments' | 'breakdown')}
+                onClick={() =>
+                  setActiveTab(tab.id as "commitments" | "breakdown")
+                }
                 className={cn(
-                  'px-4 py-2 text-sm font-medium rounded-md transition-all',
+                  "px-4 py-2 text-sm font-medium rounded-md transition-all",
                   activeTab === tab.id
-                    ? 'bg-white text-orange-600 shadow-sm border border-gray-200'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-white/50'
+                    ? "bg-white text-orange-600 shadow-sm border border-gray-200"
+                    : "text-gray-600 hover:text-gray-900 hover:bg-white/50",
                 )}
               >
                 {tab.label}
@@ -151,19 +163,23 @@ export function CommittedCostsModal({
 
           {/* Type Filter */}
           <div className="flex gap-2">
-            {['all', 'subcontract', 'purchase_order'].map((type) => (
+            {["all", "subcontract", "purchase_order"].map((type) => (
               <button
                 key={type}
                 type="button"
                 onClick={() => setTypeFilter(type as typeof typeFilter)}
                 className={cn(
-                  'px-3 py-1 text-xs font-medium rounded-full transition-all',
+                  "px-3 py-1 text-xs font-medium rounded-full transition-all",
                   typeFilter === type
-                    ? 'bg-orange-500 text-white'
-                    : 'bg-gray-100 text-gray-600 hover:bg-gray-200'
+                    ? "bg-orange-500 text-white"
+                    : "bg-gray-100 text-gray-600 hover:bg-gray-200",
                 )}
               >
-                {type === 'all' ? 'All' : type === 'subcontract' ? 'Subcontracts' : 'POs'}
+                {type === "all"
+                  ? "All"
+                  : type === "subcontract"
+                    ? "Subcontracts"
+                    : "POs"}
               </button>
             ))}
           </div>
@@ -172,7 +188,7 @@ export function CommittedCostsModal({
 
       {/* Content */}
       <SidebarBody className="bg-white">
-        {activeTab === 'commitments' ? (
+        {activeTab === "commitments" ? (
           <div className="p-6 space-y-5">
             {/* Total Summary */}
             <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-gradient-to-br from-blue-50 via-white to-white">
@@ -199,8 +215,9 @@ export function CommittedCostsModal({
                 <div className="text-sm text-blue-900">
                   <p className="font-semibold">About Committed Costs</p>
                   <p className="mt-1">
-                    These are approved subcontracts and purchase order contracts, including any approved change orders.
-                    Status includes Approved and Complete commitments.
+                    These are approved subcontracts and purchase order
+                    contracts, including any approved change orders. Status
+                    includes Approved and Complete commitments.
                   </p>
                 </div>
               </div>
@@ -211,35 +228,67 @@ export function CommittedCostsModal({
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Number</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Type</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Vendor</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Description</th>
-                    <th className="text-right px-4 py-3 font-semibold text-slate-800">Amount</th>
-                    <th className="text-center px-4 py-3 font-semibold text-slate-800">COs</th>
-                    <th className="text-left px-4 py-3 font-semibold text-slate-800">Executed</th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Number
+                    </th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Type
+                    </th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Vendor
+                    </th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Description
+                    </th>
+                    <th className="text-right px-4 py-3 font-semibold text-slate-800">
+                      Amount
+                    </th>
+                    <th className="text-center px-4 py-3 font-semibold text-slate-800">
+                      COs
+                    </th>
+                    <th className="text-left px-4 py-3 font-semibold text-slate-800">
+                      Executed
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {loading ? (
                     <tr>
-                      <td colSpan={7} className="px-4 py-10 text-center text-gray-500">
+                      <td
+                        colSpan={7}
+                        className="px-4 py-10 text-center text-gray-500"
+                      >
                         Loading commitments...
                       </td>
                     </tr>
                   ) : commitments.length === 0 ? (
                     <tr>
-                      <td colSpan={7} className="px-4 py-10 text-center text-gray-500">
+                      <td
+                        colSpan={7}
+                        className="px-4 py-10 text-center text-gray-500"
+                      >
                         No committed costs found for this cost code.
                       </td>
                     </tr>
                   ) : (
                     commitments.map((commitment) => (
-                      <tr key={commitment.id} className="hover:bg-blue-50/40 transition-colors">
-                        <td className="px-4 py-3 font-medium text-blue-600">{commitment.commitmentNumber}</td>
-                        <td className="px-4 py-3">{getTypeBadge(commitment.type)}</td>
-                        <td className="px-4 py-3 text-gray-600 text-xs">{commitment.vendor || '-'}</td>
-                        <td className="px-4 py-3 text-gray-700 max-w-xs truncate" title={commitment.description}>
+                      <tr
+                        key={commitment.id}
+                        className="hover:bg-blue-50/40 transition-colors"
+                      >
+                        <td className="px-4 py-3 font-medium text-blue-600">
+                          {commitment.commitmentNumber}
+                        </td>
+                        <td className="px-4 py-3">
+                          {getTypeBadge(commitment.type)}
+                        </td>
+                        <td className="px-4 py-3 text-gray-600 text-xs">
+                          {commitment.vendor || "-"}
+                        </td>
+                        <td
+                          className="px-4 py-3 text-gray-700 max-w-xs truncate"
+                          title={commitment.description}
+                        >
                           {commitment.description}
                         </td>
                         <td className="px-4 py-3 text-right font-semibold tabular-nums text-gray-900">
@@ -254,7 +303,9 @@ export function CommittedCostsModal({
                             <span className="text-gray-400">-</span>
                           )}
                         </td>
-                        <td className="px-4 py-3 text-gray-600">{formatDate(commitment.executedDate)}</td>
+                        <td className="px-4 py-3 text-gray-600">
+                          {formatDate(commitment.executedDate)}
+                        </td>
                       </tr>
                     ))
                   )}
@@ -270,22 +321,26 @@ export function CommittedCostsModal({
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-white">
-                <div className="mb-2">{getTypeBadge('subcontract')}</div>
+                <div className="mb-2">{getTypeBadge("subcontract")}</div>
                 <p className="text-2xl font-bold text-gray-900 mt-2">
                   {formatCurrency(subcontractTotal)}
                 </p>
                 <p className="text-sm text-gray-600 mt-1">
-                  {subcontracts.length} {subcontracts.length === 1 ? 'subcontract' : 'subcontracts'}
+                  {subcontracts.length}{" "}
+                  {subcontracts.length === 1 ? "subcontract" : "subcontracts"}
                 </p>
               </div>
 
               <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-white">
-                <div className="mb-2">{getTypeBadge('purchase_order')}</div>
+                <div className="mb-2">{getTypeBadge("purchase_order")}</div>
                 <p className="text-2xl font-bold text-gray-900 mt-2">
                   {formatCurrency(purchaseOrderTotal)}
                 </p>
                 <p className="text-sm text-gray-600 mt-1">
-                  {purchaseOrders.length} {purchaseOrders.length === 1 ? 'purchase order' : 'purchase orders'}
+                  {purchaseOrders.length}{" "}
+                  {purchaseOrders.length === 1
+                    ? "purchase order"
+                    : "purchase orders"}
                 </p>
               </div>
             </div>

@@ -1,184 +1,208 @@
-'use client'
+"use client";
 
-import { createClient } from '@/lib/supabase/client'
-import { useCallback, useEffect, useState } from 'react'
+import { createClient } from "@/lib/supabase/client";
+import { useCallback, useEffect, useState } from "react";
 
 export interface Contract {
-  id: number
-  contract_number: string | null
-  client_id: number
-  project_id: number | null
-  status: string | null
-  original_contract_amount: number | null
-  invoiced_amount: number | null
-  payments_received: number | null
-  pending_change_orders: number | null
-  approved_change_orders: number | null
-  draft_change_orders: number | null
-  executed: boolean | null
-  erp_status: string | null
-  notes: string | null
-  attachment_count: number | null
-  created_at: string
+  id: number;
+  contract_number: string | null;
+  client_id: number;
+  project_id: number | null;
+  status: string | null;
+  original_contract_amount: number | null;
+  invoiced_amount: number | null;
+  payments_received: number | null;
+  pending_change_orders: number | null;
+  approved_change_orders: number | null;
+  draft_change_orders: number | null;
+  executed: boolean | null;
+  erp_status: string | null;
+  notes: string | null;
+  attachment_count: number | null;
+  created_at: string;
   // Joined data
   client?: {
-    id: number
-    name: string | null
-  } | null
+    id: number;
+    name: string | null;
+  } | null;
   project?: {
-    id: number
-    name: string | null
-    project_number: string | null
-  } | null
+    id: number;
+    name: string | null;
+    project_number: string | null;
+  } | null;
 }
 
 export interface ContractOption {
-  value: string
-  label: string
-  contractNumber?: string
-  amount?: number
+  value: string;
+  label: string;
+  contractNumber?: string;
+  amount?: number;
 }
 
 interface UseContractsOptions {
   // Filter contracts by search term
-  search?: string
+  search?: string;
   // Filter by status
-  status?: string
+  status?: string;
   // Filter by project ID
-  projectId?: number
+  projectId?: number;
   // Filter by client ID
-  clientId?: number
+  clientId?: number;
   // Whether to include only executed contracts
-  executedOnly?: boolean
+  executedOnly?: boolean;
   // Limit number of results
-  limit?: number
+  limit?: number;
   // Whether to auto-fetch on mount
-  enabled?: boolean
+  enabled?: boolean;
 }
 
 interface UseContractsReturn {
-  contracts: Contract[]
-  options: ContractOption[]
-  isLoading: boolean
-  error: Error | null
-  refetch: () => Promise<void>
-  createContract: (contract: Partial<Contract>) => Promise<Contract | null>
+  contracts: Contract[];
+  options: ContractOption[];
+  isLoading: boolean;
+  error: Error | null;
+  refetch: () => Promise<void>;
+  createContract: (contract: Partial<Contract>) => Promise<Contract | null>;
 }
 
 /**
  * Hook for fetching contracts from Supabase
  * Used in change order forms, invoice forms, etc.
  */
-export function useContracts(options: UseContractsOptions = {}): UseContractsReturn {
-  const { search, status, projectId, clientId, executedOnly = false, limit = 100, enabled = true } = options
-  const [contracts, setContracts] = useState<Contract[]>([])
-  const [isLoading, setIsLoading] = useState(false)
-  const [error, setError] = useState<Error | null>(null)
+export function useContracts(
+  options: UseContractsOptions = {},
+): UseContractsReturn {
+  const {
+    search,
+    status,
+    projectId,
+    clientId,
+    executedOnly = false,
+    limit = 100,
+    enabled = true,
+  } = options;
+  const [contracts, setContracts] = useState<Contract[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<Error | null>(null);
 
   const fetchContracts = useCallback(async () => {
-    if (!enabled) return
+    if (!enabled) return;
 
-    setIsLoading(true)
-    setError(null)
+    setIsLoading(true);
+    setError(null);
 
     try {
-      const supabase = createClient()
+      const supabase = createClient();
       let query = supabase
-        .from('contracts')
-        .select(`
+        .from("contracts")
+        .select(
+          `
           *,
           client:clients(id, name),
           project:projects(id, name, project_number)
-        `)
-        .order('contract_number', { ascending: true })
-        .limit(limit)
+        `,
+        )
+        .order("contract_number", { ascending: true })
+        .limit(limit);
 
       if (search) {
-        query = query.or(`contract_number.ilike.%${search}%,notes.ilike.%${search}%`)
+        query = query.or(
+          `contract_number.ilike.%${search}%,notes.ilike.%${search}%`,
+        );
       }
 
       if (status) {
-        query = query.eq('status', status)
+        query = query.eq("status", status);
       }
 
       if (projectId) {
-        query = query.eq('project_id', projectId)
+        query = query.eq("project_id", projectId);
       }
 
       if (clientId) {
-        query = query.eq('client_id', clientId)
+        query = query.eq("client_id", clientId);
       }
 
       if (executedOnly) {
-        query = query.eq('executed', true)
+        query = query.eq("executed", true);
       }
 
-      const { data, error: queryError } = await query
+      const { data, error: queryError } = await query;
 
       if (queryError) {
-        throw new Error(queryError.message)
+        throw new Error(queryError.message);
       }
 
-      setContracts(data || [])
+      setContracts(data || []);
     } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to fetch contracts'))
+      setError(
+        err instanceof Error ? err : new Error("Failed to fetch contracts"),
+      );
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
-  }, [search, status, projectId, clientId, executedOnly, limit, enabled])
+  }, [search, status, projectId, clientId, executedOnly, limit, enabled]);
 
   useEffect(() => {
-    fetchContracts()
-  }, [fetchContracts])
+    fetchContracts();
+  }, [fetchContracts]);
 
-  const createContract = useCallback(async (contract: Partial<Contract>): Promise<Contract | null> => {
-    try {
-      const supabase = createClient()
-      const { data, error: insertError } = await supabase
-        .from('contracts')
-        .insert({
-          contract_number: contract.contract_number,
-          client_id: contract.client_id || 0,
-          project_id: contract.project_id,
-          status: contract.status || 'draft',
-          original_contract_amount: contract.original_contract_amount,
-          executed: contract.executed || false,
-          notes: contract.notes,
-        })
-        .select(`
+  const createContract = useCallback(
+    async (contract: Partial<Contract>): Promise<Contract | null> => {
+      try {
+        const supabase = createClient();
+        const { data, error: insertError } = await supabase
+          .from("contracts")
+          .insert({
+            contract_number: contract.contract_number,
+            client_id: contract.client_id || 0,
+            project_id: contract.project_id,
+            status: contract.status || "draft",
+            original_contract_amount: contract.original_contract_amount,
+            executed: contract.executed || false,
+            notes: contract.notes,
+          })
+          .select(
+            `
           *,
           client:clients(id, name),
           project:projects(id, name, project_number)
-        `)
-        .single()
+        `,
+          )
+          .single();
 
-      if (insertError) {
-        throw new Error(insertError.message)
+        if (insertError) {
+          throw new Error(insertError.message);
+        }
+
+        // Refetch to update the list
+        await fetchContracts();
+        return data;
+      } catch (err) {
+        setError(
+          err instanceof Error ? err : new Error("Failed to create contract"),
+        );
+        return null;
       }
-
-      // Refetch to update the list
-      await fetchContracts()
-      return data
-    } catch (err) {
-      setError(err instanceof Error ? err : new Error('Failed to create contract'))
-      return null
-    }
-  }, [fetchContracts])
+    },
+    [fetchContracts],
+  );
 
   // Transform contracts to options for dropdowns
   const contractOptions: ContractOption[] = contracts.map((contract) => {
-    const projectInfo = contract.project?.project_number || contract.project?.name || ''
+    const projectInfo =
+      contract.project?.project_number || contract.project?.name || "";
     const label = contract.contract_number
-      ? `${contract.contract_number}${projectInfo ? ` - ${projectInfo}` : ''}`
-      : `Contract #${contract.id}`
+      ? `${contract.contract_number}${projectInfo ? ` - ${projectInfo}` : ""}`
+      : `Contract #${contract.id}`;
 
     return {
       value: contract.id.toString(),
       label,
       contractNumber: contract.contract_number || undefined,
       amount: contract.original_contract_amount || undefined,
-    }
-  })
+    };
+  });
 
   return {
     contracts,
@@ -187,5 +211,5 @@ export function useContracts(options: UseContractsOptions = {}): UseContractsRet
     error,
     refetch: fetchContracts,
     createContract,
-  }
+  };
 }
