@@ -56,6 +56,7 @@
 | [*project-mgmt/shared/logs/task-log.md](../*project-mgmt/shared/logs/task-log.md) | Append-only session log |
 | [*project-mgmt/RULE-VIOLATION-LOG.md](../*project-mgmt/RULE-VIOLATION-LOG.md) | Rule violations log for project management |
 | [*project-mgmt/active/](../*project-mgmt/active/) | Active feature work (budget, change-events, commitments, etc.) |
+| [*project-mgmt/active/schedule/](../*project-mgmt/active/schedule/) | Schedule feature implementation workspace |
 | [*project-mgmt/complete/](../*project-mgmt/complete/) | Completed features with reports |
 | [*project-mgmt/todo/](../*project-mgmt/todo/) | Planned features (budget-forecasting, prime-contracts, punch-list) |
 | [*project-mgmt/verification-reports/](../*project-mgmt/verification-reports/) | Independent verification reports |
