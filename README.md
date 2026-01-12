@@ -1,5 +1,19 @@
 # Alleato AI Project Manager
 
+## 🤖 AI-Powered Development with Codex
+
+**Complete end-to-end automation pipeline:**
+
+- **🚀 START HERE:** [`.github/CODEX-COMPLETE-AUTOMATION.md`](.github/CODEX-COMPLETE-AUTOMATION.md) ⭐ **NEW**
+- **Quick Start:** [`.github/CODEX-QUICK-START.md`](.github/CODEX-QUICK-START.md) (30 seconds)
+- **Full Guide:** [`.github/CODEX-CLOUD-TASKS-GUIDE.md`](.github/CODEX-CLOUD-TASKS-GUIDE.md) (comprehensive)
+- **Setup Summary:** [`CODEX-SETUP-SUMMARY.md`](CODEX-SETUP-SUMMARY.md) (what you have)
+
+**Usage:**
+- **Recommended:** `/codex-task` (Claude Code slash command)
+- **Alternative:** `./scripts/create-codex-task.sh` (terminal script)
+- **Manual:** GitHub → Actions → "Codex Task Automation" → Run workflow
+
 ## Resources
 
 - https://developers.procore.com/documentation/introduction
