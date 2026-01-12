@@ -2,7 +2,7 @@ name: Codex Issue Handler
 
 on:
   issues:
-    types: [opened, labeled]
+    types: [labeled]
 
 permissions:
   contents: write
