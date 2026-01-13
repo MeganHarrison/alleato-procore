@@ -64,11 +64,9 @@ const DEFAULT_LIMIT = 25;
 const MAX_LIMIT = 200;
 
 // Helper to get a typed-loose supabase client for dynamic queries
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getQueryBuilder(tableName: string): any {
   const supabase = createServiceClient();
   // Use any to bypass the recursive type checking
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return (supabase as any).from(tableName);
 }
 

@@ -53,7 +53,6 @@ export default function RecycledCommitmentsPage() {
     if (projectId) {
       fetchDeletedCommitments()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId])
 
   const fetchDeletedCommitments = useCallback(async () => {

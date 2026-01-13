@@ -1,4 +1,3 @@
-/* eslint-disable design-system/no-hardcoded-colors, design-system/no-arbitrary-spacing */
 "use client";
 import React from "react";
 import {

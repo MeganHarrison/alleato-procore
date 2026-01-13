@@ -56,7 +56,6 @@ export default function ProjectCommitmentsPage() {
     if (projectId) {
       fetchCommitments();
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
   const fetchCommitments = useCallback(async () => {

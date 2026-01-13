@@ -138,7 +138,6 @@ describe("withLatestFunctionWrappers", () => {
   it("preserves `this` binding to the latest parent object", () => {
     const ref = latestRef({
       mult: 2,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       times(this: any, x: number) {
         return this.mult * x;
       },
@@ -149,7 +148,6 @@ describe("withLatestFunctionWrappers", () => {
 
     ref.current = {
       mult: 5,
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       times(this: any, x: number) {
         return this.mult * x;
       },

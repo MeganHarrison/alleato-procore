@@ -1,7 +1,5 @@
 import React from "react";
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 function isPlainObjectOrArray(
   obj: unknown,
 ): obj is Record<string, unknown> | unknown[] {

@@ -272,7 +272,6 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 
     // Delete the project company association
     // Note: We don't delete the global company record, just the project association
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error: deleteError } = await (supabase as any)
       .from("project_companies")
       .delete()

@@ -151,7 +151,6 @@ function SortableLineItemRow({
         isDragging && 'opacity-50',
         errors && 'bg-destructive/5'
       )}
-      // eslint-disable-next-line react/forbid-component-props
       style={style}
     >
       {/* Drag handle */}
