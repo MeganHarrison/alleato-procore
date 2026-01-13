@@ -112,7 +112,7 @@ export const DirectCostCreateSchema = z.object({
 
   // Optional fields
   vendor_id: optionalUuidSchema,
-  employee_id: optionalUuidSchema,
+  employee_id: z.coerce.number().nullable().optional(),
   invoice_number: z.string().trim().max(255).optional().nullable(),
   status: z.enum(CostStatuses).default('Draft'),
   description: z.string().trim().max(1000).optional().nullable(),
@@ -320,23 +320,25 @@ export type DirectCostAttachment = z.infer<typeof DirectCostAttachmentSchema>;
 
 // These are TypeScript-only types for API responses, not Zod schemas
 export interface DirectCostSummary {
-  total_count: number;
   total_amount: number;
-  by_status: {
-    status: DirectCostStatus;
-    count: number;
-    amount: number;
-  }[];
-  by_cost_type: {
-    cost_type: CostType;
-    count: number;
-    amount: number;
-  }[];
+  approved_amount: number;
+  paid_amount: number;
+  draft_amount: number;
+  rejected_amount: number;
+  count_by_status: Record<string, number>;
+  count_by_cost_type: Record<string, number>;
+  recent_activity: DirectCostWithLineItems[];
+  monthly_trend: Array<{
+    month: string;
+    total: number;
+    approved: number;
+    paid: number;
+  }>;
 }
 
 export interface DirectCostWithLineItems extends DirectCostCreate {
   id: string;
-  project_id: string;
+  project_id: number;
   created_at: string;
   updated_at: string;
   total_amount: number;

@@ -28,7 +28,7 @@ export function MarkdownRenderer({
             // Headings
             h1: ({ children, ...props }) => (
               <h1
-                className="text-3xl font-semibold text-gray-800 dark:text-gray-200 mt-8 mb-4"
+                className="text-3xl font-semibold text-foreground dark:text-gray-200 mt-8 mb-4"
                 {...props}
               >
                 {children}
@@ -36,7 +36,7 @@ export function MarkdownRenderer({
             ),
             h2: ({ children, ...props }) => (
               <h2
-                className="text-2xl font-semibold text-gray-800 dark:text-gray-200 mt-6 mb-3"
+                className="text-2xl font-semibold text-foreground dark:text-gray-200 mt-6 mb-3"
                 {...props}
               >
                 {children}
@@ -44,7 +44,7 @@ export function MarkdownRenderer({
             ),
             h3: ({ children, ...props }) => (
               <h3
-                className="text-xl font-semibold text-gray-800 dark:text-gray-200 mt-4 mb-2"
+                className="text-xl font-semibold text-foreground dark:text-gray-200 mt-4 mb-2"
                 {...props}
               >
                 {children}
@@ -52,7 +52,7 @@ export function MarkdownRenderer({
             ),
             h4: ({ children, ...props }) => (
               <h4
-                className="text-lg font-semibold text-gray-800 dark:text-gray-200 mt-3 mb-2"
+                className="text-lg font-semibold text-foreground dark:text-gray-200 mt-3 mb-2"
                 {...props}
               >
                 {children}
@@ -62,7 +62,7 @@ export function MarkdownRenderer({
             // Paragraphs
             p: ({ children, ...props }) => (
               <p
-                className="text-gray-700 dark:text-gray-300 mb-4 leading-relaxed"
+                className="text-foreground dark:text-gray-300 mb-4 leading-relaxed"
                 {...props}
               >
                 {children}
@@ -84,7 +84,7 @@ export function MarkdownRenderer({
               </ol>
             ),
             li: ({ children, ...props }) => (
-              <li className="text-gray-700 dark:text-gray-300 ml-4" {...props}>
+              <li className="text-foreground dark:text-gray-300 ml-4" {...props}>
                 {children}
               </li>
             ),
@@ -111,6 +111,7 @@ export function MarkdownRenderer({
 
               return !inline && match ? (
                 <SyntaxHighlighter
+                  // @ts-expect-error - oneDark type mismatch with react-syntax-highlighter
                   style={oneDark}
                   language={match[1]}
                   PreTag="div"
@@ -121,7 +122,7 @@ export function MarkdownRenderer({
                 </SyntaxHighlighter>
               ) : (
                 <code
-                  className="bg-gray-100 dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm font-mono text-gray-800 dark:text-gray-200"
+                  className="bg-muted dark:bg-gray-800 px-1.5 py-0.5 rounded text-sm font-mono text-foreground dark:text-gray-200"
                   {...props}
                 >
                   {children}
@@ -132,7 +133,7 @@ export function MarkdownRenderer({
             // Blockquotes
             blockquote: ({ children, ...props }) => (
               <blockquote
-                className="border-l-4 border-gray-300 dark:border-gray-600 pl-4 italic text-gray-700 dark:text-gray-300 mb-4"
+                className="border-l-4 border-border dark:border-gray-600 pl-4 italic text-foreground dark:text-gray-300 mb-4"
                 {...props}
               >
                 {children}
@@ -151,13 +152,13 @@ export function MarkdownRenderer({
               </div>
             ),
             thead: ({ children, ...props }) => (
-              <thead className="bg-gray-50 dark:bg-gray-800" {...props}>
+              <thead className="bg-muted dark:bg-gray-800" {...props}>
                 {children}
               </thead>
             ),
             tbody: ({ children, ...props }) => (
               <tbody
-                className="bg-white dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800"
+                className="bg-background dark:bg-gray-900 divide-y divide-gray-200 dark:divide-gray-800"
                 {...props}
               >
                 {children}
@@ -165,7 +166,7 @@ export function MarkdownRenderer({
             ),
             th: ({ children, ...props }) => (
               <th
-                className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider"
+                className="px-6 py-3 text-left text-xs font-medium text-muted-foreground dark:text-muted-foreground uppercase tracking-wider"
                 {...props}
               >
                 {children}
@@ -173,7 +174,7 @@ export function MarkdownRenderer({
             ),
             td: ({ children, ...props }) => (
               <td
-                className="px-6 py-4 whitespace-nowrap text-sm text-gray-700 dark:text-gray-300"
+                className="px-6 py-4 whitespace-nowrap text-sm text-foreground dark:text-gray-300"
                 {...props}
               >
                 {children}
@@ -183,7 +184,7 @@ export function MarkdownRenderer({
             // Horizontal rule
             hr: (props) => (
               <hr
-                className="my-8 border-gray-200 dark:border-gray-700"
+                className="my-8 border-border dark:border-gray-700"
                 {...props}
               />
             ),

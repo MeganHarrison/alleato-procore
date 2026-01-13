@@ -34,7 +34,7 @@ const activityColorMap: Record<string, string> = {
   "daily-log": "bg-purple-100 text-purple-600",
   "change-order": "bg-orange-100 text-orange-600",
   invoice: "bg-yellow-100 text-yellow-600",
-  document: "bg-gray-100 text-gray-600",
+  document: "bg-muted text-foreground",
 };
 
 function formatRelativeTime(date: Date): string {
@@ -57,15 +57,15 @@ function formatRelativeTime(date: Date): string {
 
 export function RecentActivity({ activities, projectId }: RecentActivityProps) {
   return (
-    <div className="bg-white rounded-md border border-gray-200 p-6">
-      <h3 className="text-sm font-semibold text-gray-900 mb-4">
+    <div className="bg-background rounded-md border border-border p-6">
+      <h3 className="text-sm font-semibold text-foreground mb-4">
         Recent Activity
       </h3>
       <div className="space-y-4">
         {activities.map((activity) => {
           const Icon = activityIconMap[activity.type] || FileText;
           const colorClass =
-            activityColorMap[activity.type] || "bg-gray-100 text-gray-600";
+            activityColorMap[activity.type] || "bg-muted text-foreground";
           const href = activity.link.replace("[projectId]", projectId);
 
           return (
@@ -83,11 +83,11 @@ export function RecentActivity({ activities, projectId }: RecentActivityProps) {
                 <Icon className="w-4 h-4" />
               </div>
               <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-gray-900 group-hover:text-[hsl(var(--procore-orange))] truncate">
+                <p className="text-sm font-medium text-foreground group-hover:text-[hsl(var(--procore-orange))] truncate">
                   {activity.title}
                 </p>
-                <p className="text-xs text-gray-500">{activity.description}</p>
-                <p className="text-xs text-gray-400 mt-0.5">
+                <p className="text-xs text-muted-foreground">{activity.description}</p>
+                <p className="text-xs text-muted-foreground mt-0.5">
                   {activity.user} • {formatRelativeTime(activity.timestamp)}
                 </p>
               </div>
@@ -96,7 +96,7 @@ export function RecentActivity({ activities, projectId }: RecentActivityProps) {
         })}
 
         {activities.length === 0 && (
-          <p className="text-sm text-gray-500 text-center py-4">
+          <p className="text-sm text-muted-foreground text-center py-4">
             No recent activity
           </p>
         )}

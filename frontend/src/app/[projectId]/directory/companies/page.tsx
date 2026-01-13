@@ -11,7 +11,7 @@ import {
   Upload,
 } from "lucide-react";
 import { useInfiniteQuery } from "@/hooks/use-infinite-query";
-import { updateCompany, deleteCompany } from "@/app/actions/table-actions";
+import { updateCompany, deleteCompany } from "@/app/(other)/actions/table-actions";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CompanyFormDialog } from "@/components/domain/companies/CompanyFormDialog";

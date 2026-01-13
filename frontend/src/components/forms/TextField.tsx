@@ -25,6 +25,10 @@ export function TextField({
   className,
   ...inputProps
 }: TextFieldProps) {
+  const inputId =
+    inputProps.id ??
+    `text-field-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+
   return (
     <FormField
       label={label}
@@ -37,7 +41,9 @@ export function TextField({
         type="text"
         className={cn(error && "border-red-300", className)}
         aria-invalid={!!error}
-        aria-describedby={error ? `${inputProps.id}-error` : undefined}
+        aria-describedby={error ? `${inputId}-error` : undefined}
+        id={inputId}
+        aria-label={label}
         {...inputProps}
       />
     </FormField>

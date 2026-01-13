@@ -107,20 +107,20 @@ export function PendingBudgetChangesModal({
       size="xl"
     >
       {/* Content */}
-      <SidebarBody className="bg-white">
+      <SidebarBody className="bg-background">
         <div className="p-6 space-y-5">
           {/* Total Summary */}
           <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-gradient-to-br from-yellow-50 via-white to-white">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-gray-600">Total Pending Changes</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="text-sm text-foreground">Total Pending Changes</p>
+                <p className="text-2xl font-bold text-foreground mt-1">
                   {formatCurrency(totalAmount)}
                 </p>
               </div>
               <div className="text-right">
-                <p className="text-sm text-gray-600">Count</p>
-                <p className="text-2xl font-bold text-gray-900 mt-1">
+                <p className="text-sm text-foreground">Count</p>
+                <p className="text-2xl font-bold text-foreground mt-1">
                   {changeOrders.length}
                 </p>
               </div>
@@ -143,7 +143,7 @@ export function PendingBudgetChangesModal({
           </div>
 
           {/* Change Orders Table */}
-          <div className="overflow-x-auto scrollbar-hide rounded-xl border border-slate-200 shadow-sm bg-white">
+          <div className="overflow-x-auto scrollbar-hide rounded-xl border border-slate-200 shadow-sm bg-background">
             <table className="w-full text-sm">
               <thead className="bg-slate-50 border-b border-slate-200">
                 <tr>
@@ -172,7 +172,7 @@ export function PendingBudgetChangesModal({
                   <tr>
                     <td
                       colSpan={6}
-                      className="px-4 py-10 text-center text-gray-500"
+                      className="px-4 py-10 text-center text-muted-foreground"
                     >
                       Loading pending changes...
                     </td>
@@ -181,7 +181,7 @@ export function PendingBudgetChangesModal({
                   <tr>
                     <td
                       colSpan={6}
-                      className="px-4 py-10 text-center text-gray-500"
+                      className="px-4 py-10 text-center text-muted-foreground"
                     >
                       No pending budget changes found for this cost code.
                     </td>
@@ -196,13 +196,13 @@ export function PendingBudgetChangesModal({
                         {co.changeOrderNumber}
                       </td>
                       <td
-                        className="px-4 py-3 text-gray-700 max-w-xs truncate"
+                        className="px-4 py-3 text-foreground max-w-xs truncate"
                         title={co.description}
                       >
                         {co.description}
                       </td>
                       <td className="px-4 py-3">{getStatusBadge(co.status)}</td>
-                      <td className="px-4 py-3 text-gray-600 text-xs">
+                      <td className="px-4 py-3 text-foreground text-xs">
                         {co.contractNumber}
                       </td>
                       <td
@@ -213,7 +213,7 @@ export function PendingBudgetChangesModal({
                       >
                         {formatCurrency(co.amount)}
                       </td>
-                      <td className="px-4 py-3 text-gray-600">
+                      <td className="px-4 py-3 text-foreground">
                         {formatDate(co.requestedDate)}
                       </td>
                     </tr>

@@ -10,14 +10,14 @@ import { toast } from "sonner";
 import { useDropzone } from "react-dropzone";
 import type { Database } from "@/types/database.types";
 
-type CommitmentAttachment = Database["public"]["Tables"]["commitment_attachments"]["Row"];
+type Attachment = Database["public"]["Tables"]["attachments"]["Row"];
 
 interface AttachmentsTabProps {
   commitmentId: string;
 }
 
 export function AttachmentsTab({ commitmentId }: AttachmentsTabProps) {
-  const [attachments, setAttachments] = useState<CommitmentAttachment[]>([]);
+  const [attachments, setAttachments] = useState<Attachment[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isUploading, setIsUploading] = useState(false);
   const [deletingIds, setDeletingIds] = useState<Set<string>>(new Set());
@@ -118,10 +118,12 @@ export function AttachmentsTab({ commitmentId }: AttachmentsTabProps) {
   };
 
   // Handle file download
-  const handleDownload = async (attachment: CommitmentAttachment) => {
+  const handleDownload = async (attachment: Attachment) => {
     try {
       // Open file in new tab (Supabase storage URLs are public)
-      window.open(attachment.file_path, "_blank");
+      if (attachment.url) {
+        window.open(attachment.url, "_blank");
+      }
     } catch (error) {
       console.error("Error downloading file:", error);
       toast.error("Failed to download file");
@@ -229,8 +231,7 @@ export function AttachmentsTab({ commitmentId }: AttachmentsTabProps) {
                         {attachment.file_name}
                       </Text>
                       <Text variant="muted" size="xs">
-                        {formatFileSize(attachment.file_size)} •{" "}
-                        Uploaded {formatDate(attachment.uploaded_at)}
+                        Uploaded {attachment.uploaded_at ? formatDate(attachment.uploaded_at) : 'Unknown'}
                       </Text>
                     </div>
                   </div>

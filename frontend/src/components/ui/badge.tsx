@@ -25,7 +25,7 @@ const badgeVariants = cva(
         active:
           "border-transparent bg-green-50 text-green-700 dark:bg-green-950 dark:text-green-400 [a&]:hover:bg-green-100",
         inactive:
-          "border-transparent bg-gray-50 text-gray-700 dark:bg-gray-800 dark:text-gray-400 [a&]:hover:bg-gray-100",
+          "border-transparent bg-muted text-foreground dark:bg-gray-800 dark:text-muted-foreground [a&]:hover:bg-muted",
         // Role-based variants
         admin:
           "border-transparent bg-red-50 text-red-700 dark:bg-red-950 dark:text-red-400 [a&]:hover:bg-red-100",
@@ -36,7 +36,7 @@ const badgeVariants = cva(
         foreman:
           "border-transparent bg-yellow-50 text-yellow-700 dark:bg-yellow-950 dark:text-yellow-400 [a&]:hover:bg-yellow-100",
         viewer:
-          "border-transparent bg-gray-50 text-gray-700 dark:bg-gray-800 dark:text-gray-400 [a&]:hover:bg-gray-100",
+          "border-transparent bg-muted text-foreground dark:bg-gray-800 dark:text-muted-foreground [a&]:hover:bg-muted",
       },
     },
     defaultVariants: {

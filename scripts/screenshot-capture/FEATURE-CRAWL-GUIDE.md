@@ -44,7 +44,7 @@ node scripts/generate-crawler.js submittals https://us02.procore.com/56294995472
 
 This generates:
 - `scripts/crawl-submittals-comprehensive.js` - The crawler script
-- `documentation/1-project-mgmt/in-progress/submittals/crawl-submittals/README.md` - Documentation
+- `documentation/*project-mgmt/active/submittals/crawl-submittals/README.md` - Documentation
 
 Then run the crawler:
 
@@ -57,7 +57,7 @@ node scripts/crawl-submittals-comprehensive.js
 Every crawl generates this standardized structure:
 
 ```
-documentation/1-project-mgmt/in-progress/<feature-name>/
+documentation/*project-mgmt/in-progress/<feature-name>/
 ├── crawl-<feature-name>/
 │   ├── README.md                          # Crawler documentation
 │   ├── <FEATURE>-CRAWL-STATUS.md         # Detailed analysis report
@@ -309,7 +309,7 @@ Study existing crawl outputs:
 
 ```bash
 # Direct Costs example
-open documentation/1-project-mgmt/in-progress/direct-costs/crawl-direct-costs/
+open documentation/*project-mgmt/in-progress/direct-costs/crawl-direct-costs/
 
 # Budget example (from screenshot-capture/procore-budget-crawl)
 open scripts/screenshot-capture/procore-budget-crawl/
@@ -389,7 +389,7 @@ To improve the crawler system:
 
 - [Screenshot Capture README](./README.md)
 - [Index of Crawls](./INDEX.md)
-- [Direct Costs Example](../../documentation/1-project-mgmt/in-progress/direct-costs/crawl-direct-costs/README.md)
+- [Direct Costs Example](../../documentation/*project-mgmt/in-progress/direct-costs/crawl-direct-costs/README.md)
 
 ---
 

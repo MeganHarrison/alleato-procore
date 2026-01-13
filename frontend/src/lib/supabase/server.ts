@@ -1,6 +1,8 @@
 import { createServerClient } from "@supabase/ssr";
+import { createClient as createSupabaseClient } from "@supabase/supabase-js";
 import { cookies } from "next/headers";
 import { getSupabaseConfig } from "./config";
+import type { Database } from "@/types/database.types";
 
 /**
  * If using Fluid compute: Don't put this client in a global variable. Always create a new client within each
@@ -26,6 +28,27 @@ export async function createClient() {
           // user sessions.
         }
       },
+    },
+  });
+}
+
+/**
+ * Create a Supabase client with a specific access token.
+ * Use this when handling API requests with Bearer tokens (e.g., from Playwright tests).
+ * This client will have the user's RLS permissions based on the token.
+ */
+export function createClientWithToken(accessToken: string) {
+  const { url, anonKey } = getSupabaseConfig();
+
+  return createSupabaseClient<Database>(url, anonKey, {
+    global: {
+      headers: {
+        Authorization: `Bearer ${accessToken}`,
+      },
+    },
+    auth: {
+      autoRefreshToken: false,
+      persistSession: false,
     },
   });
 }

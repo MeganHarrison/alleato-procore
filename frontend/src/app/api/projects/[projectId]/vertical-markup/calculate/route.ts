@@ -2,7 +2,7 @@ import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 interface MarkupItem {
-  id: string;
+  projectId: string;
   markup_type: string;
   percentage: number;
   compound: boolean;
@@ -73,13 +73,13 @@ function calculateMarkups(
 // POST /api/projects/[id]/vertical-markup/calculate - Calculate vertical markup for a given amount
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -102,7 +102,7 @@ export async function POST(
     const { data: markups, error } = await supabase
       .from("vertical_markup")
       .select("*")
-      .eq("project_id", projectId)
+      .eq("project_id", projectIdNum)
       .order("calculation_order", { ascending: true });
 
     if (error) {

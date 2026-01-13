@@ -20,8 +20,8 @@ const iconMap: Record<string, LucideIcon> = {
 
 export function QuickActions({ actions, projectId }: QuickActionsProps) {
   return (
-    <div className="bg-white rounded-md border border-gray-200 p-6">
-      <h3 className="text-sm font-semibold text-gray-900 mb-4">
+    <div className="bg-background rounded-md border border-border p-6">
+      <h3 className="text-sm font-semibold text-foreground mb-4">
         Quick Actions
       </h3>
       <div className="grid grid-cols-2 gap-3">

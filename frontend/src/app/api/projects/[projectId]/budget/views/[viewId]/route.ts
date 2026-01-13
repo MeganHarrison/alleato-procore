@@ -6,7 +6,7 @@ import type { UpdateBudgetViewRequest } from "@/types/budget-views";
 // Fetch a single budget view
 export async function GET(
   _request: NextRequest,
-  context: { params: Promise<{ id: string; viewId: string }> },
+  context: { params: Promise<{ projectId: string; viewId: string }> },
 ) {
   try {
     const supabase = await createClient();
@@ -62,7 +62,7 @@ export async function GET(
 // Update a budget view
 export async function PATCH(
   request: NextRequest,
-  context: { params: Promise<{ id: string; viewId: string }> },
+  context: { params: Promise<{ projectId: string; viewId: string }> },
 ) {
   try {
     const supabase = await createClient();
@@ -219,7 +219,7 @@ export async function PATCH(
 // Delete a budget view
 export async function DELETE(
   _request: NextRequest,
-  context: { params: Promise<{ id: string; viewId: string }> },
+  context: { params: Promise<{ projectId: string; viewId: string }> },
 ) {
   try {
     const supabase = await createClient();

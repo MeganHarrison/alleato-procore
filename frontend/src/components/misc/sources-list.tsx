@@ -29,7 +29,7 @@ function getSourceTypeColor(type: string): string {
     case "opportunity":
       return "bg-amber-100 text-amber-800";
     default:
-      return "bg-gray-100 text-gray-800";
+      return "bg-muted text-foreground";
   }
 }
 
@@ -62,7 +62,7 @@ export function SourcesList({ sources }: SourcesListProps) {
         {sources.map((source, idx) => (
           <div
             key={source.id || idx}
-            className="p-3 rounded-lg border border-gray-200 bg-white hover:border-gray-300 transition-colors"
+            className="p-3 rounded-lg border border-border bg-background hover:border-border transition-colors"
           >
             <div className="flex items-start justify-between gap-2">
               <div className="flex-1 min-w-0">
@@ -73,16 +73,16 @@ export function SourcesList({ sources }: SourcesListProps) {
                   >
                     {formatSourceType(source.type)}
                   </Badge>
-                  <span className="text-xs font-medium text-gray-500">
+                  <span className="text-xs font-medium text-muted-foreground">
                     {source.ref}
                   </span>
                 </div>
 
-                <p className="text-sm font-medium text-gray-900 truncate">
+                <p className="text-sm font-medium text-foreground truncate">
                   {source.title || source.description || "Untitled"}
                 </p>
 
-                <div className="flex items-center gap-3 mt-1 text-xs text-gray-500">
+                <div className="flex items-center gap-3 mt-1 text-xs text-muted-foreground">
                   {source.date && (
                     <span className="flex items-center gap-1">
                       <Calendar className="h-3 w-3" />

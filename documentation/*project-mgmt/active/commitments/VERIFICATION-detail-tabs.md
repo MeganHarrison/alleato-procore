@@ -298,7 +298,7 @@ Running 29 tests using 7 workers
 ## Procore Reference Comparison
 
 ### Reference Screenshot
-Location: `documentation/1-project-mgmt/in-progress/commitments/procore-crawl-output/pages/562949957166673/screenshot.png`
+Location: `documentation/*project-mgmt/in-progress/commitments/procore-crawl-output/pages/562949957166673/screenshot.png`
 
 ### Observed Tabs in Procore
 1. General (matches our "Overview" tab) ✓

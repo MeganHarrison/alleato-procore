@@ -125,7 +125,7 @@ export default function RagHome() {
                 "Real-time ChatKit responses are paused while the backend restarts. Use the simplified RAG chat to continue exploring."}
             </AlertDescription>
           </Alert>
-          <div className="flex-1 overflow-hidden rounded-xl border bg-white">
+          <div className="flex-1 overflow-hidden rounded-xl border bg-background">
             <SimpleRagChat placeholder="Demo mode – ask about any project update" />
           </div>
         </div>

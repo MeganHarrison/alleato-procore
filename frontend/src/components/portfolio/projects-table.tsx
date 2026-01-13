@@ -11,6 +11,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination"
+import { DataTablePagination } from "@/components/tables/DataTablePagination";
 
 import {
   Column,
@@ -133,7 +134,7 @@ export function ProjectsTable({
       header: ({ column }) => (
         <button
           type="button"
-          className="flex items-center gap-1 hover:text-gray-900"
+          className="flex items-center gap-1 hover:text-foreground"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Name
@@ -159,7 +160,7 @@ export function ProjectsTable({
       header: ({ column }) => (
         <button
           type="button"
-          className="flex items-center gap-1 hover:text-gray-900"
+          className="flex items-center gap-1 hover:text-foreground"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Job Number
@@ -179,7 +180,7 @@ export function ProjectsTable({
       header: ({ column }) => (
         <button
           type="button"
-          className="flex items-center gap-1 hover:text-gray-900"
+          className="flex items-center gap-1 hover:text-foreground"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Client
@@ -199,7 +200,7 @@ export function ProjectsTable({
       header: ({ column }) => (
         <button
           type="button"
-          className="flex items-center gap-1 hover:text-gray-900"
+          className="flex items-center gap-1 hover:text-foreground"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Start Date
@@ -228,7 +229,7 @@ export function ProjectsTable({
       header: ({ column }) => (
         <button
           type="button"
-          className="flex items-center gap-1 hover:text-gray-900"
+          className="flex items-center gap-1 hover:text-foreground"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           State
@@ -248,7 +249,7 @@ export function ProjectsTable({
       header: ({ column }) => (
         <button
           type="button"
-          className="flex items-center gap-1 hover:text-gray-900"
+          className="flex items-center gap-1 hover:text-foreground"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Phase
@@ -272,7 +273,7 @@ export function ProjectsTable({
           <span
             className={cn(
               "px-2 py-1 text-xs font-medium rounded",
-              phaseColors[phase.toLowerCase()] || "bg-gray-100 text-gray-600",
+              phaseColors[phase.toLowerCase()] || "bg-muted text-foreground",
             )}
           >
             {phase}
@@ -288,7 +289,7 @@ export function ProjectsTable({
       header: ({ column }) => (
         <button
           type="button"
-          className="flex items-center gap-1 hover:text-gray-900"
+          className="flex items-center gap-1 hover:text-foreground"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
           Category
@@ -314,10 +315,10 @@ export function ProjectsTable({
             setEditingProject(row.original);
             setIsEditDialogOpen(true);
           }}
-          className="p-2 hover:bg-gray-100 rounded transition-colors"
+          className="p-2 hover:bg-muted rounded transition-colors"
           aria-label="Edit project"
         >
-          <Pencil className="w-4 h-4 text-gray-600" />
+          <Pencil className="w-4 h-4 text-foreground" />
         </button>
       ),
       size: 60,
@@ -372,31 +373,31 @@ export function ProjectsTable({
                   <Link
                     key={row.id}
                     href={projectHref}
-                    className="group block bg-white border border-gray-200 rounded-lg p-4 hover:shadow-md hover:border-[hsl(var(--procore-orange))] transition-all text-left"
+                    className="group block bg-background border border-border rounded-lg p-4 hover:shadow-md hover:border-[hsl(var(--procore-orange))] transition-all text-left"
                     onClick={() => onProjectClick?.(project)}
                   >
                     <div className="mb-2">
-                      <h3 className="text-sm font-semibold text-gray-900 group-hover:text-[hsl(var(--procore-orange))] transition-colors line-clamp-1">
+                      <h3 className="text-sm font-semibold text-foreground group-hover:text-[hsl(var(--procore-orange))] transition-colors line-clamp-1">
                         {project.name}
                       </h3>
                     </div>
 
-                    <div className="space-y-1 text-xs text-gray-500">
+                    <div className="space-y-1 text-xs text-muted-foreground">
                       <div className="flex items-center gap-2">
-                        <span className="font-semibold text-[0.65rem] text-gray-500">
+                        <span className="font-semibold text-[0.65rem] text-muted-foreground">
                           Job #:
                         </span>
-                        <span className="font-medium text-gray-700 text-[0.75rem]">
+                        <span className="font-medium text-foreground text-[0.75rem]">
                           {project.jobNumber}
                         </span>
                       </div>
 
                       {project.client && (
                         <div className="flex items-center gap-2">
-                          <span className="font-semibold text-[0.65rem] text-gray-500">
+                          <span className="font-semibold text-[0.65rem] text-muted-foreground">
                             Client:
                           </span>
-                          <span className="text-gray-700 text-[0.75rem] truncate">
+                          <span className="text-foreground text-[0.75rem] truncate">
                             {project.client}
                           </span>
                         </div>
@@ -406,7 +407,7 @@ export function ProjectsTable({
                 );
               })
             ) : (
-              <div className="col-span-full text-center py-12 text-gray-500">
+              <div className="col-span-full text-center py-12 text-muted-foreground">
                 No projects found.
               </div>
             )}
@@ -414,8 +415,8 @@ export function ProjectsTable({
         </div>
 
         {/* Pagination Controls for Grid View */}
-        <div className="flex flex-col sm:flex-row items-center justify-between px-4 py-3 bg-white border-t border-gray-200 gap-3">
-          <div className="flex items-center gap-2 text-xs text-gray-700">
+        <div className="flex flex-col sm:flex-row items-center justify-between px-4 py-3 bg-background border-t border-border gap-3">
+          <div className="flex items-center gap-2 text-xs text-foreground">
             <span className="hidden sm:inline">Showing</span>
             <select
               value={pagination.pageSize}
@@ -423,7 +424,7 @@ export function ProjectsTable({
                 table.setPageSize(Number(e.target.value));
               }}
               aria-label="Items per page"
-              className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[hsl(var(--procore-orange))] focus:border-transparent"
+              className="px-2 py-1 text-xs border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-[hsl(var(--procore-orange))] focus:border-transparent"
             >
               {[12, 24, 48, 96].map((pageSize) => (
                 <option key={pageSize} value={pageSize}>
@@ -443,7 +444,7 @@ export function ProjectsTable({
             <button
               type="button"
               aria-label="Go to first page"
-              className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-1 rounded hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => table.setPageIndex(0)}
               disabled={!table.getCanPreviousPage()}
             >
@@ -452,20 +453,20 @@ export function ProjectsTable({
             <button
               type="button"
               aria-label="Go to previous page"
-              className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-1 rounded hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => table.previousPage()}
               disabled={!table.getCanPreviousPage()}
             >
               <ChevronLeft className="w-3.5 h-3.5" />
             </button>
-            <span className="text-xs text-gray-700 px-2">
+            <span className="text-xs text-foreground px-2">
               {table.getState().pagination.pageIndex + 1} /{" "}
               {table.getPageCount()}
             </span>
             <button
               type="button"
               aria-label="Go to next page"
-              className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-1 rounded hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => table.nextPage()}
               disabled={!table.getCanNextPage()}
             >
@@ -474,7 +475,7 @@ export function ProjectsTable({
             <button
               type="button"
               aria-label="Go to last page"
-              className="p-1 rounded hover:bg-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="p-1 rounded hover:bg-muted disabled:opacity-50 disabled:cursor-not-allowed"
               onClick={() => table.setPageIndex(table.getPageCount() - 1)}
               disabled={!table.getCanNextPage()}
             >
@@ -491,16 +492,16 @@ export function ProjectsTable({
     <div className="flex flex-col h-full">
       <div className="flex-1 overflow-x-auto overflow-y-auto">
         <Table>
-          <TableHeader className="sticky top-0 bg-gray-50 z-10">
+          <TableHeader className="sticky top-0 bg-muted z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="border-b border-gray-200"
+                className="border-b border-border"
               >
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
-                    className="text-xs font-semibold text-gray-600 py-3 px-4 bg-gray-50"
+                    className="text-xs font-semibold text-foreground py-3 px-4 bg-muted"
                     style={{
                       width: header.getSize(),
                       ...getStickyStyles(header.column, "rgb(249 250 251)"),
@@ -522,7 +523,7 @@ export function ProjectsTable({
               table.getRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className="border-b border-gray-100 hover:bg-gray-50/50 transition-colors cursor-pointer"
+                  className="border-b border-border hover:bg-muted/50 transition-colors cursor-pointer"
                   onClick={() => onProjectClick?.(row.original)}
                 >
                   {row.getVisibleCells().map((cell) => (
@@ -557,68 +558,8 @@ export function ProjectsTable({
       </div>
 
       {/* Pagination Controls */}
-      <div className="flex flex-col sm:flex-row items-center justify-between px-4 py-3 bg-white border-t border-gray-200 gap-3">
-        <div className="flex items-center gap-2 text-xs text-gray-600">
-          <span className="hidden sm:inline">Showing</span>
-          <select
-            value={pagination.pageSize}
-            onChange={(e) => {
-              table.setPageSize(Number(e.target.value));
-            }}
-            className="px-2 py-1 text-xs border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-[hsl(var(--procore-orange))] focus:border-transparent"
-          >
-            {[10, 25, 50, 100].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                {pageSize}
-              </option>
-            ))}
-          </select>
-          <span className="text-xs">
-            <span className="hidden sm:inline">of </span>
-            <span className="sm:hidden">/ </span>
-            {data.length}
-            <span className="hidden sm:inline"> total rows</span>
-          </span>
-        </div>
+      <DataTablePagination table={table} />
 
-        <div className="flex items-center gap-1 sm:gap-2">
-          <button
-            type="button"
-            className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={() => table.setPageIndex(0)}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <ChevronsLeft className="w-3.5 h-3.5" />
-          </button>
-          <button
-            type="button"
-            className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            <ChevronLeft className="w-3.5 h-3.5" />
-          </button>
-          <span className="text-xs text-gray-600 px-2">
-            {table.getState().pagination.pageIndex + 1} / {table.getPageCount()}
-          </span>
-          <button
-            type="button"
-            className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            <ChevronRight className="w-3.5 h-3.5" />
-          </button>
-          <button
-            type="button"
-            className="p-1 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-            onClick={() => table.setPageIndex(table.getPageCount() - 1)}
-            disabled={!table.getCanNextPage()}
-          >
-            <ChevronsRight className="w-3.5 h-3.5" />
-          </button>
-        </div>
-      </div>
 
       {/* Edit Project Dialog */}
       {editingProject && (

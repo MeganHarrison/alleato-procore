@@ -80,26 +80,26 @@ export function ScheduleOfValuesGrid({
         <div className="overflow-x-auto">
           <table className="w-full">
             <thead>
-              <tr className="border-b bg-gray-50">
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">
+              <tr className="border-b bg-muted">
+                <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
                   Description
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-900">
+                <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
                   Cost Code
                 </th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-900">
+                <th className="px-4 py-3 text-right text-sm font-medium text-foreground">
                   Scheduled Value
                 </th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-900">
+                <th className="px-4 py-3 text-right text-sm font-medium text-foreground">
                   Work Completed
                 </th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-900">
+                <th className="px-4 py-3 text-right text-sm font-medium text-foreground">
                   Materials Stored
                 </th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-900">
+                <th className="px-4 py-3 text-right text-sm font-medium text-foreground">
                   % Complete
                 </th>
-                <th className="px-4 py-3 text-center text-sm font-medium text-gray-900">
+                <th className="px-4 py-3 text-center text-sm font-medium text-foreground">
                   Actions
                 </th>
               </tr>
@@ -109,7 +109,7 @@ export function ScheduleOfValuesGrid({
                 <tr>
                   <td
                     colSpan={7}
-                    className="px-4 py-8 text-center text-gray-500"
+                    className="px-4 py-8 text-center text-muted-foreground"
                   >
                     No line items added yet. Click &quot;Add Line Item&quot; to
                     get started.
@@ -128,7 +128,7 @@ export function ScheduleOfValuesGrid({
             </tbody>
             {values.length > 0 && (
               <tfoot className="border-t-2">
-                <tr className="bg-gray-50 font-semibold">
+                <tr className="bg-muted font-semibold">
                   <td colSpan={2} className="px-4 py-3 text-right">
                     Totals:
                   </td>

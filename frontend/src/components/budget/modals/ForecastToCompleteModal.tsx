@@ -149,21 +149,21 @@ export function ForecastToCompleteModal({
       />
 
       {/* Content */}
-      <SidebarBody className="bg-white">
+      <SidebarBody className="bg-background">
         {activeTab === "forecast" ? (
           <div className="p-6 space-y-6">
             {/* Current Budget Summary */}
             <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-gradient-to-br from-green-50 via-white to-white">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-xs text-gray-600">Projected Budget</p>
-                  <p className="text-lg font-bold text-gray-900">
+                  <p className="text-xs text-foreground">Projected Budget</p>
+                  <p className="text-lg font-bold text-foreground">
                     {formatCurrency(projectedBudget)}
                   </p>
                 </div>
                 <div>
-                  <p className="text-xs text-gray-600">Projected Costs</p>
-                  <p className="text-lg font-bold text-gray-900">
+                  <p className="text-xs text-foreground">Projected Costs</p>
+                  <p className="text-lg font-bold text-foreground">
                     {formatCurrency(projectedCosts)}
                   </p>
                 </div>
@@ -185,7 +185,7 @@ export function ForecastToCompleteModal({
                 <label
                   htmlFor="lump_sum"
                   className={cn(
-                    "flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm cursor-pointer transition-all",
+                    "flex items-start gap-3 rounded-xl border border-slate-200 bg-background px-4 py-3 shadow-sm cursor-pointer transition-all",
                     forecastMethod === "lump_sum" &&
                       "border-orange-400/70 shadow-[0_12px_30px_-18px_rgba(255,115,29,0.55)] bg-orange-50/60",
                   )}
@@ -209,7 +209,7 @@ export function ForecastToCompleteModal({
                 <label
                   htmlFor="manual"
                   className={cn(
-                    "flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm cursor-pointer transition-all",
+                    "flex items-start gap-3 rounded-xl border border-slate-200 bg-background px-4 py-3 shadow-sm cursor-pointer transition-all",
                     forecastMethod === "manual" &&
                       "border-orange-400/70 shadow-[0_12px_30px_-18px_rgba(255,115,29,0.55)] bg-orange-50/60",
                   )}
@@ -229,7 +229,7 @@ export function ForecastToCompleteModal({
                 <label
                   htmlFor="monitored"
                   className={cn(
-                    "flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm cursor-pointer transition-all",
+                    "flex items-start gap-3 rounded-xl border border-slate-200 bg-background px-4 py-3 shadow-sm cursor-pointer transition-all",
                     forecastMethod === "monitored" &&
                       "border-orange-400/70 shadow-[0_12px_30px_-18px_rgba(255,115,29,0.55)] bg-orange-50/60",
                   )}
@@ -255,10 +255,10 @@ export function ForecastToCompleteModal({
 
             {/* Amount Input (only for Lump Sum and Manual) */}
             {(forecastMethod === "lump_sum" || forecastMethod === "manual") && (
-              <div className="rounded-xl border border-slate-200 bg-white shadow-sm p-5">
+              <div className="rounded-xl border border-slate-200 bg-background shadow-sm p-5">
                 <Label
                   htmlFor="forecastAmount"
-                  className="text-sm font-medium text-gray-700"
+                  className="text-sm font-medium text-foreground"
                 >
                   Forecast Amount
                 </Label>
@@ -278,23 +278,23 @@ export function ForecastToCompleteModal({
             <div className="rounded-xl border border-slate-200 bg-slate-50 shadow-sm p-5">
               <div className="space-y-3">
                 <div className="flex justify-between items-center">
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-foreground">
                     Forecast To Complete
                   </span>
-                  <span className="text-lg font-bold text-gray-900">
+                  <span className="text-lg font-bold text-foreground">
                     {formatCurrency(calculatedForecast)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center border-t border-slate-200 pt-3">
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-foreground">
                     Estimated Cost at Completion
                   </span>
-                  <span className="text-lg font-semibold text-gray-900">
+                  <span className="text-lg font-semibold text-foreground">
                     {formatCurrency(estimatedCostAtCompletion)}
                   </span>
                 </div>
                 <div className="flex justify-between items-center border-t border-slate-200 pt-3">
-                  <span className="text-sm font-semibold text-gray-900">
+                  <span className="text-sm font-semibold text-foreground">
                     Projected Over / Under
                   </span>
                   <span
@@ -313,12 +313,12 @@ export function ForecastToCompleteModal({
           </div>
         ) : (
           <div className="p-6 space-y-5">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-foreground">
               View the history of forecast changes for this budget line.
             </p>
 
             <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center">
-              <p className="text-gray-500">History view coming soon</p>
+              <p className="text-muted-foreground">History view coming soon</p>
             </div>
           </div>
         )}

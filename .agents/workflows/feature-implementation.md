@@ -4,7 +4,7 @@ This is the shared workflow template for implementing Procore features. Variable
 
 ## Variables
 - `{feature}` - Feature name (e.g., "direct-costs")
-- `{feature_dir}` - Path: `documentation/1-project-mgmt/in-progress/{feature}`
+- `{feature_dir}` - Path: `documentation/*project-mgmt/in-progress/{feature}`
 - `{crawl_dir}` - Path: `{feature_dir}/crawl-{feature}`
 
 ---
@@ -21,14 +21,8 @@ This is the shared workflow template for implementing Procore features. Variable
 | Test results | `{feature_dir}/TEST-RESULTS.md` | `.claude/TEST-*.md` |
 | Status updates | `{feature_dir}/STATUS.md` | `.claude/*-STATUS.md` |
 
-**The `.claude/` folder is ONLY for Claude Code tooling:**
-- `commands/` - Slash commands
-- `plugins/` - Claude Code plugins
-- `settings.local.json` - Local settings
 
-**Project management files go in `documentation/*1-*project-mgmt/`:**
-- `shared/` - Cross-feature files (logs, research, workflow signals)
-- `active/{feature}/` - Feature-specific files
+**Project management files go in `documentation/*project-mgmt/`:**
 
 **Workflow signal files:**
 - Research: `documentation/*project-mgmt/shared/research/{feature}.md`
@@ -51,13 +45,64 @@ Claude is an **execution-verified engineer**, not a speculative assistant.
 
 ---
 
-## MANDATORY 7-PHASE WORKFLOW
+## PATTERN INJECTION (MANDATORY)
+
+Before starting ANY phase, check the pattern library for relevant patterns:
+
+**Location:** `.agents/patterns/`
+
+**Process:**
+1. Read `.agents/patterns/index.json`
+2. Match task keywords against pattern triggers
+3. Read and apply relevant patterns BEFORE writing code
+
+**Critical Patterns to Always Check:**
+
+| If Working On... | Read These Patterns |
+|-----------------|---------------------|
+| Playwright tests | `errors/networkidle-timeout.md`, `errors/auth-fixture-missing.md` |
+| API routes | `errors/route-param-mismatch.md`, `errors/fk-constraint-user.md` |
+| Database code | `errors/supabase-types-stale.md` |
+| Claiming completion | `errors/premature-completion.md` |
+
+**Auto-Injection for Agents:**
+
+When spawning sub-agents, include relevant patterns in the prompt:
+
+```typescript
+Task({
+  subagent_type: "test-automator",
+  prompt: `
+## MANDATORY PATTERNS (from past mistakes)
+
+### Pattern: NetworkIdle Timeout (CRITICAL)
+Use domcontentloaded instead of networkidle:
+- await page.waitForLoadState('domcontentloaded'); // CORRECT
+- await page.waitForLoadState('networkidle'); // WRONG - causes timeouts
+
+### Pattern: Auth Fixture (CRITICAL)
+Import from fixtures for authenticated requests:
+- import { test, expect } from '../fixtures'; // CORRECT
+- import { test, expect } from '@playwright/test'; // WRONG - no auth
+
+## YOUR TASK
+[Original task prompt here]
+`,
+  description: "Test {feature}"
+})
+```
+
+---
+
+## MANDATORY 8-PHASE WORKFLOW
 
 Every feature implementation MUST follow this phased workflow. Skipping phases is a violation.
 
 ```
-RESEARCH --> PLAN --> ANALYZE --> IMPLEMENT --> TEST --> VERIFY --> COMPLETE
+PATTERNS --> RESEARCH --> PLAN --> ANALYZE --> IMPLEMENT --> TEST --> VERIFY --> COMPLETE
 ```
+
+**Phase 0: PATTERNS** - Read relevant patterns from `.agents/patterns/` before starting
 
 ---
 
@@ -241,7 +286,7 @@ Task({
 
 Feature: {feature}
 Requirements: Read {feature_dir}/TASKS.md
-Worker Output: Read .claude/worker-done-{feature}-[task-id].md
+Worker Output: Save playwright generated html report to the project folder.
 Reference Screenshots: {crawl_dir}/pages/
 
 CRITICAL: Follow .agents/agents/playwright-tester.md for Alleato-Procore patterns
@@ -259,7 +304,7 @@ YOUR JOB:
 5. Compare implementation screenshots with Procore reference
 6. Only return when ALL tests pass OR you hit a genuine blocker
 
-Test location: frontend/tests/e2e/{feature}-[feature].spec.ts
+Test location: /documentation/*project-mgmt/active/{feature}/tests/e2e/{feature}-[feature].spec.ts
 
 PLAYWRIGHT PATTERNS (MANDATORY):
 - Always waitForLoadState('networkidle') after navigation
@@ -273,7 +318,7 @@ BANNED:
 - Giving up after one attempt
 - Using page.waitForTimeout()
 
-Create .claude/tests-passing-{feature}-[task-id].md when done with:
+Create /documentation/*project-mgmt/active/{feature}/tests/tests-passing-{feature}-[task-id].md when done with:
 - Tests written: [list]
 - All passing: YES/NO
 - Test output: [paste actual output]
@@ -282,7 +327,7 @@ Create .claude/tests-passing-{feature}-[task-id].md when done with:
 })
 ```
 
-**Gate:** Cannot proceed without `.claude/tests-passing-{feature}-[task-id].md` showing all tests pass.
+**Gate:** Cannot proceed without playwright html report showing all tests pass.
 
 ---
 
@@ -290,7 +335,18 @@ Create .claude/tests-passing-{feature}-[task-id].md when done with:
 
 **Trigger:** Tests passing
 
-**Action:** Spawn independent verifier agent.
+**Action 1:** Run gate enforcement tool to generate checksums:
+
+```bash
+npx tsx .agents/tools/enforce-gates.ts {feature}
+```
+
+This generates `{feature_dir}/GATES.md` with:
+- Checksum proof that gates were run
+- Timestamps
+- Evidence from command output
+
+**Action 2:** Spawn independent verifier agent.
 
 ```typescript
 Task({
@@ -309,7 +365,7 @@ ASSUME THE WORKER LIED ABOUT:
 Your job: PROVE these assumptions wrong or confirm them.
 
 Requirements: Read {feature_dir}/TASKS.md
-Worker claims: Read .claude/worker-done-{feature}-[task-id].md
+Worker claims: Read /documentation/*project-mgmt/active/{feature}/tests/tests-passing-{feature}-[task-id].md
 Test claims: Read .claude/tests-passing-{feature}-[task-id].md
 Procore Reference: {crawl_dir}/
 
@@ -356,19 +412,30 @@ BE RUTHLESS. If ANY check fails, mark as FAILED.`,
 
 ## Phase 7: COMPLETE
 
-**Trigger:** Verifier returns VERIFIED
+**Trigger:** Verifier returns VERIFIED AND GATES.md shows all PASSED
+
+**Requirements before claiming completion:**
+1. `{feature_dir}/GATES.md` exists with all gates PASSED
+2. `{feature_dir}/VERIFICATION-[task].md` shows VERIFIED status
+3. All checksums are present and timestamps are recent (< 1 hour)
 
 **Action:** Update TASKS.md, STATUS.md, log completion.
 
 1. Mark item as `[x]` in TASKS.md
 2. Update STATUS.md with new progress
-3. Log to `.claude/task-log.md`:
+3. Log to `task-log.md` WITH gate checksums:
    ```markdown
    ## [{feature}] [Task Name]
    - Completed: [timestamp]
    - Verification: VERIFIED
    - Evidence: {feature_dir}/VERIFICATION-[task].md
+   - Gates:
+     - TypeScript: PASSED (checksum: xxxx)
+     - ESLint: PASSED (checksum: xxxx)
+     - Tests: PASSED (checksum: xxxx)
    ```
+
+**BANNED:** Claiming completion without gate checksums
 
 ---
 
@@ -380,10 +447,12 @@ The workflow only progresses when signal files exist:
 
 | Gate | Required File | Meaning |
 |------|---------------|---------|
-| Research done | `.claude/research/{feature}.md` | Can proceed to planning |
+| Patterns read | Read `.agents/patterns/index.json` | Can proceed to research |
+| Research done | `research-{feature}.md` | Can proceed to planning |
 | Planning done | `{feature_dir}/TASKS.md` + `PLANS.md` | Can proceed to implementation |
-| Worker done | `.claude/worker-done-{feature}-[id].md` | Can proceed to testing |
-| Tests passing | `.claude/tests-passing-{feature}-[id].md` | Can proceed to verification |
+| Worker done | `{feature_dir}/worker-done-{feature}-[id].md` | Can proceed to testing |
+| Tests passing | `{feature_dir}/tests-passing-{feature}-[id].md` | Can proceed to verification |
+| Gates enforced | `{feature_dir}/GATES.md` with all PASSED | Can proceed to verification |
 | Verified | `{feature_dir}/VERIFICATION-[task].md` with VERIFIED | Can mark complete |
 
 ### Anti-Gaming Measures
@@ -559,18 +628,15 @@ If lock file older than 2 hours, assume session died:
 
 ```
 alleato-procore/
-├── .claude/
-│   ├── research/{feature}.md       # Research outputs
-│   ├── worker-done-{feature}-*.md  # Worker completion signals
-│   ├── tests-passing-{feature}-*.md # Test completion signals
-│   ├── locks/{feature}/*.lock      # Task locks for parallel sessions
-│   └── task-log.md                 # Completion log (append-only)
 │
-├── documentation/1-project-mgmt/in-progress/{feature}/
+├── documentation/*project-mgmt/active/{feature}/
 │   ├── CONTEXT.md                  # Feature-specific context (minimal)
 │   ├── STATUS.md                   # Current progress (auto-maintained)
 │   ├── TASKS.md                    # Task checklist
 │   ├── PLANS.md                    # Implementation plan
+│   ├── SCHEMA.md                   # Supabase tables and sql
+│   ├── API-ENDPOINTS.md            # API documentation
+│   ├── FORMS.md                    # Table of all form fields
 │   ├── VERIFICATION-*.md           # Verification reports
 │   └── crawl-{feature}/            # Procore reference data
 │       └── pages/
@@ -578,20 +644,10 @@ alleato-procore/
 │               ├── screenshot.png
 │               ├── dom.html
 │               └── metadata.json
-│
-├── frontend/
-│   ├── src/
-│   │   ├── app/[projectId]/{feature}/  # Page components
-│   │   ├── components/{feature}/       # Feature components
-│   │   ├── hooks/use-{feature}.ts      # Data hooks
-│   │   └── lib/schemas/                # Zod schemas
-│   └── tests/e2e/{feature}*.spec.ts    # E2E tests
-│
-└── .agents/
-    ├── workflows/feature-implementation.md  # This file
-    ├── templates/feature-context.md         # CONTEXT.md template
-    ├── templates/feature-status.md          # STATUS.md template
-    └── agents/playwright-tester.md          # Playwright patterns
+│       └── reports/
+│               ├── detailed-report.json
+│               └── link-graph.json
+
 ```
 
 ---

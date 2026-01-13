@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { PermissionService } from "@/services/permissionService";
 
 interface RouteParams {
-  params: Promise<{ id: string; personId: string }>;
+  params: Promise<{ projectId: string; personId: string }>;
 }
 
 interface EmailNotificationPreferences {
@@ -22,7 +22,7 @@ interface EmailNotificationPreferences {
  */
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, personId } = await params;
+    const { projectId, personId } = await params;
     const supabase = await createClient();
 
     // Check authentication
@@ -112,7 +112,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
  */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, personId } = await params;
+    const { projectId, personId } = await params;
     const supabase = await createClient();
 
     // Check authentication

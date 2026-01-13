@@ -3,10 +3,10 @@ import { NextRequest, NextResponse } from "next/server";
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
     const body = await request.json();
 
@@ -14,7 +14,7 @@ export async function PATCH(
     const { data, error } = await supabase
       .from("projects")
       .update(body)
-      .eq("id", id)
+      .eq("id", projectId)
       .select()
       .single();
 
@@ -28,7 +28,7 @@ export async function PATCH(
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error in PATCH /api/projects/[id]:", error);
+    console.error("Error in PATCH /api/projects/[projectId]:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -38,16 +38,16 @@ export async function PATCH(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
 
     const { data, error } = await supabase
       .from("projects")
       .select("*")
-      .eq("id", id)
+      .eq("id", projectId)
       .single();
 
     if (error) {
@@ -57,7 +57,7 @@ export async function GET(
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error in GET /api/projects/[id]:", error);
+    console.error("Error in GET /api/projects/[projectId]:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

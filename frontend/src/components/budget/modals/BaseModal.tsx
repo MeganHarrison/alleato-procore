@@ -56,7 +56,7 @@ export function BaseModal({
           sizeClasses[size],
           "w-[98vw] sm:w-full",
           "max-h-[92vh] flex flex-col",
-          "rounded-2xl border border-slate-200/80 bg-white/95 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.45)] backdrop-blur",
+          "rounded-2xl border border-slate-200/80 bg-background/95 shadow-[0_30px_80px_-40px_rgba(0,0,0,0.45)] backdrop-blur",
           "transition-transform duration-200",
           className,
         )}
@@ -72,7 +72,7 @@ export function BaseModal({
             {showCloseButton && (
               <button
                 onClick={onClose}
-                className="rounded-full border border-white/10 bg-white/5 p-2 text-white hover:border-white/30 hover:bg-white/10 transition-all"
+                className="rounded-full border border-white/10 bg-background/5 p-2 text-white hover:border-white/30 hover:bg-background/10 transition-all"
                 aria-label="Close modal"
               >
                 <X className="h-4 w-4" />

@@ -50,7 +50,7 @@ export function Guardrails({ guardrails, inputGuardrails }: GuardrailsProps) {
         {guardrailsToShow.map((gr) => (
           <Card
             key={gr.id}
-            className={`bg-white border-gray-200 transition-all ${
+            className={`bg-background border-border transition-all ${
               !gr.input ? "opacity-60" : ""
             }`}
           >

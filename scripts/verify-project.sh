@@ -8,7 +8,7 @@ set -e
 
 PROJECT=${1:-"all"}
 TIMESTAMP=$(date +"%Y-%m-%d %H:%M:%S")
-RESULTS_DIR="documentation/1-project-mgmt/in-progress/${PROJECT}/test-results"
+RESULTS_DIR="documentation/*project-mgmt/in-progress/${PROJECT}/test-results"
 
 echo "=========================================="
 echo "Project Verification: ${PROJECT}"

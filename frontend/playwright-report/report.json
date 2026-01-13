@@ -11,7 +11,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 2
+      "actualWorkers": 1
     },
     "preserveOutput": "always",
     "reporter": [
@@ -44,7 +44,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "setup",
         "name": "setup",
@@ -60,7 +60,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "chromium",
         "name": "chromium",
@@ -76,7 +76,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 2
+          "actualWorkers": 1
         },
         "id": "debug",
         "name": "debug",
@@ -84,6 +84,22 @@
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 60000
+      },
+      {
+        "outputDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "no-auth",
+        "name": "no-auth",
+        "testDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "/sidebar-collapse-verification\\.spec\\.ts/"
         ],
         "timeout": 60000
       }
@@ -95,8 +111,8 @@
     "version": "1.57.0",
     "workers": 7,
     "webServer": {
-      "command": "npm run dev",
-      "port": 3000,
+      "command": "HOST=127.0.0.1 HOSTNAME=127.0.0.1 PORT=3100 npm run dev",
+      "port": 3100,
       "reuseExistingServer": true
     }
   },
@@ -109,7 +125,7 @@
       "specs": [
         {
           "title": "authenticate",
-          "ok": false,
+          "ok": true,
           "tags": [],
           "tests": [
             {
@@ -122,58 +138,28 @@
                 {
                   "workerIndex": 0,
                   "parallelIndex": 0,
-                  "status": "failed",
-                  "duration": 10927,
-                  "error": {
-                    "message": "TimeoutError: page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"/\" until \"load\"\n============================================================",
-                    "stack": "TimeoutError: page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"/\" until \"load\"\n============================================================\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts:11:14",
-                    "location": {
-                      "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts",
-                      "column": 14,
-                      "line": 11
-                    },
-                    "snippet": "   9 |\n  10 |   // Wait for redirect to home page (indicates successful login)\n> 11 |   await page.waitForURL('/', { timeout: 10000 });\n     |              ^\n  12 |\n  13 |   // Wait for auth cookies to be set\n  14 |   await page.waitForTimeout(1000);"
-                  },
-                  "errors": [
+                  "status": "passed",
+                  "duration": 8527,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [
                     {
-                      "location": {
-                        "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts",
-                        "column": 14,
-                        "line": 11
-                      },
-                      "message": "TimeoutError: page.waitForURL: Timeout 10000ms exceeded.\n=========================== logs ===========================\nwaiting for navigation to \"/\" until \"load\"\n============================================================\n\n   9 |\n  10 |   // Wait for redirect to home page (indicates successful login)\n> 11 |   await page.waitForURL('/', { timeout: 10000 });\n     |              ^\n  12 |\n  13 |   // Wait for auth cookies to be set\n  14 |   await page.waitForTimeout(1000);\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts:11:14"
+                      "text": "Auth setup successful: { cookieCount: \u001b[33m1\u001b[39m, hasAuthCookie: \u001b[33mtrue\u001b[39m }\n"
                     }
                   ],
-                  "stdout": [],
-                  "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-01-11T06:15:25.794Z",
+                  "startTime": "2026-01-13T03:24:09.035Z",
                   "annotations": [],
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/auth.setup.ts-authenticate-setup/test-failed-1.png"
-                    },
-                    {
-                      "name": "video",
-                      "contentType": "video/webm",
-                      "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/auth.setup.ts-authenticate-setup/video.webm"
-                    },
-                    {
-                      "name": "error-context",
-                      "contentType": "text/markdown",
-                      "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/auth.setup.ts-authenticate-setup/error-context.md"
+                      "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/auth.setup.ts-authenticate-setup/test-finished-1.png"
                     }
-                  ],
-                  "errorLocation": {
-                    "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/auth.setup.ts",
-                    "column": 14,
-                    "line": 11
-                  }
+                  ]
                 }
               ],
-              "status": "unexpected"
+              "status": "expected"
             }
           ],
           "id": "17e3fe6f4d9d8bd79c6b-60f085b113a677673906",
@@ -184,20 +170,20 @@
       ]
     },
     {
-      "title": "e2e/dropdown-hover-simple.spec.ts",
-      "file": "e2e/dropdown-hover-simple.spec.ts",
+      "title": "e2e/photos-page.spec.ts",
+      "file": "e2e/photos-page.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Dropdown Hover Colors - Simple Check",
-          "file": "e2e/dropdown-hover-simple.spec.ts",
-          "line": 11,
+          "title": "Project photos page",
+          "file": "e2e/photos-page.spec.ts",
+          "line": 21,
           "column": 6,
           "specs": [
             {
-              "title": "Portfolio page filters have neutral gray hover (no auth)",
+              "title": "shows images stored in the Supabase photos bucket",
               "ok": true,
               "tags": [],
               "tests": [
@@ -207,71 +193,23 @@
                   "expectedStatus": "passed",
                   "projectId": "chromium",
                   "projectName": "chromium",
-                  "results": [],
-                  "status": "skipped"
-                }
-              ],
-              "id": "c2d2305692bcc718c1d9-e8121217bd794010b403",
-              "file": "e2e/dropdown-hover-simple.spec.ts",
-              "line": 14,
-              "column": 7
-            },
-            {
-              "title": "Portfolio page filters have neutral gray hover (no auth)",
-              "ok": true,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "debug",
-                  "projectName": "debug",
                   "results": [
                     {
                       "workerIndex": 1,
-                      "parallelIndex": 1,
+                      "parallelIndex": 0,
                       "status": "passed",
-                      "duration": 3950,
+                      "duration": 3840,
                       "errors": [],
-                      "stdout": [
-                        {
-                          "text": "Found 3 potential dropdown/select elements\n"
-                        },
-                        {
-                          "text": "Found 11 dropdown options\n"
-                        },
-                        {
-                          "text": "Dropdown option hover background color: rgb(245, 245, 245)\n"
-                        },
-                        {
-                          "text": "RGB values: R=245, G=245, B=245\n"
-                        },
-                        {
-                          "text": "Max RGB difference: 0 (should be < 30 for neutral gray)\n"
-                        },
-                        {
-                          "text": "✅ PASS: Dropdown hover is neutral light gray, NOT orange!\n"
-                        },
-                        {
-                          "text": "\n--- Checking Select Component Styling ---\n"
-                        },
-                        {
-                          "text": "Found 1 filter buttons\n"
-                        },
-                        {
-                          "text": "Filter 1: All Clients\n"
-                        }
-                      ],
+                      "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-11T06:15:25.794Z",
+                      "startTime": "2026-01-13T03:24:18.329Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-dropdown-hover-simple--60802-neutral-gray-hover-no-auth--debug/test-finished-1.png"
+                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-photos-page-Project-ph-96322--the-Supabase-photos-bucket-chromium/test-finished-1.png"
                         }
                       ]
                     }
@@ -279,9 +217,9 @@
                   "status": "expected"
                 }
               ],
-              "id": "c2d2305692bcc718c1d9-c18257e0b5436767bab8",
-              "file": "e2e/dropdown-hover-simple.spec.ts",
-              "line": 14,
+              "id": "ab340f914367649eb2ea-28a0537b7c1f28cf257d",
+              "file": "e2e/photos-page.spec.ts",
+              "line": 22,
               "column": 7
             }
           ]
@@ -291,11 +229,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-01-11T06:15:25.412Z",
-    "duration": 12044.127999999999,
-    "expected": 1,
-    "skipped": 1,
-    "unexpected": 1,
+    "startTime": "2026-01-13T03:24:07.801Z",
+    "duration": 14581.426,
+    "expected": 2,
+    "skipped": 0,
+    "unexpected": 0,
     "flaky": 0
   }
 }

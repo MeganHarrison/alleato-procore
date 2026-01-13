@@ -158,7 +158,7 @@ export function BudgetModificationsModal({
     const statusConfig = {
       approved: "bg-green-100 text-green-800 border-green-200",
       pending: "bg-yellow-100 text-yellow-800 border-yellow-200",
-      draft: "bg-gray-100 text-gray-800 border-gray-200",
+      draft: "bg-muted text-foreground border-border",
       void: "bg-red-100 text-red-800 border-red-200",
     };
 
@@ -253,26 +253,26 @@ export function BudgetModificationsModal({
       />
 
       {/* Content */}
-      <SidebarBody className="bg-white">
+      <SidebarBody className="bg-background">
         {activeTab === "summary" ? (
           <div className="p-6 space-y-5">
             {/* Totals Summary */}
             <div className="grid grid-cols-2 gap-4">
               <div className="rounded-xl border border-green-200 shadow-sm p-4 bg-gradient-to-br from-green-50 via-white to-white">
-                <p className="text-sm text-gray-600">Approved</p>
+                <p className="text-sm text-foreground">Approved</p>
                 <p className="text-xl font-bold text-green-700 mt-1">
                   {formatCurrency(approvedTotal)}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">
+                <p className="text-xs text-muted-foreground mt-1">
                   Affects budget totals
                 </p>
               </div>
               <div className="rounded-xl border border-yellow-200 shadow-sm p-4 bg-gradient-to-br from-yellow-50 via-white to-white">
-                <p className="text-sm text-gray-600">Pending</p>
+                <p className="text-sm text-foreground">Pending</p>
                 <p className="text-xl font-bold text-yellow-700 mt-1">
                   {formatCurrency(pendingTotal)}
                 </p>
-                <p className="text-xs text-gray-500 mt-1">Awaiting approval</p>
+                <p className="text-xs text-muted-foreground mt-1">Awaiting approval</p>
               </div>
             </div>
 
@@ -294,7 +294,7 @@ export function BudgetModificationsModal({
                     "px-3 py-1.5 text-sm font-medium rounded-full transition-all",
                     statusFilter === status
                       ? "bg-orange-500 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200",
+                      : "bg-muted text-foreground hover:bg-muted",
                   )}
                 >
                   {status === "all"
@@ -307,12 +307,12 @@ export function BudgetModificationsModal({
             {/* Modifications List */}
             <div className="space-y-3">
               {loading ? (
-                <div className="text-center py-10 text-gray-500">
+                <div className="text-center py-10 text-muted-foreground">
                   <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
                   Loading modifications...
                 </div>
               ) : modifications.length === 0 ? (
-                <div className="text-center py-10 text-gray-500">
+                <div className="text-center py-10 text-muted-foreground">
                   No budget modifications found
                   {statusFilter !== "all"
                     ? ` with status "${statusFilter}"`
@@ -327,7 +327,7 @@ export function BudgetModificationsModal({
                   return (
                     <div
                       key={mod.id}
-                      className="rounded-xl border border-slate-200 shadow-sm bg-white hover:shadow-md transition-shadow"
+                      className="rounded-xl border border-slate-200 shadow-sm bg-background hover:shadow-md transition-shadow"
                     >
                       <div className="p-4">
                         <div className="flex items-start justify-between mb-2">
@@ -338,11 +338,11 @@ export function BudgetModificationsModal({
                               </span>
                               {getStatusBadge(mod.status)}
                             </div>
-                            <p className="text-sm text-gray-700 mt-1">
+                            <p className="text-sm text-foreground mt-1">
                               {mod.title}
                             </p>
                             {mod.reason && (
-                              <p className="text-xs text-gray-500 mt-1 italic">
+                              <p className="text-xs text-muted-foreground mt-1 italic">
                                 {mod.reason}
                               </p>
                             )}
@@ -362,7 +362,7 @@ export function BudgetModificationsModal({
                         </div>
 
                         <div className="flex items-center justify-between mt-3 pt-3 border-t border-slate-100">
-                          <div className="flex items-center gap-4 text-xs text-gray-500">
+                          <div className="flex items-center gap-4 text-xs text-muted-foreground">
                             <span>
                               Effective: {formatDate(mod.effectiveDate)}
                             </span>
@@ -403,25 +403,25 @@ export function BudgetModificationsModal({
           </div>
         ) : (
           <div className="p-6 space-y-5">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-foreground">
               Detailed line-item breakdown of budget modifications.
             </p>
 
             {loading ? (
-              <div className="text-center py-10 text-gray-500">
+              <div className="text-center py-10 text-muted-foreground">
                 <Loader2 className="h-6 w-6 animate-spin mx-auto mb-2" />
                 Loading...
               </div>
             ) : modifications.length === 0 ? (
               <div className="rounded-xl border border-slate-200 bg-slate-50 p-6 text-center">
-                <p className="text-gray-500">No modifications found</p>
+                <p className="text-muted-foreground">No modifications found</p>
               </div>
             ) : (
               <div className="space-y-4">
                 {modifications.map((mod) => (
                   <div
                     key={mod.id}
-                    className="rounded-xl border border-slate-200 shadow-sm bg-white"
+                    className="rounded-xl border border-slate-200 shadow-sm bg-background"
                   >
                     <div className="p-4 border-b border-slate-100">
                       <div className="flex items-center justify-between">
@@ -440,14 +440,14 @@ export function BudgetModificationsModal({
                           {formatCurrency(mod.amount)}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-700 mt-1">{mod.title}</p>
+                      <p className="text-sm text-foreground mt-1">{mod.title}</p>
                     </div>
 
                     {/* Line Items */}
                     <div className="p-4">
                       <table className="w-full text-sm">
                         <thead>
-                          <tr className="text-left text-gray-500 text-xs">
+                          <tr className="text-left text-muted-foreground text-xs">
                             <th className="pb-2">Cost Code</th>
                             <th className="pb-2">Description</th>
                             <th className="pb-2 text-right">Amount</th>
@@ -462,7 +462,7 @@ export function BudgetModificationsModal({
                               <td className="py-2 font-medium">
                                 {line.costCodeId}
                               </td>
-                              <td className="py-2 text-gray-600">
+                              <td className="py-2 text-foreground">
                                 {line.description || line.costCodeTitle || "-"}
                               </td>
                               <td

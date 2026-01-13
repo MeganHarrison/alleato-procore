@@ -120,13 +120,13 @@ export function EditableCell({
         setIsEditing(true);
       }}
       className={cn(
-        "group cursor-pointer px-2 py-1 rounded hover:bg-gray-100 transition-colors flex items-center justify-between gap-2",
-        value == null && "text-gray-400 italic",
+        "group cursor-pointer px-2 py-1 rounded hover:bg-muted transition-colors flex items-center justify-between gap-2",
+        value == null && "text-muted-foreground italic",
         className,
       )}
     >
       <span className="flex-1">{displayValue}</span>
-      <Pencil className="w-3 h-3 text-gray-400 opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
+      <Pencil className="w-3 h-3 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity flex-shrink-0" />
     </div>
   );
 }

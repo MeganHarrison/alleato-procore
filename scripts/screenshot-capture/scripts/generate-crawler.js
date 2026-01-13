@@ -49,7 +49,7 @@ const featureTitle = featureName.split("-").map(word =>
 
 // Define output paths
 const scriptPath = path.join(__dirname, `crawl-${sanitizedFeatureName}-comprehensive.js`);
-const outputDir = `./documentation/1-project-mgmt/in-progress/${sanitizedFeatureName}/crawl-${sanitizedFeatureName}`;
+const outputDir = `./documentation/*project-mgmt/in-progress/${sanitizedFeatureName}/crawl-${sanitizedFeatureName}`;
 
 // Crawl script template
 const crawlScriptTemplate = `import { chromium } from "playwright";

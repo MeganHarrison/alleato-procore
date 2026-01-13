@@ -61,7 +61,7 @@ export function PageToolbar({
     <div
       data-testid="page-toolbar"
       className={cn(
-        "flex flex-col gap-4 bg-gray-50 px-4 py-4 sm:px-6 lg:px-12",
+        "flex flex-col gap-4 bg-muted px-4 py-4 sm:px-6 lg:px-12",
         "sm:flex-row sm:items-center sm:justify-between",
         className,
       )}
@@ -70,7 +70,7 @@ export function PageToolbar({
         {/* Search */}
         {onSearch && (
           <div className="relative max-w-sm flex-1">
-            <IconSearch className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <IconSearch className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
             <Input
               type="search"
               placeholder={searchPlaceholder}

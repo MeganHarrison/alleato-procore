@@ -7,12 +7,18 @@ import type {
 
 interface BudgetDetailParams {
   params: Promise<{
-    id: string;
+    projectId: string;
   }>;
 }
 
+type CostCodeRef = {
+  id?: string;
+  projectId: string;
+  title: string | null;
+};
+
 /**
- * GET /api/projects/[id]/budget/details
+ * GET /api/projects/[projectId]/budget/details
  *
  * Fetches budget detail line items for the Budget Detail tab
  * Aggregates data from:
@@ -29,10 +35,10 @@ export async function GET(
   { params }: BudgetDetailParams,
 ) {
   try {
-    const { id } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -58,7 +64,7 @@ export async function GET(
         )
       `,
       )
-      .eq("project_id", projectId);
+      .eq("project_id", projectIdNum);
 
     if (budgetError) {
       console.error("Budget lines error:", budgetError);
@@ -70,10 +76,7 @@ export async function GET(
 
     if (!budgetError && budgetLines) {
       budgetLines.forEach((line) => {
-        const costCode = line.cost_codes as unknown as {
-          id: string;
-          title: string | null;
-        } | null;
+        const costCode = line.cost_codes as unknown as CostCodeRef | null;
 
         details.push({
           id: `budget-${line.id}`,
@@ -106,15 +109,12 @@ export async function GET(
         )
       `,
       )
-      .eq("project_id", projectId)
+      .eq("project_id", projectIdNum)
       .eq("budget_modifications.status", "approved");
 
     if (!modsError && budgetMods) {
       budgetMods.forEach((mod) => {
-        const costCode = mod.cost_codes as unknown as {
-          id: string;
-          title: string | null;
-        } | null;
+        const costCode = mod.cost_codes as unknown as CostCodeRef | null;
         const modification = mod.budget_modifications as unknown as {
           number: string;
           title: string;
@@ -154,15 +154,12 @@ export async function GET(
         )
       `,
       )
-      .eq("project_id", projectId)
+      .eq("project_id", projectIdNum)
       .in("budget_modifications.status", ["pending", "draft"]);
 
     if (!pendingModsError && pendingMods) {
       pendingMods.forEach((mod) => {
-        const costCode = mod.cost_codes as unknown as {
-          id: string;
-          title: string | null;
-        } | null;
+        const costCode = mod.cost_codes as unknown as CostCodeRef | null;
         const modification = mod.budget_modifications as unknown as {
           number: string;
           title: string;
@@ -196,7 +193,7 @@ export async function GET(
         )
       `,
       )
-      .eq("prime_contracts.project_id", projectId)
+      .eq("prime_contracts.project_id", projectIdNum)
       .eq("status", "approved");
 
     if (!contractCOsError && contractCOs) {
@@ -238,7 +235,7 @@ export async function GET(
       `,
         )
         .in("subcontracts.status", ["approved", "complete", "Draft"])
-        .eq("subcontracts.project_id", projectId);
+        .eq("subcontracts.project_id", projectIdNum);
 
     if (!subcontractsError && subcontractSovItems) {
       subcontractSovItems.forEach((line) => {
@@ -280,7 +277,7 @@ export async function GET(
       `,
       )
       .in("purchase_orders.status", ["approved", "complete", "Draft"])
-      .eq("purchase_orders.project_id", projectId);
+      .eq("purchase_orders.project_id", projectIdNum);
 
     if (!poError && poSovItems) {
       poSovItems.forEach((line) => {
@@ -329,14 +326,11 @@ export async function GET(
       `,
       )
       .eq("commitment_change_orders.status", "approved")
-      .eq("commitment_change_orders.commitments.project_id", projectId);
+      .eq("commitment_change_orders.commitments.project_id", projectIdNum);
 
     if (!commitmentCOsError && commitmentCOs) {
       commitmentCOs.forEach((co) => {
-        const costCode = co.cost_codes as unknown as {
-          id: string;
-          title: string | null;
-        } | null;
+        const costCode = co.cost_codes as unknown as CostCodeRef | null;
         const changeOrder = co.commitment_change_orders as unknown as {
           change_order_number: string;
           commitments: {
@@ -365,29 +359,30 @@ export async function GET(
         `
         id,
         description,
-        cost_code,
-        final_amount,
+        budget_code_id,
         change_events!inner (
-          event_number,
+          number,
           title,
           project_id
         )
       `,
       )
-      .eq("change_events.project_id", projectId);
+      .eq("change_events.project_id", projectIdNum);
 
     if (!changeEventsError && changeEventLines) {
       changeEventLines.forEach((line) => {
-        const event = line.change_events as unknown as {
-          event_number: string;
-          title: string;
-        };
+        const event = line.change_events as
+          | {
+              number: string;
+              title: string;
+            }
+          | null;
 
         details.push({
           id: `change-event-${line.id}`,
-          budgetCode: line.cost_code || "",
+          budgetCode: line.budget_code_id || "",
           budgetCodeDescription: "",
-          item: event ? `${event.event_number} - ${event.title}` : "",
+          item: event ? `${event.number} - ${event.title}` : "",
           detailType: "change_events" as DetailType,
           description: line.description || "",
         });
@@ -400,24 +395,23 @@ export async function GET(
       .select(
         `
         id,
-        amount,
+        total_amount,
         description,
-        budget_item_id,
         vendor_id
       `,
       )
-      .eq("project_id", projectId);
+      .eq("project_id", projectIdNum);
 
     if (!directCostsError && directCosts) {
       directCosts.forEach((cost) => {
         details.push({
           id: `direct-cost-${cost.id}`,
-          budgetCode: cost.budget_item_id || "",
+          budgetCode: "",
           budgetCodeDescription: "",
           vendor: cost.vendor_id || "",
           detailType: "direct_costs" as DetailType,
           description: cost.description || "",
-          directCosts: Number(cost.amount) || 0,
+          directCosts: Number(cost.total_amount) || 0,
         });
       });
     }

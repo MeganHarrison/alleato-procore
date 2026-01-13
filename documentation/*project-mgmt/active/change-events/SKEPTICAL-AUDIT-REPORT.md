@@ -3,7 +3,7 @@
 **Date:** 2026-01-10
 **Auditor:** Skeptical Verifier Sub-Agent
 **Assumption:** All claimed completions are FALSE until proven with ACTUAL evidence
-**Task File:** `/documentation/1-project-mgmt/in-progress/change-events/tasks.md`
+**Task File:** `/documentation/*project-mgmt/in-progress/change-events/tasks.md`
 
 ---
 

@@ -32,15 +32,29 @@
  * - change_event_history (one-to-many)
  */
 
-import { createClient } from '@/lib/supabase/server'
+import { createClient, createClientWithToken } from '@/lib/supabase/server'
 import { NextRequest, NextResponse } from 'next/server'
 import { createChangeEventSchema, changeEventQuerySchema } from './validation'
 import { ZodError } from 'zod'
 import type { Database } from '@/types/database.types'
 import type { PaginatedResponse } from '@/app/api/types'
 
+/**
+ * Helper to get the appropriate Supabase client based on auth method
+ * If Bearer token in Authorization header, use token-based client
+ * Otherwise, use cookie-based client
+ */
+async function getSupabaseClient(request: NextRequest) {
+  const authHeader = request.headers.get('authorization')
+  if (authHeader?.startsWith('Bearer ')) {
+    const token = authHeader.slice(7)
+    return { client: createClientWithToken(token), token }
+  }
+  return { client: await createClient(), token: null }
+}
+
 interface RouteParams {
-  params: Promise<{ id: string }>
+  params: Promise<{ projectId: string }>
 }
 
 type ChangeEvent = Database['public']['Tables']['change_events']['Row']
@@ -102,8 +116,8 @@ export async function GET(
   { params }: RouteParams
 ) {
   try {
-    const { id: projectId } = await params
-    const supabase = await createClient()
+    const { projectId } = await params
+    const { client: supabase } = await getSupabaseClient(request)
     const { searchParams } = new URL(request.url)
 
     // Parse and validate query parameters
@@ -179,15 +193,15 @@ export async function GET(
         // Get line items to calculate totals
         const { data: lineItems } = await supabase
           .from('change_event_line_items')
-          .select('rom_amount, final_amount')
+          .select('revenue_rom, cost_rom, non_committed_cost')
           .eq('change_event_id', event.id)
 
         const rom = (lineItems || []).reduce(
-          (sum, item) => sum + (item.rom_amount || 0),
+          (sum, item) => sum + (item.revenue_rom || 0),
           0
         )
         const total = (lineItems || []).reduce(
-          (sum, item) => sum + (item.final_amount || 0),
+          (sum, item) => sum + (item.cost_rom || 0) + (item.non_committed_cost || 0),
           0
         )
 
@@ -258,17 +272,13 @@ export async function POST(
   { params }: RouteParams
 ) {
   try {
-    const { id: projectId } = await params
-    const supabase = await createClient()
+    const { projectId } = await params
+    const { client: supabase, token } = await getSupabaseClient(request)
     const body = await request.json()
 
-    // Extract access token from Authorization header (for Playwright/API tests)
-    const authHeader = request.headers.get('authorization')
-    const accessToken = authHeader?.replace('Bearer ', '')
-
     // Get current user - pass token directly if available
-    const { data: { user }, error: authError } = accessToken
-      ? await supabase.auth.getUser(accessToken)
+    const { data: { user }, error: authError } = token
+      ? await supabase.auth.getUser(token)
       : await supabase.auth.getUser()
 
     if (authError || !user) {
@@ -279,7 +289,17 @@ export async function POST(
     }
 
     // Validate request body
-    const validatedData = createChangeEventSchema.parse(body)
+    const {
+      title,
+      type,
+      reason,
+      scope,
+      origin,
+      expectingRevenue,
+      lineItemRevenueSource,
+      primeContractId,
+      description,
+    } = createChangeEventSchema.parse(body)
 
     // Generate change event number
     const eventNumber = await generateChangeEventNumber(
@@ -298,16 +318,16 @@ export async function POST(
     const dbData: Database['public']['Tables']['change_events']['Insert'] = {
       project_id: parseInt(projectId, 10),
       number: eventNumber,
-      title: validatedData.title,
-      type: validatedData.type,
-      reason: validatedData.reason || null,
-      scope: validatedData.scope,
+      title,
+      type,
+      reason: reason || null,
+      scope,
       status: 'Open',
-      origin: validatedData.origin || 'Internal',
-      expecting_revenue: validatedData.expectingRevenue,
-      line_item_revenue_source: validatedData.lineItemRevenueSource || null,
-      prime_contract_id: validatedData.primeContractId || null,
-      description: validatedData.description || null,
+      origin: origin || 'Internal',
+      expecting_revenue: expectingRevenue,
+      line_item_revenue_source: lineItemRevenueSource || null,
+      prime_contract_id: primeContractId || null,
+      description: description || null,
       created_at: new Date().toISOString(),
       // Only set created_by if user exists in profiles table
       created_by: userExists ? user.id : null,

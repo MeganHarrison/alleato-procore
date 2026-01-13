@@ -87,7 +87,7 @@ export function BudgetPageHeader({
 
   const titleContent = (
     <div className="flex items-center gap-2">
-      <h1 className="text-2xl font-bold text-gray-900">{title}</h1>
+      <h1 className="text-2xl font-bold text-foreground">{title}</h1>
       {isLocked && (
         <Badge variant="secondary" className="flex items-center gap-1">
           <Lock className="w-3 h-3" />
@@ -187,7 +187,7 @@ export function BudgetPageHeader({
       {/* More Options */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="text-gray-500">
+          <Button variant="ghost" size="icon" className="text-muted-foreground">
             <MoreVertical className="w-5 h-5" />
           </Button>
         </DropdownMenuTrigger>
@@ -200,7 +200,7 @@ export function BudgetPageHeader({
       </DropdownMenu>
 
       {/* Chat/Converse Icon */}
-      <Button variant="ghost" size="icon" className="text-gray-500">
+      <Button variant="ghost" size="icon" className="text-muted-foreground">
         <MessageSquare className="w-5 h-5" />
       </Button>
     </div>

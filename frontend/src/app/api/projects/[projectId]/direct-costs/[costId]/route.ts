@@ -12,10 +12,10 @@ import { DirectCostService } from "@/lib/services/direct-cost-service"; // =====
 // =============================================================================
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string; costId: string }> },
+  { params }: { params: Promise<{ projectId: string; costId: string }> },
 ) {
   try {
-    const { id: projectId, costId } = await params;
+    const { projectId, costId } = await params;
 
     const supabase = await createClient();
     const service = new DirectCostService(supabase);
@@ -41,10 +41,10 @@ export async function GET(
 // =============================================================================
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string; costId: string }> },
+  { params }: { params: Promise<{ projectId: string; costId: string }> },
 ) {
   try {
-    const { id: projectId, costId } = await params;
+    const { projectId, costId } = await params;
 
     const supabase = await createClient();
     const body = await request.json();
@@ -115,10 +115,10 @@ export async function PUT(
 // =============================================================================
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string; costId: string }> },
+  { params }: { params: Promise<{ projectId: string; costId: string }> },
 ) {
   try {
-    const { id: projectId, costId } = await params;
+    const { projectId, costId } = await params;
 
     const supabase = await createClient();
     const service = new DirectCostService(supabase);

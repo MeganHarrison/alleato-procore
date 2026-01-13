@@ -165,12 +165,12 @@ export function PageHeader({
               {breadcrumbs.map((item, index) => (
                 <li key={item.label} className="flex items-center">
                   {index > 0 && (
-                    <ChevronRight className="h-4 w-4 text-gray-400 mx-2" />
+                    <ChevronRight className="h-4 w-4 text-muted-foreground mx-2" />
                   )}
                   {item.href ? (
                     <a
                       href={item.href}
-                      className="text-sm font-medium text-gray-500 hover:text-gray-700"
+                      className="text-sm font-medium text-muted-foreground hover:text-foreground"
                     >
                       {item.label}
                     </a>
@@ -190,7 +190,7 @@ export function PageHeader({
             {shouldShowProjectName && (
               <div className="mb-1">
                 {isLoading ? (
-                  <div className="h-5 w-48 bg-gray-200 animate-pulse rounded" />
+                  <div className="h-5 w-48 bg-muted animate-pulse rounded" />
                 ) : selectedProject ? (
                   <div className="text-sm font-medium text-muted-foreground">
                     {selectedProject.number && (

@@ -43,6 +43,8 @@ export function SelectField({
   className,
   disabled = false,
 }: SelectFieldProps) {
+  const triggerId = `select-field-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+
   return (
     <FormField
       label={label}
@@ -53,6 +55,8 @@ export function SelectField({
     >
       <Select value={value} onValueChange={onValueChange} disabled={disabled}>
         <SelectTrigger
+          id={triggerId}
+          aria-label={label}
           className={cn(error && "border-red-300", className)}
           aria-invalid={!!error}
         >

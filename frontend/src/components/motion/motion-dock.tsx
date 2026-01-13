@@ -69,7 +69,7 @@ export function AppleStyleDock() {
         {data.map((item, idx) => (
           <DockIcon
             key={idx}
-            className="aspect-square rounded-full bg-gray-200 dark:bg-neutral-800"
+            className="aspect-square rounded-full bg-muted dark:bg-neutral-800"
           >
             {item.icon}
           </DockIcon>

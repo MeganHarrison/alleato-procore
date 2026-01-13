@@ -400,10 +400,15 @@ export function DataTable({
   }
 
   return (
-    <Tabs
-      defaultValue="outline"
-      className="w-full flex-col justify-start gap-6"
-    >
+    <>
+      {/* DEPRECATION WARNING - Remove after migration */}
+      <div className="bg-red-500 text-white px-4 py-3 rounded-md font-semibold text-center mb-4">
+        ⚠️ DEPRECATED: This page uses legacy misc/DataTable. Migrate to GenericDataTable + TableLayout
+      </div>
+      <Tabs
+        defaultValue="outline"
+        className="w-full flex-col justify-start gap-6"
+      >
       <div className="flex items-center justify-between px-4 lg:px-6">
         <Label htmlFor="view-selector" className="sr-only">
           View
@@ -622,6 +627,7 @@ export function DataTable({
         <div className="aspect-video w-full flex-1 rounded-lg border border-dashed"></div>
       </TabsContent>
     </Tabs>
+    </>
   );
 }
 

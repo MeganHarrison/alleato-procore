@@ -61,8 +61,8 @@ export function PermissionsTableTab({ projectId }: PermissionsTableTabProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
-        <span className="ml-2 text-gray-500">Loading permissions...</span>
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+        <span className="ml-2 text-muted-foreground">Loading permissions...</span>
       </div>
     );
   }
@@ -80,9 +80,9 @@ export function PermissionsTableTab({ projectId }: PermissionsTableTabProps) {
   return (
     <div className="flex gap-6">
       {/* Main table */}
-      <div className="flex-1 bg-white rounded-lg border border-gray-200">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-lg font-semibold text-gray-900">
+      <div className="flex-1 bg-background rounded-lg border border-border">
+        <div className="px-6 py-4 border-b border-border">
+          <h2 className="text-lg font-semibold text-foreground">
             User Permissions for Directory
           </h2>
         </div>
@@ -116,7 +116,7 @@ export function PermissionsTableTab({ projectId }: PermissionsTableTabProps) {
                 <TableRow>
                   <TableCell
                     colSpan={2 + PERMISSION_LEVELS.length}
-                    className="text-center text-gray-500 py-8"
+                    className="text-center text-muted-foreground py-8"
                   >
                     No users found
                   </TableCell>
@@ -129,12 +129,12 @@ export function PermissionsTableTab({ projectId }: PermissionsTableTabProps) {
 
       {/* Search sidebar */}
       <div className="w-64 shrink-0">
-        <div className="bg-white rounded-lg border border-gray-200 p-4">
-          <h3 className="text-sm font-semibold text-gray-900 mb-3">
+        <div className="bg-background rounded-lg border border-border p-4">
+          <h3 className="text-sm font-semibold text-foreground mb-3">
             SEARCH PERMISSIONS
           </h3>
           <div className="relative">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
             <Input
               type="text"
               placeholder="Search by name..."
@@ -172,7 +172,7 @@ function PermissionRow({
           {user.full_name}
         </Link>
       </TableCell>
-      <TableCell className="text-gray-600">
+      <TableCell className="text-foreground">
         {user.company_name || "-"}
       </TableCell>
       {PERMISSION_LEVELS.map((level) => (
@@ -235,7 +235,7 @@ function PermissionIndicator({
     <button
       onClick={onClick}
       disabled={disabled}
-      className="inline-flex items-center justify-center w-6 h-6 rounded hover:bg-gray-100"
+      className="inline-flex items-center justify-center w-6 h-6 rounded hover:bg-muted"
       title={`Set to ${level}`}
     >
       <X className="w-4 h-4 text-gray-300" />

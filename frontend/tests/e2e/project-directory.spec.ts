@@ -43,7 +43,7 @@ test.describe('Project Directory Page', () => {
 
     // Take screenshot of initial state
     await page.screenshot({
-      path: 'frontend/tests/screenshots/directory-initial.png',
+      path: 'tests/screenshots/directory-initial.png',
       fullPage: true
     });
 

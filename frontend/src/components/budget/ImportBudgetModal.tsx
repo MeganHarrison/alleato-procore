@@ -206,7 +206,7 @@ export function ImportBudgetModal({
               </div>
             </div>
 
-            <div className="text-sm text-gray-600">
+            <div className="text-sm text-foreground">
               <p className="font-medium mb-2">How to import:</p>
               <ol className="list-decimal list-inside space-y-1 ml-2">
                 <li>Download the Excel template below</li>
@@ -228,12 +228,12 @@ export function ImportBudgetModal({
 
         <div className="space-y-4 py-4">
           {/* Download Template Section */}
-          <div className="flex items-center justify-between p-4 bg-gray-50 rounded-lg border">
+          <div className="flex items-center justify-between p-4 bg-muted rounded-lg border">
             <div className="flex items-center gap-3">
               <FileSpreadsheet className="w-8 h-8 text-green-600" />
               <div>
                 <p className="font-medium text-sm">Budget Import Template</p>
-                <p className="text-xs text-gray-500">Excel format (.xlsx)</p>
+                <p className="text-xs text-muted-foreground">Excel format (.xlsx)</p>
               </div>
             </div>
             <Button
@@ -263,15 +263,15 @@ export function ImportBudgetModal({
                   "border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors",
                   isDragging
                     ? "border-blue-500 bg-blue-50"
-                    : "border-gray-300 hover:border-gray-400 hover:bg-gray-50",
+                    : "border-border hover:border-gray-400 hover:bg-muted",
                 )}
               >
-                <Upload className="w-12 h-12 mx-auto mb-4 text-gray-400" />
-                <p className="text-sm font-medium text-gray-700 mb-1">
+                <Upload className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                <p className="text-sm font-medium text-foreground mb-1">
                   Upload File
                 </p>
-                <p className="text-xs text-gray-500">or Drag & Drop</p>
-                <p className="text-xs text-gray-400 mt-2">
+                <p className="text-xs text-muted-foreground">or Drag & Drop</p>
+                <p className="text-xs text-muted-foreground mt-2">
                   Excel files only (.xlsx), max 10MB
                 </p>
               </div>
@@ -281,10 +281,10 @@ export function ImportBudgetModal({
                   <div className="flex items-start gap-3">
                     <CheckCircle2 className="w-5 h-5 text-green-600 mt-0.5" />
                     <div>
-                      <p className="text-sm font-medium text-gray-900">
+                      <p className="text-sm font-medium text-foreground">
                         {file.name}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-muted-foreground">
                         {formatFileSize(file.size)}
                       </p>
                     </div>

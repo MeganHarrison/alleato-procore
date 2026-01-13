@@ -21,11 +21,11 @@ export default function ProjectDirectorySettingsPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-muted">
       {/* Header */}
-      <div className="bg-white border-b border-gray-200">
+      <div className="bg-background border-b border-border">
         <div className="px-6 py-4">
-          <h1 className="text-xl font-semibold text-gray-900">
+          <h1 className="text-xl font-semibold text-foreground">
             Project Directory Settings
           </h1>
         </div>
@@ -34,7 +34,7 @@ export default function ProjectDirectorySettingsPage() {
       {/* Main content with sidebar */}
       <div className="flex">
         {/* Sidebar */}
-        <div className="w-64 bg-white border-r border-gray-200 min-h-[calc(100vh-73px)]">
+        <div className="w-64 bg-background border-r border-border min-h-[calc(100vh-73px)]">
           <div className="p-4">
             {/* Back button */}
             <Button
@@ -54,7 +54,7 @@ export default function ProjectDirectorySettingsPage() {
                   "w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors",
                   activeTab === "roles"
                     ? "text-orange-600 bg-orange-50"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
+                    : "text-foreground hover:text-foreground hover:bg-muted",
                 )}
               >
                 Project Roles
@@ -65,7 +65,7 @@ export default function ProjectDirectorySettingsPage() {
                   "w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors",
                   activeTab === "permissions"
                     ? "text-orange-600 bg-orange-50"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-gray-50",
+                    : "text-foreground hover:text-foreground hover:bg-muted",
                 )}
               >
                 Permissions Table

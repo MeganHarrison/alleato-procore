@@ -42,9 +42,9 @@ function formatDate(date: Date | undefined): string {
 
 export function MyOpenItems({ items, projectId }: MyOpenItemsProps) {
   return (
-    <div className="bg-white rounded-md border border-gray-200">
-      <div className="px-6 py-4 border-b border-gray-200">
-        <h2 className="text-base font-semibold text-gray-900">My Open Items</h2>
+    <div className="bg-background rounded-md border border-border">
+      <div className="px-6 py-4 border-b border-border">
+        <h2 className="text-base font-semibold text-foreground">My Open Items</h2>
       </div>
       <Table>
         <TableHeader>
@@ -63,9 +63,9 @@ export function MyOpenItems({ items, projectId }: MyOpenItemsProps) {
             return (
               <TableRow key={item.id}>
                 <TableCell>
-                  <Icon className="w-5 h-5 text-gray-400" />
+                  <Icon className="w-5 h-5 text-muted-foreground" />
                 </TableCell>
-                <TableCell className="text-sm text-gray-600">
+                <TableCell className="text-sm text-foreground">
                   {item.itemType}
                 </TableCell>
                 <TableCell>
@@ -73,10 +73,10 @@ export function MyOpenItems({ items, projectId }: MyOpenItemsProps) {
                     {item.details}
                   </Link>
                 </TableCell>
-                <TableCell className="text-sm text-gray-600">
+                <TableCell className="text-sm text-foreground">
                   {item.status}
                 </TableCell>
-                <TableCell className="text-right text-sm text-gray-600">
+                <TableCell className="text-right text-sm text-foreground">
                   {formatDate(item.dueDate)}
                 </TableCell>
               </TableRow>
@@ -84,7 +84,7 @@ export function MyOpenItems({ items, projectId }: MyOpenItemsProps) {
           })}
           {items.length === 0 && (
             <TableRow>
-              <TableCell colSpan={5} className="text-center text-gray-500 py-8">
+              <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
                 No open items
               </TableCell>
             </TableRow>

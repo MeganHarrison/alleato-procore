@@ -42,22 +42,22 @@ Parse the feature name and any flags:
 
 **2a. Check feature directory exists:**
 ```
-documentation/1-project-mgmt/in-progress/{feature}/
+documentation/*project-mgmt/in-progress/{feature}/
 ```
 
 If missing, respond:
 ```
-Feature directory not found: documentation/1-project-mgmt/in-progress/{feature}/
+Feature directory not found: documentation/*project-mgmt/in-progress/{feature}/
 
 To start a new feature:
-1. Create the directory: mkdir -p documentation/1-project-mgmt/in-progress/{feature}
+1. Create the directory: mkdir -p documentation/*project-mgmt/in-progress/{feature}
 2. Run the Procore crawler: /feature-crawl {feature} <procore-url>
 3. Then run: /implement-feature {feature}
 ```
 
 **2b. Check for crawl data:**
 ```
-documentation/1-project-mgmt/in-progress/{feature}/crawl-{feature}/
+documentation/*project-mgmt/in-progress/{feature}/crawl-{feature}/
 ```
 
 If missing, suggest:
@@ -82,7 +82,7 @@ This contains the full 7-phase workflow with all sub-agent patterns and gate req
 
 **4a. Read CONTEXT.md if it exists:**
 ```
-documentation/1-project-mgmt/in-progress/{feature}/CONTEXT.md
+documentation/*project-mgmt/in-progress/{feature}/CONTEXT.md
 ```
 
 **4b. If CONTEXT.md doesn't exist, auto-generate from crawl data:**
@@ -95,7 +95,7 @@ documentation/1-project-mgmt/in-progress/{feature}/CONTEXT.md
 
 **5a. Read STATUS.md if it exists:**
 ```
-documentation/1-project-mgmt/in-progress/{feature}/STATUS.md
+documentation/*project-mgmt/in-progress/{feature}/STATUS.md
 ```
 
 **5b. If STATUS.md doesn't exist, check gate files:**

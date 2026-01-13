@@ -48,7 +48,7 @@ export function DropdownTools() {
           variant="ghost"
           className="flex h-8 items-center gap-2 rounded px-2 text-[hsl(var(--procore-header-text))] transition-colors hover:bg-brand"
         >
-          <span className="text-xs text-gray-400">Project Tools</span>
+          <span className="text-xs text-muted-foreground">Project Tools</span>
           <span className="ml-2 text-sm font-medium">{currentTool}</span>
           <ChevronDown className="ml-1 h-3 w-3" />
         </Button>
@@ -60,7 +60,7 @@ export function DropdownTools() {
         <div className="container mx-auto">
           <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-12">
             <div>
-              <h3 className="mb-3 text-sm font-semibold text-gray-900">
+              <h3 className="mb-3 text-sm font-semibold text-foreground">
                 Core Tools
               </h3>
               <div className="space-y-1">
@@ -69,7 +69,7 @@ export function DropdownTools() {
                     key={tool.name}
                     href={tool.href}
                     onClick={() => setCurrentTool(tool.name)}
-                    className="flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100"
+                    className="flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm hover:bg-muted"
                   >
                     <span>{tool.name}</span>
                     {tool.badge && (
@@ -83,7 +83,7 @@ export function DropdownTools() {
             </div>
 
             <div>
-              <h3 className="mb-3 text-sm font-semibold text-gray-900">
+              <h3 className="mb-3 text-sm font-semibold text-foreground">
                 Project Management
               </h3>
               <div className="space-y-1">
@@ -92,11 +92,11 @@ export function DropdownTools() {
                     key={tool.name}
                     href={tool.href}
                     onClick={() => setCurrentTool(tool.name)}
-                    className="flex w-full items-center rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100"
+                    className="flex w-full items-center rounded px-2 py-1.5 text-left text-sm hover:bg-muted"
                   >
                     <span className="flex items-center gap-2">
                       {tool.isFavorite && (
-                        <Star className="h-3.5 w-3.5 text-gray-400" />
+                        <Star className="h-3.5 w-3.5 text-muted-foreground" />
                       )}
                       {tool.name}
                       {tool.hasCreateAction && (
@@ -109,7 +109,7 @@ export function DropdownTools() {
             </div>
 
             <div>
-              <h3 className="mb-3 text-sm font-semibold text-gray-900">
+              <h3 className="mb-3 text-sm font-semibold text-foreground">
                 Financial Management
               </h3>
               <div className="space-y-1">
@@ -118,7 +118,7 @@ export function DropdownTools() {
                     key={tool.name}
                     href={tool.href}
                     onClick={() => setCurrentTool(tool.name)}
-                    className="flex w-full items-center rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100"
+                    className="flex w-full items-center rounded px-2 py-1.5 text-left text-sm hover:bg-muted"
                   >
                     <span className="flex items-center gap-2">
                       {tool.name}

@@ -9,7 +9,7 @@ test.describe('RFIs Page Visual Test', () => {
 
     // Take full page screenshot
     await page.screenshot({ 
-      path: '/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/screenshots/rfis-port-3000.png', 
+      path: '/Users/meganharrison/Documents/github/alleato-procore/tests/screenshots/rfis-port-3000.png', 
       fullPage: true 
     });
 
@@ -42,7 +42,7 @@ test.describe('RFIs Page Visual Test', () => {
 
     // Take full page screenshot
     await page.screenshot({ 
-      path: '/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/screenshots/rfis-port-3002.png', 
+      path: '/Users/meganharrison/Documents/github/alleato-procore/tests/screenshots/rfis-port-3002.png', 
       fullPage: true 
     });
 

@@ -239,7 +239,7 @@ export function OriginalBudgetEditModal({
             </div>
             <button
               onClick={onClose}
-              className="rounded-full p-2 hover:bg-white/10 transition-colors"
+              className="rounded-full p-2 hover:bg-background/10 transition-colors"
               aria-label="Close"
             >
               <X className="h-5 w-5" />
@@ -248,15 +248,15 @@ export function OriginalBudgetEditModal({
         </div>
 
         {/* Tabs */}
-        <div className="border-b border-gray-200 px-6 py-2 bg-gray-50 flex-shrink-0">
+        <div className="border-b border-border px-6 py-2 bg-muted flex-shrink-0">
           <div className="flex gap-2">
             <button
               onClick={() => setActiveTab("original")}
               className={cn(
                 "px-4 py-2 text-sm font-medium rounded-md transition-all",
                 activeTab === "original"
-                  ? "bg-white text-orange-600 shadow-sm border border-gray-200"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-white/50",
+                  ? "bg-background text-orange-600 shadow-sm border border-border"
+                  : "text-foreground hover:text-foreground hover:bg-background/50",
               )}
             >
               Original Budget
@@ -266,8 +266,8 @@ export function OriginalBudgetEditModal({
               className={cn(
                 "px-4 py-2 text-sm font-medium rounded-md transition-all",
                 activeTab === "history"
-                  ? "bg-white text-orange-600 shadow-sm border border-gray-200"
-                  : "text-gray-600 hover:text-gray-900 hover:bg-white/50",
+                  ? "bg-background text-orange-600 shadow-sm border border-border"
+                  : "text-foreground hover:text-foreground hover:bg-background/50",
               )}
             >
               History
@@ -355,7 +355,7 @@ export function OriginalBudgetEditModal({
                             "flex items-start gap-3 rounded-lg border p-3 cursor-pointer transition-all",
                             calculationMethod === method
                               ? "border-orange-400 bg-orange-50 ring-1 ring-orange-400"
-                              : "border-slate-200 bg-white hover:border-slate-300",
+                              : "border-slate-200 bg-background hover:border-slate-300",
                           )}
                         >
                           <input
@@ -484,7 +484,7 @@ export function OriginalBudgetEditModal({
             <div className="p-6 space-y-4">
               {loading && (
                 <div className="flex items-center justify-center py-8">
-                  <div className="text-sm text-gray-500">
+                  <div className="text-sm text-muted-foreground">
                     Loading history...
                   </div>
                 </div>
@@ -497,7 +497,7 @@ export function OriginalBudgetEditModal({
               )}
 
               {!loading && !error && history.length === 0 && (
-                <div className="text-center py-8 text-gray-500">
+                <div className="text-center py-8 text-muted-foreground">
                   <p className="text-sm">No changes recorded yet</p>
                 </div>
               )}
@@ -508,7 +508,7 @@ export function OriginalBudgetEditModal({
                     <div
                       key={entry.id}
                       className={cn(
-                        "border-l-4 pl-4 py-3 rounded-r-lg bg-white shadow-sm",
+                        "border-l-4 pl-4 py-3 rounded-r-lg bg-background shadow-sm",
                         entry.change_type === "create" && "border-green-500",
                         entry.change_type === "delete" && "border-red-500",
                         entry.change_type === "update" && "border-blue-500",
@@ -576,12 +576,12 @@ export function OriginalBudgetEditModal({
                           <div className="text-sm font-medium text-slate-900">
                             {entry.changed_by.name}
                           </div>
-                          <div className="text-xs text-gray-500">
+                          <div className="text-xs text-muted-foreground">
                             {formatDistanceToNow(new Date(entry.changed_at), {
                               addSuffix: true,
                             })}
                           </div>
-                          <div className="mt-1.5 text-sm text-gray-700">
+                          <div className="mt-1.5 text-sm text-foreground">
                             {entry.change_type === "create" && (
                               <>
                                 Created {formatFieldName(entry.field_name)}:{" "}
@@ -615,7 +615,7 @@ export function OriginalBudgetEditModal({
                             )}
                           </div>
                           {entry.notes && (
-                            <div className="mt-1 text-xs text-gray-500">
+                            <div className="mt-1 text-xs text-muted-foreground">
                               Notes: {entry.notes}
                             </div>
                           )}

@@ -60,7 +60,7 @@ export function EditableCard({ title, fields, onSave }: EditableCardProps) {
     <Card className="shadow-sm">
       <CardHeader className="pb-4">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-sm font-medium text-gray-600">
+          <CardTitle className="text-sm font-medium text-foreground">
             {title}
           </CardTitle>
           {!isEditing ? (
@@ -70,7 +70,7 @@ export function EditableCard({ title, fields, onSave }: EditableCardProps) {
               className="h-8 w-8 p-0"
               onClick={handleEdit}
             >
-              <Pencil className="h-4 w-4 text-gray-600" />
+              <Pencil className="h-4 w-4 text-foreground" />
               <span className="sr-only">Edit {title}</span>
             </Button>
           ) : (
@@ -111,7 +111,7 @@ export function EditableCard({ title, fields, onSave }: EditableCardProps) {
                 disabled={isSaving}
               />
             ) : (
-              <span className="text-sm text-gray-700 ml-1">{field.value}</span>
+              <span className="text-sm text-foreground ml-1">{field.value}</span>
             )}
           </div>
         ))}

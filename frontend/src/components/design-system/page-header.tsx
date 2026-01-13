@@ -9,6 +9,10 @@ interface PageHeaderProps {
   client?: string;
   title: string;
   description?: string;
+  breadcrumbs?: {
+    label: string;
+    href?: string;
+  }[];
   actions?: React.ReactNode;
 }
 
@@ -24,6 +28,7 @@ export function PageHeader({
   client,
   title,
   description,
+  breadcrumbs,
   actions,
 }: PageHeaderProps) {
   return (
@@ -34,6 +39,7 @@ export function PageHeader({
       actions={actions}
       preHeading={{ project, client }}
       showProjectName={false}
+      breadcrumbs={breadcrumbs}
     />
   );
 }

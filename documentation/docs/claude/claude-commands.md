@@ -39,7 +39,7 @@ Slash commands are special directives that invoke pre-configured workflows and s
 
 **Output Location:**
 ```
-documentation/1-project-mgmt/in-progress/<feature>/crawl-<feature>/
+documentation/*project-mgmt/in-progress/<feature>/crawl-<feature>/
 ```
 
 **Documentation:**

@@ -9,7 +9,7 @@
 
 'use client'
 
-import { UseFormReturn } from 'react-hook-form'
+import { UseFormReturn, FieldError } from 'react-hook-form'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import {
@@ -117,7 +117,7 @@ interface LineItemRowProps {
   contracts: Contract[]
   onRemove: () => void
   form: UseFormReturn<ChangeEventFormData>
-  errors?: Record<string, { message?: string }>
+  errors?: Record<string, FieldError> | FieldError
   isValid: boolean
   expectingRevenue: boolean
 }
@@ -138,6 +138,11 @@ function LineItemRow({
   const selectedBudgetCode = budgetCodes?.find(
     (bc) => bc.id === item.budget_code_id
   )
+
+  // Type guard to check if errors is a Record
+  const errorRecord = errors && typeof errors === 'object' && 'budget_code_id' in errors
+    ? errors as Record<string, FieldError>
+    : undefined
 
   return (
     <TableRow
@@ -161,7 +166,7 @@ function LineItemRow({
                   <SelectTrigger
                     className={cn(
                       'h-9',
-                      errors?.budget_code_id && 'border-destructive'
+                      errorRecord?.budget_code_id && 'border-destructive'
                     )}
                   >
                     <SelectValue placeholder="Select budget code" />
@@ -300,7 +305,7 @@ function LineItemRow({
                   onChange={(e) => field.onChange(Number(e.target.value))}
                   className={cn(
                     'h-9 text-right border-none bg-transparent focus-visible:ring-1',
-                    errors?.quantity && 'text-destructive'
+                    errorRecord?.quantity && 'text-destructive'
                   )}
                   placeholder="0"
                 />
@@ -352,7 +357,7 @@ function LineItemRow({
                     onChange={(e) => field.onChange(Number(e.target.value))}
                     className={cn(
                       'h-9 pl-6 text-right border-none bg-transparent focus-visible:ring-1',
-                      errors?.unit_cost && 'border-destructive'
+                      errorRecord?.unit_cost && 'border-destructive'
                     )}
                     placeholder="0.00"
                   />
@@ -562,7 +567,7 @@ export function ChangeEventLineItemsGrid({
                 </TableRow>
               ) : (
                 items.map((item, index) => {
-                  const errors = form.formState.errors.line_items?.[index]
+                  const errors = form.formState.errors.line_items?.[index] as Record<string, FieldError> | FieldError | undefined
                   const isValid =
                     !errors &&
                     !!form.getValues(`line_items.${index}.budget_code_id`) &&

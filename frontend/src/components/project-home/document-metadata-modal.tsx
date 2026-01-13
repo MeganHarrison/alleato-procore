@@ -118,7 +118,7 @@ export function DocumentMetadataModal({
             <div className="flex items-center justify-center py-12">
               <div className="flex flex-col items-center gap-2">
                 <div className="w-8 h-8 border-2 border-orange-500 border-t-transparent rounded-full animate-spin" />
-                <p className="text-sm text-gray-500">Loading documents...</p>
+                <p className="text-sm text-muted-foreground">Loading documents...</p>
               </div>
             </div>
           )}
@@ -130,7 +130,7 @@ export function DocumentMetadataModal({
           )}
 
           {!isLoading && !error && documents.length === 0 && (
-            <div className="text-center py-12 text-gray-500">
+            <div className="text-center py-12 text-muted-foreground">
               <FileText className="w-12 h-12 mx-auto mb-4 opacity-50" />
               <p>No documents found</p>
             </div>
@@ -186,7 +186,7 @@ export function DocumentMetadataModal({
         </div>
 
         {!isLoading && documents.length > 0 && (
-          <div className="pt-4 border-t text-sm text-gray-500">
+          <div className="pt-4 border-t text-sm text-muted-foreground">
             Showing {documents.length} document
             {documents.length !== 1 ? "s" : ""}
           </div>

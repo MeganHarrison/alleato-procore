@@ -60,7 +60,7 @@ export function ChatHeader({
         <span
           className={cn(
             "h-2 w-2 rounded-full",
-            isConnected ? "bg-green-500" : "bg-gray-500",
+            isConnected ? "bg-green-500" : "bg-muted0",
           )}
         />
         <span className="text-xs text-[hsl(var(--chat-muted))] hidden sm:inline">

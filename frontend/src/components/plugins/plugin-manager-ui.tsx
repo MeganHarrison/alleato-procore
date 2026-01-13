@@ -135,7 +135,7 @@ export function PluginManagerUI() {
       case "enabled":
         return <CheckCircle className="h-4 w-4 text-green-500" />;
       case "disabled":
-        return <XCircle className="h-4 w-4 text-gray-400" />;
+        return <XCircle className="h-4 w-4 text-muted-foreground" />;
       case "error":
         return <AlertCircle className="h-4 w-4 text-red-500" />;
       case "updating":

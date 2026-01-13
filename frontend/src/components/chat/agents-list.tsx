@@ -24,7 +24,7 @@ export function AgentsList({ agents, currentAgent }: AgentsListProps) {
         {agents.map((agent, idx) => (
           <Card
             key={`${agent.name || "agent"}-${idx}`}
-            className={`bg-white border-gray-200 transition-all ${
+            className={`bg-background border-border transition-all ${
               agent.name === currentAgent ||
               activeAgent?.handoffs.includes(agent.name)
                 ? ""

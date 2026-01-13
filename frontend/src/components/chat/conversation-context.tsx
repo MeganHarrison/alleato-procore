@@ -20,13 +20,13 @@ export function ConversationContext({ context }: ConversationContextProps) {
       title="Conversation Context"
       icon={<BookText className="h-4 w-4 text-blue-600" />}
     >
-      <Card className="bg-gradient-to-r from-white to-gray-50 border-gray-200 shadow-sm">
+      <Card className="bg-gradient-to-r from-white to-gray-50 border-border shadow-sm">
         <CardContent className="p-3">
           <div className="grid grid-cols-2 gap-2">
             {Object.entries(context).map(([key, value]) => (
               <div
                 key={key}
-                className="flex items-center gap-2 bg-white p-2 rounded-md border border-gray-200 shadow-sm transition-all"
+                className="flex items-center gap-2 bg-background p-2 rounded-md border border-border shadow-sm transition-all"
               >
                 <div className="w-2 h-2 rounded-full bg-blue-500"></div>
                 <div className="text-xs">
@@ -35,7 +35,7 @@ export function ConversationContext({ context }: ConversationContextProps) {
                     className={
                       value
                         ? "text-zinc-900 font-light"
-                        : "text-gray-400 italic"
+                        : "text-muted-foreground italic"
                     }
                   >
                     {value || "null"}

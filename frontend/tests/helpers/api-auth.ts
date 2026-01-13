@@ -5,7 +5,7 @@
  * The approach uses a custom Playwright fixture that creates an API request context
  * with cookies from the storage state.
  */
-import type { APIRequestContext } from '@playwright/test';
+import { request as baseRequest, type APIRequestContext } from '@playwright/test';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
@@ -51,6 +51,23 @@ export function withAuth(storageStatePath: string, options: Record<string, unkno
       'Cookie': cookieHeader,
     },
   };
+}
+
+/**
+ * Creates an authenticated API request context using Playwright's storageState
+ * to ensure cookies are applied via the request context (avoids Cookie header issues).
+ */
+type RequestFactory = typeof baseRequest;
+
+export async function createAuthenticatedRequestContext(
+  playwright: { request: RequestFactory },
+  storageStatePath: string,
+  baseURL = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000'
+): Promise<APIRequestContext> {
+  return playwright.request.newContext({
+    baseURL,
+    storageState: storageStatePath,
+  });
 }
 
 /**

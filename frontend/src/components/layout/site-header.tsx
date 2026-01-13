@@ -39,6 +39,15 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import Link from "next/link";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -82,7 +91,7 @@ const financialManagementTools: Array<{
   path: string;
   requiresProject?: boolean;
 }> = [
-  { name: "Prime Contracts", path: "contracts", requiresProject: true },
+  { name: "Prime Contracts", path: "prime-contracts", requiresProject: true },
   { name: "Budget", path: "budget", requiresProject: true },
   { name: "Budget V2", path: "budget-v2", requiresProject: true },
   { name: "Commitments", path: "commitments", requiresProject: true },
@@ -347,7 +356,7 @@ export function SiteHeader({
   }, [pathname, currentProject]);
 
   return (
-    <header className="bg-surface-inverse text-white flex flex-wrap items-center gap-2 border-b transition-[width,height] ease-linear">
+    <header className="bg-background text-foreground flex flex-wrap items-center gap-2 transition-[width,height] ease-linear">
       <div className="flex w-full flex-wrap items-center gap-2 px-4 py-3 lg:gap-3 lg:px-6">
         {/* Mobile Header Layout */}
         <div className="flex md:hidden w-full items-center justify-between">
@@ -371,7 +380,7 @@ export function SiteHeader({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-white hover:bg-white/10"
+              className="h-8 w-8"
               aria-label="Search"
             >
               <Search className="h-5 w-5" />
@@ -381,7 +390,7 @@ export function SiteHeader({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-white hover:bg-white/10"
+              className="h-8 w-8"
               onClick={() => setNotificationsOpen(true)}
               aria-label="Notifications"
             >
@@ -392,7 +401,7 @@ export function SiteHeader({
             <Button
               variant="ghost"
               size="icon"
-              className="h-8 w-8 text-white hover:bg-white/10"
+              className="h-8 w-8"
               onClick={() => setMobileMenuOpen(true)}
               aria-label="Menu"
             >
@@ -405,44 +414,30 @@ export function SiteHeader({
         <div className="hidden md:flex items-center gap-2 md:gap-3 w-full">
           {/* Sidebar Trigger */}
           <div className="flex items-center gap-2 md:gap-3">
-            <SidebarTrigger className="-ml-1 opacity-70 hover:opacity-100 transition-opacity" />
+            <SidebarTrigger className="-ml-1" />
             <Separator orientation="vertical" className="h-4" />
           </div>
 
-          {/* Logo and Breadcrumbs */}
+          {/* Breadcrumbs */}
           <div className="min-w-0 flex-1 flex items-center gap-2 overflow-x-auto">
-            {/* Alleato Logo - links to homepage */}
-            <Link
-              href="/"
-              className="flex items-center gap-2 shrink-0 hover:opacity-80 transition-opacity"
-            >
-              <Image
-                src="/favicon-light.png"
-                alt="Alleato"
-                width={32}
-                height={32}
-                className="object-contain"
-              />
-            </Link>
-
             {/* Breadcrumbs */}
             {breadcrumbs.length > 0 && (
               <nav
                 aria-label="Breadcrumb"
-                className="flex items-center gap-2 text-sm font-medium tracking-wide text-white/90 whitespace-nowrap"
+                className="flex items-center gap-2 text-sm font-medium tracking-wide whitespace-nowrap"
               >
                 {breadcrumbs.map((crumb, index) => (
                   <span
                     key={`${crumb.href}-${index}`}
                     className="flex items-center gap-2"
                   >
-                    <ChevronRight className="h-3 w-3 text-white/40" />
+                    <ChevronRight className="h-3 w-3 text-muted-foreground" />
                     {index === breadcrumbs.length - 1 ? (
-                      <span className="text-white">{crumb.label}</span>
+                      <span className="text-foreground">{crumb.label}</span>
                     ) : (
                       <Link
                         href={crumb.href}
-                        className="text-white/70 hover:text-brand transition-colors"
+                        className="text-muted-foreground hover:text-foreground transition-colors"
                       >
                         {crumb.label}
                       </Link>
@@ -456,44 +451,32 @@ export function SiteHeader({
           {/* Desktop Actions */}
           <div className="ml-auto flex items-center gap-2">
             {/* Company/Project Selector */}
-            <DropdownMenu onOpenChange={(open) => open && fetchProjects()}>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  className="hidden md:flex h-8 text-[hsl(var(--procore-header-text))] px-2 bg-white/10 hover:bg-white/20"
-                >
-                  {currentProject && (
-                    <span className="mr-2 h-2 w-2 rounded-full bg-[hsl(var(--procore-orange))]" />
-                  )}
-                  <span className="text-xs text-gray-200">Project</span>
-                  <span className="mx-1 text-gray-500">|</span>
-                  <span className="text-sm font-medium">
-                    {currentProject
-                      ? `${currentProject["job number"] ? currentProject["job number"] + " - " : ""}${currentProject.name}`
-                      : projectId
-                        ? "Loading..."
-                        : "Select Project"}
-                  </span>
-                  <ChevronDown className="ml-1 h-3 w-3" />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent
-                align="start"
-                className="w-80 max-h-96 overflow-y-auto"
-              >
-                <DropdownMenuLabel>Recent Projects</DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {loadingProjects ? (
-                  <div className="p-4 text-center text-sm text-muted-foreground">
-                    Loading projects...
-                  </div>
-                ) : projects.length > 0 ? (
-                  <>
-                    {projects.slice(0, 10).map((project) => (
-                      <DropdownMenuItem
+            <Select
+              value={projectId?.toString() || ""}
+              onValueChange={(value) => {
+                if (value === "view-all") {
+                  router.push("/");
+                } else {
+                  handleProjectSelect(parseInt(value));
+                }
+              }}
+              onOpenChange={(open) => open && fetchProjects()}
+            >
+              <SelectTrigger className="hidden md:flex h-8 w-[280px]">
+                <SelectValue placeholder="Select Project" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectGroup>
+                  <SelectLabel>Recent Projects</SelectLabel>
+                  {loadingProjects ? (
+                    <div className="p-4 text-center text-sm text-muted-foreground">
+                      Loading projects...
+                    </div>
+                  ) : projects.length > 0 ? (
+                    projects.slice(0, 10).map((project) => (
+                      <SelectItem
                         key={project.id}
-                        onClick={() => handleProjectSelect(project.id)}
-                        className="cursor-pointer"
+                        value={project.id.toString()}
                       >
                         <div className="flex flex-col">
                           <span className="font-medium">{project.name}</span>
@@ -503,22 +486,21 @@ export function SiteHeader({
                             </span>
                           )}
                         </div>
-                      </DropdownMenuItem>
-                    ))}
-                    <DropdownMenuSeparator />
-                  </>
-                ) : (
-                  <div className="p-4 text-center text-sm text-muted-foreground">
-                    No projects found
-                  </div>
-                )}
-                <DropdownMenuItem asChild>
-                  <Link href="/" className="cursor-pointer font-medium">
+                      </SelectItem>
+                    ))
+                  ) : (
+                    <div className="p-4 text-center text-sm text-muted-foreground">
+                      No projects found
+                    </div>
+                  )}
+                </SelectGroup>
+                <SelectGroup>
+                  <SelectItem value="view-all" className="font-medium">
                     View All Projects
-                  </Link>
-                </DropdownMenuItem>
-              </DropdownMenuContent>
-            </DropdownMenu>
+                  </SelectItem>
+                </SelectGroup>
+              </SelectContent>
+            </Select>
 
             {/* Project Tools - hidden on mobile */}
             <DropdownMenu
@@ -527,14 +509,14 @@ export function SiteHeader({
             >
               <DropdownMenuTrigger asChild>
                 <Button
-                  variant="ghost"
-                  className="hidden md:flex h-8 items-center gap-2 rounded px-2 text-[hsl(var(--procore-header-text))] transition-colors bg-white/10 hover:bg-white/20"
+                  variant="outline"
+                  className="hidden md:flex h-8 items-center gap-2 px-3"
                 >
-                  <span className="text-xs text-gray-200">Project Tools</span>
-                  <span className="ml-2 text-sm font-medium">
+                  <span className="text-xs text-muted-foreground">Project Tools</span>
+                  <span className="text-sm font-medium">
                     {activeToolName}
                   </span>
-                  <ChevronDown className="ml-1 h-3 w-3" />
+                  <ChevronDown className="h-4 w-4 opacity-50" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -545,7 +527,7 @@ export function SiteHeader({
                   <div className="grid grid-cols-4 gap-8">
                     {/* Core Tools Column */}
                     <div>
-                      <h3 className="mb-3 text-sm font-semibold text-gray-900">
+                      <h3 className="mb-3 text-sm font-semibold text-foreground">
                         Core Tools
                       </h3>
                       <div className="space-y-1">
@@ -570,7 +552,7 @@ export function SiteHeader({
                               className={`flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm ${
                                 isDisabled
                                   ? "opacity-50 cursor-not-allowed hover:bg-transparent"
-                                  : "hover:bg-gray-100"
+                                  : "hover:bg-muted"
                               }`}
                               aria-disabled={isDisabled}
                             >
@@ -583,7 +565,7 @@ export function SiteHeader({
 
                     {/* Project Management Column */}
                     <div>
-                      <h3 className="mb-3 text-sm font-semibold text-gray-900">
+                      <h3 className="mb-3 text-sm font-semibold text-foreground">
                         Project Management
                       </h3>
                       <div className="space-y-1">
@@ -608,13 +590,13 @@ export function SiteHeader({
                               className={`flex w-full items-center rounded px-2 py-1.5 text-left text-sm ${
                                 isDisabled
                                   ? "opacity-50 cursor-not-allowed hover:bg-transparent"
-                                  : "hover:bg-gray-100"
+                                  : "hover:bg-muted"
                               }`}
                               aria-disabled={isDisabled}
                             >
                               <span className="flex items-center gap-2">
                                 {tool.isFavorite && (
-                                  <Star className="h-3.5 w-3.5 text-gray-400" />
+                                  <Star className="h-3.5 w-3.5 text-muted-foreground" />
                                 )}
                                 {tool.name}
                               </span>
@@ -626,7 +608,7 @@ export function SiteHeader({
 
                     {/* Financial Management Column */}
                     <div>
-                      <h3 className="mb-3 text-sm font-semibold text-gray-900">
+                      <h3 className="mb-3 text-sm font-semibold text-foreground">
                         Financial Management
                       </h3>
                       <div className="space-y-1">
@@ -651,7 +633,7 @@ export function SiteHeader({
                               className={`flex w-full items-center rounded px-2 py-1.5 text-left text-sm ${
                                 isDisabled
                                   ? "opacity-50 cursor-not-allowed hover:bg-transparent"
-                                  : "hover:bg-gray-100"
+                                  : "hover:bg-muted"
                               }`}
                               aria-disabled={isDisabled}
                             >
@@ -664,7 +646,7 @@ export function SiteHeader({
 
                     {/* Admin Tools Column */}
                     <div>
-                      <h3 className="mb-3 text-sm font-semibold text-gray-900">
+                      <h3 className="mb-3 text-sm font-semibold text-foreground">
                         Admin Tools
                       </h3>
                       <div className="space-y-1">
@@ -676,7 +658,7 @@ export function SiteHeader({
                               key={tool.name}
                               href={href}
                               onClick={() => setProjectToolsOpen(false)}
-                              className="flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm hover:bg-gray-100"
+                              className="flex w-full items-center justify-between rounded px-2 py-1.5 text-left text-sm hover:bg-muted"
                             >
                               <span>{tool.name}</span>
                             </Link>
@@ -694,7 +676,7 @@ export function SiteHeader({
               variant="ghost"
               size="icon"
               asChild
-              className="hidden md:flex h-8 w-8 text-[hsl(var(--procore-header-text))] hover:bg-brand transition-colors"
+              className="hidden md:flex h-8 w-8"
             >
               <Link href="/team-chat" aria-label="Team chat">
                 <MessageSquare className="h-4 w-4" />
@@ -707,12 +689,12 @@ export function SiteHeader({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="hidden md:flex h-8 w-8 text-[hsl(var(--procore-header-text))] hover:bg-brand transition-colors relative"
+                  className="hidden md:flex h-8 w-8 relative"
                   aria-label="Favorites"
                 >
                   <Star className="h-4 w-4" />
                   {favorites.length > 0 && (
-                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-orange-500 text-[10px] font-semibold text-white flex items-center justify-center">
+                    <span className="absolute -top-1 -right-1 h-4 w-4 rounded-full bg-primary text-[10px] font-semibold text-primary-foreground flex items-center justify-center">
                       {favorites.length}
                     </span>
                   )}
@@ -801,7 +783,7 @@ export function SiteHeader({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="hidden md:flex h-8 w-8 text-[hsl(var(--procore-header-text))] hover:bg-brand transition-colors"
+                  className="hidden md:flex h-8 w-8"
                   aria-label="Open search"
                 >
                   <Search className="h-4 w-4" />
@@ -822,7 +804,7 @@ export function SiteHeader({
             <Button
               variant="ghost"
               size="icon"
-              className="hidden md:flex h-8 w-8 text-[hsl(var(--procore-header-text))] hover:bg-brand transition-colors"
+              className="hidden md:flex h-8 w-8"
               onClick={() => setNotificationsOpen((prev) => !prev)}
               aria-label="Toggle notifications sidebar"
             >
@@ -834,7 +816,7 @@ export function SiteHeader({
               <DropdownMenuTrigger asChild>
                 <button
                   type="button"
-                  className="hidden md:flex items-center rounded-full border border-white/10 bg-white/5 p-0.5 transition-colors hover:border-brand hover:bg-brand/10"
+                  className="hidden md:flex items-center rounded-full border p-0.5 transition-colors hover:border-primary"
                   aria-label="Open user menu"
                 >
                   <Avatar className="h-9 w-9 rounded-full">
@@ -843,7 +825,7 @@ export function SiteHeader({
                       alt="User avatar"
                       className="rounded-full"
                     />
-                    <AvatarFallback className="rounded-full bg-brand/20 text-white font-medium text-sm">
+                    <AvatarFallback className="rounded-full bg-muted font-medium text-sm">
                       {fallbackInitials}
                     </AvatarFallback>
                   </Avatar>
@@ -892,19 +874,19 @@ export function SiteHeader({
         <Sheet open={mobileMenuOpen} onOpenChange={setMobileMenuOpen}>
           <SheetContent
             side="right"
-            className="w-full sm:w-[400px] bg-surface-inverse text-white p-0"
+            className="w-full sm:w-[400px] p-0"
           >
-            <SheetHeader className="px-6 pt-6 pb-4 border-b border-white/10">
-              <SheetTitle className="text-white text-left">Menu</SheetTitle>
+            <SheetHeader className="px-6 pt-6 pb-4 border-b">
+              <SheetTitle className="text-left">Menu</SheetTitle>
             </SheetHeader>
             <div className="overflow-y-auto h-[calc(100vh-80px)]">
               {/* Project Selector */}
               {currentProject && (
-                <div className="px-6 py-4 border-b border-white/10">
-                  <div className="text-xs text-gray-400 mb-1">
+                <div className="px-6 py-4 border-b">
+                  <div className="text-xs text-muted-foreground mb-1">
                     Current Project
                   </div>
-                  <div className="text-sm font-medium text-white">
+                  <div className="text-sm font-medium">
                     {currentProject["job number"] &&
                       `${currentProject["job number"]} - `}
                     {currentProject.name}
@@ -915,7 +897,7 @@ export function SiteHeader({
               {/* Navigation Links */}
               <div className="px-6 py-4 space-y-4">
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                     Core Tools
                   </h3>
                   <div className="space-y-1">
@@ -939,7 +921,7 @@ export function SiteHeader({
                           className={`block px-3 py-2 rounded text-sm ${
                             isDisabled
                               ? "opacity-50 cursor-not-allowed"
-                              : "hover:bg-white/10 text-white"
+                              : "hover:bg-accent"
                           }`}
                         >
                           {tool.name}
@@ -950,7 +932,7 @@ export function SiteHeader({
                 </div>
 
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                     Project Management
                   </h3>
                   <div className="space-y-1">
@@ -974,7 +956,7 @@ export function SiteHeader({
                           className={`block px-3 py-2 rounded text-sm ${
                             isDisabled
                               ? "opacity-50 cursor-not-allowed"
-                              : "hover:bg-white/10 text-white"
+                              : "hover:bg-accent"
                           }`}
                         >
                           {tool.name}
@@ -985,7 +967,7 @@ export function SiteHeader({
                 </div>
 
                 <div>
-                  <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-2">
+                  <h3 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">
                     Financial
                   </h3>
                   <div className="space-y-1">
@@ -1009,7 +991,7 @@ export function SiteHeader({
                           className={`block px-3 py-2 rounded text-sm ${
                             isDisabled
                               ? "opacity-50 cursor-not-allowed"
-                              : "hover:bg-white/10 text-white"
+                              : "hover:bg-accent"
                           }`}
                         >
                           {tool.name}
@@ -1021,20 +1003,20 @@ export function SiteHeader({
               </div>
 
               {/* User Section */}
-              <div className="px-6 py-4 border-t border-white/10">
+              <div className="px-6 py-4 border-t">
                 <div className="flex items-center gap-3 mb-4">
                   <Avatar className="h-10 w-10">
                     <AvatarImage src={avatarSrc} alt="User avatar" />
-                    <AvatarFallback className="bg-brand/20 text-white font-medium">
+                    <AvatarFallback className="bg-muted font-medium">
                       {fallbackInitials}
                     </AvatarFallback>
                   </Avatar>
                   <div>
-                    <div className="text-sm font-medium text-white">
+                    <div className="text-sm font-medium">
                       {displayName}
                     </div>
                     {user?.email && (
-                      <div className="text-xs text-gray-400">{user.email}</div>
+                      <div className="text-xs text-muted-foreground">{user.email}</div>
                     )}
                   </div>
                 </div>
@@ -1042,7 +1024,7 @@ export function SiteHeader({
                   <Link
                     href="/profile"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center gap-2 px-3 py-2 rounded text-sm text-white hover:bg-white/10"
+                    className="flex items-center gap-2 px-3 py-2 rounded text-sm hover:bg-accent"
                   >
                     <IconUserCircle className="h-4 w-4" />
                     Profile
@@ -1061,7 +1043,7 @@ export function SiteHeader({
                         toast.error("Failed to log out");
                       }
                     }}
-                    className="flex w-full items-center gap-2 px-3 py-2 rounded text-sm text-red-400 hover:bg-white/10"
+                    className="flex w-full items-center gap-2 px-3 py-2 rounded text-sm text-destructive hover:bg-accent"
                   >
                     <IconLogout className="h-4 w-4" />
                     Log out
@@ -1076,26 +1058,26 @@ export function SiteHeader({
         <Sheet open={notificationsOpen} onOpenChange={setNotificationsOpen}>
           <SheetContent
             side="right"
-            className="w-[320px] bg-gray-900 text-white"
+            className="w-[320px]"
           >
             <SheetHeader className="px-4 pt-4">
               <SheetTitle className="text-base">Notifications</SheetTitle>
-              <SheetDescription className="text-sm text-gray-400">
+              <SheetDescription className="text-sm text-muted-foreground">
                 Latest activity for your workspace.
               </SheetDescription>
             </SheetHeader>
             <div className="space-y-3 px-4 py-2 text-sm">
-              <div className="rounded-lg bg-white/5 p-3">
-                <p className="text-white">New message in project chat</p>
-                <p className="text-xs text-gray-400">Just now</p>
+              <div className="rounded-lg bg-muted p-3">
+                <p>New message in project chat</p>
+                <p className="text-xs text-muted-foreground">Just now</p>
               </div>
-              <div className="rounded-lg bg-white/5 p-3">
-                <p className="text-white">Budget update approved</p>
-                <p className="text-xs text-gray-400">30m ago</p>
+              <div className="rounded-lg bg-muted p-3">
+                <p>Budget update approved</p>
+                <p className="text-xs text-muted-foreground">30m ago</p>
               </div>
-              <div className="rounded-lg bg-white/5 p-3">
-                <p className="text-white">New document shared</p>
-                <p className="text-xs text-gray-400">1h ago</p>
+              <div className="rounded-lg bg-muted p-3">
+                <p>New document shared</p>
+                <p className="text-xs text-muted-foreground">1h ago</p>
               </div>
             </div>
           </SheetContent>

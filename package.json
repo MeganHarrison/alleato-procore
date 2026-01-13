@@ -4,14 +4,23 @@
   "private": true,
   "workspaces": [
     "frontend",
-    "backend"
+    "backend",
+    "apps/docs",
+    "apps/docs-site",
+    "alleato-pm-documentation"
   ],
   "scripts": {
     "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
     "dev:frontend": "cd frontend && npm run dev",
     "dev:backend": "cd backend && ./start.sh",
+    "dev:docs": "npm run dev --workspace apps/docs-site",
+    "dev:docs:nextra": "npm run dev --workspace alleato-pm-documentation",
     "build": "cd frontend && npm run build",
+    "build:docs": "npm run build --workspace apps/docs-site",
+    "build:docs:nextra": "npm run build --workspace alleato-pm-documentation",
     "start": "cd frontend && npm start",
+    "start:docs": "npm run start --workspace apps/docs-site",
+    "start:docs:nextra": "npm run start --workspace alleato-pm-documentation",
     "install:all": "npm install && cd frontend && npm install",
     "test": "npm run test:frontend && npm run test:backend",
     "test:frontend": "cd frontend && npm run test:unit",

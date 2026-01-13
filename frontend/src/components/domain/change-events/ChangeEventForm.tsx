@@ -18,6 +18,11 @@ export interface ChangeEventFormData {
   changeReason?: string;
   scope?: string;
 
+  // Revenue configuration
+  expectingRevenue?: boolean;
+  lineItemRevenueSource?: string;
+  primeContractId?: string;
+
   // Optional fields
   description?: string;
   notes?: string;

@@ -103,7 +103,7 @@ export function SimpleRagChat({
 
   return (
     <div
-      className="flex flex-col h-full w-full bg-white"
+      className="flex flex-col h-full w-full bg-background"
       data-testid="simple-rag-chat"
     >
       {/* Messages Area */}
@@ -111,10 +111,10 @@ export function SimpleRagChat({
         {messages.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-center">
             <Bot className="h-12 w-12 text-gray-300 mb-4" />
-            <h3 className="text-lg font-medium text-gray-900 mb-2">
+            <h3 className="text-lg font-medium text-foreground mb-2">
               Alleato AI Assistant
             </h3>
-            <p className="text-sm text-gray-500 max-w-md">
+            <p className="text-sm text-muted-foreground max-w-md">
               Ask me about your projects, tasks, meetings, or anything else. I
               have access to your Supabase data.
             </p>
@@ -127,7 +127,7 @@ export function SimpleRagChat({
                 <button
                   key={prompt}
                   onClick={() => setInput(prompt)}
-                  className="px-3 py-1.5 text-sm bg-gray-100 hover:bg-gray-200 rounded-full transition-colors"
+                  className="px-3 py-1.5 text-sm bg-muted hover:bg-muted rounded-full transition-colors"
                 >
                   {prompt}
                 </button>
@@ -153,7 +153,7 @@ export function SimpleRagChat({
                   "max-w-[80%] rounded-2xl px-4 py-2",
                   message.role === "user"
                     ? "bg-blue-600 text-white"
-                    : "bg-gray-100 text-gray-900",
+                    : "bg-muted text-foreground",
                 )}
               >
                 <p className="text-sm whitespace-pre-wrap">{message.content}</p>
@@ -171,8 +171,8 @@ export function SimpleRagChat({
             <div className="flex-shrink-0 w-8 h-8 rounded-full bg-emerald-100 flex items-center justify-center">
               <Bot className="w-5 h-5 text-emerald-600" />
             </div>
-            <div className="bg-gray-100 rounded-2xl px-4 py-2">
-              <Loader2 className="w-5 h-5 animate-spin text-gray-500" />
+            <div className="bg-muted rounded-2xl px-4 py-2">
+              <Loader2 className="w-5 h-5 animate-spin text-muted-foreground" />
             </div>
           </div>
         )}

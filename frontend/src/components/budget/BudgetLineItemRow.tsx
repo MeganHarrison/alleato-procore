@@ -40,7 +40,7 @@ export function BudgetLineItemRow({
   onKeyDown,
 }: BudgetLineItemRowProps) {
   return (
-    <div className="px-4 py-3 hover:bg-gray-50">
+    <div className="px-4 py-3 hover:bg-muted">
       <Inline gap="md" align="center">
         {/* Budget Code Selector */}
         <div className="flex-1">
@@ -78,7 +78,7 @@ export function BudgetLineItemRow({
         {/* Unit Cost */}
         <div className="w-28">
           <div className="relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 pointer-events-none">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground pointer-events-none">
               $
             </span>
             <Input
@@ -97,7 +97,7 @@ export function BudgetLineItemRow({
           <Input
             type="number"
             value={item.amount}
-            className="w-full bg-gray-50 text-right"
+            className="w-full bg-muted text-right"
             disabled
           />
         </div>
@@ -110,7 +110,7 @@ export function BudgetLineItemRow({
             onClick={onRemove}
             disabled={!canRemove}
           >
-            <Trash2 className="h-4 w-4 text-gray-500 hover:text-red-600" />
+            <Trash2 className="h-4 w-4 text-muted-foreground hover:text-red-600" />
           </Button>
         </div>
       </Inline>

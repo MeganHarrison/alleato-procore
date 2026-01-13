@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 interface RouteParams {
   params: Promise<{
-    id: string;
+    projectId: string;
     changeEventId: string;
     attachmentId: string;
   }>;
@@ -18,7 +18,7 @@ export async function GET(
   { params }: RouteParams
 ) {
   try {
-    const { id: projectId, changeEventId, attachmentId } = await params;
+    const { projectId, changeEventId, attachmentId } = await params;
     const supabase = await createClient();
 
     // Verify change event exists and belongs to project

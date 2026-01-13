@@ -25,7 +25,7 @@ test.describe('Tasks Page Verification', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: '/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/screenshots/tasks-page-verification.png',
+      path: '/Users/meganharrison/Documents/github/alleato-procore/tests/screenshots/tasks-page-verification.png',
       fullPage: true
     });
 

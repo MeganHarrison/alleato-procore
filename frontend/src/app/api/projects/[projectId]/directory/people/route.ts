@@ -4,7 +4,7 @@ import { DirectoryService } from "@/services/directoryService";
 import { PermissionService } from "@/services/permissionService";
 
 interface RouteParams {
-  params: Promise<{ id: string }>;
+  params: Promise<{ projectId: string }>;
 }
 
 /**
@@ -15,7 +15,7 @@ interface RouteParams {
  */
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
 
     // Parse query parameters
@@ -67,7 +67,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
  */
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
 
     // Check authentication

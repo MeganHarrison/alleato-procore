@@ -34,11 +34,11 @@ export default function ProjectHomePage({ params }: PageProps) {
       currentTool="Home"
       userInitials="BC"
     >
-      <div className="flex flex-col min-h-[calc(100vh-48px)] bg-gray-50">
+      <div className="flex flex-col min-h-[calc(100vh-48px)] bg-muted">
         {/* Page Header */}
-        <div className="bg-white border-b border-gray-200 px-6 py-4">
-          <h1 className="text-2xl font-semibold text-gray-900">Project Home</h1>
-          <p className="text-sm text-gray-500 mt-1">
+        <div className="bg-background border-b border-border px-6 py-4">
+          <h1 className="text-2xl font-semibold text-foreground">Project Home</h1>
+          <p className="text-sm text-muted-foreground mt-1">
             Welcome to {defaultProjectInfo.name}
           </p>
         </div>

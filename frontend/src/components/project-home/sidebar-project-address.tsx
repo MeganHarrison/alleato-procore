@@ -18,11 +18,11 @@ export function SidebarProjectAddress({
   country = "United States",
 }: SidebarProjectAddressProps) {
   return (
-    <div className="bg-white rounded-md border border-gray-200 p-4">
-      <h3 className="text-sm font-semibold text-gray-900 mb-2">
+    <div className="bg-background rounded-md border border-border p-4">
+      <h3 className="text-sm font-semibold text-foreground mb-2">
         Project Address
       </h3>
-      <p className="text-sm text-gray-600">
+      <p className="text-sm text-foreground">
         {address}
         <br />
         {city}, {state} {zip}

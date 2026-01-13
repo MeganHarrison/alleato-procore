@@ -3,7 +3,7 @@ import fs from "fs";
 import path from "path";
 
 // ========= CONFIG ===========
-const OUTPUT_DIR = "./documentation/1-project-mgmt/in-progress/invoicing/procore-support-crawl";
+const OUTPUT_DIR = "./documentation/*project-mgmt/in-progress/invoicing/procore-support-crawl";
 const WAIT_TIME = 2000;
 const SCREENSHOT_DIR = path.join(OUTPUT_DIR, "pages");
 const REPORTS_DIR = path.join(OUTPUT_DIR, "reports");

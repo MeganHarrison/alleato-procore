@@ -22,15 +22,15 @@ export function CollapsibleSummary({ summary }: CollapsibleSummaryProps) {
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <CardHeader className="pb-4">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-sm font-medium text-gray-600">
+            <CardTitle className="text-sm font-medium text-foreground">
               SUMMARY
             </CardTitle>
             <CollapsibleTrigger asChild>
               <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
                 {isOpen ? (
-                  <ChevronUp className="h-4 w-4 text-gray-600" />
+                  <ChevronUp className="h-4 w-4 text-foreground" />
                 ) : (
-                  <ChevronDown className="h-4 w-4 text-gray-600" />
+                  <ChevronDown className="h-4 w-4 text-foreground" />
                 )}
                 <span className="sr-only">Toggle summary</span>
               </Button>
@@ -39,7 +39,7 @@ export function CollapsibleSummary({ summary }: CollapsibleSummaryProps) {
         </CardHeader>
         <CollapsibleContent>
           <CardContent>
-            <div className="text-sm text-gray-700 leading-relaxed space-y-3">
+            <div className="text-sm text-foreground leading-relaxed space-y-3">
               {summary
                 .split("\n")
                 .filter((paragraph) => paragraph.trim())

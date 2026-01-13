@@ -24,13 +24,13 @@ export function FormField({
 }: FormFieldProps) {
   return (
     <div className={cn(fullWidth ? "sm:col-span-2" : "", className)}>
-      <label className="block text-sm font-medium text-gray-700">
+      <label className="block text-sm font-medium text-foreground">
         {label}
         {required && <span className="ml-1 text-red-500">*</span>}
       </label>
       <div className="mt-1">
         {children}
-        {hint && !error && <p className="mt-2 text-sm text-gray-500">{hint}</p>}
+        {hint && !error && <p className="mt-2 text-sm text-muted-foreground">{hint}</p>}
         {error && <p className="mt-2 text-sm text-red-600">{error}</p>}
       </div>
     </div>

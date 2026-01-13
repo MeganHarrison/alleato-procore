@@ -23,6 +23,7 @@ const DIRECT_COST_TYPES = ["Invoice", "Expense", "Payroll"];
 
 interface DirectCostLineItem {
   id: string;
+  projectId: string;
   project_id: number;
   cost_code_id: string | null;
   amount: number;
@@ -47,13 +48,13 @@ interface CostBreakdown {
 // GET /api/projects/[id]/budget/direct-costs
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },

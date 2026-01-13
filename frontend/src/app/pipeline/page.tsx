@@ -58,7 +58,7 @@ interface PhaseCount {
 const statusConfig = {
   raw_ingested: {
     label: "Raw Ingested",
-    color: "bg-gray-100 text-gray-800",
+    color: "bg-muted text-foreground",
     icon: FileText,
   },
   segmented: {
@@ -220,7 +220,7 @@ export default function DocumentPipelinePage() {
   if (loading) {
     return (
       <div className="flex items-center justify-center min-h-screen">
-        <RefreshCw className="h-8 w-8 animate-spin text-gray-500" />
+        <RefreshCw className="h-8 w-8 animate-spin text-muted-foreground" />
       </div>
     );
   }
@@ -333,7 +333,7 @@ export default function DocumentPipelinePage() {
                       <div className="max-w-xs truncate" title={doc.title}>
                         {doc.title}
                       </div>
-                      <div className="text-xs text-gray-500">
+                      <div className="text-xs text-muted-foreground">
                         {doc.fireflies_id}
                       </div>
                     </TableCell>
@@ -344,12 +344,12 @@ export default function DocumentPipelinePage() {
                       {getStatusBadge(doc.status, doc.pipeline_stage)}
                     </TableCell>
                     <TableCell>
-                      <code className="text-xs bg-gray-100 px-1 py-0.5 rounded">
+                      <code className="text-xs bg-muted px-1 py-0.5 rounded">
                         {doc.pipeline_stage}
                       </code>
                     </TableCell>
                     <TableCell>{doc.attempt_count}</TableCell>
-                    <TableCell className="text-sm text-gray-600">
+                    <TableCell className="text-sm text-foreground">
                       {doc.last_attempt_at
                         ? format(new Date(doc.last_attempt_at), "MMM d, h:mm a")
                         : format(new Date(doc.created_at), "MMM d, h:mm a")}
@@ -373,7 +373,7 @@ export default function DocumentPipelinePage() {
                   <TableRow>
                     <TableCell
                       colSpan={7}
-                      className="text-center text-gray-500 py-8"
+                      className="text-center text-muted-foreground py-8"
                     >
                       No documents found
                     </TableCell>
@@ -400,7 +400,7 @@ export default function DocumentPipelinePage() {
                     <Icon className="h-3 w-3" />
                     {config.label}
                   </Badge>
-                  <span className="text-sm text-gray-600">
+                  <span className="text-sm text-foreground">
                     {status === "raw_ingested" && "→ Ready for parsing"}
                     {status === "segmented" && "→ Ready for embedding"}
                     {status === "embedded" && "→ Ready for extraction"}

@@ -38,6 +38,8 @@ export function DateField({
   disabled = false,
   placeholder = "Pick a date",
 }: DateFieldProps) {
+  const triggerId = `date-field-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+
   return (
     <FormField
       label={label}
@@ -50,6 +52,8 @@ export function DateField({
         <PopoverTrigger asChild>
           <Button
             variant="outline"
+            id={triggerId}
+            aria-label={label}
             className={cn(
               "w-full justify-start text-left font-normal",
               !value && "text-muted-foreground",

@@ -42,7 +42,7 @@ test.describe('Dropdown Hover Colors', () => {
 
     // Take screenshot of hover state
     await page.screenshot({
-      path: 'frontend/tests/screenshots/client-dropdown-hover.png',
+      path: 'tests/screenshots/client-dropdown-hover.png',
       fullPage: false
     });
 
@@ -101,7 +101,7 @@ test.describe('Dropdown Hover Colors', () => {
 
     // Take screenshot of hover state
     await page.screenshot({
-      path: 'frontend/tests/screenshots/phase-dropdown-hover.png',
+      path: 'tests/screenshots/phase-dropdown-hover.png',
       fullPage: false
     });
 

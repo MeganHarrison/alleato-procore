@@ -29,7 +29,7 @@ export function ContentCard({
   children,
 }: ContentCardProps) {
   const baseClasses =
-    "border border-neutral-200 bg-white p-6 md:p-8 transition-all duration-300 hover:border-brand hover:shadow-sm";
+    "border border-neutral-200 bg-background p-6 md:p-8 transition-all duration-300 hover:border-brand hover:shadow-sm";
 
   const content = (
     <>

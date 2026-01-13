@@ -278,7 +278,7 @@ You are an INDEPENDENT VERIFIER. Your job is to verify tests with SKEPTICISM.
 5. Attempt to break the feature (edge cases)
 6. Document findings
 
-**Output:** documentation/1-project-mgmt/in-progress/<feature>/VERIFICATION-TESTS.md
+**Output:** documentation/*project-mgmt/in-progress/<feature>/VERIFICATION-TESTS.md
 
 **Required Evidence:**
 - Test execution output

@@ -185,7 +185,7 @@ export default function ProjectInvoicesPage() {
               </div>
             ) : invoices.length === 0 ? (
               <div className="text-center py-12">
-                <DollarSign className="h-12 w-12 mx-auto text-gray-400 mb-4" />
+                <DollarSign className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
                 <p className="text-muted-foreground mb-4">No invoices found</p>
                 <Button
                   onClick={() => router.push(`/${projectId}/invoices/new`)}
@@ -211,7 +211,7 @@ export default function ProjectInvoicesPage() {
                   {invoices.map((invoice) => (
                     <TableRow
                       key={invoice.id}
-                      className="cursor-pointer hover:bg-gray-50"
+                      className="cursor-pointer hover:bg-muted"
                     >
                       <TableCell className="font-medium">
                         {invoice.number}

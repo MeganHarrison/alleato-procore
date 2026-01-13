@@ -134,7 +134,7 @@ export function BudgetCodeSelector({
           <span
             className={cn(
               "truncate",
-              selectedLabel ? "text-gray-900" : "text-muted-foreground",
+              selectedLabel ? "text-foreground" : "text-muted-foreground",
             )}
           >
             {selectedLabel || placeholder}
@@ -166,7 +166,7 @@ export function BudgetCodeSelector({
                 <div key={division}>
                   {/* Division Header */}
                   <div
-                    className="flex items-center w-full px-3 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-100 cursor-pointer"
+                    className="flex items-center w-full px-3 py-2 text-sm font-semibold text-foreground hover:bg-muted cursor-pointer"
                     onClick={(e) => toggleDivision(division, e)}
                   >
                     {expandedDivisions.has(division) ? (
@@ -175,7 +175,7 @@ export function BudgetCodeSelector({
                       <ChevronRight className="mr-2 h-4 w-4" />
                     )}
                     {division}
-                    <span className="ml-2 text-xs text-gray-500">
+                    <span className="ml-2 text-xs text-muted-foreground">
                       ({groupedCostCodes[division].length})
                     </span>
                   </div>

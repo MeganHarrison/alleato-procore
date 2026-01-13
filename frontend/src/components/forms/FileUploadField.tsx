@@ -139,8 +139,8 @@ export function FileUploadField({
             disabled={disabled}
             className="sr-only"
           />
-          <Upload className="mx-auto h-12 w-12 text-gray-400" />
-          <p className="mt-2 text-sm text-gray-600">
+          <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
+          <p className="mt-2 text-sm text-foreground">
             Drag and drop files here, or{" "}
             <Button
               type="button"
@@ -152,7 +152,7 @@ export function FileUploadField({
               browse
             </Button>
           </p>
-          <p className="text-xs text-gray-500 mt-1">
+          <p className="text-xs text-muted-foreground mt-1">
             {accept && `Accepted formats: ${accept}`}
             {maxSize && ` • Max size: ${formatFileSize(maxSize)}`}
           </p>
@@ -166,10 +166,10 @@ export function FileUploadField({
                 className="flex items-center justify-between rounded-lg border p-3"
               >
                 <div className="flex items-center gap-3">
-                  <FileText className="h-8 w-8 text-gray-400" />
+                  <FileText className="h-8 w-8 text-muted-foreground" />
                   <div>
                     <p className="text-sm font-medium">{file.name}</p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                       {formatFileSize(file.size)}
                     </p>
                   </div>

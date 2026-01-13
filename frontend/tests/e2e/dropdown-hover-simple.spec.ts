@@ -18,7 +18,7 @@ test.describe('Dropdown Hover Colors - Simple Check', () => {
 
     // Take screenshot of initial state
     await page.screenshot({
-      path: 'frontend/tests/screenshots/portfolio-initial.png',
+      path: 'tests/screenshots/portfolio-initial.png',
       fullPage: false
     });
 
@@ -53,7 +53,7 @@ test.describe('Dropdown Hover Colors - Simple Check', () => {
 
         // Take screenshot of hover state
         await page.screenshot({
-          path: 'frontend/tests/screenshots/dropdown-hover-state.png',
+          path: 'tests/screenshots/dropdown-hover-state.png',
           fullPage: false
         });
 

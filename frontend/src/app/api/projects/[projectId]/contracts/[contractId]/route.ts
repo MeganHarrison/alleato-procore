@@ -4,7 +4,7 @@ import { updateContractSchema } from "../validation";
 import { ZodError } from "zod";
 
 interface RouteParams {
-  params: Promise<{ id: string; contractId: string }>;
+  params: Promise<{ projectId: string; contractId: string }>;
 }
 
 /**
@@ -13,7 +13,7 @@ interface RouteParams {
  */
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, contractId } = await params;
+    const { projectId, contractId } = await params;
     const supabase = await createClient();
 
     const { data, error } = await supabase
@@ -61,7 +61,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
  */
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, contractId } = await params;
+    const { projectId, contractId } = await params;
     const supabase = await createClient();
     const body = await request.json();
 
@@ -189,7 +189,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
  */
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, contractId } = await params;
+    const { projectId, contractId } = await params;
     const supabase = await createClient();
 
     // Get current user

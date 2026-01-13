@@ -25,7 +25,7 @@ export function StatCard({
   href,
 }: StatCardProps) {
   const baseClasses =
-    "border border-neutral-200 bg-white p-8 transition-all duration-300 hover:border-brand hover:shadow-sm";
+    "border border-neutral-200 bg-background p-8 transition-all duration-300 hover:border-brand hover:shadow-sm";
   const interactiveClasses = onClick || href ? "cursor-pointer" : "";
 
   const content = (

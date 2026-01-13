@@ -3,7 +3,7 @@ import { NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 
 interface RouteParams {
-  params: Promise<{ id: string; contractId: string }>;
+  params: Promise<{ projectId: string; contractId: string }>;
 }
 
 interface ImportSource {
@@ -17,7 +17,7 @@ interface ImportSource {
  */
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, contractId } = await params;
+    const { projectId, contractId } = await params;
     const numericProjectId = parseInt(projectId, 10);
 
     if (Number.isNaN(numericProjectId)) {

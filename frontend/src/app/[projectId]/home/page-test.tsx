@@ -19,9 +19,9 @@ export default function ProjectHomePageTest({ params }: PageProps) {
       currentTool="Home"
       userInitials="BC"
     >
-      <div className="flex flex-col min-h-[calc(100vh-48px)] bg-gray-50">
-        <div className="bg-white border-b border-gray-200 px-6 py-4">
-          <h1 className="text-2xl font-bold text-gray-900">
+      <div className="flex flex-col min-h-[calc(100vh-48px)] bg-muted">
+        <div className="bg-background border-b border-border px-6 py-4">
+          <h1 className="text-2xl font-bold text-foreground">
             Project Home - Test Version
           </h1>
           <p>Project ID: {projectId}</p>

@@ -2,7 +2,7 @@
 
 ## Problem Statement
 
-All Playwright API tests for Prime Contracts are failing with 404 errors, even though:
+All Playwright API tests for Prime Contracts were failing with 404 errors, even though:
 - Authentication setup works correctly (storageState is generated with valid cookies)
 - The API routes exist and work via curl with cookies
 - The dev server is running properly
@@ -37,44 +37,25 @@ All Playwright API tests for Prime Contracts are failing with 404 errors, even t
 - The Supabase server client uses `cookies()` from `next/headers`
 - The Cookie header is being constructed correctly (2552 characters, proper format)
 
-## Recommended Solution
+## Recommended Solution (Implemented)
 
-**Use browser context with page.evaluate() instead of request fixture:**
+**Use an authenticated API request context built from `storageState` instead of Cookie headers.**
 
-```typescript
-test('should create contract', async ({ page }) => {
-  // page already has storageState with auth cookies
-
-  const response = await page.evaluate(async ([url, data]) => {
-    const res = await fetch(url, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(data),
-    });
-    return {
-      status: res.status,
-      data: await res.json(),
-    };
-  }, [url, contractData]);
-
-  expect(response.status).toBe(201);
-});
-```
+Prime-contract API specs now rely on `createAuthenticatedRequestContext` to create an `APIRequestContext` seeded with the saved auth state, so Next.js receives real cookies without manual headers.
 
 ### Why This Works
 
-1. The `page` fixture uses `storageState` automatically (configured in playwright.config.ts)
-2. `fetch()` calls from within the browser context include cookies naturally
-3. Next.js receives proper browser cookies, not HTTP headers
-4. The `cookies()` function works as expected
+1. The context loads the same storageState used by UI tests (auth cookies included)
+2. Requests are issued from that context, so `cookies()` resolves correctly
+3. No brittle Cookie header construction is required
 
 ## Alternative Solutions
 
-### Option 1: Use Supabase Client Directly (Current Approach)
-The tests currently create Supabase clients directly and test business logic, which works well. The API route tests may be redundant if the business logic is already covered.
+### Option 1: Use Supabase Client Directly
+Good for schema validation, but does not cover API route wiring/auth.
 
-### Option 2: Custom Playwright Fixture
-Create a custom fixture that properly manages authenticated API contexts, but this is complex and may not work reliably with Next.js.
+### Option 2: Custom Playwright Fixture (Implemented)
+Use storageState-backed API contexts via `createAuthenticatedRequestContext` (preferred for API route coverage).
 
 ### Option 3: Mock the cookies() Function
 Not recommended - would require significant test infrastructure changes.
@@ -88,16 +69,13 @@ The Cookie HTTP header approach with Playwright's `request` fixture is not compa
 
 ## Files Modified
 
-- `/tests/helpers/api-auth.ts` - Created helper (Cookie header approach - doesn't work with Next.js)
-- `/tests/e2e/prime-contracts/api-change-orders.spec.ts` - Updated to use withAuth
-- `/tests/e2e/prime-contracts/api-crud.spec.ts` - Updated to use withAuth
-- `/tests/e2e/prime-contracts/api-line-items.spec.ts` - Updated to use withAuth
-
-All three test files need to be reverted or updated to use the page.evaluate() approach.
+- `/tests/helpers/api-auth.ts` - Adds `createAuthenticatedRequestContext`
+- `/tests/e2e/prime-contracts/api-change-orders.spec.ts` - Uses authenticated request context
+- `/tests/e2e/prime-contracts/api-crud.spec.ts` - Uses authenticated request context
+- `/tests/e2e/prime-contracts/api-line-items.spec.ts` - Uses authenticated request context
 
 ## Next Steps
 
-1. Decide on testing strategy (API routes vs business logic)
-2. If testing API routes, refactor to use `page.evaluate()` approach
-3. If testing business logic only, keep existing Supabase client approach
-4. Remove the `withAuth` helper if not needed
+1. Keep API specs on the authenticated request context
+2. Remove any remaining Cookie-header helpers in other specs
+3. Add page-level UI flows once routes stabilize

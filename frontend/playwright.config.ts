@@ -9,6 +9,10 @@ dotenv.config({ path: path.resolve(__dirname, '.env') });
 const isDebug = process.env.PWDEBUG === '1';
 const keepAllVideos = process.env.PW_VIDEO === 'on';
 
+// Allow override of host/port for sandboxed runs
+const PLAYWRIGHT_HOST = process.env.PLAYWRIGHT_HOST || '127.0.0.1';
+const PLAYWRIGHT_PORT = parseInt(process.env.PLAYWRIGHT_PORT || '3100', 10);
+
 export default defineConfig({
   testDir: './tests',
   timeout: 60 * 1000, // Increased for form interactions
@@ -25,7 +29,7 @@ export default defineConfig({
     ['list'],
   ],
   use: {
-    baseURL: 'http://localhost:3000',
+    baseURL: `http://${PLAYWRIGHT_HOST}:${PLAYWRIGHT_PORT}`,
     trace: 'on-first-retry',
     screenshot: 'on', // Always capture screenshots for verification
     video: keepAllVideos ? 'on' : isDebug ? 'on' : 'retain-on-failure',
@@ -48,14 +52,21 @@ export default defineConfig({
       name: 'debug',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: 'http://localhost:3002',
+        baseURL: `http://${PLAYWRIGHT_HOST}:${PLAYWRIGHT_PORT}`,
       },
+    },
+    {
+      name: 'no-auth',
+      use: {
+        ...devices['Desktop Chrome'],
+      },
+      testMatch: /sidebar-collapse-verification\.spec\.ts/,
     },
   ],
 
   webServer: {
-    command: 'npm run dev',
-    port: 3000,
+    command: `HOST=${PLAYWRIGHT_HOST} HOSTNAME=${PLAYWRIGHT_HOST} PORT=${PLAYWRIGHT_PORT} npm run dev`,
+    port: PLAYWRIGHT_PORT,
     reuseExistingServer: !process.env.CI,
   },
 });

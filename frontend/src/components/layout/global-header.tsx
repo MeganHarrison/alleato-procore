@@ -34,7 +34,7 @@ export function GlobalHeader() {
     <header className="h-12 bg-[hsl(var(--procore-header))] text-[hsl(var(--procore-header-text))] flex items-center px-4 justify-between border-b border-white/5">
       {/* Left Section */}
       <div className="flex items-center gap-3">
-        <SidebarTrigger className="text-[hsl(var(--procore-header-text))] hover:bg-white/10" />
+        <SidebarTrigger className="text-[hsl(var(--procore-header-text))] hover:bg-background/10" />
         <div className="flex items-center gap-4">
           {/* Logo */}
           <div className="flex items-center gap-2">
@@ -55,10 +55,10 @@ export function GlobalHeader() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="h-8 text-[hsl(var(--procore-header-text))] hover:bg-white/10 px-2"
+                className="h-8 text-[hsl(var(--procore-header-text))] hover:bg-background/10 px-2"
               >
                 <span className="text-xs text-gray-300">{companyName}</span>
-                <span className="mx-1 text-gray-500">|</span>
+                <span className="mx-1 text-muted-foreground">|</span>
                 <span className="text-sm font-medium">{projectName}</span>
                 <ChevronDown className="ml-1 h-3 w-3" />
               </Button>
@@ -76,9 +76,9 @@ export function GlobalHeader() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="ghost"
-                className="h-8 text-[hsl(var(--procore-header-text))] hover:bg-white/10 px-2"
+                className="h-8 text-[hsl(var(--procore-header-text))] hover:bg-background/10 px-2"
               >
-                <span className="text-xs text-gray-400">Project Tools</span>
+                <span className="text-xs text-muted-foreground">Project Tools</span>
                 <span className="ml-2 text-sm font-medium">{currentTool}</span>
                 <ChevronDown className="ml-1 h-3 w-3" />
               </Button>
@@ -105,13 +105,13 @@ export function GlobalHeader() {
       {/* Center Section - Search */}
       <div className="flex-1 max-w-md mx-4">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-400" />
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <input
             type="text"
             placeholder="Search"
-            className="w-full h-8 pl-9 pr-16 bg-white/10 border-0 rounded text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-white/30"
+            className="w-full h-8 pl-9 pr-16 bg-background/10 border-0 rounded text-sm text-white placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-white/30"
           />
-          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-1 text-gray-400">
+          <div className="absolute right-3 top-1/2 transform -translate-y-1/2 flex items-center gap-1 text-muted-foreground">
             <Command className="h-3 w-3" />
             <span className="text-xs">K</span>
           </div>
@@ -123,7 +123,7 @@ export function GlobalHeader() {
         <Button
           variant="ghost"
           size="sm"
-          className="h-8 text-[hsl(var(--procore-header-text))] hover:bg-white/10"
+          className="h-8 text-[hsl(var(--procore-header-text))] hover:bg-background/10"
         >
           <Star className="h-4 w-4 mr-1" />
           <span className="text-sm">Favorites</span>
@@ -135,9 +135,9 @@ export function GlobalHeader() {
             <Button
               variant="ghost"
               size="sm"
-              className="h-8 text-[hsl(var(--procore-header-text))] hover:bg-white/10"
+              className="h-8 text-[hsl(var(--procore-header-text))] hover:bg-background/10"
             >
-              <span className="text-xs text-gray-400">Apps</span>
+              <span className="text-xs text-muted-foreground">Apps</span>
               <span className="ml-1 text-sm">Select an App</span>
               <ChevronDown className="ml-1 h-3 w-3" />
             </Button>
@@ -152,21 +152,21 @@ export function GlobalHeader() {
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-[hsl(var(--procore-header-text))] hover:bg-white/10"
+          className="h-8 w-8 text-[hsl(var(--procore-header-text))] hover:bg-background/10"
         >
           <HelpCircle className="h-4 w-4" />
         </Button>
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-[hsl(var(--procore-header-text))] hover:bg-white/10"
+          className="h-8 w-8 text-[hsl(var(--procore-header-text))] hover:bg-background/10"
         >
           <MessageSquare className="h-4 w-4" />
         </Button>
         <Button
           variant="ghost"
           size="icon"
-          className="h-8 w-8 text-[hsl(var(--procore-header-text))] hover:bg-white/10"
+          className="h-8 w-8 text-[hsl(var(--procore-header-text))] hover:bg-background/10"
         >
           <Bell className="h-4 w-4" />
         </Button>

@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 
 interface RouteParams {
-  params: Promise<{ id: string }>;
+  params: Promise<{ projectId: string }>;
 }
 
 // GET /api/projects/[id]/directory/roles
 // Fetches all project roles with their assigned members
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const supabase = createServiceClient();
 
     // Fetch roles
@@ -126,7 +126,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 // Updates role members for a specific role
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const body = await request.json();
     const { role_id, member_person_ids } = body;
 
@@ -209,7 +209,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 // Creates a new custom role for the project
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const body = await request.json();
     const { role_name, role_type = "Person" } = body;
 

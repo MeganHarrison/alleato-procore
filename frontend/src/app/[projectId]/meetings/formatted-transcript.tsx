@@ -28,7 +28,7 @@ export function FormattedTranscript({ content }: FormattedTranscriptProps) {
     .trim();
 
   return (
-    <div className="border border-neutral-200 bg-white p-8 rounded-md">
+    <div className="border border-neutral-200 bg-background p-8 rounded-md">
       <SectionHeader className="mb-6">Full Transcript</SectionHeader>
 
       <ReactMarkdown

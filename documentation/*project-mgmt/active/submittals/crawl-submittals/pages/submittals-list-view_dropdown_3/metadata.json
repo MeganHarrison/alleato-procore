@@ -1,0 +1,16 @@
+{
+  "parentPage": "submittals-list-view",
+  "parentUrl": "https://us02.procore.com/webclients/host/companies/562949953443325/projects/562949954728542/tools/submittals?view=list",
+  "dropdownIndex": 3,
+  "menuItems": [
+    {
+      "text": "Create New Report",
+      "href": "https://us02.procore.com/562949954728542/project/custom_reports/new"
+    },
+    {
+      "text": "Submittal Approvers' Response Time",
+      "href": null
+    }
+  ],
+  "timestamp": "2026-01-11T07:11:35.533Z"
+}

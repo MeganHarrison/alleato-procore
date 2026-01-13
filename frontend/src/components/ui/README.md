@@ -12,7 +12,7 @@ Versatile content container with semantic sections.
 ```tsx
 import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card'
 
-<Card>
+<Card variant="plain" padding="md">
   <CardHeader className="border-b">
     <Heading level={3}>Title</Heading>
   </CardHeader>
@@ -26,6 +26,9 @@ import { Card, CardHeader, CardContent, CardFooter } from '@/components/ui/card'
 ```
 
 **Props:**
+- `variant`: `default` (bordered), `subtle` (muted bg), `plain` (no border), `ghost` (transparent)
+- `padding`: `none`, `sm`, `md` (default), `lg`
+- `as`: render element (div, section, article, aside)
 - `className`: Additional CSS classes
 
 #### Grid
@@ -95,13 +98,13 @@ Simple grouped content surface (lighter than Card).
 ```tsx
 import { Panel } from '@/components/ui/panel'
 
-<Panel variant="bordered" padding="md">
+<Panel variant="plain" padding="md">
   <Text>Panel content</Text>
 </Panel>
 ```
 
 **Props:**
-- `variant`: Visual style (default, bordered, elevated, ghost)
+- `variant`: Visual style (default, bordered, elevated, ghost, plain)
 - `padding`: Internal padding (none, sm, md, lg)
 
 ---

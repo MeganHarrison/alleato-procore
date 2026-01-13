@@ -221,7 +221,7 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
   if (loading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <p className="text-gray-500">Loading cost codes...</p>
+        <p className="text-muted-foreground">Loading cost codes...</p>
       </div>
     );
   }
@@ -235,7 +235,7 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
       <div className="flex items-center justify-between">
         <div>
           <h2 className="text-lg font-semibold">Project Cost Codes</h2>
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-foreground">
             Select which cost codes are active for this project (
             {selectedCostCodes.size} selected)
           </p>
@@ -287,7 +287,7 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
       {/* Cost Codes List */}
       <div className="space-y-0.5">
         {filteredDivisions.length === 0 ? (
-          <div className="py-8 text-center text-gray-500">
+          <div className="py-8 text-center text-muted-foreground">
             No cost codes found matching your search
           </div>
         ) : (
@@ -301,23 +301,23 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
             return (
               <div
                 key={division}
-                className={isEvenDivision ? "bg-gray-50/50" : "bg-white"}
+                className={isEvenDivision ? "bg-muted/50" : "bg-background"}
               >
-                <div className="flex items-center justify-between py-2 px-3 hover:bg-gray-100/50">
+                <div className="flex items-center justify-between py-2 px-3 hover:bg-muted/50">
                   <button
                     className="flex items-center gap-2 cursor-pointer flex-1 text-left"
                     onClick={() => toggleDivision(division)}
                     type="button"
                   >
                     {isExpanded ? (
-                      <ChevronDown className="h-4 w-4 text-gray-600" />
+                      <ChevronDown className="h-4 w-4 text-foreground" />
                     ) : (
-                      <ChevronRight className="h-4 w-4 text-gray-600" />
+                      <ChevronRight className="h-4 w-4 text-foreground" />
                     )}
-                    <span className="text-sm font-medium text-gray-900">
+                    <span className="text-sm font-medium text-foreground">
                       {division}
                     </span>
-                    <span className="text-xs text-gray-500">
+                    <span className="text-xs text-muted-foreground">
                       ({codes.filter((c) => selectedCostCodes.has(c.id)).length}
                       /{codes.length})
                     </span>
@@ -341,17 +341,17 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
                         <button
                           key={code.id}
                           type="button"
-                          className="flex items-center gap-3 py-1.5 px-2 rounded hover:bg-gray-100/70 cursor-pointer w-full text-left"
+                          className="flex items-center gap-3 py-1.5 px-2 rounded hover:bg-muted/70 cursor-pointer w-full text-left"
                           onClick={() => toggleCostCode(code.id)}
                         >
                           <Checkbox
                             checked={isSelected}
                             onCheckedChange={() => toggleCostCode(code.id)}
                           />
-                          <div className="flex-1 text-sm text-gray-700">
+                          <div className="flex-1 text-sm text-foreground">
                             <span className="font-medium">{code.id}</span>
                             {code.title && (
-                              <span className="text-gray-600">
+                              <span className="text-foreground">
                                 {" "}
                                 - {code.title}
                               </span>

@@ -159,7 +159,7 @@ function EventDetails({ event }: { event: AgentEvent }) {
 
   return (
     <div className="flex items-start gap-2">
-      <div className="flex items-center gap-1 rounded-full bg-gray-100 px-2 py-1 text-[11px] text-gray-600 shrink-0">
+      <div className="flex items-center gap-1 rounded-full bg-muted px-2 py-1 text-[11px] text-foreground shrink-0">
         <EventIcon type={event.type} icon={event.metadata?.icon} />
         <span className="whitespace-nowrap">{formatEventName(event.type)}</span>
       </div>
@@ -177,26 +177,26 @@ function EventDetails({ event }: { event: AgentEvent }) {
           >
             <div
               style={clampStyle}
-              className="text-sm leading-relaxed text-gray-800 whitespace-pre-wrap flex flex-wrap items-start gap-1"
+              className="text-sm leading-relaxed text-foreground whitespace-pre-wrap flex flex-wrap items-start gap-1"
             >
               {event.type === "tool_call" ? (
                 <>
-                  <span className="font-mono text-[13px] text-gray-800">
+                  <span className="font-mono text-[13px] text-foreground">
                     {event.content || "Tool call"}
                   </span>
                   {collapsedArgsText && !expanded && (
-                    <span className="font-mono text-[13px] text-gray-700">
+                    <span className="font-mono text-[13px] text-foreground">
                       - {collapsedArgsText}
                     </span>
                   )}
                 </>
               ) : event.type === "tool_output" && collapsedResultText ? (
                 isJsonResult ? (
-                  <span className="font-mono text-[13px] bg-gray-100 border border-gray-200 px-2 py-1 rounded">
+                  <span className="font-mono text-[13px] bg-muted border border-border px-2 py-1 rounded">
                     {collapsedResultText}
                   </span>
                 ) : (
-                  <span className="text-sm text-gray-800">
+                  <span className="text-sm text-foreground">
                     {collapsedResultText}
                   </span>
                 )
@@ -204,7 +204,7 @@ function EventDetails({ event }: { event: AgentEvent }) {
                 Object.entries(contextChanges).map(([key, value]) => (
                   <span
                     key={key}
-                    className="font-mono text-[12px] text-gray-800"
+                    className="font-mono text-[12px] text-foreground"
                   >
                     {key}: {inlineValue(value)}
                   </span>
@@ -215,13 +215,13 @@ function EventDetails({ event }: { event: AgentEvent }) {
             </div>
           </div>
           <ChevronDown
-            className={`mt-0.5 h-4 w-4 text-gray-400 transition-transform duration-200 group-hover:text-gray-600 ${
+            className={`mt-0.5 h-4 w-4 text-muted-foreground transition-transform duration-200 group-hover:text-foreground ${
               expanded ? "rotate-180" : ""
             }`}
           />
         </button>
         {expanded && event.type === "tool_call" && toolArgs !== undefined && (
-          <pre className="mt-2 bg-gray-100 border border-gray-200 font-mono text-xs text-gray-800 p-2 rounded-md whitespace-pre-wrap break-words">
+          <pre className="mt-2 bg-muted border border-border font-mono text-xs text-foreground p-2 rounded-md whitespace-pre-wrap break-words">
             {JSON.stringify(parsedArgs ?? toolArgs, null, 2)}
           </pre>
         )}
@@ -229,16 +229,16 @@ function EventDetails({ event }: { event: AgentEvent }) {
           event.type === "tool_output" &&
           toolResult !== undefined &&
           (isJsonResult ? (
-            <pre className="mt-2 bg-gray-100 border border-gray-200 font-mono text-xs text-gray-800 p-2 rounded-md whitespace-pre-wrap break-words">
+            <pre className="mt-2 bg-muted border border-border font-mono text-xs text-foreground p-2 rounded-md whitespace-pre-wrap break-words">
               {JSON.stringify(parsedResult, null, 2)}
             </pre>
           ) : (
-            <div className="mt-2 text-sm text-gray-800 whitespace-pre-wrap">
+            <div className="mt-2 text-sm text-foreground whitespace-pre-wrap">
               {inlineValue(toolResult)}
             </div>
           ))}
         {expanded && event.type === "context_update" && contextChanges && (
-          <pre className="mt-2 bg-gray-100 border border-gray-200 font-mono text-xs text-gray-800 p-2 rounded-md whitespace-pre-wrap break-words">
+          <pre className="mt-2 bg-muted border border-border font-mono text-xs text-foreground p-2 rounded-md whitespace-pre-wrap break-words">
             {JSON.stringify(parsedContext ?? contextChanges, null, 2)}
           </pre>
         )}
@@ -256,7 +256,7 @@ export function RunnerOutput({ runnerEvents }: RunnerOutputProps) {
         title="Runner Output"
         icon={<MessageSquareMore className="h-4 w-4 text-blue-600" />}
       >
-        <ScrollArea className="h-[calc(100%-2rem)] rounded-md border border-gray-200 bg-gray-100 shadow-sm">
+        <ScrollArea className="h-[calc(100%-2rem)] rounded-md border border-border bg-muted shadow-sm">
           <div className="p-3 space-y-2.5">
             {runnerEvents.length === 0 ? (
               <p className="text-center text-zinc-500 p-4">
@@ -269,10 +269,10 @@ export function RunnerOutput({ runnerEvents }: RunnerOutputProps) {
                 return (
                   <Card
                     key={key}
-                    className="border border-gray-200 bg-white shadow-sm rounded-lg"
+                    className="border border-border bg-background shadow-sm rounded-lg"
                   >
                     <CardHeader className="flex flex-row items-center px-3 py-2">
-                      <span className="text-sm text-gray-800 font-medium">
+                      <span className="text-sm text-foreground font-medium">
                         {agentName}
                       </span>
                     </CardHeader>

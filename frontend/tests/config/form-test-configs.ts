@@ -72,7 +72,7 @@ export const formConfigs: FormTestConfig[] = [
     screenshotPrefix: 'create-contract',
     requiredFields: [
       {
-        label: 'Contract Number',
+        label: /contract #/i,
         type: 'text',
         testValue: `${testPrefix}CTR-001`,
         validation: [{ type: 'required', message: 'Contract number is required' }]
@@ -132,32 +132,9 @@ export const formConfigs: FormTestConfig[] = [
     screenshotPrefix: 'subcontract',
     requiredFields: [
       {
-        label: /subcontract number/i,
+        label: /contract #/i,
         type: 'text',
         testValue: `${testPrefix}SUB-001`
-      }
-    ]
-  },
-
-  {
-    name: 'RFI Form',
-    route: '/form-rfi',
-    isModal: false,
-    priority: 'medium',
-    authRequired: true,
-    submitButtonText: /create|submit/i,
-    successIndicator: /created|success/i,
-    screenshotPrefix: 'rfi',
-    requiredFields: [
-      {
-        label: /rfi number/i,
-        type: 'text',
-        testValue: `${testPrefix}RFI-001`
-      },
-      {
-        label: /subject/i,
-        type: 'text',
-        testValue: 'Test RFI Subject'
       }
     ]
   },

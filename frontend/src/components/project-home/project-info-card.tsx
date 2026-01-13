@@ -44,13 +44,13 @@ export function ProjectInfoCard({ project }: ProjectInfoCardProps) {
   };
 
   return (
-    <div className="bg-white rounded-md border border-gray-200 p-6">
+    <div className="bg-background rounded-md border border-border p-6">
       <div className="flex items-start justify-between mb-4">
         <div>
-          <h2 className="text-lg font-semibold text-gray-900">
+          <h2 className="text-lg font-semibold text-foreground">
             {project.name}
           </h2>
-          <p className="text-sm text-gray-500">#{project.projectNumber}</p>
+          <p className="text-sm text-muted-foreground">#{project.projectNumber}</p>
         </div>
         <div className="flex items-center gap-2">
           <span
@@ -58,7 +58,7 @@ export function ProjectInfoCard({ project }: ProjectInfoCardProps) {
               "px-2 py-1 text-xs font-medium rounded",
               project.status === "Active"
                 ? "bg-green-100 text-green-700"
-                : "bg-gray-100 text-gray-600",
+                : "bg-muted text-foreground",
             )}
           >
             {project.status}
@@ -66,7 +66,7 @@ export function ProjectInfoCard({ project }: ProjectInfoCardProps) {
           <span
             className={cn(
               "px-2 py-1 text-xs font-medium rounded",
-              stageColors[project.stage] || "bg-gray-100 text-gray-600",
+              stageColors[project.stage] || "bg-muted text-foreground",
             )}
           >
             {project.stage}
@@ -77,10 +77,10 @@ export function ProjectInfoCard({ project }: ProjectInfoCardProps) {
       <div className="grid grid-cols-2 gap-4">
         {/* Location */}
         <div className="flex items-start gap-3">
-          <MapPin className="w-4 h-4 text-gray-400 mt-0.5" />
+          <MapPin className="w-4 h-4 text-muted-foreground mt-0.5" />
           <div>
-            <p className="text-sm font-medium text-gray-700">Location</p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm font-medium text-foreground">Location</p>
+            <p className="text-sm text-foreground">
               {project.address}
               <br />
               {project.city}, {project.state} {project.zip}
@@ -91,20 +91,20 @@ export function ProjectInfoCard({ project }: ProjectInfoCardProps) {
         {/* Phone */}
         {project.phone && (
           <div className="flex items-start gap-3">
-            <Phone className="w-4 h-4 text-gray-400 mt-0.5" />
+            <Phone className="w-4 h-4 text-muted-foreground mt-0.5" />
             <div>
-              <p className="text-sm font-medium text-gray-700">Phone</p>
-              <p className="text-sm text-gray-600">{project.phone}</p>
+              <p className="text-sm font-medium text-foreground">Phone</p>
+              <p className="text-sm text-foreground">{project.phone}</p>
             </div>
           </div>
         )}
 
         {/* Dates */}
         <div className="flex items-start gap-3">
-          <Calendar className="w-4 h-4 text-gray-400 mt-0.5" />
+          <Calendar className="w-4 h-4 text-muted-foreground mt-0.5" />
           <div>
-            <p className="text-sm font-medium text-gray-700">Schedule</p>
-            <p className="text-sm text-gray-600">
+            <p className="text-sm font-medium text-foreground">Schedule</p>
+            <p className="text-sm text-foreground">
               {formatDate(project.startDate)} -{" "}
               {formatDate(project.estimatedCompletionDate)}
             </p>
@@ -114,10 +114,10 @@ export function ProjectInfoCard({ project }: ProjectInfoCardProps) {
         {/* Project Value */}
         {project.projectValue && (
           <div className="flex items-start gap-3">
-            <DollarSign className="w-4 h-4 text-gray-400 mt-0.5" />
+            <DollarSign className="w-4 h-4 text-muted-foreground mt-0.5" />
             <div>
-              <p className="text-sm font-medium text-gray-700">Project Value</p>
-              <p className="text-sm text-gray-600">
+              <p className="text-sm font-medium text-foreground">Project Value</p>
+              <p className="text-sm text-foreground">
                 {formatCurrency(project.projectValue)}
               </p>
             </div>
@@ -127,20 +127,20 @@ export function ProjectInfoCard({ project }: ProjectInfoCardProps) {
         {/* Owner */}
         {project.owner && (
           <div className="flex items-start gap-3">
-            <Building2 className="w-4 h-4 text-gray-400 mt-0.5" />
+            <Building2 className="w-4 h-4 text-muted-foreground mt-0.5" />
             <div>
-              <p className="text-sm font-medium text-gray-700">Owner</p>
-              <p className="text-sm text-gray-600">{project.owner}</p>
+              <p className="text-sm font-medium text-foreground">Owner</p>
+              <p className="text-sm text-foreground">{project.owner}</p>
             </div>
           </div>
         )}
 
         {/* Type */}
         <div className="flex items-start gap-3">
-          <Users className="w-4 h-4 text-gray-400 mt-0.5" />
+          <Users className="w-4 h-4 text-muted-foreground mt-0.5" />
           <div>
-            <p className="text-sm font-medium text-gray-700">Type</p>
-            <p className="text-sm text-gray-600">{project.type}</p>
+            <p className="text-sm font-medium text-foreground">Type</p>
+            <p className="text-sm text-foreground">{project.type}</p>
           </div>
         </div>
       </div>

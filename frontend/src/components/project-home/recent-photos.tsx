@@ -113,7 +113,7 @@ export function RecentPhotos({ projectId }: RecentPhotosProps) {
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-foreground">
           Visual documentation of project progress
         </p>
         <Button size="sm" className="gap-2">
@@ -128,11 +128,11 @@ export function RecentPhotos({ projectId }: RecentPhotosProps) {
           <Dialog key={photo.id}>
             <DialogTrigger asChild>
               <div
-                className="group relative cursor-pointer overflow-hidden rounded-lg border border-gray-200 hover:border-gray-300 transition-all"
+                className="group relative cursor-pointer overflow-hidden rounded-lg border border-border hover:border-border transition-all"
                 onClick={() => setSelectedPhoto(photo)}
               >
                 {/* Photo Thumbnail */}
-                <div className="aspect-[4/3] relative bg-gray-100">
+                <div className="aspect-[4/3] relative bg-muted">
                   <Image
                     src={photo.thumbnailUrl || photo.url}
                     alt={photo.title}
@@ -149,10 +149,10 @@ export function RecentPhotos({ projectId }: RecentPhotosProps) {
 
                 {/* Photo Info */}
                 <div className="p-3 space-y-1">
-                  <h4 className="text-sm font-medium text-gray-900 line-clamp-1">
+                  <h4 className="text-sm font-medium text-foreground line-clamp-1">
                     {photo.title}
                   </h4>
-                  <div className="flex items-center gap-2 text-xs text-gray-500">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
                       <span>{format(photo.dateTaken, "MMM d")}</span>
@@ -163,7 +163,7 @@ export function RecentPhotos({ projectId }: RecentPhotosProps) {
                     </div>
                   </div>
                   {photo.location && (
-                    <p className="text-xs text-gray-600 truncate">
+                    <p className="text-xs text-foreground truncate">
                       📍 {photo.location}
                     </p>
                   )}
@@ -176,7 +176,7 @@ export function RecentPhotos({ projectId }: RecentPhotosProps) {
               {selectedPhoto && (
                 <div className="space-y-4">
                   {/* Full Image */}
-                  <div className="relative aspect-[16/10] bg-gray-100 rounded-lg overflow-hidden">
+                  <div className="relative aspect-[16/10] bg-muted rounded-lg overflow-hidden">
                     <Image
                       src={selectedPhoto.url}
                       alt={selectedPhoto.title}
@@ -189,11 +189,11 @@ export function RecentPhotos({ projectId }: RecentPhotosProps) {
                   {/* Photo Details */}
                   <div className="space-y-3">
                     <div>
-                      <h3 className="text-lg font-semibold text-gray-900">
+                      <h3 className="text-lg font-semibold text-foreground">
                         {selectedPhoto.title}
                       </h3>
                       {selectedPhoto.description && (
-                        <p className="text-sm text-gray-600 mt-1">
+                        <p className="text-sm text-foreground mt-1">
                           {selectedPhoto.description}
                         </p>
                       )}
@@ -201,20 +201,20 @@ export function RecentPhotos({ projectId }: RecentPhotosProps) {
 
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
                       <div>
-                        <p className="text-gray-500">Date Taken</p>
+                        <p className="text-muted-foreground">Date Taken</p>
                         <p className="font-medium">
                           {format(selectedPhoto.dateTaken, "MMM d, yyyy")}
                         </p>
                       </div>
                       <div>
-                        <p className="text-gray-500">Uploaded By</p>
+                        <p className="text-muted-foreground">Uploaded By</p>
                         <p className="font-medium">
                           {selectedPhoto.uploadedBy}
                         </p>
                       </div>
                       {selectedPhoto.location && (
                         <div>
-                          <p className="text-gray-500">Location</p>
+                          <p className="text-muted-foreground">Location</p>
                           <p className="font-medium">
                             {selectedPhoto.location}
                           </p>
@@ -234,12 +234,12 @@ export function RecentPhotos({ projectId }: RecentPhotosProps) {
 
                     {selectedPhoto.tags && selectedPhoto.tags.length > 0 && (
                       <div>
-                        <p className="text-sm text-gray-500 mb-2">Tags</p>
+                        <p className="text-sm text-muted-foreground mb-2">Tags</p>
                         <div className="flex flex-wrap gap-2">
                           {selectedPhoto.tags.map((tag) => (
                             <span
                               key={tag}
-                              className="px-2 py-1 text-xs bg-gray-100 text-gray-700 rounded-full"
+                              className="px-2 py-1 text-xs bg-muted text-foreground rounded-full"
                             >
                               {tag}
                             </span>

@@ -1,13 +1,14 @@
 import { CreateDirectCostForm } from '@/components/direct-costs/CreateDirectCostForm'
 
 interface PageProps {
-  params: {
+  params: Promise<{
     projectId: string
-  }
+  }>
 }
 
-export default function NewDirectCostPage({ params }: PageProps) {
-  const projectId = parseInt(params.projectId)
+export default async function NewDirectCostPage({ params }: PageProps) {
+  const resolvedParams = await params
+  const projectId = parseInt(resolvedParams.projectId)
 
   return (
     <div className="container mx-auto py-6">

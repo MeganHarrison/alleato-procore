@@ -24,7 +24,7 @@ export function MorphingDialogBasicOne() {
         style={{
           borderRadius: "12px",
         }}
-        className="flex max-w-[270px] flex-col overflow-hidden border border-zinc-950/10 bg-white dark:border-zinc-50/10 dark:bg-zinc-900"
+        className="flex max-w-[270px] flex-col overflow-hidden border border-zinc-950/10 bg-background dark:border-zinc-50/10 dark:bg-zinc-900"
       >
         <MorphingDialogImage
           src="https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=800&q=80"
@@ -54,7 +54,7 @@ export function MorphingDialogBasicOne() {
           style={{
             borderRadius: "24px",
           }}
-          className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-white dark:border-zinc-50/10 dark:bg-zinc-900 sm:w-[500px]"
+          className="pointer-events-auto relative flex h-auto w-full flex-col overflow-hidden border border-zinc-950/10 bg-background dark:border-zinc-50/10 dark:bg-zinc-900 sm:w-[500px]"
         >
           <MorphingDialogImage
             src="https://images.unsplash.com/photo-1513506003901-1e6a229e2d15?w=800&q=80"

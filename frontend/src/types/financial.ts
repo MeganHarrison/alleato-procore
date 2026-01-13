@@ -68,6 +68,8 @@ export interface Commitment {
   assignee_id?: string;
   assignee?: User;
   private: boolean;
+  deleted_at?: string | null;
+  is_deleted?: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -91,7 +93,14 @@ export interface ChangeEvent {
   number: string;
   title: string;
   description?: string;
-  status: "open" | "pending" | "approved" | "closed";
+  status:
+    | "open"
+    | "pending"
+    | "pending_approval"
+    | "approved"
+    | "closed"
+    | "converted"
+    | "rejected";
   commitment_id?: string;
   commitment?: Commitment;
   created_by_id: string;

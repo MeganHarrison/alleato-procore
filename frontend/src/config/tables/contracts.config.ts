@@ -13,7 +13,7 @@ import type { GenericTableConfig } from "@/components/tables/generic-table-facto
 export const contractsTableConfig: GenericTableConfig = {
   title: "Prime Contracts",
   description: "Manage prime contracts and owner agreements",
-  searchFields: ["contract_number", "title", "vendor_name"],
+  searchFields: ["contract_number", "title", "client_name"],
   exportFilename: "prime-contracts.csv",
   enableSorting: true,
   defaultSortColumn: "contract_number",
@@ -22,21 +22,21 @@ export const contractsTableConfig: GenericTableConfig = {
   columns: [
     {
       id: "contract_number",
-      label: "#",
+      label: "Number",
       defaultVisible: true,
       type: "text",
       isPrimary: true,
       sortable: true,
     },
     {
-      id: "vendor_name",
-      label: "Vendor",
+      id: "client_name",
+      label: "Owner/Client",
       defaultVisible: true,
       type: "text",
       sortable: true,
       renderConfig: {
         type: "nested",
-        path: "vendor.name",
+        path: "client.name",
         fallback: "--",
       },
     },
@@ -58,17 +58,30 @@ export const contractsTableConfig: GenericTableConfig = {
         type: "badge",
         variantMap: {
           draft: "secondary",
-          active: "default",
-          completed: "outline",
-          cancelled: "destructive",
-          on_hold: "outline",
+          pending: "default",
+          out_for_signature: "default",
+          approved: "default",
+          complete: "outline",
+          void: "destructive",
         },
         defaultVariant: "secondary",
       },
     },
     {
+      id: "executed_at",
+      label: "Executed",
+      defaultVisible: true,
+      type: "boolean",
+      sortable: true,
+      renderConfig: {
+        type: "boolean",
+        trueLabel: "Yes",
+        falseLabel: "No",
+      },
+    },
+    {
       id: "original_contract_value",
-      label: "Original Value",
+      label: "Original Contract Amount",
       defaultVisible: true,
       type: "number",
       sortable: true,
@@ -79,11 +92,83 @@ export const contractsTableConfig: GenericTableConfig = {
       },
     },
     {
+      id: "approved_change_orders",
+      label: "Approved Change Orders",
+      defaultVisible: true,
+      type: "number",
+      sortable: false, // Calculated field, no DB sort
+      renderConfig: {
+        type: "currency",
+        prefix: "$",
+        showDecimals: true,
+      },
+    },
+    {
       id: "revised_contract_value",
-      label: "Revised Value",
+      label: "Revised Contract Amount",
       defaultVisible: true,
       type: "number",
       sortable: true,
+      renderConfig: {
+        type: "currency",
+        prefix: "$",
+        showDecimals: true,
+      },
+    },
+    {
+      id: "pending_change_orders",
+      label: "Pending Change Orders",
+      defaultVisible: true,
+      type: "number",
+      sortable: false, // Calculated field
+      renderConfig: {
+        type: "currency",
+        prefix: "$",
+        showDecimals: true,
+      },
+    },
+    {
+      id: "draft_change_orders",
+      label: "Draft Change Orders",
+      defaultVisible: true,
+      type: "number",
+      sortable: false, // Calculated field
+      renderConfig: {
+        type: "currency",
+        prefix: "$",
+        showDecimals: true,
+      },
+    },
+    {
+      id: "invoiced",
+      label: "Invoiced",
+      defaultVisible: true,
+      type: "number",
+      sortable: false, // Calculated field
+      renderConfig: {
+        type: "currency",
+        prefix: "$",
+        showDecimals: true,
+      },
+    },
+    {
+      id: "payments_received",
+      label: "Payments Received",
+      defaultVisible: false,
+      type: "number",
+      sortable: false, // Calculated field
+      renderConfig: {
+        type: "currency",
+        prefix: "$",
+        showDecimals: true,
+      },
+    },
+    {
+      id: "remaining_balance",
+      label: "Remaining Balance",
+      defaultVisible: false,
+      type: "number",
+      sortable: false, // Calculated field
       renderConfig: {
         type: "currency",
         prefix: "$",
@@ -100,6 +185,20 @@ export const contractsTableConfig: GenericTableConfig = {
     {
       id: "end_date",
       label: "End Date",
+      defaultVisible: false,
+      type: "date",
+      sortable: true,
+    },
+    {
+      id: "substantial_completion_date",
+      label: "Substantial Completion",
+      defaultVisible: false,
+      type: "date",
+      sortable: true,
+    },
+    {
+      id: "actual_completion_date",
+      label: "Actual Completion",
       defaultVisible: false,
       type: "date",
       sortable: true,

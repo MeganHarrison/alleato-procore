@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 
 interface ForecastParams {
   params: Promise<{
-    id: string;
+    projectId: string;
   }>;
 }
 
@@ -19,7 +19,7 @@ interface ForecastParams {
  */
 export async function GET(request: NextRequest, { params }: ForecastParams) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
 
     // Check authentication

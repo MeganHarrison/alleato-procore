@@ -167,7 +167,7 @@ function ColumnHeader({ lines, columnKey }: ColumnHeaderProps) {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className="text-right leading-tight cursor-help text-gray-700 hover:text-gray-900 transition-colors">
+        <div className="text-right leading-tight cursor-help text-foreground hover:text-foreground transition-colors">
           {lines.map((line, index) => (
             <React.Fragment key={`${line}-${index}`}>
               {line}
@@ -383,7 +383,7 @@ export function BudgetTable({
               e.stopPropagation();
               row.toggleExpanded();
             }}
-            className="p-1 hover:bg-gray-100 rounded"
+            className="p-1 hover:bg-muted rounded"
             aria-label={
               row.getIsExpanded()
                 ? `Collapse ${row.original.description}`
@@ -391,9 +391,9 @@ export function BudgetTable({
             }
           >
             {row.getIsExpanded() ? (
-              <ChevronDown className="w-4 h-4 text-gray-500" />
+              <ChevronDown className="w-4 h-4 text-muted-foreground" />
             ) : (
-              <ChevronRight className="w-4 h-4 text-gray-500" />
+              <ChevronRight className="w-4 h-4 text-muted-foreground" />
             )}
           </button>
         );
@@ -412,12 +412,12 @@ export function BudgetTable({
           <div
             className={cn(
               "font-medium",
-              isGroupRow ? "text-gray-900 font-semibold" : "text-gray-700",
+              isGroupRow ? "text-foreground font-semibold" : "text-foreground",
               getDepthPadding(row.depth),
             )}
           >
             {isGroupRow && (
-              <span className="text-gray-600 font-mono mr-2">
+              <span className="text-foreground font-mono mr-2">
                 {row.original.costCode}
               </span>
             )}
@@ -782,17 +782,17 @@ export function BudgetTable({
       {/* Hide scrollbar while maintaining scroll functionality */}
       <div className="flex-1 overflow-auto scrollbar-hide">
         <Table className="min-w-[1200px]">
-          <TableHeader className="sticky top-0 bg-gray-100/80 backdrop-blur-sm z-10">
+          <TableHeader className="sticky top-0 bg-muted/80 backdrop-blur-sm z-10">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
-                className="border-b border-gray-200"
+                className="border-b border-border"
               >
                 {headerGroup.headers.map((header) => (
                   <TableHead
                     key={header.id}
                     className={cn(
-                      "text-xs font-semibold text-gray-600 py-3 px-2 bg-gray-100/80",
+                      "text-xs font-semibold text-foreground py-3 px-2 bg-muted/80",
                       getWidthClass(header.column.id),
                     )}
                   >
@@ -818,13 +818,13 @@ export function BudgetTable({
                   <TableRow
                     key={row.id}
                     className={cn(
-                      "border-b border-gray-100 transition-colors",
+                      "border-b border-border transition-colors",
                       isGroupRow &&
-                        "bg-gray-100/80 hover:bg-gray-200/80 font-semibold",
-                      !isGroupRow && "hover:bg-gray-50",
-                      !isGroupRow && row.depth > 0 && "bg-gray-50",
+                        "bg-muted/80 hover:bg-muted/80 font-semibold",
+                      !isGroupRow && "hover:bg-muted",
+                      !isGroupRow && row.depth > 0 && "bg-muted",
                       row.getIsSelected() && "bg-blue-50",
-                      !row.getIsSelected() && index % 2 === 1 && "bg-gray-100",
+                      !row.getIsSelected() && index % 2 === 1 && "bg-muted",
                     )}
                   >
                     {row.getVisibleCells().map((cell) => (
@@ -832,7 +832,7 @@ export function BudgetTable({
                         key={cell.id}
                         className={cn(
                           "py-3 px-2 text-sm",
-                          row.depth > 0 && "text-gray-600",
+                          row.depth > 0 && "text-foreground",
                           getWidthClass(cell.column.id),
                         )}
                       >
@@ -861,15 +861,15 @@ export function BudgetTable({
 
       {/* Grand Totals Row - Fixed at bottom - Only show if there are rows */}
       {table.getRowModel().rows?.length > 0 && (
-        <div className="border-t-2 border-gray-300 bg-gray-50 sticky bottom-0">
+        <div className="border-t-2 border-border bg-muted sticky bottom-0">
           <table className="w-full caption-bottom text-sm table-fixed">
             <tbody>
-              <tr className="font-semibold bg-gray-50 border-b transition-colors">
+              <tr className="font-semibold bg-muted border-b transition-colors">
                 <td className={cn("py-3 px-2", getWidthClass("select"))} />
                 <td className={cn("py-3 px-2", getWidthClass("expander"))} />
                 <td
                   className={cn(
-                    "py-3 px-2 text-sm font-bold text-gray-900",
+                    "py-3 px-2 text-sm font-bold text-foreground",
                     getWidthClass("description"),
                   )}
                 >

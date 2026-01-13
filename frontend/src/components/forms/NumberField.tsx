@@ -33,6 +33,10 @@ export function NumberField({
   className,
   ...inputProps
 }: NumberFieldProps) {
+  const inputId =
+    inputProps.id ??
+    `number-field-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const val = e.target.value;
     if (val === "") {
@@ -55,7 +59,7 @@ export function NumberField({
     >
       <div className="relative">
         {prefix && (
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
             {prefix}
           </span>
         )}
@@ -70,11 +74,13 @@ export function NumberField({
             className,
           )}
           aria-invalid={!!error}
-          aria-describedby={error ? `${inputProps.id}-error` : undefined}
+          aria-describedby={error ? `${inputId}-error` : undefined}
+          id={inputId}
+          aria-label={label}
           {...inputProps}
         />
         {suffix && (
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500">
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground">
             {suffix}
           </span>
         )}

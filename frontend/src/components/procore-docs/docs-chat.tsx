@@ -128,7 +128,9 @@ export function DocsChat() {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to get response");
+        const errorData = await response.json().catch(() => null);
+        const message = errorData?.error || "Failed to get response";
+        throw new Error(message);
       }
 
       const data = await response.json();
@@ -141,11 +143,14 @@ export function DocsChat() {
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Procore Docs Assistant error:", error);
 
       const errorMessage: Message = {
         role: "assistant",
-        content: "Sorry, I encountered an error. Please try again.",
+        content:
+          error instanceof Error
+            ? error.message
+            : "Sorry, I encountered an error. Please try again.",
       };
 
       setMessages((prev) => [...prev, errorMessage]);
@@ -228,7 +233,7 @@ export function DocsChat() {
                           key={example}
                           type="button"
                           onClick={() => setInput(example)}
-                          className="text-xs px-3 py-2 rounded-lg bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-colors text-left"
+                          className="text-xs px-3 py-2 rounded-lg bg-background dark:bg-gray-800 border border-border dark:border-gray-700 hover:border-blue-300 dark:hover:border-blue-600 hover:bg-blue-50 dark:hover:bg-blue-950/20 transition-colors text-left"
                         >
                           {example}
                         </button>
@@ -247,7 +252,7 @@ export function DocsChat() {
                     className={`max-w-[85%] rounded-xl ${
                       message.role === "user"
                         ? "bg-gradient-to-br from-blue-600 to-blue-700 text-white shadow-md"
-                        : "bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 shadow-sm"
+                        : "bg-background dark:bg-gray-800 border border-border dark:border-gray-700 shadow-sm"
                     }`}
                   >
                     <div className="px-4 py-3">
@@ -256,7 +261,7 @@ export function DocsChat() {
                           {message.content}
                         </p>
                       ) : (
-                        <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed prose-p:my-2 prose-headings:my-3 prose-headings:font-semibold prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-code:text-xs prose-code:bg-gray-100 dark:prose-code:bg-gray-900 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-gray-100 dark:prose-pre:bg-gray-900 prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700">
+                        <div className="prose prose-sm dark:prose-invert max-w-none prose-p:leading-relaxed prose-p:my-2 prose-headings:my-3 prose-headings:font-semibold prose-ul:my-2 prose-ol:my-2 prose-li:my-1 prose-code:text-xs prose-code:bg-muted dark:prose-code:bg-gray-900 prose-code:px-1 prose-code:py-0.5 prose-code:rounded prose-pre:bg-muted dark:prose-pre:bg-gray-900 prose-pre:border prose-pre:border-border dark:prose-pre:border-gray-700">
                           <ReactMarkdown remarkPlugins={[remarkGfm]}>
                             {message.content}
                           </ReactMarkdown>
@@ -266,8 +271,8 @@ export function DocsChat() {
 
                     {/* Sources */}
                     {message.sources && message.sources.length > 0 && (
-                      <div className="px-4 pb-3 pt-1 border-t border-gray-100 dark:border-gray-700 mt-2">
-                        <p className="text-xs font-semibold mb-2 text-gray-700 dark:text-gray-300 uppercase tracking-wide">
+                      <div className="px-4 pb-3 pt-1 border-t border-border dark:border-gray-700 mt-2">
+                        <p className="text-xs font-semibold mb-2 text-foreground dark:text-gray-300 uppercase tracking-wide">
                           Sources
                         </p>
                         <div className="space-y-1.5">
@@ -284,7 +289,7 @@ export function DocsChat() {
                                 <span className="font-medium">
                                   Source {idx + 1}
                                 </span>
-                                <span className="text-gray-500 dark:text-gray-400 ml-1.5">
+                                <span className="text-muted-foreground dark:text-muted-foreground ml-1.5">
                                   ({Math.round(source.similarity * 100)}% match)
                                 </span>
                               </span>
@@ -299,8 +304,8 @@ export function DocsChat() {
 
               {isLoading && (
                 <div className="flex justify-start">
-                  <div className="bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl px-4 py-3 shadow-sm">
-                    <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-400">
+                  <div className="bg-background dark:bg-gray-800 border border-border dark:border-gray-700 rounded-xl px-4 py-3 shadow-sm">
+                    <div className="flex items-center gap-2 text-sm text-foreground dark:text-muted-foreground">
                       <Loader2 className="h-4 w-4 animate-spin" />
                       <span>Thinking...</span>
                     </div>
@@ -311,7 +316,7 @@ export function DocsChat() {
           </ScrollArea>
 
           {/* Input Area */}
-          <div className="p-4 border-t bg-white dark:bg-gray-950">
+          <div className="p-4 border-t bg-background dark:bg-gray-950">
             <form onSubmit={handleSubmit} className="space-y-2">
               <div className="flex gap-2">
                 <Input
@@ -319,7 +324,7 @@ export function DocsChat() {
                   onChange={(e) => setInput(e.target.value)}
                   placeholder="Ask a question about Procore..."
                   disabled={isLoading}
-                  className="flex-1 bg-white dark:bg-gray-900 border-gray-200 dark:border-gray-700 focus-visible:ring-blue-500"
+                  className="flex-1 bg-background dark:bg-gray-900 border-border dark:border-gray-700 focus-visible:ring-blue-500"
                 />
                 <Button
                   type="submit"

@@ -2,7 +2,8 @@ import { createClient } from "@/lib/supabase/server";
 import { NextRequest, NextResponse } from "next/server";
 
 export interface VerticalMarkupItem {
-  id: string;
+  id: number;
+  projectId: string;
   markup_type: string;
   percentage: number;
   compound: boolean;
@@ -15,13 +16,13 @@ export interface VerticalMarkupItem {
 // GET /api/projects/[id]/vertical-markup - Fetch vertical markup settings
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -33,7 +34,7 @@ export async function GET(
     const { data, error } = await supabase
       .from("vertical_markup")
       .select("*")
-      .eq("project_id", projectId)
+      .eq("project_id", projectIdNum)
       .order("calculation_order", { ascending: true });
 
     if (error) {
@@ -59,13 +60,13 @@ export async function GET(
 // POST /api/projects/[id]/vertical-markup - Create a new vertical markup
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -88,7 +89,7 @@ export async function POST(
     const { data: existingMarkups } = await supabase
       .from("vertical_markup")
       .select("calculation_order")
-      .eq("project_id", projectId)
+      .eq("project_id", projectIdNum)
       .order("calculation_order", { ascending: false })
       .limit(1);
 
@@ -100,7 +101,7 @@ export async function POST(
     const { data, error } = await supabase
       .from("vertical_markup")
       .insert({
-        project_id: projectId,
+        project_id: projectIdNum,
         markup_type,
         percentage,
         compound,
@@ -133,13 +134,13 @@ export async function POST(
 // PUT /api/projects/[id]/vertical-markup - Update vertical markup (bulk update for reordering)
 export async function PUT(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -170,7 +171,7 @@ export async function PUT(
           updated_at: new Date().toISOString(),
         })
         .eq("id", markup.id)
-        .eq("project_id", projectId),
+        .eq("project_id", projectIdNum),
     );
 
     await Promise.all(updates);
@@ -179,7 +180,7 @@ export async function PUT(
     const { data, error } = await supabase
       .from("vertical_markup")
       .select("*")
-      .eq("project_id", projectId)
+      .eq("project_id", projectIdNum)
       .order("calculation_order", { ascending: true });
 
     if (error) {
@@ -206,13 +207,13 @@ export async function PUT(
 // DELETE /api/projects/[id]/vertical-markup - Delete a vertical markup
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -235,7 +236,7 @@ export async function DELETE(
       .from("vertical_markup")
       .delete()
       .eq("id", markupId)
-      .eq("project_id", projectId);
+      .eq("project_id", projectIdNum);
 
     if (error) {
       console.error("Error deleting vertical markup:", error);

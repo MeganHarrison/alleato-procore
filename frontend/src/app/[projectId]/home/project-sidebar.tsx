@@ -28,7 +28,7 @@ interface ProjectSidebarProps extends React.ComponentProps<typeof Sidebar> {
 
 // Map step IDs to their corresponding routes
 const stepRoutes: Record<string, string> = {
-  "prime-contract": "/contracts",
+  "prime-contract": "/prime-contracts",
   "cost-codes": "/budget/setup",
   budget: "/budget",
   schedule: "/schedule",
@@ -55,6 +55,9 @@ export function ProjectSidebar({
   const router = useRouter();
   const params = useParams();
   const projectId = params.projectId as string;
+  const hasPrimeContract = projectSteps.some(
+    (step) => step.id === "prime-contract" && step.completed,
+  );
 
   // Convert ProjectStep[] to Step[] for ProjectSetupStepper
   const convertedSteps: Step[] = projectSteps.map((step) => ({
@@ -73,7 +76,10 @@ export function ProjectSidebar({
 
   // Handle step click - navigate to the appropriate page
   const handleStepClick = (step: Step) => {
-    const route = stepRoutes[step.id];
+    const route =
+      step.id === "prime-contract" && !hasPrimeContract
+        ? "/prime-contracts/new"
+        : stepRoutes[step.id];
     if (route && projectId) {
       router.push(`/${projectId}${route}`);
     }
@@ -82,7 +88,7 @@ export function ProjectSidebar({
   return (
     <Sidebar
       collapsible="icon"
-      className="bg-white sticky top-0 hidden h-svh border-l lg:flex"
+      className="bg-background sticky top-0 hidden h-svh border-l lg:flex"
       {...props}
     >
       <SidebarContent className="px-4 pt-6">

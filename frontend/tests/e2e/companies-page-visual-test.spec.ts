@@ -8,7 +8,7 @@ test('check Companies page for title', async ({ page }) => {
 
   // Take screenshot
   await page.screenshot({ 
-    path: '/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/screenshots/companies-page.png', 
+    path: '/Users/meganharrison/Documents/github/alleato-procore/tests/screenshots/companies-page.png', 
     fullPage: true 
   });
 

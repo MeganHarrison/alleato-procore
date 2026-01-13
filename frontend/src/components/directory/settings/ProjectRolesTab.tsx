@@ -42,8 +42,8 @@ export function ProjectRolesTab({ projectId }: ProjectRolesTabProps) {
   if (isLoading) {
     return (
       <div className="flex items-center justify-center py-12">
-        <Loader2 className="w-6 h-6 animate-spin text-gray-400" />
-        <span className="ml-2 text-gray-500">Loading roles...</span>
+        <Loader2 className="w-6 h-6 animate-spin text-muted-foreground" />
+        <span className="ml-2 text-muted-foreground">Loading roles...</span>
       </div>
     );
   }
@@ -57,9 +57,9 @@ export function ProjectRolesTab({ projectId }: ProjectRolesTabProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg border border-gray-200">
-      <div className="px-6 py-4 border-b border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900">Project Roles</h2>
+    <div className="bg-background rounded-lg border border-border">
+      <div className="px-6 py-4 border-b border-border">
+        <h2 className="text-lg font-semibold text-foreground">Project Roles</h2>
       </div>
 
       <Table>
@@ -83,7 +83,7 @@ export function ProjectRolesTab({ projectId }: ProjectRolesTabProps) {
           ))}
           {roles.length === 0 && (
             <TableRow>
-              <TableCell colSpan={3} className="text-center text-gray-500 py-8">
+              <TableCell colSpan={3} className="text-center text-muted-foreground py-8">
                 No roles configured for this project
               </TableCell>
             </TableRow>
@@ -165,7 +165,7 @@ function RoleRow({ role, personOptions, onUpdateMembers }: RoleRowProps) {
   return (
     <TableRow>
       <TableCell className="font-medium">{role.role_name}</TableCell>
-      <TableCell className="text-gray-500">{role.role_type}</TableCell>
+      <TableCell className="text-muted-foreground">{role.role_type}</TableCell>
       <TableCell>
         <div className="relative" ref={dropdownRef}>
           {/* Selected members + dropdown trigger */}
@@ -174,13 +174,13 @@ function RoleRow({ role, personOptions, onUpdateMembers }: RoleRowProps) {
               "min-h-[38px] border rounded-md px-2 py-1 flex flex-wrap items-center gap-1 cursor-pointer",
               isOpen
                 ? "border-orange-500 ring-1 ring-orange-500"
-                : "border-gray-300",
+                : "border-border",
               isUpdating && "opacity-50",
             )}
             onClick={() => !isUpdating && setIsOpen(true)}
           >
             {role.members.length === 0 ? (
-              <span className="text-gray-400 text-sm py-1">
+              <span className="text-muted-foreground text-sm py-1">
                 Start typing to search people...
               </span>
             ) : (
@@ -213,17 +213,17 @@ function RoleRow({ role, personOptions, onUpdateMembers }: RoleRowProps) {
                 </Badge>
               ))
             )}
-            <ChevronDown className="w-4 h-4 text-gray-400 ml-auto" />
+            <ChevronDown className="w-4 h-4 text-muted-foreground ml-auto" />
           </div>
 
           {/* Dropdown */}
           {isOpen && (
-            <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-white border border-gray-200 rounded-md shadow-lg max-h-60 overflow-auto">
-              <div className="p-2 border-b border-gray-100">
+            <div className="absolute z-50 top-full left-0 right-0 mt-1 bg-background border border-border rounded-md shadow-lg max-h-60 overflow-auto">
+              <div className="p-2 border-b border-border">
                 <input
                   type="text"
                   placeholder="Search people..."
-                  className="w-full px-2 py-1 text-sm border border-gray-200 rounded focus:outline-none focus:border-orange-500"
+                  className="w-full px-2 py-1 text-sm border border-border rounded focus:outline-none focus:border-orange-500"
                   value={searchValue}
                   onChange={(e) => setSearchValue(e.target.value)}
                   autoFocus
@@ -231,7 +231,7 @@ function RoleRow({ role, personOptions, onUpdateMembers }: RoleRowProps) {
               </div>
               <div className="py-1">
                 {filteredOptions.length === 0 ? (
-                  <div className="px-3 py-2 text-sm text-gray-500">
+                  <div className="px-3 py-2 text-sm text-muted-foreground">
                     No people found
                   </div>
                 ) : (
@@ -241,7 +241,7 @@ function RoleRow({ role, personOptions, onUpdateMembers }: RoleRowProps) {
                       <button
                         key={person.id}
                         className={cn(
-                          "w-full px-3 py-2 text-left text-sm hover:bg-gray-50 flex items-center justify-between",
+                          "w-full px-3 py-2 text-left text-sm hover:bg-muted flex items-center justify-between",
                           isSelected && "bg-orange-50",
                         )}
                         onClick={() => handleSelect(person.id)}
@@ -249,7 +249,7 @@ function RoleRow({ role, personOptions, onUpdateMembers }: RoleRowProps) {
                         <span>
                           {person.name}
                           {person.company && (
-                            <span className="text-gray-500">
+                            <span className="text-muted-foreground">
                               {" "}
                               ({person.company})
                             </span>

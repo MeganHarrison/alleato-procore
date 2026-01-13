@@ -229,7 +229,7 @@ function ToolCallingChatbot() {
                   {status === "ready" || status === "error" ? (
                     <ArrowUp size={18} />
                   ) : (
-                    <span className="size-3 rounded-xs bg-white" />
+                    <span className="size-3 rounded-xs bg-background" />
                   )}
                 </Button>
               </div>

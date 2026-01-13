@@ -8,7 +8,7 @@
 
 ## Reference Material
 
-**Procore Reference Screenshots:** `documentation/1-project-mgmt/in-progress/direct-costs/crawl-direct-costs/pages/`
+**Procore Reference Screenshots:** `documentation/*project-mgmt/in-progress/direct-costs/crawl-direct-costs/pages/`
 **Implementation Screenshots:** `frontend/tests/screenshots/direct-costs-e2e/` (saved during test execution)
 
 **Reference Pages Available:**

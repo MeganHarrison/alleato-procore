@@ -456,34 +456,34 @@ export default function NewBudgetLineItemPage() {
           </Button>
         </div>
         <h1 className="text-2xl font-bold">Create Budget Line Items</h1>
-        <p className="text-gray-600">
+        <p className="text-foreground">
           Add one or more line items to the project budget
         </p>
       </div>
 
       <form onSubmit={handleSubmit}>
-        <div className="bg-white border rounded-lg overflow-hidden">
+        <div className="bg-background border rounded-lg overflow-hidden">
           {/* Table Header */}
           <div className="overflow-x-auto">
             <table className="w-full">
-              <thead className="bg-gray-50 border-b">
+              <thead className="bg-muted border-b">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-12">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-foreground w-12">
                     #
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 min-w-[300px]">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-foreground min-w-[300px]">
                     Budget Code*
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-24">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-foreground w-24">
                     Qty
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-28">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-foreground w-28">
                     UOM
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-32">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-foreground w-32">
                     Unit Cost
                   </th>
-                  <th className="px-4 py-3 text-left text-xs font-medium text-gray-600 w-32">
+                  <th className="px-4 py-3 text-left text-xs font-medium text-foreground w-32">
                     Amount*
                   </th>
                   <th className="px-4 py-3 w-12">
@@ -493,8 +493,8 @@ export default function NewBudgetLineItemPage() {
               </thead>
               <tbody className="divide-y">
                 {rows.map((row, index) => (
-                  <tr key={row.id} className="hover:bg-gray-50">
-                    <td className="px-4 py-3 text-sm text-gray-600">
+                  <tr key={row.id} className="hover:bg-muted">
+                    <td className="px-4 py-3 text-sm text-foreground">
                       {index + 1}
                     </td>
 
@@ -637,7 +637,7 @@ export default function NewBudgetLineItemPage() {
                           variant="ghost"
                           size="sm"
                           onClick={() => removeRow(row.id)}
-                          className="h-9 w-9 p-0 text-gray-400 hover:text-red-600"
+                          className="h-9 w-9 p-0 text-muted-foreground hover:text-red-600"
                         >
                           <Trash2 className="h-4 w-4" />
                         </Button>
@@ -650,7 +650,7 @@ export default function NewBudgetLineItemPage() {
           </div>
 
           {/* Add Row Button */}
-          <div className="px-4 py-3 border-t bg-gray-50">
+          <div className="px-4 py-3 border-t bg-muted">
             <Button
               type="button"
               variant="outline"
@@ -709,7 +709,7 @@ export default function NewBudgetLineItemPage() {
             <div className="grid gap-2">
               <Label htmlFor="costCode">Cost Code*</Label>
               {loadingCostCodes ? (
-                <div className="border rounded-md p-3 text-sm text-gray-500">
+                <div className="border rounded-md p-3 text-sm text-muted-foreground">
                   Loading cost codes...
                 </div>
               ) : (
@@ -722,21 +722,21 @@ export default function NewBudgetLineItemPage() {
                         <button
                           type="button"
                           onClick={() => toggleDivision(division)}
-                          className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-gray-50 transition-colors"
+                          className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-muted transition-colors"
                         >
-                          <span className="text-sm font-semibold text-gray-700">
+                          <span className="text-sm font-semibold text-foreground">
                             {division}
                           </span>
                           {expandedDivisions.has(division) ? (
-                            <ChevronDown className="w-4 h-4 text-gray-500" />
+                            <ChevronDown className="w-4 h-4 text-muted-foreground" />
                           ) : (
-                            <ChevronRight className="w-4 h-4 text-gray-500" />
+                            <ChevronRight className="w-4 h-4 text-muted-foreground" />
                           )}
                         </button>
 
                         {/* Cost Codes - Only show when expanded */}
                         {expandedDivisions.has(division) && (
-                          <div className="bg-gray-50/50">
+                          <div className="bg-muted/50">
                             {groupedCostCodes[division].map((costCode) => (
                               <button
                                 key={costCode.id}
@@ -747,10 +747,10 @@ export default function NewBudgetLineItemPage() {
                                     costCodeId: costCode.id,
                                   })
                                 }
-                                className={`w-full text-left px-6 py-2 text-sm hover:bg-gray-100 transition-colors ${
+                                className={`w-full text-left px-6 py-2 text-sm hover:bg-muted transition-colors ${
                                   newCodeData.costCodeId === costCode.id
                                     ? "bg-blue-50 text-blue-700 font-medium"
-                                    : "text-gray-700"
+                                    : "text-foreground"
                                 }`}
                               >
                                 {costCode.id} – {costCode.title}
@@ -762,7 +762,7 @@ export default function NewBudgetLineItemPage() {
                     ))}
                 </div>
               )}
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-muted-foreground">
                 Click on a division to expand and select a cost code
               </p>
             </div>
@@ -786,9 +786,9 @@ export default function NewBudgetLineItemPage() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="p-3 bg-gray-50 rounded-md">
-              <p className="text-sm font-medium text-gray-700">Preview:</p>
-              <p className="text-sm text-gray-600 mt-1">
+            <div className="p-3 bg-muted rounded-md">
+              <p className="text-sm font-medium text-foreground">Preview:</p>
+              <p className="text-sm text-foreground mt-1">
                 {newCodeData.costCodeId && previewCostCode ? (
                   <>
                     {previewCostCode.id}.{newCodeData.costType} –{" "}

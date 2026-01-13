@@ -6,7 +6,7 @@ import {
   GenericEditableTable,
   type EditableColumn,
 } from "@/components/tables/generic-editable-table";
-import { updateCompany, deleteCompany } from "@/app/actions/table-actions";
+import { updateCompany, deleteCompany } from "@/app/(other)/actions/table-actions";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Plus, ExternalLink } from "lucide-react";
@@ -187,7 +187,7 @@ export default function CompanyDirectoryPage() {
 
       {/* Count */}
       {isSuccess && (
-        <div className="text-sm text-gray-600">
+        <div className="text-sm text-foreground">
           <span className="font-medium">{data.length}</span> of{" "}
           <span className="font-medium">{count}</span> companies loaded
         </div>
@@ -210,7 +210,7 @@ export default function CompanyDirectoryPage() {
         ) : data.length === 0 ? (
           <div className="p-12 text-center">
             <h3 className="text-lg font-semibold mb-2">No companies found</h3>
-            <p className="text-gray-500 mb-4">
+            <p className="text-muted-foreground mb-4">
               Get started by adding your first company.
             </p>
             <Button

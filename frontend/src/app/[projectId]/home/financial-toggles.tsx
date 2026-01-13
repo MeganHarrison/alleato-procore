@@ -63,7 +63,7 @@ function ToggleSection({
       <Button
         onClick={() => setIsOpen(!isOpen)}
         variant="ghost"
-        className="w-full justify-between p-4 hover:bg-gray-50"
+        className="w-full justify-between p-4 hover:bg-muted"
       >
         <div className="flex items-center gap-3">
           {icon}
@@ -118,25 +118,25 @@ export function FinancialToggles({
         <div className="space-y-4 pt-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-sm text-gray-500">Total Budget</p>
+              <p className="text-sm text-muted-foreground">Total Budget</p>
               <p className="text-xl font-semibold">
                 ${(totalBudget / 1000000).toFixed(2)}M
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Budget Used</p>
+              <p className="text-sm text-muted-foreground">Budget Used</p>
               <p className="text-xl font-semibold">
                 ${(budgetUsed / 1000000).toFixed(2)}M
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Remaining</p>
+              <p className="text-sm text-muted-foreground">Remaining</p>
               <p className="text-xl font-semibold text-green-600">
                 ${(budgetRemaining / 1000000).toFixed(2)}M
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">% Complete</p>
+              <p className="text-sm text-muted-foreground">% Complete</p>
               <p className="text-xl font-semibold">
                 {budgetPercentage.toFixed(1)}%
               </p>
@@ -145,13 +145,13 @@ export function FinancialToggles({
 
           {/* Progress Bar */}
           <div className="space-y-2">
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-muted rounded-full h-2">
               <div
                 className="bg-green-600 h-2 rounded-full transition-all"
                 style={{ width: `${Math.min(budgetPercentage, 100)}%` }}
               />
             </div>
-            <div className="flex justify-between text-xs text-gray-500">
+            <div className="flex justify-between text-xs text-muted-foreground">
               <span>0%</span>
               <span>50%</span>
               <span>100%</span>
@@ -184,13 +184,13 @@ export function FinancialToggles({
         <div className="space-y-4 pt-4">
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <p className="text-sm text-gray-500">Contract Value</p>
+              <p className="text-sm text-muted-foreground">Contract Value</p>
               <p className="text-xl font-semibold">
                 ${(primeContractTotal / 1000000).toFixed(2)}M
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Revenue Recognized</p>
+              <p className="text-sm text-muted-foreground">Revenue Recognized</p>
               <p className="text-xl font-semibold">
                 ${((project["est revenue"] || 0) / 1000000).toFixed(2)}M
               </p>
@@ -212,7 +212,7 @@ export function FinancialToggles({
                         {contract.contract_number ||
                           `PC-${contract.id.substring(0, 8)}`}
                       </p>
-                      <p className="text-xs text-gray-500">
+                      <p className="text-xs text-muted-foreground">
                         {contract.title || "Primary Client"}
                       </p>
                     </div>
@@ -223,7 +223,7 @@ export function FinancialToggles({
                 ))}
             </div>
           ) : (
-            <p className="text-sm text-gray-500">No prime contracts recorded</p>
+            <p className="text-sm text-muted-foreground">No prime contracts recorded</p>
           )}
 
           <div className="flex items-center justify-between pt-2">
@@ -251,19 +251,19 @@ export function FinancialToggles({
         <div className="space-y-4 pt-4">
           <div className="grid grid-cols-3 gap-4">
             <div>
-              <p className="text-sm text-gray-500">Total Committed</p>
+              <p className="text-sm text-muted-foreground">Total Committed</p>
               <p className="text-xl font-semibold">
                 ${(commitmentsTotal / 1000000).toFixed(2)}M
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Approved</p>
+              <p className="text-sm text-muted-foreground">Approved</p>
               <p className="text-xl font-semibold text-green-600">
                 ${(commitmentsApproved / 1000000).toFixed(2)}M
               </p>
             </div>
             <div>
-              <p className="text-sm text-gray-500">Count</p>
+              <p className="text-sm text-muted-foreground">Count</p>
               <p className="text-xl font-semibold">{commitments.length}</p>
             </div>
           </div>
@@ -280,7 +280,7 @@ export function FinancialToggles({
                     <p className="text-sm font-medium">
                       C-{commitment.id.substring(0, 8)}
                     </p>
-                    <p className="text-xs text-gray-500">
+                    <p className="text-xs text-muted-foreground">
                       {commitment.vendor_id
                         ? `Vendor ${commitment.vendor_id.substring(0, 8)}`
                         : "No vendor"}{" "}
@@ -294,7 +294,7 @@ export function FinancialToggles({
               ))}
             </div>
           ) : (
-            <p className="text-sm text-gray-500">No commitments recorded</p>
+            <p className="text-sm text-muted-foreground">No commitments recorded</p>
           )}
 
           <div className="flex items-center justify-between pt-2">

@@ -33,6 +33,9 @@ export function MoneyField({
   className,
   ...inputProps
 }: MoneyFieldProps) {
+  const inputId =
+    inputProps.id ??
+    `money-field-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
   const [displayValue, setDisplayValue] = React.useState<string>("");
 
   // Format number to display with commas
@@ -95,7 +98,7 @@ export function MoneyField({
       fullWidth={fullWidth}
     >
       <div className="relative">
-        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500 font-medium">
+        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">
           $
         </span>
         <Input
@@ -113,11 +116,13 @@ export function MoneyField({
           )}
           placeholder="0.00"
           aria-invalid={!!error}
-          aria-describedby={error ? `${inputProps.id}-error` : undefined}
+          aria-describedby={error ? `${inputId}-error` : undefined}
+          id={inputId}
+          aria-label={label}
           {...inputProps}
         />
         {showCurrency && currency === "USD" && (
-          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-500 text-sm">
+          <span className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
             USD
           </span>
         )}

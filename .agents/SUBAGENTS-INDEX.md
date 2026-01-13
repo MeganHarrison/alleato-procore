@@ -58,6 +58,7 @@ Task({
 
 | Sub-Agent | Description | When to Use | Additional Notes |
 |-----------|-------------|-------------|------------------|
+| **verifier-agent** | Evidence-based verification with HTML reports | **🚨 MANDATORY** before claiming ANY feature complete | Runs verification script, reviews screenshots/tests/API responses, determines PASS/FAIL with evidence. See `.agents/agents/verifier-agent.md` |
 | **test-automator** | Create comprehensive test suites (unit, integration, e2e) | **🚨 MANDATORY** after feature implementation. **ALL testing** - unit, integration, Playwright/browser tests | **For Playwright:** Use with `.agents/agents/playwright-tester.md` prompt template (Supabase auth, context-7 MCP). **🚨 CRITICAL:** If reference screenshots exist in `scripts/screenshot-capture/`, MUST compare implementation and create COMPARISON-REPORT.md. Sets up CI pipelines, mocking, test data. **Required before claiming "complete"** |
 | **debugger** | Debug errors, test failures, unexpected behavior | When tests fail, bugs occur, or unexpected behavior appears | Use proactively when encountering issues |
 | **design-review** | UI/UX review with Playwright for interaction testing | PR reviews for UI changes; responsive design verification; accessibility checks | Requires live preview environment |
@@ -215,9 +216,9 @@ Task({
 | Category | Count |
 |----------|-------|
 | User-Level Sub-Agents | 60+ |
-| Project-Specific Sub-Agents | 7 |
+| Project-Specific Sub-Agents | 8 |
 | Specialized Prompt Templates | 1 (playwright-tester.md) |
-| Total Sub-Agents | 67+ |
+| Total Sub-Agents | 68+ |
 
 ---
 
@@ -250,7 +251,8 @@ Task({
 ❌ Committing UI without `design-system-auditor` review (**MANDATORY**)
 ❌ Writing code without spawning `code-reviewer` afterward (**MANDATORY**)
 ❌ Making assumptions about codebase without `Explore` (**MANDATORY**)
-❌ Claiming "complete" without verification evidence
+❌ Claiming "complete" without running `verifier-agent` (**MANDATORY**)
+❌ Saying "tests pass" without HTML verification report evidence
 
 ### Best Practices
 

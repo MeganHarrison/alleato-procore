@@ -237,7 +237,7 @@ export function MeetingsTable({
   });
 
   return (
-    <div className="border border-neutral-200 bg-white">
+    <div className="border border-neutral-200 bg-background">
       <Table>
         <TableHeader>
           {table.getHeaderGroups().map((headerGroup) => (

@@ -8,7 +8,7 @@
 | Item | Value |
 |------|-------|
 | Feature | direct-costs |
-| Feature Directory | `documentation/1-project-mgmt/in-progress/direct-costs/` |
+| Feature Directory | `documentation/*project-mgmt/in-progress/direct-costs/` |
 | Crawl Data | `crawl-direct-costs/` |
 | Frontend Pages | `frontend/src/app/[projectId]/direct-costs/` |
 | Components | `frontend/src/components/direct-costs/` |

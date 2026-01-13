@@ -107,7 +107,7 @@ const Tool = ({ toolPart, defaultOpen = false, className }: ToolProps) => {
           <span
             className={cn(
               baseClasses,
-              "bg-gray-100 text-gray-700 dark:bg-gray-900/30 dark:text-gray-400",
+              "bg-muted text-foreground dark:bg-gray-900/30 dark:text-muted-foreground",
             )}
           >
             Pending

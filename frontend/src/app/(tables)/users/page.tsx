@@ -95,7 +95,7 @@ export default function UserDirectoryPage() {
       accessorKey: "email",
       header: "Email",
       cell: ({ row }) => (
-        <div className="flex items-center gap-1 text-sm text-gray-600">
+        <div className="flex items-center gap-1 text-sm text-foreground">
           <Mail className="h-3 w-3" />
           {row.getValue("email")}
         </div>
@@ -105,7 +105,7 @@ export default function UserDirectoryPage() {
       accessorKey: "phone",
       header: "Phone",
       cell: ({ row }) => (
-        <div className="flex items-center gap-1 text-sm text-gray-600">
+        <div className="flex items-center gap-1 text-sm text-foreground">
           <Phone className="h-3 w-3" />
           {row.getValue("phone")}
         </div>
@@ -121,10 +121,10 @@ export default function UserDirectoryPage() {
           project_manager: "bg-blue-100 text-blue-700",
           superintendent: "bg-green-100 text-green-700",
           foreman: "bg-yellow-100 text-yellow-700",
-          viewer: "bg-gray-100 text-gray-700",
+          viewer: "bg-muted text-foreground",
         };
         return (
-          <Badge className={roleColors[role] || "bg-gray-100 text-gray-700"}>
+          <Badge className={roleColors[role] || "bg-muted text-foreground"}>
             {role.replace("_", " ")}
           </Badge>
         );
@@ -144,7 +144,7 @@ export default function UserDirectoryPage() {
             className={
               status === "active"
                 ? "bg-green-100 text-green-700"
-                : "bg-gray-100 text-gray-700"
+                : "bg-muted text-foreground"
             }
           >
             {status}
@@ -202,8 +202,8 @@ export default function UserDirectoryPage() {
   if (isLoading) {
     return (
       <div className="flex flex-col h-full p-6 items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-gray-400" />
-        <p className="text-sm text-gray-500 mt-2">Loading users...</p>
+        <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+        <p className="text-sm text-muted-foreground mt-2">Loading users...</p>
       </div>
     );
   }
@@ -223,8 +223,8 @@ export default function UserDirectoryPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">User Directory</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h1 className="text-3xl font-bold text-foreground">User Directory</h1>
+          <p className="text-sm text-muted-foreground mt-1">
             Manage project users and permissions
           </p>
         </div>
@@ -236,29 +236,29 @@ export default function UserDirectoryPage() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm font-medium text-gray-500">Total Users</div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">
+        <div className="bg-background rounded-lg border p-4">
+          <div className="text-sm font-medium text-muted-foreground">Total Users</div>
+          <div className="text-2xl font-bold text-foreground mt-1">
             {data.length}
           </div>
         </div>
-        <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm font-medium text-gray-500">Active</div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">
+        <div className="bg-background rounded-lg border p-4">
+          <div className="text-sm font-medium text-muted-foreground">Active</div>
+          <div className="text-2xl font-bold text-foreground mt-1">
             {data.filter((u) => u.status === "active").length}
           </div>
         </div>
-        <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm font-medium text-gray-500">Admins</div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">
+        <div className="bg-background rounded-lg border p-4">
+          <div className="text-sm font-medium text-muted-foreground">Admins</div>
+          <div className="text-2xl font-bold text-foreground mt-1">
             {data.filter((u) => u.role === "admin").length}
           </div>
         </div>
-        <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm font-medium text-gray-500">
+        <div className="bg-background rounded-lg border p-4">
+          <div className="text-sm font-medium text-muted-foreground">
             Project Managers
           </div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">
+          <div className="text-2xl font-bold text-foreground mt-1">
             {data.filter((u) => u.role === "project_manager").length}
           </div>
         </div>
@@ -266,8 +266,8 @@ export default function UserDirectoryPage() {
 
       {/* Empty State */}
       {data.length === 0 && (
-        <div className="flex-1 bg-white rounded-lg border flex flex-col items-center justify-center p-8">
-          <p className="text-gray-500 mb-4">No users found</p>
+        <div className="flex-1 bg-background rounded-lg border flex flex-col items-center justify-center p-8">
+          <p className="text-muted-foreground mb-4">No users found</p>
           <Button className="bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange))]/90">
             <Plus className="h-4 w-4 mr-2" />
             Invite First User
@@ -277,7 +277,7 @@ export default function UserDirectoryPage() {
 
       {/* Table */}
       {data.length > 0 && (
-        <div className="flex-1 bg-white rounded-lg border overflow-hidden">
+        <div className="flex-1 bg-background rounded-lg border overflow-hidden">
           <DataTable
             columns={columns}
             data={data}

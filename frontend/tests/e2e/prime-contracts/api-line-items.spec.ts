@@ -1,7 +1,8 @@
-import { test, expect } from '@playwright/test';
+import { expect, test, type APIRequestContext } from '@playwright/test';
 import { createClient } from '@supabase/supabase-js';
-import { withAuth } from '../../helpers/api-auth';
 import { join } from 'node:path';
+
+import { createAuthenticatedRequestContext } from '../../helpers/api-auth';
 
 /**
  * E2E Tests for Contract Line Items API Routes
@@ -12,6 +13,7 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!;
 const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const storageStatePath = join(__dirname, '../..', '.auth/user.json');
+const appUrl = process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000';
 
 test.describe('Contract Line Items API CRUD', () => {
   let supabase: ReturnType<typeof createClient>;
@@ -20,8 +22,15 @@ test.describe('Contract Line Items API CRUD', () => {
   let testUserId: string;
   let testContractId: string;
   let createdLineItemIds: string[] = [];
+  let apiContext: APIRequestContext;
 
-  test.beforeAll(async () => {
+  test.beforeAll(async ({ playwright }) => {
+    apiContext = await createAuthenticatedRequestContext(
+      playwright,
+      storageStatePath,
+      appUrl,
+    );
+
     // Initialize Supabase clients
     supabase = createClient(supabaseUrl, supabaseAnonKey);
     supabaseAdmin = createClient(supabaseUrl, supabaseServiceKey);
@@ -104,12 +113,13 @@ test.describe('Contract Line Items API CRUD', () => {
         .delete()
         .eq('id', testContractId);
     }
+
+    await apiContext.dispose();
   });
 
-  test('GET /api/projects/[id]/contracts/[contractId]/line-items should return 200 with array', async ({ request }) => {
-    const response = await request.get(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
-      withAuth(storageStatePath)
+  test('GET /api/projects/[id]/contracts/[contractId]/line-items should return 200 with array', async () => {
+    const response = await apiContext.get(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
     );
 
     expect(response.status()).toBe(200);
@@ -118,7 +128,7 @@ test.describe('Contract Line Items API CRUD', () => {
     expect(Array.isArray(data)).toBe(true);
   });
 
-  test('POST /api/projects/[id]/contracts/[contractId]/line-items should create line item and return 201', async ({ request }) => {
+  test('POST /api/projects/[id]/contracts/[contractId]/line-items should create line item and return 201', async () => {
     const lineItemData = {
       line_number: 1,
       description: 'Test Line Item 1',
@@ -127,11 +137,12 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 100.50,
     };
 
-    const response = await request.post(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
-      withAuth(storageStatePath, {
+    const response = await apiContext.post(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      {
         data: lineItemData,
-      })
+        headers: { 'Content-Type': 'application/json' },
+      },
     );
 
     expect(response.status()).toBe(201);
@@ -149,7 +160,7 @@ test.describe('Contract Line Items API CRUD', () => {
     createdLineItemIds.push(data.id);
   });
 
-  test('POST should verify total_cost auto-calculation', async ({ request }) => {
+  test('POST should verify total_cost auto-calculation', async () => {
     const lineItemData = {
       line_number: 2,
       description: 'Auto-calc Test',
@@ -157,11 +168,12 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 25.75,
     };
 
-    const response = await request.post(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
-      withAuth(storageStatePath, {
+    const response = await apiContext.post(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      {
         data: lineItemData,
-      })
+        headers: { 'Content-Type': 'application/json' },
+      },
     );
 
     expect(response.status()).toBe(201);
@@ -171,16 +183,17 @@ test.describe('Contract Line Items API CRUD', () => {
     createdLineItemIds.push(data.id);
   });
 
-  test('POST should return 400 for invalid data (missing required fields)', async ({ request }) => {
+  test('POST should return 400 for invalid data (missing required fields)', async () => {
     const invalidData = {
       description: 'Missing line number',
     };
 
-    const response = await request.post(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
-      withAuth(storageStatePath, {
+    const response = await apiContext.post(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      {
         data: invalidData,
-      })
+        headers: { 'Content-Type': 'application/json' },
+      },
     );
 
     expect(response.status()).toBe(400);
@@ -191,7 +204,7 @@ test.describe('Contract Line Items API CRUD', () => {
     expect(Array.isArray(data.details)).toBe(true);
   });
 
-  test('POST should return 400 for duplicate line_number in same contract', async ({ request }) => {
+  test('POST should return 400 for duplicate line_number in same contract', async () => {
     const lineItemData = {
       line_number: 100,
       description: 'First item',
@@ -200,11 +213,12 @@ test.describe('Contract Line Items API CRUD', () => {
     };
 
     // Create first line item
-    const firstResponse = await request.post(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
-      withAuth(storageStatePath, {
+    const firstResponse = await apiContext.post(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      {
         data: lineItemData,
-      })
+        headers: { 'Content-Type': 'application/json' },
+      },
     );
 
     expect(firstResponse.status()).toBe(201);
@@ -212,11 +226,12 @@ test.describe('Contract Line Items API CRUD', () => {
     createdLineItemIds.push(firstData.id);
 
     // Try to create second line item with same line_number
-    const secondResponse = await request.post(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
-      withAuth(storageStatePath, {
+    const secondResponse = await apiContext.post(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      {
         data: lineItemData,
-      })
+        headers: { 'Content-Type': 'application/json' },
+      },
     );
 
     expect(secondResponse.status()).toBe(400);
@@ -225,7 +240,7 @@ test.describe('Contract Line Items API CRUD', () => {
     expect(errorData.error).toContain('Line number already exists');
   });
 
-  test('GET /api/projects/[id]/contracts/[contractId]/line-items/[lineItemId] should return 200 with line item data', async ({ request }) => {
+  test('GET /api/projects/[id]/contracts/[contractId]/line-items/[lineItemId] should return 200 with line item data', async () => {
     // Create a line item first
     const lineItemData = {
       line_number: 3,
@@ -234,20 +249,20 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 15.25,
     };
 
-    const createResponse = await request.post(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
-      withAuth(storageStatePath, {
+    const createResponse = await apiContext.post(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      {
         data: lineItemData,
-      })
+        headers: { 'Content-Type': 'application/json' },
+      },
     );
 
     const createdLineItem = await createResponse.json();
     createdLineItemIds.push(createdLineItem.id);
 
     // Now get the line item
-    const response = await request.get(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
-      withAuth(storageStatePath)
+    const response = await apiContext.get(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
     );
 
     expect(response.status()).toBe(200);
@@ -258,12 +273,11 @@ test.describe('Contract Line Items API CRUD', () => {
     expect(data.description).toBe(lineItemData.description);
   });
 
-  test('GET /api/projects/[id]/contracts/[contractId]/line-items/[lineItemId] should return 404 for non-existent line item', async ({ request }) => {
+  test('GET /api/projects/[id]/contracts/[contractId]/line-items/[lineItemId] should return 404 for non-existent line item', async () => {
     const fakeLineItemId = '00000000-0000-0000-0000-000000000000';
 
-    const response = await request.get(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${fakeLineItemId}`,
-      withAuth(storageStatePath)
+    const response = await apiContext.get(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${fakeLineItemId}`,
     );
 
     expect(response.status()).toBe(404);
@@ -272,7 +286,7 @@ test.describe('Contract Line Items API CRUD', () => {
     expect(data.error).toContain('Line item not found');
   });
 
-  test('PUT /api/projects/[id]/contracts/[contractId]/line-items/[lineItemId] should update line item and return 200', async ({ request }) => {
+  test('PUT /api/projects/[id]/contracts/[contractId]/line-items/[lineItemId] should update line item and return 200', async () => {
     // Create a line item first
     const lineItemData = {
       line_number: 4,
@@ -281,11 +295,12 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 20,
     };
 
-    const createResponse = await request.post(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
-      withAuth(storageStatePath, {
+    const createResponse = await apiContext.post(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      {
         data: lineItemData,
-      })
+        headers: { 'Content-Type': 'application/json' },
+      },
     );
 
     const createdLineItem = await createResponse.json();
@@ -298,11 +313,12 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 30,
     };
 
-    const response = await request.put(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
-      withAuth(storageStatePath, {
+    const response = await apiContext.put(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
+      {
         data: updateData,
-      })
+        headers: { 'Content-Type': 'application/json' },
+      },
     );
 
     expect(response.status()).toBe(200);
@@ -316,7 +332,7 @@ test.describe('Contract Line Items API CRUD', () => {
     expect(data.updated_at).not.toBe(createdLineItem.updated_at);
   });
 
-  test('PUT should return 400 for invalid data', async ({ request }) => {
+  test('PUT should return 400 for invalid data', async () => {
     // Create a line item first
     const lineItemData = {
       line_number: 5,
@@ -325,11 +341,12 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 10,
     };
 
-    const createResponse = await request.post(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
-      withAuth(storageStatePath, {
+    const createResponse = await apiContext.post(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      {
         data: lineItemData,
-      })
+        headers: { 'Content-Type': 'application/json' },
+      },
     );
 
     const createdLineItem = await createResponse.json();
@@ -340,11 +357,12 @@ test.describe('Contract Line Items API CRUD', () => {
       quantity: -5, // Invalid: must be >= 0
     };
 
-    const response = await request.put(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
-      withAuth(storageStatePath, {
+    const response = await apiContext.put(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
+      {
         data: invalidUpdateData,
-      })
+        headers: { 'Content-Type': 'application/json' },
+      },
     );
 
     expect(response.status()).toBe(400);
@@ -353,7 +371,7 @@ test.describe('Contract Line Items API CRUD', () => {
     expect(data.error).toBe('Validation error');
   });
 
-  test('DELETE /api/projects/[id]/contracts/[contractId]/line-items/[lineItemId] should delete line item and return 200', async ({ request }) => {
+  test('DELETE /api/projects/[id]/contracts/[contractId]/line-items/[lineItemId] should delete line item and return 200', async () => {
     // Create a line item first
     const lineItemData = {
       line_number: 6,
@@ -362,11 +380,12 @@ test.describe('Contract Line Items API CRUD', () => {
       unit_cost: 25,
     };
 
-    const createResponse = await request.post(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
-      withAuth(storageStatePath, {
+    const createResponse = await apiContext.post(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+      {
         data: lineItemData,
-      })
+        headers: { 'Content-Type': 'application/json' },
+      },
     );
 
     const createdLineItem = await createResponse.json();
@@ -379,9 +398,8 @@ test.describe('Contract Line Items API CRUD', () => {
       .eq('user_id', testUserId);
 
     // Delete the line item
-    const response = await request.delete(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
-      withAuth(storageStatePath)
+    const response = await apiContext.delete(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
     );
 
     expect(response.status()).toBe(200);
@@ -390,9 +408,8 @@ test.describe('Contract Line Items API CRUD', () => {
     expect(data.message).toContain('deleted successfully');
 
     // Verify line item is deleted
-    const verifyResponse = await request.get(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
-      withAuth(storageStatePath)
+    const verifyResponse = await apiContext.get(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${createdLineItem.id}`,
     );
 
     expect(verifyResponse.status()).toBe(404);
@@ -405,7 +422,7 @@ test.describe('Contract Line Items API CRUD', () => {
       .eq('user_id', testUserId);
   });
 
-  test('DELETE should return 404 for non-existent line item', async ({ request }) => {
+  test('DELETE should return 404 for non-existent line item', async () => {
     const fakeLineItemId = '00000000-0000-0000-0000-000000000000';
 
     // Update user to admin for delete permission
@@ -415,9 +432,8 @@ test.describe('Contract Line Items API CRUD', () => {
       .eq('project_id', testProjectId)
       .eq('user_id', testUserId);
 
-    const response = await request.delete(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${fakeLineItemId}`,
-      withAuth(storageStatePath)
+    const response = await apiContext.delete(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items/${fakeLineItemId}`,
     );
 
     expect(response.status()).toBe(404);
@@ -430,7 +446,7 @@ test.describe('Contract Line Items API CRUD', () => {
       .eq('user_id', testUserId);
   });
 
-  test('GET /api/projects/[id]/contracts/[contractId]/line-items should return all line items ordered by line_number', async ({ request }) => {
+  test('GET /api/projects/[id]/contracts/[contractId]/line-items should return all line items ordered by line_number', async () => {
     // Create multiple line items
     const lineItems = [
       { line_number: 10, description: 'Item 10', quantity: 1, unit_cost: 10 },
@@ -439,11 +455,12 @@ test.describe('Contract Line Items API CRUD', () => {
     ];
 
     for (const item of lineItems) {
-      const createResponse = await request.post(
-        `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
-        withAuth(storageStatePath, {
+      const createResponse = await apiContext.post(
+        `/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
+        {
           data: item,
-        })
+          headers: { 'Content-Type': 'application/json' },
+        },
       );
 
       const createdItem = await createResponse.json();
@@ -451,9 +468,8 @@ test.describe('Contract Line Items API CRUD', () => {
     }
 
     // Get all line items
-    const response = await request.get(
-      `${process.env.NEXT_PUBLIC_APP_URL}/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
-      withAuth(storageStatePath)
+    const response = await apiContext.get(
+      `/api/projects/${testProjectId}/contracts/${testContractId}/line-items`,
     );
 
     expect(response.status()).toBe(200);

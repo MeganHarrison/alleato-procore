@@ -93,11 +93,11 @@ export function BudgetDetailsTable({ data, loading }: BudgetDetailsTableProps) {
   }
 
   return (
-    <div className="rounded-lg border bg-white shadow-sm">
+    <div className="rounded-lg border bg-background shadow-sm">
       <div className="overflow-x-auto scrollbar-hide">
         <Table>
           <TableHeader>
-            <TableRow className="bg-gray-50">
+            <TableRow className="bg-muted">
               <TableHead className="font-semibold">Budget Code</TableHead>
               <TableHead className="font-semibold">Vendor</TableHead>
               <TableHead className="font-semibold">Item</TableHead>
@@ -133,7 +133,7 @@ export function BudgetDetailsTable({ data, loading }: BudgetDetailsTableProps) {
               <TableRow
                 key={item.id}
                 className={cn(
-                  "hover:bg-gray-50",
+                  "hover:bg-muted",
                   item.detailType === "original_budget" && "font-medium",
                 )}
               >

@@ -4,13 +4,13 @@ import { createClient } from "@/lib/supabase/server";
 // GET /api/projects/[id]/budget/lines/[lineId]/history - Get change history for a budget line item
 export async function GET(
   _request: NextRequest,
-  { params }: { params: Promise<{ id: string; lineId: string }> },
+  { params }: { params: Promise<{ projectId: string; lineId: string }> },
 ) {
   try {
-    const { id, lineId } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId, lineId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -52,7 +52,7 @@ export async function GET(
       `,
       )
       .eq("budget_line_id", lineId)
-      .eq("project_id", projectId)
+      .eq("project_id", projectIdNum)
       .order("changed_at", { ascending: false });
 
     if (historyError) {

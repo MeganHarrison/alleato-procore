@@ -263,7 +263,7 @@ The Change Events API is functionally complete and tested. The single performanc
 **Evidence Files:**
 - HTML Report: `frontend/playwright-report/index.html`
 - Test Fixes Doc: `frontend/tests/CHANGE-EVENTS-TEST-FIXES.md`
-- This Document: `documentation/1-project-mgmt/in-progress/change-events/TEST-RESULTS.md`
+- This Document: `documentation/*project-mgmt/in-progress/change-events/TEST-RESULTS.md`
 
 ---
 

@@ -175,7 +175,7 @@ After running the crawler:
 
 ## TASK
 
-Read documentation/1-project-mgmt/in-progress/DIRECT-COSTS/CLAUDE.md for workflow instructions.
+Read documentation/*project-mgmt/in-progress/DIRECT-COSTS/CLAUDE.md for workflow instructions.
 
 The TASKS.md and PLANS.md files have already been created (Phase 2 complete).
 
@@ -185,7 +185,7 @@ You MUST spawn an Explore agent to analyze the codebase. Do NOT do this analysis
 Use this exact Task call:
 Task({
   subagent_type: "Explore",
-  prompt: "Analyze codebase against TASKS.md. Read documentation/1-project-mgmt/in-progress/commitments/TASKS.md. For each item, check if code exists. Update TASKS.md marking [x] for complete items. Check: frontend/src/app/[projectId]/commitments/, frontend/src/components/commitments/, frontend/src/hooks/use-commitments.ts, frontend/src/config/tables/commitments.config.tsx, frontend/tests/e2e/commitment*.spec.ts"
+  prompt: "Analyze codebase against TASKS.md. Read documentation/*project-mgmt/in-progress/commitments/TASKS.md. For each item, check if code exists. Update TASKS.md marking [x] for complete items. Check: frontend/src/app/[projectId]/commitments/, frontend/src/components/commitments/, frontend/src/hooks/use-commitments.ts, frontend/src/config/tables/commitments.config.tsx, frontend/tests/e2e/commitment*.spec.ts"
 })
 
 After the Explore agent returns, continue through Phases 4-7 following CLAUDE.md exactly.

@@ -270,7 +270,7 @@ export function BudgetModificationModal({
                   placeholder="0.00"
                   required
                 />
-                <p className="text-sm text-gray-500">
+                <p className="text-sm text-muted-foreground">
                   Use negative values for decreases
                 </p>
               </div>
@@ -303,7 +303,7 @@ export function BudgetModificationModal({
               {/* Workflow Info */}
               <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
                 <div className="flex items-center gap-2 mb-2">
-                  <Badge variant="outline" className="bg-white">
+                  <Badge variant="outline" className="bg-background">
                     Draft
                   </Badge>
                   <span className="text-sm text-slate-500">→</span>

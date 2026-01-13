@@ -46,7 +46,7 @@ export function DivisionTree<T extends DivisionItem>({
 
   if (sortedDivisions.length === 0) {
     return (
-      <div className="px-3 py-4 text-sm text-gray-500 text-center">
+      <div className="px-3 py-4 text-sm text-muted-foreground text-center">
         No items available
       </div>
     );
@@ -64,35 +64,35 @@ export function DivisionTree<T extends DivisionItem>({
           <button
             type="button"
             onClick={() => onToggleDivision(division)}
-            className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-gray-50 transition-colors"
+            className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-muted transition-colors"
           >
-            <span className="text-sm font-semibold text-gray-700 flex items-center gap-2">
+            <span className="text-sm font-semibold text-foreground flex items-center gap-2">
               {expandedDivisions.has(division) ? (
-                <ChevronDown className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                <ChevronDown className="w-4 h-4 text-muted-foreground flex-shrink-0" />
               ) : (
-                <ChevronRight className="w-4 h-4 text-gray-500 flex-shrink-0" />
+                <ChevronRight className="w-4 h-4 text-muted-foreground flex-shrink-0" />
               )}
               {division}
             </span>
             {showCount && (
-              <span className="text-xs text-gray-500">
+              <span className="text-xs text-muted-foreground">
                 ({groupedItems[division].length})
               </span>
             )}
           </button>
 
           {expandedDivisions.has(division) && (
-            <div className="bg-gray-50/50">
+            <div className="bg-muted/50">
               {groupedItems[division].map((item) => (
                 <button
                   key={item.id}
                   type="button"
                   onClick={() => onSelectItem(item)}
                   className={cn(
-                    "w-full text-left px-6 py-2 text-sm hover:bg-gray-100 transition-colors",
+                    "w-full text-left px-6 py-2 text-sm hover:bg-muted transition-colors",
                     selectedId === item.id
                       ? "bg-blue-50 text-blue-700 font-medium"
-                      : "text-gray-700",
+                      : "text-foreground",
                   )}
                 >
                   {renderItem ? renderItem(item) : item.label}

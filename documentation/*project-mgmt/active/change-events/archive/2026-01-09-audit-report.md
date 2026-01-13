@@ -277,7 +277,7 @@ npm run lint
 
 ## Comparison to Documentation
 
-Based on review of comprehensive documentation in `/documentation/1-project-mgmt/in-progress/change-events/`:
+Based on review of comprehensive documentation in `/documentation/*project-mgmt/in-progress/change-events/`:
 
 ### Matches Documentation ✅
 - All 12 primary form fields defined

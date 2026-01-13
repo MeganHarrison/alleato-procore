@@ -36,7 +36,7 @@ async function navigateToBudget(page: Page, projectId: string = TEST_PROJECT_ID)
 // Helper function to take screenshots
 async function takeScreenshot(page: Page, name: string) {
   await page.screenshot({
-    path: `frontend/tests/screenshots/phase-1a-1b/${name}.png`,
+    path: `tests/screenshots/phase-1a-1b/${name}.png`,
     fullPage: true,
   });
 }

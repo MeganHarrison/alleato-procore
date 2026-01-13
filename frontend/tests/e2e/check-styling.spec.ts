@@ -18,7 +18,7 @@ test('Capture budget page screenshot with table styling', async ({ page }) => {
 
   // Take a screenshot after login
   await page.screenshot({
-    path: '/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/screenshots/after-login.png',
+    path: '/Users/meganharrison/Documents/github/alleato-procore/tests/screenshots/after-login.png',
     fullPage: true,
   });
 
@@ -36,7 +36,7 @@ test('Capture budget page screenshot with table styling', async ({ page }) => {
 
   // Take a full-page screenshot
   await page.screenshot({
-    path: '/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/screenshots/budget-table-styling.png',
+    path: '/Users/meganharrison/Documents/github/alleato-procore/tests/screenshots/budget-table-styling.png',
     fullPage: true,
   });
 

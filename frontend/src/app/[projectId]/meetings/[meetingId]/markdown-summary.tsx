@@ -31,8 +31,7 @@ export function MarkdownSummary({ content }: MarkdownSummaryProps) {
         ),
       }}
     >
-      {" "}
-      {content}{" "}
+      {content}
     </ReactMarkdown>
   );
 }

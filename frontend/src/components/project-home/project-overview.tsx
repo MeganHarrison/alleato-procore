@@ -19,7 +19,7 @@ interface ProjectOverviewProps {
 
 function OverviewBar({ item }: { item: ProjectOverviewItem }) {
   const total = item.overdue + item.nextSevenDays + item.moreThanSevenDays;
-  if (total === 0) return <span className="text-gray-400">-</span>;
+  if (total === 0) return <span className="text-muted-foreground">-</span>;
 
   const overduePercent = (item.overdue / total) * 100;
   const nextSevenPercent = (item.nextSevenDays / total) * 100;
@@ -76,9 +76,9 @@ export function ProjectOverview({ items, projectId }: ProjectOverviewProps) {
 
   return (
     <>
-      <div className="bg-white rounded-md border border-gray-200">
-        <div className="px-6 py-4 border-b border-gray-200">
-          <h2 className="text-base font-semibold text-gray-900">
+      <div className="bg-background rounded-md border border-border">
+        <div className="px-6 py-4 border-b border-border">
+          <h2 className="text-base font-semibold text-foreground">
             Project Overview
           </h2>
         </div>
@@ -128,7 +128,7 @@ export function ProjectOverview({ items, projectId }: ProjectOverviewProps) {
               <TableRow>
                 <TableCell
                   colSpan={3}
-                  className="text-center text-gray-500 py-8"
+                  className="text-center text-muted-foreground py-8"
                 >
                   No overview items
                 </TableCell>

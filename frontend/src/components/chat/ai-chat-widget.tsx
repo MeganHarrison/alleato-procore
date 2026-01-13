@@ -149,7 +149,7 @@ export function AIChatWidget() {
       {/* Chat Widget Panel */}
       {isOpen && (
         <div
-          className={`fixed z-50 bg-white rounded-lg shadow-2xl transition-all duration-300 ease-in-out ${
+          className={`fixed z-50 bg-background rounded-lg shadow-2xl transition-all duration-300 ease-in-out ${
             isMinimized
               ? "bottom-6 right-6 w-80 h-16"
               : "bottom-6 right-6 w-[420px] h-[660px]"
@@ -168,7 +168,7 @@ export function AIChatWidget() {
               {!isMinimized && (
                 <button
                   onClick={minimizeWidget}
-                  className="p-1 hover:bg-white/20 rounded transition-colors"
+                  className="p-1 hover:bg-background/20 rounded transition-colors"
                   aria-label="Minimize chat"
                 >
                   <Minimize2 className="w-4 h-4" />
@@ -176,7 +176,7 @@ export function AIChatWidget() {
               )}
               <button
                 onClick={closeWidget}
-                className="p-1 hover:bg-white/20 rounded transition-colors"
+                className="p-1 hover:bg-background/20 rounded transition-colors"
                 aria-label="Close chat"
               >
                 <X className="w-4 h-4" />
@@ -199,7 +199,7 @@ export function AIChatWidget() {
                         "Real-time responses are paused. Use demo mode to continue."}
                     </AlertDescription>
                   </Alert>
-                  <div className="flex-1 overflow-hidden rounded-lg border bg-white">
+                  <div className="flex-1 overflow-hidden rounded-lg border bg-background">
                     <SimpleRagChat placeholder="Demo mode – ask about any project update" />
                   </div>
                 </div>

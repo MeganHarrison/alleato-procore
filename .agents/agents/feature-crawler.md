@@ -68,7 +68,7 @@ Use this subagent when:
 ## Output Structure
 
 ```
-documentation/1-project-mgmt/in-progress/{feature_name}/
+documentation/*project-mgmt/in-progress/{feature_name}/
 ├── crawl-{feature_name}/
 │   ├── README.md                          # Crawler documentation
 │   ├── {FEATURE}-CRAWL-STATUS.md         # Analysis report
@@ -87,7 +87,7 @@ documentation/1-project-mgmt/in-progress/{feature_name}/
 
 ## Agent Workflow
 
-### Phase 1: Setup (5 minutes)
+### Phase 1: Setup
 
 1. **Parse Input**
    - Validate feature name, URL, and optional parameters
@@ -105,7 +105,7 @@ documentation/1-project-mgmt/in-progress/{feature_name}/
    - Set crawling parameters
    - Add feature-specific extraction logic
 
-### Phase 2: Execution (10-30 minutes)
+### Phase 2: Execution
 
 4. **Authenticate**
    - Load Procore credentials from auth.json
@@ -134,7 +134,7 @@ documentation/1-project-mgmt/in-progress/{feature_name}/
    - Map button actions
    - Extract validation rules
 
-### Phase 3: Analysis (5-10 minutes)
+### Phase 3: Analysis
 
 8. **Generate Sitemap**
    - Create Markdown table with links
@@ -154,7 +154,7 @@ documentation/1-project-mgmt/in-progress/{feature_name}/
     - Identify relationships
     - Document constraints
 
-### Phase 4: Documentation (5 minutes)
+### Phase 4: Documentation
 
 11. **Create Status Report**
     - Summary statistics
@@ -185,7 +185,7 @@ import { chromium } from "playwright";
 import fs from "fs";
 import path from "path";
 
-const OUTPUT_DIR = "./documentation/1-project-mgmt/in-progress/{feature}/crawl-{feature}";
+const OUTPUT_DIR = "./documentation/*project-mgmt/in-progress/{feature}/crawl-{feature}";
 const START_URL = "{start_url}";
 const PROCORE_EMAIL = "bclymer@alleatogroup.com";
 const PROCORE_PASSWORD = "{from_auth_json}";

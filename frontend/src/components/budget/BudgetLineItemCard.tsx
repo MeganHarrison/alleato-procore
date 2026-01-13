@@ -45,7 +45,7 @@ export function BudgetLineItemCard({
   onKeyDown,
 }: BudgetLineItemCardProps) {
   return (
-    <div className="p-4 bg-white">
+    <div className="p-4 bg-background">
       <Stack gap="sm">
         {/* Card Header */}
         <Inline justify="between" align="start">
@@ -57,7 +57,7 @@ export function BudgetLineItemCard({
             disabled={!canRemove}
             className="touch-target -mr-2 -mt-2"
           >
-            <Trash2 className="h-5 w-5 text-gray-500 hover:text-red-600" />
+            <Trash2 className="h-5 w-5 text-muted-foreground hover:text-red-600" />
           </Button>
         </Inline>
 
@@ -104,7 +104,7 @@ export function BudgetLineItemCard({
           <div>
             <Label>Unit Cost</Label>
             <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-500 pointer-events-none">
+              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-sm text-muted-foreground pointer-events-none">
                 $
               </span>
               <Input
@@ -121,7 +121,7 @@ export function BudgetLineItemCard({
             <Input
               type="number"
               value={item.amount}
-              className="w-full touch-target bg-gray-50"
+              className="w-full touch-target bg-muted"
               disabled
             />
           </div>

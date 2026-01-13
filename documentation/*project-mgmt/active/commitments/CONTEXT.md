@@ -8,7 +8,7 @@
 | Item | Value |
 |------|-------|
 | Feature | commitments |
-| Feature Directory | `documentation/1-project-mgmt/in-progress/commitments/` |
+| Feature Directory | `documentation/*project-mgmt/in-progress/commitments/` |
 | Crawl Data | `procore-crawl-output/` |
 | Frontend Pages | `frontend/src/app/[projectId]/commitments/` |
 | Components | `frontend/src/components/domain/contracts/` |

@@ -257,7 +257,7 @@ export function CreateSubcontractForm({
           <div className="space-y-2">
             <Label htmlFor="contractCompanyId">
               Contract Company
-              <button type="button" className="ml-2 text-xs text-gray-500">
+              <button type="button" className="ml-2 text-xs text-muted-foreground">
                 Delete field
               </button>
             </Label>
@@ -331,7 +331,7 @@ export function CreateSubcontractForm({
                 disabled={isSubmitting}
                 className="w-full"
               />
-              <span className="text-sm text-gray-600">%</span>
+              <span className="text-sm text-foreground">%</span>
             </div>
             {errors.defaultRetainagePercent && (
               <p className="text-sm text-red-600">
@@ -367,46 +367,46 @@ export function CreateSubcontractForm({
           <Label htmlFor="description">Description</Label>
           <div className="border rounded-md">
             {/* Rich text toolbar placeholder */}
-            <div className="border-b bg-gray-50 p-2 flex gap-1 text-xs text-gray-600">
+            <div className="border-b bg-muted p-2 flex gap-1 text-xs text-foreground">
               <button
                 type="button"
-                className="px-2 py-1 hover:bg-gray-200 rounded"
+                className="px-2 py-1 hover:bg-muted rounded"
                 title="Bold"
               >
                 B
               </button>
               <button
                 type="button"
-                className="px-2 py-1 hover:bg-gray-200 rounded"
+                className="px-2 py-1 hover:bg-muted rounded"
                 title="Italic"
               >
                 I
               </button>
               <button
                 type="button"
-                className="px-2 py-1 hover:bg-gray-200 rounded"
+                className="px-2 py-1 hover:bg-muted rounded"
                 title="Underline"
               >
                 U
               </button>
-              <span className="text-gray-400">|</span>
+              <span className="text-muted-foreground">|</span>
               <button
                 type="button"
-                className="px-2 py-1 hover:bg-gray-200 rounded"
+                className="px-2 py-1 hover:bg-muted rounded"
                 title="Align Left"
               >
                 ≡
               </button>
               <button
                 type="button"
-                className="px-2 py-1 hover:bg-gray-200 rounded"
+                className="px-2 py-1 hover:bg-muted rounded"
                 title="Align Center"
               >
                 ≣
               </button>
               <button
                 type="button"
-                className="px-2 py-1 hover:bg-gray-200 rounded"
+                className="px-2 py-1 hover:bg-muted rounded"
                 title="Align Right"
               >
                 ≡
@@ -466,13 +466,13 @@ export function CreateSubcontractForm({
         {/* SOV Table */}
         {sovLines.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 space-y-4">
-            <div className="text-gray-400">
+            <div className="text-muted-foreground">
               {/* Empty state image placeholder */}
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center">
+              <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center">
                 <span className="text-4xl">📊</span>
               </div>
             </div>
-            <p className="text-lg font-medium text-gray-600">
+            <p className="text-lg font-medium text-foreground">
               You Have No Line Items Yet
             </p>
             <div className="flex gap-2">
@@ -524,33 +524,33 @@ export function CreateSubcontractForm({
 
             <div className="overflow-x-auto">
               <table className="w-full border">
-                <thead className="bg-gray-50">
+                <thead className="bg-muted">
                   <tr>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700 w-12">
+                    <th className="px-3 py-2 text-left text-xs font-medium text-foreground w-12">
                       #
                     </th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">
+                    <th className="px-3 py-2 text-left text-xs font-medium text-foreground">
                       Change Event Line Item
                     </th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">
+                    <th className="px-3 py-2 text-left text-xs font-medium text-foreground">
                       Budget Code
                     </th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">
+                    <th className="px-3 py-2 text-left text-xs font-medium text-foreground">
                       Description
                     </th>
-                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">
+                    <th className="px-3 py-2 text-right text-xs font-medium text-foreground">
                       Amount
                     </th>
-                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">
+                    <th className="px-3 py-2 text-right text-xs font-medium text-foreground">
                       Billed to Date
                     </th>
-                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">
+                    <th className="px-3 py-2 text-right text-xs font-medium text-foreground">
                       Amount Remaining
                     </th>
                     <th className="px-3 py-2 w-12" aria-label="Actions"></th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y">
+                <tbody className="bg-background divide-y">
                   {sovLines.map((line, index) => (
                     <tr
                       key={
@@ -631,7 +631,7 @@ export function CreateSubcontractForm({
                     </tr>
                   ))}
                 </tbody>
-                <tfoot className="bg-gray-50 font-semibold">
+                <tfoot className="bg-muted font-semibold">
                   <tr>
                     <td colSpan={4} className="px-3 py-2 text-sm">
                       Total:
@@ -664,24 +664,24 @@ export function CreateSubcontractForm({
           <div className="space-y-2">
             <Label htmlFor="inclusions">Inclusions</Label>
             <div className="border rounded-md">
-              <div className="border-b bg-gray-50 p-2 flex gap-1 text-xs text-gray-600">
+              <div className="border-b bg-muted p-2 flex gap-1 text-xs text-foreground">
                 <button
                   type="button"
-                  className="px-2 py-1 hover:bg-gray-200 rounded"
+                  className="px-2 py-1 hover:bg-muted rounded"
                   title="Bold"
                 >
                   B
                 </button>
                 <button
                   type="button"
-                  className="px-2 py-1 hover:bg-gray-200 rounded"
+                  className="px-2 py-1 hover:bg-muted rounded"
                   title="Italic"
                 >
                   I
                 </button>
                 <button
                   type="button"
-                  className="px-2 py-1 hover:bg-gray-200 rounded"
+                  className="px-2 py-1 hover:bg-muted rounded"
                   title="Underline"
                 >
                   U
@@ -700,24 +700,24 @@ export function CreateSubcontractForm({
           <div className="space-y-2">
             <Label htmlFor="exclusions">Exclusions</Label>
             <div className="border rounded-md">
-              <div className="border-b bg-gray-50 p-2 flex gap-1 text-xs text-gray-600">
+              <div className="border-b bg-muted p-2 flex gap-1 text-xs text-foreground">
                 <button
                   type="button"
-                  className="px-2 py-1 hover:bg-gray-200 rounded"
+                  className="px-2 py-1 hover:bg-muted rounded"
                   title="Bold"
                 >
                   B
                 </button>
                 <button
                   type="button"
-                  className="px-2 py-1 hover:bg-gray-200 rounded"
+                  className="px-2 py-1 hover:bg-muted rounded"
                   title="Italic"
                 >
                   I
                 </button>
                 <button
                   type="button"
-                  className="px-2 py-1 hover:bg-gray-200 rounded"
+                  className="px-2 py-1 hover:bg-muted rounded"
                   title="Underline"
                 >
                   U
@@ -850,7 +850,7 @@ export function CreateSubcontractForm({
           Contract Privacy
         </h2>
 
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-foreground">
           Using the privacy setting allows only project admins and the select
           non-admin users access.
         </p>
@@ -873,7 +873,7 @@ export function CreateSubcontractForm({
           <div className="space-y-2">
             <Label htmlFor="privacy.nonAdminUserIds">
               Access for Non-Admin Users
-              <button type="button" className="ml-2 text-xs text-gray-500">
+              <button type="button" className="ml-2 text-xs text-muted-foreground">
                 Delete field
               </button>
             </Label>
@@ -917,7 +917,7 @@ export function CreateSubcontractForm({
         </h2>
 
         {!contractCompanyId ? (
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-foreground">
             Please select a Contract Company first
           </p>
         ) : (
@@ -934,7 +934,7 @@ export function CreateSubcontractForm({
 
       {/* Footer Actions */}
       <div className="flex items-center justify-between pt-6 border-t">
-        <p className="text-sm text-gray-600">*Required fields</p>
+        <p className="text-sm text-foreground">*Required fields</p>
         <div className="flex gap-3">
           <Button
             type="button"

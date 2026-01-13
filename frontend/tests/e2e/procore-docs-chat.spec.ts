@@ -33,8 +33,8 @@ test.describe('Procore Docs Chat', () => {
     const dialog = page.locator('[role="dialog"]');
     await expect(dialog).toBeVisible();
 
-    // Check for dialog title
-    const title = page.getByRole('heading', { name: 'Ask Procore Docs' });
+    // Check for dialog title (actual component uses "Procore Documentation Assistant")
+    const title = page.getByRole('heading', { name: 'Procore Documentation Assistant' });
     await expect(title).toBeVisible();
   });
 
@@ -58,7 +58,7 @@ test.describe('Procore Docs Chat', () => {
     await chatButton.click();
 
     // Check for input field
-    const input = page.getByPlaceholder('Ask a question...');
+    const input = page.getByPlaceholder('Ask a question about Procore...');
     await expect(input).toBeVisible();
 
     // Check for send button
@@ -74,7 +74,7 @@ test.describe('Procore Docs Chat', () => {
     await chatButton.click();
 
     // Type a question
-    const input = page.getByPlaceholder('Ask a question...');
+    const input = page.getByPlaceholder('Ask a question about Procore...');
     await input.fill('What is a budget?');
 
     // Click send button
@@ -87,12 +87,13 @@ test.describe('Procore Docs Chat', () => {
     // Wait for loading indicator
     await expect(page.locator('svg.animate-spin')).toBeVisible();
 
-    // Wait for response (with longer timeout since API call is involved)
-    await expect(page.locator('svg.animate-spin')).not.toBeVisible({ timeout: 15000 });
+    // Wait for response (RAG API with OpenAI calls can take 30-60s)
+    await expect(page.locator('svg.animate-spin')).not.toBeVisible({ timeout: 60000 });
 
     // Check that there are now 2 messages (user + assistant)
-    const messages = page.locator('[class*="rounded-lg"][class*="px-4"][class*="py-2"]');
-    await expect(messages).toHaveCount(2);
+    // Messages are divs with max-w-[85%] rounded-xl classes
+    const messages = page.locator('[class*="max-w-"][class*="rounded-xl"]');
+    await expect(messages).toHaveCount(2, { timeout: 10000 });
   });
 
   test('should show sources with links', async ({ page }) => {
@@ -103,7 +104,7 @@ test.describe('Procore Docs Chat', () => {
     await chatButton.click();
 
     // Send a question
-    const input = page.getByPlaceholder('Ask a question...');
+    const input = page.getByPlaceholder('Ask a question about Procore...');
     await input.fill('How do I create a budget?');
 
     const sendButton = page.locator('button[type="submit"]');
@@ -112,8 +113,8 @@ test.describe('Procore Docs Chat', () => {
     // Wait for response
     await page.waitForTimeout(5000); // Give it time to get response
 
-    // Look for "Sources:" text
-    const sourcesLabel = page.getByText('Sources:');
+    // Look for "Sources" text (component uses uppercase without colon)
+    const sourcesLabel = page.getByText('Sources', { exact: true });
 
     // If sources are present, verify they have links
     if (await sourcesLabel.isVisible()) {
@@ -129,22 +130,24 @@ test.describe('Procore Docs Chat', () => {
     const chatButton = page.locator('button[title="Ask Procore Docs"]');
     await chatButton.click();
 
-    const input = page.getByPlaceholder('Ask a question...');
+    const input = page.getByPlaceholder('Ask a question about Procore...');
     const sendButton = page.locator('button[type="submit"]');
 
-    // First question
+    // First question - wait for API response (can take 30-60s)
     await input.fill('What is a budget?');
     await sendButton.click();
-    await page.waitForTimeout(5000);
+    await expect(page.locator('svg.animate-spin')).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('svg.animate-spin')).not.toBeVisible({ timeout: 60000 });
 
     // Second question
     await input.fill('What is a change order?');
     await sendButton.click();
-    await page.waitForTimeout(5000);
+    await expect(page.locator('svg.animate-spin')).toBeVisible({ timeout: 5000 });
+    await expect(page.locator('svg.animate-spin')).not.toBeVisible({ timeout: 60000 });
 
     // Should have 4 messages (2 questions + 2 answers)
-    const messages = page.locator('[class*="rounded-lg"][class*="px-4"][class*="py-2"]');
-    await expect(messages).toHaveCount(4, { timeout: 20000 });
+    const messages = page.locator('[class*="max-w-"][class*="rounded-xl"]');
+    await expect(messages).toHaveCount(4, { timeout: 10000 });
   });
 
   test('should close dialog when clicking close button', async ({ page }) => {
@@ -177,7 +180,7 @@ test.describe('Procore Docs Chat', () => {
     await expect(sendButton).toBeDisabled();
 
     // Type something
-    const input = page.getByPlaceholder('Ask a question...');
+    const input = page.getByPlaceholder('Ask a question about Procore...');
     await input.fill('test');
 
     // Now it should be enabled

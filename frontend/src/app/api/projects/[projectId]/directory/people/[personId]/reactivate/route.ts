@@ -4,7 +4,7 @@ import { DirectoryService } from "@/services/directoryService";
 import { PermissionService } from "@/services/permissionService";
 
 interface RouteParams {
-  params: Promise<{ id: string; personId: string }>;
+  params: Promise<{ projectId: string; personId: string }>;
 }
 
 /**
@@ -18,7 +18,7 @@ interface RouteParams {
  */
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, personId } = await params;
+    const { projectId, personId } = await params;
     const supabase = await createClient();
 
     // Check authentication

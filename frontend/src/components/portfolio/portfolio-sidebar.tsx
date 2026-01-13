@@ -19,9 +19,9 @@ export function PortfolioSidebar({
   const [isReportsExpanded, setIsReportsExpanded] = React.useState(true);
 
   return (
-    <div className="w-64 bg-white border-l border-gray-200 flex flex-col">
+    <div className="w-64 bg-background border-l border-border flex flex-col">
       {/* Create Project button */}
-      <div className="p-4 border-b border-gray-200">
+      <div className="p-4 border-b border-border">
         <Button
           onClick={onCreateProject}
           className="w-full bg-[hsl(var(--procore-orange))] hover:bg-[hsl(var(--procore-orange-hover))] text-white"
@@ -35,12 +35,12 @@ export function PortfolioSidebar({
       <div className="flex-1 overflow-auto">
         <button
           onClick={() => setIsReportsExpanded(!isReportsExpanded)}
-          className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-gray-700 hover:bg-gray-50"
+          className="w-full flex items-center justify-between px-4 py-3 text-sm font-medium text-foreground hover:bg-muted"
         >
           <span>Custom Reports</span>
           <ChevronRight
             className={cn(
-              "w-4 h-4 text-gray-400 transition-transform",
+              "w-4 h-4 text-muted-foreground transition-transform",
               isReportsExpanded && "rotate-90",
             )}
           />
@@ -53,14 +53,14 @@ export function PortfolioSidebar({
                 <button
                   key={report.id}
                   onClick={() => onReportClick?.(report.id)}
-                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:bg-gray-50 rounded"
+                  className="w-full flex items-center gap-2 px-3 py-2 text-sm text-foreground hover:bg-muted rounded"
                 >
-                  <FileText className="w-4 h-4 text-gray-400" />
+                  <FileText className="w-4 h-4 text-muted-foreground" />
                   {report.name}
                 </button>
               ))
             ) : (
-              <p className="px-3 py-2 text-sm text-gray-500">
+              <p className="px-3 py-2 text-sm text-muted-foreground">
                 No custom reports yet
               </p>
             )}
@@ -69,8 +69,8 @@ export function PortfolioSidebar({
       </div>
 
       {/* Bottom section */}
-      <div className="p-4 border-t border-gray-200">
-        <p className="text-xs text-gray-500 text-center">
+      <div className="p-4 border-t border-border">
+        <p className="text-xs text-muted-foreground text-center">
           {customReports.length} custom report
           {customReports.length !== 1 ? "s" : ""}
         </p>

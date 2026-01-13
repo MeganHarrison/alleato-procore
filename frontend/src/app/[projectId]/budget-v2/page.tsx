@@ -567,14 +567,14 @@ export default function BudgetV2Page() {
         {activeTab === "budget" && (
           <>
             {/* Summary Bar */}
-            <div className="rounded-lg border bg-white shadow-sm">
-              <div className="border-b bg-gray-50 px-6 py-3">
+            <div className="rounded-lg border bg-background shadow-sm">
+              <div className="border-b bg-muted px-6 py-3">
                 <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium text-gray-700">
+                  <span className="font-medium text-foreground">
                     {lineItems.length} Line Item
                     {lineItems.length !== 1 ? "s" : ""}
                   </span>
-                  <span className="font-semibold text-gray-900">
+                  <span className="font-semibold text-foreground">
                     Total: $
                     {totalAmount.toLocaleString("en-US", {
                       minimumFractionDigits: 2,
@@ -587,37 +587,37 @@ export default function BudgetV2Page() {
               {/* Table */}
               <div className="overflow-x-auto">
                 <table className="w-full">
-                  <thead className="border-b bg-gray-50">
+                  <thead className="border-b bg-muted">
                     <tr>
-                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Budget Code
                       </th>
-                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Cost Type
                       </th>
-                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Description
                       </th>
-                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Qty
                       </th>
-                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         UOM
                       </th>
-                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Unit Cost
                       </th>
-                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                      <th className="px-3 py-2 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                         Amount
                       </th>
                     </tr>
                   </thead>
-                  <tbody className="divide-y divide-gray-200 bg-white">
+                  <tbody className="divide-y divide-gray-200 bg-background">
                     {loadingData ? (
                       <tr>
                         <td
                           colSpan={7}
-                          className="px-3 py-6 text-center text-gray-500"
+                          className="px-3 py-6 text-center text-muted-foreground"
                         >
                           Loading project cost codes...
                         </td>
@@ -626,7 +626,7 @@ export default function BudgetV2Page() {
                       <tr>
                         <td
                           colSpan={7}
-                          className="px-3 py-6 text-center text-gray-500"
+                          className="px-3 py-6 text-center text-muted-foreground"
                         >
                           No budget codes found. Add budget codes to get
                           started.
@@ -634,7 +634,7 @@ export default function BudgetV2Page() {
                       </tr>
                     ) : (
                       lineItems.map((row) => (
-                        <tr key={row.id} className="hover:bg-gray-50">
+                        <tr key={row.id} className="hover:bg-muted">
                           <td className="px-3 py-2">
                             <Popover
                               open={openPopoverId === row.id}
@@ -652,8 +652,8 @@ export default function BudgetV2Page() {
                                   <span
                                     className={
                                       row.costCodeLabel
-                                        ? "text-gray-900"
-                                        : "text-gray-500"
+                                        ? "text-foreground"
+                                        : "text-muted-foreground"
                                     }
                                   >
                                     {row.costCodeLabel ||
@@ -817,14 +817,14 @@ export default function BudgetV2Page() {
         )}
 
         {activeTab === "settings" && (
-          <div className="flex-1 rounded-lg border bg-white shadow-sm p-6">
-            <p className="text-gray-500">Settings for Budget V2 coming soon</p>
+          <div className="flex-1 rounded-lg border bg-background shadow-sm p-6">
+            <p className="text-muted-foreground">Settings for Budget V2 coming soon</p>
           </div>
         )}
 
         {activeTab === "cost-codes" && (
-          <div className="flex-1 rounded-lg border bg-white shadow-sm p-6">
-            <p className="text-gray-500">
+          <div className="flex-1 rounded-lg border bg-background shadow-sm p-6">
+            <p className="text-muted-foreground">
               Cost Codes management for Budget V2 coming soon
             </p>
           </div>
@@ -845,7 +845,7 @@ export default function BudgetV2Page() {
             <div className="grid gap-2">
               <Label htmlFor="costCode">Cost Code*</Label>
               {loadingCostCodes ? (
-                <div className="border rounded-md p-3 text-sm text-gray-500">
+                <div className="border rounded-md p-3 text-sm text-muted-foreground">
                   Loading cost codes...
                 </div>
               ) : (
@@ -857,20 +857,20 @@ export default function BudgetV2Page() {
                         <button
                           type="button"
                           onClick={() => toggleDivision(division)}
-                          className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-gray-50 transition-colors"
+                          className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-muted transition-colors"
                         >
-                          <span className="text-sm font-semibold text-gray-700">
+                          <span className="text-sm font-semibold text-foreground">
                             {division}
                           </span>
                           {expandedDivisions.has(division) ? (
-                            <ChevronDown className="w-4 h-4 text-gray-500" />
+                            <ChevronDown className="w-4 h-4 text-muted-foreground" />
                           ) : (
-                            <ChevronRight className="w-4 h-4 text-gray-500" />
+                            <ChevronRight className="w-4 h-4 text-muted-foreground" />
                           )}
                         </button>
 
                         {expandedDivisions.has(division) && (
-                          <div className="bg-gray-50/50">
+                          <div className="bg-muted/50">
                             {groupedCostCodes[division].map((costCode) => (
                               <button
                                 key={costCode.id}
@@ -881,10 +881,10 @@ export default function BudgetV2Page() {
                                     costCodeId: costCode.id,
                                   })
                                 }
-                                className={`w-full text-left px-6 py-2 text-sm hover:bg-gray-100 transition-colors ${
+                                className={`w-full text-left px-6 py-2 text-sm hover:bg-muted transition-colors ${
                                   newCodeData.costCodeId === costCode.id
                                     ? "bg-blue-50 text-blue-700 font-medium"
-                                    : "text-gray-700"
+                                    : "text-foreground"
                                 }`}
                               >
                                 {costCode.division_title || costCode.id} -{" "}
@@ -897,7 +897,7 @@ export default function BudgetV2Page() {
                     ))}
                 </div>
               )}
-              <p className="text-sm text-gray-500">
+              <p className="text-sm text-muted-foreground">
                 Click on a division to expand and select a cost code
               </p>
             </div>
@@ -922,9 +922,9 @@ export default function BudgetV2Page() {
                 </SelectContent>
               </Select>
             </div>
-            <div className="p-3 bg-gray-50 rounded-md">
-              <p className="text-sm font-medium text-gray-700">Preview:</p>
-              <p className="text-sm text-gray-600 mt-1">
+            <div className="p-3 bg-muted rounded-md">
+              <p className="text-sm font-medium text-foreground">Preview:</p>
+              <p className="text-sm text-foreground mt-1">
                 {newCodeData.costCodeId ? (
                   <>
                     {availableCostCodes.find(

@@ -26,10 +26,10 @@ import { DirectCostService } from '@/lib/services/direct-cost-service';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ projectId: string }> }
 ) {
   try {
-    const { id } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
     const { searchParams } = new URL(request.url);
 
@@ -52,7 +52,7 @@ export async function GET(
 
     // Handle different view modes
     if (listParams.view === 'summary-by-cost-code') {
-      const summary = await service.getSummaryByCostCode(id, listParams);
+      const summary = await service.getSummaryByCostCode(projectId, listParams);
       return NextResponse.json(summary);
     }
 
@@ -60,11 +60,11 @@ export async function GET(
     const includeSummary = searchParams.get('include_summary') === 'true';
 
     // Fetch main data
-    const result = await service.list(id, listParams);
+    const result = await service.list(projectId, listParams);
 
     // Optionally include summary data
     if (includeSummary) {
-      const summary = await service.getSummary(id);
+      const summary = await service.getSummary(projectId);
       return NextResponse.json({
         ...result,
         summary,
@@ -87,10 +87,10 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ projectId: string }> }
 ) {
   try {
-    const { id } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
     const body = await request.json();
 
@@ -110,7 +110,7 @@ export async function POST(
     const service = new DirectCostService(supabase);
 
     // Create the direct cost with line items
-    const directCost = await service.create(id, validation.data);
+    const directCost = await service.create(projectId, validation.data);
 
     return NextResponse.json(directCost, { status: 201 });
   } catch (error) {

@@ -288,7 +288,7 @@ export function CreatePurchaseOrderForm({
                 })}
                 disabled={isSubmitting}
               />
-              <span className="text-sm text-gray-600">%</span>
+              <span className="text-sm text-foreground">%</span>
             </div>
           </div>
         </div>
@@ -389,7 +389,7 @@ export function CreatePurchaseOrderForm({
           onDragOver={handleDragOver}
         >
           <div className="flex flex-col items-center gap-3">
-            <Upload className="h-8 w-8 text-gray-400" />
+            <Upload className="h-8 w-8 text-muted-foreground" />
             <div className="flex items-center gap-2">
               <Button
                 type="button"
@@ -399,7 +399,7 @@ export function CreatePurchaseOrderForm({
               >
                 Attach Files
               </Button>
-              <span className="text-sm text-gray-600">or Drag & Drop</span>
+              <span className="text-sm text-foreground">or Drag & Drop</span>
             </div>
           </div>
         </div>
@@ -410,12 +410,12 @@ export function CreatePurchaseOrderForm({
             {attachments.map((file, index) => (
               <div
                 key={`${file.name}-${index}`}
-                className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                className="flex items-center justify-between p-3 bg-muted rounded-lg"
               >
                 <div className="flex items-center gap-2">
-                  <Upload className="h-4 w-4 text-gray-600" />
+                  <Upload className="h-4 w-4 text-foreground" />
                   <span className="text-sm">{file.name}</span>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-muted-foreground">
                     ({(file.size / 1024).toFixed(1)} KB)
                   </span>
                 </div>
@@ -473,12 +473,12 @@ export function CreatePurchaseOrderForm({
         {/* SOV Table */}
         {sovLines.length === 0 ? (
           <div className="flex flex-col items-center justify-center py-12 space-y-4">
-            <div className="text-gray-400">
-              <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center">
+            <div className="text-muted-foreground">
+              <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center">
                 <span className="text-4xl">📦</span>
               </div>
             </div>
-            <p className="text-lg font-medium text-gray-600">
+            <p className="text-lg font-medium text-foreground">
               You Have No Line Items Yet
             </p>
             <div className="flex gap-2">
@@ -519,46 +519,46 @@ export function CreatePurchaseOrderForm({
 
             <div className="overflow-x-auto">
               <table className="w-full border">
-                <thead className="bg-gray-50">
+                <thead className="bg-muted">
                   <tr>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700 w-12">
+                    <th className="px-3 py-2 text-left text-xs font-medium text-foreground w-12">
                       #
                     </th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">
+                    <th className="px-3 py-2 text-left text-xs font-medium text-foreground">
                       Change Event
                     </th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">
+                    <th className="px-3 py-2 text-left text-xs font-medium text-foreground">
                       Budget Code
                     </th>
-                    <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">
+                    <th className="px-3 py-2 text-left text-xs font-medium text-foreground">
                       Description
                     </th>
                     {accountingMethod === "unit-quantity" && (
                       <>
-                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">
+                        <th className="px-3 py-2 text-right text-xs font-medium text-foreground">
                           Qty
                         </th>
-                        <th className="px-3 py-2 text-left text-xs font-medium text-gray-700">
+                        <th className="px-3 py-2 text-left text-xs font-medium text-foreground">
                           UOM
                         </th>
-                        <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">
+                        <th className="px-3 py-2 text-right text-xs font-medium text-foreground">
                           Unit Cost
                         </th>
                       </>
                     )}
-                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">
+                    <th className="px-3 py-2 text-right text-xs font-medium text-foreground">
                       Amount
                     </th>
-                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">
+                    <th className="px-3 py-2 text-right text-xs font-medium text-foreground">
                       Billed to Date
                     </th>
-                    <th className="px-3 py-2 text-right text-xs font-medium text-gray-700">
+                    <th className="px-3 py-2 text-right text-xs font-medium text-foreground">
                       Amount Remaining
                     </th>
                     <th className="px-3 py-2 w-12" aria-label="Actions"></th>
                   </tr>
                 </thead>
-                <tbody className="bg-white divide-y">
+                <tbody className="bg-background divide-y">
                   {sovLines.map((line, index) => (
                     <tr
                       key={
@@ -681,7 +681,7 @@ export function CreatePurchaseOrderForm({
                     </tr>
                   ))}
                 </tbody>
-                <tfoot className="bg-gray-50 font-semibold">
+                <tfoot className="bg-muted font-semibold">
                   <tr>
                     <td
                       colSpan={accountingMethod === "unit-quantity" ? 7 : 4}
@@ -766,7 +766,7 @@ export function CreatePurchaseOrderForm({
           Privacy & Access
         </h2>
 
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-foreground">
           Using the privacy setting allows only project admins and select
           non-admin users access.
         </p>
@@ -830,7 +830,7 @@ export function CreatePurchaseOrderForm({
         </h2>
 
         {!contractCompanyId ? (
-          <p className="text-sm text-gray-600">
+          <p className="text-sm text-foreground">
             Please select a Contract Company first
           </p>
         ) : (
@@ -847,7 +847,7 @@ export function CreatePurchaseOrderForm({
 
       {/* Footer Actions */}
       <div className="flex items-center justify-between pt-6 border-t">
-        <p className="text-sm text-gray-600">*Required fields</p>
+        <p className="text-sm text-foreground">*Required fields</p>
         <div className="flex gap-3">
           <Button
             type="button"

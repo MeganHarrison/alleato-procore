@@ -35,7 +35,7 @@ export function ScheduleOfValuesRow({
   };
 
   return (
-    <tr className="border-b hover:bg-gray-50">
+    <tr className="border-b hover:bg-muted">
       <td className="px-4 py-2">
         <Input
           value={item.description}

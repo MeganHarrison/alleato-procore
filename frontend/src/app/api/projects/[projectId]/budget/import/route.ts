@@ -16,10 +16,10 @@ interface BudgetRow {
 
 export async function POST(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> },
+  context: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id: projectId } = await context.params;
+    const { projectId } = await context.params;
     const numericProjectId = parseInt(projectId, 10);
 
     if (Number.isNaN(numericProjectId)) {

@@ -13,13 +13,13 @@ const VALID_TRANSITIONS: Record<string, string[]> = {
 // GET /api/projects/[id]/budget/modifications - Fetch budget modifications
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -173,13 +173,13 @@ export async function GET(
 // POST /api/projects/[id]/budget/modifications - Create a budget modification
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -367,13 +367,13 @@ export async function POST(
 // PATCH /api/projects/[id]/budget/modifications - Update modification status
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -519,13 +519,13 @@ export async function PATCH(
 // DELETE /api/projects/[id]/budget/modifications - Delete a draft modification
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },

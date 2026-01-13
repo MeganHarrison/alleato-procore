@@ -36,7 +36,7 @@ test.describe('Comprehensive Page Title Check', () => {
 
       // Take screenshot
       const screenshotName = pageInfo.url.replace(/\//g, '-');
-      const screenshotPath = `/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/screenshots/title-check${screenshotName}.png`;
+      const screenshotPath = `/Users/meganharrison/Documents/github/alleato-procore/tests/screenshots/title-check${screenshotName}.png`;
       await page.screenshot({ path: screenshotPath, fullPage: true });
 
       // Check for H1 title

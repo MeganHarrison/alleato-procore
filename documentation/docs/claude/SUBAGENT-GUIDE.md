@@ -94,11 +94,11 @@ Long sessions accumulate:
 
 | Project | Description | Task File |
 |---------|-------------|-----------|
-| `change-events` | Change Events implementation | `documentation/1-project-mgmt/in-progress/change-events/TASKS-CHANGE-EVENTS.md` |
-| `change-orders` | Change Orders implementation | `documentation/1-project-mgmt/in-progress/change-orders/specs-change-orders.md` |
-| `direct-costs` | Direct Costs module | `documentation/1-project-mgmt/in-progress/direct-costs/TASKS-DIRECT-COSTS.md` |
-| `directory` | Directory Tool enhancement | `documentation/1-project-mgmt/in-progress/directory/TASKS-DIRECTORY-TOOL.md` |
-| `forms` | Form Testing framework | `documentation/1-project-mgmt/in-progress/forms/TASKS-FORM-TESTING.md` |
+| `change-events` | Change Events implementation | `documentation/*project-mgmt/in-progress/change-events/TASKS-CHANGE-EVENTS.md` |
+| `change-orders` | Change Orders implementation | `documentation/*project-mgmt/in-progress/change-orders/specs-change-orders.md` |
+| `direct-costs` | Direct Costs module | `documentation/*project-mgmt/in-progress/direct-costs/TASKS-DIRECT-COSTS.md` |
+| `directory` | Directory Tool enhancement | `documentation/*project-mgmt/in-progress/directory/TASKS-DIRECTORY-TOOL.md` |
+| `forms` | Form Testing framework | `documentation/*project-mgmt/in-progress/forms/TASKS-FORM-TESTING.md` |
 
 ---
 
@@ -190,7 +190,7 @@ Long sessions accumulate:
 
 2. **Read project context:**
    - `.claude/projects/<name>/project.md` - Key files and test commands
-   - Task file in `documentation/1-project-mgmt/in-progress/<name>/`
+   - Task file in `documentation/*project-mgmt/in-progress/<name>/`
 
 3. **Find next task:**
    - Look for unchecked `- [ ]` items in the TASKS file
@@ -347,7 +347,7 @@ If a session becomes stale (terminal closed without ending):
 The orchestrator connects to your existing project management:
 
 ```
-.claude/projects/          ←→  documentation/1-project-mgmt/in-progress/
+.claude/projects/          ←→  documentation/*project-mgmt/in-progress/
 ├── change-events/              ├── change-events/
 │   └── project.md (links to)   │   ├── TASKS-CHANGE-EVENTS.md
 │                               │   └── specs, crawl data, etc.
@@ -356,7 +356,7 @@ The orchestrator connects to your existing project management:
 │                               │   └── specs, crawl data, etc.
 ```
 
-**Task tracking stays in `documentation/1-project-mgmt/in-progress/`**
+**Task tracking stays in `documentation/*project-mgmt/in-progress/`**
 **Session tracking lives in `.claude/projects/`**
 
 ---

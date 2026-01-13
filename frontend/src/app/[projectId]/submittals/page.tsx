@@ -1,23 +1,19 @@
-"use client";
+import { SubmittalsClient } from "@/app/(tables)/(procore)/submittals/submittals-client";
+import {
+  fetchSubmittals,
+  resolveSubmittalsProjectId,
+} from "@/app/(tables)/(procore)/submittals/submittals-data";
 
-import { useParams } from "next/navigation";
-import { ProjectToolPage } from "@/components/layout/project-tool-page";
-import { Card } from "@/components/ui/card";
-
-export default function ProjectSubmittalsPage() {
-  const params = useParams();
-  const projectId = params.projectId as string;
+export default async function SubmittalsPage({
+  params,
+}: {
+  params: Promise<{ projectId: string }>;
+}) {
+  const { projectId } = await params;
+  const numericProjectId = resolveSubmittalsProjectId(projectId);
+  const submittals = await fetchSubmittals(numericProjectId);
 
   return (
-    <ProjectToolPage
-      title="Submittals"
-      description="Manage submittals and approvals"
-    >
-      <Card className="p-6">
-        <p className="text-muted-foreground">
-          Submittals for project {projectId} - Coming soon
-        </p>
-      </Card>
-    </ProjectToolPage>
+    <SubmittalsClient submittals={submittals} projectId={numericProjectId} />
   );
 }

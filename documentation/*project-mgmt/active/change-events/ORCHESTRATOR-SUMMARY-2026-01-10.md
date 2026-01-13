@@ -249,7 +249,7 @@ ALTER TABLE change_event_approvals ENABLE ROW LEVEL SECURITY;
 
 ### 1. Skeptical Audit Report
 
-**File Created:** `documentation/1-project-mgmt/in-progress/change-events/SKEPTICAL-AUDIT-REPORT.md`
+**File Created:** `documentation/*project-mgmt/in-progress/change-events/SKEPTICAL-AUDIT-REPORT.md`
 **Size:** 464 lines, 14,522 bytes
 **Sub-Agent:** debugger (SKEPTICAL VERIFIER MODE)
 
@@ -396,7 +396,7 @@ Error: page.goto: Protocol error (Page.navigate): Cannot navigate to invalid URL
 
 ### 5. tasks.md Corrections
 
-**File Updated:** `documentation/1-project-mgmt/in-progress/change-events/tasks.md`
+**File Updated:** `documentation/*project-mgmt/in-progress/change-events/tasks.md`
 
 **Changes Applied:**
 
@@ -725,4 +725,4 @@ npx supabase gen types typescript --project-id "lgveqfnpkxvzbnnwuled" --schema p
 
 **Generated:** 2026-01-10T14:45:00Z
 **Session:** orchestrator-skeptical-verification
-**Documentation:** /Users/meganharrison/Documents/github/alleato-procore/documentation/1-project-mgmt/in-progress/change-events/
+**Documentation:** /Users/meganharrison/Documents/github/alleato-procore/documentation/*project-mgmt/in-progress/change-events/

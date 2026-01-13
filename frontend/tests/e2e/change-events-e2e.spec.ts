@@ -42,7 +42,7 @@ test.describe('Change Events - E2E Test Suite', () => {
 
       // Take screenshot
       await page.screenshot({
-        path: 'frontend/tests/screenshots/change-events/e2e-01-list-page.png',
+        path: 'tests/screenshots/change-events/e2e-01-list-page.png',
         fullPage: true
       });
     });
@@ -100,7 +100,7 @@ test.describe('Change Events - E2E Test Suite', () => {
       await expect(header).toBeVisible({ timeout: 10000 });
 
       await page.screenshot({
-        path: 'frontend/tests/screenshots/change-events/e2e-02-create-form.png',
+        path: 'tests/screenshots/change-events/e2e-02-create-form.png',
         fullPage: true
       });
     });
@@ -123,7 +123,7 @@ test.describe('Change Events - E2E Test Suite', () => {
 
         // Take screenshot of validation
         await page.screenshot({
-          path: 'frontend/tests/screenshots/change-events/e2e-03-validation.png',
+          path: 'tests/screenshots/change-events/e2e-03-validation.png',
           fullPage: true
         });
 
@@ -173,7 +173,7 @@ test.describe('Change Events - E2E Test Suite', () => {
 
       // Take screenshot before submit
       await page.screenshot({
-        path: 'frontend/tests/screenshots/change-events/e2e-04-form-filled.png',
+        path: 'tests/screenshots/change-events/e2e-04-form-filled.png',
         fullPage: true
       });
 
@@ -194,7 +194,7 @@ test.describe('Change Events - E2E Test Suite', () => {
 
       // Take screenshot of result
       await page.screenshot({
-        path: 'frontend/tests/screenshots/change-events/e2e-05-create-success.png',
+        path: 'tests/screenshots/change-events/e2e-05-create-success.png',
         fullPage: true
       });
 
@@ -227,7 +227,7 @@ test.describe('Change Events - E2E Test Suite', () => {
 
       // Take screenshot
       await page.screenshot({
-        path: 'frontend/tests/screenshots/change-events/e2e-06-detail-view.png',
+        path: 'tests/screenshots/change-events/e2e-06-detail-view.png',
         fullPage: true
       });
 
@@ -275,7 +275,7 @@ test.describe('Change Events - E2E Test Suite', () => {
         expect(page.url()).toContain('/edit');
 
         await page.screenshot({
-          path: 'frontend/tests/screenshots/change-events/e2e-07-edit-form.png',
+          path: 'tests/screenshots/change-events/e2e-07-edit-form.png',
           fullPage: true
         });
       }
@@ -304,7 +304,7 @@ test.describe('Change Events - E2E Test Suite', () => {
 
         // Take screenshot
         await page.screenshot({
-          path: 'frontend/tests/screenshots/change-events/e2e-08-update-success.png',
+          path: 'tests/screenshots/change-events/e2e-08-update-success.png',
           fullPage: true
         });
 
@@ -326,7 +326,7 @@ test.describe('Change Events - E2E Test Suite', () => {
       const hasUpdatedTitle = pageContent?.includes('UPDATED');
 
       await page.screenshot({
-        path: 'frontend/tests/screenshots/change-events/e2e-09-verify-update.png',
+        path: 'tests/screenshots/change-events/e2e-09-verify-update.png',
         fullPage: true
       });
 
@@ -352,7 +352,7 @@ test.describe('Change Events - E2E Test Suite', () => {
         await waitForPageReady(page);
 
         await page.screenshot({
-          path: 'frontend/tests/screenshots/change-events/e2e-10-line-items.png',
+          path: 'tests/screenshots/change-events/e2e-10-line-items.png',
           fullPage: true
         });
       }
@@ -401,7 +401,7 @@ test.describe('Change Events - E2E Test Suite', () => {
 
       if (await deleteButton.isVisible()) {
         await page.screenshot({
-          path: 'frontend/tests/screenshots/change-events/e2e-11-before-delete.png',
+          path: 'tests/screenshots/change-events/e2e-11-before-delete.png',
           fullPage: true
         });
 
@@ -416,7 +416,7 @@ test.describe('Change Events - E2E Test Suite', () => {
           await page.waitForTimeout(2000);
 
           await page.screenshot({
-            path: 'frontend/tests/screenshots/change-events/e2e-12-after-delete.png',
+            path: 'tests/screenshots/change-events/e2e-12-after-delete.png',
             fullPage: true
           });
 
@@ -442,7 +442,7 @@ test.describe('Change Events - E2E Test Suite', () => {
       const hasDeletedItem = pageContent?.includes('E2E Test Change Event');
 
       await page.screenshot({
-        path: 'frontend/tests/screenshots/change-events/e2e-13-list-after-delete.png',
+        path: 'tests/screenshots/change-events/e2e-13-list-after-delete.png',
         fullPage: true
       });
 

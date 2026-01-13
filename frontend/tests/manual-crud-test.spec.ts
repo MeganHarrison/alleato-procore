@@ -31,7 +31,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
     // Take screenshot of empty form
     await page.screenshot({
-      path: 'frontend/tests/screenshots/change-events/manual-crud-01-create-form-empty.png',
+      path: 'tests/screenshots/change-events/manual-crud-01-create-form-empty.png',
       fullPage: true
     });
 
@@ -74,7 +74,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
     // Take screenshot of filled form
     await page.screenshot({
-      path: 'frontend/tests/screenshots/change-events/manual-crud-02-create-form-filled.png',
+      path: 'tests/screenshots/change-events/manual-crud-02-create-form-filled.png',
       fullPage: true
     });
 
@@ -109,7 +109,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
       // Take screenshot of result
       await page.screenshot({
-        path: 'frontend/tests/screenshots/change-events/manual-crud-03-create-success.png',
+        path: 'tests/screenshots/change-events/manual-crud-03-create-success.png',
         fullPage: true
       });
 
@@ -121,7 +121,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
       // Take screenshot of error
       await page.screenshot({
-        path: 'frontend/tests/screenshots/change-events/manual-crud-03-create-error.png',
+        path: 'tests/screenshots/change-events/manual-crud-03-create-error.png',
         fullPage: true
       });
 
@@ -141,7 +141,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/change-events/manual-crud-04-list-view.png',
+      path: 'tests/screenshots/change-events/manual-crud-04-list-view.png',
       fullPage: true
     });
 
@@ -174,7 +174,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/change-events/manual-crud-05-detail-view.png',
+      path: 'tests/screenshots/change-events/manual-crud-05-detail-view.png',
       fullPage: true
     });
 
@@ -204,7 +204,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
     // Take screenshot of edit form
     await page.screenshot({
-      path: 'frontend/tests/screenshots/change-events/manual-crud-06-edit-form.png',
+      path: 'tests/screenshots/change-events/manual-crud-06-edit-form.png',
       fullPage: true
     });
 
@@ -224,7 +224,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
     // Take screenshot of updated form
     await page.screenshot({
-      path: 'frontend/tests/screenshots/change-events/manual-crud-07-edit-form-updated.png',
+      path: 'tests/screenshots/change-events/manual-crud-07-edit-form-updated.png',
       fullPage: true
     });
 
@@ -250,7 +250,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
       // Take screenshot of result
       await page.screenshot({
-        path: 'frontend/tests/screenshots/change-events/manual-crud-08-update-success.png',
+        path: 'tests/screenshots/change-events/manual-crud-08-update-success.png',
         fullPage: true
       });
 
@@ -277,7 +277,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/change-events/manual-crud-09-verify-update.png',
+      path: 'tests/screenshots/change-events/manual-crud-09-verify-update.png',
       fullPage: true
     });
 
@@ -314,7 +314,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
     // Take screenshot of line items section
     await page.screenshot({
-      path: 'frontend/tests/screenshots/change-events/manual-crud-10-line-items-empty.png',
+      path: 'tests/screenshots/change-events/manual-crud-10-line-items-empty.png',
       fullPage: true
     });
 
@@ -364,7 +364,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
     // Take final screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/change-events/manual-crud-11-line-items-added.png',
+      path: 'tests/screenshots/change-events/manual-crud-11-line-items-added.png',
       fullPage: true
     });
   });
@@ -390,7 +390,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
       // Take screenshot before delete
       await page.screenshot({
-        path: 'frontend/tests/screenshots/change-events/manual-crud-12-before-delete.png',
+        path: 'tests/screenshots/change-events/manual-crud-12-before-delete.png',
         fullPage: true
       });
 
@@ -421,7 +421,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
           // Take screenshot after delete
           await page.screenshot({
-            path: 'frontend/tests/screenshots/change-events/manual-crud-13-after-delete.png',
+            path: 'tests/screenshots/change-events/manual-crud-13-after-delete.png',
             fullPage: true
           });
 
@@ -453,7 +453,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
 
     // Take screenshot
     await page.screenshot({
-      path: 'frontend/tests/screenshots/change-events/manual-crud-14-list-after-delete.png',
+      path: 'tests/screenshots/change-events/manual-crud-14-list-after-delete.png',
       fullPage: true
     });
 
@@ -477,7 +477,7 @@ test.describe('Change Events - Manual CRUD Testing', () => {
     console.log('   - Delete: Tested ✅');
     console.log('   - Line Items: Tested ✅');
     console.log('   - Soft Delete: Verified ✅');
-    console.log('\n   Screenshots saved to: frontend/tests/screenshots/change-events/');
+    console.log('\n   Screenshots saved to: tests/screenshots/change-events/');
     console.log('\n✨ All manual CRUD tests completed!');
   });
 });

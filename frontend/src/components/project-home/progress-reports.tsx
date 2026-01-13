@@ -85,7 +85,7 @@ export function ProgressReports({ projectId }: ProgressReportsProps) {
       case "daily":
         return "bg-green-100 text-green-700";
       default:
-        return "bg-gray-100 text-gray-700";
+        return "bg-muted text-foreground";
     }
   };
 
@@ -99,7 +99,7 @@ export function ProgressReports({ projectId }: ProgressReportsProps) {
     <div className="space-y-4">
       {/* Header */}
       <div className="flex items-center justify-between">
-        <p className="text-sm text-gray-600">
+        <p className="text-sm text-foreground">
           Track project progress through detailed reports
         </p>
         <Button size="sm" className="gap-2">
@@ -116,7 +116,7 @@ export function ProgressReports({ projectId }: ProgressReportsProps) {
               <div className="flex items-start justify-between">
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
-                    <h4 className="text-sm font-semibold text-gray-900">
+                    <h4 className="text-sm font-semibold text-foreground">
                       {report.title}
                     </h4>
                     <Badge
@@ -133,7 +133,7 @@ export function ProgressReports({ projectId }: ProgressReportsProps) {
                     </Badge>
                   </div>
 
-                  <div className="flex items-center gap-4 text-xs text-gray-500 mb-3">
+                  <div className="flex items-center gap-4 text-xs text-muted-foreground mb-3">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-3 h-3" />
                       <span>{format(report.date, "MMM d, yyyy")}</span>
@@ -146,7 +146,7 @@ export function ProgressReports({ projectId }: ProgressReportsProps) {
                   </div>
 
                   {/* Progress Bar */}
-                  <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
+                  <div className="w-full bg-muted rounded-full h-2 mb-3">
                     <div
                       className="bg-blue-600 h-2 rounded-full transition-all"
                       style={{ width: `${report.completionPercentage}%` }}
@@ -156,13 +156,13 @@ export function ProgressReports({ projectId }: ProgressReportsProps) {
                   {/* Key Highlights */}
                   {report.keyHighlights && report.keyHighlights.length > 0 && (
                     <div className="space-y-1">
-                      <p className="text-xs font-medium text-gray-700">
+                      <p className="text-xs font-medium text-foreground">
                         Key Highlights:
                       </p>
-                      <ul className="text-xs text-gray-600 space-y-0.5">
+                      <ul className="text-xs text-foreground space-y-0.5">
                         {report.keyHighlights.map((highlight, index) => (
                           <li key={index} className="flex items-start gap-1">
-                            <span className="text-gray-400 mt-0.5">•</span>
+                            <span className="text-muted-foreground mt-0.5">•</span>
                             <span>{highlight}</span>
                           </li>
                         ))}
@@ -180,7 +180,7 @@ export function ProgressReports({ projectId }: ProgressReportsProps) {
                     View
                   </Link>
                   <button
-                    className="text-gray-400 hover:text-gray-600 p-1"
+                    className="text-muted-foreground hover:text-foreground p-1"
                     title="Download Report"
                   >
                     <Download className="w-4 h-4" />

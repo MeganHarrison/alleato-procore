@@ -1,106 +1,62 @@
-# General Implementation Plans
+# Implementation Workflow
 
-This folder contains core implementation plans that apply across all features and initiatives in Alleato OS.
+This folder contains the **active process documents** for implementing features in Alleato-Procore.
 
-## Overview
+## 📋 Active Workflow Documents
 
-General plans document the foundational systems that every feature depends on: component architecture, database schema, testing strategy, deployment procedures, and type safety patterns.
+### Primary Documents (Use These)
 
-## Plans in This Folder
+| Document | Purpose |
+|----------|---------|
+| **[PROJECT-MANAGEMENT-PROCESS.md](./PROJECT-MANAGEMENT-PROCESS.md)** | Complete workflow from task → implementation → testing → verification → completion |
+| **[MANDATORY-TESTING-PROTOCOL.md](./MANDATORY-TESTING-PROTOCOL.md)** | HARD requirements for claiming completion - requires evidence |
+| **[SESSION-PROTOCOL.md](./SESSION-PROTOCOL.md)** | Session start/end checklists, handoff protocols |
+| **[WORKFLOW-IMPROVEMENTS-2026-01-10.md](./WORKFLOW-IMPROVEMENTS-2026-01-10.md)** | Latest improvements, gate enforcement rules |
 
-### [plans-recent-updates.md](./plans-recent-updates.md)
-**Purpose**: Chronological log of all recent changes and features
+### Reference Documents
 
-Track record of all feature implementations, bug fixes, and enhancements with dates, file references, and descriptions.
+| Document | Purpose |
+|----------|---------|
+| [reference/supabase-testing.md](./reference/supabase-testing.md) | Supabase CLI testing guide (pgTAP) |
+| [reference/TASK-FILES-INDEX.md](./reference/TASK-FILES-INDEX.md) | Index of task tracking files |
 
-**Update Frequency**: After every significant feature or fix
-**Use this for**: Understanding what's been built recently
+## 🔒 Key Principles
 
----
+1. **No completion without evidence** - Tests must run, output must be captured
+2. **HTML verification reports** - Unforgeable artifacts (screenshots, test output)
+3. **Screenshot comparison** - Compare implementation against Procore crawl
+4. **Independent verification** - Verifier agents don't trust worker claims
 
-### [plans-component-system.md](./plans-component-system.md)
-**Purpose**: Phase 0 UI component library documentation
+## 📁 Folder Structure
 
-Complete documentation of all shared components: layout, forms, tables, domain components, and design system primitives.
-
-**Status**: ✅ Phase 0 Complete
-**Use this for**: Finding which component to use for a UI pattern
-
----
-
-### [plans-schema-modeling.md](./plans-schema-modeling.md)
-**Purpose**: Phase 2 database schema and entity modeling
-
-Documents all database tables, relationships, migrations, and the UI-first schema design approach. Includes type generation instructions.
-
-**Status**: ✅ Core schema complete
-**Use this for**: Understanding database structure and adding new tables
-
----
-
-### [plans-testing-strategy.md](./plans-testing-strategy.md)
-**Purpose**: Phase 6 comprehensive testing requirements
-
-Playwright test structure, coverage requirements, screenshot guidelines, CI/CD integration, and performance/accessibility testing.
-
-**Status**: ✅ Infrastructure complete - Expanding coverage
-**Use this for**: Writing tests and understanding testing standards
-
----
-
-### [plans-deployment.md](./plans-deployment.md)
-**Purpose**: Production deployment guides
-
-Vercel frontend, Render backend, Supabase database deployment. Includes CI/CD pipelines, environment variables, and rollback procedures.
-
-**Status**: ✅ Configured and documented
-**Use this for**: Deploying to production or setting up environments
-
----
-
-### [plans-typescript-types.md](./plans-typescript-types.md)
-**Purpose**: Type generation, hierarchy, and conventions
-
-TypeScript type system based on auto-generated Supabase types. Includes Zod patterns, component prop types, and type safety rules.
-
-**Status**: ✅ Established
-**Use this for**: Working with types and ensuring type safety
-
----
-
-## Quick Reference
-
-### Before Starting Any Feature
-
-1. **Check component system** - Is there already a component for this?
-2. **Review schema** - Does the database support this feature?
-3. **Plan tests** - What Playwright tests are needed?
-4. **Check types** - Are types generated from latest schema?
-
-### After Completing Any Feature
-
-1. **Update recent-updates.md** with what you built
-2. **Run tests** - Ensure all Playwright tests pass
-3. **Regenerate types** if schema changed
-4. **Update relevant plan** with learnings
-
-## Key Commands
-
-```bash
-# Regenerate Supabase types
-npm run db:types
-
-# Run type checking
-npm run typecheck
-
-# Run all tests
-npx playwright test
-
-# Deploy to production
-vercel --prod
+```
+implementation-workflow/
+├── README.md                          # This file
+├── PROJECT-MANAGEMENT-PROCESS.md      # PRIMARY - Complete workflow
+├── MANDATORY-TESTING-PROTOCOL.md      # Testing requirements
+├── SESSION-PROTOCOL.md                # Session handoff
+├── WORKFLOW-IMPROVEMENTS-2026-01-10.md # Latest improvements
+├── reference/                         # Technical references
+│   ├── supabase-testing.md
+│   └── TASK-FILES-INDEX.md
+└── archive/                           # Historical/superseded docs
+    ├── VERIFICATION_PROTOCOL.md
+    ├── WORKFLOW-DESIGN-PROPOSAL.md
+    ├── PROPOSAL-BETTER-VERIFICATION.md
+    ├── MONITORING_SYSTEM_SUMMARY.md
+    ├── DASHBOARD_IMPLEMENTATION_SUMMARY.md
+    ├── AGENT_MONITORING_GUIDE.md
+    ├── documentation-cleanup-plan.md
+    └── verification-template.html
 ```
 
+## 📍 Other Locations
+
+- **Project monitoring dashboard**: `documentation/*project-mgmt/PROJECT_MONITORING.md`
+- **Technical plans (components, schema, etc.)**: `documentation/docs/plans/development/`
+- **Verification report generator**: `.agents/tools/generate-verification-report.ts`
+
 ---
 
-**Last Updated**: 2025-12-17
+**Last Updated**: 2026-01-11
 **Maintained By**: Alleato Engineering Team

@@ -4,10 +4,10 @@ import { DirectoryService } from "@/services/directoryService";
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string; personId: string }> },
+  { params }: { params: Promise<{ projectId: string; personId: string }> },
 ) {
   try {
-    const { id: projectId, personId } = await params;
+    const { projectId, personId } = await params;
     const supabase = await createClient();
 
     // Check authentication
@@ -48,10 +48,10 @@ export async function GET(
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string; personId: string }> },
+  { params }: { params: Promise<{ projectId: string; personId: string }> },
 ) {
   try {
-    const { id: projectId, personId } = await params;
+    const { projectId, personId } = await params;
     const supabase = await createClient();
 
     // Check authentication

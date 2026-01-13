@@ -130,7 +130,7 @@ export default function RagHome() {
   }, [hydrateState, threadId]);
 
   return (
-    <div className="flex h-[calc(100vh-theme(spacing.16))] gap-2 bg-gray-100 -m-6 p-2">
+    <div className="flex h-[calc(100vh-theme(spacing.16))] gap-2 bg-muted -m-6 p-2">
       <AgentPanel
         agents={agents}
         currentAgent={currentAgent}

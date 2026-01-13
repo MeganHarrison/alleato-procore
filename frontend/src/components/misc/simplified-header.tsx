@@ -88,7 +88,7 @@ export function SimplifiedHeader({
         <div className="flex items-center gap-4">
           {/* Project Dropdown */}
           <div>
-            <label className="block text-[10px] text-gray-400 uppercase mb-0.5">
+            <label className="block text-[10px] text-muted-foreground uppercase mb-0.5">
               Project
             </label>
             <DropdownMenu>
@@ -125,7 +125,7 @@ export function SimplifiedHeader({
 
           {/* Tools Dropdown */}
           <div>
-            <label className="block text-[10px] text-gray-400 uppercase mb-0.5">
+            <label className="block text-[10px] text-muted-foreground uppercase mb-0.5">
               Tools
             </label>
             <DropdownMenu>

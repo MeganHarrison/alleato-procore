@@ -5,7 +5,7 @@ import { usePathname } from "next/navigation";
 import { Building2, Plus, ExternalLink } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
 import { useInfiniteQuery } from "@/hooks/use-infinite-query";
-import { updateCompany, deleteCompany } from "@/app/actions/table-actions";
+import { updateCompany, deleteCompany } from "@/app/(other)/actions/table-actions";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";

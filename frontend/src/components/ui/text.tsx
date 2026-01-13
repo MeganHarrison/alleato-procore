@@ -17,6 +17,7 @@ const sizeMap = {
   base: "text-base",
   lg: "text-lg",
   xl: "text-xl",
+  "2xl": "text-2xl",
 } as const;
 
 const toneMap = {
@@ -47,6 +48,8 @@ export interface TextProps {
   size?: keyof typeof sizeMap;
   /** Color tone/intent */
   tone?: keyof typeof toneMap;
+  /** Optional legacy variant mapping to tone/size */
+  variant?: keyof typeof toneMap | keyof typeof sizeMap;
   /** Font weight */
   weight?: keyof typeof weightMap;
   /** Text transformation */
@@ -62,17 +65,27 @@ export interface TextProps {
 export function Text({
   size = "base",
   tone = "default",
+  variant,
   weight = "normal",
   transform = "none",
   as: Component = "p",
   className,
   children,
 }: TextProps) {
+  const isSizeVariant = (value: string): value is keyof typeof sizeMap =>
+    value in sizeMap;
+
+  const isToneVariant = (value: string): value is keyof typeof toneMap =>
+    value in toneMap;
+
+  const resolvedSize = variant && isSizeVariant(variant) ? variant : size;
+  const resolvedTone = variant && isToneVariant(variant) ? variant : tone;
+
   return (
     <Component
       className={cn(
-        sizeMap[size],
-        toneMap[tone],
+        sizeMap[resolvedSize],
+        toneMap[resolvedTone],
         weightMap[weight],
         transformMap[transform],
         className,

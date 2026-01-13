@@ -57,7 +57,7 @@ export function Modal({
         {/* Modal panel */}
         <div
           className={cn(
-            "bg-white dark:bg-gray-900 rounded-3xl text-left overflow-hidden sm:w-[590px] transform transition-all p-5 sm:p-12 relative",
+            "bg-background dark:bg-gray-900 rounded-3xl text-left overflow-hidden sm:w-[590px] transform transition-all p-5 sm:p-12 relative",
             className?.modal,
           )}
         >
@@ -65,7 +65,7 @@ export function Modal({
             <button
               onClick={onClose}
               type="button"
-              className="bg-gray-100 dark:bg-white/5 dark:hover:bg-gray-700 dark:text-gray-400 hover:bg-gray-200 rounded-full size-9 inline-flex items-center justify-center text-gray-500"
+              className="bg-muted dark:bg-background/5 dark:hover:bg-gray-700 dark:text-muted-foreground hover:bg-muted rounded-full size-9 inline-flex items-center justify-center text-muted-foreground"
             >
               <span className="sr-only">Close</span>
               <svg
@@ -85,11 +85,11 @@ export function Modal({
             </button>
           </div>
           <div className="mt-3 text-left w-full">
-            <h3 className="text-[30px] mb-2 leading-[38px] font-bold text-gray-800 dark:text-white/90">
+            <h3 className="text-[30px] mb-2 leading-[38px] font-bold text-foreground dark:text-white/90">
               {title}
             </h3>
             {description && (
-              <p className="text-gray-500 dark:text-gray-400">{description}</p>
+              <p className="text-muted-foreground dark:text-muted-foreground">{description}</p>
             )}
             {children}
           </div>

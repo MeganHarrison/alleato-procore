@@ -186,7 +186,7 @@ export default async function MeetingDetailPage({ params }: PageProps) {
 
           {/* Duration */}
           {meeting.duration && (
-            <div className="border border-neutral-200 bg-white p-6">
+            <div className="border border-neutral-200 bg-background p-6">
               <div className="flex items-center gap-3">
                 <Clock className="h-4 w-4 text-brand" />
                 <SectionHeader>{meeting.duration} minutes</SectionHeader>
@@ -213,7 +213,7 @@ export default async function MeetingDetailPage({ params }: PageProps) {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Decisions */}
               {allDecisions.length > 0 && (
-                <div className="border border-neutral-200 bg-white p-8">
+                <div className="border border-neutral-200 bg-background p-8">
                   <div className="flex items-center gap-3 mb-6">
                     <CheckCircle className="h-5 w-5 text-green-700" />
                     <h3 className="text-lg font-sans font-light text-neutral-900">
@@ -236,7 +236,7 @@ export default async function MeetingDetailPage({ params }: PageProps) {
 
               {/* Action Items */}
               {allTasks.length > 0 && (
-                <div className="border border-neutral-200 bg-white p-8">
+                <div className="border border-neutral-200 bg-background p-8">
                   <div className="flex items-center gap-3 mb-6">
                     <ListTodo className="h-5 w-5 text-blue-700" />
                     <h3 className="text-lg font-sans font-light text-neutral-900">
@@ -259,7 +259,7 @@ export default async function MeetingDetailPage({ params }: PageProps) {
 
               {/* Risks */}
               {allRisks.length > 0 && (
-                <div className="border border-neutral-200 bg-white p-8">
+                <div className="border border-neutral-200 bg-background p-8">
                   <div className="flex items-center gap-3 mb-6">
                     <AlertTriangle className="h-5 w-5 text-amber-700" />
                     <h3 className="text-lg font-sans font-light text-neutral-900">
@@ -282,7 +282,7 @@ export default async function MeetingDetailPage({ params }: PageProps) {
 
               {/* Opportunities */}
               {allOpportunities.length > 0 && (
-                <div className="border border-neutral-200 bg-white p-8">
+                <div className="border border-neutral-200 bg-background p-8">
                   <div className="flex items-center gap-3 mb-6">
                     <Sparkles className="h-5 w-5 text-purple-700" />
                     <h3 className="text-lg font-sans font-light text-neutral-900">
@@ -323,7 +323,7 @@ export default async function MeetingDetailPage({ params }: PageProps) {
               {segments.map((segment, index) => (
                 <div
                   key={segment.id}
-                  className="border border-neutral-200 bg-white p-8"
+                  className="border border-neutral-200 bg-background p-8"
                 >
                   <div className="flex items-start justify-between mb-4">
                     <h3 className="text-xl font-sans font-light text-neutral-900 flex-1">
@@ -473,7 +473,7 @@ export default async function MeetingDetailPage({ params }: PageProps) {
 
         {/* Empty State */}
         {!transcriptContent && (!segments || segments.length === 0) && (
-          <div className="border border-neutral-200 bg-white p-12 md:p-16 text-center">
+          <div className="border border-neutral-200 bg-background p-12 md:p-16 text-center">
             <FileText
               className="h-16 w-16 text-neutral-300 mx-auto mb-6"
               strokeWidth={1.5}
@@ -491,7 +491,7 @@ export default async function MeetingDetailPage({ params }: PageProps) {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Attendees */}
           {participantsList.length > 0 && (
-            <div className="border border-neutral-200 bg-white p-6">
+            <div className="border border-neutral-200 bg-background p-6">
               <SectionHeader count={participantsList.length} className="mb-4">
                 Attendees
               </SectionHeader>

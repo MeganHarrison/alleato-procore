@@ -6,11 +6,11 @@ import type { CreateBudgetViewRequest } from "@/types/budget-views";
 // Fetch all budget views for a project
 export async function GET(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> },
+  context: { params: Promise<{ projectId: string }> },
 ) {
   try {
     const supabase = await createClient();
-    const { id: projectId } = await context.params;
+    const { projectId } = await context.params;
 
     // Debug: Check authentication
     const {
@@ -79,11 +79,11 @@ export async function GET(
 // Create a new budget view
 export async function POST(
   request: NextRequest,
-  context: { params: Promise<{ id: string }> },
+  context: { params: Promise<{ projectId: string }> },
 ) {
   try {
     const supabase = await createClient();
-    const { id: projectId } = await context.params;
+    const { projectId } = await context.params;
     const body: CreateBudgetViewRequest = await request.json();
 
     const { name, description, is_default = false, columns } = body;

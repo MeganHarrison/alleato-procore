@@ -73,7 +73,7 @@ export function BudgetFilters({
       <div className="flex items-end gap-3">
         {/* View Selector */}
         <div className="flex flex-col gap-1">
-          <span className="text-xs text-gray-500">View</span>
+          <span className="text-xs text-muted-foreground">View</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -82,7 +82,7 @@ export function BudgetFilters({
                 aria-label="View"
               >
                 {selectedViewName}
-                <ChevronDown className="w-3.5 h-3.5 ml-2 text-gray-400" />
+                <ChevronDown className="w-3.5 h-3.5 ml-2 text-muted-foreground" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-[200px]">
@@ -101,7 +101,7 @@ export function BudgetFilters({
 
         {/* Snapshot Selector */}
         <div className="flex flex-col gap-1">
-          <span className="text-xs text-gray-500">Snapshot</span>
+          <span className="text-xs text-muted-foreground">Snapshot</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -110,7 +110,7 @@ export function BudgetFilters({
                 aria-label="Snapshot"
               >
                 {selectedSnapshotName}
-                <ChevronDown className="w-3.5 h-3.5 ml-2 text-gray-400" />
+                <ChevronDown className="w-3.5 h-3.5 ml-2 text-muted-foreground" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-[200px]">
@@ -131,7 +131,7 @@ export function BudgetFilters({
 
         {/* Group Selector */}
         <div className="flex flex-col gap-1">
-          <span className="text-xs text-gray-500">Group</span>
+          <span className="text-xs text-muted-foreground">Group</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -140,7 +140,7 @@ export function BudgetFilters({
                 aria-label="Group"
               >
                 {selectedGroupName}
-                <ChevronDown className="w-3.5 h-3.5 ml-2 text-gray-400" />
+                <ChevronDown className="w-3.5 h-3.5 ml-2 text-muted-foreground" />
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="start" className="w-[180px]">
@@ -159,7 +159,7 @@ export function BudgetFilters({
 
         {/* Quick Filters */}
         <div className="flex flex-col gap-1 border-l pl-3 ml-2">
-          <span className="text-xs text-gray-500">Quick Filter</span>
+          <span className="text-xs text-muted-foreground">Quick Filter</span>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button
@@ -204,7 +204,7 @@ export function BudgetFilters({
                   activeQuickFilter === "no-activity" ? "bg-accent" : ""
                 }
               >
-                <span className="text-gray-400 mr-2">●</span>
+                <span className="text-muted-foreground mr-2">●</span>
                 No Activity
               </DropdownMenuItem>
             </DropdownMenuContent>

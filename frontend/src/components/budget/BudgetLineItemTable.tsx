@@ -66,7 +66,7 @@ export function BudgetLineItemTable({
     <Card>
       <Stack gap="sm">
         {/* Summary Bar */}
-        <div className="border-b bg-gray-50 px-4 sm:px-6 py-3">
+        <div className="border-b bg-muted px-4 sm:px-6 py-3">
           <Inline justify="between" align="center">
             <Text size="sm" weight="medium" tone="default">
               {lineItems.length} Line Item{lineItems.length !== 1 ? "s" : ""}
@@ -85,33 +85,33 @@ export function BudgetLineItemTable({
         <div className="hidden sm:block overflow-x-auto">
           <div className="min-w-full">
             {/* Table Header */}
-            <div className="border-b bg-white px-4 py-3">
+            <div className="border-b bg-background px-4 py-3">
               <Inline gap="md" align="center">
-                <div className="flex-1 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                <div className="flex-1 text-left text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Budget Code
                 </div>
-                <div className="w-16 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
+                <div className="w-16 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Qty
                 </div>
-                <div className="w-20 text-center text-xs font-medium uppercase tracking-wider text-gray-500">
+                <div className="w-20 text-center text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   UOM
                 </div>
-                <div className="w-28 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
+                <div className="w-28 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Unit Cost
                 </div>
-                <div className="w-28 text-right text-xs font-medium uppercase tracking-wider text-gray-500">
+                <div className="w-28 text-right text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   Amount
                 </div>
-                <div className="w-10 text-center text-xs font-medium uppercase tracking-wider text-gray-500">
+                <div className="w-10 text-center text-xs font-medium uppercase tracking-wider text-muted-foreground">
                   {/* Delete column header */}
                 </div>
               </Inline>
             </div>
 
             {/* Table Body */}
-            <div className="divide-y divide-gray-200 bg-white">
+            <div className="divide-y divide-gray-200 bg-background">
               {loadingData ? (
-                <div className="px-4 py-8 text-center text-gray-500">
+                <div className="px-4 py-8 text-center text-muted-foreground">
                   <Text tone="muted">Loading project cost codes...</Text>
                 </div>
               ) : lineItems.length === 0 ? (

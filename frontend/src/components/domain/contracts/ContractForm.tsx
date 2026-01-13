@@ -421,18 +421,18 @@ export function ContractForm({
         {/* SOV Table */}
         <div className="border rounded-lg overflow-hidden">
           <table className="w-full">
-            <thead className="bg-gray-50 border-b">
+            <thead className="bg-muted border-b">
               <tr>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-700 w-12">
+                <th className="px-4 py-3 text-left text-sm font-medium text-foreground w-12">
                   #
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
                   <div className="flex items-center gap-1">
                     Budget Code
                     <TooltipProvider>
                       <Tooltip>
                         <TooltipTrigger>
-                          <HelpCircle className="h-4 w-4 text-gray-400" />
+                          <HelpCircle className="h-4 w-4 text-muted-foreground" />
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>Link to a budget code</p>
@@ -441,16 +441,16 @@ export function ContractForm({
                     </TooltipProvider>
                   </div>
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
                   Description
                 </th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-700">
+                <th className="px-4 py-3 text-right text-sm font-medium text-foreground">
                   Amount
                 </th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-700">
+                <th className="px-4 py-3 text-right text-sm font-medium text-foreground">
                   Billed to Date
                 </th>
-                <th className="px-4 py-3 text-right text-sm font-medium text-gray-700">
+                <th className="px-4 py-3 text-right text-sm font-medium text-foreground">
                   Amount Remaining
                 </th>
                 <th className="px-4 py-3 w-12"></th>
@@ -461,10 +461,10 @@ export function ContractForm({
                 <tr>
                   <td colSpan={7} className="px-4 py-12 text-center">
                     <div className="flex flex-col items-center gap-4">
-                      <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center">
+                      <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center">
                         <span className="text-4xl">🤔</span>
                       </div>
-                      <p className="text-lg font-medium text-gray-700">
+                      <p className="text-lg font-medium text-foreground">
                         You Have No Line Items Yet
                       </p>
                       <Button
@@ -525,7 +525,7 @@ export function ContractForm({
                         variant="ghost"
                         size="sm"
                         onClick={() => removeSOVLine(item.id)}
-                        className="h-8 w-8 p-0 text-gray-400 hover:text-red-600"
+                        className="h-8 w-8 p-0 text-muted-foreground hover:text-red-600"
                       >
                         ×
                       </Button>
@@ -534,7 +534,7 @@ export function ContractForm({
                 ))
               )}
             </tbody>
-            <tfoot className="bg-gray-50 border-t">
+            <tfoot className="bg-muted border-t">
               <tr>
                 <td colSpan={2} className="px-4 py-3">
                   <Button
@@ -631,7 +631,7 @@ export function ContractForm({
               <TooltipProvider>
                 <Tooltip>
                   <TooltipTrigger>
-                    <HelpCircle className="h-4 w-4 text-gray-400" />
+                    <HelpCircle className="h-4 w-4 text-muted-foreground" />
                   </TooltipTrigger>
                   <TooltipContent>
                     <p>
@@ -706,7 +706,7 @@ export function ContractForm({
         </div>
 
         {formData.isPrivate && (
-          <div className="space-y-4 pl-6 border-l-2 border-gray-200">
+          <div className="space-y-4 pl-6 border-l-2 border-border">
             <div className="space-y-2">
               <Label>Access for Non-Admin Users</Label>
               <Select>

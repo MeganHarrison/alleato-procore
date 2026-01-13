@@ -54,7 +54,7 @@ export function BaseSidebar({
             </div>
             <button
               onClick={onClose}
-              className="rounded-full p-2 hover:bg-white/10 transition-colors"
+              className="rounded-full p-2 hover:bg-background/10 transition-colors"
               aria-label="Close"
             >
               <X className="h-5 w-5" />
@@ -119,7 +119,7 @@ export function SidebarTabs({
   onTabChange: (tabId: string) => void;
 }) {
   return (
-    <div className="border-b border-gray-200 px-6 py-2 bg-gray-50 flex-shrink-0">
+    <div className="border-b border-border px-6 py-2 bg-muted flex-shrink-0">
       <div className="flex gap-2">
         {tabs.map((tab) => (
           <button
@@ -128,8 +128,8 @@ export function SidebarTabs({
             className={cn(
               "px-4 py-2 text-sm font-medium rounded-md transition-all",
               activeTab === tab.id
-                ? "bg-white text-orange-600 shadow-sm border border-gray-200"
-                : "text-gray-600 hover:text-gray-900 hover:bg-white/50",
+                ? "bg-background text-orange-600 shadow-sm border border-border"
+                : "text-foreground hover:text-foreground hover:bg-background/50",
             )}
           >
             {tab.label}

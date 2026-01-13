@@ -290,16 +290,16 @@ export default function ProjectsPage() {
         />
 
         {/* Projects count */}
-        <div className="px-4 py-2 text-xs sm:text-sm text-gray-600 bg-white border-b border-gray-200">
+        <div className="px-4 py-2 text-xs sm:text-sm text-foreground bg-background border-b border-border">
           <span className="font-medium">{filteredProjects.length}</span> project
           {filteredProjects.length !== 1 ? "s" : ""} found
         </div>
 
         {/* Projects Table */}
-        <div className="flex-1 overflow-hidden bg-white">
+        <div className="flex-1 overflow-hidden bg-background">
           {loading ? (
             <div className="flex items-center justify-center h-full">
-              <div className="text-gray-500">Loading projects...</div>
+              <div className="text-muted-foreground">Loading projects...</div>
             </div>
           ) : (
             <ProjectsTable

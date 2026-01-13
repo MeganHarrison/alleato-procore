@@ -58,7 +58,7 @@ export function AppHeader({
   return (
     <header
       className={cn(
-        "sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-white px-6",
+        "sticky top-0 z-50 flex h-16 items-center justify-between border-b bg-background px-6",
         className,
       )}
     >
@@ -81,7 +81,7 @@ export function AppHeader({
 
         {/* Global Search */}
         <div className="relative">
-          <IconSearch className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+          <IconSearch className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
             type="search"
             placeholder="Search..."
@@ -108,7 +108,7 @@ export function AppHeader({
                   className="h-8 w-8 rounded-full"
                 />
               ) : (
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-200">
+                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-muted">
                   <IconUser className="h-4 w-4" />
                 </div>
               )}

@@ -31,7 +31,7 @@ test.describe('Budget Setup Dropdown Investigation', () => {
 
     // Take screenshot after page loads
     await page.screenshot({
-      path: '/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/screenshots/budget-setup-loaded.png',
+      path: '/Users/meganharrison/Documents/github/alleato-procore/tests/screenshots/budget-setup-loaded.png',
       fullPage: true
     });
 
@@ -45,7 +45,7 @@ test.describe('Budget Setup Dropdown Investigation', () => {
 
     // Take screenshot of the dropdown
     await page.screenshot({
-      path: '/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/screenshots/budget-setup-dropdown-open.png',
+      path: '/Users/meganharrison/Documents/github/alleato-procore/tests/screenshots/budget-setup-dropdown-open.png',
       fullPage: true
     });
 

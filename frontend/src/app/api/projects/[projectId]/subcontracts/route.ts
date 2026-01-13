@@ -9,10 +9,10 @@ import { mapFormToInsert } from "@/lib/db/subcontracts";
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
 
     // Get current user
@@ -56,9 +56,9 @@ export async function GET(
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
-  const { id: projectId } = await params;
+  const { projectId } = await params;
   console.warn(
     `[Subcontracts API] POST /api/projects/${projectId}/subcontracts - Starting`,
   );

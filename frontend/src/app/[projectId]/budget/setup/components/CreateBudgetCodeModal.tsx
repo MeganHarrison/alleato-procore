@@ -191,7 +191,7 @@ export function CreateBudgetCodeModal({
           <div className="grid gap-2">
             <Label htmlFor="costCode">Cost Code*</Label>
             {loadingCostCodes ? (
-              <div className="border rounded-md p-3 text-sm text-gray-500">
+              <div className="border rounded-md p-3 text-sm text-muted-foreground">
                 Loading cost codes...
               </div>
             ) : (
@@ -209,7 +209,7 @@ export function CreateBudgetCodeModal({
                 selectedId={formData.costCodeId}
               />
             )}
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
               Click on a division to expand and select a cost code
             </p>
           </div>
@@ -235,9 +235,9 @@ export function CreateBudgetCodeModal({
             </Select>
           </div>
 
-          <div className="p-3 bg-gray-50 rounded-md">
-            <p className="text-sm font-medium text-gray-700">Preview:</p>
-            <p className="text-sm text-gray-600 mt-1">
+          <div className="p-3 bg-muted rounded-md">
+            <p className="text-sm font-medium text-foreground">Preview:</p>
+            <p className="text-sm text-foreground mt-1">
               {selectedCostCode ? (
                 <>
                   {selectedCostCode.division_title || selectedCostCode.id}.

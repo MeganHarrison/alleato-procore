@@ -10,7 +10,7 @@ test.describe("AI Chat - Input Visibility", () => {
 
     // Take initial screenshot
     await page.screenshot({
-      path: "frontend/tests/screenshots/ai-chat-initial-view.png",
+      path: "tests/screenshots/ai-chat-initial-view.png",
       fullPage: false, // Only capture viewport
     })
 
@@ -40,7 +40,7 @@ test.describe("AI Chat - Input Visibility", () => {
 
     // Take screenshot showing scroll position
     await page.screenshot({
-      path: "frontend/tests/screenshots/ai-chat-input-position.png",
+      path: "tests/screenshots/ai-chat-input-position.png",
       fullPage: true,
     })
 

@@ -11,7 +11,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Configuration - Updated path
-const PROJECT_MONITORING_PATH = path.join(process.cwd(), 'documentation/1-project-mgmt/PROJECT_MONITORING.md');
+const PROJECT_MONITORING_PATH = path.join(process.cwd(), 'documentation/*project-mgmt/PROJECT_MONITORING.md');
 
 /**
  * Generate initiative ID

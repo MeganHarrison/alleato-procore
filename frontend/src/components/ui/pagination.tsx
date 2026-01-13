@@ -1,8 +1,12 @@
 "use client";
 
+import * as React from "react";
+import { ChevronLeft, ChevronRight, MoreHorizontal } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ButtonProps, buttonVariants } from "@/components/ui/button";
 
-type PropsType = {
+// Simple Pagination Component (for basic use cases)
+type SimplePaginationProps = {
   currentPage: number;
   totalPages: number;
   onPageChange: (page: number) => void;
@@ -10,24 +14,24 @@ type PropsType = {
 
 const MAX_PAGES_SHOWN = 6;
 
-export function Pagination({
+export function SimplePagination({
   currentPage,
   totalPages,
   onPageChange,
-}: PropsType) {
+}: SimplePaginationProps) {
   return (
     <nav
       role="navigation"
       aria-label="Pagination"
-      className="text-[#344054] font-medium"
+      className="text-foreground font-medium"
     >
-      <ul className="flex items-center justify-center flex-wrap gap-2 dark:text-[#98A2B3]">
+      <ul className="flex items-center justify-center flex-wrap gap-2 dark:text-muted-foreground">
         <li>
           <button
             disabled={currentPage === 1}
             aria-label="Previous page"
             onClick={() => onPageChange(currentPage - 1)}
-            className="px-3.5 py-2 rounded-lg shadow-xs border border-[#D0D5DD] hover:bg-gray-200/50 dark:bg-[#1D2939] dark:hover:bg-[#1D2939]/50 dark:border-[#344054] disabled:opacity-50 disabled:pointer-events-none"
+            className="px-3.5 py-2 rounded-lg shadow-xs border border-input hover:bg-accent dark:bg-input/30 dark:hover:bg-input/50 dark:border-input disabled:opacity-50 disabled:pointer-events-none"
           >
             Previous
           </button>
@@ -45,7 +49,7 @@ export function Pagination({
               if (index + 1 === currentPage + 3) {
                 return (
                   <li key={index}>
-                    <PaginationEllipsis />
+                    <SimplePaginationEllipsis />
                   </li>
                 );
               }
@@ -53,7 +57,7 @@ export function Pagination({
               if (index + 1 < currentPage + 3 || index + 1 > totalPages - 2) {
                 return (
                   <li key={index}>
-                    <PaginationButton
+                    <SimplePaginationButton
                       page={index + 1}
                       isActive={isActive}
                       onPageChange={onPageChange}
@@ -66,15 +70,11 @@ export function Pagination({
             if (index === 3) {
               return (
                 <li key={index}>
-                  <PaginationEllipsis />
+                  <SimplePaginationEllipsis />
                 </li>
               );
             }
 
-            /**
-             * This logic ensures pagination buttons from 1-3 and the last 2 pages are visible
-             * and the rest in the middle are hidden and replaced with and ellipsis.
-             */
             if (index > 2 && index < totalPages - 2) {
               return null;
             }
@@ -82,7 +82,7 @@ export function Pagination({
 
           return (
             <li key={index}>
-              <PaginationButton
+              <SimplePaginationButton
                 page={index + 1}
                 isActive={isActive}
                 onPageChange={onPageChange}
@@ -96,7 +96,7 @@ export function Pagination({
             disabled={currentPage === totalPages}
             aria-label="Next page"
             onClick={() => onPageChange(currentPage + 1)}
-            className="px-3.5 py-2 rounded-lg shadow-xs border border-[#D0D5DD] hover:bg-gray-200/50 dark:bg-[#1D2939] dark:hover:bg-[#1D2939]/50 dark:border-[#344054] disabled:opacity-50 disabled:pointer-events-none"
+            className="px-3.5 py-2 rounded-lg shadow-xs border border-input hover:bg-accent dark:bg-input/30 dark:hover:bg-input/50 dark:border-input disabled:opacity-50 disabled:pointer-events-none"
           >
             Next
           </button>
@@ -106,7 +106,7 @@ export function Pagination({
   );
 }
 
-function PaginationButton({
+function SimplePaginationButton({
   page,
   isActive,
   onPageChange,
@@ -122,8 +122,8 @@ function PaginationButton({
       className={cn(
         "size-10 rounded-lg shrink-0",
         isActive
-          ? "bg-primary-500 text-white"
-          : "hover:bg-gray-200/50 dark:hover:bg-gray-800/80",
+          ? "bg-primary text-primary-foreground"
+          : "hover:bg-accent dark:hover:bg-accent/50",
       )}
       onClick={() => onPageChange(page)}
     >
@@ -132,10 +132,123 @@ function PaginationButton({
   );
 }
 
-function PaginationEllipsis() {
+function SimplePaginationEllipsis() {
   return (
-    <button className="size-10 rounded-lg shrink-0 hover:bg-gray-200/50 dark:hover:bg-gray-800/80 cursor-default">
+    <button className="size-10 rounded-lg shrink-0 hover:bg-accent dark:hover:bg-accent/50 cursor-default">
       ...
     </button>
   );
 }
+
+// Composable Pagination Components (shadcn style)
+const Pagination = ({ className, ...props }: React.ComponentProps<"nav">) => (
+  <nav
+    role="navigation"
+    aria-label="pagination"
+    className={cn("mx-auto flex w-full justify-center", className)}
+    {...props}
+  />
+);
+Pagination.displayName = "Pagination";
+
+const PaginationContent = React.forwardRef<
+  HTMLUListElement,
+  React.ComponentProps<"ul">
+>(({ className, ...props }, ref) => (
+  <ul
+    ref={ref}
+    className={cn("flex flex-row items-center gap-1", className)}
+    {...props}
+  />
+));
+PaginationContent.displayName = "PaginationContent";
+
+const PaginationItem = React.forwardRef<
+  HTMLLIElement,
+  React.ComponentProps<"li">
+>(({ className, ...props }, ref) => (
+  <li ref={ref} className={cn("", className)} {...props} />
+));
+PaginationItem.displayName = "PaginationItem";
+
+type PaginationLinkProps = {
+  isActive?: boolean;
+} & Pick<ButtonProps, "size"> &
+  React.ComponentProps<"a">;
+
+const PaginationLink = ({
+  className,
+  isActive,
+  size = "icon",
+  ...props
+}: PaginationLinkProps) => (
+  <a
+    aria-current={isActive ? "page" : undefined}
+    className={cn(
+      buttonVariants({
+        variant: isActive ? "outline" : "ghost",
+        size,
+      }),
+      className
+    )}
+    {...props}
+  />
+);
+PaginationLink.displayName = "PaginationLink";
+
+const PaginationPrevious = ({
+  className,
+  ...props
+}: React.ComponentProps<typeof PaginationLink>) => (
+  <PaginationLink
+    aria-label="Go to previous page"
+    size="default"
+    className={cn("gap-1 pl-2.5", className)}
+    {...props}
+  >
+    <ChevronLeft className="h-4 w-4" />
+    <span>Previous</span>
+  </PaginationLink>
+);
+PaginationPrevious.displayName = "PaginationPrevious";
+
+const PaginationNext = ({
+  className,
+  ...props
+}: React.ComponentProps<typeof PaginationLink>) => (
+  <PaginationLink
+    aria-label="Go to next page"
+    size="default"
+    className={cn("gap-1 pr-2.5", className)}
+    {...props}
+  >
+    <span>Next</span>
+    <ChevronRight className="h-4 w-4" />
+  </PaginationLink>
+);
+PaginationNext.displayName = "PaginationNext";
+
+const PaginationEllipsis = ({
+  className,
+  ...props
+}: React.ComponentProps<"span">) => (
+  <span
+    aria-hidden
+    className={cn("flex h-9 w-9 items-center justify-center", className)}
+    {...props}
+  >
+    <MoreHorizontal className="h-4 w-4" />
+    <span className="sr-only">More pages</span>
+  </span>
+);
+PaginationEllipsis.displayName = "PaginationEllipsis";
+
+export {
+  Pagination,
+  PaginationContent,
+  PaginationEllipsis,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+};

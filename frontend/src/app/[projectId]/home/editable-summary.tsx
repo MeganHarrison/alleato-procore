@@ -44,7 +44,7 @@ export function EditableSummary({ summary, onSave }: EditableSummaryProps) {
   };
 
   return (
-    <div className="border border-neutral-200 bg-white">
+    <div className="border border-neutral-200 bg-background">
       <Collapsible open={isOpen} onOpenChange={setIsOpen}>
         <div className="lg:px-6 px-4 py-2">
           <div className="flex items-center justify-between">

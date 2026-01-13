@@ -10,8 +10,8 @@ const path = require('path');
 const { notifyDashboard } = require('./dashboard-notifier.cjs');
 
 // Configuration
-const PROJECT_MONITORING_PATH = path.join(process.cwd(), 'documentation/1-project-mgmt/PROJECT_MONITORING.md');
-const VERIFICATION_PROTOCOL_PATH = path.join(process.cwd(), 'documentation/1-project-mgmt/VERIFICATION_PROTOCOL.md');
+const PROJECT_MONITORING_PATH = path.join(process.cwd(), 'documentation/*project-mgmt/PROJECT_MONITORING.md');
+const VERIFICATION_PROTOCOL_PATH = path.join(process.cwd(), 'documentation/*project-mgmt/VERIFICATION_PROTOCOL.md');
 
 /**
  * Get current timestamp in EST

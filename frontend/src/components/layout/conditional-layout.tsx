@@ -2,31 +2,33 @@
 
 import { usePathname } from "next/navigation";
 import { SiteHeader } from "@/components/layout/site-header";
-import { AppSidebar } from "@/components/misc/app-sidebar";
 import Footer from "@/components/layout/Footer";
-import { SidebarInset, SidebarProvider } from "@/components/ui/sidebar";
+import { AppSidebar } from "@/components/app-sidebar";
+import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
 
 export function ConditionalLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
+
   const isAuthRoute = pathname?.startsWith("/auth");
   const isAIChatRoute = pathname === "/ai-chat";
 
-  // Auth and AI Chat routes get no sidebar/header - just raw content
+  // Auth and AI Chat routes get no sidebar/header - they have their own layout
   if (isAuthRoute || isAIChatRoute) {
     return <>{children}</>;
   }
 
-  // All other routes get the full layout with proper container structure
+  // All other routes get the new sidebar layout
   return (
     <SidebarProvider defaultOpen={false}>
       <AppSidebar />
-      <SidebarInset className="flex flex-col min-h-screen overflow-x-hidden">
-        <SiteHeader />
-        {/* Main content container with bottom padding for breathing room */}
-        <main className="flex-1 flex flex-col min-h-0 bg-background w-full overflow-x-hidden pb-8 sm:pb-12 lg:pb-16">
-          {children}
-        </main>
-        <Footer />
+      <SidebarInset>
+        <div className="flex flex-col min-h-screen">
+          <SiteHeader />
+          <main className="flex-1 flex flex-col bg-background w-full pb-8 sm:pb-12 lg:pb-16">
+            {children}
+          </main>
+          <Footer />
+        </div>
       </SidebarInset>
     </SidebarProvider>
   );

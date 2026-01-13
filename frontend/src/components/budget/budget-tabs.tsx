@@ -29,7 +29,7 @@ export function BudgetTabs({
   onTabChange,
 }: BudgetTabsProps) {
   return (
-    <div className="border-b bg-white">
+    <div className="border-b bg-background">
       <div className="px-4 sm:px-6 lg:px-12">
         <nav className="flex py-3" aria-label="Budget tabs">
           <div className="flex gap-1">
@@ -58,7 +58,7 @@ export function BudgetTabs({
                       "inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-colors rounded-md",
                       isActive
                         ? "text-white"
-                        : "text-gray-700 dark:text-gray-200 hover:text-gray-900 dark:hover:text-white",
+                        : "text-foreground dark:text-gray-200 hover:text-foreground dark:hover:text-white",
                     )}
                     aria-current={isActive ? "page" : undefined}
                   >

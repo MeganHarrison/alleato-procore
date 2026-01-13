@@ -61,7 +61,7 @@ export function ProjectAccordions({
       case "overdue":
         return <XCircle className="h-4 w-4 text-red-600" />;
       default:
-        return <AlertCircle className="h-4 w-4 text-gray-400" />;
+        return <AlertCircle className="h-4 w-4 text-muted-foreground" />;
     }
   };
 
@@ -77,7 +77,7 @@ export function ProjectAccordions({
         >
           <AccordionItem
             value="schedule"
-            className="bg-white border-b border-neutral-100"
+            className="bg-background border-b border-neutral-100"
           >
             <AccordionTrigger className="hover:no-underline py-4 px-0">
               <div className="flex items-center justify-between w-full mr-4">
@@ -139,7 +139,7 @@ export function ProjectAccordions({
         >
           <AccordionItem
             value="insights"
-            className="bg-white border-b border-neutral-100"
+            className="bg-background border-b border-neutral-100"
           >
             <AccordionTrigger className="hover:no-underline py-4 px-0">
               <div className="flex items-center justify-between w-full mr-4">

@@ -483,7 +483,7 @@ npx playwright test --grep "change-events"
 
 1. `/frontend/scripts/check-sources.ts` - Fixed TypeScript errors
 2. `/frontend/src/app/crawled-pages/page.tsx` - Fixed Badge variant type errors
-3. `/documentation/1-project-mgmt/in-progress/change-events/TASKS.md` - Updated with verification results
+3. `/documentation/*project-mgmt/in-progress/change-events/TASKS.md` - Updated with verification results
 
 ### Remaining Work Items (Priority Order)
 

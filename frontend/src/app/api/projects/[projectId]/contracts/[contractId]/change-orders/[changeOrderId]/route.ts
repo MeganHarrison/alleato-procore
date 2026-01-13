@@ -4,7 +4,7 @@ import { updateChangeOrderSchema } from "../validation";
 import { ZodError } from "zod";
 
 interface RouteParams {
-  params: Promise<{ id: string; contractId: string; changeOrderId: string }>;
+  params: Promise<{ projectId: string; contractId: string; changeOrderId: string }>;
 }
 
 /**
@@ -13,7 +13,7 @@ interface RouteParams {
  */
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, contractId, changeOrderId } = await params;
+    const { projectId, contractId, changeOrderId } = await params;
     const supabase = await createClient();
 
     // Verify contract exists and belongs to project
@@ -71,7 +71,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
  */
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, contractId, changeOrderId } = await params;
+    const { projectId, contractId, changeOrderId } = await params;
     const supabase = await createClient();
     const body = await request.json();
 
@@ -210,7 +210,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
  */
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, contractId, changeOrderId } = await params;
+    const { projectId, contractId, changeOrderId } = await params;
     const supabase = await createClient();
 
     // Get current user

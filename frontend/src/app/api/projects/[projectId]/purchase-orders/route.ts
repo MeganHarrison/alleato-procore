@@ -8,10 +8,10 @@ import { CreatePurchaseOrderSchema } from "@/lib/schemas/create-purchase-order-s
  */
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
 
     const {
@@ -53,9 +53,9 @@ export async function GET(
  */
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
-  const { id: projectId } = await params;
+  const { projectId } = await params;
 
   try {
     const supabase = await createClient();

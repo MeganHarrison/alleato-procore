@@ -2,10 +2,10 @@ import { AnimatedBackground } from "@/components/motion/animated-background";
 
 export function SegmentedControl() {
   return (
-    <div className="rounded-[8px] bg-gray-100 p-[2px] dark:bg-zinc-800">
+    <div className="rounded-[8px] bg-muted p-[2px] dark:bg-zinc-800">
       <AnimatedBackground
         defaultValue="Day"
-        className="rounded-lg bg-white dark:bg-zinc-700"
+        className="rounded-lg bg-background dark:bg-zinc-700"
         transition={{
           ease: "easeInOut",
           duration: 0.2,

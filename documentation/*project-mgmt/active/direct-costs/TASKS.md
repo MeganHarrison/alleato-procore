@@ -43,8 +43,8 @@
 - `frontend/src/types/database.types.ts` - Auto-generated database types (needs regeneration)
 
 ### Documentation ✅
-- `documentation/1-project-mgmt/in-progress/direct-costs/spec-direct-costs.md` - Feature specification
-- `documentation/1-project-mgmt/in-progress/direct-costs/crawl-direct-costs/DIRECT-COSTS-CRAWL-STATUS.md` - Procore crawl analysis
+- `documentation/*project-mgmt/in-progress/direct-costs/spec-direct-costs.md` - Feature specification
+- `documentation/*project-mgmt/in-progress/direct-costs/crawl-direct-costs/DIRECT-COSTS-CRAWL-STATUS.md` - Procore crawl analysis
 
 ### Tests ✅
 - `frontend/tests/e2e/direct-costs.spec.ts` - E2E test structure (needs implementation)
@@ -405,7 +405,7 @@
 
 A comprehensive completion report has been created with full details of the implementation:
 
-**File:** `documentation/1-project-mgmt/in-progress/direct-costs/COMPLETION-REPORT.md`
+**File:** `documentation/*project-mgmt/in-progress/direct-costs/COMPLETION-REPORT.md`
 
 **Report Contents:**
 - Executive summary

@@ -26,7 +26,7 @@ test.describe('Project Home Page - Prime Contracts and Commitments Sections', ()
 
     // Take a screenshot for visual verification
     await page.screenshot({
-      path: 'frontend/tests/screenshots/project-home-with-contracts-and-commitments.png',
+      path: 'tests/screenshots/project-home-with-contracts-and-commitments.png',
       fullPage: true
     })
   })

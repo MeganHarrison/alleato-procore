@@ -4,13 +4,13 @@ import { NextRequest, NextResponse } from "next/server";
 // POST /api/projects/[id]/budget/lock - Lock the budget
 export async function POST(
   _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = Number.parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = Number.parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -104,13 +104,13 @@ export async function POST(
 // DELETE /api/projects/[id]/budget/lock - Unlock the budget
 export async function DELETE(
   _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = Number.parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = Number.parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -192,13 +192,13 @@ export async function DELETE(
 // GET /api/projects/[id]/budget/lock - Get budget lock status
 export async function GET(
   _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = Number.parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = Number.parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },

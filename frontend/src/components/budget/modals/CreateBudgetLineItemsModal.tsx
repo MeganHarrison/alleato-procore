@@ -132,7 +132,7 @@ export function CreateBudgetLineItemsModal({
       title="Create Budget Line Items"
       size="xl"
     >
-      <ModalBody className="min-h-[420px] space-y-6 bg-white">
+      <ModalBody className="min-h-[420px] space-y-6 bg-background">
         <div className="rounded-xl border border-slate-200 bg-gradient-to-r from-white via-slate-50 to-white px-4 py-3 shadow-sm flex items-center justify-between gap-3 flex-wrap">
           <div>
             <p className="text-xs uppercase tracking-[0.18em] text-slate-500">
@@ -156,10 +156,10 @@ export function CreateBudgetLineItemsModal({
                   <Plus className="h-8 w-8" />
                 </div>
               </div>
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
+              <h3 className="text-lg font-medium text-foreground mb-2">
                 You Have No Line Items Yet
               </h3>
-              <p className="text-gray-600 mb-6">
+              <p className="text-foreground mb-6">
                 Click the button below to add your first budget line item
               </p>
               <Button
@@ -176,7 +176,7 @@ export function CreateBudgetLineItemsModal({
           // Table with line items
           <div className="space-y-4">
             {/* Mobile: Cards, Desktop: Table */}
-            <div className="hidden sm:block overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-white">
+            <div className="hidden sm:block overflow-x-auto rounded-xl border border-slate-200 shadow-sm bg-background">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
@@ -278,7 +278,7 @@ export function CreateBudgetLineItemsModal({
               {items.map((item, index) => (
                 <div
                   key={item.id}
-                  className="border border-slate-200 rounded-xl p-4 space-y-3 shadow-sm bg-white/90"
+                  className="border border-slate-200 rounded-xl p-4 space-y-3 shadow-sm bg-background/90"
                 >
                   <div className="flex justify-between items-start">
                     <span className="text-sm font-semibold text-slate-800">
@@ -372,7 +372,7 @@ export function CreateBudgetLineItemsModal({
             "transition-colors",
             isValid
               ? "bg-orange-500 hover:bg-orange-600 text-white"
-              : "bg-gray-300 text-gray-500 cursor-not-allowed",
+              : "bg-gray-300 text-muted-foreground cursor-not-allowed",
           )}
         >
           {isSaving ? "Creating..." : "Create"}

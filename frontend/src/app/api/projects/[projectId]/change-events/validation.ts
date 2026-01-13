@@ -30,8 +30,11 @@ export const createChangeEventSchema = z.object({
   origin: ChangeEventOrigin.optional(),
   expectingRevenue: z.boolean().default(true),
   lineItemRevenueSource: LineItemRevenueSource.optional(),
-  primeContractId: z.coerce.number().int().positive().optional(), // BIGINT in database description: z.string().optional(), // Number will be auto-generated
-}); // Update Change Event Schema
+  primeContractId: z.coerce.number().int().positive().optional(),
+  description: z.string().optional(),
+});
+
+// Update Change Event Schema
 export const updateChangeEventSchema = z.object({
   title: z.string().min(1).max(255).optional(),
   type: ChangeEventType.optional(),

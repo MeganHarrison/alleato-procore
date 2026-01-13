@@ -131,23 +131,23 @@ export function JobToDateCostDetailModal({
       />
 
       {/* Content */}
-      <SidebarBody className="bg-white">
+      <SidebarBody className="bg-background">
         {activeTab === "costs" ? (
           <div className="p-6 space-y-5">
             {/* Total Summary */}
             <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-gradient-to-br from-blue-50 via-white to-white">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">
+                  <p className="text-sm text-foreground">
                     Total Job to Date Costs
                   </p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">
+                  <p className="text-2xl font-bold text-foreground mt-1">
                     {formatCurrency(totalAmount)}
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-gray-600">Transactions</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">
+                  <p className="text-sm text-foreground">Transactions</p>
+                  <p className="text-2xl font-bold text-foreground mt-1">
                     {costs.length}
                   </p>
                 </div>
@@ -170,7 +170,7 @@ export function JobToDateCostDetailModal({
             </div>
 
             {/* Costs Table */}
-            <div className="overflow-x-auto scrollbar-hide rounded-xl border border-slate-200 shadow-sm bg-white">
+            <div className="overflow-x-auto scrollbar-hide rounded-xl border border-slate-200 shadow-sm bg-background">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
@@ -199,7 +199,7 @@ export function JobToDateCostDetailModal({
                     <tr>
                       <td
                         colSpan={6}
-                        className="px-4 py-10 text-center text-gray-500"
+                        className="px-4 py-10 text-center text-muted-foreground"
                       >
                         Loading costs...
                       </td>
@@ -208,7 +208,7 @@ export function JobToDateCostDetailModal({
                     <tr>
                       <td
                         colSpan={6}
-                        className="px-4 py-10 text-center text-gray-500"
+                        className="px-4 py-10 text-center text-muted-foreground"
                       >
                         No approved costs found for this cost code.
                       </td>
@@ -220,26 +220,26 @@ export function JobToDateCostDetailModal({
                         className="hover:bg-blue-50/40 transition-colors"
                       >
                         <td
-                          className="px-4 py-3 text-gray-700 max-w-xs truncate"
+                          className="px-4 py-3 text-foreground max-w-xs truncate"
                           title={cost.description || "-"}
                         >
                           {cost.description || "-"}
                         </td>
-                        <td className="px-4 py-3 text-gray-600 text-xs">
+                        <td className="px-4 py-3 text-foreground text-xs">
                           <span className="inline-flex items-center px-2 py-1 rounded-full bg-slate-100 text-slate-700 font-medium">
                             {cost.costType || "Other"}
                           </span>
                         </td>
-                        <td className="px-4 py-3 text-gray-600 text-xs">
+                        <td className="px-4 py-3 text-foreground text-xs">
                           {cost.vendor || "-"}
                         </td>
-                        <td className="px-4 py-3 text-gray-600 text-xs font-mono">
+                        <td className="px-4 py-3 text-foreground text-xs font-mono">
                           {cost.invoiceNumber || "-"}
                         </td>
-                        <td className="px-4 py-3 text-right font-semibold tabular-nums text-gray-900">
+                        <td className="px-4 py-3 text-right font-semibold tabular-nums text-foreground">
                           {formatCurrency(cost.amount)}
                         </td>
-                        <td className="px-4 py-3 text-gray-600">
+                        <td className="px-4 py-3 text-foreground">
                           {formatDate(cost.incurredDate)}
                         </td>
                       </tr>
@@ -251,11 +251,11 @@ export function JobToDateCostDetailModal({
           </div>
         ) : (
           <div className="p-6 space-y-5">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-foreground">
               Cost breakdown by type for this budget line.
             </p>
 
-            <div className="overflow-x-auto scrollbar-hide rounded-xl border border-slate-200 shadow-sm bg-white">
+            <div className="overflow-x-auto scrollbar-hide rounded-xl border border-slate-200 shadow-sm bg-background">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
@@ -279,16 +279,16 @@ export function JobToDateCostDetailModal({
                       key={type}
                       className="hover:bg-blue-50/40 transition-colors"
                     >
-                      <td className="px-4 py-3 font-medium text-gray-900">
+                      <td className="px-4 py-3 font-medium text-foreground">
                         {type}
                       </td>
-                      <td className="px-4 py-3 text-right text-gray-600">
+                      <td className="px-4 py-3 text-right text-foreground">
                         {data.count}
                       </td>
-                      <td className="px-4 py-3 text-right font-semibold tabular-nums text-gray-900">
+                      <td className="px-4 py-3 text-right font-semibold tabular-nums text-foreground">
                         {formatCurrency(data.total)}
                       </td>
-                      <td className="px-4 py-3 text-right text-gray-600">
+                      <td className="px-4 py-3 text-right text-foreground">
                         {totalAmount > 0
                           ? ((data.total / totalAmount) * 100).toFixed(1)
                           : "0.0"}

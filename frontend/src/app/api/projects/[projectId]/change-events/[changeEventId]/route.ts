@@ -4,7 +4,7 @@ import { updateChangeEventSchema } from "../validation";
 import { ZodError } from "zod";
 
 interface RouteParams {
-  params: Promise<{ id: string; changeEventId: string }>;
+  params: Promise<{ projectId: string; changeEventId: string }>;
 }
 
 /**
@@ -13,7 +13,7 @@ interface RouteParams {
  */
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, changeEventId } = await params;
+    const { projectId, changeEventId } = await params;
     const supabase = await createClient();
 
     // Get change event with related data
@@ -158,7 +158,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
  */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, changeEventId } = await params;
+    const { projectId, changeEventId } = await params;
     const supabase = await createClient();
     const body = await request.json();
 
@@ -342,7 +342,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
  */
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, changeEventId } = await params;
+    const { projectId, changeEventId } = await params;
     const supabase = await createClient();
 
     // Get current user

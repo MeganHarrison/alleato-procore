@@ -13,7 +13,7 @@ const buttonBase =
 
 export function ThemeToggle({ value, onChange }: ThemeToggleProps) {
   return (
-    <div className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-white/60 p-1 shadow-sm backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60">
+    <div className="inline-flex items-center gap-1 rounded-full border border-slate-200 bg-background/60 p-1 shadow-sm backdrop-blur-sm dark:border-slate-800 dark:bg-slate-900/60">
       <button
         type="button"
         onClick={() => onChange("light")}

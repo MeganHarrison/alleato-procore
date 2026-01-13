@@ -151,7 +151,7 @@ export function InlineTeamMemberForm({
         <div className="space-y-1.5">
           <label className="text-xs font-medium text-neutral-600">Role</label>
           <Select value={selectedRole} onValueChange={setSelectedRole}>
-            <SelectTrigger className="w-full bg-white">
+            <SelectTrigger className="w-full bg-background">
               <SelectValue placeholder="Select role..." />
             </SelectTrigger>
             <SelectContent>
@@ -173,7 +173,7 @@ export function InlineTeamMemberForm({
                 variant="outline"
                 role="combobox"
                 aria-expanded={openCombobox}
-                className="w-full justify-between bg-white font-normal"
+                className="w-full justify-between bg-background font-normal"
                 disabled={loading}
               >
                 {loading ? (

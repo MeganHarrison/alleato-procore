@@ -269,9 +269,14 @@ export interface BadgeRenderConfig {
   type: "badge";
   variantMap?: Record<
     string,
-    "default" | "secondary" | "destructive" | "outline"
+    "default" | "secondary" | "destructive" | "outline" | "success"
   >;
-  defaultVariant?: "default" | "secondary" | "destructive" | "outline";
+  defaultVariant?:
+    | "default"
+    | "secondary"
+    | "destructive"
+    | "outline"
+    | "success";
 }
 
 /**
@@ -328,6 +333,12 @@ export interface ArrayRenderConfig {
   separator?: string; // For text type (default: ', ')
 }
 
+export interface BooleanRenderConfig {
+  type: "boolean";
+  trueLabel?: string;
+  falseLabel?: string;
+}
+
 /**
  * JSON Render Configuration
  *
@@ -373,6 +384,7 @@ export type RenderConfig =
   | CurrencyRenderConfig
   | TruncateRenderConfig
   | ArrayRenderConfig
+  | BooleanRenderConfig
   | JsonRenderConfig
   | NestedRenderConfig;
 
@@ -406,7 +418,7 @@ export interface ColumnConfig {
   id: string;
   label: string;
   defaultVisible: boolean;
-  type?: "text" | "date" | "badge" | "number" | "email";
+  type?: "text" | "date" | "badge" | "number" | "email" | "boolean";
   renderConfig?: RenderConfig;
   sortable?: boolean;
   isPrimary?: boolean;

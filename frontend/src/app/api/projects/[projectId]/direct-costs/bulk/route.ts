@@ -24,10 +24,10 @@ import { DirectCostService } from '@/lib/services/direct-cost-service';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ projectId: string }> }
 ) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
     const body = await request.json();
 

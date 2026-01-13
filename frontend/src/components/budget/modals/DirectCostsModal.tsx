@@ -141,7 +141,7 @@ export function DirectCostsModal({
       size="xl"
     >
       {/* Tabs */}
-      <div className="border-b border-gray-200 px-6 py-2 bg-gray-50 flex-shrink-0">
+      <div className="border-b border-border px-6 py-2 bg-muted flex-shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
             {tabs.map((tab) => (
@@ -152,8 +152,8 @@ export function DirectCostsModal({
                 className={cn(
                   "px-4 py-2 text-sm font-medium rounded-md transition-all",
                   activeTab === tab.id
-                    ? "bg-white text-orange-600 shadow-sm border border-gray-200"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-white/50",
+                    ? "bg-background text-orange-600 shadow-sm border border-border"
+                    : "text-foreground hover:text-foreground hover:bg-background/50",
                 )}
               >
                 {tab.label}
@@ -173,7 +173,7 @@ export function DirectCostsModal({
                     "px-3 py-1 text-xs font-medium rounded-full transition-all",
                     statusFilter === status
                       ? "bg-orange-500 text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200",
+                      : "bg-muted text-foreground hover:bg-muted",
                   )}
                 >
                   {status.charAt(0).toUpperCase() + status.slice(1)}
@@ -190,7 +190,7 @@ export function DirectCostsModal({
               />
               <Label
                 htmlFor="show-payments"
-                className="text-sm text-gray-600 cursor-pointer"
+                className="text-sm text-foreground cursor-pointer"
               >
                 Show Payments
               </Label>
@@ -200,29 +200,29 @@ export function DirectCostsModal({
       </div>
 
       {/* Content */}
-      <SidebarBody className="bg-white">
+      <SidebarBody className="bg-background">
         {activeTab === "costs" ? (
           <div className="p-6 space-y-5">
             {/* Total Summary */}
             <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-gradient-to-br from-purple-50 via-white to-white">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Total Direct Costs</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">
+                  <p className="text-sm text-foreground">Total Direct Costs</p>
+                  <p className="text-2xl font-bold text-foreground mt-1">
                     {formatCurrency(totalAmount)}
                   </p>
                 </div>
                 {showPayments && (
                   <div className="text-center">
-                    <p className="text-sm text-gray-600">Total Payments</p>
-                    <p className="text-2xl font-bold text-gray-900 mt-1">
+                    <p className="text-sm text-foreground">Total Payments</p>
+                    <p className="text-2xl font-bold text-foreground mt-1">
                       {formatCurrency(totalPayments)}
                     </p>
                   </div>
                 )}
                 <div className="text-right">
-                  <p className="text-sm text-gray-600">Count</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">
+                  <p className="text-sm text-foreground">Count</p>
+                  <p className="text-2xl font-bold text-foreground mt-1">
                     {costs.length}
                   </p>
                 </div>
@@ -245,7 +245,7 @@ export function DirectCostsModal({
             </div>
 
             {/* Costs Table */}
-            <div className="overflow-x-auto scrollbar-hide rounded-xl border border-slate-200 shadow-sm bg-white">
+            <div className="overflow-x-auto scrollbar-hide rounded-xl border border-slate-200 shadow-sm bg-background">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
@@ -279,7 +279,7 @@ export function DirectCostsModal({
                     <tr>
                       <td
                         colSpan={showPayments ? 7 : 6}
-                        className="px-4 py-10 text-center text-gray-500"
+                        className="px-4 py-10 text-center text-muted-foreground"
                       >
                         Loading costs...
                       </td>
@@ -288,7 +288,7 @@ export function DirectCostsModal({
                     <tr>
                       <td
                         colSpan={showPayments ? 7 : 6}
-                        className="px-4 py-10 text-center text-gray-500"
+                        className="px-4 py-10 text-center text-muted-foreground"
                       >
                         No direct costs found for this cost code.
                       </td>
@@ -300,21 +300,21 @@ export function DirectCostsModal({
                         className="hover:bg-purple-50/40 transition-colors"
                       >
                         <td
-                          className="px-4 py-3 text-gray-700 max-w-xs truncate"
+                          className="px-4 py-3 text-foreground max-w-xs truncate"
                           title={cost.description || "-"}
                         >
                           {cost.description || "-"}
                         </td>
-                        <td className="px-4 py-3 text-gray-600 text-xs">
+                        <td className="px-4 py-3 text-foreground text-xs">
                           {cost.costType || "-"}
                         </td>
                         <td className="px-4 py-3">
                           {getStatusBadge(cost.status)}
                         </td>
-                        <td className="px-4 py-3 text-gray-600 text-xs">
+                        <td className="px-4 py-3 text-foreground text-xs">
                           {cost.vendor || "-"}
                         </td>
-                        <td className="px-4 py-3 text-right font-semibold tabular-nums text-gray-900">
+                        <td className="px-4 py-3 text-right font-semibold tabular-nums text-foreground">
                           {formatCurrency(cost.amount)}
                         </td>
                         {showPayments && (
@@ -322,7 +322,7 @@ export function DirectCostsModal({
                             {formatCurrency(cost.payments)}
                           </td>
                         )}
-                        <td className="px-4 py-3 text-gray-600">
+                        <td className="px-4 py-3 text-foreground">
                           {formatDate(cost.incurredDate)}
                         </td>
                       </tr>
@@ -334,7 +334,7 @@ export function DirectCostsModal({
           </div>
         ) : (
           <div className="p-6 space-y-5">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-foreground">
               Summary breakdown of direct costs by status.
             </p>
 
@@ -349,13 +349,13 @@ export function DirectCostsModal({
                 return (
                   <div
                     key={status}
-                    className="rounded-xl border border-slate-200 shadow-sm p-5 bg-white"
+                    className="rounded-xl border border-slate-200 shadow-sm p-5 bg-background"
                   >
                     <div className="mb-2">{getStatusBadge(status)}</div>
-                    <p className="text-2xl font-bold text-gray-900 mt-2">
+                    <p className="text-2xl font-bold text-foreground mt-2">
                       {formatCurrency(statusTotal)}
                     </p>
-                    <p className="text-sm text-gray-600 mt-1">
+                    <p className="text-sm text-foreground mt-1">
                       {statusCosts.length}{" "}
                       {statusCosts.length === 1 ? "cost" : "costs"}
                     </p>

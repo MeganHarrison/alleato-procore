@@ -7,6 +7,7 @@ import Link from "next/link";
 import {
   SidebarGroup,
   SidebarGroupContent,
+  SidebarGroupLabel,
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
@@ -14,6 +15,7 @@ import {
 
 export function NavSecondary({
   items,
+  label,
   ...props
 }: {
   items: {
@@ -21,14 +23,16 @@ export function NavSecondary({
     url: string;
     icon: Icon;
   }[];
+  label?: string;
 } & React.ComponentPropsWithoutRef<typeof SidebarGroup>) {
   return (
     <SidebarGroup {...props}>
+      {label && <SidebarGroupLabel>{label}</SidebarGroupLabel>}
       <SidebarGroupContent>
         <SidebarMenu>
           {items.map((item) => (
             <SidebarMenuItem key={item.title}>
-              <SidebarMenuButton asChild>
+              <SidebarMenuButton asChild tooltip={item.title}>
                 {item.url.startsWith("http") ? (
                   <a href={item.url} target="_blank" rel="noopener noreferrer">
                     <item.icon />

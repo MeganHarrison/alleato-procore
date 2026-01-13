@@ -69,12 +69,12 @@
 ## After Application
 
 Update evidence document with verification results:
-- `documentation/1-project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`
+- `documentation/*project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`
 
 Mark section "Step 4: Manual Application" as complete.
 
 ---
 
 **Need Help?** See full documentation:
-- `documentation/1-project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`
-- `documentation/1-project-mgmt/in-progress/change-events/RLS-APPLICATION-SUMMARY.md`
+- `documentation/*project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`
+- `documentation/*project-mgmt/in-progress/change-events/RLS-APPLICATION-SUMMARY.md`

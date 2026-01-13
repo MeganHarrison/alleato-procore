@@ -35,8 +35,8 @@ export function CheckboxField({
         />
       </div>
       <div className="ml-3">
-        <label className="text-sm font-medium text-gray-700">{label}</label>
-        {hint && !error && <p className="text-sm text-gray-500">{hint}</p>}
+        <label className="text-sm font-medium text-foreground">{label}</label>
+        {hint && !error && <p className="text-sm text-muted-foreground">{hint}</p>}
         {error && <p className="text-sm text-red-600">{error}</p>}
       </div>
     </div>

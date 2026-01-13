@@ -102,8 +102,8 @@ DELETE FROM change_events WHERE id = '<any-id>'; -- ERROR: policy violation
 ## Files Created
 
 1. **Migration:** `supabase/migrations/20260110142750_add_change_events_rls.sql`
-2. **Evidence:** `documentation/1-project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`
-3. **Summary:** `documentation/1-project-mgmt/in-progress/change-events/RLS-APPLICATION-SUMMARY.md` (this file)
+2. **Evidence:** `documentation/*project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`
+3. **Summary:** `documentation/*project-mgmt/in-progress/change-events/RLS-APPLICATION-SUMMARY.md` (this file)
 4. **Helper Script:** `scripts/apply-change-events-rls.mjs`
 5. **Gate Verification:** `.claude/supabase-gate-passed.md`
 
@@ -121,7 +121,7 @@ DELETE FROM change_events WHERE id = '<any-id>'; -- ERROR: policy violation
 
 ## Detailed Documentation
 
-See: `documentation/1-project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`
+See: `documentation/*project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`
 
 Contains:
 - Complete audit trail of all commands run
@@ -193,4 +193,4 @@ The CLI blocker doesn't change these benefits. Manual application via SQL Editor
 Migration is ready. Apply manually via SQL Editor. 5 minutes. Critical security issue.
 
 **Link to Migration File:** `supabase/migrations/20260110142750_add_change_events_rls.sql`
-**Link to Evidence:** `documentation/1-project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`
+**Link to Evidence:** `documentation/*project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`

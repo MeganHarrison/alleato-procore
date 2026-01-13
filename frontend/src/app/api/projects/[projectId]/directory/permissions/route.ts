@@ -2,14 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 
 interface RouteParams {
-  params: Promise<{ id: string }>;
+  params: Promise<{ projectId: string }>;
 }
 
 // GET /api/projects/[id]/directory/permissions
 // Fetches all users in the project with their directory permission levels
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const projectIdNum = parseInt(projectId, 10);
     const supabase = createServiceClient();
 
@@ -139,7 +139,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 // Updates a user's directory permission level
 export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const projectIdNum = parseInt(projectId, 10);
     const body = await request.json();
     const { person_id, permission_level } = body;
@@ -198,7 +198,7 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 // Removes explicit permission override (falls back to template)
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const projectIdNum = parseInt(projectId, 10);
     const { searchParams } = new URL(request.url);
     const personId = searchParams.get("person_id");

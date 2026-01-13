@@ -28,7 +28,7 @@ test.describe('Direct Costs - Basic Verification', () => {
     await expect(newButton).toBeVisible();
     
     // Take screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/direct-costs-page.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/direct-costs-page.png', fullPage: true });
   });
 
   test('Can navigate to create new Direct Cost', async ({ page }) => {
@@ -47,7 +47,7 @@ test.describe('Direct Costs - Basic Verification', () => {
     await expect(costTypeSelect).toBeVisible();
     
     // Take screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/direct-costs-create-form.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/direct-costs-create-form.png', fullPage: true });
   });
 
   test('Direct Costs table displays data or empty state', async ({ page }) => {
@@ -68,7 +68,7 @@ test.describe('Direct Costs - Basic Verification', () => {
     }
     
     // Take screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/direct-costs-table.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/direct-costs-table.png', fullPage: true });
   });
 
   test('Tab switching works', async ({ page }) => {

@@ -7795,63 +7795,120 @@ export type Database = {
       }
       prime_contracts: {
         Row: {
+          actual_completion_date: string | null
+          architect_engineer_id: string | null
           billing_schedule: string | null
+          client_id: number | null
+          contract_company_id: string | null
           contract_number: string
+          contract_termination_date: string | null
+          contractor_id: string | null
           created_at: string
           created_by: string | null
           description: string | null
           end_date: string | null
+          exclusions: string | null
+          executed_at: string | null
           id: string
+          inclusions: string | null
+          is_private: boolean
           original_contract_value: number
           payment_terms: string | null
           project_id: number
           retention_percentage: number | null
           revised_contract_value: number
+          signed_contract_received_date: string | null
           start_date: string | null
           status: string
+          substantial_completion_date: string | null
           title: string
           updated_at: string
           vendor_id: string | null
         }
         Insert: {
+          actual_completion_date?: string | null
+          architect_engineer_id?: string | null
           billing_schedule?: string | null
+          client_id?: number | null
+          contract_company_id?: string | null
           contract_number: string
+          contract_termination_date?: string | null
+          contractor_id?: string | null
           created_at?: string
           created_by?: string | null
           description?: string | null
           end_date?: string | null
+          exclusions?: string | null
+          executed_at?: string | null
           id?: string
+          inclusions?: string | null
+          is_private?: boolean
           original_contract_value?: number
           payment_terms?: string | null
           project_id: number
           retention_percentage?: number | null
           revised_contract_value?: number
+          signed_contract_received_date?: string | null
           start_date?: string | null
           status?: string
+          substantial_completion_date?: string | null
           title: string
           updated_at?: string
           vendor_id?: string | null
         }
         Update: {
+          actual_completion_date?: string | null
+          architect_engineer_id?: string | null
           billing_schedule?: string | null
+          client_id?: number | null
+          contract_company_id?: string | null
           contract_number?: string
+          contract_termination_date?: string | null
+          contractor_id?: string | null
           created_at?: string
           created_by?: string | null
           description?: string | null
           end_date?: string | null
+          exclusions?: string | null
+          executed_at?: string | null
           id?: string
+          inclusions?: string | null
+          is_private?: boolean
           original_contract_value?: number
           payment_terms?: string | null
           project_id?: number
           retention_percentage?: number | null
           revised_contract_value?: number
+          signed_contract_received_date?: string | null
           start_date?: string | null
           status?: string
+          substantial_completion_date?: string | null
           title?: string
           updated_at?: string
           vendor_id?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "prime_contracts_architect_engineer_id_fkey"
+            columns: ["architect_engineer_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prime_contracts_client_id_fkey"
+            columns: ["client_id"]
+            isOneToOne: false
+            referencedRelation: "clients"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "prime_contracts_contractor_id_fkey"
+            columns: ["contractor_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "prime_contracts_project_id_fkey"
             columns: ["project_id"]
@@ -10314,6 +10371,54 @@ export type Database = {
           },
         ]
       }
+      qa_page_audit: {
+        Row: {
+          assigned_to: string | null
+          auto_status: string
+          created_at: string | null
+          header_component: string | null
+          id: string
+          last_scanned_at: string | null
+          manual_status: string | null
+          notes: string | null
+          page_name: string
+          page_path: string
+          page_type: string
+          priority: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          assigned_to?: string | null
+          auto_status?: string
+          created_at?: string | null
+          header_component?: string | null
+          id?: string
+          last_scanned_at?: string | null
+          manual_status?: string | null
+          notes?: string | null
+          page_name: string
+          page_path: string
+          page_type?: string
+          priority?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          assigned_to?: string | null
+          auto_status?: string
+          created_at?: string | null
+          header_component?: string | null
+          id?: string
+          last_scanned_at?: string | null
+          manual_status?: string | null
+          notes?: string | null
+          page_name?: string
+          page_path?: string
+          page_type?: string
+          priority?: number | null
+          updated_at?: string | null
+        }
+        Relationships: []
+      }
       qto_items: {
         Row: {
           cost_code: string | null
@@ -11336,6 +11441,7 @@ export type Database = {
       }
       sources: {
         Row: {
+          category: string | null
           created_at: string
           source_id: string
           summary: string | null
@@ -11343,6 +11449,7 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          category?: string | null
           created_at?: string
           source_id: string
           summary?: string | null
@@ -11350,6 +11457,7 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          category?: string | null
           created_at?: string
           source_id?: string
           summary?: string | null
@@ -16456,6 +16564,10 @@ export type Database = {
         }[]
       }
       normalize_exact_quotes: { Args: { in_json: Json }; Returns: string }
+      qa_effective_status: {
+        Args: { page: Database["public"]["Tables"]["qa_page_audit"]["Row"] }
+        Returns: string
+      }
       refresh_budget_rollup: {
         Args: { p_project_id?: number }
         Returns: undefined

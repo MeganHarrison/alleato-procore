@@ -250,7 +250,7 @@ export async function testModalClose(
 
   // Capture final screenshot
   const screenshotPath = `${config.name}-modal-close-tests.png`;
-  await page.screenshot({ path: `frontend/tests/screenshots/${screenshotPath}`, fullPage: true });
+  await page.screenshot({ path: `tests/screenshots/${screenshotPath}`, fullPage: true });
   screenshots.push(screenshotPath);
 
   const duration = Date.now() - startTime;
@@ -302,7 +302,7 @@ export async function testModalResponsive(
 
       // Capture screenshot
       const screenshotPath = `${config.name}-modal-${viewport.name}.png`;
-      await page.screenshot({ path: `frontend/tests/screenshots/${screenshotPath}`, fullPage: true });
+      await page.screenshot({ path: `tests/screenshots/${screenshotPath}`, fullPage: true });
       screenshots.push(screenshotPath);
 
       // Close modal
@@ -368,7 +368,7 @@ export async function testModalStatePersistence(
 
       // Capture screenshot
       const screenshotPath = `${config.name}-modal-state-persistence.png`;
-      await page.screenshot({ path: `frontend/tests/screenshots/${screenshotPath}`, fullPage: true });
+      await page.screenshot({ path: `tests/screenshots/${screenshotPath}`, fullPage: true });
       screenshots.push(screenshotPath);
 
       // Close modal

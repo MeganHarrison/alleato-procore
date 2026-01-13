@@ -20,7 +20,7 @@ test.describe('Change Events - API Tests', () => {
       const data = await response.json();
       expect(data).toHaveProperty('data');
       expect(Array.isArray(data.data)).toBe(true);
-      expect(data).toHaveProperty('pagination');
+      expect(data).toHaveProperty('meta');
     });
 
     test('should support pagination', async ({ request }) => {
@@ -31,8 +31,8 @@ test.describe('Change Events - API Tests', () => {
       expect(response.status()).toBe(200);
 
       const data = await response.json();
-      expect(data.pagination).toHaveProperty('currentPage', 1);
-      expect(data.pagination).toHaveProperty('pageSize', 5);
+      expect(data.meta).toHaveProperty('page', 1);
+      expect(data.meta).toHaveProperty('limit', 5);
     });
 
     test('should support status filtering', async ({ request }) => {
@@ -99,6 +99,11 @@ test.describe('Change Events - API Tests', () => {
           }
         }
       );
+
+      // Log response for debugging
+      const responseText = await response.text();
+      console.log(`POST response status: ${response.status()}`);
+      console.log(`POST response body: ${responseText}`);
 
       expect(response.status()).toBe(201);
 

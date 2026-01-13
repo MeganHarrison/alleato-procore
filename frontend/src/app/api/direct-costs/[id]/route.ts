@@ -134,10 +134,9 @@ export async function PATCH(
 
     return NextResponse.json(data);
   } catch (error) {
-    if (error instanceof Error && error.name === "ZodError") {
-      const zodError = error as ZodError;
+    if (error instanceof ZodError) {
       return NextResponse.json(
-        { error: "Validation error", issues: zodError.errors },
+        { error: "Validation error", issues: error.issues },
         { status: 400 },
       );
     }

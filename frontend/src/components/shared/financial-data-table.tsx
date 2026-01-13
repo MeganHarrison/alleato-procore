@@ -125,7 +125,7 @@ export function FinancialDataTable<T extends { id?: string | number }>({
                 key={row.id || index}
                 className={cn(
                   "group",
-                  onRowClick && "hover:bg-gray-50 cursor-pointer",
+                  onRowClick && "hover:bg-muted cursor-pointer",
                 )}
                 onClick={() => onRowClick?.(row)}
               >

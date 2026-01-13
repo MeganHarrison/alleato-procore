@@ -1,0 +1,28 @@
+{
+  "parentPage": "my_items_list",
+  "parentUrl": "https://us02.procore.com/webclients/host/companies/562949953443325/projects/562949954728542/tools/punchlist/my_items_list",
+  "dropdownIndex": 1,
+  "menuItems": [
+    {
+      "text": "PDF",
+      "href": null,
+      "type": "div"
+    },
+    {
+      "text": "PDF w/ descriptions",
+      "href": null,
+      "type": "div"
+    },
+    {
+      "text": "PDF w/ photos & drawings",
+      "href": null,
+      "type": "div"
+    },
+    {
+      "text": "CSV",
+      "href": null,
+      "type": "div"
+    }
+  ],
+  "timestamp": "2026-01-12T16:00:28.474Z"
+}

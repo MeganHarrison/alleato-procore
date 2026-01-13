@@ -102,7 +102,7 @@ export function DirectCostSummaryCards({
       id: "draft",
       label: "Draft",
       value: formatNumberValue(stats.draft_count),
-      icon: <FileText className="h-5 w-5 text-gray-500" />,
+      icon: <FileText className="h-5 w-5 text-muted-foreground" />,
       subtitle: `${getPercentage(stats.draft_count, stats.total_costs)}% of total`,
     },
   ];

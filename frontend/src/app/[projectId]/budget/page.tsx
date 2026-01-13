@@ -557,23 +557,23 @@ function BudgetPageContent() {
 
       <div className="flex flex-1 flex-col gap-4 px-4 sm:px-6 lg:px-12 py-6 bg-muted/30">
         {activeTab === "settings" ? (
-          <div className="flex-1 rounded-lg border bg-white shadow-sm">
+          <div className="flex-1 rounded-lg border bg-background shadow-sm">
             <VerticalMarkupSettings projectId={projectId} />
           </div>
         ) : activeTab === "cost-codes" ? (
-          <div className="flex-1 rounded-lg border bg-white shadow-sm p-6">
+          <div className="flex-1 rounded-lg border bg-background shadow-sm p-6">
             <CostCodesTab projectId={projectId} />
           </div>
         ) : activeTab === "forecasting" ? (
-          <div className="flex-1 rounded-lg border bg-white shadow-sm">
+          <div className="flex-1 rounded-lg border bg-background shadow-sm">
             <ForecastingTab projectId={projectId} />
           </div>
         ) : activeTab === "snapshots" ? (
-          <div className="flex-1 rounded-lg border bg-white shadow-sm">
+          <div className="flex-1 rounded-lg border bg-background shadow-sm">
             <SnapshotsTab projectId={projectId} />
           </div>
         ) : activeTab === "change-history" ? (
-          <div className="flex-1 rounded-lg border bg-white shadow-sm">
+          <div className="flex-1 rounded-lg border bg-background shadow-sm">
             <ChangeHistoryTab projectId={projectId} />
           </div>
         ) : activeTab === "budget-details" ? (

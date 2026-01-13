@@ -160,7 +160,7 @@ export function DataTablePage<TData>({
         <PageContainer>
           <Card className="p-6">
             <p className="text-muted-foreground mb-2">Unable to load data</p>
-            <p className="text-sm text-gray-500 mb-4">{error}</p>
+            <p className="text-sm text-muted-foreground mb-4">{error}</p>
             {onRetry && (
               <Button onClick={onRetry} size="sm">
                 Retry

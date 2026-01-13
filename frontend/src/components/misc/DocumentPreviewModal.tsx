@@ -21,8 +21,8 @@ export function DocumentPreviewModal({
 
   return (
     <div className="fixed inset-0 z-[999] flex items-center justify-center bg-slate-950/70 px-4 py-10 backdrop-blur-sm">
-      <div className="relative flex h-full w-full max-w-5xl flex-col overflow-hidden rounded-3xl border border-slate-200/40 bg-white shadow-2xl ring-1 ring-slate-200/40 dark:border-slate-700/60 dark:bg-slate-950/90 dark:ring-slate-800/60">
-        <header className="flex items-start justify-between gap-4 border-b border-slate-200/50 bg-white/90 px-6 py-4 dark:border-slate-800/60 dark:bg-slate-900/80">
+      <div className="relative flex h-full w-full max-w-5xl flex-col overflow-hidden rounded-3xl border border-slate-200/40 bg-background shadow-2xl ring-1 ring-slate-200/40 dark:border-slate-700/60 dark:bg-slate-950/90 dark:ring-slate-800/60">
+        <header className="flex items-start justify-between gap-4 border-b border-slate-200/50 bg-background/90 px-6 py-4 dark:border-slate-800/60 dark:bg-slate-900/80">
           <div>
             <p className="text-xs uppercase tracking-wide text-slate-500 dark:text-slate-400">
               {fileType === "pdf"
@@ -43,7 +43,7 @@ export function DocumentPreviewModal({
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-slate-200/80 bg-white px-3 py-1 text-sm font-medium text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-slate-700/70 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
+            className="rounded-full border border-slate-200/80 bg-background px-3 py-1 text-sm font-medium text-slate-700 shadow-sm transition hover:-translate-y-0.5 hover:bg-slate-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-500 dark:border-slate-700/70 dark:bg-slate-900 dark:text-slate-200 dark:hover:bg-slate-800"
           >
             Close
           </button>
@@ -56,7 +56,7 @@ export function DocumentPreviewModal({
             src={previewUrl}
             className={clsx(
               "h-full w-full border-0",
-              fileType === "pdf" ? "bg-slate-900/5" : "bg-white",
+              fileType === "pdf" ? "bg-slate-900/5" : "bg-background",
             )}
             allow="fullscreen"
           />

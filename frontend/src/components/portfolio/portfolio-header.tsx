@@ -17,6 +17,7 @@ interface PortfolioHeaderProps {
   financialViews: PortfolioView[];
   activeView: string;
   onViewChange: (viewId: string) => void;
+  onSettingsClick?: () => void;
   onExport?: (format: "pdf" | "csv") => void;
   onCreateProject?: () => void;
   onCreateTestProject?: () => void;
@@ -27,6 +28,7 @@ export function PortfolioHeader({
   financialViews,
   activeView,
   onViewChange,
+  onSettingsClick,
   onExport,
   onCreateProject,
   onCreateTestProject,
@@ -34,16 +36,16 @@ export function PortfolioHeader({
   return (
     <div>
       {/* Title row */}
-      <div className="flex items-center justify-between py-3 sm:py-4">
+      <div className="flex items-center justify-between">
         <div className="flex flex-col gap-2">
           <h1>Portfolio</h1>
         </div>
       </div>
 
       {/* View tabs - Hidden on mobile */}
-      <div className="hidden sm:flex sm:items-center sm:justify-between gap-3 pb-0 border-b bg-white">
+      <div className="hidden sm:flex sm:items-center sm:justify-between gap-3 pb-0 bg-background">
         <nav
-          className="-mb-px flex space-x-8 overflow-x-auto"
+          className="-mb-px flex space-x-8 overflow-x-auto border-b"
           aria-label="Portfolio tabs"
         >
           {views.map((view) => (
@@ -55,7 +57,7 @@ export function PortfolioHeader({
                 "group inline-flex items-center gap-2 border-b-2 py-4 px-1 text-sm font-medium transition-colors whitespace-nowrap",
                 activeView === view.id
                   ? "border-brand text-brand"
-                  : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
+                  : "border-transparent text-muted-foreground hover:border-border hover:text-foreground",
               )}
               aria-current={activeView === view.id ? "page" : undefined}
             >
@@ -73,7 +75,7 @@ export function PortfolioHeader({
                     "group inline-flex items-center gap-2 border-b-2 py-4 px-1 text-sm font-medium transition-colors whitespace-nowrap",
                     financialViews.some((v) => v.id === activeView)
                       ? "border-brand text-brand"
-                      : "border-transparent text-gray-500 hover:border-gray-300 hover:text-gray-700",
+                      : "border-transparent text-muted-foreground hover:border-border hover:text-foreground",
                   )}
                 >
                   <span>Financial Views</span>
@@ -96,13 +98,24 @@ export function PortfolioHeader({
         </nav>
 
         {/* Export and Create Project buttons - Desktop */}
-        <div className="flex items-center gap-2 flex-shrink-0">
-          {/* Export dropdown */}
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <button
+      <div className="flex items-center gap-2 flex-shrink-0">
+        {onSettingsClick && (
+          <Button
+            onClick={onSettingsClick}
+            variant="outline"
+            className="h-9 text-sm px-3"
+          >
+            <FileText className="w-4 h-4 mr-2" />
+            Settings
+          </Button>
+        )}
+
+        {/* Export dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <button
                 type="button"
-                className="p-2 hover:bg-gray-100 rounded transition-colors"
+                className="p-2 hover:bg-muted rounded transition-colors"
                 title="Export"
                 aria-label="Export"
               >

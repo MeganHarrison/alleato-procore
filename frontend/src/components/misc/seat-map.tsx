@@ -62,7 +62,7 @@ export function SeatMap({ onSeatSelect, selectedSeat }: SeatMapProps) {
     // Available = emerald, Occupied = gray, Exit Row = yellow (pastel)
     switch (status) {
       case "occupied":
-        return "bg-gray-300 text-gray-500 cursor-not-allowed";
+        return "bg-gray-300 text-muted-foreground cursor-not-allowed";
       case "selected":
         return "bg-emerald-600 text-white cursor-pointer hover:bg-emerald-700";
       case "available":
@@ -86,7 +86,7 @@ export function SeatMap({ onSeatSelect, selectedSeat }: SeatMapProps) {
           const isExitRow = EXIT_ROWS.has(row);
           return (
             <div key={row} className="flex items-center justify-center gap-1">
-              <span className="w-6 text-xs text-gray-500 text-right mr-2">
+              <span className="w-6 text-xs text-muted-foreground text-right mr-2">
                 {row}
               </span>
               <div className="flex gap-1">

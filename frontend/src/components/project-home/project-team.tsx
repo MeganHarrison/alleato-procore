@@ -20,12 +20,12 @@ interface ProjectTeamProps {
 
 export function ProjectTeam({ team, projectId }: ProjectTeamProps) {
   return (
-    <div className="bg-white rounded-md border border-gray-200">
-      <div className="px-6 py-4 border-b border-gray-200 flex items-center justify-between">
-        <h2 className="text-base font-semibold text-gray-900">Project Team</h2>
+    <div className="bg-background rounded-md border border-border">
+      <div className="px-6 py-4 border-b border-border flex items-center justify-between">
+        <h2 className="text-base font-semibold text-foreground">Project Team</h2>
         <Link
           href={`/${projectId}/directory/settings`}
-          className="text-sm text-gray-500 hover:text-orange-600 flex items-center gap-1"
+          className="text-sm text-muted-foreground hover:text-orange-600 flex items-center gap-1"
         >
           Edit <Edit2 className="w-3 h-3" />
         </Link>
@@ -61,7 +61,7 @@ export function ProjectTeam({ team, projectId }: ProjectTeamProps) {
           ))}
           {team.length === 0 && (
             <TableRow>
-              <TableCell colSpan={5} className="text-center text-gray-500 py-8">
+              <TableCell colSpan={5} className="text-center text-muted-foreground py-8">
                 No team members assigned
               </TableCell>
             </TableRow>

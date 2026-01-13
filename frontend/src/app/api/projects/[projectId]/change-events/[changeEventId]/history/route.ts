@@ -3,7 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 interface RouteParams {
   params: Promise<{
-    id: string;
+    projectId: string;
     changeEventId: string;
   }>;
 }
@@ -17,7 +17,7 @@ export async function GET(
   { params }: RouteParams
 ) {
   try {
-    const { id: projectId, changeEventId } = await params;
+    const { projectId, changeEventId } = await params;
     const supabase = await createClient();
     const { searchParams } = new URL(request.url);
 

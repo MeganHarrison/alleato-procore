@@ -22,6 +22,10 @@ export function TextareaField({
   className,
   ...textareaProps
 }: TextareaFieldProps) {
+  const textareaId =
+    textareaProps.id ??
+    `textarea-field-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
+
   return (
     <FormField
       label={label}
@@ -33,7 +37,9 @@ export function TextareaField({
       <Textarea
         className={cn(error && "border-red-300", className)}
         aria-invalid={!!error}
-        aria-describedby={error ? `${textareaProps.id}-error` : undefined}
+        aria-describedby={error ? `${textareaId}-error` : undefined}
+        id={textareaId}
+        aria-label={label}
         {...textareaProps}
       />
     </FormField>

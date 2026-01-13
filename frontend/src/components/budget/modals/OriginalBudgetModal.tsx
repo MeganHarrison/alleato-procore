@@ -131,14 +131,14 @@ export function OriginalBudgetModal({
         onValueChange={(v) => setActiveTab(v as "budget" | "history")}
       >
         {/* Tab Navigation */}
-        <div className="border-b border-gray-200/80 px-6 bg-white/70 backdrop-blur-sm">
+        <div className="border-b border-border/80 px-6 bg-background/70 backdrop-blur-sm">
           <TabsList className="bg-transparent border-0 p-0 h-auto flex gap-3">
             <TabsTrigger
               value="budget"
               className={cn(
                 "rounded-full border px-4 py-2 text-sm font-semibold transition-all",
                 "data-[state=active]:border-orange-500/70 data-[state=active]:text-orange-600 data-[state=active]:bg-orange-50",
-                "data-[state=inactive]:border-transparent data-[state=inactive]:text-gray-600 hover:text-gray-900 hover:border-gray-200",
+                "data-[state=inactive]:border-transparent data-[state=inactive]:text-foreground hover:text-foreground hover:border-border",
               )}
             >
               Original Budget
@@ -148,7 +148,7 @@ export function OriginalBudgetModal({
               className={cn(
                 "rounded-full border px-4 py-2 text-sm font-semibold transition-all",
                 "data-[state=active]:border-orange-500/70 data-[state=active]:text-orange-600 data-[state=active]:bg-orange-50",
-                "data-[state=inactive]:border-transparent data-[state=inactive]:text-gray-600 hover:text-gray-900 hover:border-gray-200",
+                "data-[state=inactive]:border-transparent data-[state=inactive]:text-foreground hover:text-foreground hover:border-border",
               )}
             >
               History
@@ -158,7 +158,7 @@ export function OriginalBudgetModal({
 
         {/* Original Budget Tab */}
         <TabsContent value="budget" className="m-0">
-          <ModalBody className="space-y-6 bg-white">
+          <ModalBody className="space-y-6 bg-background">
             {/* Calculation Method */}
             <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-gradient-to-br from-white via-slate-50 to-white">
               <div className="flex items-center justify-between flex-wrap gap-3">
@@ -186,7 +186,7 @@ export function OriginalBudgetModal({
                 <label
                   htmlFor="unit_price"
                   className={cn(
-                    "flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm cursor-pointer transition-all",
+                    "flex items-start gap-3 rounded-xl border border-slate-200 bg-background px-4 py-3 shadow-sm cursor-pointer transition-all",
                     calculationMethod === "unit_price" &&
                       "border-orange-400/70 shadow-[0_12px_30px_-18px_rgba(255,115,29,0.55)] bg-orange-50/60",
                   )}
@@ -210,7 +210,7 @@ export function OriginalBudgetModal({
                 <label
                   htmlFor="lump_sum"
                   className={cn(
-                    "flex items-start gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm cursor-pointer transition-all",
+                    "flex items-start gap-3 rounded-xl border border-slate-200 bg-background px-4 py-3 shadow-sm cursor-pointer transition-all",
                     calculationMethod === "lump_sum" &&
                       "border-orange-400/70 shadow-[0_12px_30px_-18px_rgba(255,115,29,0.55)] bg-orange-50/60",
                   )}
@@ -236,7 +236,7 @@ export function OriginalBudgetModal({
             {/* Input Fields - Responsive Grid */}
             <div
               className={cn(
-                "grid gap-4 rounded-xl border border-slate-200 bg-white shadow-sm p-5",
+                "grid gap-4 rounded-xl border border-slate-200 bg-background shadow-sm p-5",
                 calculationMethod === "unit_price"
                   ? "grid-cols-1 sm:grid-cols-2 lg:grid-cols-5"
                   : "grid-cols-1 sm:grid-cols-2",
@@ -247,7 +247,7 @@ export function OriginalBudgetModal({
                 <div>
                   <Label
                     htmlFor="unitQty"
-                    className="text-sm font-medium text-gray-700"
+                    className="text-sm font-medium text-foreground"
                   >
                     Unit Qty
                   </Label>
@@ -268,7 +268,7 @@ export function OriginalBudgetModal({
                 <div>
                   <Label
                     htmlFor="uom"
-                    className="text-sm font-medium text-gray-700"
+                    className="text-sm font-medium text-foreground"
                   >
                     UOM
                   </Label>
@@ -293,7 +293,7 @@ export function OriginalBudgetModal({
               <div>
                 <Label
                   htmlFor="unitCost"
-                  className="text-sm font-medium text-gray-700"
+                  className="text-sm font-medium text-foreground"
                 >
                   {calculationMethod === "unit_price" ? "Unit Cost" : "Amount"}
                 </Label>
@@ -316,7 +316,7 @@ export function OriginalBudgetModal({
               >
                 <Label
                   htmlFor="originalBudget"
-                  className="text-sm font-medium text-gray-700"
+                  className="text-sm font-medium text-foreground"
                 >
                   Original Budget
                 </Label>
@@ -325,7 +325,7 @@ export function OriginalBudgetModal({
                   type="text"
                   value={`$${originalBudget.toLocaleString("en-US", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`}
                   disabled
-                  className="mt-1 bg-slate-50 text-gray-900 font-semibold"
+                  className="mt-1 bg-slate-50 text-foreground font-semibold"
                   readOnly
                 />
               </div>
@@ -363,13 +363,13 @@ export function OriginalBudgetModal({
 
         {/* History Tab */}
         <TabsContent value="history" className="m-0">
-          <ModalBody className="space-y-5 bg-white">
-            <p className="text-sm text-gray-600">
+          <ModalBody className="space-y-5 bg-background">
+            <p className="text-sm text-foreground">
               View the audit trail of every change to this budget line.
             </p>
 
             {/* History Table */}
-            <div className="overflow-x-auto scrollbar-hide rounded-xl border border-slate-200 shadow-sm bg-white">
+            <div className="overflow-x-auto scrollbar-hide rounded-xl border border-slate-200 shadow-sm bg-background">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
@@ -423,7 +423,7 @@ export function OriginalBudgetModal({
                   <tr>
                     <td
                       colSpan={5}
-                      className="px-4 py-10 text-center text-gray-500"
+                      className="px-4 py-10 text-center text-muted-foreground"
                     >
                       No previous snapshots available
                     </td>

@@ -1,9 +1,7 @@
 "use client";
 
-import * as React from "react";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { AnimatedBackground } from "@/components/motion/animated-background";
 
 interface Tab {
   label: string;
@@ -20,67 +18,59 @@ interface PageTabsProps {
 export function PageTabs({ tabs, className }: PageTabsProps) {
   const pathname = usePathname();
   const router = useRouter();
+  const searchParams = useSearchParams();
 
   // Find the active tab based on pathname
-  const activeTab =
-    tabs.find((tab) => tab.isActive ?? pathname === tab.href)?.href ||
-    tabs[0]?.href;
+  const searchString = searchParams.toString();
+  const currentPath = searchString ? `${pathname}?${searchString}` : pathname;
+  const hasExactHrefMatch = tabs.some((tab) => tab.href === currentPath);
 
   return (
-    <div className={cn(className)}>
-      <div className="px-4 sm:px-6 lg:px-12">
-        <nav className="flex py-3" aria-label="Tabs">
-          <div className="flex gap-1">
-            <AnimatedBackground
-              defaultValue={activeTab}
-              className="rounded-sm bg-primary"
-              transition={{
-                ease: "easeInOut",
-                duration: 0.2,
-              }}
-              onValueChange={(value) => {
-                if (value) {
-                  router.push(value);
-                }
-              }}
-            >
-              {tabs.map((tab) => {
-                const isActive = tab.isActive ?? pathname === tab.href;
-                return (
-                  <button
-                    key={tab.href}
-                    data-id={tab.href}
-                    type="button"
-                    onClick={() => router.push(tab.href)}
-                    aria-label={tab.label}
+    <div className={cn("px-4 sm:px-6 lg:px-12", className)}>
+      <nav
+        className="-mb-px flex overflow-x-auto border-b border-border"
+        aria-label="Tabs"
+      >
+        <div className="flex min-w-max space-x-6 md:space-x-8">
+          {tabs.map((tab) => {
+            const isActive =
+              tab.isActive ??
+              (hasExactHrefMatch
+                ? tab.href === currentPath
+                : pathname === tab.href);
+
+            return (
+              <button
+                key={tab.href}
+                type="button"
+                onClick={() => router.push(tab.href)}
+                aria-label={tab.label}
+                className={cn(
+                  "group inline-flex items-center gap-2 whitespace-nowrap border-b-2 pb-3 pt-4 text-sm font-medium transition-colors",
+                  isActive
+                    ? "border-brand text-brand"
+                    : "border-transparent text-muted-foreground hover:border-border hover:text-foreground",
+                )}
+                aria-current={isActive ? "page" : undefined}
+              >
+                <span>{tab.label}</span>
+                {tab.count !== undefined && (
+                  <span
                     className={cn(
-                      "inline-flex items-center justify-center gap-2 px-4 py-2 text-sm font-medium transition-colors rounded-sm",
+                      "rounded-full px-2.5 py-0.5 text-xs font-medium",
                       isActive
-                        ? "text-white"
-                        : "text-gray-500 dark:text-gray-200 hover:text-brand dark:hover:text-white",
+                        ? "bg-brand/10 text-brand"
+                        : "bg-muted text-foreground",
                     )}
-                    aria-current={isActive ? "page" : undefined}
                   >
-                    <span>{tab.label}</span>
-                    {tab.count !== undefined && (
-                      <span
-                        className={cn(
-                          "rounded-full px-2.5 py-0.5 text-xs font-medium",
-                          isActive
-                            ? "bg-white/20 text-white"
-                            : "bg-gray-100 text-gray-600 dark:bg-gray-700 dark:text-gray-300",
-                        )}
-                      >
-                        {tab.count}
-                      </span>
-                    )}
-                  </button>
-                );
-              })}
-            </AnimatedBackground>
-          </div>
-        </nav>
-      </div>
+                    {tab.count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
+        </div>
+      </nav>
     </div>
   );
 }

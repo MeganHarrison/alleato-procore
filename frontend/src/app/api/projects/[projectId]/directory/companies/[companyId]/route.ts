@@ -4,7 +4,7 @@ import { CompanyService } from "@/services/companyService";
 import { PermissionService } from "@/services/permissionService";
 
 interface RouteParams {
-  params: Promise<{ id: string; companyId: string }>;
+  params: Promise<{ projectId: string; companyId: string }>;
 }
 
 /**
@@ -12,7 +12,7 @@ interface RouteParams {
  */
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, companyId } = await params;
+    const { projectId, companyId } = await params;
     const supabase = await createClient();
 
     // Check authentication
@@ -95,7 +95,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
  */
 export async function PATCH(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, companyId } = await params;
+    const { projectId, companyId } = await params;
     const supabase = await createClient();
 
     // Check authentication
@@ -200,7 +200,7 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
  */
 export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, companyId } = await params;
+    const { projectId, companyId } = await params;
     const supabase = await createClient();
 
     // Check authentication

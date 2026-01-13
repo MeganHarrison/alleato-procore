@@ -97,7 +97,7 @@ export async function testFormLoad(
 
     // Capture initial screenshot
     const screenshotPath = `${config.screenshotPrefix}-load.png`;
-    await page.screenshot({ path: `frontend/tests/screenshots/${screenshotPath}`, fullPage: true });
+    await page.screenshot({ path: `tests/screenshots/${screenshotPath}`, fullPage: true });
     screenshots.push(screenshotPath);
 
     // Check for console errors
@@ -151,7 +151,7 @@ export async function testFieldValidations(
 
     // Capture validation errors screenshot
     const screenshotPath = `${config.screenshotPrefix}-validation-errors.png`;
-    await page.screenshot({ path: `frontend/tests/screenshots/${screenshotPath}`, fullPage: true });
+    await page.screenshot({ path: `tests/screenshots/${screenshotPath}`, fullPage: true });
     screenshots.push(screenshotPath);
 
     // Test invalid format validation (if applicable)
@@ -265,7 +265,7 @@ export async function testFormSubmission(
 
     // Capture filled form screenshot
     const filledScreenshotPath = `${config.screenshotPrefix}-filled.png`;
-    await page.screenshot({ path: `frontend/tests/screenshots/${filledScreenshotPath}`, fullPage: true });
+    await page.screenshot({ path: `tests/screenshots/${filledScreenshotPath}`, fullPage: true });
     screenshots.push(filledScreenshotPath);
 
     // Submit form
@@ -295,7 +295,7 @@ export async function testFormSubmission(
 
     // Capture result screenshot
     const resultScreenshotPath = `${config.screenshotPrefix}-submitted.png`;
-    await page.screenshot({ path: `frontend/tests/screenshots/${resultScreenshotPath}`, fullPage: true });
+    await page.screenshot({ path: `tests/screenshots/${resultScreenshotPath}`, fullPage: true });
     screenshots.push(resultScreenshotPath);
 
     const duration = Date.now() - startTime;
@@ -303,7 +303,7 @@ export async function testFormSubmission(
   } catch (error) {
     errors.push(`Form submission failed: ${error instanceof Error ? error.message : String(error)}`);
     const errorScreenshotPath = `${config.screenshotPrefix}-submission-error.png`;
-    await page.screenshot({ path: `frontend/tests/screenshots/${errorScreenshotPath}`, fullPage: true }).catch(() => null);
+    await page.screenshot({ path: `tests/screenshots/${errorScreenshotPath}`, fullPage: true }).catch(() => null);
     screenshots.push(errorScreenshotPath);
     return { success: false, errors, screenshots, duration: Date.now() - startTime, createdId };
   }
@@ -367,7 +367,7 @@ export async function testFormAccessibility(
 
     // Capture accessibility screenshot
     const screenshotPath = `${config.screenshotPrefix}-accessibility.png`;
-    await page.screenshot({ path: `frontend/tests/screenshots/${screenshotPath}`, fullPage: true });
+    await page.screenshot({ path: `tests/screenshots/${screenshotPath}`, fullPage: true });
     screenshots.push(screenshotPath);
 
     const duration = Date.now() - startTime;

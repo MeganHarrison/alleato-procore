@@ -22,10 +22,10 @@ import { DirectCostService } from '@/lib/services/direct-cost-service';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ projectId: string }> }
 ) {
   try {
-    const { id } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
     const body = await request.json();
 
@@ -54,7 +54,7 @@ export async function POST(
       ...exportParams.filters,
     };
 
-    const result = await service.list(id, listParams);
+    const result = await service.list(projectId, listParams);
     const directCosts = result.data;
 
     if (directCosts.length === 0) {
@@ -76,7 +76,8 @@ export async function POST(
       });
     } else if (exportParams.format === 'excel') {
       const excelBuffer = generateExcel(directCosts, exportParams);
-      return new NextResponse(excelBuffer, {
+      const excelBlob = new Blob([excelBuffer]);
+      return new NextResponse(excelBlob, {
         status: 200,
         headers: {
           'Content-Type':
@@ -209,7 +210,7 @@ function getCostRow(
 
   if (template === 'accounting') {
     return [
-      cost.date || '',
+      formatDate(cost.date),
       cost.invoice_number || '',
       vendor,
       '', // Account Code (would need budget code aggregation)
@@ -219,11 +220,11 @@ function getCostRow(
       '', // Line Total
       totalAmount,
       cost.status,
-      cost.paid_date || '',
+      formatDate(cost.paid_date),
     ];
   } else if (template === 'summary') {
     return [
-      cost.date || '',
+      formatDate(cost.date),
       vendor,
       cost.cost_type,
       cost.invoice_number || '',
@@ -234,7 +235,7 @@ function getCostRow(
   } else {
     // Standard template
     return [
-      cost.date || '',
+      formatDate(cost.date),
       vendor,
       employee,
       cost.cost_type,
@@ -248,8 +249,8 @@ function getCostRow(
       '', // Line Total
       totalAmount,
       cost.description || '',
-      cost.received_date || '',
-      cost.paid_date || '',
+      formatDate(cost.received_date),
+      formatDate(cost.paid_date),
     ];
   }
 }
@@ -270,7 +271,7 @@ function getCostRowWithLineItem(
 
   if (template === 'accounting') {
     return [
-      cost.date || '',
+      formatDate(cost.date),
       cost.invoice_number || '',
       vendor,
       budgetCode,
@@ -280,7 +281,7 @@ function getCostRowWithLineItem(
       lineTotal,
       totalAmount,
       cost.status,
-      cost.paid_date || '',
+      formatDate(cost.paid_date),
     ];
   } else if (template === 'summary') {
     // For summary, don't include line item details
@@ -288,7 +289,7 @@ function getCostRowWithLineItem(
   } else {
     // Standard template with full details
     return [
-      cost.date || '',
+      formatDate(cost.date),
       vendor,
       employee,
       cost.cost_type,
@@ -302,8 +303,8 @@ function getCostRowWithLineItem(
       lineTotal,
       totalAmount,
       cost.description || '',
-      cost.received_date || '',
-      cost.paid_date || '',
+      formatDate(cost.received_date),
+      formatDate(cost.paid_date),
     ];
   }
 }
@@ -320,6 +321,11 @@ function formatCurrency(amount: number): string {
   return amount.toFixed(2);
 }
 
+function formatDate(value: string | Date | null | undefined): string {
+  if (!value) return '';
+  return typeof value === 'string' ? value : value.toISOString();
+}
+
 // =============================================================================
 // EXCEL GENERATION
 // =============================================================================
@@ -330,7 +336,7 @@ function generateExcel(
     include_line_items: boolean;
     template: string;
   }
-): Uint8Array {
+): ArrayBuffer {
   const { include_line_items, template } = params;
 
   // Create workbook
@@ -363,9 +369,9 @@ function generateExcel(
   // Add worksheet to workbook
   XLSX.utils.book_append_sheet(workbook, worksheet, 'Direct Costs');
 
-  // Generate array buffer (compatible with NextResponse)
-  const excelBuffer = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' });
-  return new Uint8Array(excelBuffer as ArrayBuffer);
+  // Generate buffer (compatible with NextResponse)
+  const excelBuffer = XLSX.write(workbook, { type: 'array', bookType: 'xlsx' }) as ArrayBuffer;
+  return excelBuffer;
 }
 
 // =============================================================================

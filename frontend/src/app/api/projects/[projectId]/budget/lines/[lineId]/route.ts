@@ -4,13 +4,13 @@ import { createClient } from "@/lib/supabase/server";
 // PATCH /api/projects/[id]/budget/lines/[lineId] - Update a budget line item
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string; lineId: string }> },
+  { params }: { params: Promise<{ projectId: string; lineId: string }> },
 ) {
   try {
-    const { id, lineId } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId, lineId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -60,7 +60,7 @@ export async function PATCH(
     const { data: project, error: projectError } = await supabase
       .from("projects")
       .select("budget_locked")
-      .eq("id", projectId)
+      .eq("id", projectIdNum)
       .single();
 
     if (projectError) {
@@ -98,7 +98,7 @@ export async function PATCH(
       );
     }
 
-    if (existingLine.project_id !== projectId) {
+    if (existingLine.project_id !== projectIdNum) {
       return NextResponse.json(
         { error: "Budget line does not belong to this project" },
         { status: 403 },
@@ -199,13 +199,13 @@ export async function PATCH(
 // DELETE /api/projects/[id]/budget/lines/[lineId] - Delete a budget line item
 export async function DELETE(
   _request: NextRequest,
-  { params }: { params: Promise<{ id: string; lineId: string }> },
+  { params }: { params: Promise<{ projectId: string; lineId: string }> },
 ) {
   try {
-    const { id, lineId } = await params;
-    const projectId = parseInt(id, 10);
+    const { projectId, lineId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -232,7 +232,7 @@ export async function DELETE(
     const { data: project, error: projectError } = await supabase
       .from("projects")
       .select("budget_locked")
-      .eq("id", projectId)
+      .eq("id", projectIdNum)
       .single();
 
     if (projectError) {
@@ -268,7 +268,7 @@ export async function DELETE(
       );
     }
 
-    if (existingLine.project_id !== projectId) {
+    if (existingLine.project_id !== projectIdNum) {
       return NextResponse.json(
         { error: "Budget line does not belong to this project" },
         { status: 403 },

@@ -295,7 +295,7 @@ export default function PortfolioPage() {
   };
 
   return (
-    <div className="px-12 sm:px-12 py-6 flex flex-col flex-1 min-h-0 overflow-hidden">
+    <div className="px-12 sm:px-12 pt-6 pb-12 flex flex-col flex-1 min-h-0 overflow-hidden">
       {/* Portfolio Header with tabs */}
       <PortfolioHeader
         views={portfolioViews}
@@ -329,10 +329,10 @@ export default function PortfolioPage() {
         />
 
         {/* Projects Table */}
-        <div className="flex-1 overflow-hidden bg-white">
+        <div className="flex-1 overflow-hidden bg-background">
           {loading ? (
             <div className="flex items-center justify-center h-full">
-              <div className="text-gray-500">Loading projects...</div>
+              <div className="text-muted-foreground">Loading projects...</div>
             </div>
           ) : (
             <ProjectsTable

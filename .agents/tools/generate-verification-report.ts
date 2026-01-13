@@ -24,8 +24,8 @@ import { execSync } from 'child_process';
 
 // Configuration
 const FEATURE_NAME = process.argv[2] || 'unknown-feature';
-const REPORT_DIR = `documentation/1-project-mgmt/verification-reports/${FEATURE_NAME}`;
-const TEMPLATE_PATH = 'documentation/1-project-mgmt/verification-template.html';
+const REPORT_DIR = `documentation/*project-mgmt/verification-reports/${FEATURE_NAME}`;
+const TEMPLATE_PATH = 'documentation/*project-mgmt/verification-template.html';
 
 // Create report directory
 if (!fs.existsSync(REPORT_DIR)) {

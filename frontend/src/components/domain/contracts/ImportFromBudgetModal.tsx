@@ -193,14 +193,14 @@ export function ImportFromBudgetModal({
         <div className="flex-1 overflow-hidden flex flex-col gap-4">
           {/* Search */}
           <div className="flex items-center gap-2 px-1">
-            <Search className="w-4 h-4 text-gray-400" />
+            <Search className="w-4 h-4 text-muted-foreground" />
             <Input
               placeholder="Search by cost code, description..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="flex-1"
             />
-            <div className="text-sm text-gray-500">
+            <div className="text-sm text-muted-foreground">
               {selectedIds.size} of {filteredLines.length} selected
             </div>
           </div>
@@ -210,8 +210,8 @@ export function ImportFromBudgetModal({
             {isLoading ? (
               <div className="flex items-center justify-center h-full">
                 <div className="text-center">
-                  <div className="w-8 h-8 border-2 border-gray-300 border-t-blue-600 rounded-full animate-spin mx-auto mb-2" />
-                  <p className="text-sm text-gray-500">
+                  <div className="w-8 h-8 border-2 border-border border-t-blue-600 rounded-full animate-spin mx-auto mb-2" />
+                  <p className="text-sm text-muted-foreground">
                     Loading budget lines...
                   </p>
                 </div>
@@ -233,7 +233,7 @@ export function ImportFromBudgetModal({
               </div>
             ) : filteredLines.length === 0 ? (
               <div className="flex items-center justify-center h-full">
-                <div className="text-center text-gray-500">
+                <div className="text-center text-muted-foreground">
                   <p className="text-sm">
                     {budgetLines.length === 0
                       ? "No budget lines found. Please add budget items first."
@@ -244,7 +244,7 @@ export function ImportFromBudgetModal({
             ) : (
               <div className="overflow-auto h-full">
                 <table className="w-full">
-                  <thead className="bg-gray-50 sticky top-0 border-b">
+                  <thead className="bg-muted sticky top-0 border-b">
                     <tr>
                       <th className="px-4 py-3 text-left w-12">
                         <Checkbox
@@ -257,16 +257,16 @@ export function ImportFromBudgetModal({
                           onCheckedChange={handleSelectAll}
                         />
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
                         Cost Code
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
                         Type
                       </th>
-                      <th className="px-4 py-3 text-left text-sm font-medium text-gray-700">
+                      <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
                         Description
                       </th>
-                      <th className="px-4 py-3 text-right text-sm font-medium text-gray-700">
+                      <th className="px-4 py-3 text-right text-sm font-medium text-foreground">
                         Budget Amount
                       </th>
                     </tr>
@@ -276,7 +276,7 @@ export function ImportFromBudgetModal({
                       <tr
                         key={line.id}
                         className={cn(
-                          "border-b hover:bg-gray-50 cursor-pointer",
+                          "border-b hover:bg-muted cursor-pointer",
                           selectedIds.has(line.id) && "bg-blue-50",
                         )}
                         onClick={() =>
@@ -302,7 +302,7 @@ export function ImportFromBudgetModal({
                           <div>
                             {line.cost_code?.title || line.description}
                             {line.description && line.cost_code?.title && (
-                              <div className="text-xs text-gray-500">
+                              <div className="text-xs text-muted-foreground">
                                 {line.description}
                               </div>
                             )}

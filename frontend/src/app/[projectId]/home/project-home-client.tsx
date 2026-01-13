@@ -376,7 +376,7 @@ export function ProjectHomeClient({
               </div>
 
               {/* Project Team */}
-              <div className="rounded-sm border border-neutral-200 bg-white mb-6">
+              <div className="rounded-sm border border-neutral-200 bg-background mb-6">
                 <Collapsible open={isTeamOpen} onOpenChange={setIsTeamOpen}>
                   <div className="px-8 py-6 pb-4 border-b border-neutral-100">
                     <div className="flex items-center justify-between">
@@ -504,7 +504,7 @@ export function ProjectHomeClient({
             </div>
 
             {/* Prime Contracts */}
-            <div className="rounded-sm border border-neutral-200 bg-white mb-6">
+            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
               <Collapsible
                 open={isContractsOpen}
                 onOpenChange={setIsContractsOpen}
@@ -613,7 +613,7 @@ export function ProjectHomeClient({
             </div>
 
             {/* Commitments */}
-            <div className="rounded-sm border border-neutral-200 bg-white mb-6">
+            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
               <Collapsible
                 open={isCommitmentsOpen}
                 onOpenChange={setIsCommitmentsOpen}
@@ -718,7 +718,7 @@ export function ProjectHomeClient({
             </div>
 
             {/* Budget */}
-            <div className="rounded-sm border border-neutral-200 bg-white mb-6">
+            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
               <Collapsible open={isBudgetOpen} onOpenChange={setIsBudgetOpen}>
                 <div className="px-8 py-6 pb-4 border-b border-neutral-100">
                   <div className="flex items-center justify-between">
@@ -836,7 +836,7 @@ export function ProjectHomeClient({
             </div>
 
             {/* Schedule of Values */}
-            <div className="rounded-sm border border-neutral-200 bg-white mb-6">
+            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
               <Collapsible open={isSovOpen} onOpenChange={setIsSovOpen}>
                 <div className="px-8 py-6 pb-4 border-b border-neutral-100">
                   <div className="flex items-center justify-between">
@@ -940,7 +940,7 @@ export function ProjectHomeClient({
             </div>
 
             {/* Schedule */}
-            <div className="rounded-sm border border-neutral-200 bg-white mb-6">
+            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
               <Collapsible
                 open={isScheduleOpen}
                 onOpenChange={setIsScheduleOpen}

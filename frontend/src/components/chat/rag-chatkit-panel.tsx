@@ -86,7 +86,7 @@ export function RagChatKitPanel({
 
   return (
     <div
-      className="flex flex-col h-full flex-1 w-full bg-white overflow-hidden"
+      className="flex flex-col h-full flex-1 w-full bg-background overflow-hidden"
       data-testid="rag-chatkit-panel"
     >
       <ChatKit

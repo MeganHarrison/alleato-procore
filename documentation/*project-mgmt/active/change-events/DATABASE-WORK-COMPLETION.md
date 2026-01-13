@@ -180,20 +180,20 @@ Error: Could not find the function public.exec_sql(sql)
    - Schema comparison results
    - Type generation confirmation
 
-2. **`documentation/1-project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`**
+2. **`documentation/*project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`**
    - Complete audit trail (8,900+ words)
    - All commands run
    - All outputs captured
    - Security policy specifications
    - Verification instructions
 
-3. **`documentation/1-project-mgmt/in-progress/change-events/RLS-APPLICATION-SUMMARY.md`**
+3. **`documentation/*project-mgmt/in-progress/change-events/RLS-APPLICATION-SUMMARY.md`**
    - Executive summary
    - Quick application guide
    - Security impact analysis
    - Task completion checklist
 
-4. **`documentation/1-project-mgmt/in-progress/change-events/DATABASE-WORK-COMPLETION.md`**
+4. **`documentation/*project-mgmt/in-progress/change-events/DATABASE-WORK-COMPLETION.md`**
    - This file
    - Work performed summary
    - Deliverables checklist
@@ -437,9 +437,9 @@ LIMIT 10;
 ## References
 
 ### Documentation
-- **Evidence Report:** `documentation/1-project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`
-- **Summary:** `documentation/1-project-mgmt/in-progress/change-events/RLS-APPLICATION-SUMMARY.md`
-- **Skeptical Audit:** `documentation/1-project-mgmt/in-progress/change-events/SKEPTICAL-AUDIT-REPORT.md`
+- **Evidence Report:** `documentation/*project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`
+- **Summary:** `documentation/*project-mgmt/in-progress/change-events/RLS-APPLICATION-SUMMARY.md`
+- **Skeptical Audit:** `documentation/*project-mgmt/in-progress/change-events/SKEPTICAL-AUDIT-REPORT.md`
 
 ### Migration Files
 - **Original Migration:** `frontend/drizzle/migrations/0001_create_change_events.sql`

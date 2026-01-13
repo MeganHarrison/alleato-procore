@@ -105,7 +105,7 @@ export function MonitoringCharts({ initiatives }: MonitoringChartsProps) {
       case "verification":
         return "bg-yellow-500";
       default:
-        return "bg-gray-500";
+        return "bg-muted0";
     }
   };
   const getPriorityColor = (priority: string) => {
@@ -117,7 +117,7 @@ export function MonitoringCharts({ initiatives }: MonitoringChartsProps) {
       case "low":
         return "bg-green-100 text-green-800 border-green-200";
       default:
-        return "bg-gray-100 text-gray-800 border-gray-200";
+        return "bg-muted text-foreground border-border";
     }
   };
   return (
@@ -151,15 +151,15 @@ export function MonitoringCharts({ initiatives }: MonitoringChartsProps) {
                 </div>
                 <div className="flex items-center gap-2">
                   {" "}
-                  <span className="text-sm text-gray-500">{count}</span>
-                  <div className="w-16 bg-gray-200 rounded-full h-2">
+                  <span className="text-sm text-muted-foreground">{count}</span>
+                  <div className="w-16 bg-muted rounded-full h-2">
                     {" "}
                     <div
                       className={`h-2 rounded-full ${getStatusColor(status)}`}
                       style={{ width: `${percentage}%` }}
                     />{" "}
                   </div>
-                  <span className="text-xs text-gray-500 w-8">
+                  <span className="text-xs text-muted-foreground w-8">
                     {percentage}%
                   </span>{" "}
                 </div>{" "}
@@ -191,10 +191,10 @@ export function MonitoringCharts({ initiatives }: MonitoringChartsProps) {
                 </Badge>
                 <div className="flex items-center gap-2">
                   {" "}
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-muted-foreground">
                     {count} initiatives
                   </span>
-                  <span className="text-xs text-gray-500">
+                  <span className="text-xs text-muted-foreground">
                     ({percentage}%)
                   </span>{" "}
                 </div>{" "}
@@ -308,10 +308,10 @@ export function MonitoringCharts({ initiatives }: MonitoringChartsProps) {
                       </span>{" "}
                     </div>
                     <div className="text-2xl font-bold">{count}</div>
-                    <div className="text-sm text-gray-600">
+                    <div className="text-sm text-foreground">
                       {percentage}% of total
                     </div>
-                    <div className="mt-2 w-full bg-gray-200 rounded-full h-2">
+                    <div className="mt-2 w-full bg-muted rounded-full h-2">
                       {" "}
                       <div
                         className={`h-2 rounded-full transition-all duration-300 ${verification === "verified" ? "bg-green-500" : verification === "failed" ? "bg-red-500" : "bg-yellow-500"}`}

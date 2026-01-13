@@ -1,4 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Load env for Playwright runs (prefer .env.local, then fallback to .env)
+dotenv.config({ path: path.join(__dirname, '../.env.local') });
+dotenv.config({ path: path.join(__dirname, '../.env') });
 
 export default defineConfig({
   testDir: '../../tests',
@@ -12,7 +18,7 @@ export default defineConfig({
     ['list'],
   ],
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3000',
+    baseURL: process.env.BASE_URL || 'http://localhost:3002',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
     video: 'on-first-retry',
@@ -43,7 +49,7 @@ export default defineConfig({
       use: {
         ...devices['Desktop Chrome'],
       },
-      testMatch: /comprehensive-page-check\.spec\.ts|check-styling\.spec\.ts|project-tools-dropdown\.spec\.ts|meetings2-page\.spec\.ts|employees-page\.spec\.ts|project-home-collapsible\.spec\.ts|project-setup-wizard\.spec\.ts|project-setup-wizard-comprehensive\.spec\.ts|wizard-manual-test\.spec\.ts|chat-rag-e2e\.spec\.ts|project-scoped-routing\.spec\.ts|budget-modals\.spec\.ts|page-title-verification\.spec\.ts|form-testing-simple\.spec\.ts|comprehensive-form-testing\.spec\.ts|project-home-navigation\.spec\.ts|ai-chat-widget\.spec\.ts|chat-widget-debug\.spec\.ts|project-meeting-detail\.spec\.ts|contract-form-new\.spec\.ts|contract-form-visual\.spec\.ts/,
+      testMatch: /comprehensive-page-check\.spec\.ts|check-styling\.spec\.ts|project-tools-dropdown\.spec\.ts|meetings2-page\.spec\.ts|employees-page\.spec\.ts|project-home-collapsible\.spec\.ts|project-setup-wizard\.spec\.ts|project-setup-wizard-comprehensive\.spec\.ts|wizard-manual-test\.spec\.ts|chat-rag-e2e\.spec\.ts|project-scoped-routing\.spec\.ts|budget-modals\.spec\.ts|page-title-verification\.spec\.ts|form-testing-simple\.spec\.ts|project-home-navigation\.spec\.ts|ai-chat-widget\.spec\.ts|chat-widget-debug\.spec\.ts|project-meeting-detail\.spec\.ts|contract-form-new\.spec\.ts|contract-form-visual\.spec\.ts|sidebar-collapse-verification\.spec\.ts|sidebar-visual-verification\.spec\.ts/,
     },
   ],
   outputDir: '../../tests/test-results',

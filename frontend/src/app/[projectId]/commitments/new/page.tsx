@@ -7,7 +7,7 @@ import {
   CreatePurchaseOrderForm,
   CreateSubcontractForm,
 } from "@/components/domain/contracts";
-import { FormContainer, ProjectPageHeader } from "@/components/layout";
+import { FormContainer, PageHeader } from "@/components/layout";
 import { Button } from "@/components/ui/button";
 import type { CreatePurchaseOrderInput } from "@/lib/schemas/create-purchase-order-schema";
 import type { CreateSubcontractInput } from "@/lib/schemas/create-subcontract-schema";
@@ -132,7 +132,7 @@ export default function NewCommitmentPage() {
 
   return (
     <>
-      <ProjectPageHeader
+      <PageHeader
         title={title}
         breadcrumbs={[
           { label: "Commitments", href: `/${projectId}/commitments` },

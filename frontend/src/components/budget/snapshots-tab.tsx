@@ -111,7 +111,7 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
   const getVarianceColor = (variance: number) => {
     if (variance > 0) return "text-green-600";
     if (variance < 0) return "text-red-600";
-    return "text-gray-600";
+    return "text-foreground";
   };
 
   if (loading) {

@@ -6,7 +6,7 @@ import type { CloneBudgetViewRequest } from "@/types/budget-views";
 // Clone an existing budget view
 export async function POST(
   request: NextRequest,
-  context: { params: Promise<{ id: string; viewId: string }> },
+  context: { params: Promise<{ projectId: string; viewId: string }> },
 ) {
   try {
     const supabase = await createClient();

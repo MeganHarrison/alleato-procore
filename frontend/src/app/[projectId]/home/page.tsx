@@ -121,7 +121,7 @@ export default async function ProjectHomePage({
   const rfis = rfisResult.data || [];
   const dailyLogs = dailyLogsResult.data || [];
   // Cast to expected format since commitments_unified is a view
-  const commitments = (commitmentsResult.data || []) as Array<{
+  const commitments = ((commitmentsResult.data || []) as unknown) as Array<{
     id: string;
     project_id: number;
     number: string;

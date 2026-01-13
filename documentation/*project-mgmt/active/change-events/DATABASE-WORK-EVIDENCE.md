@@ -443,7 +443,7 @@ LIMIT 10;
    - Automated application script (blocked by missing RPC)
    - Kept for reference
 
-3. **`documentation/1-project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`**
+3. **`documentation/*project-mgmt/in-progress/change-events/DATABASE-WORK-EVIDENCE.md`**
    - This file
    - Complete evidence of work performed
 
@@ -533,7 +533,7 @@ node --env-file=.env.local scripts/apply-change-events-rls.mjs
 
 ## References
 
-- **Skeptical Audit Report:** `documentation/1-project-mgmt/in-progress/change-events/SKEPTICAL-AUDIT-REPORT.md`
+- **Skeptical Audit Report:** `documentation/*project-mgmt/in-progress/change-events/SKEPTICAL-AUDIT-REPORT.md`
 - **Original Migration:** `frontend/drizzle/migrations/0001_create_change_events.sql`
 - **RLS Migration:** `supabase/migrations/20260110142750_add_change_events_rls.sql`
 - **Supabase Dashboard:** https://supabase.com/dashboard/project/lgveqfnpkxvzbnnwuled

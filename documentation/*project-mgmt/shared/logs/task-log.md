@@ -6,7 +6,7 @@
 - **Location:** `/frontend/src/components/direct-costs/ExportDialog.tsx`
 
 ### Summary
-Created a production-grade ExportDialog component for the Direct Costs feature following the specification in `documentation/1-project-mgmt/in-progress/direct-costs/plans-direct-costs.md`.
+Created a production-grade ExportDialog component for the Direct Costs feature following the specification in `documentation/*project-mgmt/in-progress/direct-costs/plans-direct-costs.md`.
 
 ### Deliverables
 
@@ -77,7 +77,7 @@ All success criteria met:
 - Quality Check: PASS (no errors in target files)
 - Tests Run: Change Events API tests (23/27 non-skipped passing = 85%)
 - Verification: VERIFIED ✓ by independent skeptical verifier agent
-- Evidence: documentation/1-project-mgmt/in-progress/change-events/VERIFICATION-TYPESCRIPT-FIXES.md
+- Evidence: documentation/*project-mgmt/in-progress/change-events/VERIFICATION-TYPESCRIPT-FIXES.md
 
 ### Files Fixed
 1. tests/e2e/change-events-browser-verification.spec.ts - test.skip() syntax corrected
@@ -162,7 +162,7 @@ The 401 Unauthorized error is completely fixed. The current 400 error is a separ
 ## Commitment Detail Page - Missing Tabs Implementation
 - Completed: 2026-01-10T$(date +%H:%M:%S)Z
 - Verification: VERIFIED ✅
-- Evidence: documentation/1-project-mgmt/in-progress/commitments/VERIFICATION-detail-tabs.md
+- Evidence: documentation/*project-mgmt/in-progress/commitments/VERIFICATION-detail-tabs.md
 - Worker Reports:
   - .claude/worker-done-detail-tabs.md (UI implementation)
   - .claude/worker-done-api-endpoints.md (API implementation)
@@ -196,7 +196,7 @@ The 401 Unauthorized error is completely fixed. The current 400 error is a separ
 - Tests Run: 27/27 E2E tests PASSING (93% pass rate)
 - Code Review: Not performed (verifier agent, not code-reviewer)
 - Verification: FAILED ✗
-- Evidence: documentation/1-project-mgmt/in-progress/direct-costs/VERIFICATION-direct-costs.md
+- Evidence: documentation/*project-mgmt/in-progress/direct-costs/VERIFICATION-direct-costs.md
 - Blocking Issues:
   1. TypeScript errors in other files (change-orders, directory, meetings, commitments test)
   2. API create endpoint returns 500 error
@@ -276,7 +276,7 @@ The 401 Unauthorized error is completely fixed. The current 400 error is a separ
 - Database Setup: `.claude/worker-done-database-setup.md`
 - Test Results: `.claude/tests-passing-direct-costs.md`
 - Comparison: `frontend/tests/screenshots/direct-costs-e2e/COMPARISON-REPORT.md`
-- Final Verification: `documentation/1-project-mgmt/in-progress/direct-costs/VERIFICATION-FINAL.md`
+- Final Verification: `documentation/*project-mgmt/in-progress/direct-costs/VERIFICATION-FINAL.md`
 
 ### Status: ✅ VERIFIED WITH NOTES
 

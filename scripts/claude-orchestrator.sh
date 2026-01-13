@@ -17,7 +17,7 @@ IFS=$'\n\t'
 CLAUDE_DIR=".claude"
 PROJECTS_DIR="$CLAUDE_DIR/projects"
 ACTIVE_SESSIONS_FILE="$CLAUDE_DIR/active-sessions.md"
-DOCS_DIR="documentation/1-project-mgmt/in-progress"
+DOCS_DIR="documentation/*project-mgmt/in-progress"
 
 # Colors
 RED='\033[0;31m'
@@ -178,7 +178,7 @@ start_session() {
 
 1. Start Claude Code in this terminal: \`claude\`
 2. Read the project's task file:
-   - \`documentation/1-project-mgmt/in-progress/$project/TASKS*.md\`
+   - \`documentation/*project-mgmt/in-progress/$project/TASKS*.md\`
 3. Work on the next uncompleted task
 4. Run quality checks after every change:
    \`\`\`bash

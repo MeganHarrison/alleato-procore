@@ -85,7 +85,7 @@ Extract from the user's command:
 Set up organized output directories:
 
 ```
-documentation/1-project-mgmt/in-progress/<feature-name>/
+documentation/*project-mgmt/in-progress/<feature-name>/
 ├── crawl-<feature-name>/
 │   ├── README.md
 │   ├── <FEATURE>-CRAWL-STATUS.md
@@ -109,7 +109,7 @@ Base it on the proven pattern from `crawl-direct-costs-comprehensive.js`:
 
 **Key Configuration:**
 ```javascript
-const OUTPUT_DIR = "./documentation/1-project-mgmt/in-progress/<feature-name>/procore-crawl-output";
+const OUTPUT_DIR = "./documentation/*project-mgmt/in-progress/<feature-name>/procore-crawl-output";
 const START_URL = "<provided-app-url>";
 const PROCORE_EMAIL = "bclymer@alleatogroup.com";
 const PROCORE_PASSWORD = "[from auth.json or .env]";
@@ -134,7 +134,7 @@ Base it on the proven pattern from `crawl-commitments-tutorials.js`:
 
 **Key Configuration:**
 ```javascript
-const OUTPUT_DIR = "./documentation/1-project-mgmt/in-progress/<feature-name>/procore-support-crawl";
+const OUTPUT_DIR = "./documentation/*project-mgmt/active/<feature-name>/procore-crawl";
 const START_URL = "<provided-support-url>";
 const WAIT_TIME = 2000;
 const maxPages = 100; // Comprehensive documentation crawl
@@ -292,8 +292,8 @@ CREATE TABLE <feature> (
 - Expandable sections: B
 
 ## Output Locations
-- App crawl: `documentation/1-project-mgmt/in-progress/<feature>/procore-crawl-output/`
-- Documentation crawl: `documentation/1-project-mgmt/in-progress/<feature>/procore-support-crawl/` (if applicable)
+- App crawl: `documentation/*project-mgmt/in-progress/<feature>/procore-crawl-output/`
+- Documentation crawl: `documentation/*project-mgmt/in-progress/<feature>/procore-support-crawl/` (if applicable)
 
 ## Next Steps for Implementation
 1. Review captured screenshots against requirements
@@ -389,7 +389,7 @@ If the crawler encounters issues:
 /feature-crawl submittals https://us02.procore.com/562949954728542/project/submittals
 
 # Agent performs:
-1. Creates: documentation/1-project-mgmt/in-progress/submittals/crawl-submittals/
+1. Creates: documentation/*project-mgmt/in-progress/submittals/crawl-submittals/
 2. Generates: scripts/screenshot-capture/scripts/crawl-submittals-comprehensive.js
 3. Executes app crawl (captures ~50 pages)
 4. Creates: SUBMITTALS-CRAWL-STATUS.md with app analysis
@@ -404,7 +404,7 @@ If the crawler encounters issues:
 /feature-crawl "Change Orders" "https://us02.procore.com/562949954728542/project/change_orders/list" "https://support.procore.com/products/online/user-guide/project-level/change-orders#chapt2"
 
 # Agent performs:
-1. Creates: documentation/1-project-mgmt/in-progress/change-orders/crawl-change-orders/
+1. Creates: documentation/*project-mgmt/in-progress/change-orders/crawl-change-orders/
 2. Generates: scripts/screenshot-capture/scripts/crawl-change-orders-comprehensive.js (app)
 3. Generates: scripts/screenshot-capture/scripts/crawl-change-orders-tutorials.js (docs)
 4. Executes app crawl (captures authenticated UI)

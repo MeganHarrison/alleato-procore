@@ -63,7 +63,7 @@ test.describe('Change Events Module - Browser Verification', () => {
     await page.waitForLoadState('domcontentloaded');
 
     // Take screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/change-events-list-page.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/change-events-list-page.png', fullPage: true });
 
     // Verify page loads without critical errors
     const errors: string[] = [];
@@ -126,7 +126,7 @@ test.describe('Change Events Module - Browser Verification', () => {
     await page.waitForLoadState('domcontentloaded');
 
     // Take screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/change-events-create-form.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/change-events-create-form.png', fullPage: true });
 
     console.log('✅ Step 3 PASSED: Navigated to create form');
   });
@@ -160,7 +160,7 @@ test.describe('Change Events Module - Browser Verification', () => {
     }
 
     // Take screenshot of form fields
-    await page.screenshot({ path: 'frontend/tests/screenshots/change-events-form-fields.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/change-events-form-fields.png', fullPage: true });
 
     // Verify at least Title field exists (minimum viable form)
     expect(foundFields).toContain('Title');
@@ -217,7 +217,7 @@ test.describe('Change Events Module - Browser Verification', () => {
     }
 
     // Take screenshot before submit
-    await page.screenshot({ path: 'frontend/tests/screenshots/change-events-form-filled.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/change-events-form-filled.png', fullPage: true });
 
     // Submit form
     const submitButton = page.locator('button[type="submit"], button').filter({ hasText: /Create|Save|Submit/i }).first();
@@ -256,7 +256,7 @@ test.describe('Change Events Module - Browser Verification', () => {
     await page.waitForTimeout(2000);
 
     // Take screenshot after submission
-    await page.screenshot({ path: 'frontend/tests/screenshots/change-events-after-create.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/change-events-after-create.png', fullPage: true });
 
     console.log('✅ Step 5 PASSED: Form submitted');
   });
@@ -276,7 +276,7 @@ test.describe('Change Events Module - Browser Verification', () => {
       await page.waitForTimeout(1000);
 
       // Take screenshot of detail view
-      await page.screenshot({ path: 'frontend/tests/screenshots/change-events-detail-view.png', fullPage: true });
+      await page.screenshot({ path: 'tests/screenshots/change-events-detail-view.png', fullPage: true });
 
       // Extract ID from URL if not already captured
       if (!createdChangeEventId) {
@@ -362,7 +362,7 @@ test.describe('Change Events Module - Browser Verification', () => {
     await page.waitForTimeout(2000);
 
     // Take screenshot
-    await page.screenshot({ path: 'frontend/tests/screenshots/change-events-after-edit.png', fullPage: true });
+    await page.screenshot({ path: 'tests/screenshots/change-events-after-edit.png', fullPage: true });
 
     console.log('✅ Step 8 PASSED: Edit form worked');
   });

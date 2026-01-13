@@ -22,11 +22,11 @@
 
 **👉 OPEN THIS FILE IN YOUR BROWSER:**
 ```
-file:///Users/meganharrison/Documents/github/alleato-procore/documentation/1-project-mgmt/verification-reports/direct-costs/index.html
+file:///Users/meganharrison/Documents/github/alleato-procore/documentation/*project-mgmt/verification-reports/direct-costs/index.html
 ```
 
 **OR:**
-1. Navigate to: `documentation/1-project-mgmt/verification-reports/direct-costs/`
+1. Navigate to: `documentation/*project-mgmt/verification-reports/direct-costs/`
 2. Double-click `index.html`
 3. Opens in your default browser
 
@@ -111,7 +111,7 @@ SELECT * FROM pg_policies WHERE tablename = 'direct_costs';
 All evidence is REAL and verifiable:
 
 ```
-documentation/1-project-mgmt/verification-reports/direct-costs/
+documentation/*project-mgmt/verification-reports/direct-costs/
 ├── index.html                          ← OPEN THIS
 ├── screenshots/
 │   ├── 01-list-page-load.png          ← REAL PNG ✅

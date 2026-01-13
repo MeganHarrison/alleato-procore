@@ -31,7 +31,7 @@ async function navigateToRecycleBin(page: Page, projectId: string = TEST_PROJECT
 // Helper function to take screenshots
 async function takeScreenshot(page: Page, name: string) {
   await page.screenshot({
-    path: `frontend/tests/screenshots/recycle-bin/${name}.png`,
+    path: `tests/screenshots/recycle-bin/${name}.png`,
     fullPage: true,
   });
 }

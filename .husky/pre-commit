@@ -37,7 +37,16 @@ if [ $? -ne 0 ]; then
   exit 1
 fi
 
-# 4. Run lint-staged to check and fix staged files
+# 4. Enforce Markdown location policy
+echo ""
+echo "🗂️  Enforcing Markdown location policy..."
+node scripts/validate-markdown-location.cjs
+if [ $? -ne 0 ]; then
+  echo "━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━"
+  exit 1
+fi
+
+# 5. Run lint-staged to check and fix staged files
 echo ""
 npx lint-staged
 

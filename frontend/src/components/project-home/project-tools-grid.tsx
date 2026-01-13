@@ -53,8 +53,8 @@ export function ProjectToolsGrid({
   title,
 }: ProjectToolsGridProps) {
   return (
-    <div className="bg-white rounded-md border border-gray-200 p-6">
-      <h3 className="text-sm font-semibold text-gray-900 mb-4">{title}</h3>
+    <div className="bg-background rounded-md border border-border p-6">
+      <h3 className="text-sm font-semibold text-foreground mb-4">{title}</h3>
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3">
         {tools.map((tool) => {
           const Icon = iconMap[tool.icon] || FileText;
@@ -65,20 +65,20 @@ export function ProjectToolsGrid({
               key={tool.id}
               href={href}
               className={cn(
-                "flex flex-col items-center gap-2 p-4 rounded-md border border-gray-100",
+                "flex flex-col items-center gap-2 p-4 rounded-md border border-border",
                 "hover:border-[hsl(var(--procore-orange))] hover:bg-orange-50/50 transition-colors",
                 "group",
               )}
             >
-              <div className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center group-hover:bg-[hsl(var(--procore-orange))]/10">
-                <Icon className="w-5 h-5 text-gray-600 group-hover:text-[hsl(var(--procore-orange))]" />
+              <div className="w-10 h-10 rounded-full bg-muted flex items-center justify-center group-hover:bg-[hsl(var(--procore-orange))]/10">
+                <Icon className="w-5 h-5 text-foreground group-hover:text-[hsl(var(--procore-orange))]" />
               </div>
               <div className="text-center">
-                <p className="text-sm font-medium text-gray-900 group-hover:text-[hsl(var(--procore-orange))]">
+                <p className="text-sm font-medium text-foreground group-hover:text-[hsl(var(--procore-orange))]">
                   {tool.name}
                 </p>
                 {tool.itemCount !== undefined && (
-                  <p className="text-xs text-gray-500">
+                  <p className="text-xs text-muted-foreground">
                     {tool.itemCount} items
                   </p>
                 )}

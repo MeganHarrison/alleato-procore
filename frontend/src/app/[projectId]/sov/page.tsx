@@ -323,9 +323,9 @@ export default function ProjectSOVPage() {
           <div className="overflow-x-auto">
             <Table>
               <TableHeader>
-                <TableRow className="bg-gray-50">
+                <TableRow className="bg-muted">
                   <TableHead
-                    className="cursor-pointer hover:bg-gray-100"
+                    className="cursor-pointer hover:bg-muted"
                     onClick={() => handleSort("contract")}
                   >
                     <div className="flex items-center gap-1">
@@ -334,7 +334,7 @@ export default function ProjectSOVPage() {
                     </div>
                   </TableHead>
                   <TableHead
-                    className="cursor-pointer hover:bg-gray-100 w-20"
+                    className="cursor-pointer hover:bg-muted w-20"
                     onClick={() => handleSort("line")}
                   >
                     <div className="flex items-center gap-1">
@@ -343,7 +343,7 @@ export default function ProjectSOVPage() {
                     </div>
                   </TableHead>
                   <TableHead
-                    className="cursor-pointer hover:bg-gray-100"
+                    className="cursor-pointer hover:bg-muted"
                     onClick={() => handleSort("cost_code")}
                   >
                     <div className="flex items-center gap-1">
@@ -352,7 +352,7 @@ export default function ProjectSOVPage() {
                     </div>
                   </TableHead>
                   <TableHead
-                    className="cursor-pointer hover:bg-gray-100"
+                    className="cursor-pointer hover:bg-muted"
                     onClick={() => handleSort("description")}
                   >
                     <div className="flex items-center gap-1">
@@ -361,7 +361,7 @@ export default function ProjectSOVPage() {
                     </div>
                   </TableHead>
                   <TableHead
-                    className="text-right cursor-pointer hover:bg-gray-100"
+                    className="text-right cursor-pointer hover:bg-muted"
                     onClick={() => handleSort("quantity")}
                   >
                     <div className="flex items-center justify-end gap-1">
@@ -371,7 +371,7 @@ export default function ProjectSOVPage() {
                   </TableHead>
                   <TableHead className="text-center">Unit</TableHead>
                   <TableHead
-                    className="text-right cursor-pointer hover:bg-gray-100"
+                    className="text-right cursor-pointer hover:bg-muted"
                     onClick={() => handleSort("unit_cost")}
                   >
                     <div className="flex items-center justify-end gap-1">
@@ -380,7 +380,7 @@ export default function ProjectSOVPage() {
                     </div>
                   </TableHead>
                   <TableHead
-                    className="text-right cursor-pointer hover:bg-gray-100"
+                    className="text-right cursor-pointer hover:bg-muted"
                     onClick={() => handleSort("total")}
                   >
                     <div className="flex items-center justify-end gap-1">
@@ -392,7 +392,7 @@ export default function ProjectSOVPage() {
               </TableHeader>
               <TableBody>
                 {allLineItems.map((item) => (
-                  <TableRow key={item.id} className="border-b hover:bg-gray-50">
+                  <TableRow key={item.id} className="border-b hover:bg-muted">
                     <TableCell>
                       <Link
                         href={`/${projectId}/contracts/${item.contract.id}`}
@@ -427,7 +427,7 @@ export default function ProjectSOVPage() {
                 ))}
               </TableBody>
               <tfoot>
-                <TableRow className="bg-gray-100 font-medium">
+                <TableRow className="bg-muted font-medium">
                   <TableCell colSpan={7}>Grand Total</TableCell>
                   <TableCell className="text-right">
                     {formatCurrency(totals.sov)}

@@ -139,7 +139,7 @@ export function CommittedCostsModal({
       size="xl"
     >
       {/* Tabs and Filter */}
-      <div className="border-b border-gray-200 px-6 py-2 bg-gray-50 flex-shrink-0">
+      <div className="border-b border-border px-6 py-2 bg-muted flex-shrink-0">
         <div className="flex items-center justify-between">
           <div className="flex gap-2">
             {tabs.map((tab) => (
@@ -152,8 +152,8 @@ export function CommittedCostsModal({
                 className={cn(
                   "px-4 py-2 text-sm font-medium rounded-md transition-all",
                   activeTab === tab.id
-                    ? "bg-white text-orange-600 shadow-sm border border-gray-200"
-                    : "text-gray-600 hover:text-gray-900 hover:bg-white/50",
+                    ? "bg-background text-orange-600 shadow-sm border border-border"
+                    : "text-foreground hover:text-foreground hover:bg-background/50",
                 )}
               >
                 {tab.label}
@@ -172,7 +172,7 @@ export function CommittedCostsModal({
                   "px-3 py-1 text-xs font-medium rounded-full transition-all",
                   typeFilter === type
                     ? "bg-orange-500 text-white"
-                    : "bg-gray-100 text-gray-600 hover:bg-gray-200",
+                    : "bg-muted text-foreground hover:bg-muted",
                 )}
               >
                 {type === "all"
@@ -187,21 +187,21 @@ export function CommittedCostsModal({
       </div>
 
       {/* Content */}
-      <SidebarBody className="bg-white">
+      <SidebarBody className="bg-background">
         {activeTab === "commitments" ? (
           <div className="p-6 space-y-5">
             {/* Total Summary */}
             <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-gradient-to-br from-blue-50 via-white to-white">
               <div className="flex items-center justify-between">
                 <div>
-                  <p className="text-sm text-gray-600">Total Committed Costs</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">
+                  <p className="text-sm text-foreground">Total Committed Costs</p>
+                  <p className="text-2xl font-bold text-foreground mt-1">
                     {formatCurrency(totalAmount)}
                   </p>
                 </div>
                 <div className="text-right">
-                  <p className="text-sm text-gray-600">Commitments</p>
-                  <p className="text-2xl font-bold text-gray-900 mt-1">
+                  <p className="text-sm text-foreground">Commitments</p>
+                  <p className="text-2xl font-bold text-foreground mt-1">
                     {commitments.length}
                   </p>
                 </div>
@@ -224,7 +224,7 @@ export function CommittedCostsModal({
             </div>
 
             {/* Commitments Table */}
-            <div className="overflow-x-auto scrollbar-hide rounded-xl border border-slate-200 shadow-sm bg-white">
+            <div className="overflow-x-auto scrollbar-hide rounded-xl border border-slate-200 shadow-sm bg-background">
               <table className="w-full text-sm">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
@@ -256,7 +256,7 @@ export function CommittedCostsModal({
                     <tr>
                       <td
                         colSpan={7}
-                        className="px-4 py-10 text-center text-gray-500"
+                        className="px-4 py-10 text-center text-muted-foreground"
                       >
                         Loading commitments...
                       </td>
@@ -265,7 +265,7 @@ export function CommittedCostsModal({
                     <tr>
                       <td
                         colSpan={7}
-                        className="px-4 py-10 text-center text-gray-500"
+                        className="px-4 py-10 text-center text-muted-foreground"
                       >
                         No committed costs found for this cost code.
                       </td>
@@ -282,16 +282,16 @@ export function CommittedCostsModal({
                         <td className="px-4 py-3">
                           {getTypeBadge(commitment.type)}
                         </td>
-                        <td className="px-4 py-3 text-gray-600 text-xs">
+                        <td className="px-4 py-3 text-foreground text-xs">
                           {commitment.vendor || "-"}
                         </td>
                         <td
-                          className="px-4 py-3 text-gray-700 max-w-xs truncate"
+                          className="px-4 py-3 text-foreground max-w-xs truncate"
                           title={commitment.description}
                         >
                           {commitment.description}
                         </td>
-                        <td className="px-4 py-3 text-right font-semibold tabular-nums text-gray-900">
+                        <td className="px-4 py-3 text-right font-semibold tabular-nums text-foreground">
                           {formatCurrency(commitment.amount)}
                         </td>
                         <td className="px-4 py-3 text-center">
@@ -300,10 +300,10 @@ export function CommittedCostsModal({
                               {commitment.changeOrders}
                             </span>
                           ) : (
-                            <span className="text-gray-400">-</span>
+                            <span className="text-muted-foreground">-</span>
                           )}
                         </td>
-                        <td className="px-4 py-3 text-gray-600">
+                        <td className="px-4 py-3 text-foreground">
                           {formatDate(commitment.executedDate)}
                         </td>
                       </tr>
@@ -315,28 +315,28 @@ export function CommittedCostsModal({
           </div>
         ) : (
           <div className="p-6 space-y-5">
-            <p className="text-sm text-gray-600">
+            <p className="text-sm text-foreground">
               Breakdown of committed costs by commitment type.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-white">
+              <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-background">
                 <div className="mb-2">{getTypeBadge("subcontract")}</div>
-                <p className="text-2xl font-bold text-gray-900 mt-2">
+                <p className="text-2xl font-bold text-foreground mt-2">
                   {formatCurrency(subcontractTotal)}
                 </p>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-foreground mt-1">
                   {subcontracts.length}{" "}
                   {subcontracts.length === 1 ? "subcontract" : "subcontracts"}
                 </p>
               </div>
 
-              <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-white">
+              <div className="rounded-xl border border-slate-200 shadow-sm p-5 bg-background">
                 <div className="mb-2">{getTypeBadge("purchase_order")}</div>
-                <p className="text-2xl font-bold text-gray-900 mt-2">
+                <p className="text-2xl font-bold text-foreground mt-2">
                   {formatCurrency(purchaseOrderTotal)}
                 </p>
-                <p className="text-sm text-gray-600 mt-1">
+                <p className="text-sm text-foreground mt-1">
                   {purchaseOrders.length}{" "}
                   {purchaseOrders.length === 1
                     ? "purchase order"

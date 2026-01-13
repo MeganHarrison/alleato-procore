@@ -95,7 +95,7 @@ export default function BillingPeriodsPage() {
   const [data, setData] = React.useState<BillingPeriod[]>(mockBillingPeriods);
 
   const statusColors: Record<string, string> = {
-    draft: "bg-gray-100 text-gray-700",
+    draft: "bg-muted text-foreground",
     open: "bg-blue-100 text-blue-700",
     locked: "bg-orange-100 text-orange-700",
     closed: "bg-green-100 text-green-700",
@@ -105,7 +105,7 @@ export default function BillingPeriodsPage() {
     invoiced: number,
     paid: number,
   ): { percentage: number; color: string } => {
-    if (invoiced === 0) return { percentage: 0, color: "bg-gray-200" };
+    if (invoiced === 0) return { percentage: 0, color: "bg-muted" };
     const percentage = (paid / invoiced) * 100;
     if (percentage === 100) return { percentage, color: "bg-green-500" };
     if (percentage >= 50) return { percentage, color: "bg-yellow-500" };
@@ -138,7 +138,7 @@ export default function BillingPeriodsPage() {
       cell: ({ row }) => (
         <div className="text-sm">
           <div>{new Date(row.getValue("startDate")).toLocaleDateString()}</div>
-          <div className="text-gray-500">
+          <div className="text-muted-foreground">
             to {new Date(row.original.endDate).toLocaleDateString()}
           </div>
         </div>
@@ -181,7 +181,7 @@ export default function BillingPeriodsPage() {
             <div className="text-sm font-medium">
               ${paid.toLocaleString()} / ${invoiced.toLocaleString()}
             </div>
-            <div className="w-full bg-gray-200 rounded-full h-2">
+            <div className="w-full bg-muted rounded-full h-2">
               <div
                 className={`${color} h-2 rounded-full transition-all`}
                 style={{ width: `${percentage}%` }}
@@ -262,8 +262,8 @@ export default function BillingPeriodsPage() {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">Billing Periods</h1>
-          <p className="text-sm text-gray-500 mt-1">
+          <h1 className="text-3xl font-bold text-foreground">Billing Periods</h1>
+          <p className="text-sm text-muted-foreground mt-1">
             Manage invoice billing periods and cycles
           </p>
         </div>
@@ -275,36 +275,36 @@ export default function BillingPeriodsPage() {
 
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-        <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm font-medium text-gray-500">Total Periods</div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">
+        <div className="bg-background rounded-lg border p-4">
+          <div className="text-sm font-medium text-muted-foreground">Total Periods</div>
+          <div className="text-2xl font-bold text-foreground mt-1">
             {data.length}
           </div>
         </div>
-        <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm font-medium text-gray-500">Open Periods</div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">
+        <div className="bg-background rounded-lg border p-4">
+          <div className="text-sm font-medium text-muted-foreground">Open Periods</div>
+          <div className="text-2xl font-bold text-foreground mt-1">
             {openPeriods.length}
           </div>
         </div>
-        <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm font-medium text-gray-500">
+        <div className="bg-background rounded-lg border p-4">
+          <div className="text-sm font-medium text-muted-foreground">
             Total Invoiced
           </div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">
+          <div className="text-2xl font-bold text-foreground mt-1">
             ${totalInvoiced.toLocaleString()}
           </div>
         </div>
-        <div className="bg-white rounded-lg border p-4">
-          <div className="text-sm font-medium text-gray-500">Outstanding</div>
-          <div className="text-2xl font-bold text-gray-900 mt-1">
+        <div className="bg-background rounded-lg border p-4">
+          <div className="text-sm font-medium text-muted-foreground">Outstanding</div>
+          <div className="text-2xl font-bold text-foreground mt-1">
             ${outstanding.toLocaleString()}
           </div>
         </div>
       </div>
 
       {/* Table */}
-      <div className="flex-1 bg-white rounded-lg border overflow-hidden">
+      <div className="flex-1 bg-background rounded-lg border overflow-hidden">
         <DataTable
           columns={columns}
           data={data}

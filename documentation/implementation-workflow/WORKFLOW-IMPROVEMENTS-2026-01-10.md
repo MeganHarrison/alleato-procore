@@ -126,7 +126,7 @@ Successfully implemented **strict gate enforcement** to solve the core problem o
 
 #### TASKS.md Updates
 
-**File:** `/documentation/1-project-mgmt/in-progress/change-events/TASKS.md`
+**File:** `/documentation/*project-mgmt/in-progress/change-events/TASKS.md`
 
 **Updates:**
 1. ✅ Gate Status sections filled in with timestamps and evidence
@@ -339,7 +339,7 @@ This is the **FIRST verified implementation** of the new gate enforcement rules.
    - Added Gate Enforcement rules (90 lines)
    - Added Parallel Agent Strategy (90 lines)
 
-2. `/Users/meganharrison/Documents/github/alleato-procore/documentation/1-project-mgmt/in-progress/change-events/TASKS.md`
+2. `/Users/meganharrison/Documents/github/alleato-procore/documentation/*project-mgmt/in-progress/change-events/TASKS.md`
    - Created comprehensive task tracking file
    - Added gate status sections with evidence
    - Added Verification Summary table

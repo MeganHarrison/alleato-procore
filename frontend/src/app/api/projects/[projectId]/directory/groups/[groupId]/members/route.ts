@@ -5,7 +5,7 @@ import { DistributionGroupService } from "@/services/distributionGroupService";
 import { PermissionService } from "@/services/permissionService";
 
 interface RouteParams {
-  params: Promise<{ id: string; groupId: string }>;
+  params: Promise<{ projectId: string; groupId: string }>;
 }
 
 /**
@@ -22,7 +22,7 @@ interface RouteParams {
  */
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
-    const { id: projectId, groupId } = await params;
+    const { projectId, groupId } = await params;
     const supabase = await createClient();
 
     // Check authentication

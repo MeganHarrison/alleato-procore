@@ -261,7 +261,7 @@ export default function BudgetSetupPage() {
     <Container size="lg" as="main" className="min-h-screen">
       <Stack gap="lg">
         {/* Header */}
-        <div className="border-b bg-white">
+        <div className="border-b bg-background">
           <Container>
             <Stack gap="md" className="py-4">
               <Button

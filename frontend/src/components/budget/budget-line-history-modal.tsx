@@ -98,7 +98,7 @@ export function BudgetLineHistoryModal({
 
   return (
     <BaseModal isOpen={open} onClose={onClose} title="Change History" size="md">
-      <ModalBody className="space-y-4 bg-white">
+      <ModalBody className="space-y-4 bg-background">
         <div className="rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 shadow-sm">
           <div className="text-xs uppercase tracking-[0.18em] text-slate-500">
             Line Item
@@ -111,7 +111,7 @@ export function BudgetLineHistoryModal({
 
         {loading && (
           <div className="flex items-center justify-center py-8">
-            <div className="text-sm text-gray-500">Loading history...</div>
+            <div className="text-sm text-muted-foreground">Loading history...</div>
           </div>
         )}
 
@@ -122,7 +122,7 @@ export function BudgetLineHistoryModal({
         )}
 
         {!loading && !error && history.length === 0 && (
-          <div className="text-center py-8 text-gray-500">
+          <div className="text-center py-8 text-muted-foreground">
             <p className="text-sm">No changes recorded yet</p>
           </div>
         )}
@@ -138,7 +138,7 @@ export function BudgetLineHistoryModal({
                     : entry.change_type === "delete"
                       ? "border-red-500/70"
                       : "border-blue-500/70"
-                } pl-4 pb-4 ${index < history.length - 1 ? "mb-1" : ""} rounded-lg bg-white shadow-[0_10px_30px_-24px_rgba(0,0,0,0.45)]`}
+                } pl-4 pb-4 ${index < history.length - 1 ? "mb-1" : ""} rounded-lg bg-background shadow-[0_10px_30px_-24px_rgba(0,0,0,0.45)]`}
               >
                 <div className="flex items-start gap-3">
                   <div
@@ -200,14 +200,14 @@ export function BudgetLineHistoryModal({
                     <div className="text-sm font-semibold text-slate-900">
                       {entry.changed_by.name}
                     </div>
-                    <div className="text-xs text-gray-500">
+                    <div className="text-xs text-muted-foreground">
                       {formatDistanceToNow(new Date(entry.changed_at), {
                         addSuffix: true,
                       })}
                     </div>
                     <div className="mt-2 text-sm">
                       {entry.change_type === "create" && (
-                        <span className="text-gray-700">
+                        <span className="text-foreground">
                           Created {formatFieldName(entry.field_name)}:{" "}
                           <span className="font-medium text-green-700">
                             {formatValue(entry.field_name, entry.new_value)}
@@ -215,12 +215,12 @@ export function BudgetLineHistoryModal({
                         </span>
                       )}
                       {entry.change_type === "delete" && (
-                        <span className="text-gray-700">
+                        <span className="text-foreground">
                           Deleted this line item
                         </span>
                       )}
                       {entry.change_type === "update" && (
-                        <span className="text-gray-700">
+                        <span className="text-foreground">
                           Changed {formatFieldName(entry.field_name)} from{" "}
                           <span className="line-through text-red-600">
                             {formatValue(entry.field_name, entry.old_value)}
@@ -233,7 +233,7 @@ export function BudgetLineHistoryModal({
                       )}
                     </div>
                     {entry.notes && (
-                      <div className="mt-1 text-xs text-gray-500">
+                      <div className="mt-1 text-xs text-muted-foreground">
                         Notes: {entry.notes}
                       </div>
                     )}

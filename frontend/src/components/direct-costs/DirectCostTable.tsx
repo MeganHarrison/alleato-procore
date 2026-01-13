@@ -435,11 +435,17 @@ export function DirectCostTable({
       {/* Summary Cards */}
       {summary && (
         <DirectCostSummaryCards
-          summary={summary}
-          projectId={projectId}
-          onCardClick={(filter: Partial<DirectCostListParams>) =>
-            fetchData(filter)
-          }
+          stats={{
+            total_costs: Object.values(summary.count_by_status).reduce((sum, count) => sum + count, 0),
+            draft_count: summary.count_by_status['Draft'] || 0,
+            approved_count: summary.count_by_status['Approved'] || 0,
+            pending_count: summary.count_by_status['Pending'] || 0,
+            total_amount: summary.total_amount,
+            avg_cost: Object.values(summary.count_by_status).reduce((sum, count) => sum + count, 0) > 0
+              ? summary.total_amount / Object.values(summary.count_by_status).reduce((sum, count) => sum + count, 0)
+              : 0,
+          }}
+          projectId={Number(projectId)}
         />
       )}
 

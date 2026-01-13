@@ -7,25 +7,19 @@ const baseUrl = process.env.PLAYWRIGHT_BASE_URL ??
   "http://localhost:3000";
 
 setup("authenticate", async ({ page }) => {
-  // Use dev-login for testing
-  await page.goto(
-    `${baseUrl}/dev-login?email=test@example.com&password=testpassword123`,
-  );
-
-  let authenticated = false;
-
   try {
-    await page.waitForURL(`${baseUrl}/`, { timeout: 10000 });
-    authenticated = true;
-  } catch (error) {
-    console.warn(
-      "Auth setup did not complete, continuing without auth state.",
-      error,
+    // Use dev-login for testing
+    await page.goto(
+      `${baseUrl}/dev-login?email=test@example.com&password=testpassword123`,
     );
-  }
 
-  if (authenticated) {
+    // Wait for redirect to home page (indicates successful login)
+    await page.waitForURL(`${baseUrl}/`, { timeout: 10000 });
+
+    // Wait for auth cookies to be set
     await page.waitForTimeout(1000);
+
+    // Verify we have auth cookies before saving state
     const cookies = await page.context().cookies();
     const authCookie = cookies.find((cookie) =>
       cookie.name.includes("auth-token"),
@@ -39,7 +33,11 @@ setup("authenticate", async ({ page }) => {
       cookieCount: cookies.length,
       hasAuthCookie: !!authCookie,
     });
-  }
 
-  await page.context().storageState({ path: authFile });
+    // Save signed-in state only when authenticated
+    await page.context().storageState({ path: authFile });
+  } catch (error) {
+    console.warn("Auth setup did not complete; skipping auth state save.", error);
+    throw error;
+  }
 });

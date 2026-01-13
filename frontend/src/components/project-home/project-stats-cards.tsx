@@ -127,7 +127,7 @@ export function ProjectStatsCards({ projectId }: ProjectStatsCardsProps) {
           <Card className="hover:shadow-md transition-shadow cursor-pointer h-full">
             <CardHeader className="pb-2">
               <div className="flex items-start justify-between">
-                <CardTitle className="text-sm font-medium text-gray-600">
+                <CardTitle className="text-sm font-medium text-foreground">
                   {stat.title}
                 </CardTitle>
                 <div
@@ -140,7 +140,7 @@ export function ProjectStatsCards({ projectId }: ProjectStatsCardsProps) {
             <CardContent>
               <div className="space-y-1">
                 <div className="flex items-baseline gap-2">
-                  <p className="text-2xl font-bold text-gray-900">
+                  <p className="text-2xl font-bold text-foreground">
                     {stat.value}
                   </p>
                   {stat.change && (
@@ -157,7 +157,7 @@ export function ProjectStatsCards({ projectId }: ProjectStatsCardsProps) {
                   )}
                 </div>
                 {stat.subValue && (
-                  <p className="text-sm text-gray-600">{stat.subValue}</p>
+                  <p className="text-sm text-foreground">{stat.subValue}</p>
                 )}
               </div>
             </CardContent>

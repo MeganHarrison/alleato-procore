@@ -5,7 +5,7 @@ import { ZodError } from 'zod';
 
 interface RouteParams {
   params: Promise<{
-    id: string;
+    projectId: string;
     changeEventId: string;
   }>;
 }
@@ -19,7 +19,7 @@ export async function GET(
   { params }: RouteParams
 ) {
   try {
-    const { id: projectId, changeEventId } = await params;
+    const { projectId, changeEventId } = await params;
     const supabase = await createClient();
 
     // Verify change event exists
@@ -129,7 +129,7 @@ export async function POST(
   { params }: RouteParams
 ) {
   try {
-    const { id: projectId, changeEventId } = await params;
+    const { projectId, changeEventId } = await params;
     const supabase = await createClient();
     const body = await request.json();
 
@@ -322,7 +322,7 @@ export async function PUT(
   { params }: RouteParams
 ) {
   try {
-    const { id: projectId, changeEventId } = await params;
+    const { projectId, changeEventId } = await params;
     const supabase = await createClient();
     const body = await request.json();
 

@@ -1,0 +1,20 @@
+{
+  "parentPage": "submittals-list-view",
+  "parentUrl": "https://us02.procore.com/webclients/host/companies/562949953443325/projects/562949954728542/tools/submittals?view=list",
+  "dropdownIndex": 2,
+  "menuItems": [
+    {
+      "text": "PDF",
+      "href": null
+    },
+    {
+      "text": "CSV",
+      "href": null
+    },
+    {
+      "text": "Excel",
+      "href": null
+    }
+  ],
+  "timestamp": "2026-01-11T07:11:33.967Z"
+}

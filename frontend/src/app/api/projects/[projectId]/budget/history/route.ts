@@ -3,7 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 
 interface HistoryParams {
   params: Promise<{
-    id: string;
+    projectId: string;
   }>;
 }
 
@@ -14,7 +14,7 @@ interface HistoryParams {
  */
 export async function GET(request: NextRequest, { params }: HistoryParams) {
   try {
-    const { id: projectId } = await params;
+    const { projectId } = await params;
     const supabase = await createClient();
 
     // Check authentication

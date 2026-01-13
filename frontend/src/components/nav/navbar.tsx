@@ -1,4 +1,3 @@
-import { cn } from '@/utils/cn'
 import React, { useEffect, useRef, useState } from 'react'
 import { twMerge } from 'tailwind-merge'
 
@@ -17,10 +16,10 @@ export const NavBar: React.FC<{ tabs: string[] }> = ({ tabs }) => {
   })
 
   const defaultSelectedTabStyles = [
-    '[&:nth-child(1)]:dark:bg-white [&:nth-child(1)]:bg-neutral-950',
-    '[&:nth-child(2)]:dark:bg-white [&:nth-child(2)]:bg-neutral-950',
-    '[&:nth-child(3)]:dark:bg-white [&:nth-child(3)]:bg-neutral-950',
-    '[&:nth-child(4)]:dark:bg-white [&:nth-child(4)]:bg-neutral-950'
+    '[&:nth-child(1)]:dark:bg-background [&:nth-child(1)]:bg-neutral-950',
+    '[&:nth-child(2)]:dark:bg-background [&:nth-child(2)]:bg-neutral-950',
+    '[&:nth-child(3)]:dark:bg-background [&:nth-child(3)]:bg-neutral-950',
+    '[&:nth-child(4)]:dark:bg-background [&:nth-child(4)]:bg-neutral-950'
   ]
 
   useEffect(() => {
@@ -69,7 +68,7 @@ export const NavBar: React.FC<{ tabs: string[] }> = ({ tabs }) => {
             className={twMerge(
               `transition-[color,left,width] duration-300 absolute top-1/2 -translate-y-1/2 h-full rounded-full -z-[1]`,
               //just skips animation on page load
-              fired.current ? 'dark:bg-white bg-neutral-950' : 'bg-transparent'
+              fired.current ? 'dark:bg-background bg-neutral-950' : 'bg-transparent'
             )}
           />
         </div>

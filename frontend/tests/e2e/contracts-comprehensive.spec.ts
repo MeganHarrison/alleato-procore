@@ -32,7 +32,7 @@ async function navigateToContracts(page: Page, projectId: string = TEST_PROJECT_
 // Helper function to take screenshots
 async function takeScreenshot(page: Page, name: string) {
   await page.screenshot({
-    path: `frontend/tests/screenshots/contracts-e2e/${name}.png`,
+    path: `tests/screenshots/contracts-e2e/${name}.png`,
     fullPage: true,
   });
 }

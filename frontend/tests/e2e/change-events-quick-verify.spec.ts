@@ -50,7 +50,7 @@ test.describe('Change Events - Quick Verification', () => {
 
     // Take screenshot for documentation
     await page.screenshot({
-      path: 'frontend/tests/screenshots/change-events/quick-verify-list-page.png',
+      path: 'tests/screenshots/change-events/quick-verify-list-page.png',
       fullPage: true
     });
   });
@@ -80,7 +80,7 @@ test.describe('Change Events - Quick Verification', () => {
 
     // Take screenshot for documentation
     await page.screenshot({
-      path: 'frontend/tests/screenshots/change-events/quick-verify-create-form.png',
+      path: 'tests/screenshots/change-events/quick-verify-create-form.png',
       fullPage: true
     });
   });

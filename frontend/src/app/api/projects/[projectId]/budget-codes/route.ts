@@ -44,13 +44,13 @@ const formatBudgetCode = (options: {
 
 export async function GET(
   _request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = Number.parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = Number.parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -72,7 +72,7 @@ export async function GET(
           cost_code_types ( code, description )
         `,
         )
-        .eq("project_id", projectId)
+        .eq("project_id", projectIdNum)
         .eq("is_active", true)
         .order("cost_code_id", { ascending: true });
 
@@ -128,13 +128,13 @@ export async function GET(
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
+  { params }: { params: Promise<{ projectId: string }> },
 ) {
   try {
-    const { id } = await params;
-    const projectId = Number.parseInt(id, 10);
+    const { projectId } = await params;
+    const projectIdNum = Number.parseInt(projectId, 10);
 
-    if (Number.isNaN(projectId)) {
+    if (Number.isNaN(projectIdNum)) {
       return NextResponse.json(
         { error: "Invalid project ID" },
         { status: 400 },
@@ -194,7 +194,7 @@ export async function POST(
     const { data: newProjectBudgetCode, error: insertError } = await supabase
       .from("project_budget_codes")
       .insert({
-        project_id: projectId,
+        project_id: projectIdNum,
         cost_code_id,
         cost_type_id: costTypeUuid,
         description: description || "",
