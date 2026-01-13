@@ -109,7 +109,6 @@ export class CompanyService {
     const offset = (page - 1) * per_page;
 
     // First, get the project companies with their base company data
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     let query = (this.supabase as any)
       .from("project_companies")
       .select(
@@ -223,7 +222,6 @@ export class CompanyService {
     const projectIdNum = Number.parseInt(projectId, 10);
 
     // Get the project company with joined data
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data, error } = await (this.supabase as any)
       .from("project_companies")
       .select(
@@ -343,7 +341,6 @@ export class CompanyService {
 
     if (Object.keys(globalFields).length > 0) {
       // Get the company_id first
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { data: pc } = await (this.supabase as any)
         .from("project_companies")
         .select("company_id")
@@ -376,7 +373,6 @@ export class CompanyService {
     if (data.logo_url !== undefined) projectFields.logo_url = data.logo_url;
 
     if (Object.keys(projectFields).length > 0) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { error } = await (this.supabase as any)
         .from("project_companies")
         .update(projectFields)
@@ -468,7 +464,6 @@ export class CompanyService {
   ): Promise<{ canRemove: boolean; reason?: string }> {
     const projectIdNum = Number.parseInt(projectId, 10);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data } = await (this.supabase as any)
       .from("project_companies")
       .select("primary_contact_id")
@@ -504,7 +499,6 @@ export class CompanyService {
       .single();
 
     // Get the project company to find the global company_id
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: pc } = await (this.supabase as any)
       .from("project_companies")
       .select("company_id")
@@ -516,7 +510,6 @@ export class CompanyService {
     }
 
     // Update primary contact
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (this.supabase as any)
       .from("project_companies")
       .update({ primary_contact_id: personId })

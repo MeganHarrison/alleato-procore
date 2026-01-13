@@ -83,7 +83,6 @@ export function AttachmentsTab({ commitmentId }: AttachmentsTabProps) {
 
   // Handle file delete
   const handleDelete = async (attachmentId: string) => {
-    // eslint-disable-next-line no-alert
     if (!window.confirm("Are you sure you want to delete this attachment?")) {
       return;
     }

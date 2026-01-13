@@ -263,7 +263,6 @@ export default function MonitoringPage() {
                               stats.percentage >= 40 ? "bg-yellow-600" :
                               "bg-red-600"
                             )}
-                            // eslint-disable-next-line react/forbid-dom-props
                             style={{ width: `${stats.percentage}%` }}
                             role="progressbar"
                             aria-valuenow={stats.percentage}

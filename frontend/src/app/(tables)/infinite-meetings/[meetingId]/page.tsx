@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { PageHeader } from "@/components/design-system";
+import { PageHeader } from "@/components/layout";
 import {
   ArrowLeft,
   Calendar,
@@ -33,7 +33,6 @@ export default function MeetingDetailPage() {
 
   useEffect(() => {
     fetchMeetingData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [params.meetingId]);
 
   const fetchMeetingData = async () => {

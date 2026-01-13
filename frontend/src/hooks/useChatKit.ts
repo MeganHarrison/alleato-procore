@@ -58,13 +58,11 @@ export function useChatKit(options: UseChatKitOptions): UseChatKitReturn {
 
   const methods: ChatKitMethods = React.useMemo(() => {
     return CHATKIT_METHOD_NAMES.reduce((acc, key) => {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       acc[key] = (...args: any[]) => {
         if (!ref.current) {
           console.warn("ChatKit element is not mounted");
           return;
         }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         return (ref.current as any)[key](...args);
       };
       return acc;

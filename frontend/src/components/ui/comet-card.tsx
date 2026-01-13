@@ -1,4 +1,3 @@
-/* eslint-disable design-system/no-hardcoded-colors, design-system/no-arbitrary-spacing */
 "use client";
 import React, { useRef } from "react";
 import {

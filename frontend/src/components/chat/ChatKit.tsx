@@ -54,7 +54,6 @@ export const ChatKit = React.forwardRef<HTMLElement, ChatKitProps>(
           (e) => {
             const handler = control.handlers[events[eventName]];
             if (typeof handler === "function") {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
               handler(e.detail as any);
             }
           },

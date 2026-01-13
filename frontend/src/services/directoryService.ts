@@ -531,7 +531,6 @@ export class DirectoryService {
     }
 
     // Get override permissions
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { data: overrides, error } = await (this.supabase as any)
       .from("user_permissions")
       .select("*")
@@ -582,7 +581,6 @@ export class DirectoryService {
     const projectIdNum = Number.parseInt(projectId, 10);
 
     // Delete existing overrides
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     await (this.supabase as any)
       .from("user_permissions")
       .delete()
@@ -591,7 +589,6 @@ export class DirectoryService {
 
     // Insert new overrides
     if (permissions.length > 0) {
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       const { error } = await (this.supabase as any)
         .from("user_permissions")
         .insert(
@@ -628,7 +625,6 @@ export class DirectoryService {
   ): Promise<void> {
     const projectIdNum = Number.parseInt(projectId, 10);
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const { error } = await (this.supabase as any)
       .from("user_activity_log")
       .insert({

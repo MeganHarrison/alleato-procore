@@ -48,7 +48,6 @@ export default function DirectCostDetailPage({ params }: DirectCostDetailPagePro
     if (resolvedParams) {
       fetchDirectCost()
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [resolvedParams?.costId])
 
   const fetchDirectCost = async () => {

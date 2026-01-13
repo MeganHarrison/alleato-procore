@@ -48,7 +48,6 @@ export interface EditableColumn<T> {
   width?: string;
   editable?: boolean;
   sortable?: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any -- Consumer knows the specific type for each column
   render?: (value: any, row: T) => React.ReactNode;
   selectOptions?: { value: string; label: string }[];
   /** Used for card/list view to determine which column is the primary display */
