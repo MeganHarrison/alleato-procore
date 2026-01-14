@@ -1,3 +1,6 @@
 [submodule "mcp-crawl4ai-rag"]
 	path = backend/crawl4ai-rag/mcp-crawl4ai-rag
 	url = https://github.com/coleam00/mcp-crawl4ai-rag.git
+[submodule "apps/docs"]
+	path = apps/docs
+	url = https://github.com/MeganHarrison/alleato-pm-documentation.git
