@@ -7,11 +7,11 @@ import { Stack } from "@/components/ui/stack";
 import { Inline } from "@/components/ui/inline";
 import { Text } from "@/components/ui/text";
 import { UomSelect } from "./UomSelect";
-import { BudgetCodeSelector } from "@/app/[projectId]/budget/setup/components";
+import { BudgetCodeSelector } from "@/app/(main)/[projectId]/budget/setup/components";
 import type {
   BudgetLineItem,
   ProjectCostCode,
-} from "@/app/[projectId]/budget/setup/types";
+} from "@/app/(main)/[projectId]/budget/setup/types";
 
 interface BudgetLineItemCardProps {
   item: BudgetLineItem;

@@ -126,7 +126,7 @@ export default function InvoiceDetailPage() {
   const handleDelete = async () => {
     if (!invoice) return;
 
-    // eslint-disable-next-line no-alert
+     
     const confirmed = window.confirm(
       `Are you sure you want to delete invoice ${invoice.invoice_number || invoice.id}?`,
     );

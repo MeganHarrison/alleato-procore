@@ -11,7 +11,7 @@ import { BudgetLineItemCard } from "./BudgetLineItemCard";
 import type {
   BudgetLineItem,
   ProjectCostCode,
-} from "@/app/[projectId]/budget/setup/types";
+} from "@/app/(main)/[projectId]/budget/setup/types";
 
 interface BudgetLineItemTableProps {
   lineItems: BudgetLineItem[];

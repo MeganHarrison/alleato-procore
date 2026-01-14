@@ -105,7 +105,7 @@ export default function ProjectInvoicingPage() {
 
   const handleDelete = useCallback(
     async (invoice: OwnerInvoice) => {
-      // eslint-disable-next-line no-alert
+       
       const confirmed = window.confirm(
         `Are you sure you want to delete invoice ${invoice.invoice_number || invoice.id}?`,
       );

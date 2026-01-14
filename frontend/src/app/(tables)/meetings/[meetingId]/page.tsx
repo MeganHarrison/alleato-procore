@@ -13,7 +13,7 @@ import {
   Sparkles,
 } from 'lucide-react'
 import { SectionHeader } from '@/components/design-system'
-import { FormattedTranscript } from '@/app/[projectId]/meetings/formatted-transcript'
+import { FormattedTranscript } from '@/app/(main)/[projectId]/meetings/formatted-transcript'
 import type { Database } from '@/types/database.types'
 import { DashboardLayout } from '@/components/layouts'
 import { PageHeader } from '@/components/layout'

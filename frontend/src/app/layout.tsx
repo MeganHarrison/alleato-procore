@@ -5,7 +5,6 @@ import { QueryProvider } from "@/components/providers/query-provider";
 import { HeaderProvider } from "@/components/layout/header-context";
 import { ProjectProvider } from "@/contexts/project-context";
 import { FavoritesProvider } from "@/contexts/favorites-context";
-import { ConditionalLayout } from "@/components/layout/conditional-layout";
 import { Toaster } from "@/components/ui/sonner";
 import { AIChatWidget } from "@/components/chat/ai-chat-widget";
 import { DocsChat } from "@/components/procore-docs/docs-chat";
@@ -48,7 +47,7 @@ export default function RootLayout({
               <ProjectProvider>
                 <FavoritesProvider>
                   <HeaderProvider>
-                    <ConditionalLayout>{children}</ConditionalLayout>
+                    {children}
                   </HeaderProvider>
                 </FavoritesProvider>
               </ProjectProvider>

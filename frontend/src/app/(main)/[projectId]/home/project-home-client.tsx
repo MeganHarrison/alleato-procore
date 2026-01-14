@@ -36,9 +36,6 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import { ProjectSidebar } from "./project-sidebar";
 import { InfoSection } from "./info-section";
 import { InlineTeamMemberForm } from "@/components/project-home/inline-team-member-form";
-import { PageHeader } from "@/components/design-system/page-header";
-import { SectionCard } from "@/components/design-system/section-card";
-import { SectionHeader } from "@/components/design-system/section-header";
 
 interface TeamMember {
   name: string;
@@ -121,91 +118,6 @@ const financialManagementTools: ToolLink[] = [
   { name: "Invoices", href: "/invoices" },
   { name: "Budget", href: "/budget", hasCreateAction: true },
 ];
-
-function ProjectToolsDropdown({
-  projectId,
-  currentTool,
-  onSelectTool,
-}: {
-  projectId: number;
-  currentTool: string;
-  onSelectTool: (name: string) => void;
-}) {
-  return (
-    <DropdownMenu>
-      <DropdownMenuTrigger asChild>
-        <Button variant="secondary" size="sm" className="inline-flex items-center gap-2">
-          <span className="text-sm font-medium">{currentTool}</span>
-          <ChevronDown className="h-4 w-4" />
-        </Button>
-      </DropdownMenuTrigger>
-      <DropdownMenuContent
-        align="end"
-        className="w-screen max-w-4xl rounded-lg border border-border bg-background p-4 shadow-lg"
-      >
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
-          <div>
-            <p className="text-kicker">Core Tools</p>
-            <div className="mt-3 space-y-1">
-              {coreTools.map((tool) => (
-                <Link
-                  key={tool.name}
-                  href={`/${projectId}${tool.href}`}
-                  onClick={() => onSelectTool(tool.name)}
-                  className="flex items-center justify-between rounded px-3 py-2 text-sm text-neutral-900 transition-colors hover:bg-neutral-100"
-                >
-                  <span>{tool.name}</span>
-                  {tool.badge && (
-                    <span className="rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
-                      {tool.badge}
-                    </span>
-                  )}
-                </Link>
-              ))}
-            </div>
-          </div>
-          <div>
-            <p className="text-kicker">Project Management</p>
-            <div className="mt-3 space-y-1">
-              {projectManagementTools.map((tool) => (
-                <Link
-                  key={tool.name}
-                  href={`/${projectId}${tool.href}`}
-                  onClick={() => onSelectTool(tool.name)}
-                  className="flex items-center gap-2 rounded px-3 py-2 text-sm text-neutral-900 transition-colors hover:bg-neutral-100"
-                >
-                  {tool.isFavorite && <Star className="h-3.5 w-3.5 text-neutral-400" />}
-                  <span className="flex-1">{tool.name}</span>
-                  {tool.hasCreateAction && (
-                    <Plus className="h-4 w-4 rounded-full bg-brand text-white" />
-                  )}
-                </Link>
-              ))}
-            </div>
-          </div>
-          <div>
-            <p className="text-kicker">Financial Management</p>
-            <div className="mt-3 space-y-1">
-              {financialManagementTools.map((tool) => (
-                <Link
-                  key={tool.name}
-                  href={`/${projectId}${tool.href}`}
-                  onClick={() => onSelectTool(tool.name)}
-                  className="flex items-center gap-2 rounded px-3 py-2 text-sm text-neutral-900 transition-colors hover:bg-neutral-100"
-                >
-                  <span className="flex-1">{tool.name}</span>
-                  {tool.hasCreateAction && (
-                    <Plus className="h-4 w-4 rounded-full bg-brand text-white" />
-                  )}
-                </Link>
-              ))}
-            </div>
-          </div>
-        </div>
-      </DropdownMenuContent>
-    </DropdownMenu>
-  );
-}
 
 export function ProjectHomeClient({
   project,
@@ -342,128 +254,235 @@ export function ProjectHomeClient({
 
   return (
     <SidebarProvider>
-      <div>
+      <div className="flex min-h-screen w-full">
         <div className="flex-1 overflow-auto">
-          <div className="page-container">
-            <PageHeader
-              client={project.client || ""}
-              title={project.name || project["job number"]}
-              actions={
-                <ProjectToolsDropdown
-                  projectId={project.id}
-                  currentTool={currentTool}
-                  onSelectTool={setCurrentTool}
-                />
-              }
-            />
+          <div className="min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-2 sm:py-6 max-w-[1800px] mx-auto">
+            {/* Header Section - Refined Architectural Hierarchy */}
+            <header className="mb-4 sm:mb-6">
+              {/* Client Pre-heading */}
+              <div className="mb-1 sm:mb-2">
+                <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-neutral-400">
+                  {project.client || ""}
+                </p>
+              </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 section-spacing">
+              {/* Project Title - Editorial Typography with Enhanced Scale */}
+              <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
+                <h1>{project.name || project["job number"]}</h1>
+
+                {/* Project Tools Dropdown */}
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button className="h-8 rounded-sm justify-between px-4 bg-brand text-white hover:bg-brand/90 transition-colors md:w-auto md:justify-center">
+                      <span className="text-sm font-medium">{currentTool}</span>
+                      <ChevronDown className="h-4 w-4 ml-2" />
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent
+                    align="end"
+                    className="w-[calc(100vw-2rem)] sm:w-screen sm:max-w-4xl rounded-lg border-neutral-200 p-4 sm:p-8 shadow-lg max-h-[80vh] overflow-y-auto"
+                  >
+                    <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-12">
+                      {/* Core Tools */}
+                      <div>
+                        <h3 className="mb-4 text-xs font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                          Core Tools
+                        </h3>
+                        <div className="space-y-1">
+                          {coreTools.map((tool) => (
+                            <Link
+                              key={tool.name}
+                              href={`/${project.id}${tool.href}`}
+                              onClick={() => setCurrentTool(tool.name)}
+                              className="flex w-full items-center justify-between rounded px-3 py-2 text-left text-sm hover:bg-neutral-100 transition-colors"
+                            >
+                              <span className="text-neutral-900">
+                                {tool.name}
+                              </span>
+                              {tool.badge && (
+                                <span className="rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
+                                  {tool.badge}
+                                </span>
+                              )}
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Project Management */}
+                      <div>
+                        <h3 className="mb-4 text-xs font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                          Project Management
+                        </h3>
+                        <div className="space-y-1">
+                          {projectManagementTools.map((tool) => (
+                            <Link
+                              key={tool.name}
+                              href={`/${project.id}${tool.href}`}
+                              onClick={() => setCurrentTool(tool.name)}
+                              className="flex w-full items-center rounded px-3 py-2 text-left text-sm hover:bg-neutral-100 transition-colors"
+                            >
+                              <span className="flex items-center gap-2 text-neutral-900">
+                                {tool.isFavorite && (
+                                  <Star className="h-3.5 w-3.5 text-neutral-400" />
+                                )}
+                                {tool.name}
+                                {tool.hasCreateAction && (
+                                  <Plus className="ml-1 h-4 w-4 rounded-full bg-orange-500 p-0.5 text-white" />
+                                )}
+                              </span>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+
+                      {/* Financial Management */}
+                      <div>
+                        <h3 className="mb-4 text-xs font-semibold tracking-[0.15em] uppercase text-neutral-500">
+                          Financial Management
+                        </h3>
+                        <div className="space-y-1">
+                          {financialManagementTools.map((tool) => (
+                            <Link
+                              key={tool.name}
+                              href={`/${project.id}${tool.href}`}
+                              onClick={() => setCurrentTool(tool.name)}
+                              className="flex w-full items-center rounded px-3 py-2 text-left text-sm hover:bg-neutral-100 transition-colors"
+                            >
+                              <span className="flex items-center gap-2 text-neutral-900">
+                                {tool.name}
+                                {tool.hasCreateAction && (
+                                  <Plus className="ml-1 h-4 w-4 rounded-full bg-orange-500 p-0.5 text-white" />
+                                )}
+                              </span>
+                            </Link>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              </div>
+            </header>
+
+            {/* 2 Columns */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
+              {/* Project Summary */}
               <div>
                 <EditableSummary
                   summary={project.summary || "No project summary available."}
                   onSave={handleSaveSummary}
                 />
               </div>
-              <SectionCard
-                header={
-                  <div className="flex items-center justify-between">
-                    <SectionHeader>Project Team</SectionHeader>
-                    <div className="flex items-center gap-2">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => setShowAddTeamMemberForm(true)}
-                        className="inline-add-button"
-                      >
-                        <Plus className="h-3.5 w-3.5" />
-                        Add
-                      </Button>
-                      <Link
-                        href={`/${project.id}/directory/users`}
-                        className="text-xs font-medium text-muted-foreground transition-colors hover:text-foreground"
-                      >
-                        View All
-                      </Link>
-                      <CollapsibleTrigger asChild>
-                        <Button variant="ghost" size="icon" className="text-muted-foreground">
-                          {isTeamOpen ? (
-                            <ChevronUp className="h-3.5 w-3.5" />
-                          ) : (
-                            <ChevronDown className="h-3.5 w-3.5" />
-                          )}
-                          <span className="sr-only">Toggle team</span>
-                        </Button>
-                      </CollapsibleTrigger>
+
+              {/* Project Team */}
+              <div className="rounded-sm border border-neutral-200 bg-background mb-6">
+                <Collapsible open={isTeamOpen} onOpenChange={setIsTeamOpen}>
+                  <div className="px-8 py-6 pb-4 border-b border-neutral-100">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
+                        Project Team
+                      </h3>
+                      <div className="flex items-center gap-3">
+                        <button
+                          type="button"
+                          onClick={() => setShowAddTeamMemberForm(true)}
+                          className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                        >
+                          <Plus className="h-3.5 w-3.5" />
+                          Add
+                        </button>
+                        <span className="text-neutral-300">|</span>
+                        <Link
+                          href={`/${project.id}/directory/users`}
+                          className="text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
+                        >
+                          View All
+                        </Link>
+                        <CollapsibleTrigger asChild>
+                          <button
+                            type="button"
+                            className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200"
+                          >
+                            {isTeamOpen ? (
+                              <ChevronUp className="h-3.5 w-3.5" />
+                            ) : (
+                              <ChevronDown className="h-3.5 w-3.5" />
+                            )}
+                            <span className="sr-only">Toggle team</span>
+                          </button>
+                        </CollapsibleTrigger>
+                      </div>
                     </div>
                   </div>
-                }
-              >
-                <Collapsible open={isTeamOpen} onOpenChange={setIsTeamOpen}>
                   <CollapsibleContent>
-                    <div className="space-y-4">
-                      {project.team_members &&
-                      Array.isArray(project.team_members) &&
-                      project.team_members.length > 0 ? (
-                        project.team_members.map((member, index) => {
-                          const memberName =
-                            typeof member === "string"
-                              ? member
-                              : (member as Record<string, unknown>)?.name ||
-                                "Team Member";
-                          const memberRole =
-                            typeof member === "object" &&
-                            member !== null &&
-                            (member as Record<string, unknown>)?.role
-                              ? (member as Record<string, unknown>).role
-                              : "Role not specified";
-                          const initials =
-                            typeof member === "string"
-                              ? member.substring(0, 2).toUpperCase()
-                              : "TM";
+                    <div className="px-8">
+                      <div className="space-y-4">
+                        {project.team_members &&
+                        Array.isArray(project.team_members) &&
+                        project.team_members.length > 0 ? (
+                          project.team_members.map((member, index) => {
+                            const memberName =
+                              typeof member === "string"
+                                ? member
+                                : (member as Record<string, unknown>)?.name ||
+                                  "Team Member";
+                            const memberRole =
+                              typeof member === "object" &&
+                              member !== null &&
+                              (member as Record<string, unknown>)?.role
+                                ? (member as Record<string, unknown>).role
+                                : "Role not specified";
+                            const initials =
+                              typeof member === "string"
+                                ? member.substring(0, 2).toUpperCase()
+                                : "TM";
 
-                          return (
-                            <div
-                              key={`team-${project.id}-${index}`}
-                              className="flex items-center gap-4 pb-4 border-b border-neutral-100 last:border-0 last:pb-0"
-                            >
-                              <Avatar className="h-10 w-10 border border-neutral-200">
-                                <AvatarFallback className="bg-neutral-100 text-neutral-600 text-xs font-medium">
-                                  {initials}
-                                </AvatarFallback>
-                              </Avatar>
-                              <div className="flex-1 min-w-0">
-                                <p className="font-medium text-sm text-neutral-900 truncate">
-                                  {String(memberName)}
-                                </p>
-                                <p className="text-xs text-neutral-500 truncate">
-                                  {String(memberRole)}
-                                </p>
+                            return (
+                              <div
+                                key={`team-${project.id}-${index}`}
+                                className="flex items-center gap-4 pb-4 border-b border-neutral-100 last:border-0 last:pb-0"
+                              >
+                                <Avatar className="h-10 w-10 border border-neutral-200">
+                                  <AvatarFallback className="bg-neutral-100 text-neutral-600 text-xs font-medium">
+                                    {initials}
+                                  </AvatarFallback>
+                                </Avatar>
+                                <div className="flex-1 min-w-0">
+                                  <p className="font-medium text-sm text-neutral-900 truncate">
+                                    {String(memberName)}
+                                  </p>
+                                  <p className="text-xs text-neutral-500 truncate">
+                                    {String(memberRole)}
+                                  </p>
+                                </div>
                               </div>
-                            </div>
-                          );
-                        })
-                      ) : showAddTeamMemberForm ? (
-                        <InlineTeamMemberForm
-                          projectId={project.id}
-                          existingMembers={parseTeamMembers()}
-                          onSave={handleSaveTeamMembers}
-                          onCancel={() => setShowAddTeamMemberForm(false)}
-                          directoryUrl={`/${project.id}/directory/users`}
-                        />
-                      ) : (
-                        <div className="text-center py-12">
-                          <p className="text-sm text-neutral-400 mb-2">
-                            No team members
-                          </p>
-                          <Button
-                            variant="link"
-                            onClick={() => setShowAddTeamMemberForm(true)}
-                            className="text-xs text-brand hover:text-brand/80"
-                          >
-                            Click here to assign team
-                          </Button>
-                        </div>
-                      )}
+                            );
+                          })
+                        ) : showAddTeamMemberForm ? (
+                          <InlineTeamMemberForm
+                            projectId={project.id}
+                            existingMembers={parseTeamMembers()}
+                            onSave={handleSaveTeamMembers}
+                            onCancel={() => setShowAddTeamMemberForm(false)}
+                            directoryUrl={`/${project.id}/directory/users`}
+                          />
+                        ) : (
+                          <div className="text-center py-12">
+                            <p className="text-sm text-neutral-400 mb-2">
+                              No team members
+                            </p>
+                            <button
+                              type="button"
+                              onClick={() => setShowAddTeamMemberForm(true)}
+                              className="text-xs text-brand hover:text-brand/80 underline transition-colors"
+                            >
+                              Click here to assign team
+                            </button>
+                          </div>
+                        )}
+                      </div>
+                      {/* Show inline form below existing members when there are members */}
                       {project.team_members &&
                         Array.isArray(project.team_members) &&
                         project.team_members.length > 0 &&
@@ -481,16 +500,16 @@ export function ProjectHomeClient({
                     </div>
                   </CollapsibleContent>
                 </Collapsible>
-              </SectionCard>
+              </div>
             </div>
 
             {/* Prime Contracts */}
-            <section className="section-card section-spacing">
+            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
               <Collapsible
                 open={isContractsOpen}
                 onOpenChange={setIsContractsOpen}
               >
-                <div className="px-4 py-4 border-b border-neutral-100 sm:px-6 sm:py-5">
+                <div className="px-8 py-6 pb-4 border-b border-neutral-100">
                   <div className="flex items-center justify-between">
                     <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
                       Prime Contracts
@@ -498,7 +517,7 @@ export function ProjectHomeClient({
                     <div className="flex items-center gap-3">
                       <Link
                         href={`/${project.id}/contracts/new`}
-                        className="btn-add-inline"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
                       >
                         <Plus className="h-3.5 w-3.5" />
                         Add
@@ -527,7 +546,7 @@ export function ProjectHomeClient({
                   </div>
                 </div>
                 <CollapsibleContent>
-                  <div className="px-4 py-4 sm:px-6">
+                  <div className="px-8 py-4">
                     <div className="space-y-4">
                       {contracts.length > 0 ? (
                         contracts.map((contract) => {
@@ -591,15 +610,15 @@ export function ProjectHomeClient({
                   </div>
                 </CollapsibleContent>
               </Collapsible>
-            </section>
+            </div>
 
             {/* Commitments */}
-            <section className="section-card section-spacing">
+            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
               <Collapsible
                 open={isCommitmentsOpen}
                 onOpenChange={setIsCommitmentsOpen}
               >
-                <div className="px-4 py-4 border-b border-neutral-100 sm:px-6 sm:py-5">
+                <div className="px-8 py-6 pb-4 border-b border-neutral-100">
                   <div className="flex items-center justify-between">
                     <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
                       Commitments
@@ -607,7 +626,7 @@ export function ProjectHomeClient({
                     <div className="flex items-center gap-3">
                       <Link
                         href={`/${project.id}/commitments/new`}
-                        className="btn-add-inline"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
                       >
                         <Plus className="h-3.5 w-3.5" />
                         Add
@@ -636,7 +655,7 @@ export function ProjectHomeClient({
                   </div>
                 </div>
                 <CollapsibleContent>
-                  <div className="px-4 py-4 sm:px-6">
+                  <div className="px-8 py-4">
                     <div className="space-y-4">
                       {commitments.length > 0 ? (
                         commitments.slice(0, 5).map((commitment) => {
@@ -696,20 +715,20 @@ export function ProjectHomeClient({
                   </div>
                 </CollapsibleContent>
               </Collapsible>
-            </section>
+            </div>
 
             {/* Budget */}
-            <section className="section-card section-spacing">
+            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
               <Collapsible open={isBudgetOpen} onOpenChange={setIsBudgetOpen}>
-                <div className="px-4 py-4 border-b border-neutral-100 sm:px-6 sm:py-5">
+                <div className="px-8 py-6 pb-4 border-b border-neutral-100">
                   <div className="flex items-center justify-between">
-                    <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
+                    <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
                       Budget
                     </h3>
                     <div className="flex items-center gap-3">
                       <Link
                         href={`/${project.id}/budget/line-item/new`}
-                        className="btn-add-inline"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
                       >
                         <Plus className="h-3.5 w-3.5" />
                         Add
@@ -738,10 +757,10 @@ export function ProjectHomeClient({
                   </div>
                 </div>
                 <CollapsibleContent>
-                  <div className="px-4 py-4 sm:px-6">
+                  <div className="px-8 py-4">
                     {budget.length > 0 ? (
                       <>
-                        <div className="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-3">
+                        <div className="grid grid-cols-3 gap-4 mb-4">
                           <div className="p-3 bg-muted/50">
                             <p className="text-xs text-muted-foreground">
                               Original Budget
@@ -814,12 +833,12 @@ export function ProjectHomeClient({
                   </div>
                 </CollapsibleContent>
               </Collapsible>
-            </section>
+            </div>
 
             {/* Schedule of Values */}
-            <section className="section-card section-spacing">
+            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
               <Collapsible open={isSovOpen} onOpenChange={setIsSovOpen}>
-                <div className="px-4 py-4 border-b border-neutral-100 sm:px-6 sm:py-5">
+                <div className="px-8 py-6 pb-4 border-b border-neutral-100">
                   <div className="flex items-center justify-between">
                     <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
                       Schedule of Values
@@ -827,7 +846,7 @@ export function ProjectHomeClient({
                     <div className="flex items-center gap-3">
                       <Link
                         href={`/${project.id}/sov/new`}
-                        className="btn-add-inline"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
                       >
                         <Plus className="h-3.5 w-3.5" />
                         Add
@@ -856,10 +875,10 @@ export function ProjectHomeClient({
                   </div>
                 </div>
                 <CollapsibleContent>
-                  <div className="px-4 py-4 sm:px-6">
+                  <div className="px-8 py-4">
                     {sov && sov.length > 0 ? (
                       <>
-                        <div className="grid grid-cols-1 gap-4 mb-4 sm:grid-cols-2">
+                        <div className="grid grid-cols-2 gap-4 mb-4">
                           <div className="p-3 bg-muted/50">
                             <p className="text-xs text-muted-foreground">
                               Total Value
@@ -918,15 +937,15 @@ export function ProjectHomeClient({
                   </div>
                 </CollapsibleContent>
               </Collapsible>
-            </section>
+            </div>
 
             {/* Schedule */}
-            <section className="section-card section-spacing">
+            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
               <Collapsible
                 open={isScheduleOpen}
                 onOpenChange={setIsScheduleOpen}
               >
-                <div className="px-4 py-4 border-b border-neutral-100 sm:px-6 sm:py-5">
+                <div className="px-8 py-6 pb-4 border-b border-neutral-100">
                   <div className="flex items-center justify-between">
                     <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
                       Schedule
@@ -934,7 +953,7 @@ export function ProjectHomeClient({
                     <div className="flex items-center gap-3">
                       <Link
                         href={`/${project.id}/schedule/new`}
-                        className="btn-add-inline"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
                       >
                         <Plus className="h-3.5 w-3.5" />
                         Add
@@ -963,7 +982,7 @@ export function ProjectHomeClient({
                   </div>
                 </div>
                 <CollapsibleContent>
-                  <div className="px-4 py-4 sm:px-6">
+                  <div className="px-8 py-4">
                     {schedule && schedule.length > 0 ? (
                       <div className="space-y-2">
                         {schedule.slice(0, 5).map((item) => (
@@ -1008,10 +1027,10 @@ export function ProjectHomeClient({
                   </div>
                 </CollapsibleContent>
               </Collapsible>
-            </section>
+            </div>
 
             {/* 2 Column Grid for Info Sections */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 section-spacing">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
               {/* Recent Meetings */}
               <InfoSection
                 title="Recent Meetings"
@@ -1110,7 +1129,7 @@ export function ProjectHomeClient({
             </div>
 
             {/* Budget */}
-            <div className="section-spacing-lg">
+            <div className="mb-20">
               {/* Heading */}
               <h2 className="pb-4 text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
                 Budget
@@ -1129,7 +1148,7 @@ export function ProjectHomeClient({
             </div>
 
             {/* Drawings */}
-            <div className="section-spacing-lg">
+            <div className="mb-20">
               {/* Heading */}
               <div>
                 <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
@@ -1139,7 +1158,7 @@ export function ProjectHomeClient({
             </div>
 
             {/* Photos */}
-            <div className="section-spacing-lg">
+            <div className="mb-20">
               {/* Heading */}
               <div>
                 <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">

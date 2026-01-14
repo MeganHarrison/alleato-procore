@@ -4,11 +4,11 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Inline } from "@/components/ui/inline";
 import { UomSelect } from "./UomSelect";
-import { BudgetCodeSelector } from "@/app/[projectId]/budget/setup/components";
+import { BudgetCodeSelector } from "@/app/(main)/[projectId]/budget/setup/components";
 import type {
   BudgetLineItem,
   ProjectCostCode,
-} from "@/app/[projectId]/budget/setup/types";
+} from "@/app/(main)/[projectId]/budget/setup/types";
 
 interface BudgetLineItemRowProps {
   item: BudgetLineItem;
