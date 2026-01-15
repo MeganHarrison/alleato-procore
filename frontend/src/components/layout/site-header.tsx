@@ -331,7 +331,9 @@ export function SiteHeader({
 
   const breadcrumbs = useMemo(() => {
     const segments = pathname?.split("/").filter(Boolean) ?? [];
-    const crumbs: Array<{ label: string; href: string; isLogo?: boolean }> = [];
+    const crumbs: Array<{ label: string; href: string; isLogo?: boolean }> = [
+      { label: "Projects", href: "/" },
+    ];
 
     segments.forEach((segment, index) => {
       let href = `/${segments.slice(0, index + 1).join("/")}`;

@@ -291,7 +291,7 @@ export default function PortfolioPage() {
   };
 
   const handleCreateProject = () => {
-    router.push("/form-project");
+    router.push("/create-project");
   };
 
   return (

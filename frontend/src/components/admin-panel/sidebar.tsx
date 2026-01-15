@@ -34,22 +34,24 @@ export function Sidebar({ projectId }: SidebarProps) {
         onMouseLeave={() => setIsHover(false)}
         className="relative h-full flex flex-col px-2 pt-4 pb-2 overflow-y-auto"
       >
-        <Link href="/" className={cn("flex items-center mb-2", getOpenState() ? "justify-start px-1" : "justify-center")}>
+        <Link href="/" className={cn("flex items-center mb-2", getOpenState() ? "justify-start px-3" : "justify-center") }>
           {getOpenState() ? (
             <Image
               src="/Alleato-Group-Logo_Dark.png"
               alt="Alleato Group"
               width={140}
               height={40}
-              className="object-contain shrink-0 dark:hidden"
+              priority
+              className="object-contain shrink-0 dark:hidden w-[140px] h-10"
             />
           ) : (
             <Image
               src="/Alleato Favicon.png"
               alt="Alleato"
-              width={28}
-              height={28}
-              className="object-contain shrink-0"
+              width={24}
+              height={24}
+              priority
+              className="object-contain shrink-0 w-6 h-6"
             />
           )}
           {getOpenState() && (
@@ -58,7 +60,8 @@ export function Sidebar({ projectId }: SidebarProps) {
               alt="Alleato Group"
               width={140}
               height={40}
-              className="object-contain shrink-0 hidden dark:block"
+              priority
+              className="object-contain shrink-0 hidden dark:block w-[140px] h-10"
             />
           )}
         </Link>

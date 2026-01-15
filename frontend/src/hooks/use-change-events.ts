@@ -29,6 +29,7 @@ export interface ChangeEvent {
   estimated_impact?: number | null;
   created_at: string | null;
   updated_at?: string | null;
+  deleted_at?: string | null;
 }
 
 export interface ChangeEventOption {
@@ -47,6 +48,8 @@ interface UseChangeEventsOptions {
   limit?: number;
   // Whether to auto-fetch
   enabled?: boolean;
+  // Include soft deleted records
+  includeDeleted?: boolean;
 }
 
 interface UseChangeEventsReturn {
@@ -68,6 +71,7 @@ export function useChangeEvents(
   options: UseChangeEventsOptions = {},
 ): UseChangeEventsReturn {
   const { projectId, status, limit = 100, enabled = true } = options;
+  const { includeDeleted = false } = options;
   const [changeEvents, setChangeEvents] = useState<ChangeEvent[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -94,6 +98,10 @@ export function useChangeEvents(
       // Filter by status if provided
       if (status) {
         query = query.eq("status", status);
+      }
+
+      if (!includeDeleted) {
+        query = query.is("deleted_at", null);
       }
 
       const { data, error: queryError } = await query;
@@ -191,9 +199,16 @@ export function useChangeEvents(
 /**
  * Helper hook to get change events for a specific project
  */
-export function useProjectChangeEvents(projectId: number) {
+type ProjectOptions = Omit<UseChangeEventsOptions, "projectId">;
+
+export function useProjectChangeEvents(
+  projectId: number,
+  options: ProjectOptions = {},
+) {
+  const { enabled, ...rest } = options;
   return useChangeEvents({
     projectId,
-    enabled: !!projectId,
+    enabled: enabled ?? !!projectId,
+    ...rest,
   });
 }

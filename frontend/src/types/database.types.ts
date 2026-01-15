@@ -8230,6 +8230,7 @@ export type Database = {
         Row: {
           ai_enhancement_notes: string | null
           ai_enhancement_possible: boolean | null
+          category: string | null
           complexity: string | null
           created_at: string
           description: string | null
@@ -8245,11 +8246,13 @@ export type Database = {
           screenshot_ids: string[] | null
           slug: string | null
           status: string | null
+          tabs: string | null
           updated_at: string | null
         }
         Insert: {
           ai_enhancement_notes?: string | null
           ai_enhancement_possible?: boolean | null
+          category?: string | null
           complexity?: string | null
           created_at?: string
           description?: string | null
@@ -8265,11 +8268,13 @@ export type Database = {
           screenshot_ids?: string[] | null
           slug?: string | null
           status?: string | null
+          tabs?: string | null
           updated_at?: string | null
         }
         Update: {
           ai_enhancement_notes?: string | null
           ai_enhancement_possible?: boolean | null
+          category?: string | null
           complexity?: string | null
           created_at?: string
           description?: string | null
@@ -8285,6 +8290,7 @@ export type Database = {
           screenshot_ids?: string[] | null
           slug?: string | null
           status?: string | null
+          tabs?: string | null
           updated_at?: string | null
         }
         Relationships: [
@@ -17187,4 +17193,3 @@ export const Constants = {
     },
   },
 } as const
-

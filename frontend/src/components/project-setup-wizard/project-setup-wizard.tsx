@@ -168,7 +168,7 @@ export function ProjectSetupWizard({ projectId }: ProjectSetupWizardProps) {
 
           {/* Step Content */}
           <div className="lg:col-span-4 xl:col-span-5">
-            <Card className="p-6">
+            <div className="p-0">
               <h2 className="text-2xl font-semibold mb-4">
                 {setupSteps[currentStep].title}
               </h2>
@@ -177,7 +177,7 @@ export function ProjectSetupWizard({ projectId }: ProjectSetupWizardProps) {
                 onNext={handleNext}
                 onSkip={handleSkip}
               />
-            </Card>
+            </div>
           </div>
         </div>
       </div>

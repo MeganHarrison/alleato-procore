@@ -7,6 +7,7 @@ import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import { cn } from "@/lib/utils";
 import type { Components } from "react-markdown";
+const markdownSyntaxHighlighterStyle = oneDark as Record<string, unknown>;
 
 interface MarkdownRendererProps {
   content: string;
@@ -111,8 +112,7 @@ export function MarkdownRenderer({
 
               return !inline && match ? (
                 <SyntaxHighlighter
-                  // @ts-expect-error - oneDark type mismatch with react-syntax-highlighter
-                  style={oneDark}
+                  style={markdownSyntaxHighlighterStyle}
                   language={match[1]}
                   PreTag="div"
                   className="rounded-lg overflow-hidden mb-4"
