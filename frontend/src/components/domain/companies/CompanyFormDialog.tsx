@@ -54,6 +54,11 @@ interface CompanyFormDialogProps {
   onOpenChange: (open: boolean) => void;
   company?: Company | null;
   onSuccess?: () => void;
+  onCreate?: (data: CompanyFormData) => Promise<{ error?: string } | void>;
+  onUpdate?: (
+    companyId: string,
+    data: CompanyFormData,
+  ) => Promise<{ error?: string } | void>;
 }
 
 const US_STATES = [
@@ -134,6 +139,8 @@ export function CompanyFormDialog({
   onOpenChange,
   company,
   onSuccess,
+  onCreate,
+  onUpdate,
 }: CompanyFormDialogProps) {
   const isEdit = !!company;
   const [isSubmitting, setIsSubmitting] = React.useState(false);
@@ -190,14 +197,16 @@ export function CompanyFormDialog({
         notes: data.notes || null,
       };
 
-      let result;
-      if (isEdit && company) {
-        result = await updateCompany(company.id, cleanData);
-      } else {
-        result = await createCompany(cleanData);
-      }
+      const result =
+        isEdit && company
+          ? onUpdate
+            ? await onUpdate(company.id, cleanData)
+            : await updateCompany(company.id, cleanData)
+          : onCreate
+            ? await onCreate(cleanData)
+            : await createCompany(cleanData);
 
-      if (result.error) {
+      if (result && "error" in result && result.error) {
         toast.error(result.error);
         return;
       }

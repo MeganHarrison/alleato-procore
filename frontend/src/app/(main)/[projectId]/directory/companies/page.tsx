@@ -10,8 +10,12 @@ import {
   Users2,
   Upload,
 } from "lucide-react";
-import { useInfiniteQuery } from "@/hooks/use-infinite-query";
-import { updateCompany, deleteCompany } from "@/app/(other)/actions/table-actions";
+import {
+  useCreateProjectCompany,
+  useDeleteProjectCompany,
+  useProjectCompanies,
+  useUpdateProjectCompany,
+} from "@/hooks/use-project-companies";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import { CompanyFormDialog } from "@/components/domain/companies/CompanyFormDialog";
@@ -30,9 +34,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import type { Database } from "@/types/database.types";
-
-type Company = Database["public"]["Tables"]["companies"]["Row"];
+import type { CompanyCreateDTO, CompanyUpdateDTO } from "@/services/companyService";
+import type { ProjectCompany } from "@/services/companyService";
 
 export default function ProjectDirectoryCompaniesPage() {
   const params = useParams();
@@ -40,27 +43,44 @@ export default function ProjectDirectoryCompaniesPage() {
   const projectId = params.projectId as string;
   const [dialogOpen, setDialogOpen] = React.useState(false);
   const [groupDialogOpen, setGroupDialogOpen] = React.useState(false);
-  const [editingCompany, setEditingCompany] = React.useState<Company | null>(
-    null,
-  );
+  const [editingCompany, setEditingCompany] =
+    React.useState<ProjectCompany | null>(null);
+  const [page, setPage] = React.useState(1);
+  const [companies, setCompanies] = React.useState<ProjectCompany[]>([]);
 
+  const pageSize = 20;
   const {
-    data,
-    count,
-    isSuccess,
+    companies: pageCompanies,
+    pagination,
     isLoading,
     isFetching,
     error,
-    hasMore,
-    fetchNextPage,
-  } = useInfiniteQuery<Company>({
-    tableName: "companies",
-    columns: "*",
-    pageSize: 20,
-    trailingQuery: (query) => {
-      return query.order("name", { ascending: true });
-    },
+  } = useProjectCompanies(projectId, {
+    page,
+    per_page: pageSize,
+    sort: "name",
+    status: "ACTIVE",
   });
+
+  const createCompanyMutation = useCreateProjectCompany(projectId);
+  const updateCompanyMutation = useUpdateProjectCompany(projectId);
+  const deleteCompanyMutation = useDeleteProjectCompany(projectId);
+
+  React.useEffect(() => {
+    if (!pageCompanies) return;
+
+    setCompanies((prev) => {
+      if (page === 1) {
+        return pageCompanies;
+      }
+
+      const existingIds = new Set(prev.map((company) => company.id));
+      const nextCompanies = pageCompanies.filter(
+        (company) => !existingIds.has(company.id),
+      );
+      return [...prev, ...nextCompanies];
+    });
+  }, [pageCompanies, page]);
 
   const handleAddCompany = () => {
     setEditingCompany(null);
@@ -83,27 +103,34 @@ export default function ProjectDirectoryCompaniesPage() {
     );
   };
 
-  const handleEditCompany = (company: Company) => {
+  const handleEditCompany = (company: ProjectCompany) => {
     setEditingCompany(company);
     setDialogOpen(true);
   };
 
-  const handleDeleteCompany = async (company: Company) => {
-    if (window.confirm(`Are you sure you want to delete ${company.name}?`)) {
-      await deleteCompany(company.id);
-      window.location.reload();
+  const handleDeleteCompany = async (company: ProjectCompany) => {
+    if (
+      window.confirm(
+        `Are you sure you want to remove ${company.company?.name || "this company"}?`,
+      )
+    ) {
+      await deleteCompanyMutation.mutateAsync(company.id);
+      setPage(1);
+      setCompanies([]);
     }
   };
 
   const handleDialogSuccess = () => {
     setDialogOpen(false);
     setEditingCompany(null);
-    window.location.reload();
+    setPage(1);
+    setCompanies([]);
   };
 
   const handleGroupDialogSuccess = () => {
     setGroupDialogOpen(false);
-    window.location.reload();
+    setPage(1);
+    setCompanies([]);
   };
 
   const tabs = getProjectDirectoryTabs(projectId, pathname);
@@ -193,41 +220,41 @@ export default function ProjectDirectoryCompaniesPage() {
       <PageTabs tabs={tabs} />
       <PageContainer>
         <div className="space-y-6">
-          <div className="flex items-center justify-between">
-            <div>
-              {isSuccess && (
+          {pagination && (
+            <div className="flex items-center justify-between">
+              <div>
                 <Text as="p" size="sm" tone="muted">
                   <Text as="span" weight="medium">
-                    {data.length}
+                    {companies.length}
                   </Text>{" "}
                   of{" "}
                   <Text as="span" weight="medium">
-                    {count}
+                    {pagination.total}
                   </Text>{" "}
                   companies
                 </Text>
-              )}
+              </div>
             </div>
-          </div>
+          )}
 
           <div>
             {isLoading ? (
               <CompanyListSkeleton count={5} />
-            ) : data.length === 0 ? (
+            ) : companies.length === 0 ? (
               <EmptyCompaniesList onAddCompany={handleAddCompany} />
             ) : (
               <ResponsiveCompaniesTable
-                companies={data}
+                companies={companies}
                 onEdit={handleEditCompany}
                 onDelete={handleDeleteCompany}
               />
             )}
           </div>
 
-          {isSuccess && hasMore && (
+          {pagination && page < pagination.total_pages && (
             <div className="text-center">
               <Button
-                onClick={fetchNextPage}
+                onClick={() => setPage((current) => current + 1)}
                 disabled={isFetching}
                 variant="outline"
                 size="lg"
@@ -242,8 +269,33 @@ export default function ProjectDirectoryCompaniesPage() {
       <CompanyFormDialog
         open={dialogOpen}
         onOpenChange={setDialogOpen}
-        company={editingCompany}
+        company={
+          editingCompany?.company
+            ? { ...editingCompany.company, id: editingCompany.id }
+            : null
+        }
         onSuccess={handleDialogSuccess}
+        onCreate={async (formData) => {
+          const payload: CompanyCreateDTO = {
+            name: formData.name,
+            address: formData.address || undefined,
+            city: formData.city || undefined,
+            state: formData.state || undefined,
+          };
+          await createCompanyMutation.mutateAsync(payload);
+        }}
+        onUpdate={async (companyId, formData) => {
+          const payload: CompanyUpdateDTO = {
+            name: formData.name || undefined,
+            address: formData.address || undefined,
+            city: formData.city || undefined,
+            state: formData.state || undefined,
+          };
+          await updateCompanyMutation.mutateAsync({
+            companyId,
+            data: payload,
+          });
+        }}
       />
 
       <DistributionGroupFormDialog
