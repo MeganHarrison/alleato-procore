@@ -2,13 +2,13 @@
 Tools package for Alleato Agent Workflow.
 
 This package contains tool definitions:
-- MCP connections (Supabase)
+- MCP connections (Supabase, Linear)
 - Web search
 - Vector search tools (semantic search)
 - Standard retrieval tools (direct queries)
 """
 
-from .mcp import mcp, mcp1, web_search_preview
+from .mcp import mcp, mcp1, linear_mcp, web_search_preview
 from .vector_search import (
     search_meetings,
     search_decisions,
@@ -29,6 +29,7 @@ __all__ = [
     # MCP and Web Search
     'mcp',
     'mcp1',
+    'linear_mcp',
     'web_search_preview',
 
     # Vector Search Tools

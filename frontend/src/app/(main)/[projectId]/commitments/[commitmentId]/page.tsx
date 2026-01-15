@@ -9,20 +9,165 @@ import { Button } from "@/components/ui/button";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Stack } from "@/components/ui/stack";
-import { Inline } from "@/components/ui/inline";
 import { Text } from "@/components/ui/text";
 import { StatusBadge } from "@/components/misc/status-badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useProjectTitle } from "@/hooks/useProjectTitle";
 import type { Commitment } from "@/types/financial";
+import { ChangeOrdersTab } from "@/components/commitments/tabs/ChangeOrdersTab";
+import { AttachmentsTab } from "@/components/commitments/tabs/AttachmentsTab";
+import { InvoicesTab } from "@/components/commitments/tabs/InvoicesTab";
+import { ScheduleOfValuesTab } from "@/components/commitments/tabs/ScheduleOfValuesTab";
 import { formatCurrency } from "@/config/tables";
 import { formatDate } from "@/lib/table-config/formatters";
+
+type CommitmentDetail = Commitment & {
+  project_id?: number;
+  type?: "subcontract" | "purchase_order" | string;
+  line_items?: Array<{
+    id: string;
+    line_number?: number | null;
+    budget_code?: string | null;
+    description?: string | null;
+    amount?: number | null;
+    billed_to_date?: number | null;
+  }>;
+};
+
+const normalizeCommitment = (raw: unknown): CommitmentDetail | null => {
+  if (!raw || typeof raw !== "object") {
+    return null;
+  }
+
+  const record = raw as Record<string, unknown>;
+  const accountingMethodRaw =
+    typeof record.accounting_method === "string"
+      ? record.accounting_method.toLowerCase()
+      : "";
+
+  const accountingMethod: CommitmentDetail["accounting_method"] =
+    accountingMethodRaw === "unit_quantity"
+      ? "unit"
+      : accountingMethodRaw === "amount_based"
+        ? "amount"
+        : accountingMethodRaw === "percent"
+          ? "percent"
+          : "amount";
+
+  const statusValue =
+    typeof record.status === "string"
+      ? (record.status.toLowerCase() as CommitmentDetail["status"])
+      : "draft";
+
+  const contractCompany =
+    record.contract_company && typeof record.contract_company === "object"
+      ? (record.contract_company as CommitmentDetail["contract_company"])
+      : undefined;
+
+  const assignee =
+    record.assignee && typeof record.assignee === "object"
+      ? (record.assignee as CommitmentDetail["assignee"])
+      : undefined;
+
+  const lineItemsRaw = Array.isArray(record.line_items)
+    ? (record.line_items as Array<Record<string, unknown>>)
+    : [];
+
+  const line_items = lineItemsRaw.map((item) => ({
+    id: String(item.id ?? crypto.randomUUID()),
+    line_number:
+      typeof item.line_number === "number" || typeof item.line_number === "string"
+        ? Number(item.line_number)
+        : null,
+    budget_code:
+      typeof item.budget_code === "string"
+        ? item.budget_code
+        : typeof item.cost_code === "string"
+          ? item.cost_code
+          : null,
+    description:
+      typeof item.description === "string"
+        ? item.description
+        : typeof item.title === "string"
+          ? item.title
+          : null,
+    amount:
+      typeof item.amount === "number" || typeof item.amount === "string"
+        ? Number(item.amount)
+        : null,
+    billed_to_date:
+      typeof item.billed_to_date === "number" ||
+      typeof item.billed_to_date === "string"
+        ? Number(item.billed_to_date)
+        : null,
+  }));
+
+  return {
+    id: String(record.id ?? ""),
+    number: typeof record.number === "string" ? record.number : "",
+    contract_company_id: String(record.contract_company_id ?? ""),
+    contract_company: contractCompany,
+    title: typeof record.title === "string" ? record.title : "",
+    description:
+      typeof record.description === "string" ? record.description : undefined,
+    status: statusValue,
+    original_amount: Number(record.original_amount ?? 0),
+    approved_change_orders: Number(record.approved_change_orders ?? 0),
+    revised_contract_amount: Number(
+      record.revised_contract_amount ?? record.original_amount ?? 0,
+    ),
+    billed_to_date: Number(record.billed_to_date ?? 0),
+    balance_to_finish: Number(record.balance_to_finish ?? 0),
+    executed_date:
+      typeof record.executed_date === "string"
+        ? record.executed_date
+        : undefined,
+    start_date:
+      typeof record.start_date === "string" ? record.start_date : undefined,
+    substantial_completion_date:
+      typeof record.substantial_completion_date === "string"
+        ? record.substantial_completion_date
+        : undefined,
+    accounting_method: accountingMethod,
+    retention_percentage: Number(record.retention_percentage ?? 0),
+    vendor_invoice_number:
+      typeof record.vendor_invoice_number === "string"
+        ? record.vendor_invoice_number
+        : undefined,
+    signed_received_date:
+      typeof record.signed_received_date === "string"
+        ? record.signed_received_date
+        : undefined,
+    assignee_id: record.assignee_id ? String(record.assignee_id) : undefined,
+    assignee,
+    private:
+      typeof record.private === "boolean"
+        ? record.private
+        : typeof record.is_private === "boolean"
+          ? record.is_private
+          : false,
+    deleted_at:
+      typeof record.deleted_at === "string" ? record.deleted_at : undefined,
+    is_deleted:
+      typeof record.is_deleted === "boolean" ? record.is_deleted : undefined,
+    created_at:
+      typeof record.created_at === "string"
+        ? record.created_at
+        : new Date().toISOString(),
+    updated_at:
+      typeof record.updated_at === "string"
+        ? record.updated_at
+        : new Date().toISOString(),
+    project_id: typeof record.project_id === "number" ? record.project_id : undefined,
+    type: typeof record.type === "string" ? record.type : undefined,
+    line_items,
+  };
+};
 
 /**
  * Commitment Detail Page
@@ -35,7 +180,7 @@ export default function CommitmentDetailPage() {
   const projectId = parseInt(params.projectId as string);
   const commitmentId = params.commitmentId as string;
 
-  const [commitment, setCommitment] = useState<Commitment | null>(null);
+  const [commitment, setCommitment] = useState<CommitmentDetail | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -60,7 +205,15 @@ export default function CommitmentDetailPage() {
       }
 
       const data = await response.json();
-      setCommitment(data.data);
+      const payload =
+        data && typeof data === "object" && "data" in data ? data.data : data;
+      const normalized = normalizeCommitment(payload);
+
+      if (!normalized || !normalized.id) {
+        throw new Error("Commitment not found");
+      }
+
+      setCommitment(normalized);
     } catch (error) {
       setError(
         error instanceof Error ? error.message : "Failed to fetch commitment",
@@ -162,6 +315,11 @@ export default function CommitmentDetailPage() {
             {commitment.number}
           </Text>
           <StatusBadge status={commitment.status} type="commitment" />
+          {commitment.private && (
+            <span className="inline-flex items-center rounded-full bg-amber-100 px-2 py-0.5 text-xs font-medium text-amber-800">
+              Private
+            </span>
+          )}
         </div>
         <div className="flex items-center gap-2">
           <Button variant="ghost" size="sm" onClick={handleBack}>
@@ -193,6 +351,10 @@ export default function CommitmentDetailPage() {
           <TabsTrigger value="overview">Overview</TabsTrigger>
           <TabsTrigger value="financial">Financial</TabsTrigger>
           <TabsTrigger value="schedule">Schedule</TabsTrigger>
+          <TabsTrigger value="sov">SOV</TabsTrigger>
+          <TabsTrigger value="change-orders">Change Orders</TabsTrigger>
+          <TabsTrigger value="invoices">Invoices</TabsTrigger>
+          <TabsTrigger value="attachments">Attachments</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-4">
@@ -418,6 +580,22 @@ export default function CommitmentDetailPage() {
               </div>
             </CardContent>
           </Card>
+        </TabsContent>
+
+        <TabsContent value="sov">
+          <ScheduleOfValuesTab lineItems={commitment.line_items || []} />
+        </TabsContent>
+
+        <TabsContent value="change-orders">
+          <ChangeOrdersTab commitmentId={commitment.id} projectId={projectId} />
+        </TabsContent>
+
+        <TabsContent value="invoices">
+          <InvoicesTab commitmentId={commitment.id} />
+        </TabsContent>
+
+        <TabsContent value="attachments">
+          <AttachmentsTab commitmentId={commitment.id} />
         </TabsContent>
       </Tabs>
     </Stack>

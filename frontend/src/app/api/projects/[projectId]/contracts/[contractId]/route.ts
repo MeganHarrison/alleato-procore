@@ -9,19 +9,21 @@ interface RouteParams {
 
 /**
  * GET /api/projects/[id]/contracts/[contractId]
- * Returns a single prime contract by ID
+ * Returns a single prime contract by ID with calculated financial data
  */
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     const { projectId, contractId } = await params;
     const supabase = await createClient();
 
-    const { data, error } = await supabase
+    // Fetch contract with vendor and client relations
+    const { data: contract, error } = await supabase
       .from("prime_contracts")
       .select(
         `
         *,
-        vendor:vendors(id, name, contact_name, contact_email, contact_phone)
+        vendor:vendors(id, name, contact_name, contact_email, contact_phone),
+        client:clients(id, name)
       `,
       )
       .eq("id", contractId)
@@ -42,7 +44,44 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    return NextResponse.json(data);
+    // Fetch financial summary from materialized view
+    const { data: financialSummary } = await supabase
+      .from("contract_financial_summary_mv")
+      .select(`
+        original_contract_amount,
+        approved_change_orders,
+        pending_change_orders,
+        draft_change_orders,
+        revised_contract_amount,
+        invoiced_amount,
+        payments_received,
+        remaining_balance
+      `)
+      .eq("contract_id", contractId)
+      .single();
+
+    // Calculate percent paid
+    const revisedAmount = financialSummary?.revised_contract_amount ?? contract.revised_contract_value ?? 0;
+    const paymentsReceived = financialSummary?.payments_received ?? 0;
+    const percentPaid = revisedAmount > 0 ? (paymentsReceived / revisedAmount) * 100 : 0;
+
+    // Merge contract with financial summary data
+    const enrichedContract = {
+      ...contract,
+      // Financial summary from materialized view
+      approved_change_orders: financialSummary?.approved_change_orders ?? 0,
+      pending_change_orders: financialSummary?.pending_change_orders ?? 0,
+      draft_change_orders: financialSummary?.draft_change_orders ?? 0,
+      pending_revised_contract_amount:
+        (financialSummary?.revised_contract_amount ?? contract.revised_contract_value ?? 0) +
+        (financialSummary?.pending_change_orders ?? 0),
+      invoiced_amount: financialSummary?.invoiced_amount ?? 0,
+      payments_received: financialSummary?.payments_received ?? 0,
+      remaining_balance: financialSummary?.remaining_balance ?? contract.revised_contract_value ?? 0,
+      percent_paid: Math.round(percentPaid * 100) / 100,
+    };
+
+    return NextResponse.json(enrichedContract);
   } catch (error) {
     console.error(
       "Error in GET /api/projects/[id]/contracts/[contractId]:",

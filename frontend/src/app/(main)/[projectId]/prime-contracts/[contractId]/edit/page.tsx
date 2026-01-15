@@ -14,7 +14,7 @@ interface Contract {
   id: string;
   contract_number: string | null;
   title: string;
-  status: "draft" | "active" | "completed" | "cancelled" | "on_hold";
+  status: "draft" | "out_for_bid" | "out_for_signature" | "approved" | "complete" | "terminated";
   original_contract_value: number;
   revised_contract_value: number;
   start_date: string | null;
@@ -143,7 +143,7 @@ export default function EditContractPage() {
       ? new Date(contract.end_date)
       : undefined,
     defaultRetainage: contract.retention_percentage,
-    executed: contract.status === "active" || contract.status === "completed",
+    executed: contract.status === "approved" || contract.status === "complete",
     isPrivate: false,
   };
 

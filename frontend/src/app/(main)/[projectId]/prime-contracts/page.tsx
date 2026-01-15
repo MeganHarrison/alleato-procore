@@ -1,19 +1,28 @@
 "use client";
 
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState, useMemo, useCallback } from "react";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 import { Plus } from "lucide-react";
 import { toast } from "sonner";
 
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
 import { Text } from "@/components/ui/text";
 import { PageContainer, ProjectPageHeader, PageTabs } from "@/components/layout";
 import { GenericDataTable } from "@/components/tables/generic-table-factory";
-import { contractsTableConfig, formatCurrency } from "@/config/tables/contracts.config";
+import { contractsTableConfig } from "@/config/tables/contracts.config";
 import { useProjectTitle } from "@/hooks/useProjectTitle";
 
-// Prime Contract interface matching the schema
+// Prime Contract interface matching the schema with calculated financial fields
 interface Contract {
   id: string;
   project_id: number;
@@ -22,7 +31,8 @@ interface Contract {
   client_id: number | null;
   vendor_id: string | null; // Deprecated but kept for backward compatibility
   description: string | null;
-  status: "draft" | "pending" | "out_for_signature" | "approved" | "complete" | "void";
+  status: "draft" | "out_for_bid" | "out_for_signature" | "approved" | "complete" | "terminated";
+  executed: boolean;
   executed_at: string | null;
   original_contract_value: number;
   revised_contract_value: number;
@@ -34,10 +44,18 @@ interface Contract {
   created_by: string | null;
   created_at: string;
   updated_at: string;
+  // Joined relations
   client?: {
     id: number;
     name: string;
   } | null;
+  // Calculated fields from contract_financial_summary_mv
+  approved_change_orders: number;
+  pending_change_orders: number;
+  draft_change_orders: number;
+  invoiced: number;
+  payments_received: number;
+  remaining_balance: number;
 }
 
 export default function ProjectContractsPage() {
@@ -51,6 +69,9 @@ export default function ProjectContractsPage() {
 
   const [contracts, setContracts] = useState<Contract[]>([]);
   const [loading, setLoading] = useState(true);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
+  const [contractToDelete, setContractToDelete] = useState<Contract | null>(null);
+  const [isDeleting, setIsDeleting] = useState(false);
 
   // Fetch contracts
   useEffect(() => {
@@ -83,20 +104,52 @@ export default function ProjectContractsPage() {
     return contracts.filter((contract) => contract.status === statusFilter);
   }, [contracts, statusFilter]);
 
-  // Transform contracts for GenericDataTable (flatten client and add placeholder calculated fields)
+  // Transform contracts for GenericDataTable (flatten client - financial fields come from API)
   const tableData = useMemo(() => {
     return filteredContracts.map((contract) => ({
       ...contract,
       client_name: contract.client?.name || null,
-      // Placeholder calculated fields (will be replaced with real calculations)
-      approved_change_orders: 0,
-      pending_change_orders: 0,
-      draft_change_orders: 0,
-      invoiced: 0,
-      payments_received: 0,
-      remaining_balance: contract.revised_contract_value || contract.original_contract_value || 0,
     }));
   }, [filteredContracts]);
+
+  // Handle delete with confirmation dialog
+  const handleDeleteRow = useCallback(async (id: string | number): Promise<{ error?: string }> => {
+    const contract = contracts.find(c => c.id === String(id));
+    if (contract) {
+      setContractToDelete(contract);
+      setDeleteDialogOpen(true);
+    }
+    // Return empty - actual deletion happens in confirmDelete
+    return {};
+  }, [contracts]);
+
+  const confirmDelete = async () => {
+    if (!contractToDelete) return;
+
+    setIsDeleting(true);
+    try {
+      const response = await fetch(
+        `/api/projects/${projectId}/contracts/${contractToDelete.id}`,
+        { method: "DELETE" }
+      );
+
+      if (!response.ok) {
+        const data = await response.json();
+        toast.error(data.error || "Failed to delete contract");
+        return;
+      }
+
+      // Remove from local state
+      setContracts(prev => prev.filter(c => c.id !== contractToDelete.id));
+      toast.success(`Contract "${contractToDelete.title}" deleted successfully`);
+    } catch (err) {
+      toast.error("Failed to delete contract");
+    } finally {
+      setIsDeleting(false);
+      setDeleteDialogOpen(false);
+      setContractToDelete(null);
+    }
+  };
 
   // Calculate totals
   const totals = useMemo(() => {
@@ -109,11 +162,12 @@ export default function ProjectContractsPage() {
     );
   }, [filteredContracts]);
 
-  // Table configuration with row click
+  // Table configuration with row click and delete
   const tableConfig = useMemo(
     () => ({
       ...contractsTableConfig,
       rowClickPath: `/${projectId}/prime-contracts/{id}`,
+      onDelete: true,
     }),
     [projectId],
   );
@@ -174,9 +228,37 @@ export default function ProjectContractsPage() {
           <GenericDataTable
             data={tableData}
             config={tableConfig}
+            onDeleteRow={handleDeleteRow}
           />
         )}
       </PageContainer>
+
+      {/* Delete Confirmation Dialog */}
+      <AlertDialog open={deleteDialogOpen} onOpenChange={setDeleteDialogOpen}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle>Delete Contract</AlertDialogTitle>
+            <AlertDialogDescription>
+              Are you sure you want to delete contract{" "}
+              <strong>{contractToDelete?.contract_number}</strong> -{" "}
+              <strong>{contractToDelete?.title}</strong>?
+              <br /><br />
+              This action cannot be undone. Any associated line items and change orders
+              must be deleted first.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter>
+            <AlertDialogCancel disabled={isDeleting}>Cancel</AlertDialogCancel>
+            <AlertDialogAction
+              onClick={confirmDelete}
+              disabled={isDeleting}
+              className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+            >
+              {isDeleting ? "Deleting..." : "Delete Contract"}
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </>
   );
 }

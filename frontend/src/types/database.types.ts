@@ -7808,6 +7808,7 @@ export type Database = {
           description: string | null
           end_date: string | null
           exclusions: string | null
+          executed: boolean
           executed_at: string | null
           id: string
           inclusions: string | null
@@ -7819,7 +7820,7 @@ export type Database = {
           revised_contract_value: number
           signed_contract_received_date: string | null
           start_date: string | null
-          status: string
+          status: Database["public"]["Enums"]["prime_contract_status_v2"]
           substantial_completion_date: string | null
           title: string
           updated_at: string
@@ -7839,6 +7840,7 @@ export type Database = {
           description?: string | null
           end_date?: string | null
           exclusions?: string | null
+          executed?: boolean
           executed_at?: string | null
           id?: string
           inclusions?: string | null
@@ -7850,7 +7852,7 @@ export type Database = {
           revised_contract_value?: number
           signed_contract_received_date?: string | null
           start_date?: string | null
-          status?: string
+          status?: Database["public"]["Enums"]["prime_contract_status_v2"]
           substantial_completion_date?: string | null
           title: string
           updated_at?: string
@@ -7870,6 +7872,7 @@ export type Database = {
           description?: string | null
           end_date?: string | null
           exclusions?: string | null
+          executed?: boolean
           executed_at?: string | null
           id?: string
           inclusions?: string | null
@@ -7881,7 +7884,7 @@ export type Database = {
           revised_contract_value?: number
           signed_contract_received_date?: string | null
           start_date?: string | null
-          status?: string
+          status?: Database["public"]["Enums"]["prime_contract_status_v2"]
           substantial_completion_date?: string | null
           title?: string
           updated_at?: string
@@ -8233,9 +8236,16 @@ export type Database = {
           estimated_hours: number | null
           id: string
           include_in_rebuild: boolean | null
+          match_score: number | null
           module_id: string | null
           name: string
+          page_count: number | null
+          priority: string | null
+          procore_tool_url: string | null
           screenshot_ids: string[] | null
+          slug: string | null
+          status: string | null
+          updated_at: string | null
         }
         Insert: {
           ai_enhancement_notes?: string | null
@@ -8246,9 +8256,16 @@ export type Database = {
           estimated_hours?: number | null
           id?: string
           include_in_rebuild?: boolean | null
+          match_score?: number | null
           module_id?: string | null
           name: string
+          page_count?: number | null
+          priority?: string | null
+          procore_tool_url?: string | null
           screenshot_ids?: string[] | null
+          slug?: string | null
+          status?: string | null
+          updated_at?: string | null
         }
         Update: {
           ai_enhancement_notes?: string | null
@@ -8259,9 +8276,16 @@ export type Database = {
           estimated_hours?: number | null
           id?: string
           include_in_rebuild?: boolean | null
+          match_score?: number | null
           module_id?: string | null
           name?: string
+          page_count?: number | null
+          priority?: string | null
+          procore_tool_url?: string | null
           screenshot_ids?: string[] | null
+          slug?: string | null
+          status?: string | null
+          updated_at?: string | null
         }
         Relationships: [
           {
@@ -8289,6 +8313,7 @@ export type Database = {
           notes: string | null
           priority: string | null
           rebuild_notes: string | null
+          status: string | null
           updated_at: string
         }
         Insert: {
@@ -8306,6 +8331,7 @@ export type Database = {
           notes?: string | null
           priority?: string | null
           rebuild_notes?: string | null
+          status?: string | null
           updated_at?: string
         }
         Update: {
@@ -8323,9 +8349,84 @@ export type Database = {
           notes?: string | null
           priority?: string | null
           rebuild_notes?: string | null
+          status?: string | null
           updated_at?: string
         }
         Relationships: []
+      }
+      procore_pages: {
+        Row: {
+          alleato_route: string | null
+          alleato_url: string | null
+          button_count: number | null
+          created_at: string | null
+          dom_path: string | null
+          feature_id: string | null
+          form_field_count: number | null
+          id: string
+          implementation_notes: string | null
+          linear_issue_id: string | null
+          metadata_path: string | null
+          name: string
+          page_type: string | null
+          procore_url: string | null
+          screenshot_path: string | null
+          slug: string
+          status: string | null
+          table_column_count: number | null
+          updated_at: string | null
+        }
+        Insert: {
+          alleato_route?: string | null
+          alleato_url?: string | null
+          button_count?: number | null
+          created_at?: string | null
+          dom_path?: string | null
+          feature_id?: string | null
+          form_field_count?: number | null
+          id?: string
+          implementation_notes?: string | null
+          linear_issue_id?: string | null
+          metadata_path?: string | null
+          name: string
+          page_type?: string | null
+          procore_url?: string | null
+          screenshot_path?: string | null
+          slug: string
+          status?: string | null
+          table_column_count?: number | null
+          updated_at?: string | null
+        }
+        Update: {
+          alleato_route?: string | null
+          alleato_url?: string | null
+          button_count?: number | null
+          created_at?: string | null
+          dom_path?: string | null
+          feature_id?: string | null
+          form_field_count?: number | null
+          id?: string
+          implementation_notes?: string | null
+          linear_issue_id?: string | null
+          metadata_path?: string | null
+          name?: string
+          page_type?: string | null
+          procore_url?: string | null
+          screenshot_path?: string | null
+          slug?: string
+          status?: string | null
+          table_column_count?: number | null
+          updated_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "procore_pages_feature_id_fkey"
+            columns: ["feature_id"]
+            isOneToOne: false
+            referencedRelation: "procore_features"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       procore_screenshots: {
         Row: {
@@ -10373,48 +10474,66 @@ export type Database = {
       }
       qa_page_audit: {
         Row: {
+          action_buttons: string | null
           assigned_to: string | null
           auto_status: string
           created_at: string | null
+          documentation: string | null
           header_component: string | null
           id: string
           last_scanned_at: string | null
+          layout_type: string | null
           manual_status: string | null
           notes: string | null
           page_name: string
           page_path: string
           page_type: string
           priority: number | null
+          procore_screenshot: string | null
+          stage: string | null
+          tabs: string | null
           updated_at: string | null
         }
         Insert: {
+          action_buttons?: string | null
           assigned_to?: string | null
           auto_status?: string
           created_at?: string | null
+          documentation?: string | null
           header_component?: string | null
           id?: string
           last_scanned_at?: string | null
+          layout_type?: string | null
           manual_status?: string | null
           notes?: string | null
           page_name: string
           page_path: string
           page_type?: string
           priority?: number | null
+          procore_screenshot?: string | null
+          stage?: string | null
+          tabs?: string | null
           updated_at?: string | null
         }
         Update: {
+          action_buttons?: string | null
           assigned_to?: string | null
           auto_status?: string
           created_at?: string | null
+          documentation?: string | null
           header_component?: string | null
           id?: string
           last_scanned_at?: string | null
+          layout_type?: string | null
           manual_status?: string | null
           notes?: string | null
           page_name?: string
           page_path?: string
           page_type?: string
           priority?: number | null
+          procore_screenshot?: string | null
+          stage?: string | null
+          tabs?: string | null
           updated_at?: string | null
         }
         Relationships: []
@@ -16864,6 +16983,28 @@ export type Database = {
         | "Other"
       issue_severity: "Low" | "Medium" | "High" | "Critical"
       issue_status: "Open" | "In Progress" | "Resolved" | "Pending Verification"
+      payment_status: "received" | "void"
+      prime_contract_co_status:
+        | "draft"
+        | "pending"
+        | "approved"
+        | "rejected"
+        | "void"
+      prime_contract_sov_status: "draft" | "approved" | "locked"
+      prime_contract_status:
+        | "draft"
+        | "approved"
+        | "complete"
+        | "void"
+        | "closed"
+        | "not_ready"
+      prime_contract_status_v2:
+        | "draft"
+        | "out_for_bid"
+        | "out_for_signature"
+        | "approved"
+        | "complete"
+        | "terminated"
       project_status: "active" | "inactive" | "complete"
       task_status: "todo" | "doing" | "review" | "done"
     }
@@ -17016,8 +17157,34 @@ export const Constants = {
       ],
       issue_severity: ["Low", "Medium", "High", "Critical"],
       issue_status: ["Open", "In Progress", "Resolved", "Pending Verification"],
+      payment_status: ["received", "void"],
+      prime_contract_co_status: [
+        "draft",
+        "pending",
+        "approved",
+        "rejected",
+        "void",
+      ],
+      prime_contract_sov_status: ["draft", "approved", "locked"],
+      prime_contract_status: [
+        "draft",
+        "approved",
+        "complete",
+        "void",
+        "closed",
+        "not_ready",
+      ],
+      prime_contract_status_v2: [
+        "draft",
+        "out_for_bid",
+        "out_for_signature",
+        "approved",
+        "complete",
+        "terminated",
+      ],
       project_status: ["active", "inactive", "complete"],
       task_status: ["todo", "doing", "review", "done"],
     },
   },
 } as const
+

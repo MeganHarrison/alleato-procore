@@ -9,8 +9,8 @@ import Link from "next/link";
 
 const footerLinks = [
   {
-    title: "Overview",
-    href: "#",
+    title: "Docs",
+    href: "docs-ai-nine.vercel.app",
   },
   {
     title: "Features",
@@ -38,7 +38,7 @@ const Footer = () => {
   return (
     <footer className="border-t">
       <div className="max-w-(--breakpoint-xl) mx-auto">
-        <div className="py-12 px-6 xl:px-0 w-full flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between">
+        <div className="py-12 px-6 xl:px-6 w-full flex flex-col items-center gap-6 md:flex-row md:items-center md:justify-between">
           <ul className="flex text-sm items-center gap-6 flex-wrap md:mt-0">
             {footerLinks.map(({ title, href }) => (
               <li key={title}>

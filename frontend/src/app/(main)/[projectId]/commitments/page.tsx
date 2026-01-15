@@ -141,6 +141,39 @@ const config: GenericTableConfig = {
         { value: "terminated", label: "Terminated" },
       ],
     },
+    {
+      id: "contract_company_name",
+      label: "Contract Company",
+      field: "contract_company_name",
+      options: [],
+    },
+    {
+      id: "executed_flag",
+      label: "Executed",
+      field: "executed",
+      options: [
+        { value: "true", label: "Yes" },
+        { value: "false", label: "No" },
+      ],
+    },
+    {
+      id: "erp_status",
+      label: "ERP Status",
+      field: "erp_status",
+      options: [
+        { value: "synced", label: "Synced" },
+        { value: "not_synced", label: "Not Synced" },
+      ],
+    },
+    {
+      id: "ssov_status",
+      label: "SSOV Status",
+      field: "ssov_status",
+      options: [
+        { value: "ready", label: "Ready" },
+        { value: "not_ready", label: "Not Ready" },
+      ],
+    },
   ],
 };
 
@@ -221,6 +254,13 @@ export default function ProjectCommitmentsPage() {
           <Button variant="outline" size="sm" onClick={handleExport}>
             <Download className="h-4 w-4 mr-2" />
             Export
+          </Button>
+          <Button
+            variant="ghost"
+            size="sm"
+            onClick={() => router.push(`/${projectId}/commitments/recycle-bin`)}
+          >
+            Recycle Bin
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

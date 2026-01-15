@@ -31,6 +31,24 @@ const mockCommitment = {
   signed_received_date: '2024-01-05T00:00:00Z',
   created_at: '2024-01-01T10:00:00Z',
   updated_at: '2024-01-10T14:30:00Z',
+  line_items: [
+    {
+      id: 'li-1',
+      line_number: 1,
+      description: 'Excavation and grading',
+      budget_code: '01-100',
+      amount: 40000,
+      billed_to_date: 10000,
+    },
+    {
+      id: 'li-2',
+      line_number: 2,
+      description: 'Concrete foundation',
+      budget_code: '03-300',
+      amount: 60000,
+      billed_to_date: 25000,
+    },
+  ],
 };
 
 // Mock change orders
@@ -155,9 +173,15 @@ test.describe('Commitment Detail Page - New Tabs', () => {
     await expect(page.locator('[role="tab"]').filter({ hasText: 'Overview' })).toBeVisible();
     await expect(page.locator('[role="tab"]').filter({ hasText: 'Financial' })).toBeVisible();
     await expect(page.locator('[role="tab"]').filter({ hasText: 'Schedule' })).toBeVisible();
+    await expect(page.locator('[role="tab"]').filter({ hasText: 'SOV' })).toBeVisible();
     await expect(page.locator('[role="tab"]').filter({ hasText: 'Change Orders' })).toBeVisible();
     await expect(page.locator('[role="tab"]').filter({ hasText: 'Invoices' })).toBeVisible();
     await expect(page.locator('[role="tab"]').filter({ hasText: 'Attachments' })).toBeVisible();
+
+    await page.screenshot({
+      path: 'tests/screenshots/commitments-detail-tabs-e2e/detail-tabs.png',
+      fullPage: true,
+    });
   });
 
   test('should switch tabs correctly', async ({ page }) => {
@@ -237,6 +261,55 @@ test.describe('Commitment Detail Page - New Tabs', () => {
 
       // Check for empty state message
       await expect(page.getByText('No change orders for this commitment')).toBeVisible();
+    });
+  });
+
+  test.describe('Schedule of Values Tab', () => {
+    test('should display SOV line items and totals', async ({ page }) => {
+      await page.locator('[role="tab"]').filter({ hasText: 'SOV' }).click();
+      await page.waitForLoadState('networkidle');
+
+      const firstRow = page.locator('tbody tr').first();
+      await expect(firstRow.getByLabel(/Description/i)).toHaveValue('Excavation and grading');
+      await expect(firstRow.getByLabel(/Budget code/i)).toHaveValue('01-100');
+      await expect(firstRow.getByLabel(/Amount/i)).toHaveValue('40000');
+      await expect(firstRow.getByLabel(/Billed to date/i)).toHaveValue('10000');
+
+      const secondRow = page.locator('tbody tr').nth(1);
+      await expect(secondRow.getByLabel(/Description/i)).toHaveValue('Concrete foundation');
+      await expect(secondRow.getByLabel(/Budget code/i)).toHaveValue('03-300');
+      await expect(secondRow.getByLabel(/Amount/i)).toHaveValue('60000');
+      await expect(secondRow.getByLabel(/Billed to date/i)).toHaveValue('25000');
+
+      // Totals
+      const footer = page.locator('tfoot');
+      await expect(footer.getByText('$100,000.00')).toBeVisible();
+      await expect(footer.getByText('$35,000.00')).toBeVisible();
+      await expect(footer.getByText('$65,000.00')).toBeVisible();
+    });
+
+    test('should add, edit, and delete SOV line items', async ({ page }) => {
+      await page.locator('[role="tab"]').filter({ hasText: 'SOV' }).click();
+      await page.waitForLoadState('networkidle');
+
+      await page.getByRole('button', { name: 'Add Line Item' }).click();
+
+      const newRow = page.locator('tbody tr').last();
+      await newRow.getByLabel(/Description/i).fill('Temp line');
+      await newRow.getByLabel(/Budget code/i).fill('99-999');
+      await newRow.getByLabel(/Amount/i).fill('5000');
+      await newRow.getByLabel(/Billed to date/i).fill('1000');
+
+      const footer = page.locator('tfoot');
+      await expect(footer.getByText('$105,000.00')).toBeVisible();
+      await expect(footer.getByText('$36,000.00')).toBeVisible();
+      await expect(footer.getByText('$69,000.00')).toBeVisible();
+
+      await newRow.getByRole('button', { name: /Delete line/i }).click();
+
+      await expect(footer.getByText('$100,000.00')).toBeVisible();
+      await expect(footer.getByText('$35,000.00')).toBeVisible();
+      await expect(footer.getByText('$65,000.00')).toBeVisible();
     });
   });
 

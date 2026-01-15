@@ -63,7 +63,7 @@ export function TableLayout({
       maxWidth={maxWidth}
       className={className}
     >
-      <div className="space-y-[var(--section-gap)]">
+      <div className="px-6 lg:px-8 space-y-[var(--section-gap)]">
         {children}
       </div>
     </AppLayout>

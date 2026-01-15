@@ -2,7 +2,13 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { Upload, X, FileText, Download, Loader2 } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Text } from "@/components/ui/text";
 import { cn } from "@/lib/utils";
@@ -131,7 +137,7 @@ export function AttachmentsTab({ commitmentId }: AttachmentsTabProps) {
   };
 
   // React Dropzone configuration
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
     onDrop: handleUpload,
     accept: {
       "application/pdf": [".pdf"],
@@ -163,11 +169,23 @@ export function AttachmentsTab({ commitmentId }: AttachmentsTabProps) {
 
   return (
     <Card>
-      <CardHeader>
-        <CardTitle>Attachments</CardTitle>
-        <CardDescription>
-          Upload supporting documents for this commitment
-        </CardDescription>
+      <CardHeader className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div className="space-y-1">
+          <CardTitle>Attachments</CardTitle>
+          <CardDescription>
+            Upload supporting documents for this commitment
+          </CardDescription>
+        </div>
+        <Button
+          type="button"
+          size="sm"
+          onClick={() => open()}
+          disabled={isUploading}
+          className="gap-2"
+        >
+          <Upload className="h-4 w-4" />
+          Upload File
+        </Button>
       </CardHeader>
       <CardContent className="space-y-6">
         {/* Upload Area */}

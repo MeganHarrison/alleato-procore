@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter, useParams } from "next/navigation";
 import { ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { ProjectPageHeader, FormContainer } from "@/components/layout";
+import { ProjectPageHeader, PageContainer, FormContainer } from "@/components/layout";
 import { ContractForm } from "@/components/domain/contracts";
 import type { ContractFormData } from "@/components/domain/contracts/ContractForm";
 
@@ -18,7 +18,6 @@ export default function NewContractPage() {
   const handleSubmit = async (data: ContractFormData) => {
     setIsSaving(true);
     try {
-      // Use the new prime_contracts API
       const response = await fetch(`/api/projects/${projectId}/contracts`, {
         method: "POST",
         headers: {
@@ -27,7 +26,7 @@ export default function NewContractPage() {
         body: JSON.stringify({
           contract_number: data.number,
           title: data.title,
-          client_id: data.ownerClientId || null, // Client/Owner (entity paying contractor)
+          client_id: data.ownerClientId || null,
           contractor_id: data.contractorId || null,
           architect_engineer_id: data.architectEngineerId || null,
           contract_company_id: data.contractCompanyId || null,
@@ -39,13 +38,17 @@ export default function NewContractPage() {
             data.revisedAmount || data.originalAmount || 0,
           start_date: data.startDate?.toISOString() || null,
           end_date: data.estimatedCompletionDate?.toISOString() || null,
-          substantial_completion_date: data.substantialCompletionDate?.toISOString() || null,
-          actual_completion_date: data.actualCompletionDate?.toISOString() || null,
-          signed_contract_received_date: data.signedContractReceivedDate?.toISOString() || null,
-          contract_termination_date: data.contractTerminationDate?.toISOString() || null,
+          substantial_completion_date:
+            data.substantialCompletionDate?.toISOString() || null,
+          actual_completion_date:
+            data.actualCompletionDate?.toISOString() || null,
+          signed_contract_received_date:
+            data.signedContractReceivedDate?.toISOString() || null,
+          contract_termination_date:
+            data.contractTerminationDate?.toISOString() || null,
           retention_percentage: data.defaultRetainage || 0,
-          payment_terms: null, // Not in form yet
-          billing_schedule: null, // Not in form yet
+          payment_terms: null,
+          billing_schedule: null,
           is_private: data.isPrivate || false,
           inclusions: data.inclusions || null,
           exclusions: data.exclusions || null,
@@ -81,24 +84,14 @@ export default function NewContractPage() {
   };
 
   return (
-    <>
+    <PageContainer>
       <ProjectPageHeader
         title="New Prime Contract"
         breadcrumbs={[
           { label: "Prime Contracts", href: `/${projectId}/prime-contracts` },
           { label: "New Contract" },
         ]}
-        actions={
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => router.back()}
-            className="gap-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back
-          </Button>
-        }
+      actions={undefined}
       />
 
       <FormContainer maxWidth="lg" className="max-w-[960px]">
@@ -111,6 +104,6 @@ export default function NewContractPage() {
           projectId={projectId}
         />
       </FormContainer>
-    </>
+    </PageContainer>
   );
 }

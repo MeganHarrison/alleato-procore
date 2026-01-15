@@ -63,9 +63,7 @@ export function FormContainer({
         maxWidthClasses[maxWidth],
         // Optional card styling (theme-aware)
         withCard && [
-          "bg-card text-card-foreground",
-          "rounded-lg shadow-sm",
-          "border border-border",
+          "bg-muted-subtle text-card-foreground",
         ],
         // Mobile-first responsive padding
         // Mobile: 16px horizontal, 24px vertical

@@ -221,24 +221,26 @@ export const contractsTableConfig: GenericTableConfig = {
       field: "status",
       options: [
         { value: "draft", label: "Draft" },
-        { value: "active", label: "Active" },
-        { value: "completed", label: "Completed" },
-        { value: "cancelled", label: "Cancelled" },
-        { value: "on_hold", label: "On Hold" },
+        { value: "out_for_bid", label: "Out for Bid" },
+        { value: "out_for_signature", label: "Out for Signature" },
+        { value: "approved", label: "Approved" },
+        { value: "complete", label: "Complete" },
+        { value: "terminated", label: "Terminated" },
       ],
     },
   ],
 };
 
 /**
- * Contracts status label mapping
+ * Contracts status label mapping (matches prime_contract_status_v2 enum)
  */
 export const contractStatusLabels: Record<string, string> = {
   draft: "Draft",
-  active: "Active",
-  completed: "Completed",
-  cancelled: "Cancelled",
-  on_hold: "On Hold",
+  out_for_bid: "Out for Bid",
+  out_for_signature: "Out for Signature",
+  approved: "Approved",
+  complete: "Complete",
+  terminated: "Terminated",
 };
 
 /**

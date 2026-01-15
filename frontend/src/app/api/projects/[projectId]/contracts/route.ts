@@ -9,7 +9,7 @@ interface RouteParams {
 
 /**
  * GET /api/projects/[id]/contracts
- * Returns all prime contracts for a specific project
+ * Returns all prime contracts for a specific project with calculated financial data
  */
 export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
@@ -23,7 +23,8 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       .select(
         `
         *,
-        vendor:vendors(id, name)
+        vendor:vendors(id, name),
+        client:clients(id, name)
       `,
       )
       .eq("project_id", parseInt(projectId, 10))
@@ -43,7 +44,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    const { data, error } = await query;
+    const { data: contracts, error } = await query;
 
     if (error) {
       console.error("Error fetching contracts:", error);
@@ -53,7 +54,73 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    return NextResponse.json(data || []);
+    // Fetch financial summary data for all contracts
+    const contractIds = (contracts || []).map((c) => c.id);
+
+    let financialData: Record<string, {
+      original_contract_amount: number | null;
+      approved_change_orders: number | null;
+      pending_change_orders: number | null;
+      draft_change_orders: number | null;
+      revised_contract_amount: number | null;
+      invoiced_amount: number | null;
+      payments_received: number | null;
+      remaining_balance: number | null;
+    }> = {};
+
+    if (contractIds.length > 0) {
+      const { data: summaryData } = await supabase
+        .from("contract_financial_summary_mv")
+        .select(`
+          contract_id,
+          original_contract_amount,
+          approved_change_orders,
+          pending_change_orders,
+          draft_change_orders,
+          revised_contract_amount,
+          invoiced_amount,
+          payments_received,
+          remaining_balance
+        `)
+        .in("contract_id", contractIds);
+
+      if (summaryData) {
+        financialData = summaryData.reduce((acc, row) => {
+          if (row.contract_id) {
+            acc[row.contract_id] = {
+              original_contract_amount: row.original_contract_amount,
+              approved_change_orders: row.approved_change_orders,
+              pending_change_orders: row.pending_change_orders,
+              draft_change_orders: row.draft_change_orders,
+              revised_contract_amount: row.revised_contract_amount,
+              invoiced_amount: row.invoiced_amount,
+              payments_received: row.payments_received,
+              remaining_balance: row.remaining_balance,
+            };
+          }
+          return acc;
+        }, {} as typeof financialData);
+      }
+    }
+
+    // Merge contract data with financial summary
+    const enrichedContracts = (contracts || []).map((contract) => {
+      const financial = financialData[contract.id];
+      return {
+        ...contract,
+        // Use financial summary values, falling back to stored values
+        original_contract_value: financial?.original_contract_amount ?? contract.original_contract_value,
+        approved_change_orders: financial?.approved_change_orders ?? 0,
+        pending_change_orders: financial?.pending_change_orders ?? 0,
+        draft_change_orders: financial?.draft_change_orders ?? 0,
+        revised_contract_value: financial?.revised_contract_amount ?? contract.revised_contract_value,
+        invoiced: financial?.invoiced_amount ?? 0,
+        payments_received: financial?.payments_received ?? 0,
+        remaining_balance: financial?.remaining_balance ?? contract.revised_contract_value,
+      };
+    });
+
+    return NextResponse.json(enrichedContracts);
   } catch (error) {
     console.error("Error in GET /api/projects/[id]/contracts:", error);
     return NextResponse.json(
