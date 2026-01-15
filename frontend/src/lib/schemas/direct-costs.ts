@@ -102,7 +102,8 @@ export const DirectCostLineItemUpdateSchema = DirectCostLineItemSchema.extend({
 // DIRECT COST SCHEMA
 // =============================================================================
 
-export const DirectCostCreateSchema = z.object({
+// Base schema without refinement (can be extended)
+const DirectCostBaseSchema = z.object({
   // Required fields
   cost_type: z.enum(CostTypes),
   date: z.coerce.date(),
@@ -119,15 +120,25 @@ export const DirectCostCreateSchema = z.object({
   terms: z.string().trim().max(255).optional().nullable(),
   received_date: z.coerce.date().optional().nullable(),
   paid_date: z.coerce.date().optional().nullable(),
-}).refine(
-  (data) => data.vendor_id || data.employee_id,
-  {
-    message: 'Either vendor or employee must be selected',
-    path: ['vendor_id'],
-  }
-);
+});
 
-export const DirectCostUpdateSchema = DirectCostCreateSchema.extend({
+// Refinement for vendor/employee requirement
+const vendorOrEmployeeRefinement = <T extends { vendor_id?: string | null; employee_id?: number | null }>(
+  schema: z.ZodType<T>
+) =>
+  schema.refine(
+    (data) => data.vendor_id || data.employee_id,
+    {
+      message: 'Either vendor or employee must be selected',
+      path: ['vendor_id'],
+    }
+  );
+
+// Create schema with refinement
+export const DirectCostCreateSchema = vendorOrEmployeeRefinement(DirectCostBaseSchema);
+
+// Update schema - extend the base (without refinement), then add refinement
+const DirectCostUpdateBaseSchema = DirectCostBaseSchema.extend({
   id: uuidSchema,
   line_items: z
     .array(DirectCostLineItemUpdateSchema)
@@ -143,6 +154,8 @@ export const DirectCostUpdateSchema = DirectCostCreateSchema.extend({
       .min(1, 'At least one line item is required')
       .optional(),
   });
+
+export const DirectCostUpdateSchema = vendorOrEmployeeRefinement(DirectCostUpdateBaseSchema);
 
 // =============================================================================
 // STATUS WORKFLOW SCHEMAS
