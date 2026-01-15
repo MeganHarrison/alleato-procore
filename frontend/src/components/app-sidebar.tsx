@@ -1,16 +1,7 @@
-"use client"
-
 import * as React from "react"
-import { ChevronRight } from "lucide-react"
-import Image from "next/image"
-import Link from "next/link"
-import { usePathname, useParams } from "next/navigation"
 
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible"
+import { SearchForm } from "@/components/search-form"
+import { VersionSwitcher } from "@/components/version-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -21,138 +12,171 @@ import {
   SidebarMenu,
   SidebarMenuButton,
   SidebarMenuItem,
-  useSidebar,
+  SidebarRail,
 } from "@/components/ui/sidebar"
 
-// Navigation data
-const getNavData = (projectId?: string) => {
-  const projectUrl = (path: string) => projectId ? `/${projectId}/${path}` : `/${path}`
-
-  return [
+// This is sample data.
+const data = {
+  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
+  navMain: [
     {
-      title: "Core Tools",
+      title: "Getting Started",
+      url: "#",
       items: [
-        { title: "Home", url: projectId ? projectUrl("home") : "/" },
-        { title: "360 Reporting", url: projectUrl("reporting") },
-        { title: "Documents", url: projectUrl("documents") },
-        { title: "Directory", url: projectUrl("directory") },
-        { title: "Tables Directory", url: "/tables-directory" },
-        { title: "Tasks", url: projectUrl("tasks") },
+        {
+          title: "Installation",
+          url: "#",
+        },
+        {
+          title: "Project Structure",
+          url: "#",
+        },
       ],
     },
     {
-      title: "Project Management",
+      title: "Building Your Application",
+      url: "#",
       items: [
-        { title: "Emails", url: projectUrl("emails") },
-        { title: "RFIs", url: projectUrl("rfis") },
-        { title: "Submittals", url: projectUrl("submittals") },
-        { title: "Transmittals", url: projectUrl("transmittals") },
-        { title: "Punch List", url: projectUrl("punch-list") },
-        { title: "Meetings", url: projectUrl("meetings") },
-        { title: "Schedule", url: projectUrl("schedule") },
-        { title: "Daily Log", url: projectUrl("daily-log") },
-        { title: "Photos", url: projectUrl("photos") },
-        { title: "Drawings", url: projectUrl("drawings") },
-        { title: "Specifications", url: projectUrl("specifications") },
+        {
+          title: "Routing",
+          url: "#",
+        },
+        {
+          title: "Data Fetching",
+          url: "#",
+          isActive: true,
+        },
+        {
+          title: "Rendering",
+          url: "#",
+        },
+        {
+          title: "Caching",
+          url: "#",
+        },
+        {
+          title: "Styling",
+          url: "#",
+        },
+        {
+          title: "Optimizing",
+          url: "#",
+        },
+        {
+          title: "Configuring",
+          url: "#",
+        },
+        {
+          title: "Testing",
+          url: "#",
+        },
+        {
+          title: "Authentication",
+          url: "#",
+        },
+        {
+          title: "Deploying",
+          url: "#",
+        },
+        {
+          title: "Upgrading",
+          url: "#",
+        },
+        {
+          title: "Examples",
+          url: "#",
+        },
       ],
     },
     {
-      title: "Financial Management",
+      title: "API Reference",
+      url: "#",
       items: [
-        { title: "Prime Contracts", url: projectUrl("prime-contracts") },
-        { title: "Budget", url: projectUrl("budget") },
-        { title: "Commitments", url: projectUrl("commitments") },
-        { title: "Change Orders", url: projectUrl("change-orders") },
-        { title: "Change Events", url: projectUrl("change-events") },
-        { title: "Direct Costs", url: projectUrl("direct-costs") },
-        { title: "Invoicing", url: projectUrl("invoices") },
+        {
+          title: "Components",
+          url: "#",
+        },
+        {
+          title: "File Conventions",
+          url: "#",
+        },
+        {
+          title: "Functions",
+          url: "#",
+        },
+        {
+          title: "next.config.js Options",
+          url: "#",
+        },
+        {
+          title: "CLI",
+          url: "#",
+        },
+        {
+          title: "Edge Runtime",
+          url: "#",
+        },
       ],
     },
-  ]
+    {
+      title: "Architecture",
+      url: "#",
+      items: [
+        {
+          title: "Accessibility",
+          url: "#",
+        },
+        {
+          title: "Fast Refresh",
+          url: "#",
+        },
+        {
+          title: "Next.js Compiler",
+          url: "#",
+        },
+        {
+          title: "Supported Browsers",
+          url: "#",
+        },
+        {
+          title: "Turbopack",
+          url: "#",
+        },
+      ],
+    },
+  ],
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  const pathname = usePathname()
-  const params = useParams()
-  const projectId = params?.projectId as string | undefined
-  const { state } = useSidebar()
-  const isCollapsed = state === "collapsed"
-
-  const navData = getNavData(projectId)
-
   return (
-    <Sidebar collapsible="offcanvas" className="bg-white dark:bg-slate-950 border-r" {...props}>
-      <SidebarHeader className="p-3">
-        <Link href="/" className="flex items-center">
-          {isCollapsed ? (
-            <Image
-              src="/Alleato Favicon.png"
-              alt="Alleato"
-              width={28}
-              height={28}
-              className="object-contain"
-            />
-          ) : (
-            <>
-              <Image
-                src="/Alleato-Group-Logo_Dark.png"
-                alt="Alleato Group"
-                width={140}
-                height={40}
-                className="object-contain dark:hidden"
-              />
-              <Image
-                src="/Alleato-Group-Logo_Light.png"
-                alt="Alleato Group"
-                width={140}
-                height={40}
-                className="object-contain hidden dark:block"
-              />
-            </>
-          )}
-        </Link>
+    <Sidebar {...props}>
+      <SidebarHeader>
+        <VersionSwitcher
+          versions={data.versions}
+          defaultVersion={data.versions[0]}
+        />
+        <SearchForm />
       </SidebarHeader>
-      <SidebarContent className="gap-0">
-        {navData.map((group) => (
-          <Collapsible
-            key={group.title}
-            title={group.title}
-            defaultOpen
-            className="group/collapsible"
-          >
-            <SidebarGroup>
-              <SidebarGroupLabel
-                asChild
-                className="group/label text-primary hover:bg-sidebar-accent hover:text-sidebar-accent-foreground text-xs font-semibold"
-              >
-                <CollapsibleTrigger>
-                  {group.title}
-                  <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
-                </CollapsibleTrigger>
-              </SidebarGroupLabel>
-              <CollapsibleContent>
-                <SidebarGroupContent>
-                  <SidebarMenu>
-                    {group.items.map((item) => (
-                      <SidebarMenuItem key={item.title}>
-                        <SidebarMenuButton
-                          asChild
-                          isActive={pathname === item.url || pathname?.startsWith(item.url + "/")}
-                          className="text-xs h-7"
-                        >
-                          <Link href={item.url}>
-                            {item.title}
-                          </Link>
-                        </SidebarMenuButton>
-                      </SidebarMenuItem>
-                    ))}
-                  </SidebarMenu>
-                </SidebarGroupContent>
-              </CollapsibleContent>
-            </SidebarGroup>
-          </Collapsible>
+      <SidebarContent>
+        {/* We create a SidebarGroup for each parent. */}
+        {data.navMain.map((item) => (
+          <SidebarGroup key={item.title}>
+            <SidebarGroupLabel>{item.title}</SidebarGroupLabel>
+            <SidebarGroupContent>
+              <SidebarMenu>
+                {item.items.map((item) => (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={item.isActive}>
+                      <a href={item.url}>{item.title}</a>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
         ))}
       </SidebarContent>
+      <SidebarRail />
     </Sidebar>
   )
 }
