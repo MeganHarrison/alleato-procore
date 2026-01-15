@@ -2,7 +2,7 @@ import {
   GenericDataTable,
   type GenericTableConfig,
 } from "@/components/tables/generic-table-factory";
-import { ProjectToolPage } from "@/components/layout/project-tool-page";
+import { TableLayout } from "@/components/layouts/TableLayout";
 import { getProjectInfo } from "@/lib/supabase/project-fetcher";
 
 const config: GenericTableConfig = {
@@ -112,7 +112,7 @@ export default async function ProjectTasksPage({
   params: Promise<{ projectId: string }>;
 }) {
   const { projectId } = await params;
-  const { project, numericProjectId, supabase } =
+  const { numericProjectId, supabase } =
     await getProjectInfo(projectId);
 
   const { data: tasks, error } = await supabase
@@ -124,27 +124,17 @@ export default async function ProjectTasksPage({
   if (error) {
     console.error("Error fetching tasks:", error);
     return (
-      <ProjectToolPage
-        project={project.name || undefined}
-        client={project.client || undefined}
-        title="Tasks"
-        description="Manage project tasks and assignments"
-      >
+      <TableLayout>
         <div className="text-center text-red-600 p-6">
           Error loading tasks. Please try again later.
         </div>
-      </ProjectToolPage>
+      </TableLayout>
     );
   }
 
   return (
-    <ProjectToolPage
-      project={project.name || undefined}
-      client={project.client || undefined}
-      title="Tasks"
-      description="Manage project tasks and assignments"
-    >
+    <TableLayout>
       <GenericDataTable data={tasks || []} config={config} />
-    </ProjectToolPage>
+    </TableLayout>
   );
 }
