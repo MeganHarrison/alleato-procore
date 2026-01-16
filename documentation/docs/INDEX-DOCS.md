@@ -57,6 +57,9 @@
 | [*project-mgmt/RULE-VIOLATION-LOG.md](../*project-mgmt/RULE-VIOLATION-LOG.md) | Rule violations log for project management |
 | [*project-mgmt/active/](../*project-mgmt/active/) | Active feature work (budget, change-events, commitments, etc.) |
 | [*project-mgmt/active/schedule/](../*project-mgmt/active/schedule/) | Schedule feature implementation workspace |
+| [*project-mgmt/active/rfis/](../*project-mgmt/active/rfis/) | RFI tool implementation workspace |
+| [*project-mgmt/active/rfis/PLANS.md](../*project-mgmt/active/rfis/PLANS.md) | RFI implementation plan |
+| [*project-mgmt/active/rfis/TASK.md](../*project-mgmt/active/rfis/TASK.md) | RFI task tracking |
 | [*project-mgmt/complete/](../*project-mgmt/complete/) | Completed features with reports |
 | [*project-mgmt/todo/](../*project-mgmt/todo/) | Planned features (budget-forecasting, prime-contracts, punch-list) |
 | [*project-mgmt/verification-reports/](../*project-mgmt/verification-reports/) | Independent verification reports |

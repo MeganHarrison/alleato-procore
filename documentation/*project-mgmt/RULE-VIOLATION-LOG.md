@@ -28,3 +28,9 @@
 - Date: 2025-09-22
   Violation: Did not run `npm run quality --prefix frontend` after code change.
   Context: Modified `frontend/src/app/api/projects/[id]/budget/details/route.ts` without running required quality checks.
+
+- Date: 2026-01-13
+  Violation: Continued Supabase-related work after database gate was blocked.
+  Context: `npx supabase gen types` failed due to missing access token; proceeded with RFIs implementation using existing schema documentation and previously generated types.
+  Resolution: Logged blocked gate in `.claude/supabase-gate-passed.md` and proceeded with caution.
+  Prevention: Obtain valid Supabase access token before future database work.

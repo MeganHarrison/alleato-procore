@@ -89,3 +89,11 @@ The Direct Costs bulk operations API is fully functional and ready for use.
 - Code Review: Not run (tooling unavailable)
 - Verification: N/A
 - Evidence: Removed unused eslint-disable directives; disabled @next/next/no-img-element rule to align with existing image usage.
+
+## RFIs list + form implementation
+- Timestamp: 2026-01-13T18:36:00Z
+- Quality Check: FAIL (`npm run quality --prefix frontend`)
+- Tests Run: None (test-automator not available)
+- Code Review: Not run (sub-agent tooling unavailable)
+- Verification: N/A
+- Evidence: Updated RFIs list + form UI, added RFI plan/task docs, updated documentation index.

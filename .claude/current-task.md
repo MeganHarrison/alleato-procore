@@ -1,7 +1,7 @@
 # Current Task
 
-Feature: Schedule (Procore)
-Scope: Implement schedule list page with schedule_tasks data, add tests, and update feature workflow docs.
-Started: 2026-01-10
+Feature: RFIs (Procore)
+Scope: Implement RFI list + form with Supabase data, add planning/task docs, update documentation index.
+Started: 2026-01-13
 
 Status: In Progress
