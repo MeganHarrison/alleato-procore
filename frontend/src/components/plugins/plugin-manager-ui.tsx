@@ -389,7 +389,7 @@ function PluginSettings({ plugin }: { plugin: PluginRecord }) {
         <div className="py-4">
           {/* Plugin settings would be rendered here */}
           <p className="text-sm text-muted-foreground">
-            Plugin settings interface would be loaded here based on the plugin's configuration component.
+            Plugin settings interface would be loaded here based on the plugin&apos;s configuration component.
           </p>
         </div>
       </DialogContent>

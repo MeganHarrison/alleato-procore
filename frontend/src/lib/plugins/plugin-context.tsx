@@ -4,7 +4,6 @@
  */
 
 import React, { createContext, useContext } from 'react';
-import { useUser } from '@clerk/nextjs';
 import { createClient } from '@/lib/supabase/client';
 import type { HookContext } from '@/types/plugin.types';
 
@@ -36,8 +35,10 @@ export function AppPluginContextProvider({
   projectId?: string;
   projectName?: string;
 }) {
-  const { user } = useUser();
   const supabase = createClient();
+
+  // TODO: Integrate authenticated user data from the app's auth provider
+  const user = null;
 
   const context: AppContextForPlugins = {
     user: user ? {

@@ -1,10 +1,11 @@
 'use client'
 
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, type HTMLAttributes, type ReactNode } from 'react'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
 import { Send, Loader2, Bot, User, Sparkles } from 'lucide-react'
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown, { type Components } from 'react-markdown'
+import type { ExtraProps } from 'react-markdown'
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter'
 import { oneDark } from 'react-syntax-highlighter/dist/esm/styles/prism'
 
@@ -12,6 +13,43 @@ interface Message {
   role: 'user' | 'assistant'
   content: string
   timestamp: Date
+}
+
+type MarkdownCodeProps = HTMLAttributes<HTMLElement> & ExtraProps & {
+  inline?: boolean
+  children: ReactNode
+};
+
+const markdownComponents: Components = {
+  code({ node, inline, className, children, ...props }: MarkdownCodeProps) {
+    const match = /language-(\w+)/.exec(className || '')
+    return !inline && match ? (
+      <SyntaxHighlighter
+        style={oneDark}
+        language={match[1]}
+        PreTag="div"
+        className="rounded-md my-2"
+        {...props}
+      >
+        {String(children).replace(/\n$/, '')}
+      </SyntaxHighlighter>
+    ) : (
+      <code className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono" {...props}>
+        {children}
+      </code>
+    )
+  },
+  p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
+  ul: ({ children }) => <ul className="list-disc pl-5 mb-2">{children}</ul>,
+  ol: ({ children }) => <ol className="list-decimal pl-5 mb-2">{children}</ol>,
+  h1: ({ children }) => <h1 className="text-xl font-bold mb-2">{children}</h1>,
+  h2: ({ children }) => <h2 className="text-lg font-bold mb-2">{children}</h2>,
+  h3: ({ children }) => <h3 className="text-base font-bold mb-2">{children}</h3>,
+  blockquote: ({ children }) => (
+    <blockquote className="border-l-4 border-gray-300 pl-4 italic my-2">
+      {children}
+    </blockquote>
+  ),
 }
 
 export default function SimpleChatPage() {
@@ -169,39 +207,7 @@ export default function SimpleChatPage() {
                           </div>
                           {message.role === 'assistant' ? (
                             <div className="prose prose-sm max-w-none">
-                              <ReactMarkdown
-                                components={{
-                                  code({ node, inline, className, children, ...props }) {
-                                    const match = /language-(\w+)/.exec(className || '')
-                                    return !inline && match ? (
-                                      <SyntaxHighlighter
-                                        style={oneDark}
-                                        language={match[1]}
-                                        PreTag="div"
-                                        className="rounded-md my-2"
-                                        {...props}
-                                      >
-                                        {String(children).replace(/\n$/, '')}
-                                      </SyntaxHighlighter>
-                                    ) : (
-                                      <code className="bg-gray-100 px-1 py-0.5 rounded text-sm font-mono" {...props}>
-                                        {children}
-                                      </code>
-                                    )
-                                  },
-                                  p: ({ children }) => <p className="mb-2 last:mb-0">{children}</p>,
-                                  ul: ({ children }) => <ul className="list-disc pl-5 mb-2">{children}</ul>,
-                                  ol: ({ children }) => <ol className="list-decimal pl-5 mb-2">{children}</ol>,
-                                  h1: ({ children }) => <h1 className="text-xl font-bold mb-2">{children}</h1>,
-                                  h2: ({ children }) => <h2 className="text-lg font-bold mb-2">{children}</h2>,
-                                  h3: ({ children }) => <h3 className="text-base font-bold mb-2">{children}</h3>,
-                                  blockquote: ({ children }) => (
-                                    <blockquote className="border-l-4 border-gray-300 pl-4 italic my-2">
-                                      {children}
-                                    </blockquote>
-                                  ),
-                                }}
-                              >
+                              <ReactMarkdown components={markdownComponents}>
                                 {message.content}
                               </ReactMarkdown>
                             </div>

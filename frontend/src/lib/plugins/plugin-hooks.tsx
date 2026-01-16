@@ -234,12 +234,16 @@ export function withPluginHooks<P extends object>(
   hookType: HookType,
   getContext: (props: P) => Omit<HookContext, 'type'>
 ) {
-  return (props: P) => {
+  const WithPluginHooksComponent = (props: P) => {
     const context = getContext(props);
     const results = usePluginHook(hookType, context);
-    
+
     return <Component {...props} pluginHookResults={results} />;
   };
+
+  WithPluginHooksComponent.displayName = `WithPluginHooks(${Component.displayName || Component.name || 'Component'})`;
+
+  return WithPluginHooksComponent;
 }
 
 /**
@@ -298,7 +302,7 @@ export function createPluginComponent<P extends object>(
     widgetSlot?: boolean;
   }
 ) {
-  return (props: P & { pluginContext?: any }) => {
+  const PluginAwareComponent = (props: P & { pluginContext?: any }) => {
     const { beforeHook, afterHook, menuSlot } = options;
     const context = props.pluginContext || {};
 
@@ -315,15 +319,20 @@ export function createPluginComponent<P extends object>(
     );
 
     // Get menu items if menu slot is specified
-    const menuItems = menuSlot ? usePluginMenuItems(menuSlot) : [];
+    const menuItems = usePluginMenuItems(menuSlot || '');
+    const resolvedMenuItems = menuSlot ? menuItems : [];
 
     const enhancedProps = {
       ...props,
       pluginBeforeResults: beforeResults,
       pluginAfterResults: afterResults,
-      pluginMenuItems: menuItems,
+      pluginMenuItems: resolvedMenuItems,
     };
 
     return React.createElement(baseComponent, enhancedProps);
   };
+
+  PluginAwareComponent.displayName = `PluginAware(${baseComponent.displayName || baseComponent.name || 'Component'})`;
+
+  return PluginAwareComponent;
 }

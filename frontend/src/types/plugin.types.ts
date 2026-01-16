@@ -164,7 +164,7 @@ export const pluginManifestSchema = z.object({
   metadata: pluginMetadataSchema,
   entry: z.string(), // Main entry file
   files: z.array(z.string()),
-  dependencies: z.record(z.string()).optional(),
+  dependencies: z.record(z.string(), z.string()).optional(),
   permissions: z.array(z.string()).optional(),
 });
 
@@ -228,15 +228,3 @@ export interface PluginValidationResult {
 }
 
 // Export all types
-export type {
-  Plugin,
-  PluginAPI,
-  PluginLifecycle,
-  HookType,
-  HookContext,
-  MenuItem,
-  DashboardWidget,
-  ProjectTab,
-  PluginRecord,
-  PluginValidationResult,
-};

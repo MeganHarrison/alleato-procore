@@ -4,21 +4,21 @@
  */
 
 import { createClient } from '@/lib/supabase/client';
-import type {
-  Plugin,
-  PluginAPI,
-  PluginManifest,
-  PluginRecord,
-  PluginStatus,
-  HookType,
-  HookContext,
+import {
   PluginError,
-  PluginValidationResult,
-  MenuItem,
-  DashboardWidget,
-  ProjectTab,
+  pluginManifestSchema,
+  type DashboardWidget,
+  type HookContext,
+  type HookType,
+  type MenuItem,
+  type Plugin,
+  type PluginAPI,
+  type PluginManifest,
+  type PluginRecord,
+  type PluginStatus,
+  type PluginValidationResult,
+  type ProjectTab,
 } from '@/types/plugin.types';
-import { pluginManifestSchema } from '@/types/plugin.types';
 import { EventEmitter } from 'events';
 
 export class PluginManager extends EventEmitter {

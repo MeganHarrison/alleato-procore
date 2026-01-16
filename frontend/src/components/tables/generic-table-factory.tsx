@@ -512,11 +512,11 @@ export function GenericDataTable({ data: initialData, config }: GenericDataTable
       {/* Edit Dialog */}
       {config.editConfig && (
         <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
-          <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
+              <DialogContent className="max-w-2xl max-h-[80vh] overflow-y-auto">
             <DialogHeader>
               <DialogTitle>Edit {config.title.slice(0, -1)}</DialogTitle>
               <DialogDescription>
-                Make changes to this record. Click save when you're done.
+                Make changes to this record. Click save when you&apos;re done.
               </DialogDescription>
             </DialogHeader>
             <div className="grid gap-4 py-4">
