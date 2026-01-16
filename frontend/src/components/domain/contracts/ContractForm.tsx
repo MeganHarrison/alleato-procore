@@ -8,6 +8,7 @@ import { NumberField } from "@/components/forms/NumberField";
 import { DateField } from "@/components/forms/DateField";
 import { RichTextField } from "@/components/forms/RichTextField";
 import { SearchableSelect } from "@/components/forms/SearchableSelect";
+import { FileUploadField } from "@/components/forms/FileUploadField";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
@@ -49,6 +50,9 @@ export interface SOVLineItem {
   budgetCode?: string;
   description: string;
   amount: number;
+  quantity?: number;
+  unitCost?: number;
+  unitOfMeasure?: string;
   billedToDate: number;
   amountRemaining: number;
 }
@@ -97,6 +101,7 @@ export interface ContractFormData {
     url: string;
     size: number;
   }>;
+  attachmentFiles?: File[];
 }
 
 interface ContractFormProps {
@@ -114,11 +119,11 @@ interface ContractFormProps {
 
 const CONTRACT_STATUSES = [
   { value: "draft", label: "Draft" },
-  { value: "pending", label: "Pending" },
+  { value: "out_for_bid", label: "Out for Bid" },
   { value: "out_for_signature", label: "Out for Signature" },
   { value: "approved", label: "Approved" },
   { value: "complete", label: "Complete" },
-  { value: "void", label: "Void" },
+  { value: "terminated", label: "Terminated" },
 ];
 
 // ============================================================================
@@ -137,6 +142,10 @@ export function ContractForm({
     sovItems: [],
     ...initialData,
   });
+  const [validationErrors, setValidationErrors] = React.useState<
+    Partial<Record<"number" | "title" | "executed", string>>
+  >({});
+  const [attachmentFiles, setAttachmentFiles] = React.useState<File[]>([]);
 
   // Data hooks
   const {
@@ -154,11 +163,39 @@ export function ContractForm({
   // Handlers
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const errors: Partial<Record<"number" | "title" | "executed", string>> = {};
+    if (!formData.number?.trim()) {
+      errors.number = "Contract # is required.";
+    }
+    if (!formData.title?.trim()) {
+      errors.title = "Title is required.";
+    }
+    if (!formData.executed) {
+      errors.executed = "Executed is required.";
+    }
+
+    if (Object.keys(errors).length > 0) {
+      setValidationErrors(errors);
+      return;
+    }
+
     await onSubmit(formData as ContractFormData);
   };
 
   const updateFormData = (updates: Partial<ContractFormData>) => {
     setFormData((prev) => ({ ...prev, ...updates }));
+  };
+
+  const clearValidationError = (field: "number" | "title" | "executed") => {
+    setValidationErrors((prev) => {
+      if (!prev[field]) {
+        return prev;
+      }
+      const next = { ...prev };
+      delete next[field];
+      return next;
+    });
   };
 
   const handleCreateClient = async () => {
@@ -184,6 +221,9 @@ export function ContractForm({
       id: `sov-${Date.now()}`,
       description: "",
       amount: 0,
+      quantity: 1,
+      unitCost: 0,
+      unitOfMeasure: "",
       billedToDate: 0,
       amountRemaining: 0,
     };
@@ -192,9 +232,20 @@ export function ContractForm({
 
   const updateSOVLine = (id: string, updates: Partial<SOVLineItem>) => {
     const items = formData.sovItems || [];
+    const isUnitQuantity = formData.accountingMethod === "unit_quantity";
     updateFormData({
       sovItems: items.map((item) =>
-        item.id === id ? { ...item, ...updates } : item,
+        item.id === id
+          ? {
+              ...item,
+              ...updates,
+              amount:
+                isUnitQuantity && (updates.quantity || updates.unitCost)
+                  ? (updates.quantity ?? item.quantity ?? 0) *
+                    (updates.unitCost ?? item.unitCost ?? 0)
+                  : updates.amount ?? item.amount,
+            }
+          : item,
       ),
     });
   };
@@ -202,6 +253,45 @@ export function ContractForm({
   const removeSOVLine = (id: string) => {
     const items = formData.sovItems || [];
     updateFormData({ sovItems: items.filter((item) => item.id !== id) });
+  };
+
+  const toggleAccountingMethod = () => {
+    const nextMethod =
+      formData.accountingMethod === "unit_quantity" ? "amount" : "unit_quantity";
+    const updatedItems = (formData.sovItems || []).map((item) => {
+      if (nextMethod === "unit_quantity") {
+        const quantity = item.quantity ?? 1;
+        const unitCost = item.unitCost ?? item.amount ?? 0;
+        return {
+          ...item,
+          quantity,
+          unitCost,
+          amount: quantity * unitCost,
+        };
+      }
+      const amount = (item.quantity ?? 0) * (item.unitCost ?? 0);
+      return {
+        ...item,
+        amount,
+      };
+    });
+    updateFormData({ accountingMethod: nextMethod, sovItems: updatedItems });
+  };
+
+  const handleFilesSelected = (files: File[]) => {
+    const updatedFiles = [...attachmentFiles, ...files];
+    setAttachmentFiles(updatedFiles);
+    updateFormData({ attachmentFiles: updatedFiles });
+  };
+
+  const handleFilesChanged = (files: Array<{ name: string; size: number }>) => {
+    const filtered = attachmentFiles.filter((file) =>
+      files.some(
+        (info) => info.name === file.name && info.size === file.size,
+      ),
+    );
+    setAttachmentFiles(filtered);
+    updateFormData({ attachmentFiles: filtered });
   };
 
   // Auto-fill handler (development only)
@@ -228,7 +318,11 @@ export function ContractForm({
   }, [formData.sovItems]);
 
   return (
-    <Form onSubmit={handleSubmit} className="space-y-4">
+    <Form
+      onSubmit={handleSubmit}
+      className="space-y-4"
+      data-testid="prime-contract-form"
+    >
       {/* ================================================================ */}
       {/* GENERAL INFORMATION */}
       {/* ================================================================ */}
@@ -239,8 +333,13 @@ export function ContractForm({
           <TextField
             label="Contract #"
             value={formData.number || ""}
-            onChange={(e) => updateFormData({ number: e.target.value })}
+            onChange={(e) => {
+              clearValidationError("number");
+              updateFormData({ number: e.target.value });
+            }}
             placeholder="2"
+            error={validationErrors.number}
+            required
           />
 
           <SearchableSelect
@@ -251,6 +350,8 @@ export function ContractForm({
             placeholder="Select company"
             searchPlaceholder="Search"
             disabled={clientsLoading}
+            triggerTestId="owner-client-select"
+            optionTestIdPrefix="owner-client-option"
             addButton={
               <Dialog open={showAddClient} onOpenChange={setShowAddClient}>
                 <DialogTrigger asChild>
@@ -297,8 +398,13 @@ export function ContractForm({
           <TextField
             label="Title"
             value={formData.title || ""}
-            onChange={(e) => updateFormData({ title: e.target.value })}
+            onChange={(e) => {
+              clearValidationError("title");
+              updateFormData({ title: e.target.value });
+            }}
             placeholder="Enter title"
+            error={validationErrors.title}
+            required
           />
         </div>
 
@@ -320,14 +426,23 @@ export function ContractForm({
               <Checkbox
                 id="executed"
                 checked={formData.executed || false}
-                onCheckedChange={(checked) =>
-                  updateFormData({ executed: checked === true })
-                }
+                onCheckedChange={(checked) => {
+                  clearValidationError("executed");
+                  updateFormData({ executed: checked === true });
+                }}
               />
               <Label htmlFor="executed" className="ml-2 text-sm font-normal">
                 Contract is executed
               </Label>
             </div>
+            {validationErrors.executed && (
+              <p
+                className="text-sm text-red-600"
+                data-testid="executed-error"
+              >
+                {validationErrors.executed}
+              </p>
+            )}
           </div>
 
           <NumberField
@@ -378,12 +493,24 @@ export function ContractForm({
         {/* Attachments */}
         <div className="space-y-2">
           <Label>Attachments</Label>
-          <div className="border-2 border-dashed rounded-lg p-8 text-center">
-            <Button variant="outline" type="button">
-              Attach Files
-            </Button>
-            <p className="text-sm text-muted-foreground mt-2">or Drag & Drop</p>
-          </div>
+          <FileUploadField
+            label=""
+            value={attachmentFiles.map((file) => ({
+              name: file.name,
+              size: file.size,
+              type: file.type,
+            }))}
+            onChange={handleFilesChanged}
+            onFilesSelected={handleFilesSelected}
+            multiple
+            maxFiles={20}
+            maxSize={10 * 1024 * 1024}
+            accept=".pdf,.doc,.docx,.xls,.xlsx,.jpg,.jpeg,.png,.txt"
+            hint="Attach contract documents, plans, or other relevant files"
+            dropzoneTestId="prime-contract-attachments-dropzone"
+            inputTestId="prime-contract-attachments-input"
+            fileListTestId="prime-contract-attachments-list"
+          />
         </div>
       </div>
 
@@ -401,7 +528,14 @@ export function ContractForm({
               to Unit/Quantity.
             </p>
           </div>
-          <Button variant="outline" size="sm" className="shrink-0">
+          <Button
+            variant="outline"
+            size="sm"
+            className="shrink-0"
+            onClick={toggleAccountingMethod}
+            type="button"
+            data-testid="sov-accounting-toggle"
+          >
             Change to Unit/Quantity
           </Button>
         </div>
@@ -419,7 +553,11 @@ export function ContractForm({
         </div>
 
         {/* SOV Table */}
-        <div className="border rounded-lg overflow-hidden">
+        <div
+          className="border rounded-lg overflow-hidden"
+          data-testid="sov-table"
+          data-accounting-method={formData.accountingMethod}
+        >
           <table className="w-full">
             <thead className="bg-muted border-b">
               <tr>
@@ -444,6 +582,19 @@ export function ContractForm({
                 <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
                   Description
                 </th>
+                {formData.accountingMethod === "unit_quantity" && (
+                  <>
+                    <th className="px-4 py-3 text-right text-sm font-medium text-foreground">
+                      Qty
+                    </th>
+                    <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
+                      UOM
+                    </th>
+                    <th className="px-4 py-3 text-right text-sm font-medium text-foreground">
+                      Unit Cost
+                    </th>
+                  </>
+                )}
                 <th className="px-4 py-3 text-right text-sm font-medium text-foreground">
                   Amount
                 </th>
@@ -464,21 +615,26 @@ export function ContractForm({
                       <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center">
                         <span className="text-4xl">🤔</span>
                       </div>
-                      <p className="text-lg font-medium text-foreground">
-                        You Have No Line Items Yet
-                      </p>
-                      <Button
-                        onClick={addSOVLine}
-                        className="bg-orange-500 hover:bg-orange-600"
-                      >
-                        Add Line
-                      </Button>
-                    </div>
-                  </td>
-                </tr>
-              ) : (
+                    <p className="text-lg font-medium text-foreground">
+                      You Have No Line Items Yet
+                    </p>
+                    <Button
+                      onClick={addSOVLine}
+                      className="bg-orange-500 hover:bg-orange-600"
+                      data-testid="sov-add-line-empty"
+                    >
+                      Add Line
+                    </Button>
+                  </div>
+                </td>
+              </tr>
+            ) : (
                 formData.sovItems?.map((item, index) => (
-                  <tr key={item.id} className="border-b">
+                  <tr
+                    key={item.id}
+                    className="border-b"
+                    data-testid={`sov-line-${index}`}
+                  >
                     <td className="px-4 py-3 text-sm">{index + 1}</td>
                     <td className="px-4 py-3">
                       <Input
@@ -488,6 +644,7 @@ export function ContractForm({
                         }
                         placeholder="Budget code"
                         className="h-8"
+                        data-testid="sov-line-budget-code"
                       />
                     </td>
                     <td className="px-4 py-3">
@@ -500,8 +657,51 @@ export function ContractForm({
                         }
                         placeholder="Description"
                         className="h-8"
+                        data-testid="sov-line-description"
                       />
                     </td>
+                    {formData.accountingMethod === "unit_quantity" && (
+                      <>
+                        <td className="px-4 py-3">
+                          <Input
+                            type="number"
+                            value={item.quantity ?? ""}
+                            onChange={(e) =>
+                              updateSOVLine(item.id, {
+                                quantity: parseFloat(e.target.value) || 0,
+                              })
+                            }
+                            className="h-8 text-right"
+                            data-testid="sov-line-quantity"
+                          />
+                        </td>
+                        <td className="px-4 py-3">
+                          <Input
+                            value={item.unitOfMeasure || ""}
+                            onChange={(e) =>
+                              updateSOVLine(item.id, {
+                                unitOfMeasure: e.target.value,
+                              })
+                            }
+                            className="h-8"
+                            data-testid="sov-line-unit-of-measure"
+                          />
+                        </td>
+                        <td className="px-4 py-3">
+                          <Input
+                            type="number"
+                            value={item.unitCost ?? ""}
+                            onChange={(e) =>
+                              updateSOVLine(item.id, {
+                                unitCost: parseFloat(e.target.value) || 0,
+                              })
+                            }
+                            className="h-8 text-right"
+                            data-testid="sov-line-unit-cost"
+                          />
+                        </td>
+                      </>
+                    )}
                     <td className="px-4 py-3">
                       <Input
                         type="number"
@@ -512,12 +712,19 @@ export function ContractForm({
                           })
                         }
                         className="h-8 text-right"
+                        data-testid="sov-line-amount"
+                        readOnly={
+                          formData.accountingMethod === "unit_quantity"
+                        }
                       />
                     </td>
                     <td className="px-4 py-3 text-right text-sm">
                       ${item.billedToDate.toFixed(2)}
                     </td>
-                    <td className="px-4 py-3 text-right text-sm">
+                    <td
+                      className="px-4 py-3 text-right text-sm"
+                      data-testid="sov-line-amount-remaining"
+                    >
                       ${(item.amount - item.billedToDate).toFixed(2)}
                     </td>
                     <td className="px-4 py-3">
@@ -542,18 +749,35 @@ export function ContractForm({
                     size="sm"
                     onClick={addSOVLine}
                     className="bg-orange-500 hover:bg-orange-600 text-white border-0"
+                    data-testid="sov-add-line-footer"
                   >
                     Add Line
                   </Button>
                 </td>
                 <td className="px-4 py-3 text-right font-medium">Total:</td>
-                <td className="px-4 py-3 text-right font-medium">
+                {formData.accountingMethod === "unit_quantity" && (
+                  <>
+                    <td className="px-4 py-3" />
+                    <td className="px-4 py-3" />
+                    <td className="px-4 py-3" />
+                  </>
+                )}
+                <td
+                  className="px-4 py-3 text-right font-medium"
+                  data-testid="sov-total-amount"
+                >
                   ${sovTotals.amount.toFixed(2)}
                 </td>
-                <td className="px-4 py-3 text-right font-medium">
+                <td
+                  className="px-4 py-3 text-right font-medium"
+                  data-testid="sov-total-billed"
+                >
                   ${sovTotals.billedToDate.toFixed(2)}
                 </td>
-                <td className="px-4 py-3 text-right font-medium">
+                <td
+                  className="px-4 py-3 text-right font-medium"
+                  data-testid="sov-total-remaining"
+                >
                   ${sovTotals.amountRemaining.toFixed(2)}
                 </td>
                 <td></td>
