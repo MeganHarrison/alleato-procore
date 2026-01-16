@@ -36,6 +36,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import type { CompanyCreateDTO, CompanyUpdateDTO } from "@/services/companyService";
 import type { ProjectCompany } from "@/services/companyService";
+import { toast } from "@/hooks/use-toast";
 
 export default function ProjectDirectoryCompaniesPage() {
   const params = useParams();
@@ -114,9 +115,18 @@ export default function ProjectDirectoryCompaniesPage() {
         `Are you sure you want to remove ${company.company?.name || "this company"}?`,
       )
     ) {
-      await deleteCompanyMutation.mutateAsync(company.id);
-      setPage(1);
-      setCompanies([]);
+      try {
+        await deleteCompanyMutation.mutateAsync(company.id);
+        setPage(1);
+        setCompanies([]);
+        toast.success("Company removed successfully");
+      } catch (error) {
+        toast.error(
+          error instanceof Error
+            ? error.message
+            : "Failed to remove company. Please try again.",
+        );
+      }
     }
   };
 
@@ -282,7 +292,16 @@ export default function ProjectDirectoryCompaniesPage() {
             city: formData.city || undefined,
             state: formData.state || undefined,
           };
-          await createCompanyMutation.mutateAsync(payload);
+          try {
+            await createCompanyMutation.mutateAsync(payload);
+          } catch (error) {
+            return {
+              error:
+                error instanceof Error
+                  ? error.message
+                  : "Failed to create company. Please try again.",
+            };
+          }
         }}
         onUpdate={async (companyId, formData) => {
           const payload: CompanyUpdateDTO = {
@@ -291,10 +310,19 @@ export default function ProjectDirectoryCompaniesPage() {
             city: formData.city || undefined,
             state: formData.state || undefined,
           };
-          await updateCompanyMutation.mutateAsync({
-            companyId,
-            data: payload,
-          });
+          try {
+            await updateCompanyMutation.mutateAsync({
+              companyId,
+              data: payload,
+            });
+          } catch (error) {
+            return {
+              error:
+                error instanceof Error
+                  ? error.message
+                  : "Failed to update company. Please try again.",
+            };
+          }
         }}
       />
 
