@@ -3372,7 +3372,7 @@ export const changeEvents = pgTable("change_events", {
 	createdAt: timestamp("created_at", { withTimezone: true, mode: 'string' }).defaultNow(),
 	// You can use { mode: "bigint" } if numbers are exceeding js number limitations
 	projectId: bigint("project_id", { mode: "number" }).notNull(),
-	eventNumber: text("event_number"),
+	number: text("number"),
 	title: text().notNull(),
 	reason: text(),
 	scope: text(),

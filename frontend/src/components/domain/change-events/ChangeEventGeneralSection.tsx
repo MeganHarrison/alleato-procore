@@ -10,12 +10,14 @@ import type { ChangeEventFormData } from "./ChangeEventForm";
 interface ChangeEventGeneralSectionProps {
   data: Partial<ChangeEventFormData>;
   onChange: (updates: Partial<ChangeEventFormData>) => void;
+  errors?: Partial<Record<keyof ChangeEventFormData, string>>;
   projectId: number;
 }
 
 export function ChangeEventGeneralSection({
   data,
   onChange,
+  errors,
 }: ChangeEventGeneralSectionProps) {
   // Standard status options (typically used in Procore)
   const statusOptions = [
@@ -83,13 +85,14 @@ export function ChangeEventGeneralSection({
       >
         <TextField
           label="Number"
-          name="event_number"
+          name="number"
           value={data.number || ""}
           onChange={(e) => onChange({ number: e.target.value })}
           required
           placeholder="CE-001"
           hint="Unique identifier for this change event"
           data-testid="change-event-number-input"
+          error={errors?.number}
         />
 
         <TextField
@@ -101,6 +104,7 @@ export function ChangeEventGeneralSection({
           fullWidth
           placeholder="Brief description of the change"
           data-testid="change-event-title-input"
+          error={errors?.title}
         />
 
         <SelectField
@@ -109,6 +113,8 @@ export function ChangeEventGeneralSection({
           value={data.status || "open"}
           onValueChange={(value) => onChange({ status: value })}
           required
+          error={errors?.status}
+          dataTestId="change-event-status-select"
         />
 
         <SelectField

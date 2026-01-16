@@ -19,7 +19,7 @@ import { useCallback, useEffect, useState } from "react";
 export interface ChangeEvent {
   id: number;
   project_id: number;
-  event_number: string | null;
+  number: string | null;
   title: string;
   description?: string | null;
   reason: string | null;
@@ -87,7 +87,7 @@ export function useChangeEvents(
       let query = supabase
         .from("change_events")
         .select("*")
-        .order("event_number", { ascending: true })
+        .order("number", { ascending: true })
         .limit(limit);
 
       // Filter by project_id
@@ -132,7 +132,7 @@ export function useChangeEvents(
         // Prepare the insert data
         const insertData: Record<string, unknown> = {
           project_id: changeEvent.project_id,
-          event_number: changeEvent.event_number,
+          number: changeEvent.number,
           title: changeEvent.title,
           reason: changeEvent.reason,
           scope: changeEvent.scope,
@@ -175,7 +175,7 @@ export function useChangeEvents(
 
   // Transform change events to options for dropdowns
   const changeEventOptions: ChangeEventOption[] = changeEvents.map((ce) => {
-    const number = ce.event_number || `CE-${ce.id}`;
+    const number = ce.number || `CE-${ce.id}`;
     const label = ce.title ? `${number}: ${ce.title}` : number;
 
     return {

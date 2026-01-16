@@ -1541,7 +1541,7 @@
       "column_count": 9,
       "columns": [
         "created_at",
-        "event_number",
+        "number",
         "id",
         "notes",
         "project_id",
@@ -1555,7 +1555,7 @@
           "type": "text",
           "nullable": true
         },
-        "event_number": {
+        "number": {
           "type": "text",
           "nullable": true
         },

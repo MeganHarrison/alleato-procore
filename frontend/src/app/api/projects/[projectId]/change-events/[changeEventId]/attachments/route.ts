@@ -110,7 +110,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     // Verify change event exists
     const { data: changeEvent, error: eventError } = await supabase
       .from("change_events")
-      .select("id, event_number")
+      .select("id, number")
       .eq("project_id", parseInt(projectId, 10))
       .eq("id", parseInt(changeEventId, 10))
       .is("deleted_at", null)

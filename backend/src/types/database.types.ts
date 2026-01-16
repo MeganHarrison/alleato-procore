@@ -1601,7 +1601,7 @@ export type Database = {
       change_events: {
         Row: {
           created_at: string | null
-          event_number: string | null
+          number: string | null
           id: number
           notes: string | null
           project_id: number
@@ -1612,7 +1612,7 @@ export type Database = {
         }
         Insert: {
           created_at?: string | null
-          event_number?: string | null
+          number?: string | null
           id?: number
           notes?: string | null
           project_id: number
@@ -1623,7 +1623,7 @@ export type Database = {
         }
         Update: {
           created_at?: string | null
-          event_number?: string | null
+          number?: string | null
           id?: number
           notes?: string | null
           project_id?: number

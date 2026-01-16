@@ -19266,8 +19266,8 @@
           "primaryKey": false,
           "notNull": true
         },
-        "event_number": {
-          "name": "event_number",
+        "number": {
+          "name": "number",
           "type": "text",
           "primaryKey": false,
           "notNull": false
