@@ -6,7 +6,7 @@ test.describe('Change Events - Debug Navigation', () => {
   const projectId = 60; // Known project ID from API
 
   test('Debug: Navigate directly to create form', async ({ page }) => {
-    console.log('Navigating directly to create form...');
+    console.warn('Navigating directly to create form...');
 
     // Navigate directly to the create form
     await page.goto(`http://localhost:3000/${projectId}/change-events/new`);
@@ -18,7 +18,7 @@ test.describe('Change Events - Debug Navigation', () => {
     page.on('console', msg => {
       if (msg.type() === 'error') {
         consoleErrors.push(msg.text());
-        console.log('Console error:', msg.text());
+        console.warn('Console error:', msg.text());
       }
     });
 
@@ -29,11 +29,11 @@ test.describe('Change Events - Debug Navigation', () => {
     });
 
     // Check URL
-    console.log('Current URL:', page.url());
+    console.warn('Current URL:', page.url());
 
     // Look for page title
     const pageTitle = await page.locator('h1, h2').allTextContents();
-    console.log('Page titles found:', pageTitle);
+    console.warn('Page titles found:', pageTitle);
 
     // Look for form elements
     const formElements = {
@@ -43,48 +43,48 @@ test.describe('Change Events - Debug Navigation', () => {
       selects: await page.locator('select').count(),
       buttons: await page.locator('button').count(),
     };
-    console.log('Form elements found:', formElements);
+    console.warn('Form elements found:', formElements);
 
     // Look for specific form fields by label or placeholder
     const numberField = page.locator('input[name="number"], label:has-text("Number") + input, label:has-text("number") + input').first();
     const titleField = page.locator('input[name="title"], label:has-text("Title") + input, label:has-text("title") + input').first();
 
-    console.log('Number field exists:', await numberField.count() > 0);
-    console.log('Title field exists:', await titleField.count() > 0);
+    console.warn('Number field exists:', await numberField.count() > 0);
+    console.warn('Title field exists:', await titleField.count() > 0);
 
     // Get all input names
     const inputNames = await page.locator('input[name]').evaluateAll(inputs =>
       inputs.map((input: any) => input.name)
     );
-    console.log('Input field names found:', inputNames);
+    console.warn('Input field names found:', inputNames);
 
     // Get all button texts
     const buttonTexts = await page.locator('button').allTextContents();
-    console.log('Button texts:', buttonTexts);
+    console.warn('Button texts:', buttonTexts);
 
     // Check for errors
     const errorText = await page.locator('text=/error|failed|cannot/i').allTextContents();
     if (errorText.length > 0) {
-      console.log('Error messages on page:', errorText);
+      console.warn('Error messages on page:', errorText);
     }
 
     await page.waitForTimeout(2000);
 
     if (consoleErrors.length > 0) {
-      console.log('\nConsole Errors:');
-      consoleErrors.forEach(err => console.log(`  - ${err}`));
+      console.warn('\nConsole Errors:');
+      consoleErrors.forEach(err => console.warn(`  - ${err}`));
     }
   });
 
   test('Debug: Click button from list page', async ({ page }) => {
-    console.log('Testing button click navigation...');
+    console.warn('Testing button click navigation...');
 
     // Navigate to list page
     await page.goto(`http://localhost:3000/${projectId}/change-events`);
     await page.waitForLoadState('domcontentloaded');
     await page.waitForTimeout(1000);
 
-    console.log('On list page, URL:', page.url());
+    console.warn('On list page, URL:', page.url());
 
     // Take screenshot of list page
     await page.screenshot({
@@ -94,7 +94,7 @@ test.describe('Change Events - Debug Navigation', () => {
 
     // Find all buttons
     const allButtons = await page.locator('button, a[role="button"]').allTextContents();
-    console.log('All buttons/links on page:', allButtons);
+    console.warn('All buttons/links on page:', allButtons);
 
     // Look for create button with various selectors
     const createButtonSelectors = [
@@ -110,17 +110,17 @@ test.describe('Change Events - Debug Navigation', () => {
       const btn = page.locator(selector).first();
       if (await btn.count() > 0) {
         createButton = btn;
-        console.log(`Found create button with selector: ${selector}`);
+        console.warn(`Found create button with selector: ${selector}`);
         break;
       }
     }
 
     if (createButton) {
-      console.log('Clicking create button...');
+      console.warn('Clicking create button...');
       await createButton.click();
       await page.waitForTimeout(2000);
 
-      console.log('After click, URL:', page.url());
+      console.warn('After click, URL:', page.url());
 
       // Take screenshot after click
       await page.screenshot({
@@ -130,34 +130,34 @@ test.describe('Change Events - Debug Navigation', () => {
 
       // Check if URL changed
       if (page.url().includes('/new')) {
-        console.log('✓ Successfully navigated to /new page');
+        console.warn('✓ Successfully navigated to /new page');
       } else {
-        console.log('✗ Did NOT navigate to /new page');
+        console.warn('✗ Did NOT navigate to /new page');
       }
     } else {
-      console.log('✗ Could not find create button');
+      console.warn('✗ Could not find create button');
     }
   });
 
   test('Debug: Check API endpoint', async ({ request }) => {
-    console.log('Testing change events API...');
+    console.warn('Testing change events API...');
 
     // Test GET endpoint
     const getResponse = await request.get(`http://localhost:3000/api/projects/${projectId}/change-events`);
-    console.log('GET /api/projects/:id/change-events');
-    console.log('  Status:', getResponse.status());
+    console.warn('GET /api/projects/:id/change-events');
+    console.warn('  Status:', getResponse.status());
 
     if (getResponse.ok()) {
       const data = await getResponse.json();
-      console.log('  Response:', JSON.stringify(data, null, 2).substring(0, 500));
+      console.warn('  Response:', JSON.stringify(data, null, 2).substring(0, 500));
     } else {
-      console.log('  Error:', await getResponse.text());
+      console.warn('  Error:', await getResponse.text());
     }
 
     // Test POST endpoint (with minimal data)
     const postResponse = await request.post(`http://localhost:3000/api/projects/${projectId}/change-events`, {
       data: {
-        event_number: 'TEST-001',
+        number: 'TEST-001',
         title: 'API Test Change Event',
         type: 'owner_change',
         scope: 'tbd',
@@ -165,15 +165,15 @@ test.describe('Change Events - Debug Navigation', () => {
       }
     });
 
-    console.log('\nPOST /api/projects/:id/change-events');
-    console.log('  Status:', postResponse.status());
+    console.warn('\nPOST /api/projects/:id/change-events');
+    console.warn('  Status:', postResponse.status());
 
     if (postResponse.ok()) {
       const data = await postResponse.json();
-      console.log('  Created:', JSON.stringify(data, null, 2).substring(0, 500));
+      console.warn('  Created:', JSON.stringify(data, null, 2).substring(0, 500));
     } else {
       const errorText = await postResponse.text();
-      console.log('  Error:', errorText);
+      console.warn('  Error:', errorText);
     }
   });
 });

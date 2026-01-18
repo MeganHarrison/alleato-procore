@@ -1,47 +1,55 @@
 "use client";
 
+import * as React from "react";
 import { format } from "date-fns";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
 import {
-  Plus,
+  ChevronDown,
   Calendar,
   FileText,
-  ChevronDown,
-  ChevronUp,
-  Star,
   CheckSquare,
   TrendingUp,
   DollarSign,
   Upload,
-  Folder,
+  Users,
+  Building2,
+  ClipboardList,
+  PenLine,
 } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Button } from "@/components/ui/button";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
-import { useState } from "react";
-import { HeroMetrics } from "./hero-metrics";
-import { EditableSummary } from "./editable-summary";
-import type { Database } from "@/types/database.types";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-import { SidebarProvider } from "@/components/ui/sidebar";
-import { ProjectSidebar } from "./project-sidebar";
-import { InfoSection } from "./info-section";
-import { InlineTeamMemberForm } from "@/components/project-home/inline-team-member-form";
 
-interface TeamMember {
-  name: string;
-  role: string;
-  personId?: string;
-}
+import { PageShell } from "@/components/layout/page-shell";
+import { SectionCard } from "@/components/ui/section-card";
+import { MetricCard, MetricGrid, MetricSummary } from "@/components/ui/metric-card";
+import { EditableSummary } from "./editable-summary";
+import { InlineTeamMemberForm } from "@/components/project-home/inline-team-member-form";
+import type { Database } from "@/types/database.types";
+
+/* =============================================================================
+   PROJECT HOME - SOURCE OF TRUTH
+   =============================================================================
+   This is the canonical implementation of a project homepage.
+   All design patterns here should be replicated across other pages.
+
+   Key principles:
+   - Use PageShell for consistent layout wrapper
+   - Use SectionCard for collapsible content sections
+   - Use MetricCard/MetricGrid for KPI displays
+   - Consistent typography using design system classes
+   - Mobile-first responsive design
+   - Premium, luxury aesthetic with subtle refinement
+   ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+   Type Definitions
+   ----------------------------------------------------------------------------- */
 
 type Project = Database["public"]["Tables"]["projects"]["Row"];
 type Task = Database["public"]["Tables"]["project_tasks"]["Row"];
@@ -49,7 +57,17 @@ type Meeting = Database["public"]["Tables"]["document_metadata"]["Row"];
 type ChangeOrder = Database["public"]["Tables"]["change_orders"]["Row"];
 type RFI = Database["public"]["Tables"]["rfis"]["Row"];
 type DailyLog = Database["public"]["Tables"]["daily_logs"]["Row"];
-// Commitment is from the commitments_unified view (combines subcontracts + purchase_orders)
+type Contract = Database["public"]["Tables"]["financial_contracts"]["Row"];
+type BudgetItem = Database["public"]["Tables"]["budget_lines"]["Row"];
+type ChangeEvent = Database["public"]["Tables"]["change_events"]["Row"];
+type SOV = Database["public"]["Tables"]["schedule_of_values"]["Row"];
+
+interface TeamMember {
+  name: string;
+  role: string;
+  personId?: string;
+}
+
 interface Commitment {
   id: string;
   project_id: number;
@@ -72,10 +90,6 @@ interface Commitment {
   billed_to_date?: number;
   balance_to_finish?: number;
 }
-type Contract = Database["public"]["Tables"]["financial_contracts"]["Row"];
-type BudgetItem = Database["public"]["Tables"]["budget_lines"]["Row"];
-type ChangeEvent = Database["public"]["Tables"]["change_events"]["Row"];
-type SOV = Database["public"]["Tables"]["schedule_of_values"]["Row"];
 
 interface ProjectHomeClientProps {
   project: Project;
@@ -92,32 +106,53 @@ interface ProjectHomeClientProps {
   sov?: SOV[];
 }
 
-// Project Tools Links - matching the dropdown in the header
-interface ToolLink {
-  name: string;
-  href: string;
-  badge?: string;
-  isFavorite?: boolean;
-  hasCreateAction?: boolean;
+/* -----------------------------------------------------------------------------
+   Project Tools Configuration
+   ----------------------------------------------------------------------------- */
+
+const toolCategories = [
+  {
+    title: "Core",
+    tools: [
+      { name: "Dashboard", href: "/dashboard", icon: Building2 },
+      { name: "Directory", href: "/directory", icon: Users },
+      { name: "Meetings", href: "/meetings", icon: Calendar },
+    ],
+  },
+  {
+    title: "Project Management",
+    tools: [
+      { name: "Tasks", href: "/tasks", icon: CheckSquare },
+      { name: "Schedule", href: "/schedule", icon: Calendar },
+      { name: "Daily Logs", href: "/daily-logs", icon: ClipboardList },
+    ],
+  },
+  {
+    title: "Financial",
+    tools: [
+      { name: "Commitments", href: "/commitments", icon: FileText },
+      { name: "Invoices", href: "/invoices", icon: DollarSign },
+      { name: "Budget", href: "/budget", icon: TrendingUp },
+    ],
+  },
+];
+
+/* -----------------------------------------------------------------------------
+   Currency Formatter Utility
+   ----------------------------------------------------------------------------- */
+
+function formatCurrency(amount: number): string {
+  return new Intl.NumberFormat("en-US", {
+    style: "currency",
+    currency: "USD",
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
+  }).format(amount);
 }
 
-const coreTools: ToolLink[] = [
-  { name: "Dashboard", href: "/dashboard" },
-  { name: "Directory", href: "/directory" },
-  { name: "Meetings", href: "/meetings" },
-];
-
-const projectManagementTools: ToolLink[] = [
-  { name: "Tasks", href: "/tasks" },
-  { name: "Schedule", href: "/schedule", hasCreateAction: true },
-  { name: "Daily Logs", href: "/daily-logs" },
-];
-
-const financialManagementTools: ToolLink[] = [
-  { name: "Commitments", href: "/commitments", hasCreateAction: true },
-  { name: "Invoices", href: "/invoices" },
-  { name: "Budget", href: "/budget", hasCreateAction: true },
-];
+/* -----------------------------------------------------------------------------
+   Project Home Client Component
+   ----------------------------------------------------------------------------- */
 
 export function ProjectHomeClient({
   project,
@@ -125,25 +160,27 @@ export function ProjectHomeClient({
   meetings,
   changeOrders,
   rfis,
-  dailyLogs,
+  dailyLogs: _dailyLogs,
   commitments,
   contracts,
   budget = [],
-  changeEvents = [],
-  schedule = [],
-  sov = [],
+  changeEvents: _changeEvents = [],
+  schedule: _schedule = [],
+  sov: _sov = [],
 }: ProjectHomeClientProps) {
   const router = useRouter();
-  const [currentTool, setCurrentTool] = useState("Tools");
-  const [isTeamOpen, setIsTeamOpen] = useState(true);
-  const [isContractsOpen, setIsContractsOpen] = useState(true);
-  const [isCommitmentsOpen, setIsCommitmentsOpen] = useState(true);
-  const [isBudgetOpen, setIsBudgetOpen] = useState(true);
-  const [isSovOpen, setIsSovOpen] = useState(true);
-  const [isScheduleOpen, setIsScheduleOpen] = useState(true);
-  const [showAddTeamMemberForm, setShowAddTeamMemberForm] = useState(false);
 
-  // Parse existing team members to ensure consistent format
+  // Section open states
+  const [isTeamOpen, setIsTeamOpen] = React.useState(true);
+  const [isContractsOpen, setIsContractsOpen] = React.useState(true);
+  const [isCommitmentsOpen, setIsCommitmentsOpen] = React.useState(true);
+  const [isBudgetOpen, setIsBudgetOpen] = React.useState(true);
+  const [showAddTeamMemberForm, setShowAddTeamMemberForm] = React.useState(false);
+
+  /* ---------------------------------------------------------------------------
+     Team Member Handlers
+     ------------------------------------------------------------------------- */
+
   const parseTeamMembers = (): TeamMember[] => {
     if (!project.team_members || !Array.isArray(project.team_members)) {
       return [];
@@ -161,7 +198,6 @@ export function ProjectHomeClient({
     });
   };
 
-  // Handle saving team members
   const handleSaveTeamMembers = async (members: TeamMember[]) => {
     try {
       const response = await fetch(`/api/projects/${project.id}`, {
@@ -169,11 +205,7 @@ export function ProjectHomeClient({
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ team_members: members }),
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to update team members");
-      }
-
+      if (!response.ok) throw new Error("Failed to update team members");
       setShowAddTeamMemberForm(false);
       router.refresh();
     } catch (error) {
@@ -182,20 +214,14 @@ export function ProjectHomeClient({
     }
   };
 
-  // Handle saving project updates
-  const handleSaveProject = async (updates: Record<string, string>) => {
+  const handleSaveSummary = async (summary: string) => {
     try {
       const response = await fetch(`/api/projects/${project.id}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(updates),
+        body: JSON.stringify({ summary }),
       });
-
-      if (!response.ok) {
-        throw new Error("Failed to update project");
-      }
-
-      // Refresh the page to show updated data
+      if (!response.ok) throw new Error("Failed to update project");
       router.refresh();
     } catch (error) {
       console.error("Error updating project:", error);
@@ -203,973 +229,456 @@ export function ProjectHomeClient({
     }
   };
 
-  // Handle saving summary
-  const handleSaveSummary = async (summary: string) => {
-    await handleSaveProject({ summary });
-  };
+  /* ---------------------------------------------------------------------------
+     Calculate Metrics
+     ------------------------------------------------------------------------- */
 
-  // Calculate financial metrics for hero section
-  const totalBudget = budget.reduce(
-    (sum, item) => sum + (item.original_amount || 0),
-    0,
-  );
-  const committed = commitments.reduce(
-    (sum, c) => sum + (c.contract_amount || 0),
-    0,
-  );
-  const spent = 0; // TODO: Implement cost tracking
-  const forecastedCost = totalBudget; // TODO: Implement cost forecasting
+  const totalBudget = budget.reduce((sum, item) => sum + (item.original_amount || 0), 0);
+  const committed = commitments.reduce((sum, c) => sum + (c.contract_amount || 0), 0);
+  const approvedChangeOrders = changeOrders.filter((co) => co.status === "approved").length;
 
-  // Change orders don't have an 'amount' field in the schema, so we'll count them instead
-  const changeOrdersTotal = changeOrders.filter(
-    (co) => co.status === "approved",
-  ).length;
-  const activeTasks = tasks.length;
-
-  // Calculate project setup steps completion
-  const projectSteps = [
-    {
-      id: "prime-contract",
-      label: "Prime Contract",
-      completed: contracts.length > 0,
-    },
-    { id: "cost-codes", label: "Cost Codes", completed: budget.length > 0 },
-    { id: "budget", label: "Budget", completed: budget.length > 0 },
-    { id: "schedule", label: "Schedule", completed: schedule.length > 0 },
-    {
-      id: "project-team",
-      label: "Project Team",
-      completed:
-        project.team_members &&
-        Array.isArray(project.team_members) &&
-        project.team_members.length > 0,
-    },
-    { id: "sov", label: "SOV", completed: sov.length > 0 },
-    {
-      id: "commitments",
-      label: "Commitments",
-      completed: commitments.length > 0,
-    },
-  ];
+  /* ---------------------------------------------------------------------------
+     Render
+     ------------------------------------------------------------------------- */
 
   return (
-    <SidebarProvider>
-      <div className="flex min-h-screen w-full">
-        <div className="flex-1 overflow-auto">
-          <div className="min-h-screen px-4 sm:px-6 md:px-8 lg:px-12 py-2 sm:py-6 max-w-[1800px] mx-auto">
-            {/* Header Section - Refined Architectural Hierarchy */}
-            <header className="mb-4 sm:mb-6">
-              {/* Client Pre-heading */}
-              <div className="mb-1 sm:mb-2">
-                <p className="text-[11px] font-semibold tracking-[0.2em] uppercase text-neutral-400">
-                  {project.client || ""}
-                </p>
-              </div>
-
-              {/* Project Title - Editorial Typography with Enhanced Scale */}
-              <div className="flex flex-col items-start gap-4 md:flex-row md:items-center md:justify-between">
-                <h1>{project.name || project["job number"]}</h1>
-
-                {/* Project Tools Dropdown */}
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button className="h-8 rounded-sm justify-between px-4 bg-brand text-white hover:bg-brand/90 transition-colors md:w-auto md:justify-center">
-                      <span className="text-sm font-medium">{currentTool}</span>
-                      <ChevronDown className="h-4 w-4 ml-2" />
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent
-                    align="end"
-                    className="w-[calc(100vw-2rem)] sm:w-screen sm:max-w-4xl rounded-lg border-neutral-200 p-4 sm:p-8 shadow-lg max-h-[80vh] overflow-y-auto"
-                  >
-                    <div className="grid grid-cols-1 gap-8 md:grid-cols-3 md:gap-12">
-                      {/* Core Tools */}
-                      <div>
-                        <h3 className="mb-4 text-xs font-semibold tracking-[0.15em] uppercase text-neutral-500">
-                          Core Tools
-                        </h3>
-                        <div className="space-y-1">
-                          {coreTools.map((tool) => (
-                            <Link
-                              key={tool.name}
-                              href={`/${project.id}${tool.href}`}
-                              onClick={() => setCurrentTool(tool.name)}
-                              className="flex w-full items-center justify-between rounded px-3 py-2 text-left text-sm hover:bg-neutral-100 transition-colors"
-                            >
-                              <span className="text-neutral-900">
-                                {tool.name}
-                              </span>
-                              {tool.badge && (
-                                <span className="rounded bg-green-100 px-2 py-0.5 text-xs font-medium text-green-700">
-                                  {tool.badge}
-                                </span>
-                              )}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Project Management */}
-                      <div>
-                        <h3 className="mb-4 text-xs font-semibold tracking-[0.15em] uppercase text-neutral-500">
-                          Project Management
-                        </h3>
-                        <div className="space-y-1">
-                          {projectManagementTools.map((tool) => (
-                            <Link
-                              key={tool.name}
-                              href={`/${project.id}${tool.href}`}
-                              onClick={() => setCurrentTool(tool.name)}
-                              className="flex w-full items-center rounded px-3 py-2 text-left text-sm hover:bg-neutral-100 transition-colors"
-                            >
-                              <span className="flex items-center gap-2 text-neutral-900">
-                                {tool.isFavorite && (
-                                  <Star className="h-3.5 w-3.5 text-neutral-400" />
-                                )}
-                                {tool.name}
-                                {tool.hasCreateAction && (
-                                  <Plus className="ml-1 h-4 w-4 rounded-full bg-orange-500 p-0.5 text-white" />
-                                )}
-                              </span>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* Financial Management */}
-                      <div>
-                        <h3 className="mb-4 text-xs font-semibold tracking-[0.15em] uppercase text-neutral-500">
-                          Financial Management
-                        </h3>
-                        <div className="space-y-1">
-                          {financialManagementTools.map((tool) => (
-                            <Link
-                              key={tool.name}
-                              href={`/${project.id}${tool.href}`}
-                              onClick={() => setCurrentTool(tool.name)}
-                              className="flex w-full items-center rounded px-3 py-2 text-left text-sm hover:bg-neutral-100 transition-colors"
-                            >
-                              <span className="flex items-center gap-2 text-neutral-900">
-                                {tool.name}
-                                {tool.hasCreateAction && (
-                                  <Plus className="ml-1 h-4 w-4 rounded-full bg-orange-500 p-0.5 text-white" />
-                                )}
-                              </span>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              </div>
-            </header>
-
-            {/* 2 Columns */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-              {/* Project Summary */}
-              <div>
-                <EditableSummary
-                  summary={project.summary || "No project summary available."}
-                  onSave={handleSaveSummary}
-                />
-              </div>
-
-              {/* Project Team */}
-              <div className="rounded-sm border border-neutral-200 bg-background mb-6">
-                <Collapsible open={isTeamOpen} onOpenChange={setIsTeamOpen}>
-                  <div className="px-8 py-6 pb-4 border-b border-neutral-100">
-                    <div className="flex items-center justify-between">
-                      <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
-                        Project Team
-                      </h3>
-                      <div className="flex items-center gap-3">
-                        <button
-                          type="button"
-                          onClick={() => setShowAddTeamMemberForm(true)}
-                          className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
-                        >
-                          <Plus className="h-3.5 w-3.5" />
-                          Add
-                        </button>
-                        <span className="text-neutral-300">|</span>
-                        <Link
-                          href={`/${project.id}/directory/users`}
-                          className="text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
-                        >
-                          View All
-                        </Link>
-                        <CollapsibleTrigger asChild>
-                          <button
-                            type="button"
-                            className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200"
+    <PageShell>
+      {/* =====================================================================
+          Page Header
+          ===================================================================== */}
+      <PageShell.Header
+        eyebrow={project.client || undefined}
+        title={project.name || project["job number"] || "Untitled Project"}
+        size="hero"
+        actions={
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button className="h-9 sm:h-10 px-4 sm:px-5 bg-brand text-white hover:bg-brand/90 transition-all rounded-sm shadow-sm">
+                <span className="text-sm font-medium">Tools</span>
+                <ChevronDown className="h-4 w-4 ml-2" />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="w-[calc(100vw-2rem)] sm:w-[540px] p-0 rounded-sm shadow-lg border-neutral-200"
+            >
+              <div className="p-4 sm:p-6">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8">
+                  {toolCategories.map((category) => (
+                    <div key={category.title}>
+                      <h4 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-400 mb-3">
+                        {category.title}
+                      </h4>
+                      <div className="space-y-0.5">
+                        {category.tools.map((tool) => (
+                          <Link
+                            key={tool.name}
+                            href={`/${project.id}${tool.href}`}
+                            className="flex items-center gap-2.5 px-2.5 py-2 -mx-2.5 rounded-sm text-sm text-neutral-700 hover:bg-neutral-100 hover:text-neutral-900 transition-colors"
                           >
-                            {isTeamOpen ? (
-                              <ChevronUp className="h-3.5 w-3.5" />
-                            ) : (
-                              <ChevronDown className="h-3.5 w-3.5" />
-                            )}
-                            <span className="sr-only">Toggle team</span>
-                          </button>
-                        </CollapsibleTrigger>
-                      </div>
-                    </div>
-                  </div>
-                  <CollapsibleContent>
-                    <div className="px-8">
-                      <div className="space-y-4">
-                        {project.team_members &&
-                        Array.isArray(project.team_members) &&
-                        project.team_members.length > 0 ? (
-                          project.team_members.map((member, index) => {
-                            const memberName =
-                              typeof member === "string"
-                                ? member
-                                : (member as Record<string, unknown>)?.name ||
-                                  "Team Member";
-                            const memberRole =
-                              typeof member === "object" &&
-                              member !== null &&
-                              (member as Record<string, unknown>)?.role
-                                ? (member as Record<string, unknown>).role
-                                : "Role not specified";
-                            const initials =
-                              typeof member === "string"
-                                ? member.substring(0, 2).toUpperCase()
-                                : "TM";
-
-                            return (
-                              <div
-                                key={`team-${project.id}-${index}`}
-                                className="flex items-center gap-4 pb-4 border-b border-neutral-100 last:border-0 last:pb-0"
-                              >
-                                <Avatar className="h-10 w-10 border border-neutral-200">
-                                  <AvatarFallback className="bg-neutral-100 text-neutral-600 text-xs font-medium">
-                                    {initials}
-                                  </AvatarFallback>
-                                </Avatar>
-                                <div className="flex-1 min-w-0">
-                                  <p className="font-medium text-sm text-neutral-900 truncate">
-                                    {String(memberName)}
-                                  </p>
-                                  <p className="text-xs text-neutral-500 truncate">
-                                    {String(memberRole)}
-                                  </p>
-                                </div>
-                              </div>
-                            );
-                          })
-                        ) : showAddTeamMemberForm ? (
-                          <InlineTeamMemberForm
-                            projectId={project.id}
-                            existingMembers={parseTeamMembers()}
-                            onSave={handleSaveTeamMembers}
-                            onCancel={() => setShowAddTeamMemberForm(false)}
-                            directoryUrl={`/${project.id}/directory/users`}
-                          />
-                        ) : (
-                          <div className="text-center py-12">
-                            <p className="text-sm text-neutral-400 mb-2">
-                              No team members
-                            </p>
-                            <button
-                              type="button"
-                              onClick={() => setShowAddTeamMemberForm(true)}
-                              className="text-xs text-brand hover:text-brand/80 underline transition-colors"
-                            >
-                              Click here to assign team
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                      {/* Show inline form below existing members when there are members */}
-                      {project.team_members &&
-                        Array.isArray(project.team_members) &&
-                        project.team_members.length > 0 &&
-                        showAddTeamMemberForm && (
-                          <div className="mt-4">
-                            <InlineTeamMemberForm
-                              projectId={project.id}
-                              existingMembers={parseTeamMembers()}
-                              onSave={handleSaveTeamMembers}
-                              onCancel={() => setShowAddTeamMemberForm(false)}
-                              directoryUrl={`/${project.id}/directory/users`}
-                            />
-                          </div>
-                        )}
-                    </div>
-                  </CollapsibleContent>
-                </Collapsible>
-              </div>
-            </div>
-
-            {/* Prime Contracts */}
-            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
-              <Collapsible
-                open={isContractsOpen}
-                onOpenChange={setIsContractsOpen}
-              >
-                <div className="px-8 py-6 pb-4 border-b border-neutral-100">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
-                      Prime Contracts
-                    </h3>
-                    <div className="flex items-center gap-3">
-                      <Link
-                        href={`/${project.id}/contracts/new`}
-                        className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
-                      >
-                        <Plus className="h-3.5 w-3.5" />
-                        Add
-                      </Link>
-                      <span className="text-neutral-300">|</span>
-                      <Link
-                        href={`/${project.id}/contracts`}
-                        className="text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
-                      >
-                        View All
-                      </Link>
-                      <CollapsibleTrigger asChild>
-                        <button
-                          type="button"
-                          className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200"
-                        >
-                          {isContractsOpen ? (
-                            <ChevronUp className="h-3.5 w-3.5" />
-                          ) : (
-                            <ChevronDown className="h-3.5 w-3.5" />
-                          )}
-                          <span className="sr-only">Toggle contracts</span>
-                        </button>
-                      </CollapsibleTrigger>
-                    </div>
-                  </div>
-                </div>
-                <CollapsibleContent>
-                  <div className="px-8 py-4">
-                    <div className="space-y-4">
-                      {contracts.length > 0 ? (
-                        contracts.map((contract) => {
-                          const formatCurrency = (amount: number) => {
-                            return new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "USD",
-                              minimumFractionDigits: 0,
-                              maximumFractionDigits: 0,
-                            }).format(amount);
-                          };
-
-                          return (
-                            <Link
-                              key={contract.id}
-                              href={`/${project.id}/contracts/${contract.id}`}
-                              className="flex items-start justify-between pb-4 border-b border-neutral-100 last:border-0 last:pb-0 hover:opacity-70 transition-opacity"
-                            >
-                              <div className="flex-1 min-w-0">
-                                <p className="font-medium text-sm text-neutral-900 truncate">
-                                  {contract.title ||
-                                    `Contract #${contract.contract_number}`}
-                                </p>
-                                <div className="flex items-center gap-2 mt-1">
-                                  <p className="text-xs text-neutral-500">
-                                    {contract.contract_number || "No number"}
-                                  </p>
-                                  {contract.contract_amount && (
-                                    <>
-                                      <span className="text-xs text-neutral-300">
-                                        •
-                                      </span>
-                                      <p className="text-xs font-medium text-neutral-900">
-                                        {formatCurrency(
-                                          contract.contract_amount,
-                                        )}
-                                      </p>
-                                    </>
-                                  )}
-                                </div>
-                                {contract.status && (
-                                  <p className="text-xs text-neutral-500 mt-1 capitalize">
-                                    {contract.status}
-                                  </p>
-                                )}
-                              </div>
-                            </Link>
-                          );
-                        })
-                      ) : (
-                        <div className="text-center py-12">
-                          <p className="text-sm text-neutral-400 mb-2">
-                            No prime contracts
-                          </p>
-                          <p className="text-xs text-neutral-400">
-                            Click &quot;Add&quot; to create a contract
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            </div>
-
-            {/* Commitments */}
-            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
-              <Collapsible
-                open={isCommitmentsOpen}
-                onOpenChange={setIsCommitmentsOpen}
-              >
-                <div className="px-8 py-6 pb-4 border-b border-neutral-100">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
-                      Commitments
-                    </h3>
-                    <div className="flex items-center gap-3">
-                      <Link
-                        href={`/${project.id}/commitments/new`}
-                        className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
-                      >
-                        <Plus className="h-3.5 w-3.5" />
-                        Add
-                      </Link>
-                      <span className="text-neutral-300">|</span>
-                      <Link
-                        href={`/${project.id}/commitments`}
-                        className="text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
-                      >
-                        View All
-                      </Link>
-                      <CollapsibleTrigger asChild>
-                        <button
-                          type="button"
-                          className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200"
-                        >
-                          {isCommitmentsOpen ? (
-                            <ChevronUp className="h-3.5 w-3.5" />
-                          ) : (
-                            <ChevronDown className="h-3.5 w-3.5" />
-                          )}
-                          <span className="sr-only">Toggle commitments</span>
-                        </button>
-                      </CollapsibleTrigger>
-                    </div>
-                  </div>
-                </div>
-                <CollapsibleContent>
-                  <div className="px-8 py-4">
-                    <div className="space-y-4">
-                      {commitments.length > 0 ? (
-                        commitments.slice(0, 5).map((commitment) => {
-                          const formatCurrency = (amount: number) => {
-                            return new Intl.NumberFormat("en-US", {
-                              style: "currency",
-                              currency: "USD",
-                              minimumFractionDigits: 0,
-                              maximumFractionDigits: 0,
-                            }).format(amount);
-                          };
-
-                          return (
-                            <Link
-                              key={commitment.id}
-                              href={`/${project.id}/commitments/${commitment.id}`}
-                              className="flex flex-wrap items-center gap-x-4 gap-y-2 pb-4 border-b border-neutral-100 last:border-0 last:pb-0 hover:opacity-70 transition-opacity"
-                            >
-                              <div className="flex items-center gap-2">
-                                <p className="font-medium text-sm text-neutral-900">
-                                  {commitment.title ||
-                                    `${commitment.type === "subcontract" ? "Subcontract" : "PO"} #${commitment.number}`}
-                                </p>
-                                <span className="text-[10px] px-2 py-0.5 bg-neutral-100 text-neutral-600 uppercase tracking-wider whitespace-nowrap">
-                                  {commitment.type === "subcontract"
-                                    ? "SC"
-                                    : "PO"}
-                                </span>
-                              </div>
-                              <p className="text-xs text-neutral-500">
-                                {commitment.number || "No number"}
-                              </p>
-                              {commitment.contract_amount && (
-                                <p className="text-xs font-medium text-neutral-900">
-                                  {formatCurrency(commitment.contract_amount)}
-                                </p>
-                              )}
-                              {commitment.status && (
-                                <p className="text-xs text-neutral-500 capitalize">
-                                  {commitment.status}
-                                </p>
-                              )}
-                            </Link>
-                          );
-                        })
-                      ) : (
-                        <div className="text-center py-12">
-                          <p className="text-sm text-neutral-400 mb-2">
-                            No commitments
-                          </p>
-                          <p className="text-xs text-neutral-400">
-                            Click &quot;Add&quot; to create a commitment
-                          </p>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            </div>
-
-            {/* Budget */}
-            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
-              <Collapsible open={isBudgetOpen} onOpenChange={setIsBudgetOpen}>
-                <div className="px-8 py-6 pb-4 border-b border-neutral-100">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-neutral-500">
-                      Budget
-                    </h3>
-                    <div className="flex items-center gap-3">
-                      <Link
-                        href={`/${project.id}/budget/line-item/new`}
-                        className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
-                      >
-                        <Plus className="h-3.5 w-3.5" />
-                        Add
-                      </Link>
-                      <span className="text-neutral-300">|</span>
-                      <Link
-                        href={`/${project.id}/budget`}
-                        className="text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
-                      >
-                        View All
-                      </Link>
-                      <CollapsibleTrigger asChild>
-                        <button
-                          type="button"
-                          className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200"
-                        >
-                          {isBudgetOpen ? (
-                            <ChevronUp className="h-3.5 w-3.5" />
-                          ) : (
-                            <ChevronDown className="h-3.5 w-3.5" />
-                          )}
-                          <span className="sr-only">Toggle budget</span>
-                        </button>
-                      </CollapsibleTrigger>
-                    </div>
-                  </div>
-                </div>
-                <CollapsibleContent>
-                  <div className="px-8 py-4">
-                    {budget.length > 0 ? (
-                      <>
-                        <div className="grid grid-cols-3 gap-4 mb-4">
-                          <div className="p-3 bg-muted/50">
-                            <p className="text-xs text-muted-foreground">
-                              Original Budget
-                            </p>
-                            <p className="font-semibold">
-                              {new Intl.NumberFormat("en-US", {
-                                style: "currency",
-                                currency: "USD",
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 0,
-                              }).format(
-                                budget.reduce(
-                                  (sum, item) =>
-                                    sum + (item.original_amount || 0),
-                                  0,
-                                ),
-                              )}
-                            </p>
-                          </div>
-                          <div className="p-3 bg-muted/50">
-                            <p className="text-xs text-muted-foreground">
-                              Revised Budget
-                            </p>
-                            <p className="font-semibold">
-                              {new Intl.NumberFormat("en-US", {
-                                style: "currency",
-                                currency: "USD",
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 0,
-                              }).format(
-                                budget.reduce(
-                                  (sum, item) =>
-                                    sum + (item.original_amount || 0),
-                                  0,
-                                ),
-                              )}
-                            </p>
-                          </div>
-                          <div className="p-3 bg-muted/50">
-                            <p className="text-xs text-muted-foreground">
-                              Variance
-                            </p>
-                            <p className="font-semibold text-green-600">
-                              {new Intl.NumberFormat("en-US", {
-                                style: "currency",
-                                currency: "USD",
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 0,
-                              }).format(
-                                budget.reduce(
-                                  (sum, item) =>
-                                    sum + (item.original_amount || 0),
-                                  0,
-                                ),
-                              )}
-                            </p>
-                          </div>
-                        </div>
-                      </>
-                    ) : (
-                      <div className="text-center py-12">
-                        <p className="text-sm text-neutral-400 mb-2">
-                          No budget items
-                        </p>
-                        <p className="text-xs text-neutral-400">
-                          Click &quot;Add&quot; to create a budget
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            </div>
-
-            {/* Schedule of Values */}
-            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
-              <Collapsible open={isSovOpen} onOpenChange={setIsSovOpen}>
-                <div className="px-8 py-6 pb-4 border-b border-neutral-100">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
-                      Schedule of Values
-                    </h3>
-                    <div className="flex items-center gap-3">
-                      <Link
-                        href={`/${project.id}/sov/new`}
-                        className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
-                      >
-                        <Plus className="h-3.5 w-3.5" />
-                        Add
-                      </Link>
-                      <span className="text-neutral-300">|</span>
-                      <Link
-                        href={`/${project.id}/sov`}
-                        className="text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
-                      >
-                        View All
-                      </Link>
-                      <CollapsibleTrigger asChild>
-                        <button
-                          type="button"
-                          className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200"
-                        >
-                          {isSovOpen ? (
-                            <ChevronUp className="h-3.5 w-3.5" />
-                          ) : (
-                            <ChevronDown className="h-3.5 w-3.5" />
-                          )}
-                          <span className="sr-only">Toggle SOV</span>
-                        </button>
-                      </CollapsibleTrigger>
-                    </div>
-                  </div>
-                </div>
-                <CollapsibleContent>
-                  <div className="px-8 py-4">
-                    {sov && sov.length > 0 ? (
-                      <>
-                        <div className="grid grid-cols-2 gap-4 mb-4">
-                          <div className="p-3 bg-muted/50">
-                            <p className="text-xs text-muted-foreground">
-                              Total Value
-                            </p>
-                            <p className="font-semibold">
-                              {new Intl.NumberFormat("en-US", {
-                                style: "currency",
-                                currency: "USD",
-                                minimumFractionDigits: 0,
-                                maximumFractionDigits: 0,
-                              }).format(
-                                sov.reduce(
-                                  (sum, item) => sum + (item.total_amount || 0),
-                                  0,
-                                ),
-                              )}
-                            </p>
-                          </div>
-                          <div className="p-3 bg-muted/50">
-                            <p className="text-xs text-muted-foreground">
-                              Items
-                            </p>
-                            <p className="font-semibold">{sov.length}</p>
-                          </div>
-                        </div>
-                        <div className="space-y-2">
-                          {sov.slice(0, 3).map((item) => (
-                            <div key={item.id} className="p-3 bg-muted/50">
-                              <div className="flex justify-between items-start">
-                                <p className="font-medium text-sm">
-                                  SOV Item #{item.id}
-                                </p>
-                                <p className="text-sm font-medium">
-                                  {new Intl.NumberFormat("en-US", {
-                                    style: "currency",
-                                    currency: "USD",
-                                    minimumFractionDigits: 0,
-                                    maximumFractionDigits: 0,
-                                  }).format(item.total_amount || 0)}
-                                </p>
-                              </div>
-                            </div>
-                          ))}
-                        </div>
-                      </>
-                    ) : (
-                      <div className="text-center py-12">
-                        <p className="text-sm text-neutral-400 mb-2">
-                          No schedule of values
-                        </p>
-                        <p className="text-xs text-neutral-400">
-                          Click &quot;Add&quot; to create an SOV
-                        </p>
-                      </div>
-                    )}
-                  </div>
-                </CollapsibleContent>
-              </Collapsible>
-            </div>
-
-            {/* Schedule */}
-            <div className="rounded-sm border border-neutral-200 bg-background mb-6">
-              <Collapsible
-                open={isScheduleOpen}
-                onOpenChange={setIsScheduleOpen}
-              >
-                <div className="px-8 py-6 pb-4 border-b border-neutral-100">
-                  <div className="flex items-center justify-between">
-                    <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
-                      Schedule
-                    </h3>
-                    <div className="flex items-center gap-3">
-                      <Link
-                        href={`/${project.id}/schedule/new`}
-                        className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
-                      >
-                        <Plus className="h-3.5 w-3.5" />
-                        Add
-                      </Link>
-                      <span className="text-neutral-300">|</span>
-                      <Link
-                        href={`/${project.id}/schedule`}
-                        className="text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
-                      >
-                        View All
-                      </Link>
-                      <CollapsibleTrigger asChild>
-                        <button
-                          type="button"
-                          className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200"
-                        >
-                          {isScheduleOpen ? (
-                            <ChevronUp className="h-3.5 w-3.5" />
-                          ) : (
-                            <ChevronDown className="h-3.5 w-3.5" />
-                          )}
-                          <span className="sr-only">Toggle schedule</span>
-                        </button>
-                      </CollapsibleTrigger>
-                    </div>
-                  </div>
-                </div>
-                <CollapsibleContent>
-                  <div className="px-8 py-4">
-                    {schedule && schedule.length > 0 ? (
-                      <div className="space-y-2">
-                        {schedule.slice(0, 5).map((item) => (
-                          <div
-                            key={item.id}
-                            className="flex items-start justify-between p-3 bg-muted/50"
-                          >
-                            <div className="space-y-1">
-                              <p className="font-medium text-sm">{item.task}</p>
-                              <p className="text-xs text-muted-foreground">
-                                {item.start_date &&
-                                  format(
-                                    new Date(item.start_date),
-                                    "MMM d",
-                                  )}{" "}
-                                -
-                                {item.end_date &&
-                                  format(
-                                    new Date(item.end_date),
-                                    "MMM d, yyyy",
-                                  )}
-                              </p>
-                            </div>
-                            {item.status && (
-                              <span className="text-xs px-2 py-0.5 bg-neutral-100 text-neutral-600 capitalize">
-                                {item.status}
-                              </span>
-                            )}
-                          </div>
+                            <tool.icon className="h-4 w-4 text-neutral-400" />
+                            {tool.name}
+                          </Link>
                         ))}
                       </div>
-                    ) : (
-                      <div className="text-center py-12">
-                        <p className="text-sm text-neutral-400 mb-2">
-                          No schedule items
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </DropdownMenuContent>
+          </DropdownMenu>
+        }
+      />
+
+      {/* =====================================================================
+          Main Content Grid
+          ===================================================================== */}
+      <div className="space-y-6 sm:space-y-8">
+
+        {/* -------------------------------------------------------------------
+            Summary and Team Row
+            ----------------------------------------------------------------- */}
+        <PageShell.Grid cols={2} gap="md">
+          {/* Project Summary */}
+          <div className="bg-white border border-neutral-200/80 shadow-[0_1px_2px_0_rgb(0_0_0/0.03)]">
+            <div className="px-5 py-4 sm:px-6 sm:py-5 border-b border-neutral-100/80 bg-gradient-to-r from-neutral-50/30 to-transparent">
+              <div className="flex items-center justify-between">
+                <h3 className="text-[10px] sm:text-[11px] font-semibold tracking-[0.15em] uppercase text-brand">
+                  Project Summary
+                </h3>
+                <PenLine className="h-3.5 w-3.5 text-neutral-400" />
+              </div>
+            </div>
+            <div className="px-5 py-4 sm:px-6 sm:py-5">
+              <EditableSummary
+                summary={project.summary || "No project summary available. Click to add one."}
+                onSave={handleSaveSummary}
+              />
+            </div>
+          </div>
+
+          {/* Project Team */}
+          <SectionCard
+            title="Project Team"
+            onAdd={() => setShowAddTeamMemberForm(true)}
+            viewAllHref={`/${project.id}/directory/users`}
+            open={isTeamOpen}
+            onOpenChange={setIsTeamOpen}
+          >
+            {project.team_members && Array.isArray(project.team_members) && project.team_members.length > 0 ? (
+              <div className="space-y-0">
+                {project.team_members.map((member, index) => {
+                  const memberName = typeof member === "string"
+                    ? member
+                    : (member as Record<string, unknown>)?.name || "Team Member";
+                  const memberRole = typeof member === "object" && member !== null
+                    ? (member as Record<string, unknown>).role || "Role not specified"
+                    : "Role not specified";
+                  const initials = typeof member === "string"
+                    ? member.substring(0, 2).toUpperCase()
+                    : String(memberName).substring(0, 2).toUpperCase();
+
+                  return (
+                    <div
+                      key={`team-${project.id}-${index}`}
+                      className="flex items-center gap-3 py-3 border-b border-neutral-100/80 last:border-0"
+                    >
+                      <Avatar className="h-9 w-9 border border-neutral-200/80">
+                        <AvatarFallback className="bg-neutral-100 text-neutral-600 text-xs font-medium">
+                          {initials}
+                        </AvatarFallback>
+                      </Avatar>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-medium text-sm text-neutral-900 truncate">
+                          {String(memberName)}
                         </p>
-                        <p className="text-xs text-neutral-400">
-                          Click &quot;Add&quot; to create a schedule
+                        <p className="text-xs text-neutral-500 truncate">
+                          {String(memberRole)}
                         </p>
                       </div>
-                    )}
+                    </div>
+                  );
+                })}
+                {showAddTeamMemberForm && (
+                  <div className="mt-4 pt-4 border-t border-neutral-100">
+                    <InlineTeamMemberForm
+                      projectId={project.id}
+                      existingMembers={parseTeamMembers()}
+                      onSave={handleSaveTeamMembers}
+                      onCancel={() => setShowAddTeamMemberForm(false)}
+                      directoryUrl={`/${project.id}/directory/users`}
+                    />
                   </div>
-                </CollapsibleContent>
-              </Collapsible>
-            </div>
-
-            {/* 2 Column Grid for Info Sections */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-4">
-              {/* Recent Meetings */}
-              <InfoSection
-                title="Recent Meetings"
-                icon={Calendar}
-                items={meetings.map((meeting) => ({
-                  id: meeting.id,
-                  title: meeting.title || "Untitled Meeting",
-                  subtitle: meeting.date
-                    ? format(new Date(meeting.date), "MMM d, yyyy")
-                    : undefined,
-                  href: `/${project.id}/meetings/${meeting.id}`,
-                }))}
-                viewAllHref={`/${project.id}/meetings`}
-                emptyMessage="No recent meetings"
+                )}
+              </div>
+            ) : showAddTeamMemberForm ? (
+              <InlineTeamMemberForm
+                projectId={project.id}
+                existingMembers={parseTeamMembers()}
+                onSave={handleSaveTeamMembers}
+                onCancel={() => setShowAddTeamMemberForm(false)}
+                directoryUrl={`/${project.id}/directory/users`}
               />
-
-              {/* Tasks */}
-              <InfoSection
-                title="Tasks"
-                icon={CheckSquare}
-                items={tasks.map((task) => ({
-                  id: task.id,
-                  title: task.task_description || "Untitled Task",
-                  subtitle: task.due_date
-                    ? `Due ${format(new Date(task.due_date), "MMM d, yyyy")}`
-                    : undefined,
-                  href: `/${project.id}/tasks/${task.id}`,
-                }))}
-                viewAllHref={`/${project.id}/tasks`}
-                emptyMessage="No tasks"
+            ) : (
+              <SectionCard.Empty
+                message="No team members assigned"
+                actionLabel="Add team member"
+                onAction={() => setShowAddTeamMemberForm(true)}
               />
+            )}
+          </SectionCard>
+        </PageShell.Grid>
 
-              {/* RFIs */}
-              <InfoSection
-                title="RFI's"
-                icon={FileText}
-                items={rfis.map((rfi) => ({
-                  id: rfi.id,
-                  title: `RFI #${rfi.number || rfi.id}`,
-                  subtitle: rfi.subject || undefined,
-                  href: `/${project.id}/rfis/${rfi.id}`,
-                }))}
-                viewAllHref={`/${project.id}/rfis`}
-                emptyMessage="No active RFIs"
-              />
-
-              {/* Change Orders */}
-              <InfoSection
-                title="Change Orders"
-                icon={DollarSign}
-                items={changeOrders.map((co) => ({
-                  id: co.id,
-                  title: `CO #${co.co_number || co.id}`,
-                  subtitle: co.title || undefined,
-                  href: `/${project.id}/change-orders/${co.id}`,
-                }))}
-                viewAllHref={`/${project.id}/change-orders`}
-                emptyMessage="No change orders"
-              />
-
-              {/* Change Events */}
-              {changeEvents && changeEvents.length > 0 && (
-                <InfoSection
-                  title="Change Events"
-                  icon={TrendingUp}
-                  items={changeEvents.map((ce) => ({
-                    id: ce.id,
-                    title: ce.title || `Change Event #${ce.id}`,
-                    subtitle: ce.created_at
-                      ? format(new Date(ce.created_at), "MMM d, yyyy")
-                      : undefined,
-                    href: `/${project.id}/change-events/${ce.id}`,
-                  }))}
-                  viewAllHref={`/${project.id}/change-events`}
-                  emptyMessage="No change events"
+        {/* -------------------------------------------------------------------
+            Prime Contracts
+            ----------------------------------------------------------------- */}
+        <SectionCard
+          title="Prime Contracts"
+          addHref={`/${project.id}/contracts/new`}
+          viewAllHref={`/${project.id}/contracts`}
+          open={isContractsOpen}
+          onOpenChange={setIsContractsOpen}
+        >
+          {contracts.length > 0 ? (
+            <div className="space-y-0">
+              {contracts.map((contract) => (
+                <SectionCard.Item
+                  key={contract.id}
+                  title={contract.title || `Contract #${contract.contract_number}`}
+                  subtitle={contract.contract_number || undefined}
+                  meta={contract.contract_amount ? formatCurrency(contract.contract_amount) : undefined}
+                  status={contract.status || undefined}
+                  href={`/${project.id}/contracts/${contract.id}`}
                 />
+              ))}
+            </div>
+          ) : (
+            <SectionCard.Empty
+              message="No prime contracts"
+              description="Create a contract to get started"
+              actionLabel="Add contract"
+              actionHref={`/${project.id}/contracts/new`}
+            />
+          )}
+        </SectionCard>
+
+        {/* -------------------------------------------------------------------
+            Commitments
+            ----------------------------------------------------------------- */}
+        <SectionCard
+          title="Commitments"
+          addHref={`/${project.id}/commitments/new`}
+          viewAllHref={`/${project.id}/commitments`}
+          open={isCommitmentsOpen}
+          onOpenChange={setIsCommitmentsOpen}
+        >
+          {commitments.length > 0 ? (
+            <div className="space-y-0">
+              {commitments.slice(0, 5).map((commitment) => (
+                <SectionCard.Item
+                  key={commitment.id}
+                  title={commitment.title || `${commitment.type === "subcontract" ? "Subcontract" : "PO"} #${commitment.number}`}
+                  subtitle={commitment.number}
+                  badge={
+                    <SectionCard.Badge variant={commitment.type === "subcontract" ? "default" : "brand"}>
+                      {commitment.type === "subcontract" ? "SC" : "PO"}
+                    </SectionCard.Badge>
+                  }
+                  meta={commitment.contract_amount ? formatCurrency(commitment.contract_amount) : undefined}
+                  status={commitment.status}
+                  href={`/${project.id}/commitments/${commitment.id}`}
+                />
+              ))}
+            </div>
+          ) : (
+            <SectionCard.Empty
+              message="No commitments"
+              description="Create a subcontract or purchase order"
+              actionLabel="Add commitment"
+              actionHref={`/${project.id}/commitments/new`}
+            />
+          )}
+        </SectionCard>
+
+        {/* -------------------------------------------------------------------
+            Budget Section
+            ----------------------------------------------------------------- */}
+        <SectionCard
+          title="Budget"
+          addHref={`/${project.id}/budget/line-item/new`}
+          viewAllHref={`/${project.id}/budget`}
+          brandTitle={false}
+          open={isBudgetOpen}
+          onOpenChange={setIsBudgetOpen}
+        >
+          {budget.length > 0 ? (
+            <MetricSummary
+              items={[
+                { label: "Original Budget", value: totalBudget, format: "currency" },
+                { label: "Revised Budget", value: totalBudget, format: "currency" },
+                { label: "Variance", value: 0, format: "currency" },
+              ]}
+            />
+          ) : (
+            <SectionCard.Empty
+              message="No budget items"
+              description="Set up your project budget"
+              actionLabel="Add budget line"
+              actionHref={`/${project.id}/budget/line-item/new`}
+            />
+          )}
+        </SectionCard>
+
+        {/* -------------------------------------------------------------------
+            Financial Overview
+            ----------------------------------------------------------------- */}
+        <PageShell.Section spacing="lg">
+          <h2 className="text-lg sm:text-xl font-light tracking-tight text-neutral-800 mb-4 sm:mb-6">
+            Financial Overview
+          </h2>
+          <MetricGrid cols={4}>
+            <MetricCard
+              label="Total Budget"
+              value={totalBudget}
+              format="currency"
+              href={`/${project.id}/budget`}
+              size="sm"
+            />
+            <MetricCard
+              label="Committed"
+              value={committed}
+              format="currency"
+              href={`/${project.id}/commitments`}
+              size="sm"
+            />
+            <MetricCard
+              label="Change Orders"
+              value={approvedChangeOrders}
+              format="number"
+              subtitle="Approved"
+              href={`/${project.id}/change-orders`}
+              size="sm"
+            />
+            <MetricCard
+              label="Active RFIs"
+              value={rfis.length}
+              format="number"
+              href={`/${project.id}/rfis`}
+              size="sm"
+            />
+          </MetricGrid>
+        </PageShell.Section>
+
+        {/* -------------------------------------------------------------------
+            Activity Grid - Meetings, Tasks, RFIs, etc.
+            ----------------------------------------------------------------- */}
+        <PageShell.Section spacing="lg">
+          <h2 className="text-lg sm:text-xl font-light tracking-tight text-neutral-800 mb-4 sm:mb-6">
+            Recent Activity
+          </h2>
+          <PageShell.Grid cols={2} gap="md">
+            {/* Recent Meetings */}
+            <SectionCard
+              title="Meetings"
+              viewAllHref={`/${project.id}/meetings`}
+              hideCollapse
+            >
+              {meetings.length > 0 ? (
+                <div className="space-y-0">
+                  {meetings.slice(0, 4).map((meeting) => (
+                    <SectionCard.Item
+                      key={meeting.id}
+                      title={meeting.title || "Untitled Meeting"}
+                      subtitle={meeting.date ? format(new Date(meeting.date), "MMM d, yyyy") : undefined}
+                      href={`/${project.id}/meetings/${meeting.id}`}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <SectionCard.Empty message="No recent meetings" />
               )}
+            </SectionCard>
 
-              {/* Submittals */}
-              <InfoSection
-                title="Submittals"
-                icon={Upload}
-                items={[]}
-                viewAllHref={`/${project.id}/submittals`}
-                emptyMessage="No submittals"
-              />
+            {/* Tasks */}
+            <SectionCard
+              title="Tasks"
+              viewAllHref={`/${project.id}/tasks`}
+              hideCollapse
+            >
+              {tasks.length > 0 ? (
+                <div className="space-y-0">
+                  {tasks.slice(0, 4).map((task) => (
+                    <SectionCard.Item
+                      key={task.id}
+                      title={task.task_description || "Untitled Task"}
+                      subtitle={task.due_date ? `Due ${format(new Date(task.due_date), "MMM d")}` : undefined}
+                      href={`/${project.id}/tasks/${task.id}`}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <SectionCard.Empty message="No active tasks" />
+              )}
+            </SectionCard>
 
-              {/* Documents */}
-              <InfoSection
-                title="Documents"
-                icon={Folder}
-                items={[]}
-                viewAllHref={`/${project.id}/documents`}
-                emptyMessage="No recent documents"
-              />
-            </div>
+            {/* RFIs */}
+            <SectionCard
+              title="RFIs"
+              viewAllHref={`/${project.id}/rfis`}
+              hideCollapse
+            >
+              {rfis.length > 0 ? (
+                <div className="space-y-0">
+                  {rfis.slice(0, 4).map((rfi) => (
+                    <SectionCard.Item
+                      key={rfi.id}
+                      title={`RFI #${rfi.number || rfi.id}`}
+                      subtitle={rfi.subject || undefined}
+                      href={`/${project.id}/rfis/${rfi.id}`}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <SectionCard.Empty message="No active RFIs" />
+              )}
+            </SectionCard>
 
-            {/* Budget */}
-            <div className="mb-20">
-              {/* Heading */}
-              <h2 className="pb-4 text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
-                Budget
-              </h2>
+            {/* Change Orders */}
+            <SectionCard
+              title="Change Orders"
+              viewAllHref={`/${project.id}/change-orders`}
+              hideCollapse
+            >
+              {changeOrders.length > 0 ? (
+                <div className="space-y-0">
+                  {changeOrders.slice(0, 4).map((co) => (
+                    <SectionCard.Item
+                      key={co.id}
+                      title={`CO #${co.co_number || co.id}`}
+                      subtitle={co.title || undefined}
+                      href={`/${project.id}/change-orders/${co.id}`}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <SectionCard.Empty message="No change orders" />
+              )}
+            </SectionCard>
 
-              {/* Hero Metrics - Executive Dashboard KPIs */}
-              <HeroMetrics
-                projectId={project.id.toString()}
-                totalBudget={totalBudget}
-                committed={committed}
-                spent={spent}
-                forecastedCost={forecastedCost}
-                changeOrdersTotal={changeOrdersTotal}
-                activeTasks={0}
-              />
-            </div>
+            {/* Submittals */}
+            <SectionCard
+              title="Submittals"
+              viewAllHref={`/${project.id}/submittals`}
+              hideCollapse
+            >
+              <SectionCard.Empty message="No submittals" />
+            </SectionCard>
 
+            {/* Documents */}
+            <SectionCard
+              title="Documents"
+              viewAllHref={`/${project.id}/documents`}
+              hideCollapse
+            >
+              <SectionCard.Empty message="No recent documents" />
+            </SectionCard>
+          </PageShell.Grid>
+        </PageShell.Section>
+
+        {/* -------------------------------------------------------------------
+            Additional Sections - Drawings, Photos
+            ----------------------------------------------------------------- */}
+        <PageShell.Section spacing="xl">
+          <PageShell.Grid cols={2} gap="lg">
             {/* Drawings */}
-            <div className="mb-20">
-              {/* Heading */}
-              <div>
-                <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
-                  Drawings
-                </h2>
+            <div>
+              <h2 className="text-lg sm:text-xl font-light tracking-tight text-neutral-800 mb-4">
+                Drawings
+              </h2>
+              <div className="bg-white border border-neutral-200/80 shadow-[0_1px_2px_0_rgb(0_0_0/0.03)] p-8 sm:p-12">
+                <div className="flex flex-col items-center justify-center text-center">
+                  <FileText className="h-10 w-10 text-neutral-300 mb-3" />
+                  <p className="text-sm text-neutral-400">No drawings uploaded</p>
+                </div>
               </div>
             </div>
 
             {/* Photos */}
-            <div className="mb-20">
-              {/* Heading */}
-              <div>
-                <h2 className="text-2xl md:text-3xl font-sans font-light tracking-tight text-neutral-900 mb-2">
-                  Photos
-                </h2>
+            <div>
+              <h2 className="text-lg sm:text-xl font-light tracking-tight text-neutral-800 mb-4">
+                Photos
+              </h2>
+              <div className="bg-white border border-neutral-200/80 shadow-[0_1px_2px_0_rgb(0_0_0/0.03)] p-8 sm:p-12">
+                <div className="flex flex-col items-center justify-center text-center">
+                  <Upload className="h-10 w-10 text-neutral-300 mb-3" />
+                  <p className="text-sm text-neutral-400">No photos uploaded</p>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        <ProjectSidebar projectSteps={projectSteps} />
+          </PageShell.Grid>
+        </PageShell.Section>
+
       </div>
-    </SidebarProvider>
+    </PageShell>
   );
 }

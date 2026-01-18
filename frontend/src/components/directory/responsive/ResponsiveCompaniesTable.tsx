@@ -1,9 +1,8 @@
 "use client";
 
-import { type Database } from "@/types/database.types";
+import type { ProjectCompany } from "@/services/companyService";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { MoreVertical, MapPin, Phone, Globe } from "lucide-react";
+import { MoreVertical, MapPin, Globe } from "lucide-react";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,13 +10,19 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
-type Company = Database["public"]["Tables"]["companies"]["Row"];
-
 interface ResponsiveCompaniesTableProps {
-  companies: Company[];
-  onEdit?: (company: Company) => void;
-  onDelete?: (company: Company) => void;
-  onViewDetails?: (company: Company) => void;
+  companies: ProjectCompany[];
+  onEdit?: (company: ProjectCompany) => void;
+  onDelete?: (company: ProjectCompany) => void;
+  onViewDetails?: (company: ProjectCompany) => void;
+}
+
+function formatCompanyType(value: ProjectCompany["company_type"] | null) {
+  if (!value) return null;
+  return value
+    .split("_")
+    .map((segment) => segment.charAt(0) + segment.slice(1).toLowerCase())
+    .join(" ");
 }
 
 export function ResponsiveCompaniesTable({
@@ -43,25 +48,34 @@ export function ResponsiveCompaniesTable({
               </tr>
             </thead>
             <tbody>
-              {companies.map((company) => (
+              {companies.map((company) => {
+                const companyDetails = company.company;
+                const companyType =
+                  formatCompanyType(company.company_type) ||
+                  companyDetails?.title ||
+                  "-";
+
+                return (
                 <tr
                   key={company.id}
                   className="border-b last:border-0 hover:bg-muted/50"
                 >
                   <td className="p-3">
-                    <div className="font-medium">{company.name}</div>
-                    {company.title && (
+                    <div className="font-medium">
+                      {companyDetails?.name || "Unnamed Company"}
+                    </div>
+                    {companyDetails?.title && (
                       <div className="text-sm text-muted-foreground">
-                        {company.title}
+                        {companyDetails.title}
                       </div>
                     )}
                   </td>
                   <td className="p-3 text-sm">
-                    {company.city && company.state
-                      ? `${company.city}, ${company.state}`
-                      : company.city || company.state || "-"}
+                    {companyDetails?.city && companyDetails?.state
+                      ? `${companyDetails.city}, ${companyDetails.state}`
+                      : companyDetails?.city || companyDetails?.state || "-"}
                   </td>
-                  <td className="p-3 text-sm">{company.type || "-"}</td>
+                  <td className="p-3 text-sm">{companyType}</td>
                   <td className="p-3 text-right">
                     <DropdownMenu>
                       <DropdownMenuTrigger asChild>
@@ -91,7 +105,7 @@ export function ResponsiveCompaniesTable({
                     </DropdownMenu>
                   </td>
                 </tr>
-              ))}
+              )})}
             </tbody>
           </table>
         </div>
@@ -99,14 +113,23 @@ export function ResponsiveCompaniesTable({
 
       {/* Mobile View - Card layout */}
       <div className="md:hidden space-y-3">
-        {companies.map((company) => (
+        {companies.map((company) => {
+          const companyDetails = company.company;
+          const companyType =
+            formatCompanyType(company.company_type) ||
+            companyDetails?.title ||
+            "-";
+
+          return (
           <div key={company.id} className="border rounded-lg p-4 space-y-3">
             <div className="flex items-start justify-between">
               <div className="flex-1">
-                <h3 className="font-medium">{company.name}</h3>
-                {company.title && (
+                <h3 className="font-medium">
+                  {companyDetails?.name || "Unnamed Company"}
+                </h3>
+                {companyDetails?.title && (
                   <p className="text-sm text-muted-foreground mt-1">
-                    {company.title}
+                    {companyDetails.title}
                   </p>
                 )}
               </div>
@@ -137,38 +160,39 @@ export function ResponsiveCompaniesTable({
             </div>
 
             <div className="space-y-2">
-              {(company.city || company.state) && (
+              {(companyDetails?.city || companyDetails?.state) && (
                 <div className="flex items-center gap-2 text-sm">
                   <MapPin className="h-4 w-4 text-muted-foreground" />
                   <span>
-                    {company.city && company.state
-                      ? `${company.city}, ${company.state}`
-                      : company.city || company.state}
+                    {companyDetails?.city && companyDetails?.state
+                      ? `${companyDetails.city}, ${companyDetails.state}`
+                      : companyDetails?.city || companyDetails?.state}
                   </span>
                 </div>
               )}
-              {company.type && (
+              {companyType && (
                 <div className="text-sm">
                   <span className="text-muted-foreground">Type: </span>
-                  <span>{company.type}</span>
+                  <span>{companyType}</span>
                 </div>
               )}
-              {company.website && (
+              {companyDetails?.website && (
                 <div className="flex items-center gap-2 text-sm">
                   <Globe className="h-4 w-4 text-muted-foreground" />
                   <a
-                    href={company.website}
+                    href={companyDetails.website}
                     target="_blank"
                     rel="noopener noreferrer"
                     className="text-blue-600 hover:underline truncate"
                   >
-                    {company.website}
+                    {companyDetails.website}
                   </a>
                 </div>
               )}
             </div>
           </div>
-        ))}
+          );
+        })}
       </div>
     </div>
   );

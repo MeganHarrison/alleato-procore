@@ -31,6 +31,9 @@ interface SearchableSelectProps {
   className?: string;
   triggerClassName?: string;
   addButton?: React.ReactNode;
+  triggerTestId?: string;
+  optionTestIdPrefix?: string;
+  searchInputTestId?: string;
 }
 
 export function SearchableSelect({
@@ -46,6 +49,9 @@ export function SearchableSelect({
   className,
   triggerClassName,
   addButton,
+  triggerTestId,
+  optionTestIdPrefix,
+  searchInputTestId,
 }: SearchableSelectProps) {
   const [open, setOpen] = React.useState(false);
   const [searchQuery, setSearchQuery] = React.useState("");
@@ -89,6 +95,7 @@ export function SearchableSelect({
                 triggerClassName,
               )}
               disabled={disabled}
+              data-testid={triggerTestId}
             >
               <span className="truncate">
                 {selectedOption?.label || placeholder}
@@ -109,6 +116,7 @@ export function SearchableSelect({
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="h-8 border-0 p-0 focus-visible:ring-0 focus-visible:ring-offset-0"
+                  data-testid={searchInputTestId}
                 />
               </div>
 
@@ -127,6 +135,11 @@ export function SearchableSelect({
                         value === option.value && "bg-accent",
                       )}
                       onClick={() => handleSelect(option.value)}
+                      data-testid={
+                        optionTestIdPrefix
+                          ? `${optionTestIdPrefix}-${option.value}`
+                          : undefined
+                      }
                     >
                       <Check
                         className={cn(

@@ -168,7 +168,7 @@ export default function ProjectChangeEventsPage() {
         const term = searchValue.trim().toLowerCase();
         if (!term) return true;
 
-        const number = event.event_number ?? `CE-${event.id}`;
+        const number = event.number ?? `CE-${event.id}`;
         return (
           number.toLowerCase().includes(term) ||
           event.title?.toLowerCase().includes(term) ||
@@ -254,10 +254,10 @@ export default function ProjectChangeEventsPage() {
   const recycleColumns = useMemo<ColumnDef<ChangeEvent>[]>(() => {
     return [
       {
-        accessorKey: "event_number",
+        accessorKey: "number",
         header: "#",
         cell: ({ row }) => {
-          const number = row.getValue("event_number") as string | null;
+          const number = row.getValue("number") as string | null;
           return <span className="font-mono text-sm">{number ?? `CE-${row.original.id}`}</span>;
         },
       },
@@ -326,21 +326,29 @@ export default function ProjectChangeEventsPage() {
       label: "All Change Events",
       href: basePath,
       count: totalEvents,
+      testId: "change-events-tab-all",
+      countTestId: "change-events-count-all",
     },
     {
       label: "Open",
       href: `${basePath}?status=open`,
       count: openCount,
+      testId: "change-events-tab-open",
+      countTestId: "change-events-count-open",
     },
     {
       label: "Pending",
       href: `${basePath}?status=pending`,
       count: pendingCount,
+      testId: "change-events-tab-pending",
+      countTestId: "change-events-count-pending",
     },
     {
       label: "Approved",
       href: `${basePath}?status=approved`,
       count: approvedCount,
+      testId: "change-events-tab-approved",
+      countTestId: "change-events-count-approved",
     },
   ];
 
@@ -354,6 +362,7 @@ export default function ProjectChangeEventsPage() {
             size="sm"
             onClick={() => router.push(`/${projectId}/change-events/new`)}
             className="gap-2"
+            data-testid="change-events-new-button"
           >
             <Plus className="h-4 w-4" />
             New Change Event
@@ -363,10 +372,18 @@ export default function ProjectChangeEventsPage() {
 
       <Tabs value={activeTab} onValueChange={(value) => setActiveTab(value as TabValue)}>
         <TabsList>
-          <TabsTrigger value="detail">Detail</TabsTrigger>
-          <TabsTrigger value="summary">Summary</TabsTrigger>
-          <TabsTrigger value="rfqs">RFQs</TabsTrigger>
-          <TabsTrigger value="recycle">Recycle Bin</TabsTrigger>
+          <TabsTrigger value="detail" data-testid="change-events-tab-detail">
+            Detail
+          </TabsTrigger>
+          <TabsTrigger value="summary" data-testid="change-events-tab-summary">
+            Summary
+          </TabsTrigger>
+          <TabsTrigger value="rfqs" data-testid="change-events-tab-rfqs">
+            RFQs
+          </TabsTrigger>
+          <TabsTrigger value="recycle" data-testid="change-events-tab-recycle">
+            Recycle Bin
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="detail">
@@ -377,6 +394,7 @@ export default function ProjectChangeEventsPage() {
                 value={searchValue}
                 onChange={(event) => setSearchValue(event.target.value)}
                 className="max-w-md"
+                data-testid="change-events-search-input"
               />
               <div className="flex items-center gap-2">
                 <Button
@@ -384,6 +402,7 @@ export default function ProjectChangeEventsPage() {
                   size="sm"
                   onClick={refetchChangeEvents}
                   className="gap-2"
+                  data-testid="change-events-refresh-button"
                 >
                   <RefreshCw className="h-4 w-4" />
                   Refresh
@@ -403,7 +422,11 @@ export default function ProjectChangeEventsPage() {
                   <CardDescription>{error.message}</CardDescription>
                 </CardHeader>
                 <CardContent>
-                  <Button size="sm" onClick={refetchChangeEvents}>
+                  <Button
+                    size="sm"
+                    onClick={refetchChangeEvents}
+                    data-testid="change-events-retry-button"
+                  >
                     Retry
                   </Button>
                 </CardContent>
@@ -451,7 +474,10 @@ export default function ProjectChangeEventsPage() {
                   </TableHeader>
                   <TableBody>
                     {detailTable.getRowModel().rows.map((row) => (
-                      <TableRow key={row.id}>
+                      <TableRow
+                        key={row.id}
+                        data-testid={`change-event-row-${row.original.id}`}
+                      >
                         {row.getVisibleCells().map((cell) => (
                           <TableCell key={cell.id}>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}
@@ -531,7 +557,7 @@ export default function ProjectChangeEventsPage() {
                             <div>
                               <p className="text-sm font-medium">{event.title}</p>
                               <p className="text-xs text-muted-foreground">
-                                {(event.event_number ?? `CE-${event.id}`)} • {getStatusLabel(event.status)}
+                                {(event.number ?? `CE-${event.id}`)} • {getStatusLabel(event.status)}
                               </p>
                             </div>
                             <span className="text-sm font-medium">
@@ -617,7 +643,10 @@ export default function ProjectChangeEventsPage() {
                   </TableHeader>
                   <TableBody>
                     {recycleTable.getRowModel().rows.map((row) => (
-                      <TableRow key={row.id}>
+                      <TableRow
+                        key={row.id}
+                        data-testid={`change-event-recycle-row-${row.original.id}`}
+                      >
                         {row.getVisibleCells().map((cell) => (
                           <TableCell key={cell.id}>
                             {flexRender(cell.column.columnDef.cell, cell.getContext())}

@@ -28,6 +28,7 @@ interface SelectFieldProps {
   fullWidth?: boolean;
   className?: string;
   disabled?: boolean;
+  dataTestId?: string;
 }
 
 export function SelectField({
@@ -42,6 +43,7 @@ export function SelectField({
   fullWidth = false,
   className,
   disabled = false,
+  dataTestId,
 }: SelectFieldProps) {
   const triggerId = `select-field-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
 
@@ -59,6 +61,7 @@ export function SelectField({
           aria-label={label}
           className={cn(error && "border-red-300", className)}
           aria-invalid={!!error}
+          data-testid={dataTestId}
         >
           <SelectValue placeholder={placeholder} />
         </SelectTrigger>

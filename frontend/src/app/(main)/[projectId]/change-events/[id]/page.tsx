@@ -318,6 +318,7 @@ export default function ChangeEventDetailPage() {
                 <Button
                   size="sm"
                   onClick={() => handleStatusChange("pending_approval")}
+                  data-testid="change-event-submit-approval"
                 >
                   <FileCheck2 className="mr-2 h-4 w-4" />
                   Submit for Approval
@@ -366,14 +367,18 @@ export default function ChangeEventDetailPage() {
       {/* Tabs */}
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList>
-          <TabsTrigger value="general">General</TabsTrigger>
-          <TabsTrigger value="line-items">
+          <TabsTrigger value="general" data-testid="change-event-tab-general">
+            General
+          </TabsTrigger>
+          <TabsTrigger value="line-items" data-testid="change-event-tab-line-items">
             Line Items ({lineItems.length})
           </TabsTrigger>
-          <TabsTrigger value="attachments">
+          <TabsTrigger value="attachments" data-testid="change-event-tab-attachments">
             Attachments ({attachments.length})
           </TabsTrigger>
-          <TabsTrigger value="history">History</TabsTrigger>
+          <TabsTrigger value="history" data-testid="change-event-tab-history">
+            History
+          </TabsTrigger>
         </TabsList>
 
         {/* General Tab */}
@@ -499,9 +504,15 @@ export default function ChangeEventDetailPage() {
                     <div>Totals:</div>
                     <div></div>
                     <div></div>
-                    <div>{formatCurrency(totals.costRom)}</div>
-                    <div>{formatCurrency(totals.revenueRom)}</div>
-                    <div>{formatCurrency(totals.nonCommittedCost)}</div>
+                    <div data-testid="change-event-total-cost-rom">
+                      {formatCurrency(totals.costRom)}
+                    </div>
+                    <div data-testid="change-event-total-revenue-rom">
+                      {formatCurrency(totals.revenueRom)}
+                    </div>
+                    <div data-testid="change-event-total-non-committed">
+                      {formatCurrency(totals.nonCommittedCost)}
+                    </div>
                   </div>
                 </div>
               ) : (

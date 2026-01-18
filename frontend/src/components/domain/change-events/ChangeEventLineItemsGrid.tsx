@@ -297,18 +297,19 @@ function LineItemRow({
           render={({ field }) => (
             <FormItem>
               <FormControl>
-                <Input
-                  type="number"
-                  step="0.01"
-                  min="0"
-                  {...field}
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                  className={cn(
-                    'h-9 text-right border-none bg-transparent focus-visible:ring-1',
-                    errorRecord?.quantity && 'text-destructive'
-                  )}
-                  placeholder="0"
-                />
+                  <Input
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    {...field}
+                    onChange={(e) => field.onChange(Number(e.target.value))}
+                    className={cn(
+                      'h-9 text-right border-none bg-transparent focus-visible:ring-1',
+                      errorRecord?.quantity && 'text-destructive'
+                    )}
+                    placeholder="0"
+                    data-testid={`change-event-line-item-quantity-${index}`}
+                  />
               </FormControl>
               <FormMessage className="text-xs" />
             </FormItem>
@@ -360,6 +361,7 @@ function LineItemRow({
                       errorRecord?.unit_cost && 'border-destructive'
                     )}
                     placeholder="0.00"
+                    data-testid={`change-event-line-item-unit-cost-${index}`}
                   />
                 </div>
               </FormControl>
@@ -389,6 +391,7 @@ function LineItemRow({
                     value={lineTotal}
                     className="h-9 pl-6 text-right border-none bg-muted/50 font-medium"
                     readOnly
+                    data-testid={`change-event-line-item-cost-rom-${index}`}
                   />
                 </div>
               </FormControl>
@@ -449,6 +452,7 @@ function LineItemRow({
                     onChange={(e) => field.onChange(Number(e.target.value))}
                     className="h-9 pl-6 text-right border-none bg-transparent focus-visible:ring-1"
                     placeholder="0.00"
+                    data-testid={`change-event-line-item-non-committed-${index}`}
                   />
                 </div>
               </FormControl>
@@ -630,6 +634,7 @@ export function ChangeEventLineItemsGrid({
           size="sm"
           onClick={onAdd}
           className="flex items-center gap-2"
+          data-testid="change-event-line-item-add"
         >
           <Plus className="h-4 w-4" />
           Add Line Item
@@ -650,7 +655,10 @@ export function ChangeEventLineItemsGrid({
               <Calculator className="h-4 w-4 text-muted-foreground" />
               <div>
                 <div className="text-sm font-medium">Total Cost ROM</div>
-                <div className="text-lg font-semibold">
+                <div
+                  className="text-lg font-semibold"
+                  data-testid="change-event-line-item-total-cost-rom"
+                >
                   {formatCurrency(totals.costRom)}
                 </div>
               </div>
@@ -665,7 +673,10 @@ export function ChangeEventLineItemsGrid({
                 </span>
                 <div>
                   <div className="text-sm font-medium">Total Revenue ROM</div>
-                  <div className="text-lg font-semibold">
+                  <div
+                    className="text-lg font-semibold"
+                    data-testid="change-event-line-item-total-revenue-rom"
+                  >
                     {formatCurrency(totals.revenueRom)}
                   </div>
                 </div>
@@ -678,7 +689,10 @@ export function ChangeEventLineItemsGrid({
               <CheckCircle2 className="h-4 w-4 text-muted-foreground" />
               <div>
                 <div className="text-sm font-medium">Non-Committed</div>
-                <div className="text-lg font-semibold">
+                <div
+                  className="text-lg font-semibold"
+                  data-testid="change-event-line-item-total-non-committed"
+                >
                   {formatCurrency(totals.nonCommittedCost)}
                 </div>
               </div>
