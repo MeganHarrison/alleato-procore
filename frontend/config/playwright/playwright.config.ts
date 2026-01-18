@@ -18,10 +18,13 @@ export default defineConfig({
     ['list'],
   ],
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3002',
+    baseURL:
+      process.env.PLAYWRIGHT_BASE_URL ||
+      process.env.BASE_URL ||
+      'http://localhost:3002',
     trace: 'on-first-retry',
     screenshot: 'only-on-failure',
-    video: 'on-first-retry',
+    video: 'retain-on-failure',
   },
   timeout: 120000, // 2 minutes for agent responses
   expect: {
