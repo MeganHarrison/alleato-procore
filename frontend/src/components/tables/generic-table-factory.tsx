@@ -121,6 +121,16 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from "@/components/ui/alert-dialog";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { toast } from "sonner";
@@ -485,6 +495,7 @@ export interface RowActionConfig {
   label: string;
   icon?: "pencil" | "trash" | "external";
   variant?: "default" | "destructive";
+  onClick?: (row: Record<string, unknown>) => void | Promise<void>;
 }
 
 /**
@@ -544,6 +555,7 @@ export interface GenericTableConfig {
   rowClickPath?: string;
   exportFilename?: string;
   editConfig?: EditConfig;
+  requireDeleteConfirmation?: boolean;
   enableViewSwitcher?: boolean;
   defaultViewMode?: ViewMode;
   enableRowSelection?: boolean;
@@ -671,6 +683,10 @@ export function GenericDataTable({
 
   // Deleting state
   const [deletingId, setDeletingId] = useState<string | number | null>(null);
+  const [pendingDeleteRow, setPendingDeleteRow] = useState<
+    Record<string, unknown> | null
+  >(null);
+  const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false);
 
   // Column widths state
   const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
@@ -1213,11 +1229,7 @@ export function GenericDataTable({
     setIsEditDialogOpen(true);
   };
 
-  const handleDeleteClick = async (
-    row: Record<string, unknown>,
-    e: React.MouseEvent,
-  ) => {
-    e.stopPropagation();
+  const executeDelete = async (row: Record<string, unknown>) => {
     if (!onDeleteRow) return;
 
     const id = row.id as string | number;
@@ -1239,6 +1251,22 @@ export function GenericDataTable({
     } finally {
       setDeletingId(null);
     }
+  };
+
+  const handleDeleteClick = (
+    row: Record<string, unknown>,
+    e: React.MouseEvent,
+  ) => {
+    e.stopPropagation();
+    if (!onDeleteRow) return;
+
+    if (config.requireDeleteConfirmation) {
+      setPendingDeleteRow(row);
+      setIsDeleteDialogOpen(true);
+      return;
+    }
+
+    void executeDelete(row);
   };
 
   const handleSaveEdit = async () => {
@@ -1459,7 +1487,12 @@ export function GenericDataTable({
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild onClick={(e) => e.stopPropagation()}>
-          <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+          <Button
+            variant="ghost"
+            size="sm"
+            className="h-8 w-8 p-0"
+            data-testid={`row-actions-${row.id}`}
+          >
             <MoreHorizontal className="h-4 w-4" />
           </Button>
         </DropdownMenuTrigger>
@@ -1476,6 +1509,10 @@ export function GenericDataTable({
               className={
                 action.variant === "destructive" ? "text-destructive" : ""
               }
+              onClick={(event) => {
+                event.stopPropagation();
+                void action.onClick?.(row);
+              }}
             >
               {action.icon === "pencil" && <Pencil className="h-4 w-4 mr-2" />}
               {action.icon === "trash" && <Trash2 className="h-4 w-4 mr-2" />}
@@ -1487,6 +1524,7 @@ export function GenericDataTable({
               onClick={(e) => handleDeleteClick(row, e)}
               className="text-destructive"
               disabled={isCurrentlyDeleting}
+              data-testid={`row-action-delete-${row.id}`}
             >
               {isCurrentlyDeleting ? (
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
@@ -2238,6 +2276,46 @@ export function GenericDataTable({
       {viewMode === "list" && renderListView()}
 
       {/* ========================================
+          DELETE CONFIRMATION
+          ======================================== */}
+      {config.requireDeleteConfirmation && (
+        <AlertDialog
+          open={isDeleteDialogOpen}
+          onOpenChange={(open) => {
+            setIsDeleteDialogOpen(open);
+            if (!open) {
+              setPendingDeleteRow(null);
+            }
+          }}
+        >
+          <AlertDialogContent>
+            <AlertDialogHeader>
+              <AlertDialogTitle>Delete this record?</AlertDialogTitle>
+              <AlertDialogDescription>
+                This action cannot be undone. This will permanently delete the
+                selected record.
+              </AlertDialogDescription>
+            </AlertDialogHeader>
+            <AlertDialogFooter>
+              <AlertDialogCancel>Cancel</AlertDialogCancel>
+              <AlertDialogAction
+                data-testid="confirm-delete-button"
+                onClick={() => {
+                  if (pendingDeleteRow) {
+                    void executeDelete(pendingDeleteRow);
+                  }
+                  setIsDeleteDialogOpen(false);
+                  setPendingDeleteRow(null);
+                }}
+              >
+                Delete
+              </AlertDialogAction>
+            </AlertDialogFooter>
+          </AlertDialogContent>
+        </AlertDialog>
+      )}
+
+      {/* ========================================
           EDIT DIALOG
           ======================================== */}
       {config.editConfig && (
@@ -2295,7 +2373,7 @@ export function GenericDataTable({
                                 handleFieldChange(col.id, v)
                               }
                             >
-                              <SelectTrigger>
+                              <SelectTrigger id={col.id}>
                                 <SelectValue />
                               </SelectTrigger>
                               <SelectContent>
