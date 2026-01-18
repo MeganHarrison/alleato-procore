@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { ArrowDown, ArrowUp, Plus, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Text } from "@/components/ui/text";
@@ -21,16 +22,23 @@ interface LineItem {
 
 interface ScheduleOfValuesTabProps {
   lineItems: LineItem[];
+  projectId: number;
+  commitmentId: string;
+  onImportComplete?: () => void | Promise<void>;
   isLoading?: boolean;
   error?: string | null;
 }
 
 export function ScheduleOfValuesTab({
   lineItems,
+  projectId,
+  commitmentId,
+  onImportComplete,
   isLoading = false,
   error = null,
 }: ScheduleOfValuesTabProps) {
   const [items, setItems] = useState<LineItem[]>(lineItems);
+  const [isImporting, setIsImporting] = useState(false);
 
   useEffect(() => {
     setItems(lineItems);
@@ -96,6 +104,54 @@ export function ScheduleOfValuesTab({
     setItems((prev) => prev.filter((item) => item.id !== id));
   };
 
+  const handleImport = useCallback(async () => {
+    if (!projectId || !commitmentId) {
+      toast.error("Missing project or commitment details.");
+      return;
+    }
+
+    const confirmed = confirm(
+      "Import all budget line items into this commitment's schedule of values?",
+    );
+    if (!confirmed) return;
+
+    setIsImporting(true);
+    try {
+      const response = await fetch(
+        `/api/projects/${projectId}/commitments/${commitmentId}/line-items/import`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ source: "budget" }),
+        },
+      );
+
+      const payload = await response.json();
+
+      if (!response.ok) {
+        const message =
+          payload?.error || "Unable to import schedule of values from budget.";
+        toast.error(message);
+        return;
+      }
+
+      toast.success(
+        payload?.message || "Budget line items imported successfully.",
+      );
+      if (onImportComplete) {
+        await onImportComplete();
+      }
+    } catch (importError) {
+      toast.error(
+        importError instanceof Error
+          ? importError.message
+          : "Unable to import schedule of values from budget.",
+      );
+    } finally {
+      setIsImporting(false);
+    }
+  }, [commitmentId, onImportComplete, projectId]);
+
   const moveItem = (id: string, direction: "up" | "down") => {
     setItems((prev) => {
       const index = prev.findIndex((item) => item.id === id);
@@ -155,10 +211,20 @@ export function ScheduleOfValuesTab({
               No SOV line items for this commitment
             </Text>
             <div className="mt-4">
-              <Button size="sm" onClick={handleAdd}>
-                <Plus className="h-4 w-4 mr-2" />
-                Add Line Item
-              </Button>
+              <div className="flex flex-wrap justify-center gap-2">
+                <Button size="sm" onClick={handleAdd}>
+                  <Plus className="h-4 w-4 mr-2" />
+                  Add Line Item
+                </Button>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={handleImport}
+                  disabled={isImporting}
+                >
+                  {isImporting ? "Importing..." : "Import from Budget"}
+                </Button>
+              </div>
             </div>
           </div>
         </CardContent>
@@ -176,10 +242,20 @@ export function ScheduleOfValuesTab({
           <Text size="sm" tone="muted">
             Manage line items for this commitment
           </Text>
-          <Button size="sm" onClick={handleAdd} className="gap-2">
-            <Plus className="h-4 w-4" />
-            Add Line Item
-          </Button>
+          <div className="flex flex-wrap gap-2">
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={handleImport}
+              disabled={isImporting}
+            >
+              {isImporting ? "Importing..." : "Import from Budget"}
+            </Button>
+            <Button size="sm" onClick={handleAdd} className="gap-2">
+              <Plus className="h-4 w-4" />
+              Add Line Item
+            </Button>
+          </div>
         </div>
 
         <div className="overflow-x-auto rounded-md border">

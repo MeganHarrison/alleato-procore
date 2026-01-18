@@ -583,7 +583,12 @@ export default function CommitmentDetailPage() {
         </TabsContent>
 
         <TabsContent value="sov">
-          <ScheduleOfValuesTab lineItems={commitment.line_items || []} />
+          <ScheduleOfValuesTab
+            lineItems={commitment.line_items || []}
+            projectId={projectId}
+            commitmentId={commitment.id}
+            onImportComplete={fetchCommitment}
+          />
         </TabsContent>
 
         <TabsContent value="change-orders">
