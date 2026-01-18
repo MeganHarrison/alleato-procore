@@ -1127,3 +1127,290 @@
   --color-sidebar-border: var(--sidebar-border);
   --color-sidebar-ring: var(--sidebar-ring);
 }
+
+/* ============================================================================
+   10. PREMIUM DESIGN SYSTEM
+   ============================================================================
+   High-end, luxury design components for a refined user experience.
+   These classes establish the "source of truth" for consistent styling.
+   ============================================================================ */
+
+@layer base {
+  :root {
+    /* Premium Font Stack - Serif for headlines */
+    --font-display: "Playfair Display", Georgia, "Times New Roman", serif;
+    --font-heading: "DM Serif Display", Georgia, serif;
+
+    /* Premium Shadows - Refined elevation system */
+    --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.03);
+    --shadow-sm: 0 1px 3px 0 rgb(0 0 0 / 0.04), 0 1px 2px -1px rgb(0 0 0 / 0.04);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.05), 0 4px 6px -4px rgb(0 0 0 / 0.05);
+    --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.05), 0 8px 10px -6px rgb(0 0 0 / 0.05);
+    --shadow-inner: inset 0 2px 4px 0 rgb(0 0 0 / 0.03);
+
+    /* Premium Animation Timing */
+    --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+    --ease-out-expo: cubic-bezier(0.19, 1, 0.22, 1);
+    --duration-fast: 150ms;
+    --duration-normal: 250ms;
+    --duration-slow: 400ms;
+
+    /* Premium Neutral Palette - Warmer tones */
+    --neutral-warm-50: 50 20% 98%;
+    --neutral-warm-100: 45 15% 95%;
+    --neutral-warm-200: 40 12% 90%;
+    --neutral-warm-300: 38 10% 80%;
+    --neutral-warm-400: 35 8% 60%;
+    --neutral-warm-500: 30 6% 45%;
+    --neutral-warm-600: 25 8% 35%;
+    --neutral-warm-700: 20 10% 25%;
+    --neutral-warm-800: 15 12% 18%;
+    --neutral-warm-900: 10 15% 10%;
+  }
+}
+
+/* Premium Typography Components */
+@layer components {
+  /* Display Title - Hero headlines with serif */
+  .text-display {
+    @apply text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-light tracking-tight leading-[1.05];
+    font-family: var(--font-display);
+  }
+
+  /* Premium Headline - Elegant serif headlines */
+  .text-headline {
+    @apply text-2xl sm:text-3xl md:text-4xl font-light tracking-tight leading-tight;
+    font-family: var(--font-display);
+    color: hsl(var(--foreground));
+  }
+
+  /* Subheadline - Secondary serif */
+  .text-subheadline {
+    @apply text-xl sm:text-2xl font-light tracking-tight;
+    font-family: var(--font-display);
+    color: hsl(var(--muted-foreground));
+  }
+
+  /* Premium Overline - Refined uppercase label */
+  .text-overline {
+    @apply text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase;
+    color: hsl(var(--brand));
+  }
+
+  /* Premium Body - Refined reading experience */
+  .text-body-premium {
+    @apply text-[15px] sm:text-base leading-relaxed;
+    color: hsl(20 6% 40%);
+  }
+
+  /* Metric Display - Large numbers */
+  .text-metric-display {
+    @apply text-3xl sm:text-4xl md:text-5xl font-light tabular-nums tracking-tight;
+    color: hsl(var(--foreground));
+  }
+}
+
+/* Premium Card Components */
+@layer components {
+  /* Premium Card - Refined with subtle shadows */
+  .card-premium {
+    @apply bg-white border border-neutral-200/80 transition-all;
+    box-shadow: var(--shadow-subtle);
+  }
+
+  .card-premium:hover {
+    box-shadow: var(--shadow-sm);
+    border-color: hsl(var(--neutral-warm-200));
+  }
+
+  /* Premium Card Elevated - For important content */
+  .card-premium-elevated {
+    @apply bg-white border border-neutral-100 transition-all;
+    box-shadow: var(--shadow-md);
+  }
+
+  .card-premium-elevated:hover {
+    box-shadow: var(--shadow-lg);
+    transform: translateY(-1px);
+  }
+
+  /* Premium Section Card - Collapsible sections */
+  .section-card {
+    @apply bg-white border border-neutral-200/80 overflow-hidden;
+    box-shadow: var(--shadow-subtle);
+  }
+
+  .section-card-header {
+    @apply px-5 py-4 sm:px-6 sm:py-5 border-b border-neutral-100/80 bg-gradient-to-r from-neutral-50/50 to-transparent;
+  }
+
+  .section-card-content {
+    @apply px-5 py-4 sm:px-6 sm:py-5;
+  }
+
+  /* Premium List Item */
+  .list-item-premium {
+    @apply flex items-center gap-4 py-3 border-b border-neutral-100/80 last:border-0 transition-colors;
+  }
+
+  .list-item-premium:hover {
+    background: hsl(var(--neutral-warm-50) / 0.5);
+  }
+}
+
+/* Premium Button Components */
+@layer components {
+  /* Premium Primary Button */
+  .btn-premium-primary {
+    @apply px-5 py-2.5 text-sm font-medium text-white bg-neutral-900
+           hover:bg-neutral-800 active:bg-neutral-950
+           transition-all rounded-sm;
+    box-shadow: var(--shadow-sm);
+  }
+
+  .btn-premium-primary:hover {
+    box-shadow: var(--shadow-md);
+    transform: translateY(-0.5px);
+  }
+
+  /* Premium Secondary Button */
+  .btn-premium-secondary {
+    @apply px-5 py-2.5 text-sm font-medium text-neutral-700 bg-white border border-neutral-200
+           hover:bg-neutral-50 hover:border-neutral-300 active:bg-neutral-100
+           transition-all rounded-sm;
+  }
+
+  /* Premium Ghost Button */
+  .btn-premium-ghost {
+    @apply px-4 py-2 text-sm font-medium text-neutral-600
+           hover:text-neutral-900 hover:bg-neutral-100/80
+           transition-all rounded-sm;
+  }
+
+  /* Premium Brand Button */
+  .btn-premium-brand {
+    @apply px-5 py-2.5 text-sm font-medium text-white
+           bg-brand hover:bg-brand/90 active:bg-brand/95
+           transition-all rounded-sm;
+    box-shadow: 0 2px 4px hsl(var(--brand) / 0.2);
+  }
+
+  .btn-premium-brand:hover {
+    box-shadow: 0 4px 8px hsl(var(--brand) / 0.25);
+    transform: translateY(-0.5px);
+  }
+}
+
+/* Premium Form Components */
+@layer components {
+  /* Premium Input */
+  .input-premium {
+    @apply w-full px-4 py-3 text-sm bg-white border border-neutral-200
+           focus:border-neutral-400 focus:ring-2 focus:ring-neutral-200/50
+           placeholder:text-neutral-400 transition-all rounded-sm;
+  }
+
+  /* Premium Select */
+  .select-premium {
+    @apply w-full px-4 py-3 text-sm bg-white border border-neutral-200
+           focus:border-neutral-400 focus:ring-2 focus:ring-neutral-200/50
+           transition-all rounded-sm appearance-none cursor-pointer;
+  }
+
+  /* Premium Label */
+  .label-premium {
+    @apply block text-[11px] font-semibold tracking-wider uppercase text-neutral-500 mb-2;
+  }
+}
+
+/* Premium Animation Utilities */
+@layer utilities {
+  /* Smooth reveal animation */
+  .animate-reveal {
+    animation: reveal 0.5s var(--ease-premium) forwards;
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  /* Staggered animation delays */
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+
+  /* Premium transitions */
+  .transition-premium {
+    transition-property: all;
+    transition-duration: var(--duration-normal);
+    transition-timing-function: var(--ease-premium);
+  }
+
+  .transition-premium-fast {
+    transition-property: all;
+    transition-duration: var(--duration-fast);
+    transition-timing-function: var(--ease-premium);
+  }
+}
+
+/* Premium Empty State */
+@layer components {
+  .empty-state-premium {
+    @apply flex flex-col items-center justify-center py-12 sm:py-16 text-center;
+  }
+
+  .empty-state-premium-icon {
+    @apply w-12 h-12 mb-4 text-neutral-300;
+  }
+
+  .empty-state-premium-title {
+    @apply text-sm font-medium text-neutral-500 mb-1;
+  }
+
+  .empty-state-premium-description {
+    @apply text-xs text-neutral-400;
+  }
+}
+
+/* Premium Data Display */
+@layer components {
+  /* Metric Card for KPIs */
+  .metric-card-premium {
+    @apply bg-white border border-neutral-200/80 p-5 sm:p-6 transition-all;
+    box-shadow: var(--shadow-subtle);
+  }
+
+  .metric-card-premium:hover {
+    box-shadow: var(--shadow-sm);
+  }
+
+  .metric-card-premium-label {
+    @apply text-[10px] sm:text-[11px] font-semibold tracking-[0.15em] uppercase text-neutral-500 mb-2;
+  }
+
+  .metric-card-premium-value {
+    @apply text-2xl sm:text-3xl font-light tabular-nums tracking-tight text-neutral-900;
+  }
+
+  .metric-card-premium-change {
+    @apply flex items-center gap-1 mt-2 text-xs font-medium;
+  }
+
+  .metric-card-premium-change-positive {
+    @apply text-emerald-600;
+  }
+
+  .metric-card-premium-change-negative {
+    @apply text-red-600;
+  }
+}
