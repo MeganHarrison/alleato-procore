@@ -78,7 +78,7 @@ test.describe('Change Events - API Tests', () => {
       const allMatch = data.data.every((event: any) =>
         event.title?.toLowerCase().includes('test') ||
         event.notes?.toLowerCase().includes('test') ||
-        event.event_number?.toLowerCase().includes('test')
+        event.number?.toLowerCase().includes('test')
       );
       expect(allMatch).toBe(true);
     });
@@ -102,8 +102,8 @@ test.describe('Change Events - API Tests', () => {
 
       // Log response for debugging
       const responseText = await response.text();
-      console.log(`POST response status: ${response.status()}`);
-      console.log(`POST response body: ${responseText}`);
+      console.warn(`POST response status: ${response.status()}`);
+      console.warn(`POST response body: ${responseText}`);
 
       expect(response.status()).toBe(201);
 
@@ -115,7 +115,7 @@ test.describe('Change Events - API Tests', () => {
       // Save ID for subsequent tests
       createdEventId = data.id;
 
-      console.log(`✅ Created change event via API: ${createdEventId}`);
+      console.warn(`✅ Created change event via API: ${createdEventId}`);
     });
 
     test('should reject missing required fields', async ({ request }) => {
@@ -299,7 +299,7 @@ test.describe('Change Events - API Tests', () => {
       );
 
       const duration = Date.now() - start;
-      console.log(`⏱️  API response time: ${duration}ms`);
+      console.warn(`⏱️  API response time: ${duration}ms`);
 
       expect(response.status()).toBe(200);
       expect(duration).toBeLessThan(2000); // Increased threshold for realistic performance
@@ -327,7 +327,7 @@ test.describe('Change Events - API Tests', () => {
       );
 
       const duration = Date.now() - start;
-      console.log(`⏱️  Create API response time: ${duration}ms`);
+      console.warn(`⏱️  Create API response time: ${duration}ms`);
 
       if (response.status() !== 201) {
         const errorData = await response.json();

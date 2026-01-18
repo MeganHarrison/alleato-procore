@@ -25,7 +25,7 @@ export default function NewChangeEventPage() {
     try {
       const result = await createChangeEvent({
         project_id: projectId,
-        event_number: data.number,
+        number: data.number,
         title: data.title,
         status: data.status,
         reason: data.changeReason || null,
@@ -38,7 +38,7 @@ export default function NewChangeEventPage() {
       }
 
       toast.success("Change event created successfully");
-      router.push(`/${projectId}/change-events`);
+      router.push(`/${projectId}/change-events/${result.id}`);
     } catch (error) {
       toast.error(
         error instanceof Error

@@ -68,10 +68,10 @@ export const ChangeEventsTableColumns = ({
   onDelete,
 }: ChangeEventsTableColumnsProps): ColumnDef<ChangeEvent>[] => [
   {
-    accessorKey: "event_number",
+    accessorKey: "number",
     header: "#",
     cell: ({ row }) => {
-      const number = row.getValue("event_number") as string;
+      const number = row.getValue("number") as string;
       return (
         <div className="font-mono text-sm">
           {" "}
@@ -153,7 +153,11 @@ export const ChangeEventsTableColumns = ({
           {" "}
           <DropdownMenuTrigger asChild>
             {" "}
-            <Button variant="ghost" className="h-8 w-8 p-0">
+            <Button
+              variant="ghost"
+              className="h-8 w-8 p-0"
+              data-testid={`change-event-actions-${changeEvent.id}`}
+            >
               {" "}
               <span className="sr-only">Open menu</span>{" "}
               <MoreHorizontal className="h-4 w-4" />{" "}
@@ -187,6 +191,7 @@ export const ChangeEventsTableColumns = ({
               <DropdownMenuItem
                 onClick={() => onDelete(changeEvent.id)}
                 className="text-destructive"
+                data-testid={`change-event-delete-${changeEvent.id}`}
               >
                 {" "}
                 <Trash2 className="mr-2 h-4 w-4" /> Delete{" "}

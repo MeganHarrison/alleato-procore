@@ -57,7 +57,7 @@ export default function EditChangeEventPage() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({
             project_id: projectId,
-            event_number: data.number,
+            number: data.number,
             title: data.title,
             status: data.status,
             reason: data.changeReason || null,
@@ -123,5 +123,100 @@ export default function EditChangeEventPage() {
         </div>{" "}
       </div>
     );
-  } // Check if change event can be edited const canEdit = ['open', 'rejected'].includes(changeEvent.status?.toLowerCase() || ''); if (!canEdit) { return ( <> <PageHeader title="Cannot Edit Change Event" description={`Change Event ${changeEvent.event_number || changeEvent.id} cannot be edited`} breadcrumbs={[ { label: 'Projects', href: '/' }, { label: 'Change Events', href: `/${projectId}/change-events` }, { label: changeEvent.event_number || `CE-${changeEvent.id}` }, { label: 'Edit' }, ]} actions={ <Button variant="ghost" size="sm" onClick={() => router.back()}> <ArrowLeft className="h-4 w-4 mr-2" /> Back </Button> } /> <TableLayout> <div className="flex items-center justify-center h-64"> <div className="text-center"> <p className="text-muted-foreground mb-4"> Change events with status"{changeEvent.status}" cannot be edited. </p> <p className="text-sm text-muted-foreground mb-4"> Only change events with status"Open" or"Rejected" can be edited. </p> <Button onClick={() => router.push(`/${projectId}/change-events/${changeEventId}`)}> View Change Event </Button> </div> </div> </TableLayout> </> ); } const initialData: Partial<ChangeEventFormData> = { number: changeEvent.event_number || '', title: changeEvent.title || '', status: changeEvent.status || 'open', origin: changeEvent.reason || undefined, // Note: API may have different field mapping changeReason: changeEvent.reason || undefined, scope: changeEvent.scope || undefined, description: changeEvent.description || undefined, notes: changeEvent.notes || undefined, estimatedImpact: changeEvent.estimated_impact || undefined, }; return ( <> <PageHeader title="Edit Change Event" description={`Modify Change Event ${changeEvent.event_number || changeEvent.id}`} breadcrumbs={[ { label: 'Projects', href: '/' }, { label: 'Change Events', href: `/${projectId}/change-events` }, { label: changeEvent.event_number || `CE-${changeEvent.id}`, href: `/${projectId}/change-events/${changeEventId}` }, { label: 'Edit' }, ]} actions={ <Button variant="ghost" size="sm" onClick={() => router.back()}> <ArrowLeft className="h-4 w-4 mr-2" /> Back </Button> } /> <TableLayout> <ChangeEventForm initialData={initialData} onSubmit={handleSubmit} onCancel={handleCancel} isSubmitting={isSaving} mode="edit" projectId={projectId} /> </TableLayout> </> );
+  }
+
+  // Check if change event can be edited
+  const canEdit = ["open", "rejected"].includes(
+    changeEvent.status?.toLowerCase() || "",
+  );
+
+  if (!canEdit) {
+    return (
+      <>
+        <PageHeader
+          title="Cannot Edit Change Event"
+          description={`Change Event ${changeEvent.number || changeEvent.id} cannot be edited`}
+          breadcrumbs={[
+            { label: "Projects", href: "/" },
+            { label: "Change Events", href: `/${projectId}/change-events` },
+            { label: changeEvent.number || `CE-${changeEvent.id}` },
+            { label: "Edit" },
+          ]}
+          actions={
+            <Button variant="ghost" size="sm" onClick={() => router.back()}>
+              <ArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+          }
+        />
+        <TableLayout>
+          <div className="flex items-center justify-center h-64">
+            <div className="text-center">
+              <p className="text-muted-foreground mb-4">
+                Change events with status "{changeEvent.status}" cannot be
+                edited.
+              </p>
+              <p className="text-sm text-muted-foreground mb-4">
+                Only change events with status "Open" or "Rejected" can be
+                edited.
+              </p>
+              <Button
+                onClick={() =>
+                  router.push(`/${projectId}/change-events/${changeEventId}`)
+                }
+              >
+                View Change Event
+              </Button>
+            </div>
+          </div>
+        </TableLayout>
+      </>
+    );
+  }
+
+  const initialData: Partial<ChangeEventFormData> = {
+    number: changeEvent.number || "",
+    title: changeEvent.title || "",
+    status: changeEvent.status || "open",
+    origin: changeEvent.reason || undefined, // Note: API may have different field mapping
+    changeReason: changeEvent.reason || undefined,
+    scope: changeEvent.scope || undefined,
+    description: changeEvent.description || undefined,
+    notes: changeEvent.notes || undefined,
+    estimatedImpact: changeEvent.estimated_impact || undefined,
+  };
+
+  return (
+    <>
+      <PageHeader
+        title="Edit Change Event"
+        description={`Modify Change Event ${changeEvent.number || changeEvent.id}`}
+        breadcrumbs={[
+          { label: "Projects", href: "/" },
+          { label: "Change Events", href: `/${projectId}/change-events` },
+          {
+            label: changeEvent.number || `CE-${changeEvent.id}`,
+            href: `/${projectId}/change-events/${changeEventId}`,
+          },
+          { label: "Edit" },
+        ]}
+        actions={
+          <Button variant="ghost" size="sm" onClick={() => router.back()}>
+            <ArrowLeft className="h-4 w-4 mr-2" />
+            Back
+          </Button>
+        }
+      />
+      <TableLayout>
+        <ChangeEventForm
+          initialData={initialData}
+          onSubmit={handleSubmit}
+          onCancel={handleCancel}
+          isSubmitting={isSaving}
+          mode="edit"
+          projectId={projectId}
+        />
+      </TableLayout>
+    </>
+  );
 }
