@@ -2,7 +2,6 @@ import path from 'node:path'
 import { FlatCompat } from '@eslint/eslintrc'
 import turboPlugin from 'eslint-plugin-turbo'
 import tseslint from '@typescript-eslint/eslint-plugin'
-import designSystemPlugin from './eslint-plugin-design-system/index.js'
 
 const compat = new FlatCompat({
   baseDirectory: path.resolve(),
@@ -43,7 +42,6 @@ const config = [
     plugins: {
       turbo: turboPlugin,
       '@typescript-eslint': tseslint,
-      'design-system': designSystemPlugin,
     },
     rules: {
       // MANDATORY RULES - Errors that BLOCK commits/pushes

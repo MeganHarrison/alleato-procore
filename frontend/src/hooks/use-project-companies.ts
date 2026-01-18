@@ -11,6 +11,7 @@ interface UseProjectCompaniesResult {
   companies: ProjectCompany[];
   pagination: CompanyListResponse["pagination"] | null;
   isLoading: boolean;
+  isFetching: boolean;
   error: Error | null;
   refetch: () => void;
 }
@@ -47,6 +48,7 @@ export function useProjectCompanies(
     companies: query.data?.data || [],
     pagination: query.data?.pagination || null,
     isLoading: query.isLoading,
+    isFetching: query.isFetching,
     error: query.error,
     refetch: query.refetch,
   };

@@ -8,6 +8,8 @@ interface Tab {
   href: string;
   count?: number;
   isActive?: boolean;
+  testId?: string;
+  countTestId?: string;
 }
 
 interface PageTabsProps {
@@ -45,6 +47,7 @@ export function PageTabs({ tabs, className }: PageTabsProps) {
                 type="button"
                 onClick={() => router.push(tab.href)}
                 aria-label={tab.label}
+                data-testid={tab.testId}
                 className={cn(
                   "group inline-flex items-center gap-2 whitespace-nowrap border-b-2 pb-3 pt-4 text-sm font-medium transition-colors",
                   isActive
@@ -62,6 +65,7 @@ export function PageTabs({ tabs, className }: PageTabsProps) {
                         ? "bg-brand/10 text-brand"
                         : "bg-muted text-foreground",
                     )}
+                    data-testid={tab.countTestId}
                   >
                     {tab.count}
                   </span>

@@ -18,6 +18,39 @@ export async function POST(request: NextRequest) {
     // Remove fields that shouldn't be updated
     const { id: _, created_at, updated_at, ...updateData } = data;
 
+    if (table === "change_orders" && updateData.status) {
+      const { data: existing, error: fetchError } = await supabase
+        .from("change_orders")
+        .select("status, submitted_at, approved_at")
+        .eq("id", id)
+        .single();
+
+      if (fetchError) {
+        return NextResponse.json(
+          {
+            error: "Failed to fetch record for update",
+            details: fetchError.message,
+          },
+          { status: 500 },
+        );
+      }
+
+      const now = new Date().toISOString();
+      const nextStatus = updateData.status as string;
+
+      if (nextStatus === "pending" && !existing?.submitted_at) {
+        updateData.submitted_at = now;
+      }
+
+      if (nextStatus === "approved" && !existing?.approved_at) {
+        updateData.approved_at = now;
+      }
+
+      if (nextStatus === "approved" && !existing?.submitted_at) {
+        updateData.submitted_at = now;
+      }
+    }
+
     // Update the record
     const { data: updatedRecord, error } = await supabase
       .from(table)

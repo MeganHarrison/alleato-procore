@@ -6,6 +6,7 @@ import { ArrowLeft } from "lucide-react";
 import { toast } from "sonner";
 
 import { PageHeader, PageContainer } from "@/components/layout";
+import { FormLayout, DashboardFormLayout } from "@/components/layouts";
 import { Button } from "@/components/ui/button";
 import { ChangeEventForm } from "@/components/domain/change-events/ChangeEventForm";
 import type { ChangeEventFormData } from "@/components/domain/change-events/ChangeEventForm";
@@ -24,7 +25,7 @@ export default function NewChangeEventPage() {
     try {
       const result = await createChangeEvent({
         project_id: projectId,
-        event_number: data.number,
+        number: data.number,
         title: data.title,
         status: data.status,
         reason: data.changeReason || null,
@@ -37,7 +38,7 @@ export default function NewChangeEventPage() {
       }
 
       toast.success("Change event created successfully");
-      router.push(`/${projectId}/change-events`);
+      router.push(`/${projectId}/change-events/${result.id}`);
     } catch (error) {
       toast.error(
         error instanceof Error
@@ -60,7 +61,7 @@ export default function NewChangeEventPage() {
   };
 
   return (
-    <>
+    <DashboardFormLayout maxWidth="wide">
       <PageHeader
         title="Create Change Event"
         description="Document a potential change to the project scope, schedule, or budget."
@@ -82,7 +83,7 @@ export default function NewChangeEventPage() {
         }
       />
 
-      <PageContainer>
+      <PageContainer maxWidth="md">
         <ChangeEventForm
           initialData={initialData}
           onSubmit={handleSubmit}
@@ -92,6 +93,6 @@ export default function NewChangeEventPage() {
           projectId={projectId}
         />
       </PageContainer>
-    </>
+    </DashboardFormLayout>
   );
 }

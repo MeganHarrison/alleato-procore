@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 import { useParams } from "next/navigation";
 import { nanoid } from "nanoid";
+import Link from "next/link";
 import { ProjectToolPage } from "@/components/layout/project-tool-page";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -598,6 +599,12 @@ export default function ProjectDrawingsPage() {
           <Button variant="outline" size="sm" className="gap-2">
             <FileUp className="h-4 w-4" />
             Upload Drawings
+          </Button>
+          <Button asChild variant="outline" size="sm" className="gap-2">
+            <Link href={`/projects/${projectId}/drawings/board`}>
+              <Layers className="h-4 w-4" />
+              View board
+            </Link>
           </Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>

@@ -1,11 +1,10 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
+import { useState } from "react";
 import { useForm, type SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { format } from "date-fns";
-import { ArrowLeft, CalendarIcon } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,123 +24,68 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { Calendar } from "@/components/ui/calendar";
-import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 import { createClient } from "@/lib/supabase/client";
-import { createChangeOrderSchema } from "@/app/api/projects/[projectId]/contracts/[contractId]/change-orders/validation";
 
-interface PrimeContractOption {
-  id: string;
-  label: string;
-}
+const changeOrderFormSchema = z.object({
+  co_number: z.string().min(1, "Change order number is required"),
+  title: z.string().min(1, "Title is required"),
+  description: z.string().min(1, "Description is required"),
+  status: z.enum(["draft", "pending", "approved", "executed", "rejected"]),
+});
 
-type ChangeOrderFormValues = z.input<typeof createChangeOrderSchema>;
+type ChangeOrderFormValues = z.infer<typeof changeOrderFormSchema>;
 
 export default function NewProjectChangeOrderPage() {
   const router = useRouter();
   const params = useParams();
   const projectId = parseInt(params.projectId as string, 10);
 
-  const [contractOptions, setContractOptions] = useState<PrimeContractOption[]>(
-    [],
-  );
-  const [loadingContracts, setLoadingContracts] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
   const form = useForm<ChangeOrderFormValues>({
-    resolver: zodResolver(createChangeOrderSchema),
+    resolver: zodResolver(changeOrderFormSchema),
     defaultValues: {
-      contract_id: "",
-      change_order_number: "",
+      co_number: "",
+      title: "",
       description: "",
-      amount: 0,
-      status: "pending",
-      requested_date: undefined,
+      status: "draft",
     },
   });
 
-  useEffect(() => {
-    const fetchContracts = async () => {
-      if (!projectId) return;
-
-      setLoadingContracts(true);
-      const supabase = createClient();
-      const { data, error } = await supabase
-        .from("prime_contracts")
-        .select("id, contract_number, title")
-        .eq("project_id", projectId)
-        .order("contract_number");
-
-      if (error) {
-        toast.error("Unable to load prime contracts");
-        setLoadingContracts(false);
-        return;
-      }
-
-      const options = (data || []).map((contract) => ({
-        id: contract.id,
-        label: contract.contract_number
-          ? `${contract.contract_number} — ${contract.title}`
-          : contract.title,
-      }));
-
-      setContractOptions(options);
-
-      if (options.length === 1) {
-        form.setValue("contract_id", options[0].id);
-      }
-
-      setLoadingContracts(false);
-    };
-
-    fetchContracts();
-  }, [form, projectId]);
-
-  const requestedDateValue = form.watch("requested_date");
-  const requestedDate = requestedDateValue
-    ? new Date(requestedDateValue)
-    : undefined;
-
   const onSubmit: SubmitHandler<ChangeOrderFormValues> = async (values) => {
-    if (!values.contract_id) {
-      toast.error("Select a prime contract for this change order");
-      return;
-    }
-
     try {
       setSubmitting(true);
-      const payload: ChangeOrderFormValues = {
-        ...values,
-        requested_date: values.requested_date
-          ? new Date(values.requested_date).toISOString()
-          : undefined,
-      };
+      const supabase = createClient();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
-      const response = await fetch(
-        `/api/projects/${projectId}/contracts/${values.contract_id}/change-orders`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        },
-      );
+      const now = new Date().toISOString();
+      const submittedAt =
+        values.status !== "draft" && values.status !== "rejected" ? now : null;
 
-      if (!response.ok) {
-        const errorData = await response.json();
-        toast.error(errorData.error || "Failed to create change order");
+      const { data, error } = await supabase
+        .from("change_orders")
+        .insert({
+          project_id: projectId,
+          co_number: values.co_number,
+          title: values.title,
+          description: values.description,
+          status: values.status,
+          submitted_at: submittedAt,
+          submitted_by: user?.id ?? null,
+        })
+        .select("id")
+        .single();
+
+      if (error || !data) {
+        toast.error(error?.message || "Failed to create change order");
         return;
       }
 
       toast.success("Change order created");
-      router.push(`/${projectId}/change-orders`);
+      router.push(`/${projectId}/change-orders/${data.id}`);
     } catch (error) {
       console.error("Error creating change order", error);
       toast.error("Unexpected error creating change order");
@@ -163,7 +107,7 @@ export default function NewProjectChangeOrderPage() {
         </Button>
         <h1 className="text-3xl font-bold tracking-tight">New Change Order</h1>
         <p className="text-muted-foreground">
-          Create a new client contract change order
+          Create a new project change order
         </p>
       </div>
 
@@ -171,8 +115,7 @@ export default function NewProjectChangeOrderPage() {
         <CardHeader>
           <CardTitle>Change Order Details</CardTitle>
           <CardDescription>
-            Capture the required details for the client contract change order
-            before submission.
+            Capture the required details for the change order before submission.
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -180,40 +123,33 @@ export default function NewProjectChangeOrderPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="contract">Prime Contract*</Label>
-                  <Select
-                    value={form.watch("contract_id")}
-                    onValueChange={(value) =>
-                      form.setValue("contract_id", value)
-                    }
-                    disabled={loadingContracts || contractOptions.length === 0}
-                  >
-                    <SelectTrigger id="contract">
-                      <SelectValue
-                        placeholder={
-                          loadingContracts
-                            ? "Loading contracts..."
-                            : "Select contract"
-                        }
-                      />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {contractOptions.map((option) => (
-                        <SelectItem key={option.id} value={option.id}>
-                          {option.label}
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
+                  <Label htmlFor="co_number">Change Order #*</Label>
+                  <Input
+                    id="co_number"
+                    placeholder="CO-001"
+                    data-testid="change-order-number"
+                    {...form.register("co_number")}
+                  />
+                  {form.formState.errors.co_number && (
+                    <p className="text-sm text-destructive">
+                      {form.formState.errors.co_number.message}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
-                  <Label htmlFor="change_order_number">Change Order #*</Label>
+                  <Label htmlFor="title">Title*</Label>
                   <Input
-                    id="change_order_number"
-                    placeholder="CO-001"
-                    {...form.register("change_order_number")}
+                    id="title"
+                    placeholder="Owner-requested modification"
+                    data-testid="change-order-title"
+                    {...form.register("title")}
                   />
+                  {form.formState.errors.title && (
+                    <p className="text-sm text-destructive">
+                      {form.formState.errors.title.message}
+                    </p>
+                  )}
                 </div>
 
                 <div className="space-y-2">
@@ -222,27 +158,22 @@ export default function NewProjectChangeOrderPage() {
                     id="description"
                     rows={6}
                     placeholder="Describe the scope and justification for the change"
+                    data-testid="change-order-description"
                     {...form.register("description")}
                   />
+                  {form.formState.errors.description && (
+                    <p className="text-sm text-destructive">
+                      {form.formState.errors.description.message}
+                    </p>
+                  )}
                 </div>
               </div>
 
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="amount">Amount*</Label>
-                  <Input
-                    id="amount"
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    {...form.register("amount", { valueAsNumber: true })}
-                  />
-                </div>
-
-                <div className="space-y-2">
                   <Label>Status*</Label>
                   <Select
-                    value={form.watch("status") || "pending"}
+                    value={form.watch("status") || "draft"}
                     onValueChange={(value) =>
                       form.setValue(
                         "status",
@@ -250,47 +181,22 @@ export default function NewProjectChangeOrderPage() {
                       )
                     }
                   >
-                    <SelectTrigger>
+                    <SelectTrigger data-testid="change-order-status">
                       <SelectValue placeholder="Select status" />
                     </SelectTrigger>
                     <SelectContent>
+                      <SelectItem value="draft">Draft</SelectItem>
                       <SelectItem value="pending">Pending</SelectItem>
                       <SelectItem value="approved">Approved</SelectItem>
+                      <SelectItem value="executed">Executed</SelectItem>
                       <SelectItem value="rejected">Rejected</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
-
-                <div className="space-y-2">
-                  <Label>Requested Date</Label>
-                  <Popover>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className={cn(
-                          "w-full justify-start text-left font-normal",
-                          !requestedDate && "text-muted-foreground",
-                        )}
-                      >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
-                        {requestedDate
-                          ? format(requestedDate, "PPP")
-                          : "Select date"}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
-                      <Calendar
-                        mode="single"
-                        selected={requestedDate}
-                        onSelect={(date) =>
-                          form.setValue(
-                            "requested_date",
-                            date ? date.toISOString() : undefined,
-                          )
-                        }
-                      />
-                    </PopoverContent>
-                  </Popover>
+                  {form.formState.errors.status && (
+                    <p className="text-sm text-destructive">
+                      {form.formState.errors.status.message}
+                    </p>
+                  )}
                 </div>
               </div>
             </div>
@@ -299,7 +205,11 @@ export default function NewProjectChangeOrderPage() {
               <Button type="button" variant="outline" onClick={handleCancel}>
                 Cancel
               </Button>
-              <Button type="submit" disabled={submitting}>
+              <Button
+                type="submit"
+                disabled={submitting}
+                data-testid="change-order-submit"
+              >
                 {submitting ? "Creating..." : "Create Change Order"}
               </Button>
             </div>

@@ -7,6 +7,7 @@ import { Send, Loader2, Bot, User, Sparkles } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+const syntaxHighlighterStyle = oneDark as Record<string, unknown>;
 
 interface Message {
   role: "user" | "assistant";
@@ -188,8 +189,7 @@ export default function SimpleChatPage() {
                                     const inline = !match;
                                     return !inline && match ? (
                                       <SyntaxHighlighter
-                                        // @ts-expect-error - oneDark type mismatch with react-syntax-highlighter
-                                        style={oneDark}
+                                        style={syntaxHighlighterStyle}
                                         language={match[1]}
                                         PreTag="div"
                                         className="rounded-md my-2"

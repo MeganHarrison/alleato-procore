@@ -135,18 +135,19 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       className="bg-background text-foreground"
       data-testid="app-sidebar-with-icon-collapsible"
     >
-      <SidebarHeader className="py-2">
+      <SidebarHeader className="py-2 px-4">
         <Link href="/" className="flex items-center">
           <Image
             src="/Alleato Favicon.png"
             alt="Alleato"
-            width={32}
-            height={32}
-            className="object-contain group-data-[collapsible=icon]:w-10 group-data-[collapsible=icon]:h-10 transition-all"
+            width={24}
+            height={24}
+            priority
+            className="object-contain w-6 h-6 transition-all"
           />
         </Link>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="px-3">
         <NavDocuments items={coreNavItems} label="Core Tools" />
         <NavDocuments items={projectManagementNavItems} label="Project Management" />
         <NavDocuments items={financialNavItems} label="Financial Management" />

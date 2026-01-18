@@ -19,7 +19,7 @@ import { useCallback, useEffect, useState } from "react";
 export interface ChangeEvent {
   id: number;
   project_id: number;
-  event_number: string | null;
+  number: string | null;
   title: string;
   description?: string | null;
   reason: string | null;
@@ -29,6 +29,7 @@ export interface ChangeEvent {
   estimated_impact?: number | null;
   created_at: string | null;
   updated_at?: string | null;
+  deleted_at?: string | null;
 }
 
 export interface ChangeEventOption {
@@ -47,6 +48,8 @@ interface UseChangeEventsOptions {
   limit?: number;
   // Whether to auto-fetch
   enabled?: boolean;
+  // Include soft deleted records
+  includeDeleted?: boolean;
 }
 
 interface UseChangeEventsReturn {
@@ -68,6 +71,7 @@ export function useChangeEvents(
   options: UseChangeEventsOptions = {},
 ): UseChangeEventsReturn {
   const { projectId, status, limit = 100, enabled = true } = options;
+  const { includeDeleted = false } = options;
   const [changeEvents, setChangeEvents] = useState<ChangeEvent[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<Error | null>(null);
@@ -83,7 +87,7 @@ export function useChangeEvents(
       let query = supabase
         .from("change_events")
         .select("*")
-        .order("event_number", { ascending: true })
+        .order("number", { ascending: true })
         .limit(limit);
 
       // Filter by project_id
@@ -94,6 +98,10 @@ export function useChangeEvents(
       // Filter by status if provided
       if (status) {
         query = query.eq("status", status);
+      }
+
+      if (!includeDeleted) {
+        query = query.is("deleted_at", null);
       }
 
       const { data, error: queryError } = await query;
@@ -124,7 +132,7 @@ export function useChangeEvents(
         // Prepare the insert data
         const insertData: Record<string, unknown> = {
           project_id: changeEvent.project_id,
-          event_number: changeEvent.event_number,
+          number: changeEvent.number,
           title: changeEvent.title,
           reason: changeEvent.reason,
           scope: changeEvent.scope,
@@ -167,7 +175,7 @@ export function useChangeEvents(
 
   // Transform change events to options for dropdowns
   const changeEventOptions: ChangeEventOption[] = changeEvents.map((ce) => {
-    const number = ce.event_number || `CE-${ce.id}`;
+    const number = ce.number || `CE-${ce.id}`;
     const label = ce.title ? `${number}: ${ce.title}` : number;
 
     return {
@@ -191,9 +199,16 @@ export function useChangeEvents(
 /**
  * Helper hook to get change events for a specific project
  */
-export function useProjectChangeEvents(projectId: number) {
+type ProjectOptions = Omit<UseChangeEventsOptions, "projectId">;
+
+export function useProjectChangeEvents(
+  projectId: number,
+  options: ProjectOptions = {},
+) {
+  const { enabled, ...rest } = options;
   return useChangeEvents({
     projectId,
-    enabled: !!projectId,
+    enabled: enabled ?? !!projectId,
+    ...rest,
   });
 }

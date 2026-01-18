@@ -17,6 +17,7 @@ interface FileUploadFieldProps {
   label: string;
   value?: FileInfo[];
   onChange?: (files: FileInfo[]) => void;
+  onFilesSelected?: (files: File[]) => void;
   accept?: string;
   multiple?: boolean;
   maxFiles?: number;
@@ -27,12 +28,16 @@ interface FileUploadFieldProps {
   fullWidth?: boolean;
   className?: string;
   disabled?: boolean;
+  dropzoneTestId?: string;
+  inputTestId?: string;
+  fileListTestId?: string;
 }
 
 export function FileUploadField({
   label,
   value = [],
   onChange,
+  onFilesSelected,
   accept,
   multiple = false,
   maxFiles = 10,
@@ -43,6 +48,9 @@ export function FileUploadField({
   fullWidth = false,
   className,
   disabled = false,
+  dropzoneTestId,
+  inputTestId,
+  fileListTestId,
 }: FileUploadFieldProps) {
   const inputRef = React.useRef<HTMLInputElement>(null);
   const [dragActive, setDragActive] = React.useState(false);
@@ -75,6 +83,10 @@ export function FileUploadField({
       }
       return true;
     });
+
+    if (validFiles.length > 0) {
+      onFilesSelected?.(validFiles);
+    }
 
     const newFiles: FileInfo[] = validFiles.map((file) => ({
       name: file.name,
@@ -129,6 +141,7 @@ export function FileUploadField({
             disabled && "opacity-50 cursor-not-allowed",
             className,
           )}
+          data-testid={dropzoneTestId}
         >
           <input
             ref={inputRef}
@@ -138,6 +151,7 @@ export function FileUploadField({
             onChange={handleFileInput}
             disabled={disabled}
             className="sr-only"
+            data-testid={inputTestId}
           />
           <Upload className="mx-auto h-12 w-12 text-muted-foreground" />
           <p className="mt-2 text-sm text-foreground">
@@ -159,7 +173,7 @@ export function FileUploadField({
         </div>
 
         {value.length > 0 && (
-          <ul className="space-y-2">
+          <ul className="space-y-2" data-testid={fileListTestId}>
             {value.map((file, index) => (
               <li
                 key={index}

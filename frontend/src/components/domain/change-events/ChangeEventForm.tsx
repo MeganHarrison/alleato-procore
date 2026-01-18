@@ -49,14 +49,46 @@ export function ChangeEventForm({
   const [formData, setFormData] = React.useState<Partial<ChangeEventFormData>>(
     initialData || {},
   );
+  const [errors, setErrors] = React.useState<
+    Partial<Record<keyof ChangeEventFormData, string>>
+  >({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const nextErrors: Partial<Record<keyof ChangeEventFormData, string>> = {};
+
+    if (!formData.number?.trim()) {
+      nextErrors.number = "Number is required";
+    }
+    if (!formData.title?.trim()) {
+      nextErrors.title = "Title is required";
+    }
+    if (!formData.status?.trim()) {
+      nextErrors.status = "Status is required";
+    }
+
+    setErrors(nextErrors);
+    if (Object.keys(nextErrors).length > 0) {
+      return;
+    }
+
     await onSubmit(formData as ChangeEventFormData);
   };
 
   const updateFormData = (updates: Partial<ChangeEventFormData>) => {
     setFormData((prev) => ({ ...prev, ...updates }));
+    setErrors((prev) => {
+      if (!Object.keys(updates).length) {
+        return prev;
+      }
+      const cleared = { ...prev };
+      (Object.keys(updates) as Array<keyof ChangeEventFormData>).forEach(
+        (key) => {
+          delete cleared[key];
+        },
+      );
+      return cleared;
+    });
   };
 
   return (
@@ -65,6 +97,7 @@ export function ChangeEventForm({
         <ChangeEventGeneralSection
           data={formData}
           onChange={updateFormData}
+          errors={errors}
           projectId={projectId}
         />
       </div>
@@ -80,7 +113,11 @@ export function ChangeEventForm({
           <Button type="button" variant="outline" onClick={onCancel}>
             Cancel
           </Button>
-          <Button type="submit" disabled={isSubmitting}>
+          <Button
+            type="submit"
+            disabled={isSubmitting}
+            data-testid="change-event-submit-button"
+          >
             {isSubmitting ? (
               <>
                 <span className="mr-2">Saving...</span>

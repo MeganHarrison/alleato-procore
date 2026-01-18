@@ -127,7 +127,7 @@ export default defineConfig({
     change_events: {
       data: {
         title: (ctx) => `Change Event ${ctx.seed}`,
-        event_number: (ctx) => `CE-${String(ctx.seed).padStart(4, '0')}`,
+        number: (ctx) => `CE-${String(ctx.seed).padStart(4, '0')}`,
         status: () => ['pending', 'approved', 'rejected'][Math.floor(Math.random() * 3)],
         reason: () => ['Owner Request', 'Design Change', 'Field Condition', 'Code Requirement'][Math.floor(Math.random() * 4)],
         scope: (ctx) => `Description of change event ${ctx.seed}`,

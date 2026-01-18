@@ -1,4 +1,5 @@
 import { ProjectSetupWizard } from "@/components/project-setup-wizard/project-setup-wizard";
+import { DashboardFormLayout } from "@/components/layouts";
 
 interface ProjectSetupPageProps {
   params: Promise<{
@@ -10,5 +11,9 @@ export default async function ProjectSetupPage({
   params,
 }: ProjectSetupPageProps) {
   const { projectId } = await params;
-  return <ProjectSetupWizard projectId={projectId} />;
+  return (
+    <DashboardFormLayout maxWidth="wide">
+      <ProjectSetupWizard projectId={projectId} />
+    </DashboardFormLayout>
+  );
 }

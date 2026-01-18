@@ -18,6 +18,15 @@ export default function NewContractPage() {
   const handleSubmit = async (data: ContractFormData) => {
     setIsSaving(true);
     try {
+      const sovItems = data.sovItems || [];
+      const sovTotal = sovItems.reduce(
+        (sum, item) =>
+          sum +
+          (data.accountingMethod === "unit_quantity"
+            ? (item.quantity ?? 0) * (item.unitCost ?? 0)
+            : item.amount || 0),
+        0,
+      );
       const response = await fetch(`/api/projects/${projectId}/contracts`, {
         method: "POST",
         headers: {
@@ -26,16 +35,17 @@ export default function NewContractPage() {
         body: JSON.stringify({
           contract_number: data.number,
           title: data.title,
-          client_id: data.ownerClientId || null,
+          client_id: data.ownerClientId ? Number(data.ownerClientId) : null,
           contractor_id: data.contractorId || null,
           architect_engineer_id: data.architectEngineerId || null,
           contract_company_id: data.contractCompanyId || null,
           description: data.description,
           status: data.status || "draft",
+          executed: data.executed || false,
           executed_at: data.executed ? new Date().toISOString() : null,
-          original_contract_value: data.originalAmount || 0,
+          original_contract_value: sovTotal,
           revised_contract_value:
-            data.revisedAmount || data.originalAmount || 0,
+            data.revisedAmount || sovTotal,
           start_date: data.startDate?.toISOString() || null,
           end_date: data.estimatedCompletionDate?.toISOString() || null,
           substantial_completion_date:
@@ -61,6 +71,71 @@ export default function NewContractPage() {
       }
 
       const newContract = await response.json();
+
+      if (sovItems.length > 0) {
+        const lineItemResponses = await Promise.all(
+          sovItems.map((item, index) => {
+            const quantity =
+              data.accountingMethod === "unit_quantity"
+                ? item.quantity ?? 0
+                : 1;
+            const unitCost =
+              data.accountingMethod === "unit_quantity"
+                ? item.unitCost ?? 0
+                : item.amount || 0;
+            return fetch(
+              `/api/projects/${projectId}/contracts/${newContract.id}/line-items`,
+              {
+                method: "POST",
+                headers: {
+                  "Content-Type": "application/json",
+                },
+                body: JSON.stringify({
+                  line_number: index + 1,
+                  description: item.description || `Line ${index + 1}`,
+                  cost_code_id: null,
+                  quantity,
+                  unit_cost: unitCost,
+                  unit_of_measure: item.unitOfMeasure || null,
+                }),
+              },
+            );
+          }),
+        );
+
+        for (const lineItemResponse of lineItemResponses) {
+          if (!lineItemResponse.ok) {
+            const errorData = await lineItemResponse
+              .json()
+              .catch(() => ({}));
+            throw new Error(
+              errorData.error || "Failed to create SOV line items",
+            );
+          }
+        }
+      }
+
+      if (data.attachmentFiles && data.attachmentFiles.length > 0) {
+        for (const file of data.attachmentFiles) {
+          const formData = new FormData();
+          formData.append("file", file);
+          const attachmentResponse = await fetch(
+            `/api/projects/${projectId}/contracts/${newContract.id}/attachments`,
+            {
+              method: "POST",
+              body: formData,
+            },
+          );
+
+          if (!attachmentResponse.ok) {
+            const errorData = await attachmentResponse.json().catch(() => ({}));
+            throw new Error(
+              errorData.error || "Failed to upload attachment",
+            );
+          }
+        }
+      }
+
       router.push(`/${projectId}/prime-contracts/${newContract.id}`);
     } catch (err) {
       console.error("Error creating contract:", err);

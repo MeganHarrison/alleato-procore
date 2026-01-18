@@ -1,7 +1,6 @@
 import * as React from "react"
+import Image from "next/image"
 
-import { SearchForm } from "@/components/search-form"
-import { VersionSwitcher } from "@/components/version-switcher"
 import {
   Sidebar,
   SidebarContent,
@@ -17,7 +16,6 @@ import {
 
 // This is sample data.
 const data = {
-  versions: ["1.0.1", "1.1.0-alpha", "2.0.0-beta1"],
   navMain: [
     {
       title: "Getting Started",
@@ -151,11 +149,16 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar {...props}>
       <SidebarHeader>
-        <VersionSwitcher
-          versions={data.versions}
-          defaultVersion={data.versions[0]}
-        />
-        <SearchForm />
+        <div className="flex items-center gap-2 px-2 py-1">
+          <Image
+            src="/Alleato Favicon.png"
+            alt="Alleato"
+            width={32}
+            height={32}
+            className="rounded"
+          />
+          <span className="font-semibold text-sidebar-foreground">Alleato</span>
+        </div>
       </SidebarHeader>
       <SidebarContent>
         {/* We create a SidebarGroup for each parent. */}

@@ -15,18 +15,27 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Upload, X, Plus, Sparkles, Loader2 } from "lucide-react";
+import { Upload, X, Plus, Sparkles, Loader2, AlertCircle } from "lucide-react";
 import {
   CreatePurchaseOrderSchema,
   type CreatePurchaseOrderInput,
   type PurchaseOrderSovLineItem,
 } from "@/lib/schemas/create-purchase-order-schema";
 import { useCompanies } from "@/hooks/use-companies";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 
 interface CreatePurchaseOrderFormProps {
   projectId: number;
   onSubmit: (data: CreatePurchaseOrderInput) => Promise<void>;
   onCancel: () => void;
+}
+
+interface BudgetCodeSummary {
+  code: string;
+}
+
+interface BudgetCodesResponse {
+  budgetCodes: BudgetCodeSummary[];
 }
 
 const UNIT_OF_MEASURES = [
@@ -40,6 +49,7 @@ const UNIT_OF_MEASURES = [
 ];
 
 export function CreatePurchaseOrderForm({
+  projectId,
   onSubmit,
   onCancel,
 }: CreatePurchaseOrderFormProps) {
@@ -52,6 +62,11 @@ export function CreatePurchaseOrderForm({
   >("unit-quantity");
   const [attachments, setAttachments] = React.useState<File[]>([]);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
+  const [budgetCodes, setBudgetCodes] = React.useState<string[]>([]);
+  const [budgetCodesLoaded, setBudgetCodesLoaded] = React.useState(false);
+  const [budgetCodesError, setBudgetCodesError] = React.useState<string | null>(
+    null,
+  );
 
   // Use the companies hook - returns { value: uuid, label: name } options
   const { options: companyOptions, isLoading: isLoadingCompanies } =
@@ -80,6 +95,57 @@ export function CreatePurchaseOrderForm({
 
   const contractCompanyId = watch("contractCompanyId");
   const privacyIsPrivate = watch("privacy.isPrivate") ?? true;
+
+  React.useEffect(() => {
+    let isMounted = true;
+    const fetchBudgetCodes = async () => {
+      try {
+        setBudgetCodesError(null);
+        const response = await fetch(
+          `/api/projects/${projectId}/budget-codes`,
+        );
+        if (!response.ok) {
+          const payload = (await response.json().catch(() => ({}))) as {
+            error?: string;
+          };
+          throw new Error(payload.error || "Failed to load budget codes");
+        }
+
+        const data = (await response.json()) as BudgetCodesResponse;
+        if (!isMounted) return;
+        setBudgetCodes(data.budgetCodes.map((code) => code.code));
+      } catch (error) {
+        if (!isMounted) return;
+        setBudgetCodesError(
+          error instanceof Error ? error.message : "Failed to load budget codes",
+        );
+        setBudgetCodes([]);
+      } finally {
+        if (isMounted) {
+          setBudgetCodesLoaded(true);
+        }
+      }
+    };
+
+    fetchBudgetCodes();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [projectId]);
+
+  const budgetCodeSet = React.useMemo(() => {
+    return new Set(budgetCodes);
+  }, [budgetCodes]);
+
+  const unbudgetedLines = React.useMemo(() => {
+    return sovLines
+      .map((line, index) => ({
+        lineNumber: index + 1,
+        code: line.budgetCode?.trim() ?? "",
+      }))
+      .filter(({ code }) => code.length > 0 && !budgetCodeSet.has(code));
+  }, [sovLines, budgetCodeSet]);
 
   const handleFormSubmit = async (data: CreatePurchaseOrderInput) => {
     setIsSubmitting(true);
@@ -469,6 +535,29 @@ export function CreatePurchaseOrderForm({
             </Button>
           </div>
         </div>
+
+        {budgetCodesError && (
+          <Alert variant="destructive">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Budget codes unavailable</AlertTitle>
+            <AlertDescription>{budgetCodesError}</AlertDescription>
+          </Alert>
+        )}
+
+        {budgetCodesLoaded && unbudgetedLines.length > 0 && (
+          <Alert className="border-yellow-200 bg-yellow-50 text-yellow-900">
+            <AlertCircle className="h-4 w-4" />
+            <AlertTitle>Unbudgeted line items</AlertTitle>
+            <AlertDescription className="text-yellow-800">
+              Line items{" "}
+              {unbudgetedLines
+                .map((line) => `${line.lineNumber} (${line.code})`)
+                .join(", ")}{" "}
+              are not on the project budget. Add them to the budget or update
+              these line items before approval.
+            </AlertDescription>
+          </Alert>
+        )}
 
         {/* SOV Table */}
         {sovLines.length === 0 ? (
