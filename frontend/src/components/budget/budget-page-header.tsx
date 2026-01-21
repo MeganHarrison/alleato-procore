@@ -103,106 +103,141 @@ export function BudgetPageHeader({
       : undefined;
 
   const actionButtons = (
-    <div className="flex w-full flex-col gap-2 md:w-auto md:flex-row md:items-center md:justify-end">
-      {/* Create Dropdown */}
+    <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row md:items-center md:justify-end">
+      {/* Primary Action - Create Budget Item */}
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button
-            size="sm"
-            className="bg-orange-500 hover:bg-orange-600 text-white"
+            size="lg"
+            className="bg-orange-500 hover:bg-orange-600 text-white px-6 h-10 font-medium shadow-sm hover:shadow transition-all duration-200"
           >
             <Plus className="w-4 h-4 mr-2" />
-            Create
+            Create Budget Item
             <ChevronDown className="w-4 h-4 ml-2" />
           </Button>
         </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={onCreateClick}>
+        <DropdownMenuContent align="end" className="w-48">
+          <DropdownMenuItem onClick={onCreateClick} className="cursor-pointer">
+            <Plus className="w-4 h-4 mr-2" />
             Budget Line Item
           </DropdownMenuItem>
-          <DropdownMenuItem>Snapshot</DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
+            <Plus className="w-4 h-4 mr-2" />
+            Snapshot
+          </DropdownMenuItem>
           {isLocked && (
-            <DropdownMenuItem onClick={onModificationClick}>
+            <DropdownMenuItem onClick={onModificationClick} className="cursor-pointer">
+              <Plus className="w-4 h-4 mr-2" />
               Budget Modification
             </DropdownMenuItem>
           )}
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {/* Resend to ERP Button */}
-      <Button variant="outline" size="sm" onClick={onResendToERP}>
-        <ArrowRight className="w-4 h-4 mr-2" />
-        Resend to ERP
-      </Button>
-
-      {/* Lock/Unlock Budget Button */}
-      {isLocked ? (
+      {/* Secondary Actions Group */}
+      <div className="flex items-center gap-2">
+        {/* Resend to ERP Button */}
         <Button
           variant="outline"
           size="sm"
-          onClick={() => setShowUnlockDialog(true)}
+          onClick={onResendToERP}
+          className="h-9 px-3 hover:bg-accent transition-colors"
         >
-          <Unlock className="w-4 h-4 mr-2" />
-          Unlock Budget
+          <ArrowRight className="w-4 h-4 mr-2" />
+          <span className="hidden lg:inline">Resend to ERP</span>
+          <span className="lg:hidden">ERP</span>
         </Button>
-      ) : (
+
+        {/* Lock/Unlock Budget Button */}
+        {isLocked ? (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowUnlockDialog(true)}
+            className="h-9 px-3 hover:bg-accent transition-colors"
+          >
+            <Unlock className="w-4 h-4 mr-2" />
+            <span className="hidden lg:inline">Unlock Budget</span>
+            <span className="lg:hidden">Unlock</span>
+          </Button>
+        ) : (
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setShowLockDialog(true)}
+            className="h-9 px-3 hover:bg-accent transition-colors"
+          >
+            <Lock className="w-4 h-4 mr-2" />
+            <span className="hidden lg:inline">Lock Budget</span>
+            <span className="lg:hidden">Lock</span>
+          </Button>
+        )}
+
+        {/* Import Button */}
         <Button
           variant="outline"
           size="sm"
-          onClick={() => setShowLockDialog(true)}
+          onClick={onImport}
+          className="h-9 px-3 hover:bg-accent transition-colors"
         >
-          <Lock className="w-4 h-4 mr-2" />
-          Lock Budget
+          <Upload className="w-4 h-4 mr-2" />
+          <span className="hidden sm:inline">Import</span>
         </Button>
-      )}
 
-      {/* Import Button */}
-      <Button variant="outline" size="sm" onClick={onImport}>
-        <Upload className="w-4 h-4 mr-2" />
-        Import
-      </Button>
+        {/* Export Dropdown */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="outline"
+              size="sm"
+              className="h-9 px-3 hover:bg-accent transition-colors"
+            >
+              <Download className="w-4 h-4 mr-2" />
+              <span className="hidden sm:inline">Export</span>
+              <ChevronDown className="w-3.5 h-3.5 ml-1" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => onExport?.("pdf")} className="cursor-pointer">
+              Export to PDF
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onExport?.("excel")} className="cursor-pointer">
+              Export to Excel
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onExport?.("csv")} className="cursor-pointer">
+              Export to CSV
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
-      {/* Export Dropdown */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="outline" size="sm">
-            <Download className="w-4 h-4 mr-2" />
-            Export
-            <ChevronDown className="w-4 h-4 ml-2" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={() => onExport?.("pdf")}>
-            Export to PDF
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onExport?.("excel")}>
-            Export to Excel
-          </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => onExport?.("csv")}>
-            Export to CSV
-          </DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
+        {/* More Options */}
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-9 w-9 text-muted-foreground hover:bg-accent transition-colors"
+            >
+              <MoreVertical className="w-5 h-5" />
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem className="cursor-pointer">Configure Columns</DropdownMenuItem>
+            <DropdownMenuItem className="cursor-pointer">Budget Settings</DropdownMenuItem>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem className="cursor-pointer">View Audit Log</DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
 
-      {/* More Options */}
-      <DropdownMenu>
-        <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="text-muted-foreground">
-            <MoreVertical className="w-5 h-5" />
-          </Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent align="end">
-          <DropdownMenuItem>Configure Columns</DropdownMenuItem>
-          <DropdownMenuItem>Budget Settings</DropdownMenuItem>
-          <DropdownMenuSeparator />
-          <DropdownMenuItem>View Audit Log</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>
-
-      {/* Chat/Converse Icon */}
-      <Button variant="ghost" size="icon" className="text-muted-foreground">
-        <MessageSquare className="w-5 h-5" />
-      </Button>
+        {/* Chat/Converse Icon */}
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-9 w-9 text-muted-foreground hover:bg-accent transition-colors"
+        >
+          <MessageSquare className="w-5 h-5" />
+        </Button>
+      </div>
     </div>
   );
 
