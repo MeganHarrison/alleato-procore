@@ -10,6 +10,7 @@ import {
   BudgetPageHeader,
   BudgetTabs,
   BudgetFilters,
+  BudgetFilterPanel,
   BudgetTable,
   BudgetDetailsTable,
   BudgetModificationModal,
@@ -605,23 +606,26 @@ function BudgetPageContent() {
           </>
         ) : (
           <>
-            <div className="flex items-center justify-between gap-4">
-              <BudgetFilters
-                views={budgetViews}
-                snapshots={budgetSnapshots}
-                groups={budgetGroups}
-                selectedView={selectedView}
-                selectedSnapshot={selectedSnapshot}
-                selectedGroup={selectedGroup}
-                onViewChange={setSelectedView}
-                onSnapshotChange={setSelectedSnapshot}
-                onGroupChange={setSelectedGroup}
-                onAddFilter={handleAddFilter}
-                onAnalyzeVariance={handleAnalyzeVariance}
-                onToggleFullscreen={handleToggleFullscreen}
-                onQuickFilterChange={handleQuickFilterChange}
-                activeQuickFilter={quickFilter}
-              />
+            {/* Filter Panel with Views Manager */}
+            <div className="flex flex-col lg:flex-row items-start lg:items-center justify-between gap-4">
+              <div className="flex-1 w-full lg:w-auto">
+                <BudgetFilterPanel
+                  views={budgetViews}
+                  snapshots={budgetSnapshots}
+                  groups={budgetGroups}
+                  selectedView={selectedView}
+                  selectedSnapshot={selectedSnapshot}
+                  selectedGroup={selectedGroup}
+                  onViewChange={setSelectedView}
+                  onSnapshotChange={setSelectedSnapshot}
+                  onGroupChange={setSelectedGroup}
+                  onAddFilter={handleAddFilter}
+                  onAnalyzeVariance={handleAnalyzeVariance}
+                  onToggleFullscreen={handleToggleFullscreen}
+                  onQuickFilterChange={handleQuickFilterChange}
+                  activeQuickFilter={quickFilter}
+                />
+              </div>
               <BudgetViewsManager
                 projectId={projectId}
                 currentViewId={currentViewId}
@@ -631,8 +635,8 @@ function BudgetPageContent() {
 
             {/* Selection action bar */}
             {selectedIds.length > 0 && (
-              <div className="flex items-center gap-4 px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg">
-                <span className="text-sm text-blue-700 font-medium">
+              <div className="flex items-center gap-4 px-4 py-2 bg-blue-50 dark:bg-blue-950/30 border border-blue-200 dark:border-blue-800 rounded-lg transition-colors">
+                <span className="text-sm text-blue-700 dark:text-blue-300 font-medium">
                   {selectedIds.length} item(s) selected
                 </span>
                 <Button
@@ -640,6 +644,7 @@ function BudgetPageContent() {
                   size="sm"
                   onClick={handleDeleteSelected}
                   disabled={isLocked}
+                  className="hover:shadow transition-shadow"
                 >
                   <Trash2 className="w-4 h-4 mr-1" />
                   Delete Selected
@@ -647,17 +652,26 @@ function BudgetPageContent() {
               </div>
             )}
 
-            <div className="flex-1">
+            {/* Budget Table */}
+            <div className="flex-1 min-h-0">
               <Suspense
                 fallback={
-                  <div className="flex items-center justify-center h-full">
-                    Loading...
+                  <div className="flex items-center justify-center h-full py-12">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                      <span className="text-sm text-muted-foreground">Loading...</span>
+                    </div>
                   </div>
                 }
               >
                 {loading ? (
-                  <div className="flex items-center justify-center h-full">
-                    Loading budget data for project {projectId}...
+                  <div className="flex items-center justify-center h-full py-12">
+                    <div className="flex flex-col items-center gap-3">
+                      <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                      <span className="text-sm text-muted-foreground">
+                        Loading budget data...
+                      </span>
+                    </div>
                   </div>
                 ) : (
                   <BudgetTable
@@ -673,6 +687,9 @@ function BudgetPageContent() {
                     onCommittedCostsClick={handleCommittedCostsClick}
                     onPendingCostChangesClick={handlePendingCostChangesClick}
                     onForecastToCompleteClick={handleForecastToCompleteClick}
+                    onCreateClick={handleCreateClick}
+                    onImportClick={handleImport}
+                    isLocked={isLocked}
                   />
                 )}
               </Suspense>

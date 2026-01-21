@@ -10,7 +10,7 @@ import {
   ExpandedState,
   RowSelectionState,
 } from "@tanstack/react-table";
-import { ChevronRight, ChevronDown } from "lucide-react";
+import { ChevronRight, ChevronDown, ChevronLeft, ChevronsRight } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -27,6 +27,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Checkbox } from "@/components/ui/checkbox";
+import { BudgetEmptyState } from "./BudgetEmptyState";
 
 type ColumnTooltip = {
   title: string;
@@ -213,6 +214,9 @@ interface BudgetTableProps {
   onCommittedCostsClick?: (lineItem: BudgetLineItem) => void;
   onPendingCostChangesClick?: (lineItem: BudgetLineItem) => void;
   onForecastToCompleteClick?: (lineItem: BudgetLineItem) => void;
+  onCreateClick?: () => void;
+  onImportClick?: () => void;
+  isLocked?: boolean;
 }
 
 function formatCurrency(value: number): string {
@@ -322,6 +326,9 @@ export function BudgetTable({
   onCommittedCostsClick,
   onPendingCostChangesClick,
   onForecastToCompleteClick,
+  onCreateClick,
+  onImportClick,
+  isLocked = false,
 }: BudgetTableProps) {
   const [expanded, setExpanded] = React.useState<ExpandedState>({});
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
@@ -777,12 +784,80 @@ export function BudgetTable({
       !row.original.children || row.original.children.length === 0,
   });
 
+  const scrollContainerRef = React.useRef<HTMLDivElement>(null);
+  const [showScrollIndicator, setShowScrollIndicator] = React.useState(false);
+  const [canScrollLeft, setCanScrollLeft] = React.useState(false);
+  const [canScrollRight, setCanScrollRight] = React.useState(false);
+
+  // Check scroll position and update indicators
+  const updateScrollIndicators = React.useCallback(() => {
+    const container = scrollContainerRef.current;
+    if (!container) return;
+
+    const { scrollLeft, scrollWidth, clientWidth } = container;
+    setCanScrollLeft(scrollLeft > 0);
+    setCanScrollRight(scrollLeft + clientWidth < scrollWidth - 1);
+    setShowScrollIndicator(scrollWidth > clientWidth);
+  }, []);
+
+  React.useEffect(() => {
+    updateScrollIndicators();
+    const container = scrollContainerRef.current;
+    if (container) {
+      container.addEventListener("scroll", updateScrollIndicators);
+      window.addEventListener("resize", updateScrollIndicators);
+    }
+    return () => {
+      if (container) {
+        container.removeEventListener("scroll", updateScrollIndicators);
+      }
+      window.removeEventListener("resize", updateScrollIndicators);
+    };
+  }, [updateScrollIndicators, data]);
+
+  // If no data, show empty state
+  if (!data || data.length === 0) {
+    return (
+      <BudgetEmptyState
+        onCreateClick={onCreateClick}
+        onImportClick={onImportClick}
+        isLocked={isLocked}
+      />
+    );
+  }
+
   return (
-    <div className="flex flex-col h-full rounded-md overflow-hidden">
-      {/* Hide scrollbar while maintaining scroll functionality */}
-      <div className="flex-1 overflow-auto scrollbar-hide">
+    <div className="flex flex-col h-full rounded-md overflow-hidden border border-border bg-background">
+      {/* Scroll indicator at top */}
+      {showScrollIndicator && (
+        <div className="flex items-center justify-center gap-2 py-1.5 px-4 bg-muted/50 border-b border-border text-xs text-muted-foreground">
+          {canScrollLeft && (
+            <span className="flex items-center gap-1">
+              <ChevronLeft className="w-3 h-3" />
+              scroll
+            </span>
+          )}
+          <span className="hidden sm:inline">Use arrow keys or scroll to view all columns</span>
+          <span className="sm:hidden">Scroll horizontally</span>
+          {canScrollRight && (
+            <span className="flex items-center gap-1">
+              scroll
+              <ChevronsRight className="w-3 h-3" />
+            </span>
+          )}
+        </div>
+      )}
+
+      {/* Table container with scroll */}
+      <div
+        ref={scrollContainerRef}
+        className="flex-1 overflow-auto scrollbar-hide"
+        tabIndex={0}
+        role="region"
+        aria-label="Budget table scrollable content"
+      >
         <Table className="min-w-[1200px]">
-          <TableHeader className="sticky top-0 bg-muted/80 backdrop-blur-sm z-10">
+          <TableHeader className="sticky top-0 bg-muted/95 backdrop-blur-sm z-10 shadow-sm">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow
                 key={headerGroup.id}
@@ -792,7 +867,7 @@ export function BudgetTable({
                   <TableHead
                     key={header.id}
                     className={cn(
-                      "text-xs font-semibold text-foreground py-3 px-2 bg-muted/80",
+                      "text-xs font-semibold text-foreground py-3 px-2 bg-muted/95",
                       getWidthClass(header.column.id),
                     )}
                   >
@@ -808,53 +883,42 @@ export function BudgetTable({
             ))}
           </TableHeader>
           <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row, index) => {
-                const hasChildren =
-                  row.original.children && row.original.children.length > 0;
-                const isGroupRow = hasChildren;
+            {table.getRowModel().rows.map((row, index) => {
+              const hasChildren =
+                row.original.children && row.original.children.length > 0;
+              const isGroupRow = hasChildren;
 
-                return (
-                  <TableRow
-                    key={row.id}
-                    className={cn(
-                      "border-b border-border transition-colors",
-                      isGroupRow &&
-                        "bg-muted/80 hover:bg-muted/80 font-semibold",
-                      !isGroupRow && "hover:bg-muted",
-                      !isGroupRow && row.depth > 0 && "bg-muted",
-                      row.getIsSelected() && "bg-blue-50",
-                      !row.getIsSelected() && index % 2 === 1 && "bg-muted",
-                    )}
-                  >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
-                        className={cn(
-                          "py-3 px-2 text-sm",
-                          row.depth > 0 && "text-foreground",
-                          getWidthClass(cell.column.id),
-                        )}
-                      >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
-                    ))}
-                  </TableRow>
-                );
-              })
-            ) : (
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-24 text-center"
+              return (
+                <TableRow
+                  key={row.id}
+                  className={cn(
+                    "border-b border-border transition-colors duration-150",
+                    isGroupRow &&
+                      "bg-muted/80 hover:bg-muted font-semibold",
+                    !isGroupRow && "hover:bg-muted/50",
+                    !isGroupRow && row.depth > 0 && "bg-muted/30",
+                    row.getIsSelected() && "bg-blue-50 dark:bg-blue-950/30",
+                    !row.getIsSelected() && index % 2 === 1 && !isGroupRow && "bg-muted/20",
+                  )}
                 >
-                  No results.
-                </TableCell>
-              </TableRow>
-            )}
+                  {row.getVisibleCells().map((cell) => (
+                    <TableCell
+                      key={cell.id}
+                      className={cn(
+                        "py-3 px-2 text-sm",
+                        row.depth > 0 && "text-foreground",
+                        getWidthClass(cell.column.id),
+                      )}
+                    >
+                      {flexRender(
+                        cell.column.columnDef.cell,
+                        cell.getContext(),
+                      )}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              );
+            })}
           </TableBody>
         </Table>
       </div>
