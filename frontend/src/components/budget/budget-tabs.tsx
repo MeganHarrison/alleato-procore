@@ -112,6 +112,11 @@ export function BudgetTabs({
                       ? "bg-primary text-white hover:bg-primary/90"
                       : "text-foreground hover:bg-muted/50"
                   )}
+                  aria-label={
+                    isAdvancedTabActive
+                      ? `More options: ${activeAdvancedTab?.label}`
+                      : "More tabs"
+                  }
                 >
                   {isAdvancedTabActive ? (
                     <>
@@ -131,7 +136,7 @@ export function BudgetTabs({
                 {advancedTabs.map((tab) => (
                   <DropdownMenuItem
                     key={tab.id}
-                    onClick={() => handleAdvancedTabSelect(tab.id)}
+                    onSelect={() => handleAdvancedTabSelect(tab.id)}
                     className={cn(
                       "cursor-pointer transition-colors",
                       activeTab === tab.id && "bg-accent font-medium"

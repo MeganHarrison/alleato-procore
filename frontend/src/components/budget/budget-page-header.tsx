@@ -121,7 +121,7 @@ export function BudgetPageHeader({
             <Plus className="w-4 h-4 mr-2" />
             Budget Line Item
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer">
+          <DropdownMenuItem disabled>
             <Plus className="w-4 h-4 mr-2" />
             Snapshot
           </DropdownMenuItem>
@@ -217,6 +217,7 @@ export function BudgetPageHeader({
               variant="ghost"
               size="icon"
               className="h-9 w-9 text-muted-foreground hover:bg-accent transition-colors"
+              aria-label="More options"
             >
               <MoreVertical className="w-5 h-5" />
             </Button>
@@ -234,6 +235,7 @@ export function BudgetPageHeader({
           variant="ghost"
           size="icon"
           className="h-9 w-9 text-muted-foreground hover:bg-accent transition-colors"
+          aria-label="Open chat"
         >
           <MessageSquare className="w-5 h-5" />
         </Button>

@@ -852,6 +852,9 @@ export function BudgetTable({
       <div
         ref={scrollContainerRef}
         className="flex-1 overflow-auto scrollbar-hide"
+        tabIndex={0}
+        role="region"
+        aria-label="Budget table scrollable content"
       >
         <Table className="min-w-[1200px]">
           <TableHeader className="sticky top-0 bg-muted/95 backdrop-blur-sm z-10 shadow-sm">

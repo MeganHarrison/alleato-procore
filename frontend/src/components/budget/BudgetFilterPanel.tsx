@@ -196,7 +196,7 @@ export function BudgetFilterPanel({
                     {views.map((view) => (
                       <DropdownMenuItem
                         key={view.id}
-                        onClick={() => onViewChange(view.id)}
+                        onSelect={() => onViewChange(view.id)}
                         className={cn(
                           "cursor-pointer",
                           selectedView === view.id && "bg-accent"
@@ -226,7 +226,7 @@ export function BudgetFilterPanel({
                     {snapshots.map((snapshot) => (
                       <DropdownMenuItem
                         key={snapshot.id}
-                        onClick={() => onSnapshotChange(snapshot.id)}
+                        onSelect={() => onSnapshotChange(snapshot.id)}
                         className={cn(
                           "cursor-pointer",
                           selectedSnapshot === snapshot.id && "bg-accent"
@@ -260,7 +260,7 @@ export function BudgetFilterPanel({
                     {groups.map((group) => (
                       <DropdownMenuItem
                         key={group.id}
-                        onClick={() => onGroupChange(group.id)}
+                        onSelect={() => onGroupChange(group.id)}
                         className={cn(
                           "cursor-pointer",
                           selectedGroup === group.id && "bg-accent"
@@ -292,7 +292,7 @@ export function BudgetFilterPanel({
                   </DropdownMenuTrigger>
                   <DropdownMenuContent align="start" className="w-[180px]">
                     <DropdownMenuItem
-                      onClick={() => onQuickFilterChange?.("all")}
+                      onSelect={() => onQuickFilterChange?.("all")}
                       className={cn(
                         "cursor-pointer",
                         activeQuickFilter === "all" && "bg-accent"
@@ -302,7 +302,7 @@ export function BudgetFilterPanel({
                     </DropdownMenuItem>
                     <DropdownMenuSeparator />
                     <DropdownMenuItem
-                      onClick={() => onQuickFilterChange?.("over-budget")}
+                      onSelect={() => onQuickFilterChange?.("over-budget")}
                       className={cn(
                         "cursor-pointer",
                         activeQuickFilter === "over-budget" && "bg-accent"
@@ -312,7 +312,7 @@ export function BudgetFilterPanel({
                       Over Budget
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      onClick={() => onQuickFilterChange?.("under-budget")}
+                      onSelect={() => onQuickFilterChange?.("under-budget")}
                       className={cn(
                         "cursor-pointer",
                         activeQuickFilter === "under-budget" && "bg-accent"
@@ -322,7 +322,7 @@ export function BudgetFilterPanel({
                       Under Budget
                     </DropdownMenuItem>
                     <DropdownMenuItem
-                      onClick={() => onQuickFilterChange?.("no-activity")}
+                      onSelect={() => onQuickFilterChange?.("no-activity")}
                       className={cn(
                         "cursor-pointer",
                         activeQuickFilter === "no-activity" && "bg-accent"
