@@ -100,9 +100,12 @@ export async function getChangeOrder(id: number) {
 
   if (error) {
     throw new Error(`Failed to fetch change order: ${error.message}`);
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+  }
 
-let adminClient: SupabaseClient | null = null;
+  return data;
+}
+
+let adminClient: ReturnType<typeof createClient> | null = null;
 
 function getRequiredEnv(name: string): string {
   const value = process.env[name];
@@ -112,7 +115,7 @@ function getRequiredEnv(name: string): string {
   return value;
 }
 
-export function getAdminClient(): SupabaseClient {
+export function getAdminClient(): ReturnType<typeof createClient> {
   if (adminClient) {
     return adminClient;
   }
@@ -164,6 +167,11 @@ export async function countChangeOrdersForProject(projectId: number) {
 
   if (error) {
     throw new Error(`Failed to count change orders: ${error.message}`);
+  }
+
+  return count ?? 0;
+}
+
 export async function fetchChangeEventByNumber(projectId: number, number: string) {
   const supabase = getAdminClient();
   const { data, error } = await supabase
@@ -230,6 +238,8 @@ export async function deleteProject(projectId: number) {
   if (error) {
     throw new Error(`Failed to delete project: ${error.message}`);
   }
+}
+
 export async function fetchLineItems(changeEventId: number) {
   const supabase = getAdminClient();
   const { data, error } = await supabase
