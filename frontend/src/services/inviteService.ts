@@ -99,7 +99,6 @@ export class InviteService {
         message: `Invitation sent to ${person.email}`,
       };
     } catch (error) {
-      console.error("Invite error:", error);
       return {
         success: false,
         error: "An unexpected error occurred",
@@ -144,7 +143,6 @@ export class InviteService {
       // Generate new token
       return this.sendInvite(projectId, personId);
     } catch (error) {
-      console.error("Resend invite error:", error);
       return {
         success: false,
         error: "An unexpected error occurred",
@@ -242,7 +240,6 @@ export class InviteService {
         redirectUrl: `/auth/set-password?token=${token}&email=${person.email}`,
       };
     } catch (error) {
-      console.error("Accept invite error:", error);
       return {
         success: false,
         error: "An unexpected error occurred",
@@ -346,7 +343,6 @@ export class InviteService {
         message: `Invitation resent to ${person.email}`,
       };
     } catch (error) {
-      console.error("Send invite email error:", error);
       return {
         success: false,
         error: "Failed to send email",

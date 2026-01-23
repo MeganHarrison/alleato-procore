@@ -11,13 +11,13 @@ test.describe('Budget Workflow - Immediate Tests', () => {
   test('Complete workflow: Project → Contract → Budget → Commitment → Change Order → Modification → SOV', async ({ page }) => {
 
     // Login
-    await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123');
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123');
     await page.waitForURL('**/dashboard', { timeout: 10000 });
 
     console.log('✓ Step 0: Logged in');
 
     // 1. CREATE PROJECT
-    await page.goto('http://localhost:3000/dashboard');
+    await page.goto('/dashboard');
     const createProjectBtn = page.locator('button', { hasText: /create.*project|new.*project/i }).first();
 
     if (await createProjectBtn.isVisible({ timeout: 5000 }).catch(() => false)) {

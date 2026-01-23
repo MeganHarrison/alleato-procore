@@ -52,7 +52,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(group);
   } catch (error) {
-    console.error("Error fetching distribution group:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -105,7 +104,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(group);
   } catch (error) {
-    console.error("Error updating distribution group:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -154,7 +152,6 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deleting distribution group:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

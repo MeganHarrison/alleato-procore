@@ -2,13 +2,23 @@
 
 import { createClient as createSupabaseClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
+import type {
+  MeetingData,
+  ProjectData,
+  CompanyData,
+  UpdateResponse,
+  DeleteResponse,
+  CreateResponse,
+  TableName,
+  TableUpdate
+} from "./table-actions.types";
 
-export async function updateTableRow(
-  tableName: string,
+export async function updateTableRow<T extends TableName>(
+  tableName: T,
   id: string | number,
-  data: Record<string, any>,
+  data: TableUpdate<T>,
   revalidatePaths?: string[],
-) {
+): Promise<UpdateResponse> {
   try {
     const supabase = await createSupabaseClient();
 
@@ -33,10 +43,10 @@ export async function updateTableRow(
 }
 
 export async function deleteTableRow(
-  tableName: string,
+  tableName: TableName,
   id: string | number,
   revalidatePaths?: string[],
-) {
+): Promise<DeleteResponse> {
   try {
     const supabase = await createSupabaseClient();
 
@@ -61,7 +71,7 @@ export async function deleteTableRow(
 }
 
 // Specific actions for different tables
-export async function updateMeeting(id: string, data: Record<string, any>) {
+export async function updateMeeting(id: string, data: MeetingData) {
   return updateTableRow("document_metadata", id, data, ["/meetings"]);
 }
 
@@ -71,7 +81,7 @@ export async function deleteMeeting(id: string) {
 
 export async function updateProject(
   id: string | number,
-  data: Record<string, any>,
+  data: ProjectData,
 ) {
   return updateTableRow("projects", id, data, ["/projects", "/"]);
 }
@@ -80,7 +90,7 @@ export async function deleteProject(id: string | number) {
   return deleteTableRow("projects", id, ["/projects", "/"]);
 }
 
-export async function createCompany(data: Record<string, any>) {
+export async function createCompany(data: CompanyData): Promise<CreateResponse<CompanyData>> {
   try {
     const supabase = await createSupabaseClient();
 

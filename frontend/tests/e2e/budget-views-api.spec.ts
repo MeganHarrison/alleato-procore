@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import path from 'path';
 
 const TEST_PROJECT_ID = '118';
-const BASE_URL = `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views`;
+const BASE_URL = `${process.env.BASE_URL || 'http://localhost:3005'}/api/projects/${TEST_PROJECT_ID}/budget/views`;
 
 test.describe('Budget Views API - Phase 2a', () => {
   let authCookies: string;

@@ -52,7 +52,6 @@ export async function GET(request: NextRequest, { params }: ForecastParams) {
       .eq("project_id", projectId);
 
     if (budgetError) {
-      console.error("Error fetching budget lines:", budgetError);
       return NextResponse.json(
         { error: "Failed to fetch budget data" },
         { status: 500 },
@@ -127,7 +126,6 @@ export async function GET(request: NextRequest, { params }: ForecastParams) {
       generatedAt: new Date().toISOString(),
     });
   } catch (error) {
-    console.error("Error generating forecast:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

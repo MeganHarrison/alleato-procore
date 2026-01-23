@@ -72,8 +72,7 @@ export function ChatKitPanel({
     onThreadChange: ({ threadId }) => onThreadChange?.(threadId ?? null),
     onResponseEnd: () => onResponseEnd?.(),
     onError: ({ error }) => {
-      console.error("ChatKit error", error);
-    },
+      },
     onEffect: async ({ name }) => {
       if (name === "runner_state_update") {
         onRunnerUpdate?.();

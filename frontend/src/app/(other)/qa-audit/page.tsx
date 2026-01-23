@@ -150,8 +150,7 @@ export default function QAAuditPage() {
       setData(result);
     } catch (error) {
       toast.error("Failed to load page audit data");
-      console.error(error);
-    } finally {
+      } finally {
       setLoading(false);
       setScanning(false);
     }
@@ -184,8 +183,7 @@ export default function QAAuditPage() {
       fetchData();
     } catch (error) {
       toast.error("Failed to update");
-      console.error(error);
-    }
+      }
   };
 
   const getEffectiveStatus = (page: PageAudit): string => {

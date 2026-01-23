@@ -93,7 +93,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     const { data: budgetLines, error: budgetError } = await budgetQuery;
 
     if (budgetError) {
-      console.error("Error fetching budget lines:", budgetError);
       return NextResponse.json(
         { error: "Failed to fetch budget lines", details: budgetError.message },
         { status: 400 },
@@ -164,7 +163,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
         .single();
 
       if (insertError) {
-        console.error("Error inserting commitment line item:", insertError);
         if (insertError.code === "23505") {
           skipped.push(`Line ${lineNumber}: Duplicate line number`);
         } else {
@@ -185,7 +183,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       message: `Successfully imported ${importedItems.length} of ${budgetLines.length} line items from budget`,
     });
   } catch (error) {
-    console.error("Commitment line items import error:", error);
     return NextResponse.json(
       {
         error:

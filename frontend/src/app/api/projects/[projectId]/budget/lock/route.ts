@@ -32,7 +32,6 @@ export async function POST(
       .single();
 
     if (fetchError) {
-      console.error("Error fetching project:", fetchError);
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
@@ -58,9 +57,6 @@ export async function POST(
       .select();
 
     if (error) {
-      console.error("Error locking budget:", error);
-      console.error("User ID:", user?.id);
-      console.error("Project ID:", projectId);
       return NextResponse.json(
         { error: `Failed to lock budget: ${error.message}` },
         { status: 500 },
@@ -69,9 +65,6 @@ export async function POST(
 
     // Check if any rows were updated (RLS might have blocked it)
     if (!data || data.length === 0) {
-      console.error("No rows updated - RLS policy may have blocked the update");
-      console.error("User ID:", user?.id);
-      console.error("Project ID:", projectId);
       return NextResponse.json(
         {
           error:
@@ -93,7 +86,6 @@ export async function POST(
       },
     });
   } catch (error) {
-    console.error("Error in budget lock route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -127,7 +119,6 @@ export async function DELETE(
       .single();
 
     if (fetchError) {
-      console.error("Error fetching project:", fetchError);
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
@@ -150,7 +141,6 @@ export async function DELETE(
       .select();
 
     if (error) {
-      console.error("Error unlocking budget:", error);
       return NextResponse.json(
         { error: `Failed to unlock budget: ${error.message}` },
         { status: 500 },
@@ -159,7 +149,6 @@ export async function DELETE(
 
     // Check if any rows were updated (RLS might have blocked it)
     if (!data || data.length === 0) {
-      console.error("No rows updated - RLS policy may have blocked the update");
       return NextResponse.json(
         {
           error:
@@ -181,7 +170,6 @@ export async function DELETE(
       },
     });
   } catch (error) {
-    console.error("Error in budget unlock route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -214,7 +202,6 @@ export async function GET(
       .single();
 
     if (error) {
-      console.error("Error fetching project:", error);
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
@@ -224,7 +211,6 @@ export async function GET(
       lockedBy: project.budget_locked_by,
     });
   } catch (error) {
-    console.error("Error in budget lock status route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

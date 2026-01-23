@@ -48,7 +48,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const { data: memberships, error: membershipsError } = await query;
 
     if (membershipsError) {
-      console.error("Error fetching memberships:", membershipsError);
       return NextResponse.json(
         { error: membershipsError.message },
         { status: 500 },
@@ -62,7 +61,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       .eq("project_id", projectIdNum);
 
     if (permsError) {
-      console.error("Error fetching directory permissions:", permsError);
       return NextResponse.json({ error: permsError.message }, { status: 500 });
     }
 
@@ -127,7 +125,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ data: filteredUsers });
   } catch (error) {
-    console.error("Unexpected error fetching directory permissions:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 },
@@ -180,13 +177,11 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       .single();
 
     if (error) {
-      console.error("Error updating directory permission:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error("Unexpected error updating directory permission:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 },
@@ -219,13 +214,11 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       .eq("person_id", personId);
 
     if (error) {
-      console.error("Error deleting directory permission:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Unexpected error deleting directory permission:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 },

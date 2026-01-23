@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Commitment Creation Page Debug', () => {
   test('should load new commitment page for subcontract', async ({ page }) => {
     // Navigate to the new commitment page
-    await page.goto('http://localhost:3000/67/commitments/new?type=subcontract');
+    await page.goto('/67/commitments/new?type=subcontract');
 
     // Wait for navigation to complete
     await page.waitForLoadState('networkidle');
@@ -44,7 +44,7 @@ test.describe('Commitment Creation Page Debug', () => {
 
   test('should load new commitment page for purchase order', async ({ page }) => {
     // Navigate to the new commitment page
-    await page.goto('http://localhost:3000/67/commitments/new?type=purchase_order');
+    await page.goto('/67/commitments/new?type=purchase_order');
 
     // Wait for navigation to complete
     await page.waitForLoadState('networkidle');

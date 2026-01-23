@@ -125,7 +125,6 @@ export async function GET(
     ]);
 
     if (budgetLinesRes.error) {
-      console.error("Error fetching budget items:", budgetLinesRes.error);
       return NextResponse.json(
         { error: "Failed to fetch budget data" },
         { status: 500 },
@@ -312,7 +311,6 @@ export async function GET(
       grandTotals,
     });
   } catch (error) {
-    console.error("Error in budget GET route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -371,17 +369,11 @@ export async function POST(
     } = await supabase.auth.getUser();
 
     if (userError || !user) {
-      console.error("Auth error or no user:", { userError, hasUser: !!user });
       return NextResponse.json(
         { error: "Unauthorized - please log in" },
         { status: 401 },
       );
     }
-
-    console.warn("Authenticated user creating budget:", {
-      userId: user.id,
-      email: user.email,
-    });
 
     // Look up cost code IDs from the code strings or IDs
     const costCodes = normalizedLineItems.map((item) => item.costCodeId);
@@ -391,7 +383,6 @@ export async function POST(
       .in("id", costCodes);
 
     if (codeError) {
-      console.error("Error looking up cost codes:", codeError);
       return NextResponse.json(
         { error: "Failed to look up cost codes", details: codeError.message },
         { status: 500 },
@@ -414,7 +405,6 @@ export async function POST(
         .in("id", costTypeIds);
 
       if (typeError) {
-        console.error("Error looking up cost types:", typeError);
         return NextResponse.json(
           { error: "Failed to look up cost types", details: typeError.message },
           { status: 500 },
@@ -467,7 +457,6 @@ export async function POST(
           .single();
 
         if (updateError) {
-          console.error("Error updating budget line:", updateError);
           return NextResponse.json(
             {
               error: "Failed to update budget line",
@@ -497,7 +486,6 @@ export async function POST(
           .single();
 
         if (blError) {
-          console.error("Error creating budget line:", blError);
           return NextResponse.json(
             { error: "Failed to create budget line", details: blError.message },
             { status: 500 },
@@ -525,10 +513,6 @@ export async function POST(
         .eq("id", projectId);
 
       if (projectUpdateError) {
-        console.error(
-          "Error updating project budget totals:",
-          projectUpdateError,
-        );
         // Don't fail the request - line items were created successfully
       }
     }
@@ -542,7 +526,6 @@ export async function POST(
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "Failed to create budget items";
-    console.error("Error in budget POST route:", error);
     return NextResponse.json({ error: errorMessage }, { status: 400 });
   }
 }

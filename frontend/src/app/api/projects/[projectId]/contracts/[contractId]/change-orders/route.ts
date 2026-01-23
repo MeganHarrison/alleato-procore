@@ -39,7 +39,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       .order("change_order_number", { ascending: true });
 
     if (error) {
-      console.error("Error fetching change orders:", error);
       return NextResponse.json(
         { error: "Failed to fetch change orders", details: error.message },
         { status: 400 },
@@ -48,10 +47,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(data || []);
   } catch (error) {
-    console.error(
-      "Error in GET /api/projects/[id]/contracts/[contractId]/change-orders:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -147,7 +142,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       .single();
 
     if (error) {
-      console.error("Error creating change order:", error);
       return NextResponse.json(
         { error: "Failed to create change order", details: error.message },
         { status: 400 },
@@ -169,10 +163,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    console.error(
-      "Error in POST /api/projects/[id]/contracts/[contractId]/change-orders:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

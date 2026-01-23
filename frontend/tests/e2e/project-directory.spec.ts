@@ -33,7 +33,7 @@ test.describe('Project Directory Page', () => {
     });
 
     // Navigate to project directory
-    await page.goto('http://localhost:3003/67/directory');
+    await page.goto('/67/directory');
 
     // Wait for page to load
     await page.waitForLoadState('networkidle');

@@ -3,13 +3,13 @@ import { test, expect } from '@playwright/test';
 test.describe('Tasks Page Verification', () => {
   test('should verify tasks page structure and headers', async ({ page }) => {
     // Navigate to dev login
-    await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123');
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123');
 
     // Wait for navigation to complete
     await page.waitForLoadState('networkidle');
 
     // Navigate to tasks page
-    await page.goto('http://localhost:3000/tasks');
+    await page.goto('/tasks');
 
     // Wait for page to load
     await page.waitForLoadState('networkidle');

@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Dev Login - Tasks Page Verification', () => {
   test('should authenticate via dev login and verify tasks page renders correctly', async ({ page }) => {
     // Navigate to dev login endpoint
-    await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123');
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123');
 
     // Wait for authentication to complete (redirect or confirmation)
     await page.waitForTimeout(2000);
@@ -12,7 +12,7 @@ test.describe('Dev Login - Tasks Page Verification', () => {
     await page.screenshot({ path: 'tests/screenshots/dev-login-complete.png', fullPage: true });
 
     // Navigate to tasks page
-    await page.goto('http://localhost:3000/tasks');
+    await page.goto('/tasks');
 
     // Wait for page to load
     await page.waitForLoadState('networkidle');

@@ -5,7 +5,7 @@ test.describe('Sidebar Visual Test', () => {
 
   test('capture sidebar expanded and collapsed states', async ({ page }) => {
     // Navigate to home page
-    await page.goto('http://localhost:3000');
+    await page.goto('/');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(1000);
 

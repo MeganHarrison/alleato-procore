@@ -3,14 +3,14 @@ import { test, expect } from '@playwright/test'
 test.describe('Project Setup Wizard', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to dev login
-    await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123')
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123')
     // Wait for page to load - landing on portfolio is expected
     await page.waitForLoadState('networkidle')
   })
 
   test('displays all required setup steps', async ({ page }) => {
     // Create a new project first
-    await page.goto('http://localhost:3000/form-project')
+    await page.goto('/form-project')
 
     // Fill in the create project form
     await page.fill('input[name="name"]', 'Test Project Setup Wizard')
@@ -45,7 +45,7 @@ test.describe('Project Setup Wizard', () => {
 
   test('can skip through all steps and redirect to home page', async ({ page }) => {
     // Go directly to a known project's setup page
-    await page.goto('http://localhost:3000/67/setup')
+    await page.goto('/67/setup')
 
     // Wait for the setup page to load
     await expect(page.locator('h1')).toContainText('Project Setup')
@@ -76,7 +76,7 @@ test.describe('Project Setup Wizard', () => {
   })
 
   test('progress bar updates as steps are completed', async ({ page }) => {
-    await page.goto('http://localhost:3000/67/setup')
+    await page.goto('/67/setup')
 
     // Wait for the setup page to load
     await expect(page.locator('h1')).toContainText('Project Setup')
@@ -102,7 +102,7 @@ test.describe('Project Setup Wizard', () => {
   })
 
   test('old steps (Budget and Contract) are not present', async ({ page }) => {
-    await page.goto('http://localhost:3000/67/setup')
+    await page.goto('/67/setup')
 
     // Wait for the setup page to load
     await expect(page.locator('h1')).toContainText('Project Setup')
@@ -115,7 +115,7 @@ test.describe('Project Setup Wizard', () => {
   })
 
   test('can navigate back to completed steps', async ({ page }) => {
-    await page.goto('http://localhost:3000/67/setup')
+    await page.goto('/67/setup')
 
     // Complete first step
     await page.click('button:has-text("Continue")')

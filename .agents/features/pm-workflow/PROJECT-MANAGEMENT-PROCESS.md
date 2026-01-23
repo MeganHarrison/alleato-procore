@@ -115,7 +115,7 @@ Verifier independently runs:
   - Database schema checks
     ↓
 Verifier writes report to:
-  documentation/*project-mgmt/in-progress/[feature-name]/VERIFICATION-[task-name].md
+  docs/{feature_name}/crawl-{feature_name}/VERIFICATION-[task-name].md
     ↓
 IF PASS → Main agent logs completion
 IF FAIL → Main agent FIXES issues and re-verifies
@@ -176,8 +176,8 @@ while (verification status !== PASS) {
 
 ### Documentation (Permanent)
 ```
-documentation/*project-mgmt/
-├── in-progress/
+docs/{feature_name}
+├── {feature_name}/
 │   └── [feature-name]/          # Feature directory
 │       ├── README.md            # Feature overview
 │       ├── PLANS-[FEATURE].md   # Implementation plan
@@ -195,7 +195,7 @@ documentation/*project-mgmt/
 ```
 
 **Rule:** Verification reports go in the feature's directory
-**Location:** `documentation/*project-mgmt/in-progress/[feature-name]/VERIFICATION-[name].md`
+**Location:** `docs/{feature_name}/crawl-{feature_name}/VERIFICATION-[name].md`
 **Why:** Keeps all feature documentation together, easy to find everything related to one feature
 
 ---
@@ -303,7 +303,7 @@ Before claiming ANY task complete:
 When verifier reports FAILED status:
 
 ### Step 1: Read Verification Report
-- Location: `documentation/*project-mgmt/in-progress/[feature-name]/VERIFICATION-[name].md`
+- Location: `docs/{feature_name}/crawl-{feature_name}/VERIFICATION-[name].md`
 - Read ENTIRE report
 - List ALL issues found
 

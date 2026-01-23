@@ -48,8 +48,7 @@ export default function ExecutiveDashboard() {
         setHealthScores(scoresData);
         setPatterns(patternsData);
       } catch (error) {
-        console.error("Error loading executive data:", error);
-      } finally {
+        } finally {
         setLoading(false);
       }
     }

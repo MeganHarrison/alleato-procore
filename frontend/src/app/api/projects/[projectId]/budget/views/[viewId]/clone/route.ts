@@ -31,7 +31,6 @@ export async function POST(
     });
 
     if (error) {
-      console.error("Error cloning budget view:", error);
       return NextResponse.json(
         { error: "Failed to clone budget view", details: error.message },
         { status: 500 },
@@ -51,7 +50,6 @@ export async function POST(
       .single();
 
     if (fetchError) {
-      console.error("Error fetching cloned budget view:", fetchError);
       return NextResponse.json(
         {
           error: "Failed to fetch cloned budget view",
@@ -71,10 +69,6 @@ export async function POST(
 
     return NextResponse.json({ view: viewWithSortedColumns }, { status: 201 });
   } catch (error) {
-    console.error(
-      "Error in POST /api/projects/[id]/budget/views/[viewId]/clone:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

@@ -2,7 +2,7 @@ import { test } from '@playwright/test';
 
 test('check Companies page for title', async ({ page }) => {
   console.log('🔍 Testing http://localhost:3000/companies');
-  await page.goto('http://localhost:3000/companies');
+  await page.goto('/companies');
   await page.waitForLoadState('networkidle');
   await page.waitForTimeout(2000);
 

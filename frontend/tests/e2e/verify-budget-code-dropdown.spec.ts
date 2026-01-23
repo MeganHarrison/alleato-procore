@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Budget Code Dropdown Verification', () => {
   test('should show created budget codes in dropdown', async ({ page }) => {
     // Navigate to budget setup page
-    await page.goto('http://localhost:3000/67/budget/setup');
+    await page.goto('/67/budget/setup');
     await page.waitForLoadState('networkidle');
 
     // Wait for loading to complete

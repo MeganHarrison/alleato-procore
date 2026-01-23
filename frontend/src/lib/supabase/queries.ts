@@ -22,7 +22,28 @@ export async function getProjectById(
   supabase: SupabaseClient<Database>,
   projectId: number,
 ) {
-  return supabase.from("projects").select("*").eq("id", projectId).single();
+  return supabase
+    .from("projects")
+    .select(`
+      id,
+      name,
+      project_number,
+      client,
+      client_id,
+      phase,
+      state,
+      address,
+      budget,
+      budget_used,
+      health_status,
+      health_score,
+      completion_percentage,
+      project_manager,
+      created_at,
+      archived
+    `)
+    .eq("id", projectId)
+    .single();
 }
 
 export async function getProjectWithDetails(

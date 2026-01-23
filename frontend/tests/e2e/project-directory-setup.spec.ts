@@ -2,13 +2,13 @@ import { test, expect } from '@playwright/test'
 
 test.describe('Project Directory Setup', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123')
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123')
     await page.waitForLoadState('networkidle')
   })
 
   test('can add company to project directory with valid role', async ({ page }) => {
     // Navigate to project setup wizard
-    await page.goto('http://localhost:3000/67/setup')
+    await page.goto('/67/setup')
 
     // Wait for the cost code step and continue
     await expect(page.locator('h2')).toContainText('Cost Code Configuration')
@@ -43,7 +43,7 @@ test.describe('Project Directory Setup', () => {
   })
 
   test('displays only valid roles in dropdown', async ({ page }) => {
-    await page.goto('http://localhost:3000/67/setup')
+    await page.goto('/67/setup')
 
     // Navigate to Project Directory step
     await page.click('button:has-text("Continue")')

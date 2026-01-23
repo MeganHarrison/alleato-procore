@@ -71,14 +71,12 @@ export function CreateBudgetCodeModal({
           .order("id", { ascending: true });
 
         if (fetchError) {
-          console.error("Error fetching cost codes:", fetchError);
           setError("Failed to load cost codes");
           return;
         }
 
         setAvailableCostCodes(data || []);
       } catch (err) {
-        console.error("Error fetching cost codes:", err);
         setError("Failed to load cost codes");
       } finally {
         setLoadingCostCodes(false);
@@ -161,7 +159,6 @@ export function CreateBudgetCodeModal({
       onSuccess(result.budgetCode?.id);
       onOpenChange(false);
     } catch (err) {
-      console.error("Error creating budget code:", err);
       setError(
         err instanceof Error ? err.message : "Failed to create budget code",
       );

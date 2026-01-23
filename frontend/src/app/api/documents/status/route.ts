@@ -29,7 +29,6 @@ export async function GET() {
       .order("created_at", { ascending: false });
 
     if (error) {
-      console.error("Error fetching documents:", error);
       return NextResponse.json(
         { error: "Failed to fetch documents" },
         { status: 500 },
@@ -55,7 +54,6 @@ export async function GET() {
 
     return NextResponse.json({ documents: transformedDocuments });
   } catch (error) {
-    console.error("Error in document status API:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

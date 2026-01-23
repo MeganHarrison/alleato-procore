@@ -118,7 +118,6 @@ export function DocumentUploadSetup({
             .upload(filePath, uploadFile.file);
 
           if (uploadError) {
-            console.error("Storage upload error:", uploadError);
             throw new Error(
               `Storage upload failed: ${uploadError.message || JSON.stringify(uploadError)}`,
             );
@@ -149,7 +148,6 @@ export function DocumentUploadSetup({
             .single();
 
           if (dbError) {
-            console.error("Database insert error:", dbError);
             throw new Error(
               `Database insert failed: ${dbError.message || JSON.stringify(dbError)}`,
             );
@@ -177,7 +175,6 @@ export function DocumentUploadSetup({
             errorMessage = err;
           }
 
-          console.error("Upload error:", errorMessage, err);
           setUploadingFiles((prev) =>
             prev.map((f) =>
               f.id === uploadFile.id
@@ -225,7 +222,6 @@ export function DocumentUploadSetup({
 
       setUploadedDocuments((prev) => prev.filter((d) => d.id !== documentId));
     } catch (err) {
-      console.error("Delete error:", err);
       setError(
         err instanceof Error ? err.message : "Failed to delete document",
       );

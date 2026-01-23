@@ -6,12 +6,10 @@
 module.exports = {
   lifecycle: {
     onEnable: async function() {
-      console.log('Weather Widget: Plugin enabled');
-    },
+      },
     
     onDisable: async function() {
-      console.log('Weather Widget: Plugin disabled');
-    },
+      },
   },
   
   hooks: {
@@ -181,8 +179,7 @@ function WeatherWidget({ api }) {
       setError(null);
     } catch (err) {
       setError('Failed to fetch weather data');
-      console.error('Weather widget error:', err);
-    } finally {
+      } finally {
       setLoading(false);
     }
   };

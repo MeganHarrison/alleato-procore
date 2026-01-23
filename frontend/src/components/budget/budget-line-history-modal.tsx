@@ -60,7 +60,6 @@ export function BudgetLineHistoryModal({
         const data = await response.json();
         setHistory(data.history || []);
       } catch (err) {
-        console.error("Error fetching history:", err);
         setError(err instanceof Error ? err.message : "Failed to load history");
       } finally {
         setLoading(false);

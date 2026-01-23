@@ -122,7 +122,6 @@ export function ProfileImageUpload({
       // Refresh the page to show new avatar
       window.location.reload();
     } catch (error) {
-      console.error("Upload error:", error);
       toast.error("Failed to upload image. Please try again.");
     } finally {
       setUploading(false);
@@ -155,7 +154,6 @@ export function ProfileImageUpload({
       setOpen(false);
       window.location.reload();
     } catch (error) {
-      console.error("Remove error:", error);
       toast.error("Failed to remove image");
     }
   };

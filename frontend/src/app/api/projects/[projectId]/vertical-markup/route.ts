@@ -38,7 +38,6 @@ export async function GET(
       .order("calculation_order", { ascending: true });
 
     if (error) {
-      console.error("Error fetching vertical markup:", error);
       return NextResponse.json(
         { error: "Failed to fetch vertical markup settings" },
         { status: 500 },
@@ -49,7 +48,6 @@ export async function GET(
       markups: data || [],
     });
   } catch (error) {
-    console.error("Error in vertical markup GET route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -111,7 +109,6 @@ export async function POST(
       .single();
 
     if (error) {
-      console.error("Error creating vertical markup:", error);
       return NextResponse.json(
         { error: "Failed to create vertical markup" },
         { status: 500 },
@@ -123,7 +120,6 @@ export async function POST(
       data,
     });
   } catch (error) {
-    console.error("Error in vertical markup POST route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -184,7 +180,6 @@ export async function PUT(
       .order("calculation_order", { ascending: true });
 
     if (error) {
-      console.error("Error fetching updated markups:", error);
       return NextResponse.json(
         { error: "Failed to update vertical markups" },
         { status: 500 },
@@ -196,7 +191,6 @@ export async function PUT(
       markups: data,
     });
   } catch (error) {
-    console.error("Error in vertical markup PUT route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -239,7 +233,6 @@ export async function DELETE(
       .eq("project_id", projectIdNum);
 
     if (error) {
-      console.error("Error deleting vertical markup:", error);
       return NextResponse.json(
         { error: "Failed to delete vertical markup" },
         { status: 500 },
@@ -251,7 +244,6 @@ export async function DELETE(
       message: "Vertical markup deleted successfully",
     });
   } catch (error) {
-    console.error("Error in vertical markup DELETE route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

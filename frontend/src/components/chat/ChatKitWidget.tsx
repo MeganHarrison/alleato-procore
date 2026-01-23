@@ -14,12 +14,10 @@ export function ChatKitWidget() {
   const [isOpen, setIsOpen] = useState(false);
 
   const handleResponseEnd = useCallback(() => {
-    console.log("AI response completed");
-  }, []);
+    }, []);
 
   const handleError = useCallback(({ error }: { error: Error }) => {
-    console.error("ChatKit error:", error);
-  }, []);
+    }, []);
 
   const getClientSecret = useCallback(async (existingSecret: string | null) => {
     const response = await fetch(CHATKIT_API_URL, {

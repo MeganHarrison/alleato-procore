@@ -67,6 +67,7 @@ export default function NewContractPage() {
 
       if (!response.ok) {
         const errorData = await response.json();
+        console.error('Contract creation failed:', errorData);
         throw new Error(errorData.error || "Failed to create contract");
       }
 
@@ -116,9 +117,11 @@ export default function NewContractPage() {
       }
 
       if (data.attachmentFiles && data.attachmentFiles.length > 0) {
+        console.log('Uploading attachments:', data.attachmentFiles.length);
         for (const file of data.attachmentFiles) {
           const formData = new FormData();
           formData.append("file", file);
+          console.log('Uploading attachment:', file.name, 'to contract:', newContract.id);
           const attachmentResponse = await fetch(
             `/api/projects/${projectId}/contracts/${newContract.id}/attachments`,
             {
@@ -129,16 +132,19 @@ export default function NewContractPage() {
 
           if (!attachmentResponse.ok) {
             const errorData = await attachmentResponse.json().catch(() => ({}));
+            console.error('Attachment upload failed:', errorData);
             throw new Error(
               errorData.error || "Failed to upload attachment",
             );
+          } else {
+            const result = await attachmentResponse.json();
+            console.log('Attachment uploaded successfully:', result);
           }
         }
       }
 
       router.push(`/${projectId}/prime-contracts/${newContract.id}`);
     } catch (err) {
-      console.error("Error creating contract:", err);
       alert(err instanceof Error ? err.message : "Failed to create contract");
     } finally {
       setIsSaving(false);
@@ -162,10 +168,6 @@ export default function NewContractPage() {
     <PageContainer>
       <ProjectPageHeader
         title="New Prime Contract"
-        breadcrumbs={[
-          { label: "Prime Contracts", href: `/${projectId}/prime-contracts` },
-          { label: "New Contract" },
-        ]}
       actions={undefined}
       />
 

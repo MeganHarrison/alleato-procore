@@ -58,7 +58,6 @@ export async function GET(request: NextRequest, { params }: HistoryParams) {
       .limit(100);
 
     if (changesError) {
-      console.error("Error fetching change history:", changesError);
       return NextResponse.json(
         { error: "Failed to fetch change history" },
         { status: 500 },
@@ -113,7 +112,6 @@ export async function GET(request: NextRequest, { params }: HistoryParams) {
       },
     });
   } catch (error) {
-    console.error("Error fetching change history:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

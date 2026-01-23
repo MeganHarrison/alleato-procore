@@ -34,8 +34,6 @@ export class DirectoryErrorBoundary extends Component<Props, State> {
 
   componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
     // Log error to monitoring service
-    console.error("Directory Error Boundary caught error:", error, errorInfo);
-
     // Call optional error handler
     if (this.props.onError) {
       this.props.onError(error, errorInfo);

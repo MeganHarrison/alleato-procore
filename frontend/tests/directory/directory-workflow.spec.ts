@@ -67,7 +67,7 @@ test.describe('Directory User Workflow', () => {
 
   test('should display empty directory and add a new user', async ({ page }) => {
     // Navigate to the test project directory
-    await page.goto(`http://localhost:3001/${testProjectId}/directory/users`);
+    await page.goto(`/${testProjectId}/directory/users`);
     await page.waitForLoadState('networkidle');
     
     // Verify we're on the directory page
@@ -140,7 +140,7 @@ test.describe('Directory User Workflow', () => {
     }
     
     // Navigate to directory
-    await page.goto(`http://localhost:3001/${testProjectId}/directory/users`);
+    await page.goto(`/${testProjectId}/directory/users`);
     await page.waitForLoadState('networkidle');
     
     // All users should be visible
@@ -171,7 +171,7 @@ test.describe('Directory User Workflow', () => {
   });
   
   test('should navigate between directory tabs', async ({ page }) => {
-    await page.goto(`http://localhost:3001/${testProjectId}/directory/users`);
+    await page.goto(`/${testProjectId}/directory/users`);
     await page.waitForLoadState('networkidle');
     
     // Verify Users tab is active

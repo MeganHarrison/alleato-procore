@@ -90,7 +90,6 @@ export default function MonitoringPage() {
       setProjectContent(prev => ({ ...prev, [project.id]: content }));
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-      console.error(`Error fetching ${project.taskFile}:`, error);
       setErrors(prev => ({
         ...prev,
         [project.id]: `Failed to load task file: ${errorMessage}`

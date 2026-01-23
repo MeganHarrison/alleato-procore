@@ -77,7 +77,6 @@ export async function GET(
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error('Error in GET line item:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -202,7 +201,6 @@ export async function PATCH(
       .single();
 
     if (error) {
-      console.error('Error updating line item:', error);
       return NextResponse.json(
         { error: 'Failed to update line item', details: error.message },
         { status: 400 }
@@ -265,7 +263,6 @@ export async function PATCH(
       );
     }
 
-    console.error('Error in PATCH line item:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -339,7 +336,6 @@ export async function DELETE(
       .eq('id', parseInt(lineItemId, 10));
 
     if (error) {
-      console.error('Error deleting line item:', error);
       return NextResponse.json(
         { error: 'Failed to delete line item', details: error.message },
         { status: 400 }
@@ -368,7 +364,6 @@ export async function DELETE(
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {
-    console.error('Error in DELETE line item:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

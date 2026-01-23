@@ -16,12 +16,7 @@ export function useProjectTitle(pageTitle?: string, includeProject = true) {
 
   useEffect(() => {
     if (process.env.NODE_ENV !== "production") {
-      console.debug("[useProjectTitle] updating title", {
-        pageTitle,
-        includeProject,
-        selectedProject,
-      });
-    }
+      }
     // Build the title parts in the format: "PageTitle - Project - ProjectName"
     const parts: string[] = [];
 

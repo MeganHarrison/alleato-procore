@@ -48,7 +48,6 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query;
 
     if (error) {
-      console.error("Error fetching projects:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
@@ -62,7 +61,6 @@ export async function GET(request: NextRequest) {
       },
     });
   } catch (error) {
-    console.error("Unexpected error:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 },
@@ -83,13 +81,11 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error("Error creating project:", error);
       return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
-    console.error("Unexpected error:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 },

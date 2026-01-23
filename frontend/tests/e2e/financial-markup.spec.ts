@@ -11,7 +11,7 @@ import { test, expect, Page } from "@playwright/test";
  */
 
 // Test configuration
-const BASE_URL = process.env.BASE_URL || "http://localhost:3000";
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const TEST_PROJECT_ID = "67";
 let TEST_CONTRACT_ID: string | null = null;
 
@@ -23,7 +23,7 @@ async function createTestContract(page: Page, projectId: string = TEST_PROJECT_I
     .join("; ");
 
   const response = await page.request.post(
-    `${BASE_URL}/api/projects/${projectId}/contracts`,
+    `/api/projects/${projectId}/contracts`,
     {
       headers: {
         "Content-Type": "application/json",
@@ -402,7 +402,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     // Make direct API call to verify calculation format
     const response = await page.request.post(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup/calculate`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup/calculate`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -438,7 +438,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     // First, add a non-compound markup
     await page.request.post(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -454,7 +454,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     // Calculate with base amount of $100,000
     const response = await page.request.post(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup/calculate`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup/calculate`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -480,7 +480,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     // Cleanup - delete the test markup
     const listResponse = await page.request.get(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: { Cookie: cookieHeader },
       }
@@ -491,7 +491,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
     );
     if (testMarkupItem) {
       await page.request.delete(
-        `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${testMarkupItem.id}`,
+        `/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${testMarkupItem.id}`,
         {
           headers: { Cookie: cookieHeader },
         }
@@ -508,7 +508,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     // Delete any existing test markups
     const listResponse = await page.request.get(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: { Cookie: cookieHeader },
       }
@@ -517,7 +517,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
     for (const m of existingData.markups || []) {
       if (m.markup_type.startsWith("Test ")) {
         await page.request.delete(
-          `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${m.id}`,
+          `/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${m.id}`,
           {
             headers: { Cookie: cookieHeader },
           }
@@ -527,7 +527,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     // Add a non-compound markup first (order 1)
     await page.request.post(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -543,7 +543,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     // Add a compound markup (order 2) that compounds on the above
     await page.request.post(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -559,7 +559,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     // Calculate with base amount of $100,000
     const response = await page.request.post(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup/calculate`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup/calculate`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -608,7 +608,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     // Cleanup
     const cleanupResponse = await page.request.get(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: { Cookie: cookieHeader },
       }
@@ -617,7 +617,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
     for (const m of cleanupData.markups || []) {
       if (m.markup_type.startsWith("Test ")) {
         await page.request.delete(
-          `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${m.id}`,
+          `/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${m.id}`,
           {
             headers: { Cookie: cookieHeader },
           }
@@ -637,7 +637,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     // Cleanup existing test markups
     const listResponse = await page.request.get(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: { Cookie: cookieHeader },
       }
@@ -646,7 +646,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
     for (const m of existingData.markups || []) {
       if (m.markup_type.startsWith("Seq Test ")) {
         await page.request.delete(
-          `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${m.id}`,
+          `/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${m.id}`,
           {
             headers: { Cookie: cookieHeader },
           }
@@ -669,7 +669,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     for (const markup of markups) {
       await page.request.post(
-        `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+        `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
         {
           headers: {
             "Content-Type": "application/json",
@@ -682,7 +682,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     // Calculate with base amount of $100,000
     const response = await page.request.post(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup/calculate`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup/calculate`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -711,7 +711,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     // Cleanup
     const cleanupResponse = await page.request.get(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: { Cookie: cookieHeader },
       }
@@ -720,7 +720,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
     for (const m of cleanupData.markups || []) {
       if (m.markup_type.startsWith("Seq Test ")) {
         await page.request.delete(
-          `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${m.id}`,
+          `/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${m.id}`,
           {
             headers: { Cookie: cookieHeader },
           }
@@ -740,7 +740,7 @@ test.describe("Financial Markup - Calculation Accuracy", () => {
 
     // Use a project ID that likely doesn't have markups configured
     const response = await page.request.post(
-      `${BASE_URL}/api/projects/999/vertical-markup/calculate`,
+      `/api/projects/999/vertical-markup/calculate`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -770,7 +770,7 @@ test.describe("Financial Markup - CRUD Operations", () => {
 
     // Create a new markup
     const response = await page.request.post(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -794,7 +794,7 @@ test.describe("Financial Markup - CRUD Operations", () => {
 
     // Cleanup
     await page.request.delete(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${data.data.id}`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${data.data.id}`,
       {
         headers: { Cookie: cookieHeader },
       }
@@ -809,7 +809,7 @@ test.describe("Financial Markup - CRUD Operations", () => {
       .join("; ");
 
     const response = await page.request.get(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: { Cookie: cookieHeader },
       }
@@ -830,7 +830,7 @@ test.describe("Financial Markup - CRUD Operations", () => {
 
     // First create a markup to delete
     const createResponse = await page.request.post(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -849,7 +849,7 @@ test.describe("Financial Markup - CRUD Operations", () => {
 
     // Delete it
     const deleteResponse = await page.request.delete(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${markupId}`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${markupId}`,
       {
         headers: { Cookie: cookieHeader },
       }
@@ -861,7 +861,7 @@ test.describe("Financial Markup - CRUD Operations", () => {
 
     // Verify it's deleted
     const listResponse = await page.request.get(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: { Cookie: cookieHeader },
       }
@@ -884,7 +884,7 @@ test.describe("Financial Markup - UI Calculation Verification", () => {
 
     // Create test markups
     await page.request.post(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -937,7 +937,7 @@ test.describe("Financial Markup - UI Calculation Verification", () => {
 
     // Cleanup
     const listResponse = await page.request.get(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: { Cookie: cookieHeader },
       }
@@ -946,7 +946,7 @@ test.describe("Financial Markup - UI Calculation Verification", () => {
     for (const m of listData.markups || []) {
       if (m.markup_type === "UI Test GC Fee") {
         await page.request.delete(
-          `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${m.id}`,
+          `/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${m.id}`,
           {
             headers: { Cookie: cookieHeader },
           }
@@ -966,7 +966,7 @@ test.describe("Financial Markup - UI Calculation Verification", () => {
 
     // Create a compound markup
     await page.request.post(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: {
           "Content-Type": "application/json",
@@ -1002,7 +1002,7 @@ test.describe("Financial Markup - UI Calculation Verification", () => {
 
     // Cleanup
     const listResponse = await page.request.get(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
+      `/api/projects/${TEST_PROJECT_ID}/vertical-markup`,
       {
         headers: { Cookie: cookieHeader },
       }
@@ -1011,7 +1011,7 @@ test.describe("Financial Markup - UI Calculation Verification", () => {
     for (const m of listData.markups || []) {
       if (m.markup_type === "UI Test Insurance") {
         await page.request.delete(
-          `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${m.id}`,
+          `/api/projects/${TEST_PROJECT_ID}/vertical-markup?markupId=${m.id}`,
           {
             headers: { Cookie: cookieHeader },
           }

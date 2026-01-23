@@ -10,7 +10,7 @@ import {
   ExpandedState,
   RowSelectionState,
 } from "@tanstack/react-table";
-import { ChevronRight, ChevronDown } from "lucide-react";
+import { ChevronRight, ChevronDown, Plus, X, Check } from "lucide-react";
 import {
   Table,
   TableBody,
@@ -27,6 +27,10 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Checkbox } from "@/components/ui/checkbox";
+import { toast } from "sonner";
+import { Input } from "@/components/ui/input";
+import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 
 type ColumnTooltip = {
   title: string;
@@ -203,6 +207,7 @@ function ColumnHeader({ lines, columnKey }: ColumnHeaderProps) {
 interface BudgetTableProps {
   data: BudgetLineItem[];
   grandTotals: BudgetGrandTotals;
+  isLocked?: boolean;
   onEditLineItem?: (lineItem: BudgetLineItem) => void;
   onSelectionChange?: (selectedIds: string[]) => void;
   onBudgetModificationsClick?: (lineItem: BudgetLineItem) => void;
@@ -213,6 +218,14 @@ interface BudgetTableProps {
   onCommittedCostsClick?: (lineItem: BudgetLineItem) => void;
   onPendingCostChangesClick?: (lineItem: BudgetLineItem) => void;
   onForecastToCompleteClick?: (lineItem: BudgetLineItem) => void;
+  onCreateLineItem?: (data: {
+    costCode?: string;
+    description: string;
+    originalBudgetAmount: string | number;
+  }) => Promise<void>;
+  projectId?: string;
+  showInlineCreate?: boolean;
+  onShowInlineCreateChange?: (show: boolean) => void;
 }
 
 function formatCurrency(value: number): string {
@@ -237,6 +250,23 @@ function CurrencyCell({ value }: { value: number }) {
       {formatCurrency(value)}
     </span>
   );
+}
+
+// Helper functions to create toast-aware click handlers
+function createSafeClickHandler(
+  isLocked: boolean,
+  action: string,
+  originalHandler?: () => void
+): (() => void) | undefined {
+  if (!originalHandler) return undefined;
+
+  return () => {
+    if (isLocked) {
+      toast.error(`Budget is locked. Unlock to ${action}.`);
+      return;
+    }
+    originalHandler();
+  };
 }
 
 function EditableCurrencyCell({
@@ -312,6 +342,7 @@ function getDepthPadding(depth: number) {
 export function BudgetTable({
   data,
   grandTotals,
+  isLocked = false,
   onEditLineItem,
   onSelectionChange,
   onBudgetModificationsClick,
@@ -322,9 +353,83 @@ export function BudgetTable({
   onCommittedCostsClick,
   onPendingCostChangesClick,
   onForecastToCompleteClick,
+  onCreateLineItem,
+  projectId,
+  showInlineCreate: showInlineCreateProp = false,
+  onShowInlineCreateChange,
 }: BudgetTableProps) {
   const [expanded, setExpanded] = React.useState<ExpandedState>({});
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
+  // Use prop if provided, otherwise use internal state
+  const [showInlineCreateInternal, setShowInlineCreateInternal] = React.useState(false);
+  const showInlineCreate = onShowInlineCreateChange ? showInlineCreateProp : showInlineCreateInternal;
+  const setShowInlineCreate = onShowInlineCreateChange || setShowInlineCreateInternal;
+
+  const [isCreating, setIsCreating] = React.useState(false);
+  const [newLineItem, setNewLineItem] = React.useState({
+    costCode: "",
+    description: "",
+    originalBudgetAmount: "",
+  });
+
+  const handleInlineCreate = async () => {
+    if (!onCreateLineItem) return;
+
+    // Validate required fields
+    if (!newLineItem.description.trim()) {
+      toast.error("Description is required");
+      return;
+    }
+
+    try {
+      setIsCreating(true);
+
+      await onCreateLineItem({
+        costCode: newLineItem.costCode.trim() || undefined,
+        description: newLineItem.description.trim(),
+        originalBudgetAmount: newLineItem.originalBudgetAmount,
+      });
+
+      // Reset form
+      setNewLineItem({
+        costCode: "",
+        description: "",
+        originalBudgetAmount: "",
+      });
+      setShowInlineCreate(false);
+      toast.success("Budget line item created successfully");
+    } catch (error) {
+      toast.error("Failed to create budget line item");
+    } finally {
+      setIsCreating(false);
+    }
+  };
+
+  const handleCancelInlineCreate = () => {
+    setNewLineItem({
+      costCode: "",
+      description: "",
+      originalBudgetAmount: "",
+    });
+    setShowInlineCreate(false);
+  };
+
+  // Effect to handle when showInlineCreate is triggered from parent
+  React.useEffect(() => {
+    if (showInlineCreateProp && onShowInlineCreateChange) {
+      // Scroll to bottom to show the inline create row
+      setTimeout(() => {
+        const tableContainer = document.querySelector('[data-radix-scroll-area-viewport]') ||
+                               document.querySelector('.overflow-auto');
+        if (tableContainer) {
+          tableContainer.scrollTo({
+            top: tableContainer.scrollHeight,
+            behavior: 'smooth'
+          });
+        }
+      }, 100);
+    }
+  }, [showInlineCreateProp, onShowInlineCreateChange]);
 
   // Notify parent of selection changes
   React.useEffect(() => {
@@ -444,9 +549,11 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={value}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "edit line items",
               onEditLineItem ? () => onEditLineItem(row.original) : undefined
-            }
+            )}
             editable={true}
           />
         );
@@ -465,11 +572,13 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={row.getValue("budgetModifications")}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "view budget modifications",
               onBudgetModificationsClick
                 ? () => onBudgetModificationsClick(row.original)
                 : undefined
-            }
+            )}
             editable={true}
           />
         );
@@ -488,11 +597,13 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={row.getValue("approvedCOs")}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "view approved change orders",
               onApprovedCOsClick
                 ? () => onApprovedCOsClick(row.original)
                 : undefined
-            }
+            )}
             editable={true}
           />
         );
@@ -511,9 +622,11 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={row.getValue("revisedBudget")}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "edit line items",
               onEditLineItem ? () => onEditLineItem(row.original) : undefined
-            }
+            )}
           />
         );
       },
@@ -534,11 +647,13 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={row.getValue("jobToDateCostDetail")}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "view cost details",
               onJobToDateCostDetailClick
                 ? () => onJobToDateCostDetailClick(row.original)
                 : undefined
-            }
+            )}
             editable={true}
           />
         );
@@ -557,11 +672,13 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={row.getValue("directCosts")}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "view direct costs",
               onDirectCostsClick
                 ? () => onDirectCostsClick(row.original)
                 : undefined
-            }
+            )}
             editable={true}
           />
         );
@@ -583,11 +700,13 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={row.getValue("pendingChanges")}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "view pending changes",
               onPendingChangesClick
                 ? () => onPendingChangesClick(row.original)
                 : undefined
-            }
+            )}
             editable={true}
           />
         );
@@ -609,9 +728,11 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={row.getValue("projectedBudget")}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "edit line items",
               onEditLineItem ? () => onEditLineItem(row.original) : undefined
-            }
+            )}
           />
         );
       },
@@ -629,11 +750,13 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={row.getValue("committedCosts")}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "view committed costs",
               onCommittedCostsClick
                 ? () => onCommittedCostsClick(row.original)
                 : undefined
-            }
+            )}
             editable={true}
           />
         );
@@ -655,11 +778,13 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={row.getValue("pendingCostChanges")}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "view pending cost changes",
               onPendingCostChangesClick
                 ? () => onPendingCostChangesClick(row.original)
                 : undefined
-            }
+            )}
             editable={true}
           />
         );
@@ -678,9 +803,11 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={row.getValue("projectedCosts")}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "edit line items",
               onEditLineItem ? () => onEditLineItem(row.original) : undefined
-            }
+            )}
           />
         );
       },
@@ -701,11 +828,13 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={row.getValue("forecastToComplete")}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "edit forecast",
               onForecastToCompleteClick
                 ? () => onForecastToCompleteClick(row.original)
                 : undefined
-            }
+            )}
             editable={true}
           />
         );
@@ -727,9 +856,11 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={row.getValue("estimatedCostAtCompletion")}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "edit line items",
               onEditLineItem ? () => onEditLineItem(row.original) : undefined
-            }
+            )}
           />
         );
       },
@@ -750,9 +881,11 @@ export function BudgetTable({
           <EditableCurrencyCell
             value={row.getValue("projectedOverUnder")}
             hasChildren={hasChildren}
-            onEdit={
+            onEdit={createSafeClickHandler(
+              isLocked,
+              "edit line items",
               onEditLineItem ? () => onEditLineItem(row.original) : undefined
-            }
+            )}
           />
         );
       },
@@ -852,6 +985,121 @@ export function BudgetTable({
                   className="h-24 text-center"
                 >
                   No results.
+                </TableCell>
+              </TableRow>
+            )}
+
+            {/* Inline Create Row */}
+            {!isLocked && showInlineCreate && (
+              <TableRow className="bg-blue-50 border-b border-border">
+                <TableCell className="py-2 px-2">
+                  {/* Empty checkbox cell */}
+                </TableCell>
+                <TableCell className="py-2 px-2">
+                  {/* Empty expander cell */}
+                </TableCell>
+                <TableCell className="py-2 px-2">
+                  <div className="flex items-center gap-2">
+                    <Input
+                      placeholder="Cost Code (optional)"
+                      value={newLineItem.costCode}
+                      onChange={(e) =>
+                        setNewLineItem({ ...newLineItem, costCode: e.target.value })
+                      }
+                      className="h-8 w-24"
+                      disabled={isCreating}
+                    />
+                    <Input
+                      placeholder="Description *"
+                      value={newLineItem.description}
+                      onChange={(e) =>
+                        setNewLineItem({ ...newLineItem, description: e.target.value })
+                      }
+                      className="h-8 flex-1"
+                      disabled={isCreating}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !isCreating) {
+                          handleInlineCreate();
+                        }
+                        if (e.key === "Escape") {
+                          handleCancelInlineCreate();
+                        }
+                      }}
+                    />
+                  </div>
+                </TableCell>
+                <TableCell className="py-2 px-2 text-right">
+                  <Input
+                    type="number"
+                    placeholder="$0.00"
+                    value={newLineItem.originalBudgetAmount}
+                    onChange={(e) =>
+                      setNewLineItem({ ...newLineItem, originalBudgetAmount: e.target.value })
+                    }
+                    className="h-8 text-right"
+                    disabled={isCreating}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !isCreating) {
+                        handleInlineCreate();
+                      }
+                      if (e.key === "Escape") {
+                        handleCancelInlineCreate();
+                      }
+                    }}
+                  />
+                </TableCell>
+                {/* Empty cells for other columns */}
+                <TableCell className="py-2 px-2" />
+                <TableCell className="py-2 px-2" />
+                <TableCell className="py-2 px-2" />
+                <TableCell className="py-2 px-2" />
+                <TableCell className="py-2 px-2" />
+                <TableCell className="py-2 px-2" />
+                <TableCell className="py-2 px-2" />
+                <TableCell className="py-2 px-2" />
+                <TableCell className="py-2 px-2" />
+                <TableCell className="py-2 px-2" />
+                <TableCell className="py-2 px-2" />
+                <TableCell className="py-2 px-2">
+                  <div className="flex items-center gap-1 justify-end">
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-7 w-7"
+                      onClick={handleInlineCreate}
+                      disabled={isCreating || !newLineItem.description.trim()}
+                      title="Save (Enter)"
+                    >
+                      <Check className="h-4 w-4 text-green-600" />
+                    </Button>
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      className="h-7 w-7"
+                      onClick={handleCancelInlineCreate}
+                      disabled={isCreating}
+                      title="Cancel (Escape)"
+                    >
+                      <X className="h-4 w-4 text-red-600" />
+                    </Button>
+                  </div>
+                </TableCell>
+              </TableRow>
+            )}
+
+            {/* Add New Line Item Button Row */}
+            {!isLocked && !showInlineCreate && onCreateLineItem && (
+              <TableRow>
+                <TableCell colSpan={columns.length} className="py-2 px-4">
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => setShowInlineCreate(true)}
+                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
+                  >
+                    <Plus className="h-4 w-4 mr-2" />
+                    Add Line Item
+                  </Button>
                 </TableCell>
               </TableRow>
             )}

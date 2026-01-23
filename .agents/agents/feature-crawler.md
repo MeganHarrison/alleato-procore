@@ -68,7 +68,7 @@ Use this subagent when:
 ## Output Structure
 
 ```
-documentation/*project-mgmt/in-progress/{feature_name}/
+docs/{feature_name}/crawl-{feature_name}/
 ├── crawl-{feature_name}/
 │   ├── README.md                          # Crawler documentation
 │   ├── {FEATURE}-CRAWL-STATUS.md         # Analysis report
@@ -185,7 +185,7 @@ import { chromium } from "playwright";
 import fs from "fs";
 import path from "path";
 
-const OUTPUT_DIR = "./documentation/*project-mgmt/in-progress/{feature}/crawl-{feature}";
+const OUTPUT_DIR = "/docs/{feature_name}/crawl-{feature_name}/crawl-{feature}";
 const START_URL = "{start_url}";
 const PROCORE_EMAIL = "bclymer@alleatogroup.com";
 const PROCORE_PASSWORD = "{from_auth_json}";

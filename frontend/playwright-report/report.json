@@ -1,7 +1,7 @@
 {
   "config": {
-    "configFile": "/Users/meganharrison/Documents/github/alleato-procore/frontend/playwright.config.ts",
-    "rootDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests",
+    "configFile": "/Users/meganharrison/Documents/github/alleato-pm/frontend/playwright.config.ts",
+    "rootDir": "/Users/meganharrison/Documents/github/alleato-pm/frontend/tests",
     "forbidOnly": false,
     "fullyParallel": true,
     "globalSetup": null,
@@ -11,7 +11,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 4
+      "actualWorkers": 2
     },
     "preserveOutput": "always",
     "reporter": [
@@ -40,15 +40,15 @@
     "quiet": false,
     "projects": [
       {
-        "outputDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results",
+        "outputDir": "/Users/meganharrison/Documents/github/alleato-pm/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 2
         },
         "id": "setup",
         "name": "setup",
-        "testDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests",
+        "testDir": "/Users/meganharrison/Documents/github/alleato-pm/frontend/tests",
         "testIgnore": [],
         "testMatch": [
           "/.*\\.setup\\.ts/"
@@ -56,15 +56,15 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results",
+        "outputDir": "/Users/meganharrison/Documents/github/alleato-pm/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 2
         },
         "id": "chromium",
         "name": "chromium",
-        "testDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests",
+        "testDir": "/Users/meganharrison/Documents/github/alleato-pm/frontend/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -72,15 +72,15 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results",
+        "outputDir": "/Users/meganharrison/Documents/github/alleato-pm/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 2
         },
         "id": "debug",
         "name": "debug",
-        "testDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests",
+        "testDir": "/Users/meganharrison/Documents/github/alleato-pm/frontend/tests",
         "testIgnore": [],
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
@@ -88,15 +88,15 @@
         "timeout": 60000
       },
       {
-        "outputDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results",
+        "outputDir": "/Users/meganharrison/Documents/github/alleato-pm/frontend/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 4
+          "actualWorkers": 2
         },
         "id": "no-auth",
         "name": "no-auth",
-        "testDir": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests",
+        "testDir": "/Users/meganharrison/Documents/github/alleato-pm/frontend/tests",
         "testIgnore": [],
         "testMatch": [
           "/sidebar-collapse-verification\\.spec\\.ts/"
@@ -109,10 +109,10 @@
     "updateSnapshots": "missing",
     "updateSourceMethod": "patch",
     "version": "1.57.0",
-    "workers": 7,
+    "workers": 5,
     "webServer": {
-      "command": "HOST=127.0.0.1 HOSTNAME=127.0.0.1 PORT=3100 npm run dev",
-      "port": 3100,
+      "command": "npm run dev",
+      "url": "http://localhost:3000",
       "reuseExistingServer": true
     }
   },
@@ -139,7 +139,7 @@
                   "workerIndex": 0,
                   "parallelIndex": 0,
                   "status": "passed",
-                  "duration": 312,
+                  "duration": 590,
                   "errors": [],
                   "stdout": [
                     {
@@ -148,13 +148,13 @@
                   ],
                   "stderr": [],
                   "retry": 0,
-                  "startTime": "2026-01-15T11:26:36.532Z",
+                  "startTime": "2026-01-19T04:11:55.812Z",
                   "annotations": [],
                   "attachments": [
                     {
                       "name": "screenshot",
                       "contentType": "image/png",
-                      "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/auth.setup.ts-authenticate-setup/test-finished-1.png"
+                      "path": "/Users/meganharrison/Documents/github/alleato-pm/frontend/test-results/auth.setup.ts-authenticate-setup/test-finished-1.png"
                     }
                   ]
                 }
@@ -170,95 +170,21 @@
       ]
     },
     {
-      "title": "e2e/change-events-ui.spec.ts",
-      "file": "e2e/change-events-ui.spec.ts",
+      "title": "e2e/team-member-complete-flow.spec.ts",
+      "file": "e2e/team-member-complete-flow.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Change Events UI",
-          "file": "e2e/change-events-ui.spec.ts",
-          "line": 6,
+          "title": "Complete Team Member Flow",
+          "file": "e2e/team-member-complete-flow.spec.ts",
+          "line": 3,
           "column": 6,
           "specs": [
             {
-              "title": "detail tab renders table with actions and search",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 1,
-                      "parallelIndex": 0,
-                      "status": "failed",
-                      "duration": 25601,
-                      "error": {
-                        "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1:has-text(\"Change Events\")') to be visible\u001b[22m\n",
-                        "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1:has-text(\"Change Events\")') to be visible\u001b[22m\n\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts:10:16",
-                        "location": {
-                          "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts",
-                          "column": 16,
-                          "line": 10
-                        },
-                        "snippet": "   8 |     await page.goto(basePath, { waitUntil: 'domcontentloaded' });\n   9 |     await page.waitForLoadState('networkidle');\n> 10 |     await page.waitForSelector('h1:has-text(\"Change Events\")', {\n     |                ^\n  11 |       timeout: 15_000,\n  12 |     });\n  13 |   });"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts",
-                            "column": 16,
-                            "line": 10
-                          },
-                          "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1:has-text(\"Change Events\")') to be visible\u001b[22m\n\n\n   8 |     await page.goto(basePath, { waitUntil: 'domcontentloaded' });\n   9 |     await page.waitForLoadState('networkidle');\n> 10 |     await page.waitForSelector('h1:has-text(\"Change Events\")', {\n     |                ^\n  11 |       timeout: 15_000,\n  12 |     });\n  13 |   });\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts:10:16"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-15T11:26:37.703Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-change-events-ui-Chang-39420-ble-with-actions-and-search-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-change-events-ui-Chang-39420-ble-with-actions-and-search-chromium/video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-change-events-ui-Chang-39420-ble-with-actions-and-search-chromium/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts",
-                        "column": 16,
-                        "line": 10
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "dc3f0e26ada791b1ab6a-dafc6293741f72cbc347",
-              "file": "e2e/change-events-ui.spec.ts",
-              "line": 15,
-              "column": 7
-            },
-            {
-              "title": "summary tab surfaces metrics and highlights",
-              "ok": false,
+              "title": "should navigate to Prime Contracts correctly",
+              "ok": true,
               "tags": [],
               "tests": [
                 {
@@ -270,212 +196,70 @@
                   "results": [
                     {
                       "workerIndex": 2,
+                      "parallelIndex": 0,
+                      "status": "passed",
+                      "duration": 5189,
+                      "errors": [],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2026-01-19T04:12:02.379Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/meganharrison/Documents/github/alleato-pm/frontend/test-results/e2e-team-member-complete-f-90c42-o-Prime-Contracts-correctly-chromium/test-finished-1.png"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "expected"
+                }
+              ],
+              "id": "79e50e84785115536f2b-15dab532533f8a9b0646",
+              "file": "e2e/team-member-complete-flow.spec.ts",
+              "line": 139,
+              "column": 7
+            },
+            {
+              "title": "should navigate to Prime Contracts correctly",
+              "ok": true,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "debug",
+                  "projectName": "debug",
+                  "results": [
+                    {
+                      "workerIndex": 1,
                       "parallelIndex": 1,
-                      "status": "failed",
-                      "duration": 25597,
-                      "error": {
-                        "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1:has-text(\"Change Events\")') to be visible\u001b[22m\n",
-                        "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1:has-text(\"Change Events\")') to be visible\u001b[22m\n\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts:10:16",
-                        "location": {
-                          "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts",
-                          "column": 16,
-                          "line": 10
-                        },
-                        "snippet": "   8 |     await page.goto(basePath, { waitUntil: 'domcontentloaded' });\n   9 |     await page.waitForLoadState('networkidle');\n> 10 |     await page.waitForSelector('h1:has-text(\"Change Events\")', {\n     |                ^\n  11 |       timeout: 15_000,\n  12 |     });\n  13 |   });"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts",
-                            "column": 16,
-                            "line": 10
-                          },
-                          "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1:has-text(\"Change Events\")') to be visible\u001b[22m\n\n\n   8 |     await page.goto(basePath, { waitUntil: 'domcontentloaded' });\n   9 |     await page.waitForLoadState('networkidle');\n> 10 |     await page.waitForSelector('h1:has-text(\"Change Events\")', {\n     |                ^\n  11 |       timeout: 15_000,\n  12 |     });\n  13 |   });\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts:10:16"
-                        }
-                      ],
+                      "status": "passed",
+                      "duration": 5260,
+                      "errors": [],
                       "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2026-01-15T11:26:37.729Z",
+                      "startTime": "2026-01-19T04:11:55.812Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-change-events-ui-Chang-adcb6-aces-metrics-and-highlights-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-change-events-ui-Chang-adcb6-aces-metrics-and-highlights-chromium/video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-change-events-ui-Chang-adcb6-aces-metrics-and-highlights-chromium/error-context.md"
+                          "path": "/Users/meganharrison/Documents/github/alleato-pm/frontend/test-results/e2e-team-member-complete-f-90c42-o-Prime-Contracts-correctly-debug/test-finished-1.png"
                         }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts",
-                        "column": 16,
-                        "line": 10
-                      }
+                      ]
                     }
                   ],
-                  "status": "unexpected"
+                  "status": "expected"
                 }
               ],
-              "id": "dc3f0e26ada791b1ab6a-7c11a8323270d06e5613",
-              "file": "e2e/change-events-ui.spec.ts",
-              "line": 31,
-              "column": 7
-            },
-            {
-              "title": "rfqs tab documents the phase 2 plan",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 3,
-                      "parallelIndex": 2,
-                      "status": "failed",
-                      "duration": 25597,
-                      "error": {
-                        "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1:has-text(\"Change Events\")') to be visible\u001b[22m\n",
-                        "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1:has-text(\"Change Events\")') to be visible\u001b[22m\n\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts:10:16",
-                        "location": {
-                          "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts",
-                          "column": 16,
-                          "line": 10
-                        },
-                        "snippet": "   8 |     await page.goto(basePath, { waitUntil: 'domcontentloaded' });\n   9 |     await page.waitForLoadState('networkidle');\n> 10 |     await page.waitForSelector('h1:has-text(\"Change Events\")', {\n     |                ^\n  11 |       timeout: 15_000,\n  12 |     });\n  13 |   });"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts",
-                            "column": 16,
-                            "line": 10
-                          },
-                          "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1:has-text(\"Change Events\")') to be visible\u001b[22m\n\n\n   8 |     await page.goto(basePath, { waitUntil: 'domcontentloaded' });\n   9 |     await page.waitForLoadState('networkidle');\n> 10 |     await page.waitForSelector('h1:has-text(\"Change Events\")', {\n     |                ^\n  11 |       timeout: 15_000,\n  12 |     });\n  13 |   });\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts:10:16"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-15T11:26:37.737Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-change-events-ui-Chang-7b0e6--documents-the-phase-2-plan-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-change-events-ui-Chang-7b0e6--documents-the-phase-2-plan-chromium/video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-change-events-ui-Chang-7b0e6--documents-the-phase-2-plan-chromium/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts",
-                        "column": 16,
-                        "line": 10
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "dc3f0e26ada791b1ab6a-7787233333014a071f2a",
-              "file": "e2e/change-events-ui.spec.ts",
-              "line": 44,
-              "column": 7
-            },
-            {
-              "title": "recycle bin tab shows empty state or entries",
-              "ok": false,
-              "tags": [],
-              "tests": [
-                {
-                  "timeout": 60000,
-                  "annotations": [],
-                  "expectedStatus": "passed",
-                  "projectId": "chromium",
-                  "projectName": "chromium",
-                  "results": [
-                    {
-                      "workerIndex": 4,
-                      "parallelIndex": 3,
-                      "status": "failed",
-                      "duration": 25603,
-                      "error": {
-                        "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1:has-text(\"Change Events\")') to be visible\u001b[22m\n",
-                        "stack": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1:has-text(\"Change Events\")') to be visible\u001b[22m\n\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts:10:16",
-                        "location": {
-                          "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts",
-                          "column": 16,
-                          "line": 10
-                        },
-                        "snippet": "   8 |     await page.goto(basePath, { waitUntil: 'domcontentloaded' });\n   9 |     await page.waitForLoadState('networkidle');\n> 10 |     await page.waitForSelector('h1:has-text(\"Change Events\")', {\n     |                ^\n  11 |       timeout: 15_000,\n  12 |     });\n  13 |   });"
-                      },
-                      "errors": [
-                        {
-                          "location": {
-                            "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts",
-                            "column": 16,
-                            "line": 10
-                          },
-                          "message": "TimeoutError: page.waitForSelector: Timeout 15000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('h1:has-text(\"Change Events\")') to be visible\u001b[22m\n\n\n   8 |     await page.goto(basePath, { waitUntil: 'domcontentloaded' });\n   9 |     await page.waitForLoadState('networkidle');\n> 10 |     await page.waitForSelector('h1:has-text(\"Change Events\")', {\n     |                ^\n  11 |       timeout: 15_000,\n  12 |     });\n  13 |   });\n    at /Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts:10:16"
-                        }
-                      ],
-                      "stdout": [],
-                      "stderr": [],
-                      "retry": 0,
-                      "startTime": "2026-01-15T11:26:37.736Z",
-                      "annotations": [],
-                      "attachments": [
-                        {
-                          "name": "screenshot",
-                          "contentType": "image/png",
-                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-change-events-ui-Chang-c4319-hows-empty-state-or-entries-chromium/test-failed-1.png"
-                        },
-                        {
-                          "name": "video",
-                          "contentType": "video/webm",
-                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-change-events-ui-Chang-c4319-hows-empty-state-or-entries-chromium/video.webm"
-                        },
-                        {
-                          "name": "error-context",
-                          "contentType": "text/markdown",
-                          "path": "/Users/meganharrison/Documents/github/alleato-procore/frontend/test-results/e2e-change-events-ui-Chang-c4319-hows-empty-state-or-entries-chromium/error-context.md"
-                        }
-                      ],
-                      "errorLocation": {
-                        "file": "/Users/meganharrison/Documents/github/alleato-procore/frontend/tests/e2e/change-events-ui.spec.ts",
-                        "column": 16,
-                        "line": 10
-                      }
-                    }
-                  ],
-                  "status": "unexpected"
-                }
-              ],
-              "id": "dc3f0e26ada791b1ab6a-d440359148b4b4bbff9c",
-              "file": "e2e/change-events-ui.spec.ts",
-              "line": 57,
+              "id": "79e50e84785115536f2b-e80d27f93f9bd4946daf",
+              "file": "e2e/team-member-complete-flow.spec.ts",
+              "line": 139,
               "column": 7
             }
           ]
@@ -485,11 +269,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2026-01-15T11:26:35.296Z",
-    "duration": 28305.652000000002,
-    "expected": 1,
+    "startTime": "2026-01-19T04:11:55.038Z",
+    "duration": 12909.440999999999,
+    "expected": 3,
     "skipped": 0,
-    "unexpected": 4,
+    "unexpected": 0,
     "flaky": 0
   }
 }

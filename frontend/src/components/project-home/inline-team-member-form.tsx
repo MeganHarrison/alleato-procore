@@ -27,12 +27,16 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 
-interface DirectoryPerson {
+interface Contact {
   id: string;
   first_name: string;
   last_name: string;
   email?: string;
+  job_title?: string;
+  phone_mobile?: string;
+  phone_business?: string;
   company?: {
+    id?: string;
     name?: string;
   };
 }
@@ -41,6 +45,7 @@ interface TeamMember {
   name: string;
   role: string;
   personId?: string;
+  contactId?: string;
 }
 
 interface InlineTeamMemberFormProps {
@@ -48,7 +53,6 @@ interface InlineTeamMemberFormProps {
   existingMembers: TeamMember[];
   onSave: (members: TeamMember[]) => Promise<void>;
   onCancel: () => void;
-  directoryUrl?: string;
 }
 
 const ROLE_OPTIONS = [
@@ -62,70 +66,68 @@ export function InlineTeamMemberForm({
   existingMembers,
   onSave,
   onCancel,
-  directoryUrl,
 }: InlineTeamMemberFormProps) {
-  const [people, setPeople] = useState<DirectoryPerson[]>([]);
+  const [contacts, setContacts] = useState<Contact[]>([]);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [selectedRole, setSelectedRole] = useState<string>("");
-  const [selectedPerson, setSelectedPerson] = useState<DirectoryPerson | null>(
+  const [selectedContact, setSelectedContact] = useState<Contact | null>(
     null,
   );
   const [openCombobox, setOpenCombobox] = useState(false);
   const [searchValue, setSearchValue] = useState("");
   const formRef = useRef<HTMLDivElement>(null);
 
-  // Fetch directory people
+  // Fetch all contacts from global contacts table (not filtered by project)
   useEffect(() => {
-    async function fetchPeople() {
+    async function fetchContacts() {
       try {
         const response = await fetch(
-          `/api/projects/${projectId}/directory/people?type=all&status=active&per_page=200`,
+          `/api/contacts?per_page=200`,
         );
         if (response.ok) {
           const result = await response.json();
-          setPeople(result.data || []);
+          setContacts(result.data || []);
         }
       } catch (error) {
-        console.error("Error fetching directory people:", error);
-      } finally {
+        } finally {
         setLoading(false);
       }
     }
-    fetchPeople();
-  }, [projectId]);
+    fetchContacts();
+  }, []);
 
-  // Filter people based on search
-  const filteredPeople = people.filter((person) => {
-    const fullName = `${person.first_name} ${person.last_name}`.toLowerCase();
+  // Filter contacts based on search
+  const filteredContacts = contacts.filter((contact) => {
+    const fullName = `${contact.first_name} ${contact.last_name}`.toLowerCase();
     const searchLower = searchValue.toLowerCase();
     return (
       fullName.includes(searchLower) ||
-      person.email?.toLowerCase().includes(searchLower) ||
-      person.company?.name?.toLowerCase().includes(searchLower)
+      contact.email?.toLowerCase().includes(searchLower) ||
+      contact.company?.name?.toLowerCase().includes(searchLower)
     );
   });
 
   const handleSave = async () => {
-    if (!selectedRole || !selectedPerson) return;
+    if (!selectedRole || !selectedContact) return;
 
     setSaving(true);
     try {
       const newMember: TeamMember = {
-        name: `${selectedPerson.first_name} ${selectedPerson.last_name}`,
+        name: `${selectedContact.first_name} ${selectedContact.last_name}`,
         role: selectedRole,
-        personId: selectedPerson.id,
+        contactId: selectedContact.id,
       };
       const updatedMembers = [...existingMembers, newMember];
       await onSave(updatedMembers);
     } catch (error) {
-      console.error("Error saving team member:", error);
+      console.error('Error saving team member:', error);
     } finally {
       setSaving(false);
     }
   };
 
-  const isValid = selectedRole && selectedPerson;
+  const isValid = selectedRole && selectedContact;
 
   return (
     <div
@@ -181,9 +183,9 @@ export function InlineTeamMemberForm({
                     <Loader2 className="h-4 w-4 animate-spin" />
                     Loading...
                   </span>
-                ) : selectedPerson ? (
+                ) : selectedContact ? (
                   <span className="truncate">
-                    {selectedPerson.first_name} {selectedPerson.last_name}
+                    {selectedContact.first_name} {selectedContact.last_name}
                   </span>
                 ) : (
                   <span className="text-neutral-400">Search members...</span>
@@ -204,24 +206,23 @@ export function InlineTeamMemberForm({
                       <p className="text-sm text-neutral-500 mb-2">
                         No members found.
                       </p>
-                      {directoryUrl && (
-                        <Link
-                          href={directoryUrl}
-                          className="inline-flex items-center gap-1.5 text-xs font-medium text-brand hover:text-brand/80 transition-colors"
-                        >
-                          <UserPlus className="h-3.5 w-3.5" />
-                          Create new contact
-                        </Link>
-                      )}
+                      <Link
+                        href="/directory/contacts"
+                        className="inline-flex items-center gap-1.5 text-xs font-medium text-brand hover:text-brand/80 transition-colors"
+                        target="_blank"
+                      >
+                        <UserPlus className="h-3.5 w-3.5" />
+                        Create new contact
+                      </Link>
                     </div>
                   </CommandEmpty>
                   <CommandGroup>
-                    {filteredPeople.map((person) => (
+                    {filteredContacts.map((contact) => (
                       <CommandItem
-                        key={person.id}
-                        value={person.id}
+                        key={contact.id}
+                        value={contact.id}
                         onSelect={() => {
-                          setSelectedPerson(person);
+                          setSelectedContact(contact);
                           setOpenCombobox(false);
                           setSearchValue("");
                         }}
@@ -229,18 +230,18 @@ export function InlineTeamMemberForm({
                         <Check
                           className={cn(
                             "mr-2 h-4 w-4",
-                            selectedPerson?.id === person.id
+                            selectedContact?.id === contact.id
                               ? "opacity-100"
                               : "opacity-0",
                           )}
                         />
                         <div className="flex flex-col">
                           <span className="font-medium">
-                            {person.first_name} {person.last_name}
+                            {contact.first_name} {contact.last_name}
                           </span>
-                          {person.company?.name && (
+                          {contact.company?.name && (
                             <span className="text-xs text-neutral-500">
-                              {person.company.name}
+                              {contact.company.name}
                             </span>
                           )}
                         </div>

@@ -130,7 +130,6 @@ export function EditMeetingModal({
       onSuccess?.();
       onOpenChange(false);
     } catch (error) {
-      console.error("Error updating meeting:", error);
       // TODO: Replace with proper toast notification
       alert("Failed to update meeting. Please try again.");
     } finally {

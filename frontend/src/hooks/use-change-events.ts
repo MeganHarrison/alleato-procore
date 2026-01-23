@@ -1,7 +1,9 @@
 "use client";
 
-import { createClient } from "@/lib/supabase/client";
 import { useCallback, useEffect, useState } from "react";
+
+import { createClient } from "@/lib/supabase/client";
+import type { ChangeEvent } from "@/types/change-events";
 
 /**
  * Change Event in the Procore workflow:
@@ -16,22 +18,6 @@ import { useCallback, useEffect, useState } from "react";
  *
  * Workflow: Change Events → Potential Change Orders (PCO) → Prime Contract Change Orders (PCCO)
  */
-export interface ChangeEvent {
-  id: number;
-  project_id: number;
-  number: string | null;
-  title: string;
-  description?: string | null;
-  reason: string | null;
-  scope: string | null;
-  status: string | null;
-  notes: string | null;
-  estimated_impact?: number | null;
-  created_at: string | null;
-  updated_at?: string | null;
-  deleted_at?: string | null;
-}
-
 export interface ChangeEventOption {
   value: string;
   label: string;

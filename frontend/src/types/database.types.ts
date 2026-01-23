@@ -7586,6 +7586,7 @@ export type Database = {
           state: string | null
           status: string | null
           updated_at: string | null
+          avatar_updated_at: string | null
           zip: string | null
         }
         Insert: {
@@ -7606,6 +7607,7 @@ export type Database = {
           state?: string | null
           status?: string | null
           updated_at?: string | null
+          avatar_updated_at?: string | null
           zip?: string | null
         }
         Update: {
@@ -7626,6 +7628,7 @@ export type Database = {
           state?: string | null
           status?: string | null
           updated_at?: string | null
+          avatar_updated_at?: string | null
           zip?: string | null
         }
         Relationships: [
@@ -7670,6 +7673,48 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
+      }
+      person_profile_photos: {
+        Row: {
+          person_id: string
+          content_type: string
+          data_base64: string
+          uploaded_by: string | null
+          created_at: string
+          updated_at: string
+        }
+        Insert: {
+          person_id: string
+          content_type?: string
+          data_base64: string
+          uploaded_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Update: {
+          person_id?: string
+          content_type?: string
+          data_base64?: string
+          uploaded_by?: string | null
+          created_at?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "person_profile_photos_person_id_fkey"
+            columns: ["person_id"]
+            isOneToOne: true
+            referencedRelation: "people"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "person_profile_photos_uploaded_by_fkey"
+            columns: ["uploaded_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       prime_contract_change_orders: {
         Row: {

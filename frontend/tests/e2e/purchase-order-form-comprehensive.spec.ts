@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const TEST_PROJECT_ID = 118;
 
 test.describe('Purchase Order Form - Comprehensive Verification', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate directly to the Purchase Order creation form
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=purchase_order`);
+    await page.goto(`/${TEST_PROJECT_ID}/commitments/new?type=purchase_order`);
     await page.waitForLoadState('networkidle');
   });
 

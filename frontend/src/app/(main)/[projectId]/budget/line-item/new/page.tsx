@@ -31,6 +31,7 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
+import { BudgetItemDeleteDialog } from "@/components/budget/BudgetItemDeleteDialog";
 import {
   Command,
   CommandEmpty,
@@ -117,6 +118,10 @@ export default function NewBudgetLineItemPage() {
   const [openPopoverId, setOpenPopoverId] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState("");
 
+  // Delete confirmation dialog state
+  const [showDeleteDialog, setShowDeleteDialog] = useState(false);
+  const [rowToDelete, setRowToDelete] = useState<string | null>(null);
+
   // Fetch cost codes from Supabase when modal opens
   useEffect(() => {
     const fetchCostCodes = async () => {
@@ -140,7 +145,7 @@ export default function NewBudgetLineItemPage() {
             )
           `,
           )
-          .eq("status", "True")
+          // Get all cost codes, we'll filter them client-side if needed
           .order("id", { ascending: true });
 
         if (error) {
@@ -148,21 +153,27 @@ export default function NewBudgetLineItemPage() {
           return;
         }
 
+        // Filter and map the cost codes
         const codesWithDivisions: CostCodeOption[] =
-          data?.map((code) => {
-            const division = Array.isArray(code.cost_code_divisions)
-              ? code.cost_code_divisions[0]
-              : code.cost_code_divisions;
+          data
+            ?.filter((code) => {
+              // Only include codes that have a title
+              return code.title !== null && code.title !== "";
+            })
+            .map((code) => {
+              const division = Array.isArray(code.cost_code_divisions)
+                ? code.cost_code_divisions[0]
+                : code.cost_code_divisions;
 
-            return {
-              id: code.id,
-              title: code.title,
-              status: code.status,
-              division_id: code.division_id,
-              division_code: division?.code || "",
-              division_title: division?.title || "",
-            };
-          }) ?? [];
+              return {
+                id: code.id,
+                title: code.title || "",
+                status: code.status,
+                division_id: code.division_id,
+                division_code: division?.code || "",
+                division_title: division?.title || "",
+              };
+            }) ?? [];
 
         setAvailableCostCodes(codesWithDivisions);
 
@@ -181,8 +192,7 @@ export default function NewBudgetLineItemPage() {
 
         setGroupedCostCodes(grouped);
       } catch (error) {
-        console.error("Error fetching cost codes:", error);
-      } finally {
+        } finally {
         setLoadingCostCodes(false);
       }
     };
@@ -210,7 +220,6 @@ export default function NewBudgetLineItemPage() {
 
         setBudgetCodes(budgetCodes || []);
       } catch (error) {
-        console.error("Error fetching budget codes:", error);
         setBudgetCodes([]);
       } finally {
         setLoadingCodes(false);
@@ -256,16 +265,6 @@ export default function NewBudgetLineItemPage() {
         return;
       }
 
-      // Get the cost_type_id from cost_code_types table
-      // For now, we'll use a simple lookup. In production, this should query the cost_code_types table
-      const costTypeMap: Record<string, string> = {
-        L: "labor",
-        M: "material",
-        E: "equipment",
-        S: "subcontract",
-        O: "other",
-      };
-
       // API call to create budget code
       const response = await fetch(`/api/projects/${projectId}/budget-codes`, {
         method: "POST",
@@ -274,7 +273,7 @@ export default function NewBudgetLineItemPage() {
         },
         body: JSON.stringify({
           cost_code_id: newCodeData.costCodeId,
-          cost_type_id: costTypeMap[newCodeData.costType] || null,
+          cost_type_id: newCodeData.costType, // Send 'L', 'M', 'E', 'S', or 'O' directly
           description: selectedCostCode.title,
         }),
       });
@@ -295,7 +294,6 @@ export default function NewBudgetLineItemPage() {
       setShowCreateCodeModal(false);
       setNewCodeData({ costCodeId: "", costType: "L" });
     } catch (error) {
-      console.error("Error creating budget code:", error);
       alert(
         `Failed to create budget code: ${
           error instanceof Error ? error.message : "Unknown error"
@@ -360,9 +358,18 @@ export default function NewBudgetLineItemPage() {
     setRows([...rows, newRow]);
   };
 
-  const removeRow = (rowId: string) => {
+  const handleDeleteClick = (rowId: string) => {
     if (rows.length === 1) return; // Keep at least one row
-    setRows(rows.filter((row) => row.id !== rowId));
+    setRowToDelete(rowId);
+    setShowDeleteDialog(true);
+  };
+
+  const confirmRemoveRow = () => {
+    if (rowToDelete) {
+      setRows(rows.filter((row) => row.id !== rowToDelete));
+      setRowToDelete(null);
+    }
+    setShowDeleteDialog(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -418,7 +425,6 @@ export default function NewBudgetLineItemPage() {
       // Navigate back to project budget page
       router.push(`/${projectId}/budget`);
     } catch (error) {
-      console.error("Error creating budget line items:", error);
       alert(
         `Failed to create budget line items: ${
           error instanceof Error ? error.message : "Unknown error"
@@ -636,7 +642,7 @@ export default function NewBudgetLineItemPage() {
                           type="button"
                           variant="ghost"
                           size="sm"
-                          onClick={() => removeRow(row.id)}
+                          onClick={() => handleDeleteClick(row.id)}
                           className="h-9 w-9 p-0 text-muted-foreground hover:text-red-600"
                         >
                           <Trash2 className="h-4 w-4" />
@@ -821,6 +827,18 @@ export default function NewBudgetLineItemPage() {
           </DialogFooter>
         </DialogContent>
       </Dialog>
+
+      {/* Delete Confirmation Dialog */}
+      <BudgetItemDeleteDialog
+        open={showDeleteDialog}
+        onOpenChange={setShowDeleteDialog}
+        onConfirm={confirmRemoveRow}
+        itemDescription={
+          rowToDelete
+            ? `Line ${rows.findIndex((r) => r.id === rowToDelete) + 1}`
+            : "this line item"
+        }
+      />
     </div>
   );
 }

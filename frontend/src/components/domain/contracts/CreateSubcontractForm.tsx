@@ -130,13 +130,9 @@ export function CreateSubcontractForm({
         ...data,
         sov: sovLines,
       };
-      console.warn(
-        "[Subcontract Form] Submitting data:",
-        JSON.stringify(submitData, null, 2),
-      );
+
       await onSubmit(submitData);
     } catch (err) {
-      console.error("[Subcontract Form] Submission error:", err);
       const errorMessage =
         err instanceof Error ? err.message : "An unexpected error occurred";
       setSubmitError(errorMessage);

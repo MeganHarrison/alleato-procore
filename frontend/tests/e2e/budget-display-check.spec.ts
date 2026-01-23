@@ -21,7 +21,7 @@ test.describe('Budget Display Check', () => {
     });
 
     // Navigate to budget page
-    await page.goto('http://localhost:3000/118/budget');
+    await page.goto('/118/budget');
 
     // Wait for page to load
     await page.waitForTimeout(3000);

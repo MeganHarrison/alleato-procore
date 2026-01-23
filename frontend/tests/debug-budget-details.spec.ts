@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('debug budget details tab', async ({ page }) => {
   // Navigate to budget details tab
-  await page.goto('http://localhost:3004/67/budget?tab=budget-details');
+  await page.goto('/67/budget?tab=budget-details');
 
   // Wait for page to load
   await page.waitForTimeout(2000);

@@ -58,7 +58,6 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
       const data = await response.json();
       setSnapshotsData(data);
     } catch (error) {
-      console.error("Error fetching snapshots:", error);
       toast.error("Failed to load snapshots");
     } finally {
       setLoading(false);
@@ -89,7 +88,6 @@ export function SnapshotsTab({ projectId }: SnapshotsTabProps) {
       toast.success("Snapshot created successfully");
       fetchSnapshots();
     } catch (error) {
-      console.error("Error creating snapshot:", error);
       toast.error("Failed to create snapshot");
     } finally {
       setCreating(false);

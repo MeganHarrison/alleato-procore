@@ -57,7 +57,6 @@ export async function GET(
       .range(from, to);
 
     if (error) {
-      console.error('Error fetching history:', error);
       return NextResponse.json(
         { error: 'Failed to fetch history', details: error.message },
         { status: 400 }
@@ -102,7 +101,6 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error('Error in GET /api/projects/[id]/change-events/[changeEventId]/history:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

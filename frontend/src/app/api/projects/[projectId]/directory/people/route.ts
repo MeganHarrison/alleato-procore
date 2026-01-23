@@ -43,9 +43,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error("Error fetching directory people:", error);
-    console.error("Error type:", typeof error);
-    console.error("Error details:", JSON.stringify(error, null, 2));
     return NextResponse.json(
       {
         error: "Internal server error",
@@ -109,7 +106,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(person, { status: 201 });
   } catch (error) {
-    console.error("Error creating person:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

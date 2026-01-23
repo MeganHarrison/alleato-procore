@@ -136,7 +136,6 @@ export async function GET(request: Request) {
     const { data, error, count } = await query
 
     if (error) {
-      console.error('Database error:', error)
       return NextResponse.json({ error: error.message }, { status: 400 })
     }
 
@@ -178,7 +177,6 @@ export async function GET(request: Request) {
 
     return NextResponse.json(response)
   } catch (error) {
-    console.error('Unexpected error in GET /api/direct-costs:', error)
     if (error instanceof Error) {
       return NextResponse.json(
         { error: 'Internal server error', message: error.message },
@@ -319,13 +317,11 @@ export async function POST(request: Request) {
       .single()
 
     if (error) {
-      console.error('Database error:', error)
       return NextResponse.json({ error: error.message }, { status: 400 })
     }
 
     return NextResponse.json(data, { status: 201 })
   } catch (error) {
-    console.error('Unexpected error in POST /api/direct-costs:', error)
     if (error instanceof Error) {
       return NextResponse.json(
         { error: 'Internal server error', message: error.message },

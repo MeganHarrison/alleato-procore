@@ -49,7 +49,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       .order("uploaded_at", { ascending: false });
 
     if (error) {
-      console.error("Error fetching contract attachments:", error);
       return NextResponse.json(
         { error: "Failed to fetch attachments", details: error.message },
         { status: 400 },
@@ -76,10 +75,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       },
     });
   } catch (error) {
-    console.error(
-      "Error in GET /api/projects/[id]/contracts/[contractId]/attachments:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -94,6 +89,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 export async function POST(request: NextRequest, { params }: RouteParams) {
   try {
     const { projectId, contractId } = await params;
+    console.log('Attachment POST - projectId:', projectId, 'contractId:', contractId);
     const supabase = await createClient();
 
     const {
@@ -121,6 +117,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     const formData = await request.formData();
     const file = formData.get("file") as File;
+    console.log('File received:', file ? file.name : 'no file');
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -145,7 +142,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       });
 
     if (uploadError) {
-      console.error("Error uploading file:", uploadError);
       return NextResponse.json(
         { error: "Failed to upload file", details: uploadError.message },
         { status: 400 },
@@ -171,8 +167,8 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       .single();
 
     if (dbError) {
+      console.error('Failed to insert attachment record:', dbError);
       await supabase.storage.from("project-files").remove([storagePath]);
-      console.error("Error creating attachment record:", dbError);
       return NextResponse.json(
         {
           error: "Failed to create attachment record",
@@ -181,6 +177,8 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
         { status: 400 },
       );
     }
+
+    console.log('Attachment created successfully:', attachment.id, attachment.file_name);
 
     return NextResponse.json(
       {
@@ -211,10 +209,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    console.error(
-      "Error in POST /api/projects/[id]/contracts/[contractId]/attachments:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

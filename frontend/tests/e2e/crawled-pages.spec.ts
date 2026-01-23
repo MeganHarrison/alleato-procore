@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Crawled Pages Knowledge Base', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the crawled pages
-    await page.goto('http://localhost:3001/crawled-pages');
+    await page.goto('/crawled-pages');
   });
 
   test('should display the knowledge base with proper layout', async ({ page }) => {

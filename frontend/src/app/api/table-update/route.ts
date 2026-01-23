@@ -60,7 +60,6 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error("Error updating record:", error);
       return NextResponse.json(
         { error: "Failed to update record", details: error.message },
         { status: 500 },
@@ -69,7 +68,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, data: updatedRecord });
   } catch (error) {
-    console.error("Error in table-update API:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

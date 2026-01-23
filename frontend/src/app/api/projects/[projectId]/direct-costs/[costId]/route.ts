@@ -18,6 +18,20 @@ export async function GET(
     const { projectId, costId } = await params;
 
     const supabase = await createClient();
+
+    // Check authentication
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      return NextResponse.json(
+        { error: "Unauthorized - please log in" },
+        { status: 401 }
+      );
+    }
+
     const service = new DirectCostService(supabase);
 
     const directCost = await service.getById(projectId, costId);
@@ -30,7 +44,6 @@ export async function GET(
 
     return NextResponse.json(directCost);
   } catch (error) {
-    console.error("Failed to fetch direct cost:", error);
     return NextResponse.json(
       { error: "Failed to fetch direct cost" },
       { status: 500 },
@@ -47,6 +60,20 @@ export async function PUT(
     const { projectId, costId } = await params;
 
     const supabase = await createClient();
+
+    // Check authentication
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      return NextResponse.json(
+        { error: "Unauthorized - please log in" },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
 
     // Add the ID to the body for validation
@@ -79,8 +106,6 @@ export async function PUT(
 
     return NextResponse.json(updatedCost);
   } catch (error) {
-    console.error("Failed to update direct cost:", error);
-
     // Handle specific errors
     if (error instanceof Error) {
       if (error.message.includes("not found")) {
@@ -121,6 +146,20 @@ export async function DELETE(
     const { projectId, costId } = await params;
 
     const supabase = await createClient();
+
+    // Check authentication
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      return NextResponse.json(
+        { error: "Unauthorized - please log in" },
+        { status: 401 }
+      );
+    }
+
     const service = new DirectCostService(supabase);
 
     const success = await service.delete(projectId, costId);
@@ -134,8 +173,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Failed to delete direct cost:", error);
-
     if (error instanceof Error) {
       if (error.message.includes("not found")) {
         return NextResponse.json(

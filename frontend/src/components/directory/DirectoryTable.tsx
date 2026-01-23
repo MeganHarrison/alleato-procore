@@ -48,6 +48,12 @@ import {
 import { useDirectory } from "@/hooks/useDirectory";
 import { cn } from "@/lib/utils";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { ImportDialog } from "@/components/directory/ImportDialog";
+import { ExportDialog } from "@/components/directory/ExportDialog";
+import { BulkActionDialog } from "@/components/directory/BulkActionDialog";
+import { useDirectoryPreferences } from "@/hooks/useDirectoryPreferences";
+import { useDirectoryRealtime } from "@/hooks/useDirectoryRealtime";
+import { toast } from "@/hooks/use-toast";
 
 interface DirectoryTableProps {
   projectId: string;
@@ -109,8 +115,32 @@ export function DirectoryTable({
     status,
     groupBy: defaultGroupBy,
   });
+  const [isImportOpen, setIsImportOpen] = useState(false);
+  const [isExportOpen, setIsExportOpen] = useState(false);
+  const [isBulkOpen, setIsBulkOpen] = useState(false);
+  const [filtersInitialized, setFiltersInitialized] = useState(false);
+  const [columnsInitialized, setColumnsInitialized] = useState(false);
 
-  const { data, groups, loading, error, refetch, updateFilters } = useDirectory(
+  const {
+    savedFilters,
+    saveFilter,
+    deleteFilter,
+    persistPreferences,
+    lastFilters,
+    columnPreferences,
+    loading: preferencesLoading,
+  } = useDirectoryPreferences(projectId);
+
+  const {
+    data,
+    groups,
+    loading,
+    error,
+    meta,
+    refetch,
+    updateFilters,
+    offline,
+  } = useDirectory(
     projectId,
     {
       ...filters,
@@ -122,6 +152,84 @@ export function DirectoryTable({
   const sortedColumns = useMemo(() => {
     return [...columns].sort((a, b) => a.order - b.order);
   }, [columns]);
+
+  const handleSaveFilter = useCallback(
+    (filtersToSave: DirectoryFilters, savedSearch?: string) => {
+      const name = window.prompt("Name this filter");
+      if (!name) return;
+      void saveFilter({
+        name,
+        filters: filtersToSave,
+        search: savedSearch,
+      });
+    },
+    [saveFilter],
+  );
+
+  const handleApplySavedFilter = useCallback(
+    (saved: DirectoryFilters, savedSearch?: string) => {
+      setFilters(saved);
+      updateFilters(saved);
+      if (typeof savedSearch === "string") {
+        setSearch(savedSearch);
+      }
+    },
+    [updateFilters],
+  );
+
+  const handleDeleteSavedFilter = useCallback(
+    (filterId: string) => {
+      void deleteFilter(filterId);
+    },
+    [deleteFilter],
+  );
+
+  useEffect(() => {
+    if (!filtersInitialized && lastFilters) {
+      setFilters(lastFilters);
+      updateFilters(lastFilters);
+      setFiltersInitialized(true);
+    } else if (!filtersInitialized && !lastFilters) {
+      setFiltersInitialized(true);
+    }
+  }, [lastFilters, filtersInitialized, updateFilters]);
+
+  useEffect(() => {
+    if (!columnsInitialized && columnPreferences) {
+      setColumns(columnPreferences);
+      setColumnsInitialized(true);
+    }
+  }, [columnPreferences, columnsInitialized]);
+
+  useEffect(() => {
+    if (!filtersInitialized) return;
+    const timeout = setTimeout(() => {
+      persistPreferences({ lastFilters: filters });
+    }, 800);
+    return () => clearTimeout(timeout);
+  }, [filters, persistPreferences, filtersInitialized]);
+
+  useEffect(() => {
+    if (!columnsInitialized) return;
+    const timeout = setTimeout(() => {
+      persistPreferences({ columnPreferences: columns });
+    }, 800);
+    return () => clearTimeout(timeout);
+  }, [columns, persistPreferences, columnsInitialized]);
+
+  useDirectoryRealtime(projectId, (eventType) => {
+    const message =
+      eventType === "INSERT"
+        ? "A new person was added to the directory."
+        : eventType === "DELETE"
+          ? "A person was removed from the directory."
+          : "Directory entry updated.";
+    toast({
+      title: "Directory Updated",
+      description: message,
+    });
+    void refetch();
+  });
 
   // Toggle group expansion
   const toggleGroup = (groupKey: string) => {
@@ -175,6 +283,10 @@ export function DirectoryTable({
 
   // Render person row
   const renderPersonRow = (person: PersonWithDetails) => {
+    const avatarVersion = person.avatar_updated_at
+      ? `&v=${encodeURIComponent(person.avatar_updated_at)}`
+      : "";
+    const avatarSrc = `/api/avatar/${person.id}?projectId=${projectId}${avatarVersion}`;
     const visibleColumns = sortedColumns.filter((c) => c.visible);
 
     return (
@@ -196,7 +308,7 @@ export function DirectoryTable({
                 <TableCell key={column.id}>
                   <div className="flex items-center gap-3">
                     <Avatar className="h-8 w-8">
-                      <AvatarImage src={`/api/avatar/${person.id}`} />
+                      <AvatarImage src={avatarSrc} />
                       <AvatarFallback>{getInitials(person)}</AvatarFallback>
                     </Avatar>
                     <div>
@@ -368,14 +480,29 @@ export function DirectoryTable({
             <Filter className="mr-2 h-4 w-4" />
             Filters
           </Button>
+          {offline && (
+            <span className="text-xs text-muted-foreground">
+              Offline mode (showing cached data)
+            </span>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
-          <Button variant="outline" size="icon">
+          <Button
+            variant="outline"
+            size="icon"
+            title="Import CSV"
+            onClick={() => setIsImportOpen(true)}
+          >
             <Upload className="h-4 w-4" />
           </Button>
 
-          <Button variant="outline" size="icon">
+          <Button
+            variant="outline"
+            size="icon"
+            title="Export CSV"
+            onClick={() => setIsExportOpen(true)}
+          >
             <Download className="h-4 w-4" />
           </Button>
 
@@ -405,6 +532,12 @@ export function DirectoryTable({
             updateFilters(newFilters);
           }}
           projectId={projectId}
+          search={search}
+          savedFilters={savedFilters}
+          savedFiltersLoading={preferencesLoading}
+          onSaveFilter={handleSaveFilter}
+          onDeleteSavedFilter={handleDeleteSavedFilter}
+          onSavedFilterSelected={handleApplySavedFilter}
         />
       )}
 
@@ -415,13 +548,13 @@ export function DirectoryTable({
             {selectedIds.size} {selectedIds.size === 1 ? "item" : "items"}{" "}
             selected
           </span>
-          <Button variant="outline" size="sm">
-            <Mail className="mr-2 h-4 w-4" />
-            Bulk Invite
-          </Button>
-          <Button variant="outline" size="sm">
-            <UserX className="mr-2 h-4 w-4" />
-            Bulk Deactivate
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setIsBulkOpen(true)}
+          >
+            <Filter className="mr-2 h-4 w-4" />
+            Open Bulk Actions
           </Button>
         </div>
       )}
@@ -575,6 +708,34 @@ export function DirectoryTable({
           onClose={() => setShowColumnManager(false)}
         />
       )}
+
+      <ImportDialog
+        projectId={projectId}
+        open={isImportOpen}
+        onOpenChange={setIsImportOpen}
+        onComplete={() => {
+          void refetch();
+        }}
+      />
+
+      <ExportDialog
+        projectId={projectId}
+        filters={filters}
+        columns={columns}
+        open={isExportOpen}
+        onOpenChange={setIsExportOpen}
+      />
+
+      <BulkActionDialog
+        projectId={projectId}
+        personIds={Array.from(selectedIds)}
+        open={isBulkOpen}
+        onOpenChange={setIsBulkOpen}
+        onComplete={() => {
+          setSelectedIds(new Set());
+          void refetch();
+        }}
+      />
     </div>
   );
 }

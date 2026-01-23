@@ -55,7 +55,6 @@ export class PluginManager extends EventEmitter {
   private setupGlobalErrorHandling() {
     window.addEventListener("unhandledrejection", (event) => {
       if (event.reason instanceof PluginError) {
-        console.error("Plugin error:", event.reason);
         this.emit("plugin:error", {
           pluginId: event.reason.pluginId,
           error: event.reason,
@@ -74,7 +73,6 @@ export class PluginManager extends EventEmitter {
       .eq("status", "enabled");
 
     if (error) {
-      console.error("Failed to load plugins:", error);
       return;
     }
 
@@ -82,7 +80,6 @@ export class PluginManager extends EventEmitter {
       try {
         await this.loadPlugin(record);
       } catch (error) {
-        console.error(`Failed to load plugin ${record.id}:`, error);
         await this.setPluginError(record.id, error as Error);
       }
     }
@@ -332,7 +329,6 @@ export class PluginManager extends EventEmitter {
         const result = await handler(context, api);
         results.push(result);
       } catch (error) {
-        console.error(`Hook error in plugin ${pluginId}:`, error);
         this.emit("hook:error", { pluginId, type, error });
       }
     }

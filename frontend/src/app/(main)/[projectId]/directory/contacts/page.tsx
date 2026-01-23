@@ -17,8 +17,7 @@ export default function ProjectDirectoryContactsPage() {
 
   const handleAddContact = () => {
     // TODO: Open add contact modal
-    console.warn("Add contact functionality not yet implemented");
-  };
+    };
 
   const tabs = getProjectDirectoryTabs(projectId, pathname);
 

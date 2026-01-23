@@ -143,8 +143,6 @@ export function DocsChat() {
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-      console.error("Procore Docs Assistant error:", error);
-
       const errorMessage: Message = {
         role: "assistant",
         content:

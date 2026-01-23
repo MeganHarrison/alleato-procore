@@ -111,7 +111,6 @@ export const useCurrentUserProfile = () => {
       const { data, error: fetchError } = await supabase.auth.getUser();
 
       if (fetchError) {
-        console.error("Failed to fetch user profile", fetchError);
         if (isMounted) {
           setError(fetchError.message);
           setIsLoading(false);

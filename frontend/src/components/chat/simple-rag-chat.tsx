@@ -81,7 +81,6 @@ export function SimpleRagChat({
 
       setMessages((prev) => [...prev, assistantMessage]);
     } catch (error) {
-      console.error("Chat error:", error);
       const errorMessage: Message = {
         id: crypto.randomUUID(),
         role: "assistant",

@@ -84,7 +84,6 @@ export async function DELETE(
         .remove([filePath]);
 
       if (storageError) {
-        console.error("Storage deletion error:", storageError);
         // Continue with database deletion even if storage deletion fails
       }
     }

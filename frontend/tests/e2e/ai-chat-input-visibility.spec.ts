@@ -3,7 +3,7 @@ import { test, expect } from "@playwright/test"
 test.describe("AI Chat - Input Visibility", () => {
   test("input section should be visible without scrolling", async ({ page }) => {
     // Navigate to the AI chat page
-    await page.goto("http://localhost:3000/ai-chat")
+    await page.goto('/ai-chat')
 
     // Wait for page to load
     await page.waitForLoadState("networkidle")
@@ -52,7 +52,7 @@ test.describe("AI Chat - Input Visibility", () => {
   })
 
   test("verify entire layout fits in viewport", async ({ page }) => {
-    await page.goto("http://localhost:3000/ai-chat")
+    await page.goto('/ai-chat')
     await page.waitForLoadState("networkidle")
 
     const viewportSize = page.viewportSize()

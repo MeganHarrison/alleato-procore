@@ -3,14 +3,14 @@ import { test, expect } from '@playwright/test';
 test.describe('Budget Code Autopopulation and UOM Dropdown', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to dev login first to authenticate
-    await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123');
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123');
     // Wait for initial redirect
     await page.waitForLoadState('networkidle');
   });
 
   test('should autopopulate newly created budget code in line item form', async ({ page }) => {
     // Navigate to budget page for project 67
-    await page.goto('http://localhost:3000/67/budget');
+    await page.goto('/67/budget');
     await page.waitForLoadState('networkidle');
 
     // Click the "Create Line Items" button to open the modal
@@ -80,7 +80,7 @@ test.describe('Budget Code Autopopulation and UOM Dropdown', () => {
 
   test('should display enhanced UOM dropdown with descriptions', async ({ page }) => {
     // Navigate to budget page for project 67
-    await page.goto('http://localhost:3000/67/budget');
+    await page.goto('/67/budget');
     await page.waitForLoadState('networkidle');
 
     // Click the "Create Line Items" button to open the modal
@@ -134,7 +134,7 @@ test.describe('Budget Code Autopopulation and UOM Dropdown', () => {
 
   test('should autopopulate budget code when all rows are filled', async ({ page }) => {
     // Navigate to budget page for project 67
-    await page.goto('http://localhost:3000/67/budget');
+    await page.goto('/67/budget');
     await page.waitForLoadState('networkidle');
 
     // Click the "Create Line Items" button to open the modal

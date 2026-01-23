@@ -8,7 +8,7 @@ test.describe('Sidebar Collapse After Server Restart', () => {
 
     // 1. Navigate to home page (dashboard requires auth)
     console.log('Step 1: Navigating to http://localhost:3000/');
-    await page.goto('http://localhost:3000/');
+    await page.goto('/');
 
     // 2. Wait for domcontentloaded (networkidle may not work without auth)
     console.log('Step 2: Waiting for page load...');

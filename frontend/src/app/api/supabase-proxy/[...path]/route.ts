@@ -6,7 +6,6 @@ async function forwardToSupabaseAPI(
   params: { path: string[] },
 ) {
   if (!process.env.SUPABASE_MANAGEMENT_API_TOKEN) {
-    console.error("Supabase Management API token is not configured.");
     return NextResponse.json(
       { message: "Server configuration error." },
       { status: 500 },
@@ -60,8 +59,7 @@ async function forwardToSupabaseAPI(
         }
       } catch (error) {
         // Handle cases where body is not readable
-        console.warn("Could not read request body:", error);
-      }
+        }
     }
 
     const response = await fetch(url, fetchOptions);
@@ -79,7 +77,6 @@ async function forwardToSupabaseAPI(
     // Return the response with the same status
     return NextResponse.json(responseData, { status: response.status });
   } catch (error: any) {
-    console.error("Supabase API proxy error:", error);
     const errorMessage = error.message || "An unexpected error occurred.";
     return NextResponse.json({ message: errorMessage }, { status: 500 });
   }

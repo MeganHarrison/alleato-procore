@@ -52,7 +52,6 @@ export async function POST(request: Request) {
     );
 
     if (signUpError) {
-      console.error("Supabase auth sign up error:", signUpError);
       return NextResponse.json({ error: signUpError.message }, { status: 400 });
     }
 
@@ -83,7 +82,6 @@ export async function POST(request: Request) {
       .single();
 
     if (upsertError) {
-      console.error("Error syncing app_users:", upsertError);
       return NextResponse.json(
         { error: "Failed to store user record" },
         { status: 500 },
@@ -96,7 +94,6 @@ export async function POST(request: Request) {
       emailConfirmationSent: !signUpData.session,
     });
   } catch (error) {
-    console.error("Signup error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

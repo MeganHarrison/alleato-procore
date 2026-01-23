@@ -97,7 +97,6 @@ export function CreateBudgetLineItemsModal({
       setItems([]);
       onClose();
     } catch (error) {
-      console.error("Error creating budget line items:", error);
       alert("Failed to create budget items. Please try again.");
     } finally {
       setIsSaving(false);

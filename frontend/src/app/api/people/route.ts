@@ -62,7 +62,6 @@ export async function GET(request: NextRequest) {
     const { data, error, count } = await query;
 
     if (error) {
-      console.error('Error fetching people:', error);
       return NextResponse.json(
         { error: 'Failed to fetch people', details: error.message },
         { status: 500 }
@@ -79,7 +78,6 @@ export async function GET(request: NextRequest) {
       }
     });
   } catch (error) {
-    console.error('Error in GET /api/people:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -147,7 +145,6 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (error) {
-      console.error('Error creating person:', error);
       return NextResponse.json(
         { error: 'Failed to create person', details: error.message },
         { status: 400 }
@@ -156,7 +153,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
-    console.error('Error in POST /api/people:', error);
     if (error instanceof Error) {
       return NextResponse.json(
         { error: 'Internal server error', message: error.message },

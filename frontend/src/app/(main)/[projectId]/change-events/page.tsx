@@ -34,6 +34,19 @@ import {
 } from "@/components/ui/summary-card-grid";
 import { ChangeEventsTableColumns } from "@/components/domain/change-events/ChangeEventsTableColumns";
 import { useProjectChangeEvents, type ChangeEvent } from "@/hooks/use-change-events";
+import { useProjectChangeEventRfqs, type ChangeEventRfqRecord } from "@/hooks/use-change-event-rfqs";
+import { ChangeEventRfqForm, type ChangeEventRfqFormValues } from "@/components/domain/change-events/ChangeEventRfqForm";
+import {
+  ChangeEventRfqResponseForm,
+  type ChangeEventRfqResponseFormValues,
+} from "@/components/domain/change-events/ChangeEventRfqResponseForm";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { formatDate } from "@/lib/utils";
 
 type TabValue = "detail" | "summary" | "rfqs" | "recycle";
@@ -75,6 +88,10 @@ export default function ProjectChangeEventsPage() {
 
   const [searchValue, setSearchValue] = useState("");
   const [activeTab, setActiveTab] = useState<TabValue>("detail");
+  const [isCreateRfqOpen, setIsCreateRfqOpen] = useState(false);
+  const [selectedRfq, setSelectedRfq] = useState<ChangeEventRfqRecord | null>(null);
+  const [isRfqSubmitting, setIsRfqSubmitting] = useState(false);
+  const [isResponseSubmitting, setIsResponseSubmitting] = useState(false);
 
   const detailOptions = useMemo(
     () => ({
@@ -87,6 +104,13 @@ export default function ProjectChangeEventsPage() {
 
   const { changeEvents = [], isLoading, error, refetch: refetchChangeEvents } =
     useProjectChangeEvents(projectId, detailOptions);
+  const {
+    rfqs,
+    isLoading: isRfqsLoading,
+    error: rfqError,
+    createRfq,
+    createResponse,
+  } = useProjectChangeEventRfqs(projectId, { enabled: hasValidProjectId });
 
   const {
     changeEvents: deletedEvents = [],
@@ -199,6 +223,57 @@ export default function ProjectChangeEventsPage() {
   const totalImpact = changeEvents.reduce(
     (sum, event) => sum + (event.estimated_impact ?? 0),
     0,
+  );
+
+  const rfqSummary = useMemo(() => {
+    const total = rfqs.length;
+    const awaitingResponse = rfqs.filter((rfq) => (rfq.response_count ?? 0) === 0).length;
+    const closed = rfqs.filter((rfq) => rfq.status?.toLowerCase().includes("closed")).length;
+    return { total, awaitingResponse, closed };
+  }, [rfqs]);
+
+  const handleCreateRfq = useCallback(
+    async (values: ChangeEventRfqFormValues) => {
+      setIsRfqSubmitting(true);
+      try {
+        await createRfq({
+          changeEventId: values.changeEventId,
+          title: values.title,
+          dueDate: values.dueDate,
+          includeAttachments: values.includeAttachments,
+          notes: values.notes,
+        });
+        toast.success("RFQ created");
+        setIsCreateRfqOpen(false);
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Failed to create RFQ");
+      } finally {
+        setIsRfqSubmitting(false);
+      }
+    },
+    [createRfq],
+  );
+
+  const handleCreateResponse = useCallback(
+    async (values: ChangeEventRfqResponseFormValues) => {
+      if (!selectedRfq) return;
+      setIsResponseSubmitting(true);
+      try {
+        await createResponse(selectedRfq.id, {
+          changeEventId: selectedRfq.change_event_id,
+          lineItemId: values.lineItemId,
+          unitPrice: values.unitPrice,
+          notes: values.notes,
+        });
+        toast.success("Response submitted");
+        setSelectedRfq(null);
+      } catch (err) {
+        toast.error(err instanceof Error ? err.message : "Failed to submit response");
+      } finally {
+        setIsResponseSubmitting(false);
+      }
+    },
+    [selectedRfq, createResponse],
   );
 
   const mostRecentUpdate = useMemo(() => {
@@ -575,29 +650,174 @@ export default function ProjectChangeEventsPage() {
         </TabsContent>
 
         <TabsContent value="rfqs">
-          <PageContainer>
+          <PageContainer className="space-y-6">
+            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div>
+                <h2 className="text-lg font-semibold">Request for Quotes</h2>
+                <p className="text-sm text-muted-foreground">
+                  Generate RFQs directly from change events and track collaborator responses.
+                </p>
+              </div>
+              <Button
+                size="sm"
+                className="gap-2"
+                onClick={() => setIsCreateRfqOpen(true)}
+                data-testid="change-events-new-rfq-button"
+              >
+                <Plus className="h-4 w-4" />
+                New RFQ
+              </Button>
+            </div>
+
+            {rfqError ? (
+              <Card>
+                <CardHeader>
+                  <CardTitle>Unable to load RFQs</CardTitle>
+                  <CardDescription>{rfqError.message}</CardDescription>
+                </CardHeader>
+              </Card>
+            ) : (
+              <div className="grid gap-4 md:grid-cols-3">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardDescription>Total RFQs</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-semibold">{rfqSummary.total}</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardDescription>Awaiting Response</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-semibold">{rfqSummary.awaitingResponse}</p>
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardDescription>Closed RFQs</CardDescription>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-2xl font-semibold">{rfqSummary.closed}</p>
+                  </CardContent>
+                </Card>
+              </div>
+            )}
+
             <Card>
               <CardHeader>
-                <CardTitle>RFQ Management (Phase 2)</CardTitle>
-                <CardDescription>
-                  Request for Quote workflows are planned. This tab will surface RFQ creation,
-                  distribution, and collaborator responses once Phase 2 is complete.
-                </CardDescription>
+                <CardTitle>RFQ Log</CardTitle>
+                <CardDescription>Change event RFQs and collaborator response history.</CardDescription>
               </CardHeader>
-              <CardContent className="space-y-3 text-sm text-muted-foreground">
-                <p>
-                  RFQs will be generated from approved change events, assigned to
-                  subcontractors, and tracked until a response is submitted.
-                </p>
-                <ul className="list-disc pl-5 space-y-1">
-                  <li>Design RFQ template and data model</li>
-                  <li>Generate RFQs directly from the change event detail view</li>
-                  <li>Track response status, pricing, and attachments</li>
-                  <li>Expose comparison insights alongside change event totals</li>
-                </ul>
+              <CardContent>
+                {isRfqsLoading ? (
+                  <div className="space-y-2">
+                    {[...Array(3)].map((_, index) => (
+                      <div key={index} className="h-10 w-full animate-pulse rounded-md bg-muted/40" />
+                    ))}
+                  </div>
+                ) : rfqs.length === 0 ? (
+                  <div className="text-sm text-muted-foreground">
+                    No RFQs yet. Create your first RFQ to kick off the quote process.
+                  </div>
+                ) : (
+                  <div className="overflow-auto rounded-md border">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead>RFQ</TableHead>
+                          <TableHead>Change Event</TableHead>
+                          <TableHead>Status</TableHead>
+                          <TableHead>Due Date</TableHead>
+                          <TableHead>Responses</TableHead>
+                          <TableHead>Total</TableHead>
+                          <TableHead className="text-right">Actions</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {rfqs.map((rfq) => (
+                          <TableRow key={rfq.id}>
+                            <TableCell className="font-mono text-sm">
+                              {rfq.rfq_number || rfq.id}
+                            </TableCell>
+                            <TableCell>
+                              <div className="text-sm font-medium">
+                                {rfq.change_event_title || "Untitled"}
+                              </div>
+                              <div className="text-xs text-muted-foreground">
+                                {rfq.change_event_number || rfq.change_event_id}
+                              </div>
+                            </TableCell>
+                            <TableCell>
+                              <Badge variant="outline">{rfq.status || "Draft"}</Badge>
+                            </TableCell>
+                            <TableCell>
+                              {rfq.due_date ? formatDate(rfq.due_date) : "-"}
+                            </TableCell>
+                            <TableCell>{rfq.response_count}</TableCell>
+                            <TableCell>
+                              {formatCurrencyValue(Number(rfq.estimated_total_amount) || 0)}
+                            </TableCell>
+                            <TableCell className="text-right">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setSelectedRfq(rfq)}
+                              >
+                                Add Response
+                              </Button>
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                )}
               </CardContent>
             </Card>
           </PageContainer>
+
+          <Dialog open={isCreateRfqOpen} onOpenChange={setIsCreateRfqOpen}>
+            <DialogContent className="sm:max-w-lg">
+              <DialogHeader>
+                <DialogTitle>Create RFQ</DialogTitle>
+                <DialogDescription>
+                  Choose a change event and define the RFQ details.
+                </DialogDescription>
+              </DialogHeader>
+              <ChangeEventRfqForm
+                changeEvents={changeEvents.filter((event) => !event.deleted_at)}
+                isSubmitting={isRfqSubmitting}
+                onCancel={() => setIsCreateRfqOpen(false)}
+                onSubmit={handleCreateRfq}
+              />
+            </DialogContent>
+          </Dialog>
+
+          <Dialog open={Boolean(selectedRfq)} onOpenChange={(open) => {
+            if (!open) {
+              setSelectedRfq(null);
+            }
+          }}>
+            <DialogContent className="sm:max-w-lg">
+              <DialogHeader>
+                <DialogTitle>Submit RFQ Response</DialogTitle>
+                <DialogDescription>
+                  Record collaborator pricing for {(selectedRfq?.change_event_title) ?? "the change event"}.
+                </DialogDescription>
+              </DialogHeader>
+              {selectedRfq ? (
+                <ChangeEventRfqResponseForm
+                  projectId={projectId}
+                  changeEventId={selectedRfq.change_event_id}
+                  isSubmitting={isResponseSubmitting}
+                  onSubmit={handleCreateResponse}
+                  onCancel={() => setSelectedRfq(null)}
+                />
+              ) : null}
+            </DialogContent>
+          </Dialog>
         </TabsContent>
 
         <TabsContent value="recycle">

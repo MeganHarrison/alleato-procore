@@ -24,7 +24,6 @@ export async function GET(
       .single();
 
     if (error) {
-      console.error("Error fetching budget view:", error);
       return NextResponse.json(
         { error: "Failed to fetch budget view", details: error.message },
         { status: 500 },
@@ -47,10 +46,6 @@ export async function GET(
 
     return NextResponse.json({ view: viewWithSortedColumns });
   } catch (error) {
-    console.error(
-      "Error in GET /api/projects/[id]/budget/views/[viewId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -77,7 +72,6 @@ export async function PATCH(
       .single();
 
     if (fetchError) {
-      console.error("Error fetching budget view:", fetchError);
       return NextResponse.json(
         { error: "Failed to fetch budget view", details: fetchError.message },
         { status: 500 },
@@ -113,7 +107,6 @@ export async function PATCH(
         .eq("id", viewId);
 
       if (updateError) {
-        console.error("Error updating budget view:", updateError);
         return NextResponse.json(
           {
             error: "Failed to update budget view",
@@ -133,7 +126,6 @@ export async function PATCH(
         .eq("view_id", viewId);
 
       if (deleteError) {
-        console.error("Error deleting budget view columns:", deleteError);
         return NextResponse.json(
           {
             error: "Failed to update budget view columns",
@@ -159,7 +151,6 @@ export async function PATCH(
         .insert(columnsToInsert);
 
       if (insertError) {
-        console.error("Error inserting budget view columns:", insertError);
         return NextResponse.json(
           {
             error: "Failed to update budget view columns",
@@ -183,7 +174,6 @@ export async function PATCH(
       .single();
 
     if (fetchUpdatedError) {
-      console.error("Error fetching updated budget view:", fetchUpdatedError);
       return NextResponse.json(
         {
           error: "Failed to fetch updated budget view",
@@ -204,10 +194,6 @@ export async function PATCH(
 
     return NextResponse.json({ view: viewWithSortedColumns });
   } catch (error) {
-    console.error(
-      "Error in PATCH /api/projects/[id]/budget/views/[viewId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -233,7 +219,6 @@ export async function DELETE(
       .single();
 
     if (fetchError) {
-      console.error("Error fetching budget view:", fetchError);
       return NextResponse.json(
         { error: "Failed to fetch budget view", details: fetchError.message },
         { status: 500 },
@@ -261,7 +246,6 @@ export async function DELETE(
       .eq("id", viewId);
 
     if (deleteError) {
-      console.error("Error deleting budget view:", deleteError);
       return NextResponse.json(
         { error: "Failed to delete budget view", details: deleteError.message },
         { status: 500 },
@@ -270,10 +254,6 @@ export async function DELETE(
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error(
-      "Error in DELETE /api/projects/[id]/budget/views/[viewId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

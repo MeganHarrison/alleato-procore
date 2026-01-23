@@ -94,7 +94,6 @@ export function BudgetModificationModal({
           setFormData((prev) => ({ ...prev, budgetItemId: options[0].id }));
         }
       } catch (error) {
-        console.error("Error loading budget items:", error);
         toast.error("Unable to load budget items for modifications");
       } finally {
         setLoadingItems(false);
@@ -161,7 +160,6 @@ export function BudgetModificationModal({
         reason: "",
       });
     } catch (error) {
-      console.error("Error creating budget modification:", error);
       toast.error(
         `Failed to create budget modification: ${
           error instanceof Error ? error.message : "Unknown error"

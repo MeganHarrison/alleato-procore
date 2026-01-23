@@ -3,14 +3,14 @@ import { test, expect } from '@playwright/test';
 test.describe('Budget Setup Wizard - Cost Code Type Display', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to dev login first to authenticate
-    await page.goto('http://localhost:3002/dev-login?email=test@example.com&password=testpassword123');
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123');
     // Wait for redirect to complete
     await page.waitForURL('http://localhost:3002/', { timeout: 10000 });
   });
 
   test('should display cost code type column and auto-populate description', async ({ page }) => {
     // Navigate to project setup wizard
-    await page.goto('http://localhost:3002/118/setup');
+    await page.goto('/118/setup');
 
     // Wait for page to load
     await page.waitForLoadState('networkidle');

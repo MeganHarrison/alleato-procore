@@ -25,7 +25,6 @@ export async function GET(request: Request) {
         }
       }
     } catch (error) {
-      console.error("Error exchanging code for session:", error);
       // Redirect to login with error
       return NextResponse.redirect(
         `${origin}/auth/login?error=auth_callback_failed`,

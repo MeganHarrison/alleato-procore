@@ -3,7 +3,7 @@ import { expect, test } from '@playwright/test'
 test.describe('Budget Save - Direct Test', () => {
   test('should save budget items successfully in project setup wizard', async ({ page }) => {
     // Login
-    await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123')
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123')
     await page.waitForLoadState('networkidle')
     await page.waitForTimeout(2000)
 

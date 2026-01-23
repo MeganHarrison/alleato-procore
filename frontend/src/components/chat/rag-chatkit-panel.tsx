@@ -80,8 +80,7 @@ export function RagChatKitPanel({
     onThreadChange: ({ threadId }) => onThreadChange?.(threadId ?? null),
     onResponseEnd: () => onResponseEnd?.(),
     onError: ({ error }) => {
-      console.error("[ChatKit] Error:", error);
-    },
+      },
   });
 
   return (

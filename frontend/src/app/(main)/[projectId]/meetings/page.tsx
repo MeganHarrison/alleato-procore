@@ -23,8 +23,7 @@ export default async function ProjectMeetingsPage({ params }: PageProps) {
     .order("date", { ascending: false });
 
   if (error) {
-    console.error("Error fetching meetings:", error);
-  }
+    }
 
   // Calculate meeting statistics
   const totalMeetings = meetings?.length || 0;

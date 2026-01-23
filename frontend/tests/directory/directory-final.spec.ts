@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Directory Final Verification', () => {
   test('should load directory and interact with Add User button', async ({ page }) => {
     // Navigate to directory page
-    await page.goto('http://localhost:3000/135/directory/users');
+    await page.goto('/135/directory/users');
     await page.waitForLoadState('networkidle');
     
     // Verify directory page loaded correctly
@@ -59,7 +59,7 @@ test.describe('Directory Final Verification', () => {
   });
   
   test('should navigate between directory tabs', async ({ page }) => {
-    await page.goto('http://localhost:3000/135/directory/users');
+    await page.goto('/135/directory/users');
     await page.waitForLoadState('networkidle');
     
     // Test tab navigation

@@ -125,7 +125,6 @@ export default async function MeetingSegmentsPage() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Error fetching meeting segments:", error);
     return (
       <div className="text-center text-red-600">
         Error loading meeting segments. Please try again later.

@@ -47,7 +47,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
     const { data: contracts, error } = await query;
 
     if (error) {
-      console.error("Error fetching contracts:", error);
       return NextResponse.json(
         { error: "Failed to fetch contracts", details: error.message },
         { status: 400 },
@@ -122,7 +121,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(enrichedContracts);
   } catch (error) {
-    console.error("Error in GET /api/projects/[id]/contracts:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -139,6 +137,8 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     const { projectId } = await params;
     const supabase = await createClient();
     const body = await request.json();
+
+    console.log('Contract creation request:', JSON.stringify(body, null, 2));
 
     // Validate request body
     const validatedData = createContractSchema.parse({
@@ -203,7 +203,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       .single();
 
     if (error) {
-      console.error("Error creating contract:", error);
       return NextResponse.json(
         { error: "Failed to create contract", details: error.message },
         { status: 400 },
@@ -213,6 +212,7 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
     return NextResponse.json(data, { status: 201 });
   } catch (error) {
     if (error instanceof ZodError) {
+      console.error('Contract validation error:', error.issues);
       return NextResponse.json(
         {
           error: "Validation error",
@@ -225,7 +225,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    console.error("Error in POST /api/projects/[id]/contracts:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

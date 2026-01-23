@@ -164,8 +164,7 @@ export function UserFormDialog({
       onOpenChange(false);
       onSuccess?.();
     } catch (error) {
-      console.error("Error submitting user form:", error);
-    }
+      }
   };
 
   const isSubmitting =

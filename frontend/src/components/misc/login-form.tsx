@@ -14,7 +14,7 @@ import { Label } from "@/components/ui/label";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
-import { createClient } from "@/lib/supabase/client";
+import { createAuthClient } from "@/lib/supabase/client-auth";
 import { toast } from "sonner";
 
 type LoginFormProps = React.ComponentPropsWithoutRef<"div"> & {
@@ -40,8 +40,8 @@ export function LoginForm({
     setSuccessMessage(null);
 
     try {
-      const supabase = createClient();
-      const { error: authError } = await supabase.auth.signInWithPassword({
+      const supabase = createAuthClient();
+      const { data, error: authError } = await supabase.auth.signInWithPassword({
         email,
         password,
       });
@@ -54,12 +54,21 @@ export function LoginForm({
         return;
       }
 
+      if (!data?.user) {
+        setError("Login failed. Please try again.");
+        toast.error("Login failed. Please try again.");
+        return;
+      }
+
       setSuccessMessage("Login successful! Redirecting you now...");
       toast.success("Logged in successfully");
-      router.push(redirectTo);
-      router.refresh();
+
+      // Add a small delay to ensure session is established
+      setTimeout(() => {
+        router.push(redirectTo);
+        router.refresh();
+      }, 100);
     } catch (err: unknown) {
-      console.error("Login error:", err);
       const fallbackMessage =
         "An error occurred during login. Please try again.";
       setError(err instanceof Error ? err.message : fallbackMessage);

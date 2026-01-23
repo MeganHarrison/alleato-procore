@@ -29,7 +29,6 @@ export async function SimpleTablePage({
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error(`Error fetching ${tableName}:`, error);
     return (
       <>
         <PageHeader title={config.title} description={config.description} />

@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-/** * Code component for displaying inline or block code. * Use inline variant for code within text, block variant for standalone code snippets. * * @example Inline code * <Text> * Use the <Code>npm install</Code> command to install dependencies. * </Text> * * @example Block code * <Code variant="block"> * function hello() {'{'} * console.log("Hello, world!"); * {'}'} * </Code> */ export interface CodeProps {
+/** * Code component for displaying inline or block code. * Use inline variant for code within text, block variant for standalone code snippets. * * @example Inline code * <Text> * Use the <Code>npm install</Code> command to install dependencies. * </Text> * * @example Block code * <Code variant="block"> * function hello() {'{'} * * {'}'} * </Code> */ export interface CodeProps {
   /** Display style */ variant?: "inline" | "block";
   /** Programming language for syntax (block only) */ language?: string;
   /** Additional CSS classes */ className?: string;

@@ -44,7 +44,6 @@ export async function GET() {
 
     return NextResponse.json({ todos });
   } catch (error) {
-    console.error("Error fetching todos:", error);
     return NextResponse.json(
       { error: "Failed to fetch todos" },
       { status: 500 },
@@ -69,7 +68,6 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({ error: "Invalid action" }, { status: 400 });
   } catch (error) {
-    console.error("Error handling todo request:", error);
     return NextResponse.json(
       { error: "Request failed" },
       { status: 500 },
@@ -139,7 +137,6 @@ async function createTodo(todo: Partial<TodoItem>) {
 
     return NextResponse.json({ todo: newTodo });
   } catch (error) {
-    console.error("Error creating todo:", error);
     return NextResponse.json(
       { error: "Failed to create todo" },
       { status: 500 },
@@ -162,7 +159,6 @@ async function updateTodo(update: TodoUpdate) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error updating todo:", error);
     return NextResponse.json(
       { error: "Failed to update todo" },
       { status: 500 },
@@ -176,8 +172,6 @@ async function updateTodo(update: TodoUpdate) {
 async function triggerVerification(todoId: string) {
   try {
     // This would integrate with your verification system
-    console.log(`🔍 Triggering verification for todo: ${todoId}`);
-
     // In a real implementation, this would call your verification scripts
     // For now, we'll just log it
 
@@ -187,7 +181,6 @@ async function triggerVerification(todoId: string) {
       todoId,
     });
   } catch (error) {
-    console.error("Error triggering verification:", error);
     return NextResponse.json(
       { error: "Failed to trigger verification" },
       { status: 500 },
@@ -214,13 +207,10 @@ async function triggerVerificationProcess(todoId: string, notes?: string) {
     };
 
     // In a production environment, you'd spawn the verification script
-    console.log("🔍 Would trigger verification script with:", todoData);
-
     // For demo purposes, we'll just log this
     // exec(`node ${scriptPath} "${JSON.stringify(todoData)}"`);
   } catch (error) {
-    console.error("Error triggering verification process:", error);
-  }
+    }
 }
 
 /**
@@ -277,8 +267,6 @@ async function updateMonitoringWithTodo(
     }
 
     await fs.writeFile(monitoringPath, content);
-    console.log("📝 Updated monitoring file with todo activity");
-  } catch (error) {
-    console.error("Error updating monitoring file:", error);
-  }
+    } catch (error) {
+    }
 }

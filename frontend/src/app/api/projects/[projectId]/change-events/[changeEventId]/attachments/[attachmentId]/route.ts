@@ -81,7 +81,6 @@ export async function GET(
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error('Error in GET attachment:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -148,8 +147,7 @@ export async function DELETE(
       .remove([attachment.file_path]);
 
     if (storageError) {
-      console.error('Error deleting file from storage:', storageError);
-    }
+      }
 
     // Delete database record
     const { error: deleteError } = await supabase
@@ -184,7 +182,6 @@ export async function DELETE(
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {
-    console.error('Error in DELETE attachment:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

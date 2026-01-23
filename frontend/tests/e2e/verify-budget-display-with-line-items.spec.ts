@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Budget Display and Multiple Line Items', () => {
   test('should display budget correctly and create multiple line items', async ({ page }) => {
     // First, navigate to budget page to see current state
-    await page.goto('http://localhost:3000/67/budget');
+    await page.goto('/67/budget');
     await page.waitForLoadState('networkidle');
 
     // Wait for budget to load
@@ -18,7 +18,7 @@ test.describe('Budget Display and Multiple Line Items', () => {
     console.warn('Initial budget page loaded');
 
     // Navigate to budget setup to add line items
-    await page.goto('http://localhost:3000/67/budget/setup');
+    await page.goto('/67/budget/setup');
     await page.waitForLoadState('networkidle');
 
     // Wait for loading to complete

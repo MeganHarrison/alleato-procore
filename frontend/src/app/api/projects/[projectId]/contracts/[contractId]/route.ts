@@ -37,7 +37,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
           { status: 404 },
         );
       }
-      console.error("Error fetching contract:", error);
       return NextResponse.json(
         { error: "Failed to fetch contract", details: error.message },
         { status: 400 },
@@ -83,10 +82,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(enrichedContract);
   } catch (error) {
-    console.error(
-      "Error in GET /api/projects/[id]/contracts/[contractId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -189,7 +184,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       .single();
 
     if (error) {
-      console.error("Error updating contract:", error);
       return NextResponse.json(
         { error: "Failed to update contract", details: error.message },
         { status: 400 },
@@ -211,10 +205,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    console.error(
-      "Error in PUT /api/projects/[id]/contracts/[contractId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -331,7 +321,6 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       .eq("project_id", parseInt(projectId, 10));
 
     if (error) {
-      console.error("Error deleting contract:", error);
       return NextResponse.json(
         { error: "Failed to delete contract", details: error.message },
         { status: 400 },
@@ -343,10 +332,6 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       { status: 200 },
     );
   } catch (error) {
-    console.error(
-      "Error in DELETE /api/projects/[id]/contracts/[contractId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

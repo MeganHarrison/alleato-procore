@@ -64,7 +64,6 @@ async function parseMonitoringData(): Promise<{
     const aiInsights = generateAIInsights(initiatives, activityLog);
     return { initiatives, systemHealth, activityLog, aiInsights };
   } catch (error) {
-    console.error("Error parsing monitoring data:", error);
     return {
       initiatives: [],
       systemHealth: {
@@ -349,7 +348,6 @@ export async function GET() {
     const data = await parseMonitoringData();
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error in monitoring dashboard API:", error);
     return NextResponse.json(
       { error: "Failed to load monitoring data" },
       { status: 500 },

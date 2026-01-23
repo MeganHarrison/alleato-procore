@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Budget Tooltip Verification', () => {
   test('should display updated tooltips correctly', async ({ page }) => {
-    await page.goto('http://localhost:3000/118/budget');
+    await page.goto('/118/budget');
 
     // Wait for table to load
     await page.waitForSelector('table', { timeout: 10000 });

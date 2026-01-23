@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Budget Forecasting Tab', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to budget page for project 118
-    await page.goto('http://localhost:3000/118/budget');
+    await page.goto('/118/budget');
     await page.waitForLoadState('networkidle');
 
     // Wait for budget tabs navigation to be visible
@@ -145,7 +145,7 @@ test.describe('Budget Forecasting Tab', () => {
 
 test.describe('Budget Snapshots Tab', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:3000/118/budget');
+    await page.goto('/118/budget');
     await page.waitForLoadState('networkidle');
   });
 
@@ -174,7 +174,7 @@ test.describe('Budget Snapshots Tab', () => {
 
 test.describe('Budget Change History Tab', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('http://localhost:3000/118/budget');
+    await page.goto('/118/budget');
     await page.waitForLoadState('networkidle');
   });
 

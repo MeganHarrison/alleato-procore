@@ -1,6 +1,6 @@
 import { test, expect } from '@playwright/test';
 
-const BASE_URL = process.env.BASE_URL || 'http://localhost:3002';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 
 test.use({ storageState: 'tests/.auth/user.json' });
 
@@ -20,7 +20,7 @@ test.describe('Submittals smoke', () => {
   });
 
   test.beforeEach(async ({ page }) => {
-    await page.goto(`${BASE_URL}/submittals`);
+    await page.goto(`/submittals`);
     await page.waitForLoadState('networkidle');
   });
 
@@ -44,7 +44,7 @@ test.describe('Submittals smoke', () => {
   });
 
   test('settings save and persist', async ({ page }) => {
-    await page.goto(`${BASE_URL}/submittals/settings/general`);
+    await page.goto(`/submittals/settings/general`);
     await page.waitForLoadState('networkidle');
 
     const numbering = page.getByTestId('submittals-numbering-prefix');

@@ -7,6 +7,7 @@ import { Stack } from "@/components/ui/stack";
 import { Inline } from "@/components/ui/inline";
 import { Text } from "@/components/ui/text";
 import { UomSelect } from "./UomSelect";
+import { BudgetItemDeleteDialog } from "./BudgetItemDeleteDialog";
 import { BudgetCodeSelector } from "@/app/(main)/[projectId]/budget/setup/components";
 import type {
   BudgetLineItem,
@@ -44,6 +45,22 @@ export function BudgetLineItemCard({
   canRemove,
   onKeyDown,
 }: BudgetLineItemCardProps) {
+  const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
+
+  const handleDeleteClick = () => {
+    if (!canRemove) return;
+    setShowDeleteDialog(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    onRemove();
+    setShowDeleteDialog(false);
+  };
+
+  // Create description for the item being deleted
+  const itemDescription = item.costCodeLabel
+    ? `"${item.costCodeLabel}" (Line ${index + 1})`
+    : `Line ${index + 1}`;
   return (
     <div className="p-4 bg-background">
       <Stack gap="sm">
@@ -53,7 +70,7 @@ export function BudgetLineItemCard({
           <Button
             variant="ghost"
             size="sm"
-            onClick={onRemove}
+            onClick={handleDeleteClick}
             disabled={!canRemove}
             className="touch-target -mr-2 -mt-2"
           >
@@ -126,6 +143,14 @@ export function BudgetLineItemCard({
             />
           </div>
         </div>
+
+        {/* Delete Confirmation Dialog */}
+        <BudgetItemDeleteDialog
+          open={showDeleteDialog}
+          onOpenChange={setShowDeleteDialog}
+          onConfirm={handleDeleteConfirm}
+          itemDescription={itemDescription}
+        />
       </Stack>
     </div>
   );

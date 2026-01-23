@@ -23,7 +23,7 @@ test.describe('Modal Responsiveness', () => {
     test.use({ viewport: viewports.mobile });
 
     test('should display correctly on mobile', async ({ page }) => {
-      await page.goto('http://localhost:3003/modal-demo');
+      await page.goto('/modal-demo');
 
       // Open Original Budget modal
       await page.click('button:has-text("Open Modal"):near(:text("Original Budget"))');
@@ -66,7 +66,7 @@ test.describe('Modal Responsiveness', () => {
     test.use({ viewport: viewports.tablet });
 
     test('should display correctly on tablet', async ({ page }) => {
-      await page.goto('http://localhost:3003/modal-demo');
+      await page.goto('/modal-demo');
 
       // Open Original Budget modal
       await page.click('button:has-text("Open Modal"):near(:text("Original Budget"))');
@@ -94,7 +94,7 @@ test.describe('Modal Responsiveness', () => {
     test.use({ viewport: viewports.desktop });
 
     test('should display correctly on desktop', async ({ page }) => {
-      await page.goto('http://localhost:3003/modal-demo');
+      await page.goto('/modal-demo');
 
       // Open Original Budget modal
       await page.click('button:has-text("Open Modal"):near(:text("Original Budget"))');
@@ -125,7 +125,7 @@ test.describe('Modal Responsiveness', () => {
     test.use({ viewport: viewports.mobile });
 
     test('should use card layout on mobile', async ({ page }) => {
-      await page.goto('http://localhost:3003/modal-demo');
+      await page.goto('/modal-demo');
 
       // Open Create Line Items modal
       await page.click('button:has-text("Open Modal"):near(:text("Create Line Items"))');
@@ -162,7 +162,7 @@ test.describe('Modal Responsiveness', () => {
     test.use({ viewport: viewports.desktop });
 
     test('should use table layout on desktop', async ({ page }) => {
-      await page.goto('http://localhost:3003/modal-demo');
+      await page.goto('/modal-demo');
 
       // Open Create Line Items modal
       await page.click('button:has-text("Open Modal"):near(:text("Create Line Items"))');
@@ -199,7 +199,7 @@ test.describe('Modal Responsiveness', () => {
     for (const [name, viewport] of Object.entries(viewports)) {
       test(`should display correctly on ${name}`, async ({ page }) => {
         await page.setViewportSize(viewport);
-        await page.goto('http://localhost:3003/modal-demo');
+        await page.goto('/modal-demo');
 
         // Open Unlock Budget modal
         await page.click('button:has-text("Open Modal"):near(:text("Unlock Budget"))');
@@ -228,7 +228,7 @@ test.describe('Modal Responsiveness', () => {
     test('should respect max-width on very wide screens', async ({ page }) => {
       // Test on ultra-wide screen
       await page.setViewportSize({ width: 2560, height: 1440 });
-      await page.goto('http://localhost:3003/modal-demo');
+      await page.goto('/modal-demo');
 
       // Open Original Budget modal
       await page.click('button:has-text("Open Modal"):near(:text("Original Budget"))');
@@ -253,7 +253,7 @@ test.describe('Modal Responsiveness', () => {
 
   test.describe('ESC Key Functionality', () => {
     test('should close modal with ESC key', async ({ page }) => {
-      await page.goto('http://localhost:3003/modal-demo');
+      await page.goto('/modal-demo');
 
       // Open Original Budget modal
       await page.click('button:has-text("Open Modal"):near(:text("Original Budget"))');
@@ -271,7 +271,7 @@ test.describe('Modal Responsiveness', () => {
 
   test.describe('Real-time Calculation', () => {
     test('should calculate Original Budget in real-time', async ({ page }) => {
-      await page.goto('http://localhost:3003/modal-demo');
+      await page.goto('/modal-demo');
 
       // Open Original Budget modal
       await page.click('button:has-text("Open Modal"):near(:text("Original Budget"))');

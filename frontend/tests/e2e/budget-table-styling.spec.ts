@@ -3,14 +3,14 @@ import { test, expect } from '@playwright/test';
 test.describe('Budget Table Styling', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to dev login first to authenticate
-    await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123');
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123');
     // Wait for initial redirect
     await page.waitForLoadState('networkidle');
   });
 
   test('should display alternating row backgrounds (zebra striping)', async ({ page }) => {
     // Navigate to Budget page for project 67
-    await page.goto('http://localhost:3000/67/budget');
+    await page.goto('/67/budget');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 

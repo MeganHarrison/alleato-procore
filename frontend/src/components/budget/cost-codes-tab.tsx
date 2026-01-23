@@ -67,7 +67,6 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
           new Set((projectCodesData || []).map((pc) => pc.cost_code_id)),
         );
       } catch (error) {
-        console.error("Error loading cost codes:", error);
         toast.error("Failed to load cost codes");
       } finally {
         setLoading(false);
@@ -211,7 +210,6 @@ export function CostCodesTab({ projectId }: CostCodesTabProps) {
         `Successfully updated project cost codes (${selectedCostCodes.size} selected)`,
       );
     } catch (error) {
-      console.error("Error saving cost codes:", error);
       toast.error("Failed to save cost codes");
     } finally {
       setSaving(false);

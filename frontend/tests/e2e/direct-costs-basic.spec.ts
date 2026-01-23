@@ -3,13 +3,13 @@ import { test, expect } from '@playwright/test';
 test.describe('Direct Costs - Basic Verification', () => {
   test.beforeEach(async ({ page }) => {
     // Use dev-login for testing
-    await page.goto('http://localhost:3002/dev-login?email=test@example.com&password=testpassword123');
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123');
     
     // Wait for redirect to home page
     await page.waitForURL('http://localhost:3002/', { timeout: 10000 });
     
     // Navigate directly to a known project's direct costs (using a common test project ID)
-    await page.goto('http://localhost:3002/projects/test-project-id/direct-costs');
+    await page.goto('/projects/test-project-id/direct-costs');
   });
 
   test('Direct Costs page loads successfully', async ({ page }) => {

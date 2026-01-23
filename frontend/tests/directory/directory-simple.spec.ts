@@ -8,7 +8,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Directory Basic Functionality', () => {
   test('should load project directory users page', async ({ page }) => {
     // Navigate directly to a project directory page
-    await page.goto('http://localhost:3000/135/directory/users');
+    await page.goto('/135/directory/users');
     
     // Wait for page to load
     await page.waitForLoadState('networkidle');
@@ -82,7 +82,7 @@ test.describe('Directory Basic Functionality', () => {
   
   test('should check global directory page', async ({ page }) => {
     // Try the global directory page
-    await page.goto('http://localhost:3000/directory/users');
+    await page.goto('/directory/users');
     await page.waitForLoadState('networkidle');
     
     const url = page.url();

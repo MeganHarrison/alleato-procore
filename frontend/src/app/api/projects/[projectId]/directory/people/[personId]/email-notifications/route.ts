@@ -95,7 +95,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       updated_at: data?.updated_at || null,
     });
   } catch (error) {
-    console.error("Error fetching email notifications:", error);
     return NextResponse.json(
       {
         error: "server_error",
@@ -209,7 +208,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       updated_at: data.updated_at,
     });
   } catch (error) {
-    console.error("Error updating email notifications:", error);
     return NextResponse.json(
       {
         error: "server_error",

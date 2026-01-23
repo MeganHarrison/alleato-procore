@@ -93,8 +93,7 @@ export function ForecastToCompleteModal({
       });
       onClose();
     } catch (error) {
-      console.error("Error saving forecast:", error);
-    } finally {
+      } finally {
       setIsSaving(false);
     }
   };

@@ -229,7 +229,6 @@ export function BudgetViewsModal({
       onSuccess();
       onOpenChange(false);
     } catch (error) {
-      console.error("Error saving view:", error);
       toast.error(
         error instanceof Error ? error.message : "Failed to save view",
       );

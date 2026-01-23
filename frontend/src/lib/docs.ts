@@ -40,9 +40,6 @@ async function resolveDocsDir(): Promise<string | null> {
 export async function getDocFiles(): Promise<DocFile[]> {
   const docsDir = await resolveDocsDir();
   if (!docsDir) {
-    console.warn(
-      "[docs] Source directory not found. Skipping docs generation.",
-    );
     return [];
   }
 
@@ -55,7 +52,6 @@ export async function getDocFiles(): Promise<DocFile[]> {
     try {
       entries = await fs.readdir(dir, { withFileTypes: true });
     } catch (error) {
-      console.warn(`[docs] Unable to read directory ${dir}:`, error);
       return;
     }
     entries.sort((a, b) =>
@@ -118,7 +114,6 @@ export async function loadDocContent(doc: DocFile): Promise<string> {
   try {
     return await fs.readFile(doc.relativePath, "utf-8");
   } catch (error) {
-    console.warn(`[docs] Unable to load document ${doc.relativePath}:`, error);
     return "## Document unavailable\n\nThe requested document could not be found in the deployment.";
   }
 }

@@ -8,7 +8,7 @@ if (!feature) {
   process.exit(1);
 }
 
-const featureDir = `documentation/*project-mgmt/in-progress/${feature}`;
+const featureDir = `docs/project-mgmt/${feature}`;
 const required = ["STATUS.md", "TASKS.md", "PLAN.md", "TEST-RESULTS.md", "VERIFICATION.md", "handoff.json"];
 
 const missing = required.filter((f) => !fs.existsSync(path.join(featureDir, f)));

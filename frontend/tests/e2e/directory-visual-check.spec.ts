@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Directory Pages Visual Check', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the directory
-    await page.goto('http://localhost:3000/directory');
+    await page.goto('/directory');
     await page.waitForLoadState('networkidle');
   });
 
@@ -34,7 +34,7 @@ test.describe('Directory Pages Visual Check', () => {
   });
 
   test('should check directory users page layout', async ({ page }) => {
-    await page.goto('http://localhost:3000/directory/users');
+    await page.goto('/directory/users');
     await page.waitForLoadState('networkidle');
 
     // Take screenshot
@@ -59,7 +59,7 @@ test.describe('Directory Pages Visual Check', () => {
 
   test('should compare directory with commitments page structure', async ({ page }) => {
     // First check commitments page
-    await page.goto('http://localhost:3000/67/commitments');
+    await page.goto('/67/commitments');
     await page.waitForLoadState('networkidle');
 
     await page.screenshot({
@@ -72,7 +72,7 @@ test.describe('Directory Pages Visual Check', () => {
     console.log(commitmentsHTML.substring(0, 2000));
 
     // Now check directory page
-    await page.goto('http://localhost:3000/directory/companies');
+    await page.goto('/directory/companies');
     await page.waitForLoadState('networkidle');
 
     const directoryHTML = await page.locator('body').innerHTML();

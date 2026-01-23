@@ -50,6 +50,8 @@ interface MetricCardProps {
   className?: string;
   /** Use compact styling */
   compact?: boolean;
+  /** Optional action element (e.g., button) */
+  action?: React.ReactNode;
 }
 
 /* Format number as currency */
@@ -98,6 +100,7 @@ export function MetricCard({
   size = "md",
   className,
   compact = false,
+  action,
 }: MetricCardProps) {
   const sizeStyles = {
     sm: {
@@ -137,13 +140,20 @@ export function MetricCard({
   const content = (
     <div
       className={cn(
-        "bg-white border border-neutral-200/80 transition-all",
+        "bg-white border border-neutral-200/80 transition-all relative",
         "shadow-[0_1px_2px_0_rgb(0_0_0/0.03)]",
         href && "cursor-pointer hover:shadow-[0_1px_3px_0_rgb(0_0_0/0.04),0_1px_2px_-1px_rgb(0_0_0/0.04)] hover:border-neutral-300/80",
         styles.container,
         className
       )}
     >
+      {/* Action button in top right */}
+      {action && (
+        <div className="absolute top-2 right-2">
+          {action}
+        </div>
+      )}
+
       {/* Label */}
       <p className={cn(
         "font-semibold tracking-[0.15em] uppercase text-neutral-500",

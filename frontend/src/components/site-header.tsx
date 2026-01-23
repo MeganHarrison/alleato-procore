@@ -1,9 +1,15 @@
 "use client";
 
 import { useMemo, useState, useEffect } from "react";
-import { ChevronDown } from "lucide-react";
+import { ChevronDown, ChevronRight } from "lucide-react";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { createClient } from "@/lib/supabase/client";
+import type { User } from "@supabase/supabase-js";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { getBestAvatarUrl } from "@/lib/gravatar";
+import { toast } from "sonner";
+import { IconLogout, IconUserCircle } from "@tabler/icons-react";
 
 import { Button } from "@/components/ui/button"
 import { Separator } from "@/components/ui/separator"
@@ -12,6 +18,9 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuTrigger,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import {
   Select,
@@ -91,6 +100,7 @@ interface Project {
 }
 
 export function SiteHeader() {
+  const [user, setUser] = useState<User | null>(null);
   const [projectToolsOpen, setProjectToolsOpen] = useState(false);
   const [projects, setProjects] = useState<Project[]>([]);
   const [loadingProjects, setLoadingProjects] = useState(false);
@@ -98,6 +108,43 @@ export function SiteHeader() {
   const pathname = usePathname();
   const router = useRouter();
   const searchParams = useSearchParams();
+  const supabase = createClient();
+
+  // Fetch current user on mount
+  useEffect(() => {
+    const fetchUser = async () => {
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      setUser(user);
+    };
+    fetchUser();
+
+    // Listen for auth state changes
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((_event, session) => {
+      setUser(session?.user ?? null);
+    });
+
+    return () => subscription.unsubscribe();
+  }, [supabase.auth]);
+
+  // Generate avatar data from user
+  const userEmail = user?.email || "";
+  const avatarSrc = getBestAvatarUrl(user?.user_metadata?.avatar_url, userEmail);
+  const displayName =
+    user?.user_metadata?.full_name ||
+    user?.email?.split("@")[0] ||
+    "User";
+  const fallbackInitials = user?.user_metadata?.full_name
+    ? user.user_metadata.full_name
+        .split(" ")
+        .map((n: string) => n[0])
+        .join("")
+        .toUpperCase()
+        .slice(0, 2)
+    : displayName.slice(0, 2).toUpperCase();
 
   const parseProjectsResponse = async (response: Response) => {
     const contentType = response.headers.get("content-type") || "";
@@ -105,7 +152,6 @@ export function SiteHeader() {
       try {
         return await response.json();
       } catch (error) {
-        console.error("Failed to parse project response JSON:", error);
         return null;
       }
     }
@@ -150,14 +196,9 @@ export function SiteHeader() {
               setCurrentProject(project);
             }
           } else if (!response.ok) {
-            console.error(
-              "Failed to fetch current project:",
-              response.statusText,
-            );
-          }
+            }
         } catch (error) {
-          console.error("Failed to fetch current project:", error);
-        }
+          }
       } else {
         setCurrentProject(null);
       }
@@ -175,14 +216,9 @@ export function SiteHeader() {
       if (data?.data) {
         setProjects(data.data);
       } else if (!response.ok) {
-        console.error(
-          "Failed to fetch projects for dropdown:",
-          response.statusText,
-        );
-      }
+        }
     } catch (error) {
-      console.error("Failed to fetch projects:", error);
-    } finally {
+      } finally {
       setLoadingProjects(false);
     }
   };
@@ -247,6 +283,69 @@ export function SiteHeader() {
     return "Home";
   }, [pathname]);
 
+  // Generate breadcrumbs
+  const breadcrumbs = useMemo(() => {
+    const segments = pathname?.split("/").filter(Boolean) ?? [];
+    const crumbs: Array<{ label: string; href: string }> = [];
+
+    // Always start with home/projects
+    crumbs.push({ label: "Home", href: "/" });
+
+    segments.forEach((segment, index) => {
+      let href = `/${segments.slice(0, index + 1).join("/")}`;
+      let label: string;
+
+      // Check if this segment is a project ID (numeric)
+      if (index === 0 && /^\d+$/.test(segment)) {
+        // This is a project ID - use the project name if available
+        label = currentProject?.name || `Project ${segment}`;
+      } else {
+        // Try to find a matching tool name first
+        const allTools = [
+          ...coreTools,
+          ...projectManagementTools,
+          ...financialManagementTools,
+          ...adminTools,
+        ];
+        const matchingTool = allTools.find((tool) => tool.path === segment);
+
+        if (matchingTool) {
+          label = matchingTool.name;
+        } else {
+          // Format segment name for display
+          label = segment
+            .split("-")
+            .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+            .join(" ");
+
+          // Special cases for common paths
+          const labelMap: Record<string, string> = {
+            "budget-v2": "Budget V2",
+            "prime-contracts": "Prime Contracts",
+            "change-events": "Change Events",
+            "change-orders": "Change Orders",
+            "direct-costs": "Direct Costs",
+            "daily-log": "Daily Log",
+            "punch-list": "Punch List",
+            "sov": "Schedule of Values",
+            "rfis": "RFIs",
+            "line-item": "Line Item",
+            "new": "New",
+            "edit": "Edit",
+          };
+
+          if (labelMap[segment]) {
+            label = labelMap[segment];
+          }
+        }
+      }
+
+      crumbs.push({ label, href });
+    });
+
+    return crumbs;
+  }, [pathname, currentProject]);
+
   return (
     <header className="flex h-(--header-height) shrink-0 items-center gap-2 pt-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
       <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
@@ -255,7 +354,26 @@ export function SiteHeader() {
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4"
         />
-        <h1 className="text-base font-medium">Documents</h1>
+        {/* Dynamic Breadcrumbs */}
+        <div className="flex items-center gap-1 text-sm font-medium">
+          {breadcrumbs.map((crumb, index) => (
+            <span key={`${crumb.href}-${index}`} className="flex items-center gap-1">
+              {index > 0 && (
+                <ChevronRight className="h-4 w-4 text-muted-foreground" />
+              )}
+              {index === breadcrumbs.length - 1 ? (
+                <span className="text-foreground">{crumb.label}</span>
+              ) : (
+                <Link
+                  href={crumb.href}
+                  className="text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  {crumb.label}
+                </Link>
+              )}
+            </span>
+          ))}
+        </div>
         <div className="ml-auto flex items-center gap-2">
           {/* Company/Project Selector */}
           <Select
@@ -270,13 +388,26 @@ export function SiteHeader() {
             onOpenChange={(open) => open && fetchProjects()}
           >
             <SelectTrigger className="h-8 w-[280px]">
-              <SelectValue placeholder="Select Project" />
+              <SelectValue placeholder="Select Project">
+                {currentProject ? (
+                  <div className="flex items-center gap-2">
+                    {currentProject["job number"] && (
+                      <span className="text-xs text-muted-foreground">
+                        #{currentProject["job number"]}
+                      </span>
+                    )}
+                    <span className="font-medium truncate">{currentProject.name}</span>
+                  </div>
+                ) : (
+                  "Select Project"
+                )}
+              </SelectValue>
             </SelectTrigger>
             <SelectContent>
               <SelectGroup>
                 <SelectLabel>Recent Projects</SelectLabel>
                 {loadingProjects ? (
-                  <div className="p-4 text-center text-sm text-muted-foreground">
+                  <div className="py-2 px-2 text-center text-sm text-muted-foreground">
                     Loading projects...
                   </div>
                 ) : projects.length > 0 ? (
@@ -284,25 +415,26 @@ export function SiteHeader() {
                     <SelectItem
                       key={project.id}
                       value={project.id.toString()}
+                      className="h-auto py-2"
                     >
-                      <div className="flex flex-col">
-                        <span className="font-medium">{project.name}</span>
+                      <div className="flex items-center gap-2">
                         {project["job number"] && (
                           <span className="text-xs text-muted-foreground">
-                            Job #{project["job number"]}
+                            #{project["job number"]}
                           </span>
                         )}
+                        <span className="font-medium">{project.name}</span>
                       </div>
                     </SelectItem>
                   ))
                 ) : (
-                  <div className="p-4 text-center text-sm text-muted-foreground">
+                  <div className="py-2 px-2 text-center text-sm text-muted-foreground">
                     No projects found
                   </div>
                 )}
               </SelectGroup>
               <SelectGroup>
-                <SelectItem value="view-all" className="font-medium">
+                <SelectItem value="view-all" className="font-medium h-auto py-2">
                   View All Projects
                 </SelectItem>
               </SelectGroup>
@@ -317,7 +449,7 @@ export function SiteHeader() {
             <DropdownMenuTrigger asChild>
               <Button
                 variant="outline"
-                className="h-8 items-center gap-2 px-3"
+                className="h-8 min-h-[2rem] flex items-center gap-2 px-3 py-0 text-sm"
               >
                 <span className="text-xs text-muted-foreground">Project Tools</span>
                 <span className="text-sm font-medium">
@@ -475,16 +607,62 @@ export function SiteHeader() {
             </DropdownMenuContent>
           </DropdownMenu>
 
-          <Button variant="ghost" asChild size="sm" className="hidden sm:flex">
-            <a
-              href="https://github.com/shadcn-ui/ui/tree/main/apps/v4/app/(examples)/dashboard"
-              rel="noopener noreferrer"
-              target="_blank"
-              className="dark:text-foreground"
-            >
-              GitHub
-            </a>
-          </Button>
+          {/* User Avatar */}
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                type="button"
+                className="flex items-center rounded-full border-2 border-border p-0.5 transition-all hover:border-primary hover:scale-105"
+                aria-label="Open user menu"
+              >
+                <Avatar className="h-8 w-8 rounded-full">
+                  <AvatarImage
+                    src={avatarSrc}
+                    alt="User avatar"
+                    className="rounded-full"
+                  />
+                  <AvatarFallback className="rounded-full bg-primary/10 font-medium text-sm">
+                    {fallbackInitials}
+                  </AvatarFallback>
+                </Avatar>
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end" sideOffset={4} className="w-48">
+              <DropdownMenuLabel className="text-sm font-semibold">
+                {displayName}
+              </DropdownMenuLabel>
+              {user?.email && (
+                <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
+                  {user.email}
+                </DropdownMenuLabel>
+              )}
+              <DropdownMenuSeparator />
+              <DropdownMenuItem asChild>
+                <Link href="/profile" className="cursor-pointer">
+                  <IconUserCircle className="mr-2 h-4 w-4" />
+                  Profile
+                </Link>
+              </DropdownMenuItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuItem
+                className="cursor-pointer text-destructive focus:text-destructive"
+                onClick={async () => {
+                  try {
+                    await supabase.auth.signOut();
+                    toast.success("Logged out successfully");
+                    router.push("/auth/login");
+                    router.refresh();
+                  } catch (error) {
+                    console.error("Logout error:", error);
+                    toast.error("Failed to log out");
+                  }
+                }}
+              >
+                <IconLogout className="mr-2 h-4 w-4" />
+                Log out
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
     </header>

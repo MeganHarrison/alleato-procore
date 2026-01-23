@@ -14,18 +14,18 @@ import { test, expect, Page } from '@playwright/test';
  */
 
 // Test configuration
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const TEST_PROJECT_ID = '67';
 
 // Helper function to login
 async function login(page: Page) {
-  await page.goto(`${BASE_URL}/dev-login?email=test@example.com&password=testpassword123`);
+  await page.goto(`/dev-login?email=test@example.com&password=testpassword123`);
   await page.waitForURL('**/dashboard', { timeout: 15000 });
 }
 
 // Helper function to navigate to contracts page
 async function navigateToContracts(page: Page, projectId: string = TEST_PROJECT_ID) {
-  await page.goto(`${BASE_URL}/${projectId}/prime-contracts`);
+  await page.goto(`/${projectId}/prime-contracts`);
   await page.waitForLoadState('networkidle');
 }
 
@@ -248,7 +248,7 @@ test.describe('Prime Contracts - Create New Contract', () => {
   });
 
   test('should display contract form sections', async ({ page }) => {
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/prime-contracts/new`);
+    await page.goto(`/${TEST_PROJECT_ID}/prime-contracts/new`);
     await page.waitForLoadState('networkidle');
 
     // Verify form sections are visible
@@ -268,7 +268,7 @@ test.describe('Prime Contracts - Create New Contract', () => {
   });
 
   test('should display contract form fields', async ({ page }) => {
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/prime-contracts/new`);
+    await page.goto(`/${TEST_PROJECT_ID}/prime-contracts/new`);
     await page.waitForLoadState('networkidle');
 
     // Verify key form fields
@@ -278,7 +278,7 @@ test.describe('Prime Contracts - Create New Contract', () => {
   });
 
   test('should display status dropdown options', async ({ page }) => {
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/prime-contracts/new`);
+    await page.goto(`/${TEST_PROJECT_ID}/prime-contracts/new`);
     await page.waitForLoadState('networkidle');
 
     // Find and click status dropdown
@@ -294,7 +294,7 @@ test.describe('Prime Contracts - Create New Contract', () => {
   });
 
   test('should have Cancel and Create buttons', async ({ page }) => {
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/prime-contracts/new`);
+    await page.goto(`/${TEST_PROJECT_ID}/prime-contracts/new`);
     await page.waitForLoadState('networkidle');
 
     // Verify form buttons
@@ -305,7 +305,7 @@ test.describe('Prime Contracts - Create New Contract', () => {
   });
 
   test('should navigate back on Cancel', async ({ page }) => {
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/prime-contracts/new`);
+    await page.goto(`/${TEST_PROJECT_ID}/prime-contracts/new`);
     await page.waitForLoadState('networkidle');
 
     await page.getByRole('button', { name: /Cancel/i }).click();
@@ -433,7 +433,7 @@ test.describe('Prime Contracts - Empty State', () => {
     await login(page);
 
     // Navigate to a project that might not have contracts
-    await page.goto(`${BASE_URL}/999/prime-contracts`);
+    await page.goto(`/999/prime-contracts`);
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
@@ -489,7 +489,7 @@ test.describe('Prime Contracts - API Integration', () => {
 test.describe('Prime Contracts - Schedule of Values', () => {
   test('should display SOV section in contract form', async ({ page }) => {
     await login(page);
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/prime-contracts/new`);
+    await page.goto(`/${TEST_PROJECT_ID}/prime-contracts/new`);
     await page.waitForLoadState('networkidle');
 
     // Look for Schedule of Values section
@@ -500,7 +500,7 @@ test.describe('Prime Contracts - Schedule of Values', () => {
 
   test('should have Add Line button in SOV section', async ({ page }) => {
     await login(page);
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/prime-contracts/new`);
+    await page.goto(`/${TEST_PROJECT_ID}/prime-contracts/new`);
     await page.waitForLoadState('networkidle');
 
     // Look for Add Line button

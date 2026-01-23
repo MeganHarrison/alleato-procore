@@ -13,7 +13,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Dropdown Hover Colors', () => {
   test('Portfolio page Client filter dropdown has neutral gray hover', async ({ page }) => {
     // Navigate to portfolio page
-    await page.goto('http://localhost:3003');
+    await page.goto('/');
     await page.waitForLoadState('networkidle');
 
     // Locate the Client dropdown/select filter
@@ -73,7 +73,7 @@ test.describe('Dropdown Hover Colors', () => {
 
   test('Portfolio page Phase filter dropdown has neutral gray hover', async ({ page }) => {
     // Navigate to portfolio page
-    await page.goto('http://localhost:3003');
+    await page.goto('/');
     await page.waitForLoadState('networkidle');
 
     // Locate the Phase dropdown/select filter

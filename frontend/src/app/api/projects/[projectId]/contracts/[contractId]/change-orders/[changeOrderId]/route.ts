@@ -45,7 +45,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
           { status: 404 },
         );
       }
-      console.error("Error fetching change order:", error);
       return NextResponse.json(
         { error: "Failed to fetch change order", details: error.message },
         { status: 400 },
@@ -54,10 +53,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error(
-      "Error in GET /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -171,7 +166,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       .single();
 
     if (error) {
-      console.error("Error updating change order:", error);
       return NextResponse.json(
         { error: "Failed to update change order", details: error.message },
         { status: 400 },
@@ -193,10 +187,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    console.error(
-      "Error in PUT /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -279,7 +269,6 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       .eq("contract_id", contractId);
 
     if (error) {
-      console.error("Error deleting change order:", error);
       return NextResponse.json(
         { error: "Failed to delete change order", details: error.message },
         { status: 400 },
@@ -291,10 +280,6 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       { status: 200 },
     );
   } catch (error) {
-    console.error(
-      "Error in DELETE /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

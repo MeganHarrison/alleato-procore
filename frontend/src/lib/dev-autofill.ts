@@ -581,13 +581,11 @@ export function getAutoFillData(
   formType: keyof typeof autoFillPresets,
 ): Record<string, any> {
   if (!isDevelopment) {
-    console.warn("Auto-fill is only available in development mode");
     return {};
   }
 
   const preset = autoFillPresets[formType];
   if (!preset) {
-    console.warn(`No auto-fill preset found for form type: ${formType}`);
     return {};
   }
 

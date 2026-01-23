@@ -120,7 +120,6 @@ export function VerticalMarkupSettings({
         toast.error("Failed to load markup settings");
       }
     } catch (error) {
-      console.error("Error fetching markups:", error);
       toast.error("Failed to load markup settings");
     } finally {
       setLoading(false);
@@ -166,7 +165,6 @@ export function VerticalMarkupSettings({
         toast.error(error.error || "Failed to add markup");
       }
     } catch (error) {
-      console.error("Error adding markup:", error);
       toast.error("Failed to add markup");
     } finally {
       setSaving(false);
@@ -187,7 +185,6 @@ export function VerticalMarkupSettings({
         toast.error("Failed to delete markup");
       }
     } catch (error) {
-      console.error("Error deleting markup:", error);
       toast.error("Failed to delete markup");
     }
   };
@@ -217,7 +214,6 @@ export function VerticalMarkupSettings({
         fetchMarkups(); // Revert on error
       }
     } catch (error) {
-      console.error("Error updating markup:", error);
       toast.error("Failed to save changes");
       fetchMarkups();
     }
@@ -251,7 +247,6 @@ export function VerticalMarkupSettings({
         toast.error("Failed to calculate");
       }
     } catch (error) {
-      console.error("Error calculating:", error);
       toast.error("Failed to calculate");
     }
   };

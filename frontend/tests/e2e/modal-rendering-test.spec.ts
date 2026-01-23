@@ -4,7 +4,7 @@ test.describe('Modal Rendering Test', () => {
   test.use({ storageState: undefined });
 
   test('should manually trigger modal and check rendering', async ({ page }) => {
-    await page.goto('http://localhost:3002/67/budget');
+    await page.goto('/67/budget');
     await page.waitForLoadState('networkidle');
 
     // Wait for table

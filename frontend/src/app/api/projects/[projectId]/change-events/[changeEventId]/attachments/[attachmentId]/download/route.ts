@@ -58,7 +58,6 @@ export async function GET(
       .download(attachment.file_path);
 
     if (downloadError || !fileData) {
-      console.error('Error downloading file:', downloadError);
       return NextResponse.json(
         {
           error: 'Failed to download file',
@@ -79,7 +78,6 @@ export async function GET(
 
     return new NextResponse(buffer, { headers });
   } catch (error) {
-    console.error('Error in download attachment:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

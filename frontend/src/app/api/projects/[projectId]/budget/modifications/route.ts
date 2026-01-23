@@ -100,7 +100,6 @@ export async function GET(
     const { data, error } = await query;
 
     if (error) {
-      console.error("Error fetching budget modifications:", error);
       return NextResponse.json(
         { error: "Failed to fetch budget modifications" },
         { status: 500 },
@@ -162,7 +161,6 @@ export async function GET(
       modifications,
     });
   } catch (error) {
-    console.error("Error in budget modifications GET route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -304,7 +302,6 @@ export async function POST(
       .single();
 
     if (modError) {
-      console.error("Error creating budget modification:", modError);
       return NextResponse.json(
         {
           error: "Failed to create budget modification",
@@ -328,7 +325,6 @@ export async function POST(
       });
 
     if (lineInsertError) {
-      console.error("Error creating budget mod line:", lineInsertError);
       // Clean up the parent modification if line insert fails
       await supabase
         .from("budget_modifications")
@@ -356,7 +352,6 @@ export async function POST(
       message: "Budget modification created as draft",
     });
   } catch (error) {
-    console.error("Error in budget modifications POST route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -477,7 +472,6 @@ export async function PATCH(
       .single();
 
     if (updateError) {
-      console.error("Error updating budget modification:", updateError);
       return NextResponse.json(
         { error: "Failed to update budget modification" },
         { status: 500 },
@@ -508,7 +502,6 @@ export async function PATCH(
       message: actionMessages[action],
     });
   } catch (error) {
-    console.error("Error in budget modifications PATCH route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -584,7 +577,6 @@ export async function DELETE(
       .eq("budget_modification_id", modificationId);
 
     if (linesDeleteError) {
-      console.error("Error deleting budget mod lines:", linesDeleteError);
       return NextResponse.json(
         { error: "Failed to delete modification lines" },
         { status: 500 },
@@ -598,7 +590,6 @@ export async function DELETE(
       .eq("id", modificationId);
 
     if (deleteError) {
-      console.error("Error deleting budget modification:", deleteError);
       return NextResponse.json(
         { error: "Failed to delete budget modification" },
         { status: 500 },
@@ -610,7 +601,6 @@ export async function DELETE(
       message: "Budget modification deleted successfully",
     });
   } catch (error) {
-    console.error("Error in budget modifications DELETE route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

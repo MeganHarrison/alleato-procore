@@ -46,7 +46,6 @@ export async function POST(request: NextRequest) {
     const { data: jobs, error } = await query.limit(10); // Process up to 10 at a time
 
     if (error) {
-      console.error("Error fetching jobs:", error);
       return NextResponse.json(
         { error: "Failed to fetch jobs" },
         { status: 500 },
@@ -112,7 +111,6 @@ export async function POST(request: NextRequest) {
       results,
     });
   } catch (error) {
-    console.error("Error in trigger pipeline API:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -150,7 +148,6 @@ export async function GET() {
 
     return NextResponse.json({ phaseCounts: counts });
   } catch (error) {
-    console.error("Error getting phase counts:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

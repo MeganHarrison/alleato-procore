@@ -12,18 +12,18 @@ import { test, expect, Page } from '@playwright/test';
  */
 
 // Test configuration
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const TEST_PROJECT_ID = '67';
 
 // Helper function to navigate to commitments page
 async function navigateToCommitments(page: Page, projectId: string = TEST_PROJECT_ID) {
-  await page.goto(`${BASE_URL}/${projectId}/commitments`);
+  await page.goto(`/${projectId}/commitments`);
   await page.waitForLoadState('networkidle');
 }
 
 // Helper function to navigate to recycle bin
 async function navigateToRecycleBin(page: Page, projectId: string = TEST_PROJECT_ID) {
-  await page.goto(`${BASE_URL}/${projectId}/commitments/recycled`);
+  await page.goto(`/${projectId}/commitments/recycled`);
   await page.waitForLoadState('domcontentloaded');
   await page.waitForTimeout(1000); // Give time for data to load
 }
@@ -520,7 +520,7 @@ test.describe('Recycle Bin - Mobile Responsiveness', () => {
 test.describe('Recycle Bin - Empty State', () => {
   test('should display empty state when no deleted commitments', async ({ page }) => {
     // Navigate to a project that might have no deleted commitments
-    await page.goto(`${BASE_URL}/999/commitments/recycled`);
+    await page.goto(`/999/commitments/recycled`);
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 

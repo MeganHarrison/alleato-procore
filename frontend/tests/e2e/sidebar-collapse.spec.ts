@@ -16,7 +16,7 @@ test.describe('Sidebar Collapse Behavior', () => {
     await page.setViewportSize({ width: 1280, height: 720 });
 
     // Step 1: Navigate to dashboard
-    await page.goto('http://localhost:3000/dashboard');
+    await page.goto('/dashboard');
 
     // Step 2: Wait for page load with networkidle
     await page.waitForLoadState('networkidle');

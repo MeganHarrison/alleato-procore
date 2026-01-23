@@ -57,12 +57,10 @@ export async function POST(
     if (send_invites) {
       // For each successful user, send invitation email
       // This would integrate with your email service
-      console.warn("Email invitations not yet implemented");
-    }
+      }
 
     return NextResponse.json(result, { status: 201 });
   } catch (error) {
-    console.error("Error in bulk add users:", error);
     return NextResponse.json(
       {
         error: error instanceof Error ? error.message : "Internal server error",

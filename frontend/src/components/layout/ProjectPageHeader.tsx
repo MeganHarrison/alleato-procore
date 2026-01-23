@@ -6,16 +6,10 @@
 import * as React from "react";
 import { PageHeader as UnifiedPageHeader } from "./page-header-unified";
 
-interface BreadcrumbItem {
-  label: string;
-  href?: string;
-}
-
 interface ProjectPageHeaderProps {
   title: string;
   titleContent?: React.ReactNode;
   description?: string;
-  breadcrumbs?: BreadcrumbItem[];
   actions?: React.ReactNode;
   className?: string;
   showProjectName?: boolean;

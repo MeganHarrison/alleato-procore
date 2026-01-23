@@ -60,8 +60,7 @@ export function PendingBudgetChangesModal({
         setChangeOrders(data.changeOrders || []);
       }
     } catch (error) {
-      console.error("Error fetching pending budget changes:", error);
-    } finally {
+      } finally {
       setLoading(false);
     }
   };

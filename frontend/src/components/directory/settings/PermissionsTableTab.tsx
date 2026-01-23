@@ -52,8 +52,7 @@ export function PermissionsTableTab({ projectId }: PermissionsTableTabProps) {
     try {
       await updatePermission(personId, level);
     } catch (err) {
-      console.error("Failed to update permission:", err);
-    } finally {
+      } finally {
       setUpdatingUser(null);
     }
   };

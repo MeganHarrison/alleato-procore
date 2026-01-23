@@ -30,7 +30,6 @@ export async function GET(
       .order("created_at", { ascending: false });
 
     if (error) {
-      console.error("Error fetching purchase orders:", error);
       return NextResponse.json(
         { error: "Failed to fetch purchase orders" },
         { status: 500 },
@@ -39,7 +38,6 @@ export async function GET(
 
     return NextResponse.json({ data });
   } catch (error) {
-    console.error("Unexpected error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -155,7 +153,6 @@ export async function POST(
       .single();
 
     if (poError) {
-      console.error("Database insert error:", poError);
       return NextResponse.json(
         {
           error: "Failed to create purchase order",
@@ -186,7 +183,6 @@ export async function POST(
         .insert(sovItems);
 
       if (sovError) {
-        console.error("Error creating SOV items:", sovError);
         await supabase
           .from("purchase_orders")
           .delete()
@@ -210,7 +206,6 @@ export async function POST(
       message: "Purchase order created successfully",
     });
   } catch (error) {
-    console.error("Unexpected error:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

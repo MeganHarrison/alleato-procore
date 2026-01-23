@@ -36,8 +36,15 @@ export function useProjectCompanies(
         `/api/projects/${projectId}/directory/companies?${params}`,
       );
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Failed to fetch companies");
+        let errorMessage = "Failed to fetch companies";
+        try {
+          const error = await response.json();
+          errorMessage = error.message || errorMessage;
+        } catch {
+          // If response doesn't have valid JSON, use default message
+          errorMessage = `Failed to fetch companies (${response.status})`;
+        }
+        throw new Error(errorMessage);
       }
       return response.json();
     },
@@ -72,8 +79,15 @@ export function useProjectCompany(
         `/api/projects/${projectId}/directory/companies/${companyId}`,
       );
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Failed to fetch company");
+        let errorMessage = "Failed to fetch company";
+        try {
+          const error = await response.json();
+          errorMessage = error.message || errorMessage;
+        } catch {
+          // If response doesn't have valid JSON, use default message
+          errorMessage = `Failed to fetch company (${response.status})`;
+        }
+        throw new Error(errorMessage);
       }
       return response.json();
     },
@@ -102,8 +116,15 @@ export function useCreateProjectCompany(projectId: string) {
         },
       );
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Failed to create company");
+        let errorMessage = "Failed to create company";
+        try {
+          const error = await response.json();
+          errorMessage = error.message || errorMessage;
+        } catch {
+          // If response doesn't have valid JSON, use default message
+          errorMessage = `Failed to create company (${response.status})`;
+        }
+        throw new Error(errorMessage);
       }
       return response.json();
     },
@@ -135,8 +156,15 @@ export function useUpdateProjectCompany(projectId: string) {
         },
       );
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Failed to update company");
+        let errorMessage = "Failed to update company";
+        try {
+          const error = await response.json();
+          errorMessage = error.message || errorMessage;
+        } catch {
+          // If response doesn't have valid JSON, use default message
+          errorMessage = `Failed to update company (${response.status})`;
+        }
+        throw new Error(errorMessage);
       }
       return response.json();
     },
@@ -163,8 +191,15 @@ export function useDeleteProjectCompany(projectId: string) {
         },
       );
       if (!response.ok) {
-        const error = await response.json();
-        throw new Error(error.message || "Failed to delete company");
+        let errorMessage = "Failed to delete company";
+        try {
+          const error = await response.json();
+          errorMessage = error.message || errorMessage;
+        } catch {
+          // If response doesn't have valid JSON, use default message
+          errorMessage = `Failed to delete company (${response.status})`;
+        }
+        throw new Error(errorMessage);
       }
       return true;
     },

@@ -7,8 +7,9 @@ import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { ProjectRolesTab } from "@/components/directory/settings/ProjectRolesTab";
 import { PermissionsTableTab } from "@/components/directory/settings/PermissionsTableTab";
+import { DirectoryActivityPanel } from "@/components/directory/settings/DirectoryActivityPanel";
 
-type SettingsTab = "roles" | "permissions";
+type SettingsTab = "roles" | "permissions" | "activity";
 
 export default function ProjectDirectorySettingsPage() {
   const params = useParams();
@@ -70,6 +71,17 @@ export default function ProjectDirectorySettingsPage() {
               >
                 Permissions Table
               </button>
+              <button
+                onClick={() => setActiveTab("activity")}
+                className={cn(
+                  "w-full text-left px-3 py-2 text-sm font-medium rounded-md transition-colors",
+                  activeTab === "activity"
+                    ? "text-orange-600 bg-orange-50"
+                    : "text-foreground hover:text-foreground hover:bg-muted",
+                )}
+              >
+                Activity Log
+              </button>
             </nav>
           </div>
         </div>
@@ -79,6 +91,9 @@ export default function ProjectDirectorySettingsPage() {
           {activeTab === "roles" && <ProjectRolesTab projectId={projectId} />}
           {activeTab === "permissions" && (
             <PermissionsTableTab projectId={projectId} />
+          )}
+          {activeTab === "activity" && (
+            <DirectoryActivityPanel projectId={projectId} />
           )}
         </div>
       </div>

@@ -18,7 +18,7 @@ test('capture actual budget details error', async ({ page }) => {
   });
 
   console.warn('Navigating to budget details...');
-  await page.goto('http://localhost:3004/67/budget?tab=budget-details');
+  await page.goto('/67/budget?tab=budget-details');
 
   // Wait for page to load
   await page.waitForTimeout(5000);

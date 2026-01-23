@@ -27,23 +27,19 @@ export default function ProjectDirectoryGroupsPage() {
 
   const handleAddGroup = () => {
     // TODO: Open add group modal
-    console.warn("Add group functionality not yet implemented");
-  };
+    };
 
   const handleEditGroup = (group: unknown) => {
     // TODO: Open edit group modal
-    console.warn("Edit group functionality not yet implemented", group);
-  };
+    };
 
   const handleDeleteGroup = async (group: unknown) => {
     // TODO: Implement delete group
-    console.warn("Delete group functionality not yet implemented", group);
-  };
+    };
 
   const handleManageMembers = (group: unknown) => {
     // TODO: Open manage members modal
-    console.warn("Manage members functionality not yet implemented", group);
-  };
+    };
 
   const tabs = getProjectDirectoryTabs(projectId, pathname);
 

@@ -3,12 +3,12 @@ import { test, expect } from '@playwright/test'
 test.describe('Project Setup Wizard - Budget Save Fix', () => {
   test('should complete full project setup wizard including budget save', async ({ page }) => {
     // Login first using dev login
-    await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123')
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123')
     await page.waitForLoadState('networkidle')
     await page.waitForTimeout(2000)
 
     // Navigate to project creation form
-    await page.goto('http://localhost:3000/form-project')
+    await page.goto('/form-project')
     await page.waitForLoadState('networkidle')
 
     // Step 1: Fill out project form using autofill

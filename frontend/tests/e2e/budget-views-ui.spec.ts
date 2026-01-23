@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import path from 'path';
 
 const TEST_PROJECT_ID = '118';
-const BASE_URL = `http://localhost:3000/${TEST_PROJECT_ID}/budget`;
+const BASE_URL = `${process.env.BASE_URL || 'http://localhost:3000'}/${TEST_PROJECT_ID}/budget`;
 
 test.describe('Budget Views UI - Phase 2b', () => {
   test.beforeEach(async ({ page }) => {
@@ -16,7 +16,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
     // Clean up any non-system views before each test to prevent duplicate name errors
     try {
       const viewsResponse = await page.request.get(
-        `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views`,
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views`,
         { headers: { Cookie: authCookies } }
       );
 
@@ -26,7 +26,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
         for (const view of views || []) {
           if (!view.is_system) {
             await page.request.delete(
-              `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views/${view.id}`,
+              `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views/${view.id}`,
               { headers: { Cookie: authCookies } }
             );
           }
@@ -97,7 +97,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
         .join('; ');
 
       const createResponse = await page.request.post(
-        `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views`,
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views`,
         {
           headers: {
             Cookie: authCookies,
@@ -137,7 +137,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
       // Cleanup
       await page.request.delete(
-        `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views/${createdView.id}`,
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views/${createdView.id}`,
         { headers: { Cookie: authCookies } }
       );
     });
@@ -188,7 +188,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
         .join('; ');
 
       const createResponse = await page.request.post(
-        `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views`,
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views`,
         {
           headers: { Cookie: authCookies, 'Content-Type': 'application/json' },
           data: { name: 'Test Default View', columns: [{ column_key: 'costCode', display_order: 1 }] },
@@ -212,7 +212,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
       // Cleanup
       await page.request.delete(
-        `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views/${createdView.id}`,
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views/${createdView.id}`,
         { headers: { Cookie: authCookies } }
       );
     });
@@ -263,7 +263,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
         .join('; ');
 
       const listResponse = await page.request.get(
-        `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views`,
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views`,
         { headers: { Cookie: authCookies } }
       );
       const { views } = await listResponse.json();
@@ -271,7 +271,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
       if (testView) {
         await page.request.delete(
-          `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views/${testView.id}`,
+          `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views/${testView.id}`,
           { headers: { Cookie: authCookies } }
         );
       }
@@ -286,7 +286,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
         .join('; ');
 
       const createResponse = await page.request.post(
-        `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views`,
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views`,
         {
           headers: { Cookie: authCookies, 'Content-Type': 'application/json' },
           data: {
@@ -331,7 +331,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
       // Cleanup
       await page.request.delete(
-        `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views/${createdView.id}`,
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views/${createdView.id}`,
         { headers: { Cookie: authCookies } }
       );
     });
@@ -361,7 +361,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
         .join('; ');
 
       const listResponse = await page.request.get(
-        `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views`,
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views`,
         { headers: { Cookie: authCookies } }
       );
       const { views } = await listResponse.json();
@@ -369,7 +369,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
       if (clonedView) {
         await page.request.delete(
-          `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views/${clonedView.id}`,
+          `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views/${clonedView.id}`,
           { headers: { Cookie: authCookies } }
         );
       }
@@ -384,7 +384,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
         .join('; ');
 
       const createResponse = await page.request.post(
-        `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views`,
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views`,
         {
           headers: { Cookie: authCookies, 'Content-Type': 'application/json' },
           data: { name: 'View to Delete', columns: [{ column_key: 'costCode', display_order: 1 }] },
@@ -481,7 +481,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
         .join('; ');
 
       const createResponse = await page.request.post(
-        `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views`,
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views`,
         {
           headers: { Cookie: authCookies, 'Content-Type': 'application/json' },
           data: { name: 'Persistent View Test', columns: [{ column_key: 'costCode', display_order: 1 }] },
@@ -521,7 +521,7 @@ test.describe('Budget Views UI - Phase 2b', () => {
 
       // Cleanup
       await page.request.delete(
-        `http://localhost:3000/api/projects/${TEST_PROJECT_ID}/budget/views/${createdView.id}`,
+        `${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${TEST_PROJECT_ID}/budget/views/${createdView.id}`,
         { headers: { Cookie: authCookies } }
       );
     });

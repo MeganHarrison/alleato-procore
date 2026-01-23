@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('RFIs Page Visual Test', () => {
   test('check RFIs page on port 3000', async ({ page }) => {
     console.log('🔍 Testing http://localhost:3000/rfis');
-    await page.goto('http://localhost:3000/rfis');
+    await page.goto('/rfis');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000); // Let everything render
 
@@ -36,7 +36,7 @@ test.describe('RFIs Page Visual Test', () => {
 
   test('check RFIs page on port 3002', async ({ page }) => {
     console.log('🔍 Testing http://localhost:3002/rfis');
-    await page.goto('http://localhost:3002/rfis');
+    await page.goto('/rfis');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 

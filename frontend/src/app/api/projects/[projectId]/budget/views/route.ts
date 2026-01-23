@@ -12,19 +12,25 @@ export async function GET(
     const supabase = await createClient();
     const { projectId } = await context.params;
 
-    // Debug: Check authentication
+    // Check authentication
     const {
       data: { user },
       error: authError,
     } = await supabase.auth.getUser();
-    console.log("[Budget Views API] GET Request:", {
-      projectId,
-      userId: user?.id,
-      userEmail: user?.email,
-      authError: authError?.message,
-      hasAuth: !!user,
-    });
 
+    if (authError) {
+      return NextResponse.json(
+        { error: "Authentication failed", details: authError.message },
+        { status: 401 },
+      );
+    }
+
+    if (!user) {
+      return NextResponse.json(
+        { error: "User not found" },
+        { status: 401 },
+      );
+    }
     // Fetch views with their columns
     const { data: views, error: viewsError } = await supabase
       .from("budget_views")
@@ -38,20 +44,11 @@ export async function GET(
       .order("created_at", { ascending: true });
 
     if (viewsError) {
-      console.error(
-        "[Budget Views API] Error fetching budget views:",
-        viewsError,
-      );
       return NextResponse.json(
         { error: "Failed to fetch budget views", details: viewsError.message },
         { status: 500 },
       );
     }
-
-    console.log("[Budget Views API] Query result:", {
-      viewsCount: views?.length || 0,
-      viewNames: views?.map((v) => v.name) || [],
-    });
 
     // Sort columns by display_order
     const viewsWithSortedColumns = views?.map((view) => ({
@@ -60,14 +57,8 @@ export async function GET(
         view.columns?.sort((a, b) => a.display_order - b.display_order) || [],
     }));
 
-    console.log(
-      "[Budget Views API] Returning views:",
-      viewsWithSortedColumns?.length || 0,
-    );
-
     return NextResponse.json({ views: viewsWithSortedColumns });
   } catch (error) {
-    console.error("Error in GET /api/projects/[id]/budget/views:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -101,19 +92,7 @@ export async function POST(
       data: { user },
       error: userError,
     } = await supabase.auth.getUser();
-    console.log("[Budget Views API] POST Authentication:", {
-      projectId,
-      userId: user?.id,
-      userEmail: user?.email,
-      hasUser: !!user,
-      authError: userError?.message,
-    });
-
     if (userError || !user) {
-      console.error("[Budget Views API] POST Unauthorized:", {
-        userError,
-        hasUser: !!user,
-      });
       return NextResponse.json(
         { error: "Unauthorized", details: userError?.message },
         { status: 401 },
@@ -135,7 +114,6 @@ export async function POST(
       .single();
 
     if (viewError) {
-      console.error("Error creating budget view:", viewError);
       return NextResponse.json(
         { error: "Failed to create budget view", details: viewError.message },
         { status: 500 },
@@ -161,7 +139,6 @@ export async function POST(
     if (columnsError) {
       // Rollback: delete the view
       await supabase.from("budget_views").delete().eq("id", view.id);
-      console.error("Error creating budget view columns:", columnsError);
       return NextResponse.json(
         {
           error: "Failed to create budget view columns",
@@ -183,7 +160,6 @@ export async function POST(
       { status: 201 },
     );
   } catch (error) {
-    console.error("Error in POST /api/projects/[id]/budget/views:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

@@ -50,25 +50,13 @@ export function BudgetViewsManager({
   // Fetch views
   const fetchViews = React.useCallback(async () => {
     try {
-      console.log(
-        "[BudgetViewsManager] Fetching views for project:",
-        projectId,
-      );
       const response = await fetch(`/api/projects/${projectId}/budget/views`);
-      console.log("[BudgetViewsManager] Response status:", response.status);
-
       if (!response.ok) {
         const errorData = await response.json().catch(() => ({}));
-        console.error("[BudgetViewsManager] API error:", errorData);
         throw new Error("Failed to fetch views");
       }
 
       const data = await response.json();
-      console.log(
-        "[BudgetViewsManager] Received views:",
-        data.views?.length || 0,
-        data.views,
-      );
       setViews(data.views || []);
 
       // If no current view is selected, select the default one
@@ -77,15 +65,10 @@ export function BudgetViewsManager({
           (v: BudgetViewDefinition) => v.is_default,
         );
         if (defaultView) {
-          console.log(
-            "[BudgetViewsManager] Setting default view:",
-            defaultView.name,
-          );
           onViewChange(defaultView.id);
         }
       }
     } catch (error) {
-      console.error("[BudgetViewsManager] Error fetching views:", error);
       toast.error("Failed to load budget views");
     } finally {
       setLoading(false);
@@ -131,7 +114,6 @@ export function BudgetViewsManager({
       toast.success("View cloned successfully");
       fetchViews();
     } catch (error) {
-      console.error("Error cloning view:", error);
       toast.error("Failed to clone view");
     }
   };
@@ -170,7 +152,6 @@ export function BudgetViewsManager({
 
       fetchViews();
     } catch (error) {
-      console.error("Error deleting view:", error);
       toast.error("Failed to delete view");
     } finally {
       setDeleteDialogOpen(false);
@@ -196,7 +177,6 @@ export function BudgetViewsManager({
       toast.success("Default view updated");
       fetchViews();
     } catch (error) {
-      console.error("Error setting default view:", error);
       toast.error("Failed to set default view");
     }
   };

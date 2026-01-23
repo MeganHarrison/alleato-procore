@@ -183,8 +183,7 @@ export async function POST(request: Request) {
           .insert(allowedUsersData);
 
         if (usersError) {
-          console.error("Error inserting allowed users:", usersError);
-        }
+          }
       }
     }
 

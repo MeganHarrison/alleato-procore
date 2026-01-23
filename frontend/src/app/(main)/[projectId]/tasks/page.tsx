@@ -122,7 +122,6 @@ export default async function ProjectTasksPage({
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Error fetching tasks:", error);
     return (
       <TableLayout>
         <div className="text-center text-red-600 p-6">

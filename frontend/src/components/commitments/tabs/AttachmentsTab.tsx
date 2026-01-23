@@ -42,7 +42,6 @@ export function AttachmentsTab({ commitmentId }: AttachmentsTabProps) {
         throw new Error("Failed to load attachments");
       }
     } catch (error) {
-      console.error("Error fetching attachments:", error);
       toast.error("Failed to load attachments");
     } finally {
       setIsLoading(false);
@@ -80,7 +79,6 @@ export function AttachmentsTab({ commitmentId }: AttachmentsTabProps) {
       // Refresh attachments list
       await fetchAttachments();
     } catch (error) {
-      console.error("Error uploading files:", error);
       toast.error("Failed to upload files");
     } finally {
       setIsUploading(false);
@@ -112,7 +110,6 @@ export function AttachmentsTab({ commitmentId }: AttachmentsTabProps) {
       // Remove from local state
       setAttachments((prev) => prev.filter((att) => att.id !== attachmentId));
     } catch (error) {
-      console.error("Error deleting attachment:", error);
       toast.error("Failed to delete attachment");
     } finally {
       setDeletingIds((prev) => {
@@ -131,7 +128,6 @@ export function AttachmentsTab({ commitmentId }: AttachmentsTabProps) {
         window.open(attachment.url, "_blank");
       }
     } catch (error) {
-      console.error("Error downloading file:", error);
       toast.error("Failed to download file");
     }
   };

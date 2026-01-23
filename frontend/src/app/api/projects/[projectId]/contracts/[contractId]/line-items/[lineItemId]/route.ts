@@ -45,7 +45,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
           { status: 404 },
         );
       }
-      console.error("Error fetching line item:", error);
       return NextResponse.json(
         { error: "Failed to fetch line item", details: error.message },
         { status: 400 },
@@ -54,10 +53,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error(
-      "Error in GET /api/projects/[id]/contracts/[contractId]/line-items/[lineItemId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -170,7 +165,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       .single();
 
     if (error) {
-      console.error("Error updating line item:", error);
       return NextResponse.json(
         { error: "Failed to update line item", details: error.message },
         { status: 400 },
@@ -192,10 +186,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    console.error(
-      "Error in PUT /api/projects/[id]/contracts/[contractId]/line-items/[lineItemId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -278,7 +268,6 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       .eq("contract_id", contractId);
 
     if (error) {
-      console.error("Error deleting line item:", error);
       return NextResponse.json(
         { error: "Failed to delete line item", details: error.message },
         { status: 400 },
@@ -290,10 +279,6 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       { status: 200 },
     );
   } catch (error) {
-    console.error(
-      "Error in DELETE /api/projects/[id]/contracts/[contractId]/line-items/[lineItemId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

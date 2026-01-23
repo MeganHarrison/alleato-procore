@@ -144,7 +144,6 @@ export function OriginalBudgetEditModal({
         const data = await response.json();
         setHistory(data.history || []);
       } catch (err) {
-        console.error("Error fetching history:", err);
         setError(err instanceof Error ? err.message : "Failed to load history");
       } finally {
         setLoading(false);
@@ -170,8 +169,7 @@ export function OriginalBudgetEditModal({
 
       onClose();
     } catch (err) {
-      console.error("Error saving:", err);
-    } finally {
+      } finally {
       setSaving(false);
     }
   };

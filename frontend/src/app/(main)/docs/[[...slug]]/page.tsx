@@ -10,7 +10,7 @@ import Link from "next/link";
 import { FileText, FolderTree, ChevronRight, Home } from "lucide-react";
 
 // Define the documentation root path
-const DOCS_ROOT = path.join(process.cwd(), "../documentation/docs");
+const DOCS_ROOT = path.join(process.cwd(), "../docs");
 
 interface DocPageProps {
   params: Promise<{
@@ -53,8 +53,7 @@ export async function generateStaticParams() {
         }
       }
     } catch (error) {
-      console.error("Error walking directory:", error);
-    }
+      }
   }
 
   await walkDir(DOCS_ROOT);

@@ -246,7 +246,6 @@ export default function NewInvoicePage() {
 
       router.push(`/${projectId}/invoices`);
     } catch (error) {
-      console.error("Error creating invoice:", error);
       alert(
         error instanceof Error ? error.message : "Failed to create invoice",
       );

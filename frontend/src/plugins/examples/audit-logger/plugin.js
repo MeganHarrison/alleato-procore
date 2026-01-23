@@ -8,20 +8,16 @@ module.exports = {
   // Plugin lifecycle
   lifecycle: {
     onInstall: async function() {
-      console.log('Audit Logger: Installing plugin...');
-    },
+      },
     
     onEnable: async function() {
-      console.log('Audit Logger: Plugin enabled');
-    },
+      },
     
     onDisable: async function() {
-      console.log('Audit Logger: Plugin disabled');
-    },
+      },
     
     onUninstall: async function() {
-      console.log('Audit Logger: Uninstalling plugin...');
-    },
+      },
   },
   
   // Hook handlers

@@ -1,6 +1,131 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/lib/supabase/server";
 
+// GET /api/projects/[id]/budget/lines/[lineId] - Fetch a single budget line item
+export async function GET(
+  _request: NextRequest,
+  { params }: { params: Promise<{ projectId: string; lineId: string }> },
+) {
+  try {
+    const { projectId, lineId } = await params;
+    const projectIdNum = parseInt(projectId, 10);
+
+    if (Number.isNaN(projectIdNum)) {
+      return NextResponse.json(
+        { error: "Invalid project ID" },
+        { status: 400 },
+      );
+    }
+
+    const supabase = await createClient();
+
+    // Get current user for authorization
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      return NextResponse.json(
+        { error: "Unauthorized - please log in" },
+        { status: 401 },
+      );
+    }
+
+    // TODO: Add project membership validation when project_team_members table exists
+    // For now, all authenticated users can view (will be restricted by RLS on budget_lines)
+
+    // Fetch the budget line with related data
+    const { data: budgetLine, error: lineError } = await supabase
+      .from("budget_lines")
+      .select(
+        `
+        id,
+        project_id,
+        cost_code_id,
+        cost_type_id,
+        project_budget_code_id,
+        description,
+        quantity,
+        unit_cost,
+        unit_of_measure,
+        original_amount,
+        forecasting_enabled,
+        default_ftc_method,
+        sub_job_id,
+        sub_job_key,
+        created_at,
+        created_by,
+        updated_at,
+        updated_by,
+        cost_codes(
+          id,
+          title,
+          division_id,
+          division_title
+        ),
+        cost_code_types(
+          id,
+          name,
+          category
+        )
+      `,
+      )
+      .eq("id", lineId)
+      .single();
+
+    if (lineError) {
+      if (lineError.code === "PGRST116") {
+        return NextResponse.json(
+          { error: "Budget line item not found" },
+          { status: 404 },
+        );
+      }
+      return NextResponse.json(
+        { error: "Failed to fetch budget line", details: lineError.message },
+        { status: 500 },
+      );
+    }
+
+    // Verify the budget line belongs to the specified project
+    if (budgetLine.project_id !== projectIdNum) {
+      return NextResponse.json(
+        { error: "Budget line does not belong to this project" },
+        { status: 403 },
+      );
+    }
+
+    // Return the budget line with enriched data
+    return NextResponse.json({
+      id: budgetLine.id,
+      project_id: budgetLine.project_id,
+      cost_code_id: budgetLine.cost_code_id,
+      cost_type_id: budgetLine.cost_type_id,
+      project_budget_code_id: budgetLine.project_budget_code_id,
+      description: budgetLine.description,
+      quantity: budgetLine.quantity,
+      unit_cost: budgetLine.unit_cost,
+      unit_of_measure: budgetLine.unit_of_measure,
+      original_amount: budgetLine.original_amount,
+      forecasting_enabled: budgetLine.forecasting_enabled,
+      default_ftc_method: budgetLine.default_ftc_method,
+      sub_job_id: budgetLine.sub_job_id,
+      sub_job_key: budgetLine.sub_job_key,
+      created_at: budgetLine.created_at,
+      created_by: budgetLine.created_by,
+      updated_at: budgetLine.updated_at,
+      updated_by: budgetLine.updated_by,
+      // Related data
+      cost_code: budgetLine.cost_codes,
+      cost_type: budgetLine.cost_code_types,
+    });
+  } catch (error: unknown) {
+    const errorMessage =
+      error instanceof Error ? error.message : "Failed to fetch budget line";
+    return NextResponse.json({ error: errorMessage }, { status: 500 });
+  }
+}
+
 // PATCH /api/projects/[id]/budget/lines/[lineId] - Update a budget line item
 export async function PATCH(
   request: NextRequest,
@@ -26,7 +151,6 @@ export async function PATCH(
     } = await supabase.auth.getUser();
 
     if (userError || !user) {
-      console.error("Auth error or no user:", { userError, hasUser: !!user });
       return NextResponse.json(
         { error: "Unauthorized - please log in" },
         { status: 401 },
@@ -64,7 +188,6 @@ export async function PATCH(
       .single();
 
     if (projectError) {
-      console.error("Error fetching project:", projectError);
       return NextResponse.json(
         { error: "Failed to verify project status" },
         { status: 500 },
@@ -88,10 +211,6 @@ export async function PATCH(
       .single();
 
     if (lineError || !existingLine) {
-      console.error("Budget line not found:", {
-        lineError,
-        hasLine: !!existingLine,
-      });
       return NextResponse.json(
         { error: "Budget line item not found" },
         { status: 404 },
@@ -169,7 +288,6 @@ export async function PATCH(
       .single();
 
     if (updateError) {
-      console.error("Error updating budget line:", updateError);
       return NextResponse.json(
         { error: "Failed to update budget line", details: updateError.message },
         { status: 500 },
@@ -191,7 +309,6 @@ export async function PATCH(
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "Failed to update budget line";
-    console.error("Error in budget line PATCH route:", error);
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }
@@ -221,7 +338,6 @@ export async function DELETE(
     } = await supabase.auth.getUser();
 
     if (userError || !user) {
-      console.error("Auth error or no user:", { userError, hasUser: !!user });
       return NextResponse.json(
         { error: "Unauthorized - please log in" },
         { status: 401 },
@@ -236,7 +352,6 @@ export async function DELETE(
       .single();
 
     if (projectError) {
-      console.error("Error fetching project:", projectError);
       return NextResponse.json(
         { error: "Failed to verify project status" },
         { status: 500 },
@@ -258,10 +373,6 @@ export async function DELETE(
       .single();
 
     if (lineError || !existingLine) {
-      console.error("Budget line not found:", {
-        lineError,
-        hasLine: !!existingLine,
-      });
       return NextResponse.json(
         { error: "Budget line item not found" },
         { status: 404 },
@@ -282,7 +393,6 @@ export async function DELETE(
       .eq("id", lineId);
 
     if (deleteError) {
-      console.error("Error deleting budget line:", deleteError);
       return NextResponse.json(
         { error: "Failed to delete budget line", details: deleteError.message },
         { status: 500 },
@@ -296,7 +406,6 @@ export async function DELETE(
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "Failed to delete budget line";
-    console.error("Error in budget line DELETE route:", error);
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

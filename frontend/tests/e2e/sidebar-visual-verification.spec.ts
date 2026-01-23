@@ -4,14 +4,14 @@ test.describe('Sidebar Visual Verification', () => {
   test('verify sidebar expanded and collapsed states', async ({ page }) => {
     // Navigate directly to dev-login to authenticate
     console.log('Authenticating via dev-login...');
-    await page.goto('http://localhost:3000/dev-login?email=test1@mail.com&password=test12026!!!');
+    await page.goto('/dev-login?email=test1@mail.com&password=test12026!!!');
     await page.waitForLoadState('networkidle');
 
     // Wait a moment for redirect
     await page.waitForTimeout(1000);
 
     // Navigate to dashboard
-    await page.goto('http://localhost:3000/dashboard');
+    await page.goto('/dashboard');
     await page.waitForLoadState('networkidle');
 
     // Wait for sidebar wrapper - this is the element with data-collapsible

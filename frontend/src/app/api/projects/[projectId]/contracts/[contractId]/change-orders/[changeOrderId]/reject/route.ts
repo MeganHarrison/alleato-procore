@@ -102,7 +102,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       .single();
 
     if (updateError) {
-      console.error("Error rejecting change order:", updateError);
       return NextResponse.json(
         {
           error: "Failed to reject change order",
@@ -127,10 +126,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    console.error(
-      "Error in POST /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]/reject:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

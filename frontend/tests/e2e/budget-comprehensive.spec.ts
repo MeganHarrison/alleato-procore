@@ -14,12 +14,12 @@ import { test, expect, Page } from '@playwright/test';
  */
 
 // Test configuration
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const TEST_PROJECT_ID = '67'; // Use an existing project ID
 
 // Helper function to login
 async function login(page: Page) {
-  await page.goto(`${BASE_URL}/dev-login?email=test@example.com&password=testpassword123`);
+  await page.goto(`/dev-login?email=test@example.com&password=testpassword123`);
   await page.waitForLoadState('networkidle');
   // Dev-login redirects to '/' by default
   await page.waitForURL('**/', { timeout: 15000 });
@@ -27,7 +27,7 @@ async function login(page: Page) {
 
 // Helper function to navigate to budget page
 async function navigateToBudget(page: Page, projectId: string = TEST_PROJECT_ID) {
-  await page.goto(`${BASE_URL}/${projectId}/budget`);
+  await page.goto(`/${projectId}/budget`);
   await page.waitForLoadState('networkidle');
 }
 
@@ -257,7 +257,7 @@ test.describe('Budget Page - Line Item Creation', () => {
 
   test('should display budget setup form elements', async ({ page }) => {
     // Navigate directly to setup page
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/budget/setup`);
+    await page.goto(`/${TEST_PROJECT_ID}/budget/setup`);
     await page.waitForLoadState('networkidle');
 
     // Verify form elements are present
@@ -276,7 +276,7 @@ test.describe('Budget Page - Line Item Creation', () => {
   });
 
   test('should add additional rows in budget setup', async ({ page }) => {
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/budget/setup`);
+    await page.goto(`/${TEST_PROJECT_ID}/budget/setup`);
     await page.waitForLoadState('networkidle');
 
     // Wait for initial load
@@ -297,7 +297,7 @@ test.describe('Budget Page - Line Item Creation', () => {
   });
 
   test('should open budget code dropdown in setup', async ({ page }) => {
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/budget/setup`);
+    await page.goto(`/${TEST_PROJECT_ID}/budget/setup`);
     await page.waitForLoadState('networkidle');
 
     // Wait for loading to complete
@@ -316,7 +316,7 @@ test.describe('Budget Page - Line Item Creation', () => {
   });
 
   test('should show Create New Budget Code option', async ({ page }) => {
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/budget/setup`);
+    await page.goto(`/${TEST_PROJECT_ID}/budget/setup`);
     await page.waitForLoadState('networkidle');
 
     await page.waitForSelector('text=Loading project cost codes...', { state: 'hidden', timeout: 15000 });
@@ -871,7 +871,7 @@ test.describe('Budget Page - Hierarchical Rows', () => {
 test.describe('Budget Setup - Complete Flow', () => {
   test('should complete full line item creation flow', async ({ page }) => {
     await login(page);
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/budget/setup`);
+    await page.goto(`/${TEST_PROJECT_ID}/budget/setup`);
     await page.waitForLoadState('networkidle');
 
     // Wait for loading to complete
@@ -951,7 +951,7 @@ test.describe('Budget Page - Error Handling', () => {
     await login(page);
 
     // Use a project ID that might have no budget data
-    await page.goto(`${BASE_URL}/999/budget`);
+    await page.goto(`/999/budget`);
     await page.waitForLoadState('networkidle');
 
     // Page should still load without crashing

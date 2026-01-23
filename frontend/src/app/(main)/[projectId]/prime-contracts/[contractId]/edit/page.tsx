@@ -51,7 +51,6 @@ export default function EditContractPage() {
         const data = await response.json();
         setContract(data);
       } catch (err) {
-        console.error("Error fetching contract:", err);
         alert("Failed to load contract");
         router.push(`/${projectId}/prime-contracts`);
       } finally {
@@ -98,7 +97,6 @@ export default function EditContractPage() {
 
       router.push(`/${projectId}/prime-contracts/${contractId}`);
     } catch (err) {
-      console.error("Error updating contract:", err);
       alert(err instanceof Error ? err.message : "Failed to update contract");
     } finally {
       setIsSaving(false);

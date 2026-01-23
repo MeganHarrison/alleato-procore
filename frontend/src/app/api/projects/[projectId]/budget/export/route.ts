@@ -1,0 +1,297 @@
+import type { NextRequest } from "next/server";
+import { NextResponse } from "next/server";
+import * as XLSX from "xlsx";
+import { createServiceClient } from "@/lib/supabase/service";
+
+interface ExportBudgetRow {
+  "Cost Code": string;
+  "Cost Type": string;
+  Description: string;
+  "Unit Qty": number | string;
+  UOM: string;
+  "Unit Cost": number | string;
+  "Original Budget": number;
+  "Budget Modifications": number;
+  "Approved Change Orders": number;
+  "Revised Budget": number;
+  "Job to Date Cost": number;
+  "Direct Costs": number;
+  "Pending Changes": number;
+  "Committed Costs": number;
+  "Forecast to Complete": number;
+  "Estimated Cost at Completion": number;
+  "Projected Over/Under": number;
+}
+
+export async function GET(
+  request: NextRequest,
+  context: { params: Promise<{ projectId: string }> },
+) {
+  try {
+    const { projectId } = await context.params;
+    const numericProjectId = parseInt(projectId, 10);
+
+    if (Number.isNaN(numericProjectId)) {
+      return NextResponse.json(
+        { error: "Invalid project ID" },
+        { status: 400 },
+      );
+    }
+
+    const { searchParams } = new URL(request.url);
+    const format = searchParams.get("format") || "excel";
+
+    // Validate format
+    if (!["excel", "csv"].includes(format)) {
+      return NextResponse.json(
+        { error: "Invalid format. Must be 'excel' or 'csv'" },
+        { status: 400 },
+      );
+    }
+
+    const supabase = createServiceClient();
+
+    // Fetch budget data using the same logic as the main budget API
+    const [
+      budgetLinesRes,
+      directCostsRes,
+    ] = await Promise.all([
+      // Budget lines from materialized view
+      supabase
+        .from("v_budget_lines")
+        .select(
+          `
+          *,
+          cost_code:cost_codes(id, title, division_id),
+          cost_type:cost_code_types(code, description),
+          sub_job:sub_jobs(code, name)
+        `,
+        )
+        .eq("project_id", projectId)
+        .order("cost_code_id", { ascending: true }),
+
+      // Direct costs for calculations
+      supabase
+        .from("direct_cost_line_items")
+        .select("cost_code_id, amount, cost_type, approved")
+        .eq("project_id", projectId),
+    ]);
+
+    if (budgetLinesRes.error) {
+      return NextResponse.json(
+        { error: "Failed to fetch budget data for export" },
+        { status: 500 },
+      );
+    }
+
+    // Build cost aggregation by cost_code_id (simplified for export)
+    const costsByCode: Record<string, {
+      jobToDateCostDetail: number;
+      directCosts: number;
+      pendingCostChanges: number;
+    }> = {};
+
+    // Process direct costs
+    const JTD_COST_TYPES = ["Invoice", "Expense", "Payroll", "Subcontractor Invoice"];
+    const DIRECT_COST_TYPES = ["Invoice", "Expense", "Payroll"];
+
+    for (const cost of (directCostsRes.data || []) as Array<{
+      cost_code_id: string | null;
+      amount: number;
+      cost_type: string | null;
+      approved: boolean | null;
+    }>) {
+      const codeId = cost.cost_code_id;
+      if (!codeId || !cost.approved) continue;
+
+      if (!costsByCode[codeId]) {
+        costsByCode[codeId] = {
+          jobToDateCostDetail: 0,
+          directCosts: 0,
+          pendingCostChanges: 0,
+        };
+      }
+
+      const costType = cost.cost_type || "Invoice";
+      const amount = cost.amount || 0;
+
+      if (JTD_COST_TYPES.includes(costType)) {
+        costsByCode[codeId].jobToDateCostDetail += amount;
+      }
+
+      if (DIRECT_COST_TYPES.includes(costType)) {
+        costsByCode[codeId].directCosts += amount;
+      }
+    }
+
+    // Transform to export format
+    const exportData: ExportBudgetRow[] = (budgetLinesRes.data || []).map(
+      (item: Record<string, unknown>) => {
+        const costCode = item.cost_code as
+          | { id?: string; title?: string; division_id?: string }
+          | undefined;
+        const costType = item.cost_type as
+          | { code?: string; description?: string }
+          | undefined;
+        const costCodeId = item.cost_code_id as string;
+
+        // Get cost data for this line item
+        const costData = costsByCode[costCodeId] || {
+          jobToDateCostDetail: 0,
+          directCosts: 0,
+          pendingCostChanges: 0,
+        };
+
+        // Core budget values
+        const originalBudgetAmount = parseFloat(item.original_amount as string) || 0;
+        const budgetModifications = parseFloat(item.budget_mod_total as string) || 0;
+        const approvedCOs = parseFloat(item.approved_co_total as string) || 0;
+        const revisedBudget = parseFloat(item.revised_budget as string) || 0;
+
+        // Calculated fields
+        const forecastToComplete = Math.max(0, revisedBudget - costData.jobToDateCostDetail);
+        const estimatedCostAtCompletion = costData.jobToDateCostDetail + forecastToComplete;
+        const projectedOverUnder = revisedBudget - estimatedCostAtCompletion;
+
+        return {
+          "Cost Code": costCodeId,
+          "Cost Type": costType?.code || "",
+          "Description": (item.description as string) ||
+            `${costCodeId} - ${costCode?.title || ""} ${costType?.code ? `(${costType.code})` : ""}`,
+          "Unit Qty": item.quantity ? parseFloat(item.quantity as string) : "",
+          "UOM": (item.unit_of_measure as string) || "",
+          "Unit Cost": item.unit_cost ? parseFloat(item.unit_cost as string) : "",
+          "Original Budget": originalBudgetAmount,
+          "Budget Modifications": budgetModifications,
+          "Approved Change Orders": approvedCOs,
+          "Revised Budget": revisedBudget,
+          "Job to Date Cost": costData.jobToDateCostDetail,
+          "Direct Costs": costData.directCosts,
+          "Pending Changes": costData.pendingCostChanges,
+          "Committed Costs": 0, // TODO: Calculate from executed commitments
+          "Forecast to Complete": forecastToComplete,
+          "Estimated Cost at Completion": estimatedCostAtCompletion,
+          "Projected Over/Under": projectedOverUnder,
+        };
+      },
+    );
+
+    // Get project name for filename
+    const { data: project } = await supabase
+      .from("projects")
+      .select("name")
+      .eq("id", projectId)
+      .single();
+
+    const projectName = project?.name || `Project-${projectId}`;
+    const timestamp = new Date().toISOString().split('T')[0];
+    const filename = `${projectName}-Budget-${timestamp}`;
+
+    if (format === "csv") {
+      // Generate CSV
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+      const csv = XLSX.utils.sheet_to_csv(worksheet);
+
+      return new NextResponse(csv, {
+        headers: {
+          "Content-Type": "text/csv",
+          "Content-Disposition": `attachment; filename="${filename}.csv"`,
+        },
+      });
+    } else {
+      // Generate Excel
+      const workbook = XLSX.utils.book_new();
+      const worksheet = XLSX.utils.json_to_sheet(exportData);
+
+      // Set column widths for better readability
+      const columnWidths = [
+        { wch: 12 }, // Cost Code
+        { wch: 10 }, // Cost Type
+        { wch: 30 }, // Description
+        { wch: 10 }, // Unit Qty
+        { wch: 8 },  // UOM
+        { wch: 12 }, // Unit Cost
+        { wch: 15 }, // Original Budget
+        { wch: 18 }, // Budget Modifications
+        { wch: 20 }, // Approved Change Orders
+        { wch: 15 }, // Revised Budget
+        { wch: 16 }, // Job to Date Cost
+        { wch: 12 }, // Direct Costs
+        { wch: 15 }, // Pending Changes
+        { wch: 15 }, // Committed Costs
+        { wch: 18 }, // Forecast to Complete
+        { wch: 22 }, // Estimated Cost at Completion
+        { wch: 18 }, // Projected Over/Under
+      ];
+      worksheet['!cols'] = columnWidths;
+
+      // Add worksheet to workbook
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Budget Line Items");
+
+      // Add a summary sheet with grand totals
+      const grandTotals = exportData.reduce(
+        (totals, item) => ({
+          "Total Original Budget": totals["Total Original Budget"] + (typeof item["Original Budget"] === 'number' ? item["Original Budget"] : 0),
+          "Total Budget Modifications": totals["Total Budget Modifications"] + (typeof item["Budget Modifications"] === 'number' ? item["Budget Modifications"] : 0),
+          "Total Approved Change Orders": totals["Total Approved Change Orders"] + (typeof item["Approved Change Orders"] === 'number' ? item["Approved Change Orders"] : 0),
+          "Total Revised Budget": totals["Total Revised Budget"] + (typeof item["Revised Budget"] === 'number' ? item["Revised Budget"] : 0),
+          "Total Job to Date Cost": totals["Total Job to Date Cost"] + (typeof item["Job to Date Cost"] === 'number' ? item["Job to Date Cost"] : 0),
+          "Total Direct Costs": totals["Total Direct Costs"] + (typeof item["Direct Costs"] === 'number' ? item["Direct Costs"] : 0),
+          "Total Pending Changes": totals["Total Pending Changes"] + (typeof item["Pending Changes"] === 'number' ? item["Pending Changes"] : 0),
+          "Total Committed Costs": totals["Total Committed Costs"] + (typeof item["Committed Costs"] === 'number' ? item["Committed Costs"] : 0),
+          "Total Forecast to Complete": totals["Total Forecast to Complete"] + (typeof item["Forecast to Complete"] === 'number' ? item["Forecast to Complete"] : 0),
+          "Total Estimated Cost at Completion": totals["Total Estimated Cost at Completion"] + (typeof item["Estimated Cost at Completion"] === 'number' ? item["Estimated Cost at Completion"] : 0),
+          "Total Projected Over/Under": totals["Total Projected Over/Under"] + (typeof item["Projected Over/Under"] === 'number' ? item["Projected Over/Under"] : 0),
+        }),
+        {
+          "Total Original Budget": 0,
+          "Total Budget Modifications": 0,
+          "Total Approved Change Orders": 0,
+          "Total Revised Budget": 0,
+          "Total Job to Date Cost": 0,
+          "Total Direct Costs": 0,
+          "Total Pending Changes": 0,
+          "Total Committed Costs": 0,
+          "Total Forecast to Complete": 0,
+          "Total Estimated Cost at Completion": 0,
+          "Total Projected Over/Under": 0,
+        }
+      );
+
+      const summaryData = [
+        { Field: "Line Items Count", Value: exportData.length },
+        { Field: "Export Date", Value: new Date().toLocaleDateString() },
+        { Field: "", Value: "" }, // Empty row
+        ...Object.entries(grandTotals).map(([field, value]) => ({
+          Field: field,
+          Value: typeof value === 'number' ? value.toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD'
+          }) : value
+        }))
+      ];
+
+      const summaryWorksheet = XLSX.utils.json_to_sheet(summaryData);
+      summaryWorksheet['!cols'] = [{ wch: 30 }, { wch: 20 }];
+      XLSX.utils.book_append_sheet(workbook, summaryWorksheet, "Summary");
+
+      // Generate Excel buffer
+      const excelBuffer = XLSX.write(workbook, { type: "buffer", bookType: "xlsx" });
+
+      return new NextResponse(excelBuffer, {
+        headers: {
+          "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+          "Content-Disposition": `attachment; filename="${filename}.xlsx"`,
+        },
+      });
+    }
+  } catch (error) {
+    return NextResponse.json(
+      {
+        error: error instanceof Error ? error.message : "Failed to export budget",
+        details: error instanceof Error ? error.stack : undefined,
+      },
+      { status: 500 },
+    );
+  }
+}

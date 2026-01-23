@@ -8,7 +8,7 @@ test.describe('Budget Import', () => {
 
   test.beforeEach(async ({ page }) => {
     // Navigate to budget page
-    await page.goto(`http://localhost:3000/${projectId}/budget`);
+    await page.goto(`/${projectId}/budget`);
     await page.waitForLoadState('networkidle');
   });
 

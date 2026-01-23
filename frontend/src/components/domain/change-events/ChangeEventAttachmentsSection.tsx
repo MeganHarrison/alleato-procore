@@ -42,7 +42,6 @@ export function ChangeEventAttachmentsSection({
         throw new Error("Failed to load attachments");
       }
     } catch (error) {
-      console.error("Error fetching attachments:", error);
       toast.error("Failed to load attachments");
     } finally {
       setIsLoading(false);
@@ -83,7 +82,6 @@ export function ChangeEventAttachmentsSection({
       // Refresh attachments list
       await fetchAttachments();
     } catch (error) {
-      console.error("Error uploading files:", error);
       toast.error("Failed to upload files");
     } finally {
       setIsUploading(false);
@@ -115,7 +113,6 @@ export function ChangeEventAttachmentsSection({
       // Remove from local state
       setAttachments((prev) => prev.filter((att) => att.id !== attachmentId));
     } catch (error) {
-      console.error("Error deleting attachment:", error);
       toast.error("Failed to delete attachment");
     } finally {
       setDeletingIds((prev) => {
@@ -132,7 +129,6 @@ export function ChangeEventAttachmentsSection({
       // Open file in new tab (Supabase storage URLs are public)
       window.open(attachment.file_path, "_blank");
     } catch (error) {
-      console.error("Error downloading file:", error);
       toast.error("Failed to download file");
     }
   };

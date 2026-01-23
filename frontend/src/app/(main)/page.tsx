@@ -36,16 +36,12 @@ export default function PortfolioPage() {
         try {
           return await response.json();
         } catch (error) {
-          console.error("Failed to parse projects JSON:", error);
           return null;
         }
       }
 
       const fallbackBody = await response.text();
-      console.error(
-        "Projects API returned non-JSON response:",
-        fallbackBody.slice(0, 200),
-      );
+      console.error('Failed to fetch projects:', fallbackBody);
       return null;
     },
     [],
@@ -104,15 +100,10 @@ export default function PortfolioPage() {
 
           setProjects(mappedProjects);
         } else {
-          console.error(
-            "Failed to fetch projects:",
-            result?.error || response.statusText,
-          );
           setProjects([]);
         }
       } catch (error) {
-        console.error("Error fetching projects:", error);
-      } finally {
+        } finally {
         setLoading(false);
       }
     };

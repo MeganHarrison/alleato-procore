@@ -2,13 +2,13 @@ import { test, expect } from '@playwright/test';
 
 test('Original Budget save with authentication', async ({ page }) => {
   // First authenticate
-  await page.goto('http://localhost:3002/dev-login?email=test@example.com&password=testpassword123');
+  await page.goto('/dev-login?email=test@example.com&password=testpassword123');
 
   // Wait for redirect after login
   await page.waitForTimeout(3000);
 
   // Navigate to the budget page
-  await page.goto('http://localhost:3002/67/budget');
+  await page.goto('/67/budget');
 
   // Wait for the page to load completely
   await page.waitForLoadState('networkidle');

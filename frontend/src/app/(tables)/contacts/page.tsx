@@ -20,7 +20,6 @@ export default async function ContactsPage() {
     .order("last_name", { ascending: true });
 
   if (error) {
-    console.error("Error fetching contacts:", error);
     return (
       <TablePageWrapper title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
         <div className="text-center text-red-600 p-6">

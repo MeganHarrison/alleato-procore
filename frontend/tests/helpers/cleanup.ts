@@ -8,6 +8,8 @@ export async function cleanupProjectArtifacts(projectId: number) {
   await deleteChangeOrdersByProject(projectId);
   await deleteProjectMembers(projectId);
   await deleteProject(projectId);
+}
+
 import { getAdminClient } from './db';
 
 export async function cleanupChangeEvents(changeEventIds: number[]) {

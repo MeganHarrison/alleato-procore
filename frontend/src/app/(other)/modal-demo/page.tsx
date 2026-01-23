@@ -37,21 +37,18 @@ export default function ModalDemoPage() {
   ];
 
   const handleSaveOriginalBudget = async (data: any) => {
-    console.log("Saving original budget:", data);
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
     alert("Budget saved successfully!");
   };
 
   const handleUnlockBudget = async () => {
-    console.log("Unlocking budget...");
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 500));
     alert("Budget unlocked successfully!");
   };
 
   const handleCreateLineItems = async (items: any) => {
-    console.log("Creating line items:", items);
     // Simulate API call
     await new Promise((resolve) => setTimeout(resolve, 1000));
     alert(`Created ${items.length} budget line items!`);

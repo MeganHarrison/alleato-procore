@@ -1,3 +1,5 @@
+import type { ChangeEvent as ChangeEventRecord } from "./change-events";
+
 export interface Company {
   id: string;
   name: string;
@@ -88,28 +90,7 @@ export interface CommitmentLineItem {
   updated_at: string;
 }
 
-export interface ChangeEvent {
-  id: string;
-  number: string;
-  title: string;
-  description?: string;
-  status:
-    | "open"
-    | "pending"
-    | "pending_approval"
-    | "approved"
-    | "closed"
-    | "converted"
-    | "rejected";
-  commitment_id?: string;
-  commitment?: Commitment;
-  created_by_id: string;
-  created_by?: User;
-  rom_cost_impact?: number;
-  rom_schedule_impact?: number;
-  created_at: string;
-  updated_at: string;
-}
+export type ChangeEvent = ChangeEventRecord;
 
 export interface ChangeOrder {
   id: string;

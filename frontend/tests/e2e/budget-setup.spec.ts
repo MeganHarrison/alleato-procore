@@ -19,12 +19,12 @@ test.use({
 });
 
 const PROJECT_ID = '67';
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 
 test.describe('Budget Setup Page', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to the budget setup page
-    await page.goto(`${BASE_URL}/${PROJECT_ID}/budget/setup`);
+    await page.goto(`/${PROJECT_ID}/budget/setup`);
     // Wait for the page to load
     await page.waitForSelector('h1:has-text("Add Budget Line Items")', { timeout: 15000 });
   });
@@ -281,7 +281,7 @@ test.describe('Budget Setup Page - Mobile View', () => {
   });
 
   test('should display mobile card layout', async ({ page }) => {
-    await page.goto(`${BASE_URL}/${PROJECT_ID}/budget/setup`);
+    await page.goto(`/${PROJECT_ID}/budget/setup`);
     await page.waitForSelector('h1:has-text("Add Budget Line Items")', { timeout: 15000 });
 
     // On mobile, should see card layout with "Line 1" header
@@ -298,7 +298,7 @@ test.describe('Budget Setup Page - Mobile View', () => {
   });
 
   test('should add line item on mobile', async ({ page }) => {
-    await page.goto(`${BASE_URL}/${PROJECT_ID}/budget/setup`);
+    await page.goto(`/${PROJECT_ID}/budget/setup`);
     await page.waitForSelector('h1:has-text("Add Budget Line Items")', { timeout: 15000 });
 
     // Click "Add Line Item" button (mobile version)
@@ -325,7 +325,7 @@ test.describe('Budget Setup Page - Responsive', () => {
   for (const [name, viewport] of Object.entries(viewports)) {
     test(`should display correctly on ${name}`, async ({ page }) => {
       await page.setViewportSize(viewport);
-      await page.goto(`${BASE_URL}/${PROJECT_ID}/budget/setup`);
+      await page.goto(`/${PROJECT_ID}/budget/setup`);
       await page.waitForSelector('h1:has-text("Add Budget Line Items")', { timeout: 15000 });
 
       // On tablet and larger, should see table layout

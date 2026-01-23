@@ -220,8 +220,7 @@ export function EmployeesDataTable({
 
   const handleRowClick = (employeeId: number) => {
     // Future: navigate to employee detail page
-    console.log("Employee clicked:", employeeId);
-  };
+    };
 
   const startEditingEmployee = (employee: Employee) => {
     setEditingEmployee(employee);
@@ -267,7 +266,6 @@ export function EmployeesDataTable({
       setEditingEmployee(null);
       setEditData({});
     } catch (error) {
-      console.error("Error updating employee:", error);
       toast.error("Failed to update employee");
     }
   };
@@ -293,7 +291,6 @@ export function EmployeesDataTable({
       toast.success("Employee deleted successfully");
       setIsDeleting(null);
     } catch (error) {
-      console.error("Error deleting employee:", error);
       toast.error("Failed to delete employee");
       setIsDeleting(null);
     }

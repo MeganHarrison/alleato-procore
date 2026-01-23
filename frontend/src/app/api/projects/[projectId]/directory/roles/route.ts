@@ -20,7 +20,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       .order("display_order", { ascending: true });
 
     if (rolesError) {
-      console.error("Error fetching project roles:", rolesError);
       return NextResponse.json({ error: rolesError.message }, { status: 500 });
     }
 
@@ -39,7 +38,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       .in("project_role_id", roleIds);
 
     if (membersError) {
-      console.error("Error fetching role members:", membersError);
       return NextResponse.json(
         { error: membersError.message },
         { status: 500 },
@@ -66,8 +64,7 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
         .in("id", personIds);
 
       if (peopleError) {
-        console.error("Error fetching people:", peopleError);
-      } else {
+        } else {
         (people || []).forEach((p) => {
           peopleMap.set(p.id, {
             id: p.id,
@@ -114,7 +111,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ data: transformedRoles });
   } catch (error) {
-    console.error("Unexpected error fetching project roles:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 },
@@ -168,7 +164,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
       .eq("project_role_id", role_id);
 
     if (deleteError) {
-      console.error("Error deleting role members:", deleteError);
       return NextResponse.json(
         { error: "Failed to update role members" },
         { status: 500 },
@@ -187,7 +182,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
         .insert(newMembers);
 
       if (insertError) {
-        console.error("Error inserting role members:", insertError);
         return NextResponse.json(
           { error: "Failed to add role members" },
           { status: 500 },
@@ -197,7 +191,6 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Unexpected error updating project roles:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 },
@@ -253,7 +246,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
           { status: 409 },
         );
       }
-      console.error("Error creating project role:", insertError);
       return NextResponse.json(
         { error: "Failed to create role" },
         { status: 500 },
@@ -262,7 +254,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ data: newRole }, { status: 201 });
   } catch (error) {
-    console.error("Unexpected error creating project role:", error);
     return NextResponse.json(
       { error: "An unexpected error occurred" },
       { status: 500 },

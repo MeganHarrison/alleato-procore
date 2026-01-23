@@ -126,7 +126,6 @@ export default function DocumentPipelinePage() {
         toast.error("Failed to fetch documents");
       }
     } catch (error) {
-      console.error("Error fetching documents:", error);
       toast.error("Failed to fetch documents");
     }
   };
@@ -139,8 +138,7 @@ export default function DocumentPipelinePage() {
         setPhaseCounts(data.phaseCounts);
       }
     } catch (error) {
-      console.error("Error fetching phase counts:", error);
-    }
+      }
   };
 
   const loadData = async () => {
@@ -188,7 +186,6 @@ export default function DocumentPipelinePage() {
         });
       }
     } catch (error) {
-      console.error("Error triggering phase:", error);
       toast.error("Failed to trigger pipeline phase", {
         id: `trigger-${phase}`, // Replaces the loading toast
       });

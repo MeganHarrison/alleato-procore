@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('Original Budget modal opens correctly', async ({ page }) => {
   // Navigate to the budget page
-  await page.goto('http://localhost:3002/67/budget');
+  await page.goto('/67/budget');
   
   // Wait for the page to load completely
   await page.waitForLoadState('networkidle');

@@ -5,7 +5,7 @@ test.describe('Budget Parent Row Modal', () => {
 
   test('should open modal when clicking parent row Original Budget cell', async ({ page }) => {
     // Navigate to budget page
-    await page.goto('http://localhost:3002/67/budget');
+    await page.goto('/67/budget');
     await page.waitForLoadState('networkidle');
 
     // Wait for table to load
@@ -68,7 +68,7 @@ test.describe('Budget Parent Row Modal', () => {
   });
 
   test('should style parent row cells differently from child cells', async ({ page }) => {
-    await page.goto('http://localhost:3002/67/budget');
+    await page.goto('/67/budget');
     await page.waitForLoadState('networkidle');
     await page.waitForSelector('table', { timeout: 10000 });
 

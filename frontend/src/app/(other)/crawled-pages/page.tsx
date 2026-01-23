@@ -175,8 +175,7 @@ export default function CrawledPagesPage() {
         if (error) throw error;
         setCrawledPages(data || []);
       } catch (error) {
-        console.error("Error fetching crawled pages:", error);
-      } finally {
+        } finally {
         setLoading(false);
       }
     };

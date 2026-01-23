@@ -830,7 +830,6 @@ export class DirectCostService {
     } catch (error) {
       // Don't fail the main operation if audit logging fails
       // eslint-disable-next-line no-console
-      console.warn("Failed to log audit:", error);
-    }
+      }
   }
 }

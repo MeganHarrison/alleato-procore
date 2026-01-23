@@ -331,29 +331,67 @@ export function SiteHeader({
 
   const breadcrumbs = useMemo(() => {
     const segments = pathname?.split("/").filter(Boolean) ?? [];
-    const crumbs: Array<{ label: string; href: string; isLogo?: boolean }> = [
-      { label: "Projects", href: "/" },
-    ];
+    const crumbs: Array<{ label: string; href: string; isLogo?: boolean }> = [];
+
+    // Always start with home/projects
+    crumbs.push({ label: "Home", href: "/" });
 
     segments.forEach((segment, index) => {
       let href = `/${segments.slice(0, index + 1).join("/")}`;
+      let label: string;
 
       // Check if this segment is a project ID (numeric)
-      let label: string;
       if (index === 0 && /^\d+$/.test(segment)) {
-        // This is a project ID - use the project name if available and link to /home
-        label = currentProject?.name || "Project";
-        href = `/${segment}/home`;
+        // This is a project ID - use the project name if available
+        label = currentProject?.name || `Project ${segment}`;
+        // Don't modify href for project ID, keep it as is
       } else {
-        // Regular segment - format it nicely
-        label = segment
-          .split("-")
-          .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
-          .join(" ");
+        // Try to find a matching tool name first
+        const allTools = [
+          ...coreTools,
+          ...projectManagementTools,
+          ...financialManagementTools,
+          ...adminTools,
+        ];
+        const matchingTool = allTools.find((tool) => tool.path === segment);
+
+        if (matchingTool) {
+          label = matchingTool.name;
+        } else {
+          // Format segment name for display
+          label = segment
+            .split("-")
+            .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
+            .join(" ");
+
+          // Special cases for common paths
+          const labelMap: Record<string, string> = {
+            "budget-v2": "Budget V2",
+            "prime-contracts": "Prime Contracts",
+            "change-events": "Change Events",
+            "change-orders": "Change Orders",
+            "direct-costs": "Direct Costs",
+            "daily-log": "Daily Log",
+            "punch-list": "Punch List",
+            "sov": "Schedule of Values",
+            "rfis": "RFIs",
+            "line-item": "Line Item",
+            "companies": "Companies",
+            "contacts": "Contacts",
+            "employees": "Employees",
+            "groups": "Groups",
+            "users": "Users",
+          };
+
+          if (labelMap[segment]) {
+            label = labelMap[segment];
+          }
+        }
       }
 
       crumbs.push({ label, href });
     });
+
     return crumbs;
   }, [pathname, currentProject]);
 
@@ -361,32 +399,80 @@ export function SiteHeader({
     <header className="bg-background text-foreground flex flex-wrap items-center gap-2 transition-[width,height] ease-linear">
       <div className="flex w-full flex-wrap items-center gap-2 px-4 py-3 lg:gap-3 lg:px-6">
         {/* Mobile Header Layout */}
-        <div className="flex md:hidden w-full items-center justify-between">
-          {/* Logo - left side on mobile */}
-          <Link
-            href="/"
-            className="flex items-center hover:opacity-80 transition-opacity"
-          >
-            <Image
-              src="/favicon-light.png"
-              alt="Alleato"
-              width={32}
-              height={32}
-              className="object-contain"
-            />
-          </Link>
+        <div className="flex md:hidden flex-col w-full">
+          <div className="flex w-full items-center justify-between">
+            {/* Logo - left side on mobile */}
+            <Link
+              href="/"
+              className="flex items-center hover:opacity-80 transition-opacity"
+            >
+              <Image
+                src="/favicon-light.png"
+                alt="Alleato"
+                width={32}
+                height={32}
+                className="object-contain"
+              />
+            </Link>
 
           {/* Mobile Actions - right side */}
-          <div className="flex items-center gap-3">
-            {/* Search Icon */}
-            <Button
-              variant="ghost"
-              size="icon"
-              className="h-8 w-8"
-              aria-label="Search"
-            >
-              <Search className="h-5 w-5" />
-            </Button>
+          <div className="flex items-center gap-2">
+            {/* User Avatar on Mobile */}
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <button
+                  type="button"
+                  className="flex items-center rounded-full border-2 border-border p-0.5 transition-all hover:border-primary"
+                  aria-label="Open user menu"
+                >
+                  <Avatar className="h-7 w-7 rounded-full">
+                    <AvatarImage
+                      src={avatarSrc}
+                      alt="User avatar"
+                      className="rounded-full"
+                    />
+                    <AvatarFallback className="rounded-full bg-primary/10 font-medium text-xs">
+                      {fallbackInitials}
+                    </AvatarFallback>
+                  </Avatar>
+                </button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" sideOffset={4} className="w-48">
+                <DropdownMenuLabel className="text-sm font-semibold">
+                  {displayName}
+                </DropdownMenuLabel>
+                {user?.email && (
+                  <DropdownMenuLabel className="text-xs font-normal text-muted-foreground">
+                    {user.email}
+                  </DropdownMenuLabel>
+                )}
+                <DropdownMenuSeparator />
+                <DropdownMenuItem asChild>
+                  <Link href="/profile" className="cursor-pointer">
+                    <IconUserCircle className="mr-2 h-4 w-4" />
+                    Profile
+                  </Link>
+                </DropdownMenuItem>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem
+                  className="cursor-pointer text-destructive focus:text-destructive"
+                  onClick={async () => {
+                    try {
+                      await supabase.auth.signOut();
+                      toast.success("Logged out successfully");
+                      router.push("/auth/login");
+                      router.refresh();
+                    } catch (error) {
+                      console.error("Logout error:", error);
+                      toast.error("Failed to log out");
+                    }
+                  }}
+                >
+                  <IconLogout className="mr-2 h-4 w-4" />
+                  Log out
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
 
             {/* Notifications Icon */}
             <Button
@@ -410,6 +496,38 @@ export function SiteHeader({
               <Menu className="h-5 w-5" />
             </Button>
           </div>
+          </div>
+
+          {/* Mobile Breadcrumbs */}
+          {breadcrumbs.length > 1 && (
+            <div className="mt-2 overflow-x-auto">
+              <nav
+                aria-label="Breadcrumb"
+                className="flex items-center gap-1 text-xs font-medium whitespace-nowrap"
+              >
+                {breadcrumbs.map((crumb, index) => (
+                  <span
+                    key={`${crumb.href}-${index}`}
+                    className="flex items-center gap-1"
+                  >
+                    {index > 0 && (
+                      <ChevronRight className="h-3 w-3 text-muted-foreground" />
+                    )}
+                    {index === breadcrumbs.length - 1 ? (
+                      <span className="text-foreground font-medium">{crumb.label}</span>
+                    ) : (
+                      <Link
+                        href={crumb.href}
+                        className="text-muted-foreground hover:text-foreground transition-colors"
+                      >
+                        {crumb.label}
+                      </Link>
+                    )}
+                  </span>
+                ))}
+              </nav>
+            </div>
+          )}
         </div>
 
         {/* Desktop Header Layout */}
@@ -422,24 +540,25 @@ export function SiteHeader({
 
           {/* Breadcrumbs */}
           <div className="min-w-0 flex-1 flex items-center gap-2 overflow-x-auto">
-            {/* Breadcrumbs */}
             {breadcrumbs.length > 0 && (
               <nav
                 aria-label="Breadcrumb"
-                className="flex items-center gap-2 text-sm font-medium tracking-wide whitespace-nowrap"
+                className="flex items-center gap-2 text-sm font-medium whitespace-nowrap"
               >
                 {breadcrumbs.map((crumb, index) => (
                   <span
                     key={`${crumb.href}-${index}`}
                     className="flex items-center gap-2"
                   >
-                    <ChevronRight className="h-3 w-3 text-muted-foreground" />
+                    {index > 0 && (
+                      <ChevronRight className="h-4 w-4 text-muted-foreground" />
+                    )}
                     {index === breadcrumbs.length - 1 ? (
-                      <span className="text-foreground">{crumb.label}</span>
+                      <span className="text-foreground font-medium">{crumb.label}</span>
                     ) : (
                       <Link
                         href={crumb.href}
-                        className="text-muted-foreground hover:text-foreground transition-colors"
+                        className="text-muted-foreground hover:text-foreground transition-colors hover:underline underline-offset-4"
                       >
                         {crumb.label}
                       </Link>
@@ -465,13 +584,26 @@ export function SiteHeader({
               onOpenChange={(open) => open && fetchProjects()}
             >
               <SelectTrigger className="hidden md:flex h-8 w-[280px]">
-                <SelectValue placeholder="Select Project" />
+                <SelectValue placeholder="Select Project">
+                  {currentProject ? (
+                    <div className="flex items-center gap-2">
+                      {currentProject["job number"] && (
+                        <span className="text-xs text-muted-foreground">
+                          #{currentProject["job number"]}
+                        </span>
+                      )}
+                      <span className="font-medium truncate">{currentProject.name}</span>
+                    </div>
+                  ) : (
+                    "Select Project"
+                  )}
+                </SelectValue>
               </SelectTrigger>
               <SelectContent>
                 <SelectGroup>
                   <SelectLabel>Recent Projects</SelectLabel>
                   {loadingProjects ? (
-                    <div className="p-4 text-center text-sm text-muted-foreground">
+                    <div className="py-2 px-2 text-center text-sm text-muted-foreground">
                       Loading projects...
                     </div>
                   ) : projects.length > 0 ? (
@@ -479,25 +611,26 @@ export function SiteHeader({
                       <SelectItem
                         key={project.id}
                         value={project.id.toString()}
+                        className="h-auto py-2"
                       >
-                        <div className="flex flex-col">
-                          <span className="font-medium">{project.name}</span>
+                        <div className="flex items-center gap-2">
                           {project["job number"] && (
                             <span className="text-xs text-muted-foreground">
-                              Job #{project["job number"]}
+                              #{project["job number"]}
                             </span>
                           )}
+                          <span className="font-medium">{project.name}</span>
                         </div>
                       </SelectItem>
                     ))
                   ) : (
-                    <div className="p-4 text-center text-sm text-muted-foreground">
+                    <div className="py-2 px-2 text-center text-sm text-muted-foreground">
                       No projects found
                     </div>
                   )}
                 </SelectGroup>
                 <SelectGroup>
-                  <SelectItem value="view-all" className="font-medium">
+                  <SelectItem value="view-all" className="font-medium h-auto py-2">
                     View All Projects
                   </SelectItem>
                 </SelectGroup>
@@ -512,13 +645,23 @@ export function SiteHeader({
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="outline"
-                  className="hidden md:flex h-8 items-center gap-2 px-3"
+                  className="hidden md:flex h-8 items-center gap-1 px-3"
                 >
-                  <span className="text-xs text-muted-foreground">Project Tools</span>
-                  <span className="text-sm font-medium">
-                    {activeToolName}
-                  </span>
-                  <ChevronDown className="h-4 w-4 opacity-50" />
+                  <span className="text-xs text-muted-foreground">Tools:</span>
+                  <div className="flex items-center gap-1 text-sm">
+                    {breadcrumbs.slice(1).map((crumb, index) => (
+                      <span key={index} className="flex items-center gap-1">
+                        {index > 0 && <ChevronRight className="h-3 w-3 opacity-50" />}
+                        <span className={index === breadcrumbs.slice(1).length - 1 ? "font-medium" : ""}>
+                          {crumb.label}
+                        </span>
+                      </span>
+                    ))}
+                    {breadcrumbs.length <= 1 && (
+                      <span className="font-medium">Select Tool</span>
+                    )}
+                  </div>
+                  <ChevronDown className="h-4 w-4 opacity-50 ml-1" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -813,21 +956,21 @@ export function SiteHeader({
               <Bell className="h-4 w-4" />
             </Button>
 
-            {/* User Avatar - hidden on mobile */}
+            {/* User Avatar */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <button
                   type="button"
-                  className="hidden md:flex items-center rounded-full border p-0.5 transition-colors hover:border-primary"
+                  className="flex items-center rounded-full border-2 border-border p-0.5 transition-all hover:border-primary hover:scale-105"
                   aria-label="Open user menu"
                 >
-                  <Avatar className="h-9 w-9 rounded-full">
+                  <Avatar className="h-8 w-8 rounded-full">
                     <AvatarImage
                       src={avatarSrc}
                       alt="User avatar"
                       className="rounded-full"
                     />
-                    <AvatarFallback className="rounded-full bg-muted font-medium text-sm">
+                    <AvatarFallback className="rounded-full bg-primary/10 font-medium text-sm">
                       {fallbackInitials}
                     </AvatarFallback>
                   </Avatar>

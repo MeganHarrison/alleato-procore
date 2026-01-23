@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Inline } from "@/components/ui/inline";
 import { UomSelect } from "./UomSelect";
+import { BudgetItemDeleteDialog } from "./BudgetItemDeleteDialog";
 import { BudgetCodeSelector } from "@/app/(main)/[projectId]/budget/setup/components";
 import type {
   BudgetLineItem,
@@ -39,6 +40,22 @@ export function BudgetLineItemRow({
   canRemove,
   onKeyDown,
 }: BudgetLineItemRowProps) {
+  const [showDeleteDialog, setShowDeleteDialog] = React.useState(false);
+
+  const handleDeleteClick = () => {
+    if (!canRemove) return;
+    setShowDeleteDialog(true);
+  };
+
+  const handleDeleteConfirm = () => {
+    onRemove();
+    setShowDeleteDialog(false);
+  };
+
+  // Create description for the item being deleted
+  const itemDescription = item.costCodeLabel
+    ? `the line item "${item.costCodeLabel}"`
+    : "this line item";
   return (
     <div className="px-4 py-3 hover:bg-muted">
       <Inline gap="md" align="center">
@@ -107,13 +124,21 @@ export function BudgetLineItemRow({
           <Button
             variant="ghost"
             size="sm"
-            onClick={onRemove}
+            onClick={handleDeleteClick}
             disabled={!canRemove}
           >
             <Trash2 className="h-4 w-4 text-muted-foreground hover:text-red-600" />
           </Button>
         </div>
       </Inline>
+
+      {/* Delete Confirmation Dialog */}
+      <BudgetItemDeleteDialog
+        open={showDeleteDialog}
+        onOpenChange={setShowDeleteDialog}
+        onConfirm={handleDeleteConfirm}
+        itemDescription={itemDescription}
+      />
     </div>
   );
 }

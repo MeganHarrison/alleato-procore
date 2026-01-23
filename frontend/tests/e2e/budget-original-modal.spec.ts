@@ -6,7 +6,7 @@ test.describe('Original Budget Modal', () => {
 
   test.beforeEach(async ({ page }) => {
     // Navigate to budget page
-    await page.goto('http://localhost:3002/67/budget');
+    await page.goto('/67/budget');
 
     // Wait for page to load
     await page.waitForLoadState('networkidle');

@@ -146,6 +146,9 @@ export function ContractForm({
     Partial<Record<"number" | "title" | "executed", string>>
   >({});
   const [attachmentFiles, setAttachmentFiles] = React.useState<File[]>([]);
+  const [attachmentFileInfos, setAttachmentFileInfos] = React.useState<
+    Array<{ name: string; size: number; type: string }>
+  >([]);
 
   // Data hooks
   const {
@@ -171,16 +174,20 @@ export function ContractForm({
     if (!formData.title?.trim()) {
       errors.title = "Title is required.";
     }
-    if (!formData.executed) {
-      errors.executed = "Executed is required.";
-    }
 
     if (Object.keys(errors).length > 0) {
       setValidationErrors(errors);
       return;
     }
 
-    await onSubmit(formData as ContractFormData);
+    // Include the actual File objects in the submission
+    const submissionData = {
+      ...formData,
+      attachmentFiles: attachmentFiles.length > 0 ? attachmentFiles : undefined
+    };
+    console.log('Submitting with attachments:', attachmentFiles.length);
+
+    await onSubmit(submissionData as ContractFormData);
   };
 
   const updateFormData = (updates: Partial<ContractFormData>) => {
@@ -217,13 +224,15 @@ export function ContractForm({
 
   // SOV handlers
   const addSOVLine = () => {
+    const isUnitQuantity = formData.accountingMethod === "unit_quantity";
     const newLine: SOVLineItem = {
       id: `sov-${Date.now()}`,
       description: "",
       amount: 0,
-      quantity: 1,
-      unitCost: 0,
-      unitOfMeasure: "",
+      // Only initialize quantity/unitCost in unit_quantity mode
+      quantity: isUnitQuantity ? 1 : undefined,
+      unitCost: isUnitQuantity ? 0 : undefined,
+      unitOfMeasure: isUnitQuantity ? "" : undefined,
       billedToDate: 0,
       amountRemaining: 0,
     };
@@ -260,33 +269,67 @@ export function ContractForm({
       formData.accountingMethod === "unit_quantity" ? "amount" : "unit_quantity";
     const updatedItems = (formData.sovItems || []).map((item) => {
       if (nextMethod === "unit_quantity") {
+        // Switching TO unit/quantity mode from amount mode
+        // Use existing quantity if available, otherwise default to 1
         const quantity = item.quantity ?? 1;
-        const unitCost = item.unitCost ?? item.amount ?? 0;
+
+        // Calculate unitCost:
+        // - If unitCost already exists (from previous toggle), use it
+        // - Otherwise, derive from amount / quantity
+        let unitCost = item.unitCost;
+        if (unitCost === undefined || unitCost === null) {
+          unitCost = (item.amount || 0) / quantity;
+        }
+
         return {
           ...item,
           quantity,
           unitCost,
+          unitOfMeasure: item.unitOfMeasure || "",
           amount: quantity * unitCost,
         };
+      } else {
+        // Switching FROM unit/quantity mode to amount mode
+        // Calculate amount from quantity * unitCost
+        const amount = (item.quantity ?? 1) * (item.unitCost ?? 0);
+        return {
+          ...item,
+          amount: amount || item.amount || 0,
+          // Keep quantity and unitCost for when we switch back
+          quantity: item.quantity,
+          unitCost: item.unitCost,
+          unitOfMeasure: item.unitOfMeasure,
+        };
       }
-      const amount = (item.quantity ?? 0) * (item.unitCost ?? 0);
-      return {
-        ...item,
-        amount,
-      };
     });
     updateFormData({ accountingMethod: nextMethod, sovItems: updatedItems });
   };
 
   const handleFilesSelected = (files: File[]) => {
+    // Add new files to our File array
     const updatedFiles = [...attachmentFiles, ...files];
     setAttachmentFiles(updatedFiles);
+
+    // Create FileInfo objects for display
+    const newFileInfos = files.map(file => ({
+      name: file.name,
+      size: file.size,
+      type: file.type
+    }));
+    const updatedFileInfos = [...attachmentFileInfos, ...newFileInfos];
+    setAttachmentFileInfos(updatedFileInfos);
+
     updateFormData({ attachmentFiles: updatedFiles });
   };
 
-  const handleFilesChanged = (files: Array<{ name: string; size: number }>) => {
+  const handleFilesChanged = (fileInfos: Array<{ name: string; size: number; type: string }>) => {
+    // This is called when files are removed from the UI
+    // Update our FileInfo array
+    setAttachmentFileInfos(fileInfos);
+
+    // Also update the actual File array to match
     const filtered = attachmentFiles.filter((file) =>
-      files.some(
+      fileInfos.some(
         (info) => info.name === file.name && info.size === file.size,
       ),
     );
@@ -419,9 +462,7 @@ export function ContractForm({
           />
 
           <div className="space-y-2">
-            <Label>
-              Executed <span className="text-red-500">*</span>
-            </Label>
+            <Label>Executed</Label>
             <div className="flex items-center h-10">
               <Checkbox
                 id="executed"
@@ -495,11 +536,7 @@ export function ContractForm({
           <Label>Attachments</Label>
           <FileUploadField
             label=""
-            value={attachmentFiles.map((file) => ({
-              name: file.name,
-              size: file.size,
-              type: file.type,
-            }))}
+            value={attachmentFileInfos}
             onChange={handleFilesChanged}
             onFilesSelected={handleFilesSelected}
             multiple

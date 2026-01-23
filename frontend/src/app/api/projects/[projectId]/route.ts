@@ -10,6 +10,21 @@ export async function PATCH(
     const supabase = await createClient();
     const body = await request.json();
 
+    // Ensure team_members is properly formatted as an array of objects
+    if (body.team_members && Array.isArray(body.team_members)) {
+      body.team_members = body.team_members.map(member => {
+        // If member is a string, try to parse it
+        if (typeof member === 'string') {
+          try {
+            return JSON.parse(member);
+          } catch {
+            return member;
+          }
+        }
+        return member;
+      });
+    }
+
     // Update the project with the provided fields
     const { data, error } = await supabase
       .from("projects")
@@ -19,7 +34,6 @@ export async function PATCH(
       .single();
 
     if (error) {
-      console.error("Error updating project:", error);
       return NextResponse.json(
         { error: "Failed to update project" },
         { status: 500 },
@@ -28,7 +42,6 @@ export async function PATCH(
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error in PATCH /api/projects/[projectId]:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -51,13 +64,11 @@ export async function GET(
       .single();
 
     if (error) {
-      console.error("Error fetching project:", error);
       return NextResponse.json({ error: "Project not found" }, { status: 404 });
     }
 
     return NextResponse.json(data);
   } catch (error) {
-    console.error("Error in GET /api/projects/[projectId]:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

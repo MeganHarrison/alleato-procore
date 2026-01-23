@@ -34,17 +34,13 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-  // Redirect to login if not authenticated and not on auth pages
-  if (
-    !user &&
-    !request.nextUrl.pathname.startsWith("/auth/login") &&
-    !request.nextUrl.pathname.startsWith("/auth/sign-up") &&
-    !request.nextUrl.pathname.startsWith("/auth/callback") &&
-    !request.nextUrl.pathname.startsWith("/auth/confirm")
-  ) {
+  // Redirect to login if not authenticated
+  // The middleware matcher already excludes /auth paths, so any request here needs authentication
+  if (!user) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/login";
-    url.searchParams.set("callbackUrl", request.nextUrl.pathname);
+    // Preserve the original URL as a callback parameter
+    url.searchParams.set("callbackUrl", request.nextUrl.pathname + request.nextUrl.search);
     return NextResponse.redirect(url);
   }
 

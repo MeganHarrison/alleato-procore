@@ -69,8 +69,7 @@ export function DirectCostsModal({
         setCosts(data.costs || []);
       }
     } catch (error) {
-      console.error("Error fetching direct costs:", error);
-    } finally {
+      } finally {
       setLoading(false);
     }
   };

@@ -128,7 +128,6 @@ export async function POST(request: Request) {
       .single();
 
     if (projectError) {
-      console.error("Error creating project:", projectError);
       return NextResponse.json(
         { error: `Failed to create project: ${projectError.message}` },
         { status: 500 },
@@ -150,7 +149,6 @@ export async function POST(request: Request) {
       .single();
 
     if (clientError) {
-      console.error("Error creating client:", clientError);
       return NextResponse.json(
         { error: `Failed to create client: ${clientError.message}` },
         { status: 500 },
@@ -178,7 +176,6 @@ export async function POST(request: Request) {
       .single();
 
     if (contractError) {
-      console.error("Error creating contract:", contractError);
       return NextResponse.json(
         { error: `Failed to create contract: ${contractError.message}` },
         { status: 500 },
@@ -212,7 +209,6 @@ export async function POST(request: Request) {
       );
 
       if (ccError && !ccError.message.includes("duplicate")) {
-        console.error("Error creating cost codes:", ccError);
         return NextResponse.json(
           { error: `Failed to create cost codes: ${ccError.message}` },
           { status: 500 },
@@ -242,7 +238,6 @@ export async function POST(request: Request) {
         .single();
 
       if (bcError) {
-        console.error("Error creating budget code:", bcError);
         continue; // Skip if duplicate
       }
 
@@ -262,7 +257,6 @@ export async function POST(request: Request) {
         .single();
 
       if (liError) {
-        console.error("Error creating line item:", liError);
         continue;
       }
 
@@ -287,8 +281,7 @@ export async function POST(request: Request) {
       .single();
 
     if (subError) {
-      console.error("Error creating subcontractor:", subError);
-    }
+      }
 
     // ============================================
     // 7. CREATE COMMITMENT
@@ -314,8 +307,7 @@ export async function POST(request: Request) {
         .single();
 
       if (comError) {
-        console.error("Error creating commitment:", comError);
-      } else {
+        } else {
         commitment = com;
       }
     }
@@ -341,8 +333,7 @@ export async function POST(request: Request) {
         .single();
 
       if (ceError) {
-        console.error("Error creating change event:", ceError);
-      } else {
+        } else {
         changeEvent = ce;
       }
     }
@@ -368,8 +359,7 @@ export async function POST(request: Request) {
         .single();
 
       if (coError) {
-        console.error("Error creating change order:", coError);
-      } else {
+        } else {
         changeOrder = co;
       }
     }
@@ -397,7 +387,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json(response, { status: 201 });
   } catch (error) {
-    console.error("Bootstrap error:", error);
     if (error instanceof Error) {
       return NextResponse.json(
         { error: "Internal server error", message: error.message },

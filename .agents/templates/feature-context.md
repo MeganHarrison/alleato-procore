@@ -8,7 +8,7 @@
 | Item | Value |
 |------|-------|
 | Feature | {feature} |
-| Feature Directory | `documentation/*project-mgmt/in-progress/{feature}/` |
+| Feature Directory | `docs/project-mgmt/{feature}/` |
 | Crawl Data | `crawl-{feature}/` |
 | Frontend Pages | `frontend/src/app/[projectId]/{feature}/` |
 | Components | `frontend/src/components/{feature}/` |

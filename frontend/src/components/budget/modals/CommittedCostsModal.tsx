@@ -68,8 +68,7 @@ export function CommittedCostsModal({
         setCommitments(data.commitments || []);
       }
     } catch (error) {
-      console.error("Error fetching committed costs:", error);
-    } finally {
+      } finally {
       setLoading(false);
     }
   };

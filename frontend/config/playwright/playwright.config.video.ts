@@ -1,4 +1,10 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Load env for Playwright runs (prefer .env.local, then fallback to .env)
+dotenv.config({ path: path.join(__dirname, '../../.env.local') });
+dotenv.config({ path: path.join(__dirname, '../../.env') });
 
 // Dedicated config that always saves videos
 export default defineConfig({
@@ -12,15 +18,25 @@ export default defineConfig({
     ['list'],
   ],
   use: {
-    baseURL: process.env.BASE_URL || 'http://localhost:3002',
+    baseURL: process.env.BASE_URL || 'http://localhost:3000',
     trace: 'retain-on-failure',
     screenshot: 'on',
     video: 'on',
   },
   projects: [
+    // Setup project - runs first to authenticate
+    {
+      name: 'setup',
+      testMatch: /auth\.setup\.ts/,
+    },
     {
       name: 'chromium',
-      use: { ...devices['Desktop Chrome'] },
+      use: {
+        ...devices['Desktop Chrome'],
+        // Use saved auth state
+        storageState: './tests/.auth/user.json',
+      },
+      dependencies: ['setup'],
     },
   ],
   outputDir: '../../tests/test-results',

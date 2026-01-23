@@ -15,7 +15,7 @@ test('tasks page debug - check loading and errors', async ({ page }) => {
   });
 
   // Navigate to tasks page
-  await page.goto('http://localhost:3000/tasks');
+  await page.goto('/tasks');
 
   // Wait for page to load
   await page.waitForTimeout(3000);

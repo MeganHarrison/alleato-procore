@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 import path from 'path';
 
 const TEST_PROJECT_ID = '118';
-const BASE_URL = `http://localhost:3000/${TEST_PROJECT_ID}/budget`;
+const BASE_URL = `${process.env.BASE_URL || 'http://localhost:3000'}/${TEST_PROJECT_ID}/budget`;
 
 test.describe('Budget Hierarchical Grouping - Phase 2c', () => {
   test.beforeEach(async ({ page }) => {

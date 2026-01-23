@@ -21,6 +21,7 @@ import { Separator } from "@/components/ui/separator";
 import { Switch } from "@/components/ui/switch";
 import { X } from "lucide-react";
 import { useSupabase } from "@/hooks/useSupabase";
+import type { DirectorySavedFilter } from "@/services/directoryPreferencesService";
 import type { Database } from "@/types/database.types";
 
 type Tables = Database["public"]["Tables"];
@@ -60,6 +61,7 @@ export interface PersonWithDetails {
   job_title?: string | null;
   person_type: "user" | "contact";
   status: "active" | "inactive";
+  avatar_updated_at?: string | null;
   company?: Company | null;
   membership?: {
     id: string;
@@ -74,6 +76,12 @@ interface DirectoryFiltersProps {
   filters: DirectoryFilters;
   onFiltersChange: (filters: DirectoryFilters) => void;
   projectId: string;
+  search?: string;
+  onSavedFilterSelected?: (filters: DirectoryFilters, search?: string) => void;
+  savedFilters?: DirectorySavedFilter[];
+  savedFiltersLoading?: boolean;
+  onSaveFilter?: (filters: DirectoryFilters, search?: string) => void;
+  onDeleteSavedFilter?: (id: string) => void;
 }
 
 /**
@@ -90,6 +98,12 @@ export function DirectoryFilters({
   filters,
   onFiltersChange,
   projectId,
+  search,
+  onSavedFilterSelected,
+  savedFilters = [],
+  savedFiltersLoading = false,
+  onSaveFilter,
+  onDeleteSavedFilter,
 }: DirectoryFiltersProps) {
   const supabase = useSupabase();
   const [companies, setCompanies] = useState<Company[]>([]);
@@ -124,8 +138,7 @@ export function DirectoryFilters({
           setPermissionTemplates(templatesData);
         }
       } catch (error) {
-        console.error("Error loading filter data:", error);
-      } finally {
+        } finally {
         setLoading(false);
       }
     };
@@ -158,6 +171,18 @@ export function DirectoryFilters({
     return value !== undefined && value !== "";
   }).length;
 
+  const handleSaveCurrentFilters = () => {
+    if (!onSaveFilter) return;
+    onSaveFilter(filters, search);
+  };
+
+  const handleApplySavedFilter = (savedFilter: DirectorySavedFilter) => {
+    onFiltersChange(savedFilter.filters);
+    if (onSavedFilterSelected) {
+      onSavedFilterSelected(savedFilter.filters, savedFilter.search);
+    }
+  };
+
   return (
     <Card>
       <CardHeader className="pb-3">
@@ -181,6 +206,45 @@ export function DirectoryFilters({
       </CardHeader>
 
       <CardContent className="space-y-4">
+        <div className="rounded-md border p-3 space-y-3">
+          <div className="flex items-center justify-between">
+            <div>
+              <Label className="text-sm font-medium">Saved Filters</Label>
+              {savedFiltersLoading && (
+                <p className="text-xs text-muted-foreground">Loading…</p>
+              )}
+            </div>
+            <Button size="sm" variant="outline" onClick={handleSaveCurrentFilters}>
+              Save current
+            </Button>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {savedFilters.length === 0 ? (
+              <span className="text-xs text-muted-foreground">
+                No saved filters yet.
+              </span>
+            ) : (
+              savedFilters.map((filter) => (
+                <Button
+                  key={filter.id}
+                  variant="secondary"
+                  size="sm"
+                  onClick={() => handleApplySavedFilter(filter)}
+                  className="gap-2"
+                >
+                  {filter.name}
+                  <X
+                    className="h-3 w-3"
+                    onClick={(event) => {
+                      event.stopPropagation();
+                      onDeleteSavedFilter?.(filter.id);
+                    }}
+                  />
+                </Button>
+              ))
+            )}
+          </div>
+        </div>
         <div className="grid grid-cols-2 gap-4 md:grid-cols-4">
           {/* Person Type Filter */}
           <div className="space-y-2">

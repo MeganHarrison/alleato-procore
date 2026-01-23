@@ -52,7 +52,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       message: "Person deactivated successfully",
     });
   } catch (error) {
-    console.error("Error deactivating person:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

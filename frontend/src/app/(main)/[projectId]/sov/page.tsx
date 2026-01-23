@@ -95,10 +95,6 @@ export default function ProjectSOVPage() {
               }
               return { ...contract, line_items: [] };
             } catch (err) {
-              console.error(
-                `Error fetching line items for contract ${contract.id}:`,
-                err,
-              );
               return { ...contract, line_items: [] };
             }
           }),
@@ -106,7 +102,6 @@ export default function ProjectSOVPage() {
 
         setContracts(contractsWithLineItems);
       } catch (err) {
-        console.error("Error fetching SOV data:", err);
         toast.error("Failed to load Schedule of Values");
       } finally {
         setLoading(false);

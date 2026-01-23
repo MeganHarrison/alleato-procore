@@ -137,7 +137,6 @@ export function BudgetLineItemForm({
           .order("id", { ascending: true });
 
         if (error) {
-          console.error("Error fetching cost codes:", error);
           return;
         }
 
@@ -159,8 +158,7 @@ export function BudgetLineItemForm({
 
         setGroupedCostCodes(grouped);
       } catch (error) {
-        console.error("Error fetching cost codes:", error);
-      } finally {
+        } finally {
         setLoadingCostCodes(false);
       }
     };
@@ -188,7 +186,6 @@ export function BudgetLineItemForm({
 
         setBudgetCodes(budgetCodes || []);
       } catch (error) {
-        console.error("Error fetching budget codes:", error);
         setBudgetCodes([]);
       } finally {
         setLoadingCodes(false);
@@ -292,7 +289,6 @@ export function BudgetLineItemForm({
       setNewCodeData({ costCodeId: "", costType: "R" });
       toast.success("Budget code created and added to form");
     } catch (error) {
-      console.error("Error creating budget code:", error);
       toast.error(
         `Failed to create budget code: ${error instanceof Error ? error.message : "Unknown error"}`,
       );
@@ -412,7 +408,6 @@ export function BudgetLineItemForm({
       toast.success("Budget line items created");
       onSuccess?.();
     } catch (error) {
-      console.error("Error creating budget line items:", error);
       toast.error(
         `Failed to create budget line items: ${
           error instanceof Error ? error.message : "Unknown error"

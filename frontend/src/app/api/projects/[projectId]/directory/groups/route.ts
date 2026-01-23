@@ -60,7 +60,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(groups);
   } catch (error) {
-    console.error("Error fetching distribution groups:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -120,7 +119,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(group, { status: 201 });
   } catch (error) {
-    console.error("Error creating distribution group:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

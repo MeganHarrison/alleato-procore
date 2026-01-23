@@ -75,7 +75,6 @@ Return a JSON array of strings: ["query1", "query2", "query3"]`,
     // Always include original query first
     return [originalQuery, ...expanded].slice(0, 4);
   } catch (error) {
-    console.error("Query expansion error:", error);
     // Fallback to original query if expansion fails
     return [originalQuery];
   }
@@ -177,14 +176,9 @@ export async function POST(request: NextRequest) {
     }
 
     // Step 1: Expand the query to find more relevant results
-    console.log("[RAG] Original query:", query);
     const expandedQueries = await expandQuery(query);
-    console.log("[RAG] Expanded queries:", expandedQueries);
-
     // Step 2: Search with all query variants
     const searchResults = await searchWithExpansion(expandedQueries, topK);
-    console.log(`[RAG] Found ${searchResults.length} results`);
-
     // Step 3: Build context - even if results are limited
     const hasStrongMatch =
       searchResults.length > 0 && searchResults[0].similarity > 0.7;
@@ -307,7 +301,6 @@ Please use your expertise to:
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error("RAG error:", error);
     return NextResponse.json(
       {
         error: "An error occurred while processing your request",

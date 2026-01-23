@@ -87,7 +87,6 @@ export default function NewProjectChangeOrderPage() {
       toast.success("Change order created");
       router.push(`/${projectId}/change-orders/${data.id}`);
     } catch (error) {
-      console.error("Error creating change order", error);
       toast.error("Unexpected error creating change order");
     } finally {
       setSubmitting(false);

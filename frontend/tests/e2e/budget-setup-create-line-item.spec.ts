@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Budget Setup - Create Line Item', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to dev login first to authenticate
-    await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123');
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123');
     await page.waitForURL(/\/\d+\/home/, { timeout: 10000 });
   });
 

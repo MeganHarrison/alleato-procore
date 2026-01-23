@@ -2,16 +2,15 @@ import { defineConfig, devices } from '@playwright/test';
 import dotenv from 'dotenv';
 import path from 'path';
 
-// Load environment variables from .env file in frontend directory
-dotenv.config({ path: path.resolve(__dirname, '.env') });
+// Load environment variables from .env.local file in frontend directory
+dotenv.config({ path: path.resolve(__dirname, '.env.local') });
 
 // Environment-based video retention
 const isDebug = process.env.PWDEBUG === '1';
 const keepAllVideos = process.env.PW_VIDEO === 'on';
 
-// Allow override of host/port for sandboxed runs
-const PLAYWRIGHT_HOST = process.env.PLAYWRIGHT_HOST || '127.0.0.1';
-const PLAYWRIGHT_PORT = parseInt(process.env.PLAYWRIGHT_PORT || '3100', 10);
+// Use BASE_URL from .env.local or fallback to localhost
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 
 export default defineConfig({
   testDir: './tests',
@@ -29,7 +28,7 @@ export default defineConfig({
     ['list'],
   ],
   use: {
-    baseURL: `http://${PLAYWRIGHT_HOST}:${PLAYWRIGHT_PORT}`,
+    baseURL: BASE_URL,
     trace: 'on-first-retry',
     screenshot: 'on', // Always capture screenshots for verification
     video: keepAllVideos ? 'on' : isDebug ? 'on' : 'retain-on-failure',
@@ -52,7 +51,7 @@ export default defineConfig({
       name: 'debug',
       use: {
         ...devices['Desktop Chrome'],
-        baseURL: `http://${PLAYWRIGHT_HOST}:${PLAYWRIGHT_PORT}`,
+        baseURL: BASE_URL,
       },
     },
     {
@@ -65,8 +64,8 @@ export default defineConfig({
   ],
 
   webServer: {
-    command: `HOST=${PLAYWRIGHT_HOST} HOSTNAME=${PLAYWRIGHT_HOST} PORT=${PLAYWRIGHT_PORT} npm run dev`,
-    port: PLAYWRIGHT_PORT,
+    command: 'npm run dev',
+    url: BASE_URL,
     reuseExistingServer: !process.env.CI,
   },
 });

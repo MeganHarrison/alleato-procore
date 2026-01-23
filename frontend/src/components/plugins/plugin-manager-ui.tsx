@@ -80,7 +80,6 @@ export function PluginManagerUI() {
       if (error) throw error;
       setPlugins(data || []);
     } catch (error) {
-      console.error("Failed to load plugins:", error);
       toast.error("Failed to load plugins");
     } finally {
       setIsLoading(false);

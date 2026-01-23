@@ -11,7 +11,7 @@ test('verify searchParams error is fixed', async ({ page }) => {
   });
 
   // Navigate to budget page with tab parameter
-  await page.goto('http://localhost:3004/67/budget?tab=budget-details');
+  await page.goto('/67/budget?tab=budget-details');
 
   // Wait for page to fully load
   await page.waitForTimeout(3000);

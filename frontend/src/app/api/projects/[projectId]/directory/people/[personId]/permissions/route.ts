@@ -36,7 +36,6 @@ export async function GET(
       { status: 200 },
     );
   } catch (error) {
-    console.error("Error getting user permissions:", error);
     return NextResponse.json(
       {
         error: error instanceof Error ? error.message : "Internal server error",
@@ -93,7 +92,6 @@ export async function PATCH(
       { status: 200 },
     );
   } catch (error) {
-    console.error("Error updating user permissions:", error);
     return NextResponse.json(
       {
         error: error instanceof Error ? error.message : "Internal server error",

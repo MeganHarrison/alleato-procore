@@ -1,8 +1,8 @@
-import { SubmittalsClient } from "@/app/(tables)/(procore)/submittals/submittals-client";
+import { SubmittalsClient } from "@/app/(tables)/submittals/submittals-client";
 import {
   fetchSubmittals,
   resolveSubmittalsProjectId,
-} from "@/app/(tables)/(procore)/submittals/submittals-data";
+} from "@/app/(tables)/submittals/submittals-data";
 
 export default async function SubmittalsPage({
   params,

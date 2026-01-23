@@ -35,7 +35,6 @@ export async function getDecisions(): Promise<DecisionWithMetadata[]> {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Error fetching decisions:", error);
     throw error;
   }
 
@@ -55,7 +54,6 @@ export async function getDecisionsByStatus(status: string) {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Error fetching decisions by status:", error);
     throw error;
   }
 
@@ -75,7 +73,6 @@ export async function getDecisionById(id: string) {
     .single();
 
   if (error) {
-    console.error("Error fetching decision:", error);
     throw error;
   }
 
@@ -95,7 +92,6 @@ export async function getDecisionsByProject(projectId: number) {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Error fetching project decisions:", error);
     throw error;
   }
 

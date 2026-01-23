@@ -18,7 +18,7 @@ test.describe('Modal Demo - Visual Responsiveness', () => {
   for (const [name, viewport] of Object.entries(viewports)) {
     test(`Original Budget Modal - ${name}`, async ({ page }) => {
       await page.setViewportSize(viewport);
-      await page.goto('http://localhost:3003/modal-demo');
+      await page.goto('/modal-demo');
 
       // Wait for page to load
       await expect(page.locator('h1:has-text("Budget Modals Demo")')).toBeVisible();
@@ -52,7 +52,7 @@ test.describe('Modal Demo - Visual Responsiveness', () => {
 
     test(`Unlock Budget Modal - ${name}`, async ({ page }) => {
       await page.setViewportSize(viewport);
-      await page.goto('http://localhost:3003/modal-demo');
+      await page.goto('/modal-demo');
 
       // Wait for page to load
       await expect(page.locator('h1:has-text("Budget Modals Demo")')).toBeVisible();
@@ -86,7 +86,7 @@ test.describe('Modal Demo - Visual Responsiveness', () => {
 
     test(`Create Line Items Modal - ${name}`, async ({ page }) => {
       await page.setViewportSize(viewport);
-      await page.goto('http://localhost:3003/modal-demo');
+      await page.goto('/modal-demo');
 
       // Wait for page to load
       await expect(page.locator('h1:has-text("Budget Modals Demo")')).toBeVisible();
@@ -133,7 +133,7 @@ test.describe('Modal Demo - Visual Responsiveness', () => {
   }
 
   test('Real-time Calculation Test', async ({ page }) => {
-    await page.goto('http://localhost:3003/modal-demo');
+    await page.goto('/modal-demo');
 
     // Wait for page to load
     await expect(page.locator('h1:has-text("Budget Modals Demo")')).toBeVisible();
@@ -179,7 +179,7 @@ test.describe('Modal Demo - Visual Responsiveness', () => {
   });
 
   test('Unsaved Changes Warning', async ({ page }) => {
-    await page.goto('http://localhost:3003/modal-demo');
+    await page.goto('/modal-demo');
 
     // Wait for page to load
     await expect(page.locator('h1:has-text("Budget Modals Demo")')).toBeVisible();

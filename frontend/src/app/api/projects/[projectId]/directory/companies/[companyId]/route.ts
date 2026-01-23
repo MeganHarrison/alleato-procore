@@ -67,7 +67,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
       throw getError;
     }
   } catch (error) {
-    console.error("Error fetching company:", error);
     return NextResponse.json(
       {
         error: "server_error",
@@ -181,7 +180,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       throw updateError;
     }
   } catch (error) {
-    console.error("Error updating company:", error);
     return NextResponse.json(
       {
         error: "server_error",
@@ -281,7 +279,6 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {
-    console.error("Error deleting company:", error);
     return NextResponse.json(
       {
         error: "server_error",

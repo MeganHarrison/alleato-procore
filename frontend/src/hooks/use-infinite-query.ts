@@ -121,22 +121,13 @@ function createStore<
   const fetchPage = async (skip: number) => {
     // Early return if already fetching or no more data
     if (state.isFetching) {
-      console.log("fetchPage: already fetching, skipping");
       return;
     }
 
     if (state.hasInitialFetch && state.count <= state.data.length) {
-      console.log("fetchPage: no more data to fetch", {
-        count: state.count,
-        dataLength: state.data.length,
-      });
       return;
     }
 
-    console.log("fetchPage: starting fetch", {
-      skip,
-      currentDataLength: state.data.length,
-    });
     setState({ isFetching: true });
 
     let query = supabase
@@ -155,15 +146,8 @@ function createStore<
     } = await query.range(skip, skip + pageSize - 1);
 
     if (error) {
-      console.error("An unexpected error occurred:", error);
       setState({ error, isFetching: false });
     } else {
-      console.log("fetchPage: received data", {
-        newDataLength: newData?.length,
-        totalCount: count,
-        firstItem: newData?.[0],
-        lastItem: newData?.[newData.length - 1],
-      });
       setState({
         data: [...state.data, ...(newData as TData[])],
         count: count || 0,
@@ -175,10 +159,6 @@ function createStore<
   };
 
   const fetchNextPage = async () => {
-    console.log("fetchNextPage called", {
-      dataLength: state.data.length,
-      isFetching: state.isFetching,
-    });
     await fetchPage(state.data.length);
   };
 
@@ -189,7 +169,6 @@ function createStore<
   };
 
   const refetch = async () => {
-    console.log("refetch: resetting data and fetching from start");
     setState({ isLoading: true, isSuccess: false, data: [], count: 0 });
     await fetchPage(0);
     setState({ isLoading: false, hasInitialFetch: true });
@@ -244,7 +223,6 @@ function useInfiniteQuery<
     // Skip if we haven't done initial fetch yet (let the init effect handle it)
     if (!storeRef.current.getState().hasInitialFetch) return;
 
-    console.log("useInfiniteQuery: recreating store due to dependency change");
     // Reconstruct props from current values to satisfy ESLint
     const currentProps: UseInfiniteQueryProps<T> = {
       tableName,

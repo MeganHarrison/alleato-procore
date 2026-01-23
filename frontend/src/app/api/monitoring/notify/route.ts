@@ -50,11 +50,6 @@ export async function POST(request: NextRequest) {
       recentNotifications = recentNotifications.slice(0, MAX_NOTIFICATIONS);
     }
 
-    console.warn(
-      `📊 Dashboard notification received: ${notification.type}`,
-      notification.data
-    );
-
     // Handle notification type-specific logic
     await handleNotificationType(notification);
 
@@ -64,7 +59,6 @@ export async function POST(request: NextRequest) {
       id: notificationWithId.id,
     });
   } catch (error) {
-    console.error('Error handling dashboard notification:', error);
     return NextResponse.json(
       { error: 'Failed to process notification' },
       { status: 500 }
@@ -82,7 +76,6 @@ export async function GET() {
       count: recentNotifications.length,
     });
   } catch (error) {
-    console.error('Error fetching notifications:', error);
     return NextResponse.json(
       { error: 'Failed to fetch notifications' },
       { status: 500 }
@@ -98,39 +91,24 @@ async function handleNotificationType(
 ): Promise<void> {
   switch (notification.type) {
     case 'activity_log':
-      console.warn(`📝 Activity: ${notification.data.activity}`);
       break;
 
     case 'initiative_update':
-      console.warn(
-        `📋 Initiative ${notification.data.initiativeId} updated: ${notification.data.status}`
-      );
       break;
 
     case 'task_completion':
-      console.warn(`✅ Task completed: ${notification.data.taskId}`);
       // Could trigger verification here
       break;
 
     case 'verification_result':
-      console.warn(
-        `🔍 Verification result for ${notification.data.targetId}: ${notification.data.result}`
-      );
       break;
 
     case 'system_health':
-      console.warn(
-        `🏥 System health update: ${notification.data.component} = ${notification.data.status}`
-      );
       break;
 
     case 'agent_activity':
-      console.warn(
-        `🤖 Agent activity: ${notification.data.agent} - ${notification.data.activity}`
-      );
       break;
 
     default:
-      console.warn(`📢 Unknown notification type: ${notification.type}`);
-  }
+      }
 }

@@ -177,8 +177,7 @@ export function UploadDrawingDialog({
       const errorMessage =
         err instanceof Error ? err.message : 'Failed to upload drawing. Please try again.';
       setError(errorMessage);
-      console.error('Error uploading drawing:', err);
-    } finally {
+      } finally {
       setIsLoading(false);
     }
   };

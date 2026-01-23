@@ -189,7 +189,6 @@ export function CostCodeSetup({
       );
       setSelectedCodes(selected);
     } catch (err) {
-      console.error("Error loading data:", err);
       setError(err instanceof Error ? err.message : "Failed to load data");
     } finally {
       setLoading(false);
@@ -252,7 +251,6 @@ export function CostCodeSetup({
       const importedCodeIds = standardCostCodes.map((c) => c.code);
       setSelectedCodes(new Set(importedCodeIds));
     } catch (err) {
-      console.error("Error importing standard codes:", err);
       setError(
         err instanceof Error ? err.message : "Failed to import standard codes",
       );
@@ -304,7 +302,6 @@ export function CostCodeSetup({
       setShowAddDialog(false);
       setNewCode({ code: "", description: "", typeCode: "" });
     } catch (err) {
-      console.error("Error adding custom code:", err);
       setError(
         err instanceof Error ? err.message : "Failed to add custom code",
       );
@@ -363,7 +360,6 @@ export function CostCodeSetup({
 
       onNext();
     } catch (err) {
-      console.error("Error saving project cost codes:", err);
       setError(
         err instanceof Error ? err.message : "Failed to save cost codes",
       );

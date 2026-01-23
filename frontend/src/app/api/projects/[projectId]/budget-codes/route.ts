@@ -77,10 +77,6 @@ export async function GET(
         .order("cost_code_id", { ascending: true });
 
     if (projectBudgetCodesError) {
-      console.error(
-        "Error fetching project budget codes:",
-        projectBudgetCodesError,
-      );
       return NextResponse.json(
         {
           error: "Failed to load budget codes",
@@ -118,7 +114,6 @@ export async function GET(
 
     return NextResponse.json({ budgetCodes });
   } catch (error) {
-    console.error("Error in budget codes route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -214,8 +209,6 @@ export async function POST(
       .single();
 
     if (insertError) {
-      console.error("Error creating project budget code:", insertError);
-
       // Check if it's a unique constraint violation
       if (insertError.code === "23505") {
         return NextResponse.json(
@@ -256,7 +249,6 @@ export async function POST(
 
     return NextResponse.json({ budgetCode });
   } catch (error) {
-    console.error("Error in POST budget codes route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

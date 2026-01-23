@@ -89,7 +89,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error("Error fetching companies:", error);
     return NextResponse.json(
       {
         error: "server_error",
@@ -200,7 +199,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       throw createError;
     }
   } catch (error) {
-    console.error("Error creating company:", error);
     return NextResponse.json(
       {
         error: "server_error",

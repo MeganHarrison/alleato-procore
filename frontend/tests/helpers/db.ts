@@ -1,4 +1,4 @@
-import { createClient } from "@supabase/supabase-js";
+import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -100,7 +100,10 @@ export async function getChangeOrder(id: number) {
 
   if (error) {
     throw new Error(`Failed to fetch change order: ${error.message}`);
-import { createClient, type SupabaseClient } from '@supabase/supabase-js';
+  }
+
+  return data;
+}
 
 let adminClient: SupabaseClient | null = null;
 
@@ -164,6 +167,11 @@ export async function countChangeOrdersForProject(projectId: number) {
 
   if (error) {
     throw new Error(`Failed to count change orders: ${error.message}`);
+  }
+
+  return count || 0;
+}
+
 export async function fetchChangeEventByNumber(projectId: number, number: string) {
   const supabase = getAdminClient();
   const { data, error } = await supabase
@@ -230,6 +238,8 @@ export async function deleteProject(projectId: number) {
   if (error) {
     throw new Error(`Failed to delete project: ${error.message}`);
   }
+}
+
 export async function fetchLineItems(changeEventId: number) {
   const supabase = getAdminClient();
   const { data, error } = await supabase

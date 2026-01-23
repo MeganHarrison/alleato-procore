@@ -109,7 +109,7 @@ export class CompanyService {
     const offset = (page - 1) * per_page;
 
     // First, get the project companies with their base company data
-    let query = (this.supabase as any)
+    let query = this.supabase
       .from("project_companies")
       .select(
         `
@@ -222,7 +222,7 @@ export class CompanyService {
     const projectIdNum = Number.parseInt(projectId, 10);
 
     // Get the project company with joined data
-    const { data, error } = await (this.supabase as any)
+    const { data, error } = await this.supabase
       .from("project_companies")
       .select(
         `
@@ -293,9 +293,7 @@ export class CompanyService {
 
     // Then, create the project company association
      
-    const { data: projectCompany, error: pcError } = await (
-      this.supabase as any
-    )
+    const { data: projectCompany, error: pcError } = await this.supabase
       .from("project_companies")
       .insert({
         project_id: projectIdNum,
@@ -341,7 +339,7 @@ export class CompanyService {
 
     if (Object.keys(globalFields).length > 0) {
       // Get the company_id first
-      const { data: pc } = await (this.supabase as any)
+      const { data: pc } = await this.supabase
         .from("project_companies")
         .select("company_id")
         .eq("id", companyId)
@@ -373,7 +371,7 @@ export class CompanyService {
     if (data.logo_url !== undefined) projectFields.logo_url = data.logo_url;
 
     if (Object.keys(projectFields).length > 0) {
-      const { error } = await (this.supabase as any)
+      const { error } = await this.supabase
         .from("project_companies")
         .update(projectFields)
         .eq("id", companyId)
@@ -464,7 +462,7 @@ export class CompanyService {
   ): Promise<{ canRemove: boolean; reason?: string }> {
     const projectIdNum = Number.parseInt(projectId, 10);
 
-    const { data } = await (this.supabase as any)
+    const { data } = await this.supabase
       .from("project_companies")
       .select("primary_contact_id")
       .eq("project_id", projectIdNum)
@@ -499,7 +497,7 @@ export class CompanyService {
       .single();
 
     // Get the project company to find the global company_id
-    const { data: pc } = await (this.supabase as any)
+    const { data: pc } = await this.supabase
       .from("project_companies")
       .select("company_id")
       .eq("id", companyId)
@@ -510,7 +508,7 @@ export class CompanyService {
     }
 
     // Update primary contact
-    const { error } = await (this.supabase as any)
+    const { error } = await this.supabase
       .from("project_companies")
       .update({ primary_contact_id: personId })
       .eq("id", companyId)

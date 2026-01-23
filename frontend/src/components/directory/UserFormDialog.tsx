@@ -68,11 +68,6 @@ export function UserFormDialog({
       // 3. Associating the person with the project
       // 4. Setting up permissions
 
-      console.warn("User creation not yet implemented", {
-        projectId,
-        formData,
-      });
-
       // Simulate success for now
       await new Promise((resolve) => setTimeout(resolve, 1000));
 

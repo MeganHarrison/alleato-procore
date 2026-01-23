@@ -97,7 +97,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       .single();
 
     if (updateError) {
-      console.error("Error approving change order:", updateError);
       return NextResponse.json(
         {
           error: "Failed to approve change order",
@@ -116,7 +115,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       .eq("id", contractId);
 
     if (contractUpdateError) {
-      console.error("Error updating contract value:", contractUpdateError);
       return NextResponse.json(
         {
           error: "Change order approved but failed to update contract value",
@@ -145,10 +143,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       );
     }
 
-    console.error(
-      "Error in POST /api/projects/[id]/contracts/[contractId]/change-orders/[changeOrderId]/approve:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

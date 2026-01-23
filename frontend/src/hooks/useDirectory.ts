@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useMemo } from "react";
 import { useSupabase } from "@/hooks/useSupabase";
 import type {
   DirectoryFilters,
@@ -58,6 +58,45 @@ export function useDirectory(
     perPage: 50,
     totalPages: 0,
   });
+  const [offline, setOffline] = useState(
+    typeof navigator !== "undefined" ? !navigator.onLine : false,
+  );
+
+  const cacheKey = useMemo(() => {
+    const signature = JSON.stringify({
+      projectId,
+      filters,
+      search,
+    });
+    return `directory:${signature}`;
+  }, [projectId, filters, search]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const cached = window.localStorage.getItem(cacheKey);
+    if (cached) {
+      try {
+        const parsed = JSON.parse(cached);
+        setData(parsed.data || []);
+        setGroups(parsed.groups);
+        setMeta(parsed.meta || meta);
+      } catch {
+        // ignore cache errors
+      }
+    }
+  }, [cacheKey]);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const handleOnline = () => setOffline(false);
+    const handleOffline = () => setOffline(true);
+    window.addEventListener("online", handleOnline);
+    window.addEventListener("offline", handleOffline);
+    return () => {
+      window.removeEventListener("online", handleOnline);
+      window.removeEventListener("offline", handleOffline);
+    };
+  }, []);
 
   const fetchData = useCallback(async () => {
     if (!projectId) return;
@@ -102,13 +141,35 @@ export function useDirectory(
           totalPages: 0,
         },
       );
+      if (typeof window !== "undefined") {
+        window.localStorage.setItem(
+          cacheKey,
+          JSON.stringify({
+            data: result.data || [],
+            groups: result.groups,
+            meta: result.meta,
+          }),
+        );
+      }
     } catch (err) {
-      console.error("Error fetching directory:", err);
       setError(err instanceof Error ? err : new Error("Unknown error"));
+      if (typeof window !== "undefined") {
+        const cached = window.localStorage.getItem(cacheKey);
+        if (cached) {
+          try {
+            const parsed = JSON.parse(cached);
+            setData(parsed.data || []);
+            setGroups(parsed.groups);
+            setMeta(parsed.meta || meta);
+          } catch {
+            // ignore cache errors
+          }
+        }
+      }
     } finally {
       setLoading(false);
     }
-  }, [projectId, filters, supabase]);
+  }, [projectId, filters, supabase, cacheKey, meta]);
 
   useEffect(() => {
     fetchData();
@@ -126,5 +187,6 @@ export function useDirectory(
     meta,
     refetch: fetchData,
     updateFilters,
+    offline,
   };
 }

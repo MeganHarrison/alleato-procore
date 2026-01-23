@@ -135,8 +135,7 @@ export default function BudgetV2Page() {
         setLockedBy(data.lockedBy);
       }
     } catch (error) {
-      console.error("Error fetching lock status:", error);
-    }
+      }
   }, [projectId]);
 
   // Load active project cost codes and create initial line items
@@ -175,7 +174,6 @@ export default function BudgetV2Page() {
 
             if (error) throw error;
 
-            console.warn("Loaded project cost codes:", data);
             // Filter to only include cost codes with cost types (required by schema)
             const validCostCodes =
               (data as unknown as ProjectCostCode[])?.filter(
@@ -219,7 +217,6 @@ export default function BudgetV2Page() {
           fetchLockStatus(),
         ]);
       } catch (error) {
-        console.error("Error loading project cost codes:", error);
         toast.error("Failed to load project cost codes");
       } finally {
         setLoadingData(false);
@@ -245,7 +242,6 @@ export default function BudgetV2Page() {
           .order("id", { ascending: true });
 
         if (error) {
-          console.error("Error fetching cost codes:", error);
           return;
         }
 
@@ -267,8 +263,7 @@ export default function BudgetV2Page() {
 
         setGroupedCostCodes(grouped);
       } catch (error) {
-        console.error("Error fetching cost codes:", error);
-      } finally {
+        } finally {
         setLoadingCostCodes(false);
       }
     };
@@ -386,7 +381,6 @@ export default function BudgetV2Page() {
       setNewCodeData({ costCodeId: "", costType: "L" });
       toast.success("Budget code created successfully");
     } catch (error) {
-      console.error("Error creating budget code:", error);
       toast.error(
         `Failed to create budget code: ${error instanceof Error ? error.message : "Unknown error"}`,
       );
@@ -396,14 +390,10 @@ export default function BudgetV2Page() {
   };
 
   const handleBudgetCodeSelect = (rowId: string, costCode: ProjectCostCode) => {
-    console.warn("Selected cost code:", costCode);
     const costCodeTitle = costCode.cost_codes?.title || "";
     const costTypeDesc = costCode.cost_code_types?.description || "";
-    console.warn("Cost code title:", costCodeTitle);
     const label = `${costCode.cost_code_id} – ${costCodeTitle}`;
     const description = `${costCodeTitle}.${costTypeDesc}`;
-    console.warn("Generated label:", label);
-
     setLineItems(
       lineItems.map((item) =>
         item.id === rowId
@@ -512,7 +502,6 @@ export default function BudgetV2Page() {
         toast.error(error.error || "Failed to lock budget");
       }
     } catch (error) {
-      console.error("Error locking budget:", error);
       toast.error("Failed to lock budget");
     }
   };
@@ -533,7 +522,6 @@ export default function BudgetV2Page() {
         toast.error(error.error || "Failed to unlock budget");
       }
     } catch (error) {
-      console.error("Error unlocking budget:", error);
       toast.error("Failed to unlock budget");
     }
   };

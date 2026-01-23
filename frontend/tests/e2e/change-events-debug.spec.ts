@@ -9,7 +9,7 @@ test.describe('Change Events - Debug Navigation', () => {
     console.warn('Navigating directly to create form...');
 
     // Navigate directly to the create form
-    await page.goto(`http://localhost:3000/${projectId}/change-events/new`);
+    await page.goto(`/${projectId}/change-events/new`);
     await page.waitForLoadState('domcontentloaded');
     await page.waitForTimeout(2000);
 
@@ -80,7 +80,7 @@ test.describe('Change Events - Debug Navigation', () => {
     console.warn('Testing button click navigation...');
 
     // Navigate to list page
-    await page.goto(`http://localhost:3000/${projectId}/change-events`);
+    await page.goto(`/${projectId}/change-events`);
     await page.waitForLoadState('domcontentloaded');
     await page.waitForTimeout(1000);
 
@@ -143,7 +143,7 @@ test.describe('Change Events - Debug Navigation', () => {
     console.warn('Testing change events API...');
 
     // Test GET endpoint
-    const getResponse = await request.get(`http://localhost:3000/api/projects/${projectId}/change-events`);
+    const getResponse = await request.get(`${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${projectId}/change-events`);
     console.warn('GET /api/projects/:id/change-events');
     console.warn('  Status:', getResponse.status());
 
@@ -155,7 +155,7 @@ test.describe('Change Events - Debug Navigation', () => {
     }
 
     // Test POST endpoint (with minimal data)
-    const postResponse = await request.post(`http://localhost:3000/api/projects/${projectId}/change-events`, {
+    const postResponse = await request.post(`${process.env.BASE_URL || 'http://localhost:3000'}/api/projects/${projectId}/change-events`, {
       data: {
         number: 'TEST-001',
         title: 'API Test Change Event',

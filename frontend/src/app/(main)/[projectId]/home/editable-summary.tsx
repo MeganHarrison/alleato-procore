@@ -1,12 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { ChevronDown, ChevronUp, Pencil } from "lucide-react";
-import {
-  Collapsible,
-  CollapsibleContent,
-  CollapsibleTrigger,
-} from "@/components/ui/collapsible";
+import { Pencil } from "lucide-react";
 import { Textarea } from "@/components/ui/textarea";
 
 interface EditableSummaryProps {
@@ -15,7 +10,6 @@ interface EditableSummaryProps {
 }
 
 export function EditableSummary({ summary, onSave }: EditableSummaryProps) {
-  const [isOpen, setIsOpen] = useState(true);
   const [isEditing, setIsEditing] = useState(false);
   const [editedSummary, setEditedSummary] = useState(summary);
   const [isSaving, setIsSaving] = useState(false);
@@ -36,7 +30,6 @@ export function EditableSummary({ summary, onSave }: EditableSummaryProps) {
       await onSave(editedSummary);
       setIsEditing(false);
     } catch (error) {
-      console.error("Failed to save summary:", error);
       // Keep edit mode open on error
     } finally {
       setIsSaving(false);
@@ -44,90 +37,59 @@ export function EditableSummary({ summary, onSave }: EditableSummaryProps) {
   };
 
   return (
-    <div className="border border-neutral-200 bg-background">
-      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
-        <div className="lg:px-6 px-4 py-2">
-          <div className="flex items-center justify-between">
-            <h3 className="text-[10px] font-semibold tracking-[0.15em] uppercase text-brand">
-              Summary
-            </h3>
-            <div className="flex gap-3">
-              {!isEditing ? (
-                <>
-                  <button
-                    type="button"
-                    className="inline-flex items-center gap-1.5 text-xs font-medium text-neutral-600 hover:text-brand transition-colors duration-200"
-                    onClick={handleEdit}
-                  >
-                    <Pencil className="h-3.5 w-3.5" />
-                    <span className="sr-only">Edit summary</span>
-                  </button>
-                  <CollapsibleTrigger asChild>
-                    <button
-                      type="button"
-                      className="inline-flex items-center text-xs font-medium text-neutral-400 hover:text-neutral-600 transition-colors duration-200"
-                    >
-                      {isOpen ? (
-                        <ChevronUp className="h-3.5 w-3.5" />
-                      ) : (
-                        <ChevronDown className="h-3.5 w-3.5" />
-                      )}
-                      <span className="sr-only">Toggle summary</span>
-                    </button>
-                  </CollapsibleTrigger>
-                </>
-              ) : (
-                <>
-                  <button
-                    type="button"
-                    className="px-3 py-1.5 text-xs font-medium bg-brand text-white hover:bg-brand-dark transition-colors duration-200 disabled:opacity-50"
-                    onClick={handleSave}
-                    disabled={isSaving}
-                  >
-                    Save
-                    <span className="sr-only">Save changes</span>
-                  </button>
-                  <button
-                    type="button"
-                    className="px-3 py-1.5 text-xs font-medium text-neutral-600 hover:text-neutral-900 transition-colors duration-200 disabled:opacity-50"
-                    onClick={handleCancel}
-                    disabled={isSaving}
-                  >
-                    Cancel
-                    <span className="sr-only">Cancel editing</span>
-                  </button>
-                </>
-              )}
-            </div>
+    <div>
+      {isEditing ? (
+        <div>
+          <div className="flex justify-end gap-2 mb-3">
+            <button
+              type="button"
+              className="px-3 py-1.5 text-xs font-medium bg-brand text-white hover:bg-brand-dark transition-colors duration-200 disabled:opacity-50"
+              onClick={handleSave}
+              disabled={isSaving}
+            >
+              Save
+            </button>
+            <button
+              type="button"
+              className="px-3 py-1.5 text-xs font-medium text-neutral-600 hover:text-neutral-900 transition-colors duration-200 disabled:opacity-50"
+              onClick={handleCancel}
+              disabled={isSaving}
+            >
+              Cancel
+            </button>
+          </div>
+          <Textarea
+            value={editedSummary}
+            onChange={(e) => setEditedSummary(e.target.value)}
+            className="min-h-[240px] text-sm border-neutral-300 focus:border-brand focus:ring-brand/20 font-light"
+            disabled={isSaving}
+          />
+        </div>
+      ) : (
+        <div className="relative group">
+          <button
+            type="button"
+            className="absolute top-0 right-0 inline-flex items-center gap-1.5 text-xs font-medium text-neutral-400 hover:text-brand transition-colors duration-200 opacity-0 group-hover:opacity-100"
+            onClick={handleEdit}
+          >
+            <Pencil className="h-3.5 w-3.5" />
+            <span>Edit</span>
+          </button>
+          <div className="text-sm pr-16">
+            {summary
+              .split("\n")
+              .filter((paragraph) => paragraph.trim())
+              .map((paragraph, index) => (
+                <p
+                  key={index}
+                  className="text-neutral-800 text-sm mb-2 last:mb-0"
+                >
+                  {paragraph.trim()}
+                </p>
+              ))}
           </div>
         </div>
-        <CollapsibleContent>
-          <div className="px-4 py-4 lg:px-6 lg:py-2">
-            {isEditing ? (
-              <Textarea
-                value={editedSummary}
-                onChange={(e) => setEditedSummary(e.target.value)}
-                className="min-h-[240px] text-sm  border-neutral-300 focus:border-brand focus:ring-brand/20 font-light"
-                disabled={isSaving}
-              />
-            ) : (
-              <div className="text-sm">
-                {summary
-                  .split("\n")
-                  .filter((paragraph) => paragraph.trim())
-                  .map((paragraph) => (
-                    <p
-                      key={paragraph.substring(0, 50)}
-                      className="text-neutral-800 text-sm"
-                    >
-                      {paragraph.trim()}
-                    </p>
-                  ))}
-              </div>
-            )}
-          </div>
-        </CollapsibleContent>
-      </Collapsible>
+      )}
     </div>
   );
 }

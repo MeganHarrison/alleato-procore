@@ -188,8 +188,7 @@ function scanDirectory(dir: string, basePath: string = ''): RouteInfo[] {
       }
     }
   } catch (error) {
-    console.error(`Error scanning directory ${dir}:`, error)
-  }
+    }
 
   return routes
 }

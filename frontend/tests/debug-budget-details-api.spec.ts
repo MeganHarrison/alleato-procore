@@ -21,7 +21,7 @@ test('debug budget details API', async ({ page }) => {
   });
 
   // Navigate to budget details tab
-  await page.goto('http://localhost:3004/67/budget?tab=budget-details');
+  await page.goto('/67/budget?tab=budget-details');
 
   // Wait for API call to complete
   await page.waitForTimeout(3000);

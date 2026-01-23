@@ -94,7 +94,6 @@ export function OriginalBudgetModal({
       });
       onClose();
     } catch (error) {
-      console.error("Error saving budget:", error);
       // Error handling would show toast here
     } finally {
       setIsSaving(false);

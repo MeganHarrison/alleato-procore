@@ -112,7 +112,7 @@ No slash commands are required. (Works with Codex/Claude/humans.)
 
 All crawler output MUST be written here:
 
-documentation/*project-mgmt/in-progress/{feature_name}/crawl-{feature_name}/
+docs/{feature_name}/crawl-{feature_name}/
 
 Nothing goes in `.claude/`.
 
@@ -120,7 +120,7 @@ Nothing goes in `.claude/`.
 
 ## Output Structure (Required)
 
-documentation/*project-mgmt/in-progress/{feature_name}/crawl-{feature_name}/
+docs/{feature_name}/crawl-{feature_name}/
 ├── README.md
 ├── {FEATURE}-CRAWL-STATUS.md
 ├── crawl-manifest.json               # run metadata + checkpoints

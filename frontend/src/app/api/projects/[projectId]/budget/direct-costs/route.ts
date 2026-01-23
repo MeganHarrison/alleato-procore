@@ -108,7 +108,6 @@ export async function GET(
     const { data: costs, error } = await query;
 
     if (error) {
-      console.error("Error fetching direct costs:", error);
       return NextResponse.json(
         { error: "Failed to fetch direct costs" },
         { status: 500 },
@@ -184,7 +183,6 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error("Error in direct costs GET route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

@@ -21,7 +21,7 @@ test.describe('QA Audit New Columns Tests', () => {
 
     // Step 1: Navigate to QA Audit page
     console.log('Step 1: Navigating to QA Audit page...');
-    await page.goto('http://localhost:3004/qa-audit');
+    await page.goto('/qa-audit');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(1000);
 

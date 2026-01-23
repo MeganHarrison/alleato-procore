@@ -20,6 +20,16 @@ import {
 import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
+interface ImportResult {
+  success: boolean;
+  importedCount: number;
+  totalRows: number;
+  errors?: string[];
+  warnings?: string[];
+  skippedRows?: number;
+  message: string;
+}
+
 interface ImportBudgetModalProps {
   open: boolean;
   onOpenChange: (open: boolean) => void;
@@ -37,6 +47,7 @@ export function ImportBudgetModal({
   const [isImporting, setIsImporting] = React.useState(false);
   const [error, setError] = React.useState<string | null>(null);
   const [isDragging, setIsDragging] = React.useState(false);
+  const [importResult, setImportResult] = React.useState<ImportResult | null>(null);
   const fileInputRef = React.useRef<HTMLInputElement>(null);
 
   // Reset state when modal closes
@@ -46,6 +57,7 @@ export function ImportBudgetModal({
       setError(null);
       setIsImporting(false);
       setIsDragging(false);
+      setImportResult(null);
     }
   }, [open]);
 
@@ -60,22 +72,25 @@ export function ImportBudgetModal({
       document.body.removeChild(link);
       toast.success("Template downloaded successfully");
     } catch (err) {
-      console.error("Error downloading template:", err);
       toast.error("Failed to download template");
     }
   };
 
   const validateFile = (selectedFile: File): string | null => {
-    // Check file type
-    const validTypes = [
+    // Check file type - support both Excel and CSV
+    const validExcelTypes = [
       "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
       "application/vnd.ms-excel",
     ];
-    if (
-      !validTypes.includes(selectedFile.type) &&
-      !selectedFile.name.endsWith(".xlsx")
-    ) {
-      return "Please upload a valid Excel file (.xlsx)";
+    const validCsvTypes = ["text/csv", "application/csv"];
+
+    const isExcel = validExcelTypes.includes(selectedFile.type) ||
+      selectedFile.name.endsWith(".xlsx");
+    const isCsv = validCsvTypes.includes(selectedFile.type) ||
+      selectedFile.name.endsWith(".csv");
+
+    if (!isExcel && !isCsv) {
+      return "Please upload a valid Excel (.xlsx) or CSV (.csv) file";
     }
 
     // Check file size (10MB max)
@@ -151,23 +166,30 @@ export function ImportBudgetModal({
         body: formData,
       });
 
-      const result = await response.json();
+      const result: ImportResult = await response.json();
 
       if (!response.ok) {
         throw new Error(result.error || "Failed to import budget");
       }
 
-      toast.success(
-        `Budget imported successfully! ${result.importedCount || 0} line item(s) added.`,
-      );
+      // Store the result for display
+      setImportResult(result);
+
+      // Show success message with details
+      let message = `Budget imported successfully! ${result.importedCount || 0} line item(s) added.`;
+
+      if (result.warnings?.length || result.skippedRows) {
+        const issues = [];
+        if (result.warnings?.length) issues.push(`${result.warnings.length} warnings`);
+        if (result.skippedRows) issues.push(`${result.skippedRows} skipped rows`);
+        message += ` (${issues.join(", ")})`;
+      }
+
+      toast.success(message);
 
       // Call success callback to refresh budget data
       onSuccess?.();
-
-      // Close modal
-      onOpenChange(false);
     } catch (err) {
-      console.error("Error importing budget:", err);
       const errorMessage =
         err instanceof Error ? err.message : "Failed to import budget";
       setError(errorMessage);
@@ -272,7 +294,7 @@ export function ImportBudgetModal({
                 </p>
                 <p className="text-xs text-muted-foreground">or Drag & Drop</p>
                 <p className="text-xs text-muted-foreground mt-2">
-                  Excel files only (.xlsx), max 10MB
+                  Excel (.xlsx) or CSV (.csv) files, max 10MB
                 </p>
               </div>
             ) : (
@@ -305,7 +327,7 @@ export function ImportBudgetModal({
             <input
               ref={fileInputRef}
               type="file"
-              accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              accept=".xlsx,.csv,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv"
               onChange={handleFileInputChange}
               className="hidden"
             />
@@ -317,6 +339,63 @@ export function ImportBudgetModal({
               </div>
             )}
           </div>
+
+          {/* Import Results Section */}
+          {importResult && (importResult.warnings?.length || importResult.errors?.length) && (
+            <div className="space-y-3">
+              <h4 className="font-medium text-sm">Import Results</h4>
+
+              {importResult.warnings && importResult.warnings.length > 0 && (
+                <div className="bg-amber-50 border border-amber-200 rounded-md p-3">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 text-amber-600 mt-0.5 flex-shrink-0" />
+                    <div className="space-y-2 flex-1">
+                      <p className="text-sm font-medium text-amber-800">
+                        Warnings ({importResult.warnings.length})
+                      </p>
+                      <div className="max-h-24 overflow-y-auto">
+                        <ul className="text-xs space-y-1">
+                          {importResult.warnings.slice(0, 5).map((warning, index) => (
+                            <li key={index} className="text-amber-700">{warning}</li>
+                          ))}
+                          {importResult.warnings.length > 5 && (
+                            <li className="text-amber-600 italic">
+                              +{importResult.warnings.length - 5} more warnings...
+                            </li>
+                          )}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {importResult.errors && importResult.errors.length > 0 && (
+                <div className="bg-red-50 border border-red-200 rounded-md p-3">
+                  <div className="flex items-start gap-2">
+                    <AlertCircle className="w-4 h-4 text-red-600 mt-0.5 flex-shrink-0" />
+                    <div className="space-y-2 flex-1">
+                      <p className="text-sm font-medium text-red-800">
+                        Errors ({importResult.errors.length})
+                      </p>
+                      <div className="max-h-24 overflow-y-auto">
+                        <ul className="text-xs space-y-1">
+                          {importResult.errors.slice(0, 5).map((error, index) => (
+                            <li key={index} className="text-red-700">{error}</li>
+                          ))}
+                          {importResult.errors.length > 5 && (
+                            <li className="text-red-600 italic">
+                              +{importResult.errors.length - 5} more errors...
+                            </li>
+                          )}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
         </div>
 
         <DialogFooter>

@@ -7,7 +7,6 @@ export async function fetchRagBootstrapState() {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error("Error fetching RAG bootstrap state:", error);
     return null;
   }
 }
@@ -31,7 +30,6 @@ export async function fetchRagThreadState(threadId: string) {
 
     return data;
   } catch (error) {
-    console.error("Error fetching RAG thread state:", error);
     return null;
   }
 }

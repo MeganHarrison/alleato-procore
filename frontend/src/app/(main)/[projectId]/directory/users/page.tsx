@@ -2,18 +2,19 @@
 
 import * as React from "react";
 import { useParams, usePathname } from "next/navigation";
-import { UserPlus } from "lucide-react";
+import { UserPlus, Users } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { ProjectPageHeader } from "@/components/layout/ProjectPageHeader";
 import { PageContainer } from "@/components/layout/PageContainer";
 import { PageTabs } from "@/components/layout/PageTabs";
 import { Text } from "@/components/ui/text";
-import { ResponsiveUsersTable } from "@/components/directory/responsive/ResponsiveUsersTable";
+import { ResponsiveAuthUsersTable } from "@/components/directory/responsive/ResponsiveAuthUsersTable";
 import { UserListSkeleton } from "@/components/directory/skeletons/UserListSkeleton";
-import { EmptyUsersList } from "@/components/directory/empty-states/EmptyUsersList";
 import { getProjectDirectoryTabs } from "@/config/directory-tabs";
-import { useProjectUsers } from "@/hooks/use-project-users";
+import { useAuthUsers, type AuthUser } from "@/hooks/use-auth-users";
 import { UserFormDialog } from "@/components/directory/UserFormDialog";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 
 export default function ProjectDirectoryUsersPage() {
   const params = useParams();
@@ -21,7 +22,7 @@ export default function ProjectDirectoryUsersPage() {
   const projectId = params.projectId as string;
   const [isDialogOpen, setIsDialogOpen] = React.useState(false);
 
-  const { users, isLoading, error, refetch } = useProjectUsers(projectId);
+  const { users, isLoading, error, refetch } = useAuthUsers(projectId);
 
   const handleAddUser = () => {
     setIsDialogOpen(true);
@@ -31,14 +32,19 @@ export default function ProjectDirectoryUsersPage() {
     refetch();
   };
 
-  const handleEditUser = (user: unknown) => {
-    // TODO: Open edit user modal
-    console.warn("Edit user functionality not yet implemented", user);
+  const handleEditUser = (user: AuthUser) => {
+    // TODO: Open edit user modal with auth user data
+    console.log("Edit user:", user);
   };
 
-  const handleDeactivateUser = async (user: unknown) => {
-    // TODO: Implement deactivate user
-    console.warn("Deactivate user functionality not yet implemented", user);
+  const handleDeactivateUser = async (user: AuthUser) => {
+    // TODO: Implement deactivate auth user
+    console.log("Deactivate user:", user);
+  };
+
+  const handleResendInvite = async (user: AuthUser) => {
+    // TODO: Implement resend invite for auth user
+    console.log("Resend invite:", user);
   };
 
   const tabs = getProjectDirectoryTabs(projectId, pathname);
@@ -48,7 +54,7 @@ export default function ProjectDirectoryUsersPage() {
       <>
         <ProjectPageHeader
           title="Directory"
-          description="Manage companies and team members for this project"
+          description="Manage authenticated users for this project"
           actions={
             <Button onClick={handleAddUser} variant="default">
               <UserPlus className="mr-2 h-4 w-4" />
@@ -58,10 +64,11 @@ export default function ProjectDirectoryUsersPage() {
         />
         <PageTabs tabs={tabs} />
         <PageContainer>
-          <div className="text-center py-12">
-            <h2 className="text-xl font-bold mb-4">Error Loading Users</h2>
-            <Text tone="destructive">{error.message}</Text>
-          </div>
+          <Alert variant="destructive">
+            <AlertDescription>
+              Error loading users: {error.message}
+            </AlertDescription>
+          </Alert>
         </PageContainer>
       </>
     );
@@ -71,7 +78,7 @@ export default function ProjectDirectoryUsersPage() {
     <>
       <ProjectPageHeader
         title="Directory"
-        description="Manage companies and team members for this project"
+        description="Manage authenticated users for this project"
         actions={
           <Button onClick={handleAddUser} variant="default">
             <UserPlus className="mr-2 h-4 w-4" />
@@ -82,6 +89,21 @@ export default function ProjectDirectoryUsersPage() {
       <PageTabs tabs={tabs} />
       <PageContainer>
         <div className="space-y-6">
+          {/* Info card about this page */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2">
+                <Users className="h-5 w-5" />
+                Authenticated Users
+              </CardTitle>
+              <CardDescription>
+                This page shows users who have authenticated accounts in the system and are
+                members of this project. These are actual Supabase auth users linked to people
+                in the project directory.
+              </CardDescription>
+            </CardHeader>
+          </Card>
+
           <div className="flex items-center justify-between">
             <div>
               {users.length > 0 && (
@@ -89,7 +111,7 @@ export default function ProjectDirectoryUsersPage() {
                   <Text as="span" weight="medium">
                     {users.length}
                   </Text>{" "}
-                  users
+                  authenticated user{users.length === 1 ? "" : "s"}
                 </Text>
               )}
             </div>
@@ -99,12 +121,26 @@ export default function ProjectDirectoryUsersPage() {
             {isLoading ? (
               <UserListSkeleton count={5} />
             ) : users.length === 0 ? (
-              <EmptyUsersList onAddUser={handleAddUser} />
+              <Card>
+                <CardContent className="flex flex-col items-center justify-center py-12 text-center">
+                  <Users className="h-12 w-12 text-muted-foreground mb-4" />
+                  <h3 className="text-lg font-semibold mb-2">No Authenticated Users</h3>
+                  <p className="text-muted-foreground mb-4 max-w-sm">
+                    No users with authenticated accounts found for this project.
+                    Users need to sign up and be added to the project directory.
+                  </p>
+                  <Button onClick={handleAddUser} variant="default">
+                    <UserPlus className="mr-2 h-4 w-4" />
+                    Add User
+                  </Button>
+                </CardContent>
+              </Card>
             ) : (
-              <ResponsiveUsersTable
+              <ResponsiveAuthUsersTable
                 users={users}
                 onEdit={handleEditUser}
                 onDeactivate={handleDeactivateUser}
+                onResendInvite={handleResendInvite}
               />
             )}
           </div>

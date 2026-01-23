@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
 
 test('verify RFIs page title and header', async ({ page }) => {
-  await page.goto('http://localhost:3002/rfis');
+  await page.goto('/rfis');
   await page.waitForLoadState('networkidle');
 
   // Take screenshot

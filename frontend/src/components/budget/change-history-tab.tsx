@@ -59,7 +59,6 @@ export function ChangeHistoryTab({ projectId }: ChangeHistoryTabProps) {
       const data = await response.json();
       setHistoryData(data);
     } catch (error) {
-      console.error("Error fetching change history:", error);
       toast.error("Failed to load change history");
     } finally {
       setLoading(false);

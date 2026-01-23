@@ -65,8 +65,7 @@ export function PendingCostChangesModal({
         setChanges(data.changes || []);
       }
     } catch (error) {
-      console.error("Error fetching pending cost changes:", error);
-    } finally {
+      } finally {
       setLoading(false);
     }
   };

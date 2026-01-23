@@ -118,7 +118,6 @@ export function ExportDialog({
       // Close dialog on success
       onOpenChange(false);
     } catch (error) {
-      console.error("Export failed:", error);
       // Error handling could be improved with toast notifications
     } finally {
       setIsExporting(false);

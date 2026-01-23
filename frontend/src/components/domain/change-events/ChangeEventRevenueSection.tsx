@@ -58,8 +58,7 @@ export function ChangeEventRevenueSection({
           setPrimeContractOptions(contracts);
         }
       } catch (error) {
-        console.error("Failed to fetch prime contracts:", error);
-      }
+        }
     };
 
     if (projectId) {

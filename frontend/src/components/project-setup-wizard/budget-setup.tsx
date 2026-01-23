@@ -133,7 +133,6 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
       });
       setBudgetItems(initialItems);
     } catch (err) {
-      console.error("Error loading data:", err);
       setError(err instanceof Error ? err.message : "Failed to load data");
     } finally {
       setLoading(false);
@@ -259,7 +258,6 @@ export function BudgetSetup({ projectId, onNext, onSkip }: StepComponentProps) {
     } catch (err) {
       const errorMessage =
         err instanceof Error ? err.message : "Failed to save budget";
-      console.error("Error saving budget:", errorMessage, err);
       setError(errorMessage);
     } finally {
       setSaving(false);

@@ -1,9 +1,9 @@
 import { test } from '@playwright/test';
 
 test('tasks header count check', async ({ page }) => {
-  await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123');
+  await page.goto('/dev-login?email=test@example.com&password=testpassword123');
   await page.waitForTimeout(2000);
-  await page.goto('http://localhost:3000/tasks');
+  await page.goto('/tasks');
   await page.waitForTimeout(3000);
 
   // Count all header elements

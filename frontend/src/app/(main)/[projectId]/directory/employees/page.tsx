@@ -17,8 +17,7 @@ export default function ProjectDirectoryEmployeesPage() {
 
   const handleAddEmployee = () => {
     // TODO: Open add employee modal
-    console.warn("Add employee functionality not yet implemented");
-  };
+    };
 
   const tabs = getProjectDirectoryTabs(projectId, pathname);
 

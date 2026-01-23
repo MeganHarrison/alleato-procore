@@ -73,7 +73,6 @@ export function DirectCostTable({
           setSummary(result.summary)
         }
       } catch (error) {
-        console.error('Failed to fetch direct costs:', error)
         // Handle error - could show toast notification
       } finally {
         setIsLoading(false)
@@ -109,7 +108,6 @@ export function DirectCostTable({
 
       return {}
     } catch (error) {
-      console.error('Delete error:', error)
       return { error: 'Network error occurred' }
     }
   }
@@ -136,8 +134,7 @@ export function DirectCostTable({
       // Refresh data
       fetchData()
     } catch (error) {
-      console.error('Bulk update error:', error)
-    }
+      }
   }
 
   // Table configuration

@@ -42,8 +42,7 @@ export default function ApiDocsPage() {
             tryItOutEnabled: true,
             supportedSubmitMethods: ["get", "post", "put", "delete", "patch"],
             onComplete: () => {
-              console.log("Swagger UI loaded successfully");
-            },
+              },
           });
         };
         document.body.appendChild(presetScript);

@@ -180,7 +180,6 @@ export async function GET(
     const { data, error, count } = await query
 
     if (error) {
-      console.error('Error fetching change events:', error)
       return NextResponse.json(
         { error: 'Failed to fetch change events', details: error.message },
         { status: 400 }
@@ -242,7 +241,6 @@ export async function GET(
       )
     }
 
-    console.error('Error in GET /api/projects/[id]/change-events:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -341,7 +339,6 @@ export async function POST(
       .single()
 
     if (error) {
-      console.error('Error creating change event:', error)
       return NextResponse.json(
         { error: 'Failed to create change event', details: error.message },
         { status: 400 }
@@ -403,7 +400,6 @@ export async function POST(
       )
     }
 
-    console.error('Error in POST /api/projects/[id]/change-events:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

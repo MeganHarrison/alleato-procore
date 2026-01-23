@@ -16,7 +16,6 @@ export default async function MeetingsPage() {
     .order("date", { ascending: false });
 
   if (error) {
-    console.error("Error fetching meetings:", error);
     return (
       <TablePageWrapper title={PAGE_TITLE} description={PAGE_DESCRIPTION}>
         <div className="text-center text-red-600 p-6">

@@ -106,7 +106,6 @@ export async function POST(
       .order("calculation_order", { ascending: true });
 
     if (error) {
-      console.error("Error fetching vertical markups:", error);
       return NextResponse.json(
         { error: "Failed to fetch vertical markup settings" },
         { status: 500 },
@@ -130,7 +129,6 @@ export async function POST(
       ...result,
     });
   } catch (error) {
-    console.error("Error in vertical markup calculation route:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

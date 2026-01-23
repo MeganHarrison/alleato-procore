@@ -66,7 +66,6 @@ export async function GET(
       .order('sort_order', { ascending: true });
 
     if (error) {
-      console.error('Error fetching line items:', error);
       return NextResponse.json(
         { error: 'Failed to fetch line items', details: error.message },
         { status: 400 }
@@ -112,7 +111,6 @@ export async function GET(
       },
     });
   } catch (error) {
-    console.error('Error in GET /api/projects/[id]/change-events/[changeEventId]/line-items:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -249,7 +247,6 @@ export async function POST(
       .single();
 
     if (error) {
-      console.error('Error creating line item:', error);
       return NextResponse.json(
         { error: 'Failed to create line item', details: error.message },
         { status: 400 }
@@ -305,7 +302,6 @@ export async function POST(
       );
     }
 
-    console.error('Error in POST /api/projects/[id]/change-events/[changeEventId]/line-items:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }
@@ -387,7 +383,6 @@ export async function PUT(
 
     return NextResponse.json({ message: 'Line items reordered successfully' });
   } catch (error) {
-    console.error('Error in PUT /api/projects/[id]/change-events/[changeEventId]/line-items:', error);
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

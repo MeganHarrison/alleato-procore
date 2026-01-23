@@ -91,6 +91,7 @@ function BudgetPageContent() {
     React.useState<BudgetLineItem | null>(null);
   const [selectedIds, setSelectedIds] = React.useState<string[]>([]);
   const [deleting, setDeleting] = React.useState(false);
+  const [showInlineCreate, setShowInlineCreate] = React.useState(false);
 
   // New modal states for budget column modals
   const [showBudgetModificationsModal, setShowBudgetModificationsModal] =
@@ -124,8 +125,7 @@ function BudgetPageContent() {
         setLockedBy(data.lockedBy);
       }
     } catch (error) {
-      console.error("Error fetching lock status:", error);
-    }
+      }
   }, [projectId]);
 
   // Fetch budget data
@@ -146,8 +146,7 @@ function BudgetPageContent() {
           setGrandTotals(budgetDataResponse.grandTotals || budgetGrandTotals);
         }
       } catch (error) {
-        console.error("Error fetching data:", error);
-      } finally {
+        } finally {
         setLoading(false);
       }
     };
@@ -196,8 +195,9 @@ function BudgetPageContent() {
       toast.error("Budget is locked. Unlock to add new line items.");
       return;
     }
-    // Open the budget line item modal
-    setShowLineItemModal(true);
+    // Don't open the modal, instead trigger the inline creation
+    // This will be passed to BudgetTable component
+    setShowInlineCreate(true);
   };
 
   const handleModificationClick = () => {
@@ -230,7 +230,6 @@ function BudgetPageContent() {
         toast.error(error.error || "Failed to lock budget");
       }
     } catch (error) {
-      console.error("Error locking budget:", error);
       toast.error("Failed to lock budget");
     }
   };
@@ -251,7 +250,6 @@ function BudgetPageContent() {
         toast.error(error.error || "Failed to unlock budget");
       }
     } catch (error) {
-      console.error("Error unlocking budget:", error);
       toast.error("Failed to unlock budget");
     }
   };
@@ -264,9 +262,90 @@ function BudgetPageContent() {
     setShowImportModal(true);
   };
 
-  const handleExport = (format: string) => {
-    // TODO: Implement export functionality
-    toast.info(`${format.toUpperCase()} export coming soon`);
+  const handleExport = async (format: string) => {
+    let toastId: string | number | undefined;
+
+    try {
+      // Validate format
+      if (!["excel", "csv", "pdf"].includes(format)) {
+        toast.error("Invalid export format");
+        return;
+      }
+
+      if (format === "pdf") {
+        toast.info("PDF export coming soon");
+        return;
+      }
+
+      // Show initial loading state
+      toastId = toast.loading(`Preparing ${format.toUpperCase()} export...`, {
+        description: "Gathering budget data...",
+      });
+
+      // Call export API
+      const response = await fetch(
+        `/api/projects/${projectId}/budget/export?format=${format}`,
+        {
+          method: "GET",
+        },
+      );
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || "Export failed");
+      }
+
+      // Update progress
+      toast.loading(`Generating ${format.toUpperCase()} file...`, {
+        id: toastId,
+        description: "Processing data and creating file...",
+      });
+
+      // Create download link
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+
+      // Extract filename from Content-Disposition header or use default
+      const contentDisposition = response.headers.get("Content-Disposition");
+      let filename = `budget-export.${format === "excel" ? "xlsx" : "csv"}`;
+
+      if (contentDisposition) {
+        const filenameMatch = contentDisposition.match(/filename="?([^"]+)"?/);
+        if (filenameMatch) {
+          filename = filenameMatch[1];
+        }
+      }
+
+      // Update progress before download
+      toast.loading("Starting download...", {
+        id: toastId,
+        description: `File: ${filename}`,
+      });
+
+      link.download = filename;
+      document.body.appendChild(link);
+      link.click();
+      window.URL.revokeObjectURL(url);
+      document.body.removeChild(link);
+
+      // Show success message with details
+      const fileSize = (blob.size / 1024 / 1024).toFixed(2);
+      toast.success(`Export completed successfully!`, {
+        id: toastId,
+        description: `${filename} (${fileSize} MB) has been downloaded`,
+      });
+    } catch (error) {
+      const errorMessage = error instanceof Error
+        ? error.message
+        : "Failed to export budget data";
+
+      toast.error(`Export failed: ${errorMessage}`, {
+        id: toastId,
+        description: "Please try again or contact support if the problem persists",
+      });
+    }
   };
 
   const handleTabChange = (tabId: string) => {
@@ -300,7 +379,6 @@ function BudgetPageContent() {
         toast.error("Failed to load budget details");
       }
     } catch (error) {
-      console.error("Error fetching budget details:", error);
       toast.error("Failed to load budget details");
     } finally {
       setDetailsLoading(false);
@@ -350,11 +428,78 @@ function BudgetPageContent() {
           setGrandTotals(budgetDataResponse.grandTotals || budgetGrandTotals);
         }
       } catch (error) {
-        console.error("Error refreshing budget data:", error);
-      }
+        }
     };
     fetchData();
   }, [projectId]);
+
+  const handleInlineCreateLineItem = React.useCallback(async (lineItem: {
+    costCode?: string;
+    description: string;
+    originalBudgetAmount: string | number
+  }) => {
+    try {
+      // Prepare the data for the API
+      const amount = typeof lineItem.originalBudgetAmount === 'string'
+        ? parseFloat(lineItem.originalBudgetAmount)
+        : lineItem.originalBudgetAmount;
+
+      // First, fetch available cost codes if we have a cost code string
+      let costCodeId = "01-000"; // Default fallback
+
+      if (lineItem.costCode) {
+        // Try to fetch cost codes and match by code string
+        try {
+          const codesResponse = await fetch(`/api/projects/${projectId}/budget-codes`);
+          if (codesResponse.ok) {
+            const codesData = await codesResponse.json();
+            const matchingCode = codesData.budgetCodes?.find(
+              (c: any) => c.code === lineItem.costCode || c.id === lineItem.costCode
+            );
+            if (matchingCode) {
+              costCodeId = matchingCode.id;
+            } else {
+              // If no match found, use the provided code as-is
+              costCodeId = lineItem.costCode;
+            }
+          }
+        } catch (e) {
+          // If fetching codes fails, use the provided code as-is
+          costCodeId = lineItem.costCode;
+        }
+      }
+
+      const payload = {
+        lineItems: [{
+          costCodeId: costCodeId,
+          costType: null,
+          qty: "",
+          uom: null,
+          unitCost: "",
+          amount: amount.toString(),
+          description: lineItem.description,
+        }]
+      };
+
+      const response = await fetch(`/api/projects/${projectId}/budget`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to create budget line item');
+      }
+
+      // Refresh the budget data
+      await handleLineItemSuccess();
+    } catch (error) {
+      throw error;
+    }
+  }, [projectId, handleLineItemSuccess]);
 
   // Keyboard shortcuts
   React.useEffect(() => {
@@ -363,16 +508,51 @@ function BudgetPageContent() {
       if ((e.ctrlKey || e.metaKey) && e.key === "s") {
         e.preventDefault();
         handleLineItemSuccess();
-        toast.success("Budget data refreshed");
+        toast.success("Budget data refreshed", {
+          description: isLocked
+            ? "Data refreshed. Budget remains locked."
+            : "Data refreshed successfully."
+        });
       }
 
       // Ctrl+E or Cmd+E: Open create line item modal (if not locked)
       if ((e.ctrlKey || e.metaKey) && e.key === "e") {
         e.preventDefault();
         if (isLocked) {
-          toast.error("Budget is locked. Unlock to add new line items.");
+          toast.error("Budget is locked", {
+            description: "Unlock the budget to add new line items."
+          });
         } else {
+          toast.info("Opening budget setup", {
+            description: "Redirecting to line item creation..."
+          });
           router.push(`/${projectId}/budget/setup`);
+        }
+      }
+
+      // Ctrl+M or Cmd+M: Create budget modification (if not locked)
+      if ((e.ctrlKey || e.metaKey) && e.key === "m") {
+        e.preventDefault();
+        if (isLocked) {
+          toast.error("Budget is locked", {
+            description: "Unlock the budget to create modifications."
+          });
+        } else {
+          handleModificationClick();
+          toast.info("Opening modification dialog");
+        }
+      }
+
+      // Ctrl+I or Cmd+I: Import budget data (if not locked)
+      if ((e.ctrlKey || e.metaKey) && e.key === "i") {
+        e.preventDefault();
+        if (isLocked) {
+          toast.error("Budget is locked", {
+            description: "Unlock the budget to import data."
+          });
+        } else {
+          handleImport();
+          toast.info("Opening import dialog");
         }
       }
 
@@ -383,12 +563,13 @@ function BudgetPageContent() {
         setShowImportModal(false);
         setShowEditModal(false);
         setShowDeleteDialog(false);
+        toast.info("Dialog closed");
       }
     };
 
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isLocked, projectId, router, handleLineItemSuccess]);
+  }, [isLocked, projectId, router, handleLineItemSuccess, handleModificationClick, handleImport]);
 
   const handleModificationSuccess = () => {
     // Refresh budget data after creating modification
@@ -492,7 +673,6 @@ function BudgetPageContent() {
         toast.error("Some items could not be deleted");
       }
     } catch (error) {
-      console.error("Error deleting line items:", error);
       toast.error("Failed to delete line items");
     } finally {
       setDeleting(false);
@@ -532,7 +712,6 @@ function BudgetPageContent() {
         toast.error(error.error || "Failed to update line item");
       }
     } catch (error) {
-      console.error("Error updating line item:", error);
       toast.error("Failed to update line item");
     }
   };
@@ -663,8 +842,13 @@ function BudgetPageContent() {
                   <BudgetTable
                     data={filteredData}
                     grandTotals={grandTotals}
+                    isLocked={isLocked}
                     onEditLineItem={handleEditLineItem}
                     onSelectionChange={handleSelectionChange}
+                    onCreateLineItem={handleInlineCreateLineItem}
+                    projectId={projectId}
+                    showInlineCreate={showInlineCreate}
+                    onShowInlineCreateChange={setShowInlineCreate}
                     onBudgetModificationsClick={handleBudgetModificationsClick}
                     onApprovedCOsClick={handleApprovedCOsClick}
                     onJobToDateCostDetailClick={handleJobToDateCostDetailClick}

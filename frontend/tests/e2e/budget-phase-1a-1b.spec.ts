@@ -13,19 +13,19 @@ import { test, expect, Page, APIRequestContext } from '@playwright/test';
  */
 
 // Test configuration
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const TEST_PROJECT_ID = '67'; // Use an existing project with budget data
 
 // Helper function to login
 async function login(page: Page) {
-  await page.goto(`${BASE_URL}/dev-login?email=test@example.com&password=testpassword123`);
+  await page.goto(`/dev-login?email=test@example.com&password=testpassword123`);
   await page.waitForLoadState('networkidle');
   await page.waitForURL('**/', { timeout: 15000 });
 }
 
 // Helper function to navigate to budget page
 async function navigateToBudget(page: Page, projectId: string = TEST_PROJECT_ID) {
-  await page.goto(`${BASE_URL}/${projectId}/budget`);
+  await page.goto(`/${projectId}/budget`);
   await page.waitForLoadState('networkidle');
   // Wait for table to load
   await page.waitForSelector('table', { timeout: 10000 }).catch(() => {
@@ -49,7 +49,7 @@ async function createModificationViaAPI(
   amount: number,
   title: string
 ): Promise<{ id: string; number: string; status: string }> {
-  const response = await request.post(`${BASE_URL}/api/projects/${projectId}/budget/modifications`, {
+  const response = await request.post(`/api/projects/${projectId}/budget/modifications`, {
     data: {
       budgetLineId,
       amount: amount.toString(),
@@ -74,7 +74,7 @@ async function changeModificationStatusViaAPI(
   modificationId: string,
   action: 'submit' | 'approve' | 'reject' | 'void'
 ): Promise<{ status: string; effectiveDate?: string }> {
-  const response = await request.patch(`${BASE_URL}/api/projects/${projectId}/budget/modifications`, {
+  const response = await request.patch(`/api/projects/${projectId}/budget/modifications`, {
     data: {
       modificationId,
       action,
@@ -92,7 +92,7 @@ async function getBudgetLinesViaAPI(
   retries = 3
 ): Promise<{ id: string; costCode: string; description: string }[]> {
   for (let attempt = 1; attempt <= retries; attempt++) {
-    const response = await request.get(`${BASE_URL}/api/projects/${projectId}/budget`);
+    const response = await request.get(`/api/projects/${projectId}/budget`);
     if (response.ok()) {
       const data = await response.json();
       return data.lineItems || [];
@@ -254,7 +254,7 @@ test.describe('Phase 1A - Budget Modifications Workflow', () => {
     );
 
     // Try to approve directly from draft (should fail)
-    const response = await request.patch(`${BASE_URL}/api/projects/${TEST_PROJECT_ID}/budget/modifications`, {
+    const response = await request.patch(`/api/projects/${TEST_PROJECT_ID}/budget/modifications`, {
       data: {
         modificationId: modification.id,
         action: 'approve',
@@ -282,7 +282,7 @@ test.describe('Phase 1A - Budget Modifications Workflow', () => {
 
     // Delete the draft modification
     const response = await request.delete(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/budget/modifications?modificationId=${modification.id}`
+      `/api/projects/${TEST_PROJECT_ID}/budget/modifications?modificationId=${modification.id}`
     );
 
     expect(response.ok()).toBeTruthy();
@@ -301,7 +301,7 @@ test.describe('Phase 1B - Cost Actuals Integration', () => {
 
   test('2.1 - Verify Job to Date Cost Detail calculation via API', async ({ request }) => {
     // Get budget data with cost aggregation
-    const response = await request.get(`${BASE_URL}/api/projects/${TEST_PROJECT_ID}/budget`);
+    const response = await request.get(`/api/projects/${TEST_PROJECT_ID}/budget`);
     expect(response.ok()).toBeTruthy();
 
     const data = await response.json();
@@ -322,7 +322,7 @@ test.describe('Phase 1B - Cost Actuals Integration', () => {
   test('2.2 - Verify Direct Costs excludes Subcontractor Invoice', async ({ request }) => {
     // Get direct costs breakdown
     const response = await request.get(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/budget/direct-costs?status=approved`
+      `/api/projects/${TEST_PROJECT_ID}/budget/direct-costs?status=approved`
     );
     expect(response.ok()).toBeTruthy();
 
@@ -348,7 +348,7 @@ test.describe('Phase 1B - Cost Actuals Integration', () => {
 
   test('2.3 - Verify Pending Cost Changes aggregation', async ({ request }) => {
     // Get budget data with pending costs
-    const response = await request.get(`${BASE_URL}/api/projects/${TEST_PROJECT_ID}/budget`);
+    const response = await request.get(`/api/projects/${TEST_PROJECT_ID}/budget`);
     expect(response.ok()).toBeTruthy();
 
     const data = await response.json();
@@ -404,7 +404,7 @@ test.describe('Phase 1B - Cost Actuals Integration', () => {
 
     // Get direct costs for specific budget line
     const response = await request.get(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/budget/direct-costs?budgetLineId=${lines[0].id}`
+      `/api/projects/${TEST_PROJECT_ID}/budget/direct-costs?budgetLineId=${lines[0].id}`
     );
     expect(response.ok()).toBeTruthy();
 
@@ -486,11 +486,11 @@ test.describe('Phase 1A/1B - UI Component Tests', () => {
 
   test('3.4 - API error handling works correctly', async ({ request }) => {
     // Test invalid project ID
-    const response = await request.get(`${BASE_URL}/api/projects/invalid/budget`);
+    const response = await request.get(`/api/projects/invalid/budget`);
     expect(response.status()).toBe(400);
 
     // Test invalid modification ID
-    const patchResponse = await request.patch(`${BASE_URL}/api/projects/${TEST_PROJECT_ID}/budget/modifications`, {
+    const patchResponse = await request.patch(`/api/projects/${TEST_PROJECT_ID}/budget/modifications`, {
       data: {
         modificationId: 'non-existent-uuid',
         action: 'approve',
@@ -501,7 +501,7 @@ test.describe('Phase 1A/1B - UI Component Tests', () => {
 
   test('3.5 - Modifications API validates required fields', async ({ request }) => {
     // Missing budgetLineId
-    const response1 = await request.post(`${BASE_URL}/api/projects/${TEST_PROJECT_ID}/budget/modifications`, {
+    const response1 = await request.post(`/api/projects/${TEST_PROJECT_ID}/budget/modifications`, {
       data: {
         amount: '1000',
         title: 'Test',
@@ -510,7 +510,7 @@ test.describe('Phase 1A/1B - UI Component Tests', () => {
     expect(response1.status()).toBe(400);
 
     // Missing amount
-    const response2 = await request.post(`${BASE_URL}/api/projects/${TEST_PROJECT_ID}/budget/modifications`, {
+    const response2 = await request.post(`/api/projects/${TEST_PROJECT_ID}/budget/modifications`, {
       data: {
         budgetLineId: '00000000-0000-0000-0000-000000000000',
         title: 'Test',
@@ -532,7 +532,7 @@ test.describe('Phase 1A/1B - Integration Tests', () => {
     const targetLine = lines[0];
 
     // Get initial budget state
-    const initialResponse = await request.get(`${BASE_URL}/api/projects/${TEST_PROJECT_ID}/budget`);
+    const initialResponse = await request.get(`/api/projects/${TEST_PROJECT_ID}/budget`);
     const initialData = await initialResponse.json();
     const initialLine = initialData.lineItems.find((l: { id: string }) => l.id === targetLine.id);
     const initialModTotal = initialLine?.budgetModifications || 0;
@@ -549,7 +549,7 @@ test.describe('Phase 1A/1B - Integration Tests', () => {
     await changeModificationStatusViaAPI(request, TEST_PROJECT_ID, modification.id, 'approve');
 
     // Get updated budget state
-    const updatedResponse = await request.get(`${BASE_URL}/api/projects/${TEST_PROJECT_ID}/budget`);
+    const updatedResponse = await request.get(`/api/projects/${TEST_PROJECT_ID}/budget`);
     const updatedData = await updatedResponse.json();
     const updatedLine = updatedData.lineItems.find((l: { id: string }) => l.id === targetLine.id);
     const updatedModTotal = updatedLine?.budgetModifications || 0;
@@ -592,7 +592,7 @@ test.describe('Phase 1A/1B - Integration Tests', () => {
 
     // Verify final state via GET
     const response = await request.get(
-      `${BASE_URL}/api/projects/${TEST_PROJECT_ID}/budget/modifications?status=void`
+      `/api/projects/${TEST_PROJECT_ID}/budget/modifications?status=void`
     );
     const data = await response.json();
     const voidedMod = data.modifications.find((m: { id: string }) => m.id === modification.id);

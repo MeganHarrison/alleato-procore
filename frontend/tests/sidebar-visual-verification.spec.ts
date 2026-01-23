@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Sidebar Visual Verification', () => {
   test('verify sidebar expanded and collapsed states', async ({ page }) => {
     // Navigate to the app
-    await page.goto('http://localhost:3000');
+    await page.goto('/');
 
     // Hard refresh to clear any cached state
     await page.reload({ waitUntil: 'networkidle' });

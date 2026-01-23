@@ -638,7 +638,6 @@ export class DirectoryService {
 
     if (error) {
       // Log error but don't throw - activity logging is not critical
-      console.warn("Failed to log activity:", error);
-    }
+      }
   }
 }

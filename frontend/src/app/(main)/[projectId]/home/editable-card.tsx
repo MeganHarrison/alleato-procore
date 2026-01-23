@@ -45,7 +45,6 @@ export function EditableCard({ title, fields, onSave }: EditableCardProps) {
       setIsEditing(false);
       setEditedValues({});
     } catch (error) {
-      console.error("Failed to save:", error);
       // Keep edit mode open on error
     } finally {
       setIsSaving(false);

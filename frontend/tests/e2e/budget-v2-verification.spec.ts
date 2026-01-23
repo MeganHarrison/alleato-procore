@@ -3,14 +3,14 @@ import { test, expect } from '@playwright/test';
 test.describe('Budget V2 Page', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate to dev login first to authenticate
-    await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123');
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123');
     // Wait for initial redirect
     await page.waitForLoadState('networkidle');
   });
 
   test('should display Budget V2 page with auto-populated budget line items', async ({ page }) => {
     // Navigate to Budget V2 page for project 118
-    await page.goto('http://localhost:3000/118/budget-v2');
+    await page.goto('/118/budget-v2');
     await page.waitForLoadState('networkidle');
 
     // Wait for page to load
@@ -41,7 +41,7 @@ test.describe('Budget V2 Page', () => {
 
   test('should show auto-populated line items from project cost codes', async ({ page }) => {
     // Navigate to Budget V2 page for project 118
-    await page.goto('http://localhost:3000/118/budget-v2');
+    await page.goto('/118/budget-v2');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
@@ -60,7 +60,7 @@ test.describe('Budget V2 Page', () => {
 
   test('should allow editing quantity and auto-calculate amount', async ({ page }) => {
     // Navigate to Budget V2 page for project 118
-    await page.goto('http://localhost:3000/118/budget-v2');
+    await page.goto('/118/budget-v2');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
@@ -94,7 +94,7 @@ test.describe('Budget V2 Page', () => {
 
   test('should allow entering UOM for line items', async ({ page }) => {
     // Navigate to Budget V2 page for project 118
-    await page.goto('http://localhost:3000/118/budget-v2');
+    await page.goto('/118/budget-v2');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
@@ -118,7 +118,7 @@ test.describe('Budget V2 Page', () => {
 
   test('should open "Add Budget Code" modal', async ({ page }) => {
     // Navigate to Budget V2 page for project 118
-    await page.goto('http://localhost:3000/118/budget-v2');
+    await page.goto('/118/budget-v2');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 
@@ -139,7 +139,7 @@ test.describe('Budget V2 Page', () => {
 
   test('should be accessible from site header Project Tools dropdown', async ({ page }) => {
     // Navigate to a project page
-    await page.goto('http://localhost:3000/118/home');
+    await page.goto('/118/home');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(1000);
 
@@ -170,7 +170,7 @@ test.describe('Budget V2 Page', () => {
 
   test('should display summary bar with line item count and total', async ({ page }) => {
     // Navigate to Budget V2 page for project 118
-    await page.goto('http://localhost:3000/118/budget-v2');
+    await page.goto('/118/budget-v2');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(2000);
 

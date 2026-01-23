@@ -94,7 +94,6 @@ export function EditProjectDialog({
       onOpenChange(false);
       onSuccess?.();
     } catch (error) {
-      console.error("Error updating project:", error);
       toast.error("Failed to update project");
     } finally {
       setIsSaving(false);

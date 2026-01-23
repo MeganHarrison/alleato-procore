@@ -75,11 +75,8 @@ export default function SimpleChatPage() {
 
       // Log retrieved documents if any
       if (data.retrieved && data.retrieved.length > 0) {
-        console.log("Retrieved documents:", data.retrieved);
-      }
+        }
     } catch (error) {
-      console.error("Error sending message:", error);
-
       const errorMessage: Message = {
         role: "assistant",
         content: `Error: ${error instanceof Error ? error.message : "Failed to send message"}`,

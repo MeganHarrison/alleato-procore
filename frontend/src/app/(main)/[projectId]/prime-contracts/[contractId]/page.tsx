@@ -164,7 +164,6 @@ export default function ProjectContractDetailPage() {
         const data = await response.json();
         setContract(data);
       } catch (err) {
-        console.error("Error fetching contract:", err);
         setError("Failed to load contract");
       } finally {
         setLoading(false);
@@ -187,15 +186,13 @@ export default function ProjectContractDetailPage() {
         );
 
         if (!response.ok) {
-          console.error("Failed to fetch line items");
           return;
         }
 
         const data = await response.json();
         setLineItems(data || []);
       } catch (err) {
-        console.error("Error fetching line items:", err);
-      } finally {
+        } finally {
         setLineItemsLoading(false);
       }
     };
@@ -214,15 +211,13 @@ export default function ProjectContractDetailPage() {
         );
 
         if (!response.ok) {
-          console.error("Failed to fetch change orders");
           return;
         }
 
         const data = await response.json();
         setChangeOrders(data || []);
       } catch (err) {
-        console.error("Error fetching change orders:", err);
-      } finally {
+        } finally {
         setChangeOrdersLoading(false);
       }
     };
@@ -243,15 +238,13 @@ export default function ProjectContractDetailPage() {
 
         if (!response.ok) {
           // API may not exist yet - that's OK
-          console.error("Failed to fetch vertical markups");
           return;
         }
 
         const data = await response.json();
         setVerticalMarkups(data.markups || []);
       } catch (err) {
-        console.error("Error fetching vertical markups:", err);
-      } finally {
+        } finally {
         setMarkupsLoading(false);
       }
     };
@@ -279,15 +272,13 @@ export default function ProjectContractDetailPage() {
       );
 
       if (!response.ok) {
-        console.error("Failed to calculate markup preview");
         return;
       }
 
       const data = await response.json();
       setCalculationResult(data);
     } catch (err) {
-      console.error("Error calculating markup:", err);
-    } finally {
+      } finally {
       setCalculationLoading(false);
     }
   };

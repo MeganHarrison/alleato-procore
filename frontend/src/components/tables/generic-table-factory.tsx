@@ -623,6 +623,11 @@ export function GenericDataTable({
   // Local copy of data (updated when edits are saved)
   const [data, setData] = useState(initialData);
 
+  // Update data when initialData changes
+  React.useEffect(() => {
+    setData(initialData);
+  }, [initialData]);
+
   // Search term from input field
   const [searchTerm, setSearchTerm] = useState("");
 
@@ -1297,7 +1302,6 @@ export function GenericDataTable({
       setIsEditDialogOpen(false);
       setEditingRow(null);
     } catch (error) {
-      console.error("Error saving:", error);
       toast.error("Failed to save changes. Please try again.");
     } finally {
       setIsSaving(false);
@@ -1375,7 +1379,6 @@ export function GenericDataTable({
         setEditingCell(null);
         setEditingValue("");
       } catch (error) {
-        console.error("Error saving cell:", error);
         toast.error("Failed to save changes. Please try again.");
       } finally {
         setIsSavingCell(false);

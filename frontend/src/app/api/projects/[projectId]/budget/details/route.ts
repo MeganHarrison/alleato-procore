@@ -67,12 +67,8 @@ export async function GET(
       .eq("project_id", projectIdNum);
 
     if (budgetError) {
-      console.error("Budget lines error:", budgetError);
-    } else {
-      console.warn(
-        `Budget lines query returned ${budgetLines?.length || 0} rows for project ${projectId}`,
-      );
-    }
+      } else {
+      }
 
     if (!budgetError && budgetLines) {
       budgetLines.forEach((line) => {
@@ -469,16 +465,11 @@ export async function GET(
       });
     });
 
-    console.warn(
-      `Budget Details API returning ${details.length} total rows for project ${projectId}`,
-    );
-
     return NextResponse.json({
       details,
       count: details.length,
     });
   } catch (error) {
-    console.error("Error fetching budget details:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

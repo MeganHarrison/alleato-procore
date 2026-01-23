@@ -76,7 +76,6 @@ export default function BudgetSetupPage() {
           ) || [];
         setProjectCostCodes(validCostCodes);
       } catch (error) {
-        console.error("Error loading project cost codes:", error);
         toast.error("Failed to load project cost codes");
       } finally {
         setLoadingData(false);
@@ -239,14 +238,12 @@ export default function BudgetSetupPage() {
       const result = await response.json();
 
       if (!response.ok) {
-        console.error("API Error Response:", result);
         throw new Error(result.error || "Failed to create budget lines");
       }
 
       toast.success(`Successfully created ${lineItems.length} budget line(s)`);
       router.push(`/${projectId}/budget`);
     } catch (error) {
-      console.error("Error creating budget lines:", error);
       toast.error(
         error instanceof Error
           ? error.message

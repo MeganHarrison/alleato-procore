@@ -1,0 +1,55 @@
+import { NextResponse, type NextRequest } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
+import { PermissionService } from "@/services/permissionService";
+import { DirectoryAdminService } from "@/services/directoryAdminService";
+
+interface RouteParams {
+  params: Promise<{ projectId: string }>;
+}
+
+export async function GET(request: NextRequest, { params }: RouteParams) {
+  try {
+    const { projectId } = await params;
+    const supabase = await createClient();
+    const serviceSupabase = createServiceClient();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const permissionService = new PermissionService(supabase);
+    await permissionService.requirePermission(
+      user.id,
+      projectId,
+      "directory",
+      "read",
+    );
+
+    const searchParams = request.nextUrl.searchParams;
+    const limit = Number.parseInt(searchParams.get("limit") || "50", 10);
+    const personId = searchParams.get("personId") || undefined;
+
+    const adminService = new DirectoryAdminService(serviceSupabase);
+    const log = await adminService.getActivityLog(projectId, {
+      limit: Number.isNaN(limit) ? 50 : limit,
+      personId,
+    });
+
+    return NextResponse.json({ data: log });
+  } catch (error) {
+    console.error("[DirectoryActivity] Failed to load log", error);
+    return NextResponse.json(
+      {
+        error: "Failed to load activity log",
+        details: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 },
+    );
+  }
+}

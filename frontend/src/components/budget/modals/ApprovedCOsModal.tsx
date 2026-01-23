@@ -69,8 +69,7 @@ export function ApprovedCOsModal({
         setChangeOrders(data.changeOrders || []);
       }
     } catch (error) {
-      console.error("Error fetching approved change orders:", error);
-    } finally {
+      } finally {
       setLoading(false);
     }
   };

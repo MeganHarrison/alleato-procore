@@ -1,0 +1,176 @@
+import { NextRequest, NextResponse } from "next/server";
+import { z } from "zod";
+
+import { createClient } from "@/lib/supabase/server";
+
+type SupabaseClient = Awaited<ReturnType<typeof createClient>>;
+
+interface RouteParams {
+  params: Promise<{ projectId: string; rfqId: string }>;
+}
+
+const createResponseSchema = z.object({
+  lineItemId: z.string().min(1, "Line item is required"),
+  unitPrice: z.number().nonnegative(),
+  notes: z.string().max(1000).optional(),
+});
+
+async function ensureRfq(
+  supabase: SupabaseClient,
+  projectId: number,
+  rfqId: string,
+) {
+  const { data, error } = await supabase
+    .from("change_event_rfqs")
+    .select("id, project_id, change_event_id, estimated_total_amount")
+    .eq("project_id", projectId)
+    .eq("id", rfqId)
+    .single();
+
+  if (error || !data) {
+    throw new Error("RFQ not found");
+  }
+
+  return data;
+}
+
+export async function GET(_request: NextRequest, { params }: RouteParams) {
+  try {
+    const { projectId, rfqId } = await params;
+    const numericProjectId = parseInt(projectId, 10);
+    if (!Number.isFinite(numericProjectId)) {
+      return NextResponse.json(
+        { error: "Invalid project id" },
+        { status: 400 },
+      );
+    }
+
+    const supabase = await createClient();
+    await ensureRfq(supabase, numericProjectId, rfqId);
+    const { data, error } = await supabase
+      .from("change_event_rfq_responses")
+      .select("*")
+      .eq("rfq_id", rfqId)
+      .order("created_at", { ascending: false });
+
+    if (error) {
+      return NextResponse.json(
+        { error: "Failed to load responses", details: error.message },
+        { status: 400 },
+      );
+    }
+
+    return NextResponse.json({ data: data ?? [] });
+  } catch (error) {
+    if (error instanceof Error && error.message === "RFQ not found") {
+      return NextResponse.json({ error: error.message }, { status: 404 });
+    }
+    return NextResponse.json(
+      { error: "Failed to load responses", details: error instanceof Error ? error.message : String(error) },
+      { status: 500 },
+    );
+  }
+}
+
+export async function POST(request: NextRequest, { params }: RouteParams) {
+  try {
+    const { projectId, rfqId } = await params;
+    const numericProjectId = parseInt(projectId, 10);
+    if (!Number.isFinite(numericProjectId)) {
+      return NextResponse.json(
+        { error: "Invalid project id" },
+        { status: 400 },
+      );
+    }
+
+    const body = await request.json();
+    const parsed = createResponseSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: "Validation failed", details: parsed.error.flatten().fieldErrors },
+        { status: 422 },
+      );
+    }
+
+    const supabase = await createClient();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (!user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const rfq = await ensureRfq(supabase, numericProjectId, rfqId);
+
+    const { data: lineItem, error: lineItemError } = await supabase
+      .from("change_event_line_items")
+      .select("id, change_event_id, quantity")
+      .eq("id", parsed.data.lineItemId)
+      .eq("change_event_id", rfq.change_event_id)
+      .single();
+
+    if (lineItemError || !lineItem) {
+      return NextResponse.json(
+        { error: "Line item not found for this change event" },
+        { status: 404 },
+      );
+    }
+
+    const quantity = Number(lineItem.quantity) || 0;
+    const extendedAmount = quantity * parsed.data.unitPrice;
+
+    const { data: response, error: responseError } = await supabase
+      .from("change_event_rfq_responses")
+      .insert({
+        rfq_id: rfqId,
+        line_item_id: lineItem.id,
+        unit_price: parsed.data.unitPrice,
+        extended_amount: extendedAmount,
+        notes: parsed.data.notes ?? null,
+        status: "Submitted",
+        submitted_at: new Date().toISOString(),
+        created_by: user.id,
+        updated_by: user.id,
+      })
+      .select("*")
+      .single();
+
+    if (responseError || !response) {
+      return NextResponse.json(
+        { error: "Failed to create response", details: responseError?.message },
+        { status: 400 },
+      );
+    }
+
+    const { data: allResponses } = await supabase
+      .from("change_event_rfq_responses")
+      .select("extended_amount")
+      .eq("rfq_id", rfqId);
+
+    const aggregatedTotal = (allResponses ?? []).reduce(
+      (sum, item) => sum + (Number(item.extended_amount) || 0),
+      0,
+    );
+
+    await supabase
+      .from("change_event_rfqs")
+      .update({
+        estimated_total_amount: aggregatedTotal,
+        status: "Response Received",
+        response_received_at: new Date().toISOString(),
+        updated_by: user.id,
+      })
+      .eq("id", rfqId);
+
+    return NextResponse.json({ data: response });
+  } catch (error) {
+    if (error instanceof Error && error.message === "RFQ not found") {
+      return NextResponse.json({ error: error.message }, { status: 404 });
+    }
+    return NextResponse.json(
+      { error: "Failed to submit response", details: error instanceof Error ? error.message : String(error) },
+      { status: 500 },
+    );
+  }
+}

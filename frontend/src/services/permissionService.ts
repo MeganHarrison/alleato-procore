@@ -87,7 +87,6 @@ export class PermissionService {
 
       return permissions;
     } catch (error) {
-      console.error("Error fetching permissions:", error);
       return {
         userId,
         projectId,

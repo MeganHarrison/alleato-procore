@@ -79,7 +79,6 @@ export function ImportFromBudgetModal({
       const data = await response.json();
       setBudgetLines(data.lineItems || []);
     } catch (err) {
-      console.error("Error fetching budget lines:", err);
       setError(err instanceof Error ? err.message : "Failed to load budget");
     } finally {
       setIsLoading(false);
@@ -162,7 +161,6 @@ export function ImportFromBudgetModal({
         toast.success(`Added ${selectedLines.length} line items from budget`);
       }
     } catch (err) {
-      console.error("Error importing from budget:", err);
       const errorMessage =
         err instanceof Error ? err.message : "Failed to import from budget";
       setError(errorMessage);

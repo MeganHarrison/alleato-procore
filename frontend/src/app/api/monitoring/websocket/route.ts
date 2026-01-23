@@ -67,7 +67,6 @@ export async function GET(request: NextRequest) {
             encoder.encode(`data: ${JSON.stringify(randomUpdate)}\n\n`)
           );
         } catch (error) {
-          console.error('Error sending SSE update:', error);
           clearInterval(interval);
           controller.close();
         }
@@ -109,8 +108,6 @@ export async function POST(request: NextRequest) {
     const { event, data } = body;
 
     // In a real implementation, you'd broadcast this to all connected clients
-    console.log('Broadcasting event:', event, data);
-
     // Simulate processing the event
     return NextResponse.json({
       success: true,

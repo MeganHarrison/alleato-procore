@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Budget Code Creation and Verification', () => {
   test('should create budget code in project_budget_codes and verify it appears in dropdown', async ({ page }) => {
     // Navigate directly to budget setup page (auth handled by test environment)
-    await page.goto('http://localhost:3000/67/budget/setup');
+    await page.goto('/67/budget/setup');
     await page.waitForLoadState('networkidle');
 
     // Wait for loading to complete

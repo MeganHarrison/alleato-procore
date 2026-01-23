@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { ChevronRight, Download } from "lucide-react";
+import { Download } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useProject } from "@/contexts/project-context";
 import { Button } from "@/components/ui/button";
@@ -17,17 +17,11 @@ import { Inline } from "@/components/ui/inline";
 import { Heading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
 
-interface BreadcrumbItem {
-  label: string;
-  href?: string;
-}
-
 interface PageHeaderProps {
   // Content
   title: string;
   titleContent?: React.ReactNode;
   description?: string;
-  breadcrumbs?: BreadcrumbItem[];
 
   // Layout options
   variant?: "default" | "executive" | "compact" | "budget";
@@ -84,7 +78,6 @@ export function PageHeader({
   title,
   titleContent,
   description,
-  breadcrumbs,
   variant = "default",
   actions,
   className,
@@ -158,31 +151,6 @@ export function PageHeader({
   return (
     <div className={cn(className)}>
       <div className="px-4 sm:px-6 lg:px-8">
-        {/* Breadcrumbs */}
-        {breadcrumbs && breadcrumbs.length > 0 && (
-          <nav className="flex py-3" aria-label="Breadcrumb">
-            <ol className="flex items-center space-x-2">
-              {breadcrumbs.map((item, index) => (
-                <li key={item.label} className="flex items-center">
-                  {index > 0 && (
-                    <ChevronRight className="h-4 w-4 text-muted-foreground mx-2" />
-                  )}
-                  {item.href ? (
-                    <a
-                      href={item.href}
-                      className="text-sm font-medium text-muted-foreground hover:text-foreground"
-                    >
-                      {item.label}
-                    </a>
-                  ) : (
-                    <span className="text-sm font-medium">{item.label}</span>
-                  )}
-                </li>
-              ))}
-            </ol>
-          </nav>
-        )}
-
         {/* Title and Actions */}
         <div className="flex flex-col gap-4 py-4 md:flex-row md:items-center md:justify-between">
           <div className="min-w-0 flex-1">

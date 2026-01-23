@@ -55,7 +55,6 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error("Error sending invite:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

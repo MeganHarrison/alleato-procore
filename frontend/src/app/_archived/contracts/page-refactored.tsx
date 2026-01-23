@@ -91,8 +91,7 @@ export default function ContractsPage() {
         setContracts(data || []);
       }
     } catch (err) {
-      console.error("Error fetching contracts:", err);
-    } finally {
+      } finally {
       setLoading(false);
     }
   };
@@ -246,8 +245,7 @@ export default function ContractsPage() {
 
   const handleExport = (format: "csv" | "pdf" | "excel") => {
     // Implement export functionality
-    console.log(`Exporting contracts as ${format}`);
-  };
+    };
 
   const handleRowClick = (contract: Contract) => {
     if (contract.id) {

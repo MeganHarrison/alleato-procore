@@ -120,7 +120,6 @@ export function ProjectsTable({
       // Reload the page to show updated data
       window.location.reload();
     } catch (error) {
-      console.error("Error updating project:", error);
       toast.error(`Failed to update ${field}`);
       throw error;
     }

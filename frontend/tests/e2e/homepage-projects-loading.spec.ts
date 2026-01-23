@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Homepage Projects Loading', () => {
   test('should load and display projects on homepage', async ({ page }) => {
     // Navigate to homepage
-    await page.goto('http://localhost:3002');
+    await page.goto('/');
 
     // Wait for the page to be fully loaded
     await page.waitForLoadState('networkidle');
@@ -96,7 +96,7 @@ test.describe('Homepage Projects Loading', () => {
     });
 
     // Navigate to homepage
-    await page.goto('http://localhost:3002');
+    await page.goto('/');
     await page.waitForLoadState('networkidle');
 
     // Wait for API calls

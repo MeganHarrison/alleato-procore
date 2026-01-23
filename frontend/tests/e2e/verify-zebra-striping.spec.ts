@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('verify zebra striping on budget table', async ({ page }) => {
   // Navigate to budget page
-  await page.goto('http://localhost:3000/67/budget');
+  await page.goto('/67/budget');
   
   // Wait for table to load
   await page.waitForSelector('table tbody tr', { timeout: 10000 });

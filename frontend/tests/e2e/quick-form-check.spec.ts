@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('Check Create Project Form', async ({ page }) => {
   // Navigate directly without auth
-  await page.goto('http://localhost:3001/form-project');
+  await page.goto('/form-project');
   
   // Take screenshot
   await page.screenshot({ path: 'tests/screenshots/create-project-check.png', fullPage: true });

@@ -122,7 +122,6 @@ export function ProjectDirectorySetup({
       setCompanies(companiesData || []);
       setProjectDirectory(directoryData || []);
     } catch (err) {
-      console.error("Error loading data:", err);
       setError(err instanceof Error ? err.message : "Failed to load data");
     } finally {
       setLoading(false);
@@ -162,7 +161,6 @@ export function ProjectDirectorySetup({
         state: "",
       });
     } catch (err) {
-      console.error("Error creating company:", err);
       setError(err instanceof Error ? err.message : "Failed to create company");
     } finally {
       setSaving(false);
@@ -211,7 +209,6 @@ export function ProjectDirectorySetup({
       setSelectedCompanyId("");
       setSelectedRole("");
     } catch (err) {
-      console.error("Error adding to directory:", err);
       setError(
         err instanceof Error ? err.message : "Failed to add to directory",
       );
@@ -230,7 +227,6 @@ export function ProjectDirectorySetup({
         ),
       );
     } catch (err) {
-      console.error("Error updating directory entry:", err);
       setError(err instanceof Error ? err.message : "Failed to update entry");
     }
   };
@@ -243,7 +239,6 @@ export function ProjectDirectorySetup({
         projectDirectory.filter((entry) => entry.id !== entryId),
       );
     } catch (err) {
-      console.error("Error removing from directory:", err);
       setError(err instanceof Error ? err.message : "Failed to remove entry");
     }
   };

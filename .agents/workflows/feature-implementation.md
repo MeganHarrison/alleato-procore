@@ -4,7 +4,7 @@ This is the shared workflow template for implementing Procore features. Variable
 
 ## Variables
 - `{feature}` - Feature name (e.g., "direct-costs")
-- `{feature_dir}` - Path: `documentation/*project-mgmt/in-progress/{feature}`
+- `{feature_dir}` - Path: `docs/project-mgmt/{feature}`
 - `{crawl_dir}` - Path: `{feature_dir}/crawl-{feature}`
 
 ---
@@ -25,10 +25,10 @@ This is the shared workflow template for implementing Procore features. Variable
 **Project management files go in `documentation/*project-mgmt/`:**
 
 **Workflow signal files:**
-- Research: `documentation/*project-mgmt/shared/research/{feature}.md`
-- Worker signals: `documentation/*project-mgmt/in-progress/{feature}/worker-done-*.md`
-- Test signals: `documentation/*project-mgmt/in-progress/{feature}/tests-passing-*.md`
-- Session log: `documentation/*project-mgmt/shared/logs/task-log.md`
+- Research: `docs/project-mgmt/{feature}/research/research-{feature}.md`
+- Worker signals: `docs/project-mgmt/{feature}/worker-done-*.md`
+- Test signals: `docs/project-mgmt/{feature}/tests-passing-*.md`
+- Session log: `docs/project-mgmt/shared/logs/task-log.md`
 
 ---
 

@@ -17,7 +17,7 @@ test.describe('Change Events Module - Browser Verification', () => {
     const page = await browser.newPage();
 
     // Navigate to home and find a project
-    await page.goto('http://localhost:3000');
+    await page.goto('/');
     await page.waitForLoadState('domcontentloaded');
 
     // Try to extract project ID from the page
@@ -33,7 +33,7 @@ test.describe('Change Events Module - Browser Verification', () => {
 
     // Option 2: Navigate to projects page
     if (!projectId) {
-      await page.goto('http://localhost:3000/dashboard');
+      await page.goto('/dashboard');
       await page.waitForLoadState('domcontentloaded');
 
       const firstProject = page.locator('[data-testid="project-card"], .project-item').first();

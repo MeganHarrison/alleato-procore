@@ -10,7 +10,7 @@ test.describe('Budget Column Detail Sidebars', () => {
 
   test.beforeEach(async ({ page }) => {
     // Navigate to budget page
-    await page.goto('http://localhost:3002/67/budget');
+    await page.goto('/67/budget');
     await page.waitForLoadState('networkidle');
 
     // Wait for table to load

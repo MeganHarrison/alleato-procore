@@ -6,7 +6,7 @@ test.describe('Sidebar Dashboard Tests', () => {
     // Step 1: Clear cookies and localStorage for fresh state
     console.log('Clearing cookies and localStorage...');
     await context.clearCookies();
-    await page.goto('http://localhost:3000');
+    await page.goto('/');
     await page.evaluate(() => localStorage.clear());
 
     // Step 2: Re-authenticate by loading saved auth state
@@ -32,7 +32,7 @@ test.describe('Sidebar Dashboard Tests', () => {
 
     // Step 3: Navigate to dashboard
     console.log('Navigating to dashboard...');
-    await page.goto('http://localhost:3000/dashboard');
+    await page.goto('/dashboard');
     await page.waitForLoadState('networkidle');
 
     // Wait for sidebar to render

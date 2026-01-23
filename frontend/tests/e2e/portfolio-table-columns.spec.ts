@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Portfolio Table Columns', () => {
   test('should not display est revenue and est profit columns', async ({ page }) => {
     // Navigate to the portfolio page
-    await page.goto('http://localhost:3000');
+    await page.goto('/');
 
     // Wait for the table to load
     await page.waitForSelector('table', { timeout: 10000 });
@@ -27,7 +27,7 @@ test.describe('Portfolio Table Columns', () => {
 
   test('should not display revenue and profit in grid view cards', async ({ page }) => {
     // Navigate to the portfolio page
-    await page.goto('http://localhost:3000');
+    await page.goto('/');
 
     // Wait for page to load
     await page.waitForSelector('button[aria-label="Thumbnails View"]', { timeout: 10000 });

@@ -227,7 +227,6 @@ export function DirectCostForm({
           setBudgetCodes(budgetCodesData)
         }
       } catch (error) {
-        console.error('Failed to load form options:', error)
         toast.error('Failed to load form options')
       } finally {
         setIsLoadingOptions(false)
@@ -269,8 +268,7 @@ export function DirectCostForm({
         form.reset(values)
       }
     } catch (error) {
-      console.error('Auto-save failed:', error)
-    } finally {
+      } finally {
       setAutoSaving(false)
     }
   }
@@ -308,7 +306,6 @@ export function DirectCostForm({
         router.push(`/projects/${projectId}/direct-costs`)
       }
     } catch (error) {
-      console.error('Form submission error:', error)
       toast.error(error instanceof Error ? error.message : 'Failed to save direct cost')
     } finally {
       setIsSubmitting(false)

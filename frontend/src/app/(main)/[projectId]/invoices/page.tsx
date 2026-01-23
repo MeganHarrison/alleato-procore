@@ -43,8 +43,7 @@ export default function ProjectInvoicesPage() {
           setInvoices(data.data || []);
         }
       } catch (error) {
-        console.error("Error fetching invoices:", error);
-      } finally {
+        } finally {
         setLoading(false);
       }
     };

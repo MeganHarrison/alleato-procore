@@ -141,10 +141,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(response);
   } catch (error) {
-    console.error(
-      "Error in GET /api/projects/[id]/change-events/[changeEventId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -241,7 +237,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
       .single();
 
     if (error) {
-      console.error("Error updating change event:", error);
       return NextResponse.json(
         { error: "Failed to update change event", details: error.message },
         { status: 400 },
@@ -325,10 +320,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
         { status: 400 },
       );
     }
-    console.error(
-      "Error in PATCH /api/projects/[id]/change-events/[changeEventId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -400,7 +391,6 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
       .eq("id", changeEventId);
 
     if (error) {
-      console.error("Error deleting change event:", error);
       return NextResponse.json(
         { error: "Failed to delete change event", details: error.message },
         { status: 400 },
@@ -419,10 +409,6 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 
     return new NextResponse(null, { status: 204 });
   } catch (error) {
-    console.error(
-      "Error in DELETE /api/projects/[id]/change-events/[changeEventId]:",
-      error,
-    );
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

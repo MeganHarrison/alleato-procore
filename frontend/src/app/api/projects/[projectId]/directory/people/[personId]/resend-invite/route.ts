@@ -25,8 +25,6 @@ export async function POST(
 
     // TODO: Send actual invitation email
     // This would integrate with your email service
-    console.warn("Email invitation not yet implemented");
-
     return NextResponse.json(
       {
         user_id: personId,
@@ -38,7 +36,6 @@ export async function POST(
       { status: 200 },
     );
   } catch (error) {
-    console.error("Error resending invite:", error);
     return NextResponse.json(
       {
         error: error instanceof Error ? error.message : "Internal server error",

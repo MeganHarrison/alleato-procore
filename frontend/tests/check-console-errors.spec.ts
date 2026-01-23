@@ -13,7 +13,7 @@ test('check for console errors on budget page', async ({ page }) => {
   });
 
   // Navigate to budget page
-  await page.goto('http://localhost:3004/67/budget');
+  await page.goto('/67/budget');
   await page.waitForTimeout(3000);
 
   console.warn('=== CONSOLE ERRORS ===');
@@ -23,7 +23,7 @@ test('check for console errors on budget page', async ({ page }) => {
   warnings.forEach(warn => console.warn(warn));
 
   // Navigate to budget details
-  await page.goto('http://localhost:3004/67/budget?tab=budget-details');
+  await page.goto('/67/budget?tab=budget-details');
   await page.waitForTimeout(3000);
 
   console.warn('\n=== BUDGET DETAILS ERRORS ===');

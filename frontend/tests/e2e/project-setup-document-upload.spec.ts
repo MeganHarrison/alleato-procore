@@ -6,11 +6,11 @@ test.describe('Project Setup - Document Upload', () => {
 
   test.beforeEach(async ({ page }) => {
     // Login
-    await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123');
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123');
     await page.waitForURL(/\/(portfolio|\/\d+\/home)/);
 
     // Go to setup wizard
-    await page.goto('http://localhost:3000/setup');
+    await page.goto('/setup');
     await page.waitForLoadState('networkidle');
 
     // Complete basic info step

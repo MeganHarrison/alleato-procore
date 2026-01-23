@@ -25,7 +25,7 @@ test('Capture budget page screenshot with table styling', async ({ page }) => {
   console.warn('After login screenshot captured');
 
   // Now navigate to the budget page
-  const budgetResponse = await page.goto('http://localhost:3001/67/budget');
+  const budgetResponse = await page.goto('/67/budget');
   console.warn('Budget page response:', budgetResponse?.status());
 
   // Wait for page to load

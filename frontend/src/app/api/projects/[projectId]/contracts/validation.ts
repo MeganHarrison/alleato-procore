@@ -19,9 +19,9 @@ export const createContractSchema = z.object({
   title: z.string().min(1).max(500),
   client_id: z.number().int().positive().optional().nullable(),
   vendor_id: z.string().uuid().optional().nullable(),
-  contractor_id: z.string().uuid().optional().nullable(),
-  architect_engineer_id: z.string().uuid().optional().nullable(),
-  contract_company_id: z.string().uuid().optional().nullable(),
+  contractor_id: z.string().optional().nullable(), // Can be string ID or null
+  architect_engineer_id: z.string().optional().nullable(), // Can be string ID or null
+  contract_company_id: z.string().optional().nullable(), // Can be string ID or null
   description: z.string().max(5000).optional().nullable(),
   status: contractStatusSchema.optional().default("draft"),
   executed: z.boolean().optional().default(false),

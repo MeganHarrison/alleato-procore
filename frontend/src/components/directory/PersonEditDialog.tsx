@@ -94,6 +94,8 @@ export function PersonEditDialog({
     person_type: "user",
     permission_template_id: "",
   });
+  const [avatarFile, setAvatarFile] = useState<File | null>(null);
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(null);
 
   // Load form data when person changes
   useEffect(() => {
@@ -153,14 +155,41 @@ export function PersonEditDialog({
           setPermissionTemplates(templatesData);
         }
       } catch (error) {
-        console.error("Error loading data:", error);
-      }
+        }
     };
 
     if (open) {
       loadData();
     }
   }, [open, supabase]);
+
+  const handleAvatarChange = (
+    event: React.ChangeEvent<HTMLInputElement>,
+  ) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setAvatarFile(file);
+      setAvatarPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const uploadAvatar = async (personId: string) => {
+    if (!avatarFile) return;
+    const uploadData = new FormData();
+    uploadData.append("file", avatarFile);
+    const response = await fetch(
+      `/api/projects/${projectId}/directory/people/${personId}/profile-photo`,
+      {
+        method: "POST",
+        body: uploadData,
+      },
+    );
+    if (!response.ok) {
+      throw new Error("Failed to upload profile photo");
+    }
+    setAvatarFile(null);
+    setAvatarPreview(null);
+  };
 
   const handleSave = async () => {
     setSaving(true);
@@ -205,6 +234,11 @@ export function PersonEditDialog({
         throw new Error(result.error || "Failed to save person");
       }
 
+      const savedPersonId = result?.id || person?.id;
+      if (savedPersonId && avatarFile) {
+        await uploadAvatar(savedPersonId);
+      }
+
       toast.success(
         `${formData.first_name} ${formData.last_name} has been ${mode === "create" ? "created" : "updated"}.`,
       );
@@ -224,6 +258,15 @@ export function PersonEditDialog({
   const updateField = (field: keyof FormData, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
+
+  const existingAvatarUrl =
+    person && person.id
+      ? `/api/avatar/${person.id}?projectId=${projectId}${
+          person.avatar_updated_at
+            ? `&v=${encodeURIComponent(person.avatar_updated_at)}`
+            : ""
+        }`
+      : null;
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
@@ -340,6 +383,23 @@ export function PersonEditDialog({
               onChange={(e) => updateField("job_title", e.target.value)}
               placeholder="Project Manager"
             />
+          </div>
+
+          <div className="space-y-2">
+            <Label>Profile Photo</Label>
+            <Input type="file" accept="image/*" onChange={handleAvatarChange} />
+            <p className="text-xs text-muted-foreground">
+              PNG, JPG, or WEBP up to 2MB.
+            </p>
+            <div className="flex items-center gap-3">
+              {(avatarPreview || existingAvatarUrl) && (
+                <img
+                  src={avatarPreview || existingAvatarUrl || ""}
+                  alt="Avatar preview"
+                  className="h-12 w-12 rounded-full border object-cover"
+                />
+              )}
+            </div>
           </div>
 
           {/* Company */}

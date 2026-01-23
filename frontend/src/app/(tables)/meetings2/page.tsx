@@ -52,7 +52,6 @@ export default async function MeetingsPage() {
     .order("created_at", { ascending: false });
 
   if (error) {
-    console.error("Error fetching meetings:", error);
     return (
       <div className="text-center text-red-600">
         Error loading meetings. Please try again later.

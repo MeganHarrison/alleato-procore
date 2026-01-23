@@ -3,11 +3,11 @@ import { test, expect } from '@playwright/test';
 test.describe('Verify Cost Codes Load in Create Modal', () => {
   test('should load cost codes in the Create Budget Code modal', async ({ page }) => {
     // Navigate to dev login
-    await page.goto('http://localhost:3000/dev-login?email=test@example.com&password=testpassword123');
+    await page.goto('/dev-login?email=test@example.com&password=testpassword123');
     await page.waitForURL(/\/\d+\/home/, { timeout: 15000 });
 
     // Navigate to budget setup page
-    await page.goto('http://localhost:3000/67/budget/setup');
+    await page.goto('/67/budget/setup');
     await page.waitForLoadState('networkidle');
 
     // Wait for loading to complete

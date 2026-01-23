@@ -47,7 +47,6 @@ export async function GET(request: NextRequest, { params }: SnapshotsParams) {
       .order("snapshot_date", { ascending: false });
 
     if (snapshotsError) {
-      console.error("Error fetching snapshots:", snapshotsError);
       return NextResponse.json(
         { error: "Failed to fetch snapshots" },
         { status: 500 },
@@ -89,7 +88,6 @@ export async function GET(request: NextRequest, { params }: SnapshotsParams) {
       count: snapshots?.length || 0,
     });
   } catch (error) {
-    console.error("Error fetching snapshots:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -165,7 +163,6 @@ export async function POST(request: NextRequest, { params }: SnapshotsParams) {
       .single();
 
     if (insertError) {
-      console.error("Error creating snapshot:", insertError);
       return NextResponse.json(
         { error: "Failed to create snapshot" },
         { status: 500 },
@@ -174,7 +171,6 @@ export async function POST(request: NextRequest, { params }: SnapshotsParams) {
 
     return NextResponse.json(snapshot, { status: 201 });
   } catch (error) {
-    console.error("Error creating snapshot:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

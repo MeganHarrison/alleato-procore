@@ -49,7 +49,6 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(person);
   } catch (error) {
-    console.error("Error fetching person:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -106,7 +105,6 @@ export async function PATCH(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json(person);
   } catch (error) {
-    console.error("Error updating person:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },
@@ -155,7 +153,6 @@ export async function DELETE(request: NextRequest, { params }: RouteParams) {
 
     return NextResponse.json({ success: true });
   } catch (error) {
-    console.error("Error deactivating person:", error);
     return NextResponse.json(
       { error: "Internal server error" },
       { status: 500 },

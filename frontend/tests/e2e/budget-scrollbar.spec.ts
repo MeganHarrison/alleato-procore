@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test('check budget page scrollbar visibility', async ({ page }) => {
   // Navigate to the budget page
-  await page.goto('http://localhost:3003/67/budget');
+  await page.goto('/67/budget');
 
   // Wait for the page to load
   await page.waitForLoadState('networkidle');

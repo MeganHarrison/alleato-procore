@@ -1,0 +1,113 @@
+import { NextResponse, type NextRequest } from "next/server";
+import { createClient } from "@/lib/supabase/server";
+import { createServiceClient } from "@/lib/supabase/service";
+import { PermissionService } from "@/services/permissionService";
+import {
+  DirectoryAdminService,
+  type DirectoryExportColumn,
+} from "@/services/directoryAdminService";
+import type { DirectoryFilters } from "@/services/directoryService";
+
+interface RouteParams {
+  params: Promise<{ projectId: string }>;
+}
+
+const DEFAULT_COLUMNS: DirectoryExportColumn[] = [
+  { id: "name", label: "Name" },
+  { id: "email", label: "Email" },
+  { id: "phone", label: "Phone" },
+  { id: "job_title", label: "Job Title" },
+  { id: "company", label: "Company" },
+  { id: "permission_template", label: "Permission" },
+  { id: "invite_status", label: "Invite Status" },
+  { id: "status", label: "Status" },
+];
+
+function parseFilters(searchParams: URLSearchParams): DirectoryFilters {
+  return {
+    search: searchParams.get("search") || undefined,
+    type: searchParams.get("type") as "user" | "contact" | "all" | undefined,
+    status: searchParams.get("status") as
+      | "active"
+      | "inactive"
+      | "all"
+      | undefined,
+    companyId: searchParams.get("company_id") || undefined,
+    permissionTemplateId:
+      searchParams.get("permission_template_id") || undefined,
+    groupBy: (searchParams.get("group_by") as "company" | "none") || "none",
+    sortBy: searchParams.get("sort")?.split(",") || undefined,
+  };
+}
+
+function parseColumns(queryValue: string | null): DirectoryExportColumn[] {
+  if (!queryValue) {
+    return DEFAULT_COLUMNS;
+  }
+
+  try {
+    const parsed = JSON.parse(queryValue);
+    if (Array.isArray(parsed)) {
+      return parsed
+        .map((item) => ({
+          id: item.id,
+          label: item.label || item.id,
+        }))
+        .filter((item) => item.id);
+    }
+    return DEFAULT_COLUMNS;
+  } catch {
+    return DEFAULT_COLUMNS;
+  }
+}
+
+export async function GET(request: NextRequest, { params }: RouteParams) {
+  try {
+    const { projectId } = await params;
+    const supabase = await createClient();
+    const serviceSupabase = createServiceClient();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
+    if (authError || !user) {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    const permissionService = new PermissionService(supabase);
+    await permissionService.requirePermission(
+      user.id,
+      projectId,
+      "directory",
+      "read",
+    );
+
+    const searchParams = request.nextUrl.searchParams;
+    const filters = parseFilters(searchParams);
+    const columns = parseColumns(searchParams.get("columns"));
+
+    const adminService = new DirectoryAdminService(serviceSupabase);
+    const stream = adminService.createExportStream(projectId, filters, columns);
+
+    const filename = `directory-export-${projectId}-${Date.now()}.csv`;
+
+    return new NextResponse(stream, {
+      headers: {
+        "Content-Type": "text/csv",
+        "Cache-Control": "no-store",
+        "Content-Disposition": `attachment; filename="${filename}"`,
+      },
+    });
+  } catch (error) {
+    console.error("[DirectoryExport] Failed", error);
+    return NextResponse.json(
+      {
+        error: "Failed to export directory data",
+        details: error instanceof Error ? error.message : String(error),
+      },
+      { status: 500 },
+    );
+  }
+}

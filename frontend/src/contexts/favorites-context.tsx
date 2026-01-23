@@ -34,8 +34,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
         setFavorites(Array.isArray(parsed) ? parsed : []);
       }
     } catch (error) {
-      console.error("Failed to load favorites:", error);
-    } finally {
+      } finally {
       setIsLoaded(true);
     }
   }, []);
@@ -46,8 +45,7 @@ export function FavoritesProvider({ children }: { children: React.ReactNode }) {
       try {
         localStorage.setItem(FAVORITES_STORAGE_KEY, JSON.stringify(favorites));
       } catch (error) {
-        console.error("Failed to save favorites:", error);
-      }
+        }
     }
   }, [favorites, isLoaded]);
 

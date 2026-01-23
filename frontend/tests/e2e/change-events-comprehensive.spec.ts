@@ -26,7 +26,7 @@ test.describe('Change Events - Comprehensive Browser Verification', () => {
     console.log('Navigating to change events list page...');
 
     // Navigate to change events page
-    await page.goto(`http://localhost:3000/${projectId}/change-events`);
+    await page.goto(`/${projectId}/change-events`);
 
     // Wait for page to load
     await page.waitForLoadState('domcontentloaded');
@@ -95,7 +95,7 @@ test.describe('Change Events - Comprehensive Browser Verification', () => {
   test('2. Create Form - Verify form renders with all fields', async ({ page }) => {
     console.log('Testing create form...');
 
-    await page.goto(`http://localhost:3000/${projectId}/change-events`);
+    await page.goto(`/${projectId}/change-events`);
     await page.waitForLoadState('domcontentloaded');
 
     // Click create button
@@ -168,7 +168,7 @@ test.describe('Change Events - Comprehensive Browser Verification', () => {
   test('3. Form Submission - Fill and submit form', async ({ page }) => {
     console.log('Testing form submission...');
 
-    await page.goto(`http://localhost:3000/${projectId}/change-events`);
+    await page.goto(`/${projectId}/change-events`);
     await page.waitForLoadState('domcontentloaded');
 
     // Track network requests
@@ -275,7 +275,7 @@ test.describe('Change Events - Comprehensive Browser Verification', () => {
   test('4. List After Create - Verify new change event appears', async ({ page }) => {
     console.log('Verifying change event appears in list...');
 
-    await page.goto(`http://localhost:3000/${projectId}/change-events`);
+    await page.goto(`/${projectId}/change-events`);
     await page.waitForLoadState('domcontentloaded');
 
     // Look for the test change event
@@ -309,7 +309,7 @@ test.describe('Change Events - Comprehensive Browser Verification', () => {
   test('5. Detail View - Verify detail page displays data', async ({ page }) => {
     console.log('Testing detail view...');
 
-    await page.goto(`http://localhost:3000/${projectId}/change-events`);
+    await page.goto(`/${projectId}/change-events`);
     await page.waitForLoadState('domcontentloaded');
 
     // Find and click on the test change event
@@ -367,7 +367,7 @@ test.describe('Change Events - Comprehensive Browser Verification', () => {
       }
     });
 
-    await page.goto(`http://localhost:3000/${projectId}/change-events`);
+    await page.goto(`/${projectId}/change-events`);
     await page.waitForLoadState('domcontentloaded');
     await page.waitForTimeout(2000);
 

@@ -75,11 +75,9 @@ export function BudgetModificationsModal({
         const data = await response.json();
         setModifications(data.modifications || []);
       } else {
-        console.error("Failed to fetch modifications");
-      }
+        }
     } catch (error) {
-      console.error("Error fetching budget modifications:", error);
-    } finally {
+      } finally {
       setLoading(false);
     }
   }, [projectId, budgetLineId, statusFilter]);
@@ -121,7 +119,6 @@ export function BudgetModificationsModal({
         onModificationChanged?.();
       }
     } catch (error) {
-      console.error(`Error ${action}ing modification:`, error);
       toast.error(
         error instanceof Error
           ? error.message

@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test';
 test.describe('Budget Line Item Creation', () => {
   test('should create a budget line item using existing budget code', async ({ page }) => {
     // Navigate to budget setup page
-    await page.goto('http://localhost:3000/67/budget/setup');
+    await page.goto('/67/budget/setup');
     await page.waitForLoadState('networkidle');
 
     // Wait for loading to complete

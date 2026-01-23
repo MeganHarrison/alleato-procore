@@ -119,11 +119,9 @@ export default async function MeetingDetailPage({ params }: PageProps) {
       if (response.ok) {
         transcriptContent = await response.text()
       } else {
-        console.error('Failed to fetch from storage, status:', response.status)
-      }
+        }
     } catch (error) {
-      console.error('Error fetching transcript from storage:', error)
-    }
+      }
   }
 
   // Fallback: use meeting.content

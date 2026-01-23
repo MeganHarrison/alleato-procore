@@ -88,7 +88,6 @@ export default function ProjectContractsPage() {
         const data = await response.json();
         setContracts(data || []);
       } catch (err) {
-        console.error("Error fetching contracts:", err);
         toast.error("Failed to load contracts");
       } finally {
         setLoading(false);

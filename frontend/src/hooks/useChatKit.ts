@@ -60,7 +60,6 @@ export function useChatKit(options: UseChatKitOptions): UseChatKitReturn {
     return CHATKIT_METHOD_NAMES.reduce((acc, key) => {
       acc[key] = (...args: any[]) => {
         if (!ref.current) {
-          console.warn("ChatKit element is not mounted");
           return;
         }
         return (ref.current as any)[key](...args);

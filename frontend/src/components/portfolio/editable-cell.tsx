@@ -44,7 +44,6 @@ export function EditableCell({
       await onSave(editValue);
       setIsEditing(false);
     } catch (error) {
-      console.error("Failed to save:", error);
       setEditValue(value?.toString() || "");
     } finally {
       setIsSaving(false);

@@ -2,7 +2,7 @@ import { test, expect } from '@playwright/test';
 
 test.describe('Commitment Creation Flow', () => {
   test('should display subcontract form with all required fields', async ({ page }) => {
-    await page.goto('http://localhost:3000/67/commitments/new?type=subcontract');
+    await page.goto('/67/commitments/new?type=subcontract');
     await page.waitForLoadState('networkidle');
 
     // Verify page title
@@ -24,7 +24,7 @@ test.describe('Commitment Creation Flow', () => {
   });
 
   test('should display purchase order form with all required fields', async ({ page }) => {
-    await page.goto('http://localhost:3000/67/commitments/new?type=purchase_order');
+    await page.goto('/67/commitments/new?type=purchase_order');
     await page.waitForLoadState('networkidle');
 
     // Verify page title
@@ -39,7 +39,7 @@ test.describe('Commitment Creation Flow', () => {
   });
 
   test('should navigate back to commitments page on cancel', async ({ page }) => {
-    await page.goto('http://localhost:3000/67/commitments/new?type=subcontract');
+    await page.goto('/67/commitments/new?type=subcontract');
     await page.waitForLoadState('networkidle');
 
     // Click cancel button

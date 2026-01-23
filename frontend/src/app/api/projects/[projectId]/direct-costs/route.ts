@@ -31,6 +31,20 @@ export async function GET(
   try {
     const { projectId } = await params;
     const supabase = await createClient();
+
+    // Check authentication
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      return NextResponse.json(
+        { error: "Unauthorized - please log in" },
+        { status: 401 }
+      );
+    }
+
     const { searchParams } = new URL(request.url);
 
     // Validate and parse query parameters
@@ -73,7 +87,6 @@ export async function GET(
 
     return NextResponse.json(result);
   } catch (error) {
-    console.error('Failed to fetch direct costs:', error);
     return NextResponse.json(
       { error: 'Failed to fetch direct costs' },
       { status: 500 }
@@ -92,6 +105,20 @@ export async function POST(
   try {
     const { projectId } = await params;
     const supabase = await createClient();
+
+    // Check authentication
+    const {
+      data: { user },
+      error: userError,
+    } = await supabase.auth.getUser();
+
+    if (userError || !user) {
+      return NextResponse.json(
+        { error: "Unauthorized - please log in" },
+        { status: 401 }
+      );
+    }
+
     const body = await request.json();
 
     // Validate request data
@@ -114,8 +141,6 @@ export async function POST(
 
     return NextResponse.json(directCost, { status: 201 });
   } catch (error) {
-    console.error('Failed to create direct cost:', error);
-
     // Handle specific database errors
     if (error instanceof Error) {
       if (error.message.includes('foreign key')) {

@@ -85,7 +85,7 @@ Extract from the user's command:
 Set up organized output directories:
 
 ```
-documentation/*project-mgmt/in-progress/<feature-name>/
+docs/project-mgmt/<feature-name>/
 ├── crawl-<feature-name>/
 │   ├── README.md
 │   ├── <FEATURE>-CRAWL-STATUS.md
@@ -109,7 +109,7 @@ Base it on the proven pattern from `crawl-direct-costs-comprehensive.js`:
 
 **Key Configuration:**
 ```javascript
-const OUTPUT_DIR = "./documentation/*project-mgmt/in-progress/<feature-name>/procore-crawl-output";
+const OUTPUT_DIR = "./docs/project-mgmt/<feature-name>/procore-crawl-output";
 const START_URL = "<provided-app-url>";
 const PROCORE_EMAIL = "bclymer@alleatogroup.com";
 const PROCORE_PASSWORD = "[from auth.json or .env]";

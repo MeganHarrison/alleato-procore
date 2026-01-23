@@ -20,7 +20,7 @@ The goal is shipping real, working features—not producing paperwork.
 Every feature lives in exactly one place:
 
 ```
-documentation/*project-mgmt/active/{feature}/
+docs/project-mgmt/{feature}/
 ```
 
 Everything related to the feature goes here.
@@ -30,7 +30,7 @@ Nothing critical goes in .claude/, temp folders, or agent memory.
 ## Required Files
 
 ```
-documentation/*project-mgmt/in-progress/{feature}/
+docs/project-mgmt//{feature}/
 ├── STATUS.md           # Current state + what’s next
 ├── TASKS.md            # Checklist of work (single source of tasks)
 ├── PLAN.md             # Short implementation plan

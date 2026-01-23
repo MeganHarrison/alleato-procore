@@ -111,14 +111,12 @@ export function ContractSetup({
           });
 
         if (sovError) {
-          console.error("Error creating SOV:", sovError);
           throw sovError;
         }
       }
 
       onNext();
     } catch (err) {
-      console.error("Error saving contract:", err);
       setError(err instanceof Error ? err.message : "Failed to save contract");
     } finally {
       setSaving(false);

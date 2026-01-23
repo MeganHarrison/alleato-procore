@@ -3,7 +3,7 @@ import { test, expect } from '@playwright/test'
 test.describe('Project Home Page - Prime Contracts and Commitments Sections', () => {
   test('should display Prime Contracts and Commitments sections', async ({ page }) => {
     // Navigate to the project home page
-    await page.goto('http://localhost:3003/67/home')
+    await page.goto('/67/home')
 
     // Wait for the page to load
     await page.waitForLoadState('networkidle')
@@ -32,7 +32,7 @@ test.describe('Project Home Page - Prime Contracts and Commitments Sections', ()
   })
 
   test('Prime Contracts "Add" button links to correct page', async ({ page }) => {
-    await page.goto('http://localhost:3003/67/home')
+    await page.goto('/67/home')
     await page.waitForLoadState('networkidle')
 
     // Find and click the Prime Contracts "Add" button using exact href
@@ -44,7 +44,7 @@ test.describe('Project Home Page - Prime Contracts and Commitments Sections', ()
   })
 
   test('Commitments "Add" button links to correct page', async ({ page }) => {
-    await page.goto('http://localhost:3003/67/home')
+    await page.goto('/67/home')
     await page.waitForLoadState('networkidle')
 
     // Find and click the Commitments "Add" button using exact href

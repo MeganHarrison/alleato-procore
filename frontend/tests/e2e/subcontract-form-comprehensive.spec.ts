@@ -1,12 +1,12 @@
 import { test, expect } from '@playwright/test';
 
-const BASE_URL = 'http://localhost:3000';
+const BASE_URL = process.env.BASE_URL || 'http://localhost:3000';
 const TEST_PROJECT_ID = 118;
 
 test.describe('Subcontract Form - Comprehensive Verification', () => {
   test.beforeEach(async ({ page }) => {
     // Navigate directly to the Subcontract creation form
-    await page.goto(`${BASE_URL}/${TEST_PROJECT_ID}/commitments/new?type=subcontract`);
+    await page.goto(`/${TEST_PROJECT_ID}/commitments/new?type=subcontract`);
     await page.waitForLoadState('networkidle');
   });
 

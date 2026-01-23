@@ -308,7 +308,6 @@ export function MeetingsDataTable({
       setEditingMeeting(null);
       setEditData({});
     } catch (error) {
-      console.error("Error updating meeting:", error);
       toast.error("Failed to update meeting");
     }
   };
@@ -334,7 +333,6 @@ export function MeetingsDataTable({
       toast.success("Meeting deleted successfully");
       setIsDeleting(null);
     } catch (error) {
-      console.error("Error deleting meeting:", error);
       toast.error("Failed to delete meeting");
       setIsDeleting(null);
     }

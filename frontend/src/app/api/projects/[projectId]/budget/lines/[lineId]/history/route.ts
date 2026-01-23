@@ -26,7 +26,6 @@ export async function GET(
     } = await supabase.auth.getUser();
 
     if (userError || !user) {
-      console.error("Auth error or no user:", { userError, hasUser: !!user });
       return NextResponse.json(
         { error: "Unauthorized - please log in" },
         { status: 401 },
@@ -56,7 +55,6 @@ export async function GET(
       .order("changed_at", { ascending: false });
 
     if (historyError) {
-      console.error("Error fetching history:", historyError);
       return NextResponse.json(
         { error: "Failed to fetch change history" },
         { status: 500 },
@@ -73,7 +71,6 @@ export async function GET(
       .in("id", userIds);
 
     if (usersError) {
-      console.error("Error fetching users:", usersError);
       // Don't fail the request - just return history without user details
     }
 
@@ -112,7 +109,6 @@ export async function GET(
   } catch (error: unknown) {
     const errorMessage =
       error instanceof Error ? error.message : "Failed to fetch change history";
-    console.error("Error in budget line history GET route:", error);
     return NextResponse.json({ error: errorMessage }, { status: 500 });
   }
 }

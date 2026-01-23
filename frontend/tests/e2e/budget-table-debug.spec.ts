@@ -4,7 +4,7 @@ test.describe('Budget Table Debug', () => {
   test.use({ storageState: undefined });
 
   test('should check what is actually rendered in the budget table', async ({ page }) => {
-    await page.goto('http://localhost:3002/67/budget');
+    await page.goto('/67/budget');
     await page.waitForLoadState('networkidle');
 
     // Wait for table

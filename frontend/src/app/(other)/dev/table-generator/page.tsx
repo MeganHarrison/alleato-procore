@@ -88,8 +88,7 @@ export default function TableGeneratorPage() {
       setTables(data.tables || [])
     } catch (error) {
       toast.error('Failed to fetch tables')
-      console.error(error)
-    } finally {
+      } finally {
       setIsFetchingTables(false)
     }
   }
@@ -149,8 +148,7 @@ export default function TableGeneratorPage() {
       }
     } catch (error) {
       toast.error('Failed to fetch columns')
-      console.error(error)
-    } finally {
+      } finally {
       setIsLoading(false)
     }
   }
@@ -312,7 +310,6 @@ export default async function ${tableName.replace(/\s/g, '')}Page() {
     .order('created_at', { ascending: false })
 
   if (error) {
-    console.error('Error fetching ${selectedTable}:', error)
     return (
       <div className="text-center text-red-600">
         Error loading ${tableName.toLowerCase()}. Please try again later.

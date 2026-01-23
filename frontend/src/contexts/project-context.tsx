@@ -78,18 +78,13 @@ export function ProjectProvider({ children }: { children: React.ReactNode }) {
             setSelectedProjectState(project);
           } else {
             const fallbackBody = await response.text();
-            console.error(
-              "Projects API returned non-JSON response:",
-              fallbackBody.slice(0, 200),
-            );
+            console.error('Failed to fetch project:', fallbackBody.slice(0, 200));
             setSelectedProjectState(null);
           }
         } else {
-          console.error("Failed to fetch project:", response.statusText);
           setSelectedProjectState(null);
         }
       } catch (error) {
-        console.error("Error fetching project:", error);
         setSelectedProjectState(null);
       } finally {
         setIsLoading(false);
