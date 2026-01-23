@@ -292,7 +292,7 @@ export function SiteHeader() {
     crumbs.push({ label: "Home", href: "/" });
 
     segments.forEach((segment, index) => {
-      let href = `/${segments.slice(0, index + 1).join("/")}`;
+      const href = `/${segments.slice(0, index + 1).join("/")}`;
       let label: string;
 
       // Check if this segment is a project ID (numeric)

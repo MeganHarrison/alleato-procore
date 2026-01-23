@@ -14,7 +14,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Info, Plus, HelpCircle, Sparkles } from "lucide-react";
+import { Info, Plus, HelpCircle, Sparkles, Search, ChevronRight, ChevronDown } from "lucide-react";
 import {
   Dialog,
   DialogContent,
@@ -37,17 +37,42 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+  CommandSeparator,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { useClients } from "@/hooks/use-clients";
 import { useUsers } from "@/hooks/use-users";
 import { getAutoFillData, isDevelopment } from "@/lib/dev-autofill";
+import { createClient } from "@/lib/supabase/client";
+import { toast } from "sonner";
 
 // ============================================================================
 // Types
 // ============================================================================
 
+interface BudgetCode {
+  id: string;
+  code: string;
+  costType: string | null;
+  description: string;
+  fullLabel: string;
+}
+
 export interface SOVLineItem {
   id: string;
-  budgetCode?: string;
+  budgetCodeId?: string;
+  budgetCodeLabel?: string;
   description: string;
   amount: number;
   quantity?: number;
@@ -110,7 +135,7 @@ interface ContractFormProps {
   onCancel: () => void;
   isSubmitting?: boolean;
   mode?: "create" | "edit";
-  projectId?: string;
+  projectId: string;
 }
 
 // ============================================================================
@@ -136,6 +161,7 @@ export function ContractForm({
   onCancel,
   isSubmitting = false,
   mode = "create",
+  projectId,
 }: ContractFormProps) {
   const [formData, setFormData] = React.useState<Partial<ContractFormData>>({
     accountingMethod: "amount",
@@ -150,6 +176,35 @@ export function ContractForm({
     Array<{ name: string; size: number; type: string }>
   >([]);
 
+  // Budget code state
+  const [budgetCodes, setBudgetCodes] = React.useState<BudgetCode[]>([]);
+  const [loadingBudgetCodes, setLoadingBudgetCodes] = React.useState(true);
+  const [openBudgetCodePopover, setOpenBudgetCodePopover] = React.useState<string | null>(null);
+  const [budgetCodeSearchQuery, setBudgetCodeSearchQuery] = React.useState("");
+  const [showCreateBudgetCodeModal, setShowCreateBudgetCodeModal] = React.useState(false);
+  const [newBudgetCodeData, setNewBudgetCodeData] = React.useState({
+    costCodeId: "",
+    costType: "R",
+  });
+  const [availableCostCodes, setAvailableCostCodes] = React.useState<
+    Array<{
+      id: string;
+      title: string | null;
+      status: string | null;
+      division_title: string | null;
+    }>
+  >([]);
+  const [loadingCostCodes, setLoadingCostCodes] = React.useState(false);
+  const [expandedDivisions, setExpandedDivisions] = React.useState<Set<string>>(new Set());
+  const [groupedCostCodes, setGroupedCostCodes] = React.useState<
+    Record<string, Array<{
+      id: string;
+      title: string | null;
+      status: string | null;
+      division_title: string | null;
+    }>>
+  >({});
+
   // Data hooks
   const {
     options: clientOptions,
@@ -162,6 +217,81 @@ export function ContractForm({
   const [showAddClient, setShowAddClient] = React.useState(false);
   const [newClientName, setNewClientName] = React.useState("");
   const [isCreating, setIsCreating] = React.useState(false);
+
+  // Fetch budget codes for the project
+  React.useEffect(() => {
+    const fetchBudgetCodes = async () => {
+      if (!projectId) return;
+
+      try {
+        setLoadingBudgetCodes(true);
+        const response = await fetch(`/api/projects/${projectId}/budget-codes`);
+
+        if (!response.ok) {
+          const error = await response.json();
+          throw new Error(error?.error || "Failed to load budget codes");
+        }
+
+        const { budgetCodes } = (await response.json()) as {
+          budgetCodes: BudgetCode[];
+        };
+
+        setBudgetCodes(budgetCodes || []);
+      } catch (error) {
+        setBudgetCodes([]);
+      } finally {
+        setLoadingBudgetCodes(false);
+      }
+    };
+
+    fetchBudgetCodes();
+  }, [projectId]);
+
+  // Fetch cost codes from Supabase when create budget code modal opens
+  React.useEffect(() => {
+    const fetchCostCodes = async () => {
+      if (!showCreateBudgetCodeModal) return;
+
+      try {
+        setLoadingCostCodes(true);
+        const supabase = createClient();
+
+        // Fetch cost codes from Supabase
+        const { data, error } = await supabase
+          .from("cost_codes")
+          .select("id, title, status, division_title")
+          .eq("status", "Active")
+          .order("id", { ascending: true });
+
+        if (error) {
+          return;
+        }
+
+        const codes = data || [];
+        setAvailableCostCodes(codes);
+
+        // Group cost codes by division_title
+        const grouped = codes.reduce(
+          (acc, code) => {
+            const divisionKey = code.division_title || "Other";
+            if (!acc[divisionKey]) {
+              acc[divisionKey] = [];
+            }
+            acc[divisionKey].push(code);
+            return acc;
+          },
+          {} as Record<string, typeof codes>,
+        );
+
+        setGroupedCostCodes(grouped);
+      } catch (error) {
+      } finally {
+        setLoadingCostCodes(false);
+      }
+    };
+
+    fetchCostCodes();
+  }, [showCreateBudgetCodeModal]);
 
   // Handlers
   const handleSubmit = async (e: React.FormEvent) => {
@@ -185,7 +315,7 @@ export function ContractForm({
       ...formData,
       attachmentFiles: attachmentFiles.length > 0 ? attachmentFiles : undefined
     };
-    console.log('Submitting with attachments:', attachmentFiles.length);
+    // Debug: Submitting with attachments count: attachmentFiles.length
 
     await onSubmit(submissionData as ContractFormData);
   };
@@ -223,10 +353,128 @@ export function ContractForm({
   };
 
   // SOV handlers
+  const getCostTypeLabel = (type: string) => {
+    const types: Record<string, string> = {
+      R: "Contract Revenue",
+      E: "Equipment",
+      X: "Expense",
+      L: "Labor",
+      M: "Material",
+      S: "Subcontract",
+    };
+    return types[type] || type;
+  };
+
+  const toggleDivision = (division: string) => {
+    setExpandedDivisions((prev) => {
+      const next = new Set(prev);
+      if (next.has(division)) {
+        next.delete(division);
+      } else {
+        next.add(division);
+      }
+      return next;
+    });
+  };
+
+  const handleCreateBudgetCode = async () => {
+    try {
+      setIsCreating(true);
+
+      const selectedCostCode = availableCostCodes.find(
+        (cc) => cc.id === newBudgetCodeData.costCodeId,
+      );
+      if (!selectedCostCode) {
+        toast.error("Please select a cost code");
+        return;
+      }
+
+      // Call API to create project budget code
+      const response = await fetch(`/api/projects/${projectId}/budget-codes`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cost_code_id: newBudgetCodeData.costCodeId,
+          cost_type_id: newBudgetCodeData.costType,
+          description: selectedCostCode.title || null,
+        }),
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error?.error || "Failed to create budget code");
+      }
+
+      const { budgetCode } = (await response.json()) as {
+        budgetCode: BudgetCode;
+      };
+
+      setBudgetCodes([...budgetCodes, budgetCode]);
+
+      // Autopopulate the newly created budget code in the first empty row
+      const firstEmptyRow = formData.sovItems?.find((row) => !row.budgetCodeId);
+
+      if (firstEmptyRow) {
+        // Populate the first empty row with the new budget code
+        updateFormData({
+          sovItems: formData.sovItems?.map((row) =>
+            row.id === firstEmptyRow.id
+              ? {
+                  ...row,
+                  budgetCodeId: budgetCode.id,
+                  budgetCodeLabel: budgetCode.fullLabel,
+                }
+              : row,
+          ),
+        });
+      } else {
+        // All rows are filled, add a new row with the budget code
+        const newLine: SOVLineItem = {
+          id: `sov-${Date.now()}`,
+          budgetCodeId: budgetCode.id,
+          budgetCodeLabel: budgetCode.fullLabel,
+          description: "",
+          amount: 0,
+          quantity: formData.accountingMethod === "unit_quantity" ? 1 : undefined,
+          unitCost: formData.accountingMethod === "unit_quantity" ? 0 : undefined,
+          unitOfMeasure: formData.accountingMethod === "unit_quantity" ? "" : undefined,
+          billedToDate: 0,
+          amountRemaining: 0,
+        };
+        updateFormData({ sovItems: [...(formData.sovItems || []), newLine] });
+      }
+
+      setShowCreateBudgetCodeModal(false);
+      setNewBudgetCodeData({ costCodeId: "", costType: "R" });
+      toast.success("Budget code created and added to form");
+    } catch (error) {
+      toast.error(
+        `Failed to create budget code: ${error instanceof Error ? error.message : "Unknown error"}`,
+      );
+    } finally {
+      setIsCreating(false);
+    }
+  };
+
+  const handleBudgetCodeSelect = (rowId: string, code: BudgetCode) => {
+    updateFormData({
+      sovItems: formData.sovItems?.map((row) =>
+        row.id === rowId
+          ? { ...row, budgetCodeId: code.id, budgetCodeLabel: code.fullLabel }
+          : row,
+      ),
+    });
+    setOpenBudgetCodePopover(null);
+  };
+
   const addSOVLine = () => {
     const isUnitQuantity = formData.accountingMethod === "unit_quantity";
     const newLine: SOVLineItem = {
       id: `sov-${Date.now()}`,
+      budgetCodeId: "",
+      budgetCodeLabel: "",
       description: "",
       amount: 0,
       // Only initialize quantity/unitCost in unit_quantity mode
@@ -336,6 +584,10 @@ export function ContractForm({
     setAttachmentFiles(filtered);
     updateFormData({ attachmentFiles: filtered });
   };
+
+  const filteredBudgetCodes = budgetCodes.filter((code) =>
+    code.fullLabel.toLowerCase().includes(budgetCodeSearchQuery.toLowerCase()),
+  );
 
   // Auto-fill handler (development only)
   const handleAutoFill = () => {
@@ -601,7 +853,7 @@ export function ContractForm({
                 <th className="px-4 py-3 text-left text-sm font-medium text-foreground w-12">
                   #
                 </th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-foreground">
+                <th className="px-4 py-3 text-left text-sm font-medium text-foreground min-w-[300px]">
                   <div className="flex items-center gap-1">
                     Budget Code
                     <TooltipProvider>
@@ -674,15 +926,71 @@ export function ContractForm({
                   >
                     <td className="px-4 py-3 text-sm">{index + 1}</td>
                     <td className="px-4 py-3">
-                      <Input
-                        value={item.budgetCode || ""}
-                        onChange={(e) =>
-                          updateSOVLine(item.id, { budgetCode: e.target.value })
+                      <Popover
+                        open={openBudgetCodePopover === item.id}
+                        onOpenChange={(open) =>
+                          setOpenBudgetCodePopover(open ? item.id : null)
                         }
-                        placeholder="Budget code"
-                        className="h-8"
-                        data-testid="sov-line-budget-code"
-                      />
+                      >
+                        <PopoverTrigger asChild>
+                          <Button
+                            variant="outline"
+                            role="combobox"
+                            className="w-full justify-between text-left font-normal h-8"
+                            data-testid="sov-line-budget-code"
+                          >
+                            <span className="truncate">
+                              {item.budgetCodeLabel || "Select budget code..."}
+                            </span>
+                            <Search className="ml-2 h-4 w-4 shrink-0 opacity-50" />
+                          </Button>
+                        </PopoverTrigger>
+                        <PopoverContent
+                          className="w-[400px] p-0"
+                          align="start"
+                        >
+                          <Command>
+                            <CommandInput
+                              placeholder="Search budget codes..."
+                              value={budgetCodeSearchQuery}
+                              onValueChange={setBudgetCodeSearchQuery}
+                            />
+                            <CommandList>
+                              <CommandEmpty>
+                                {loadingBudgetCodes
+                                  ? "Loading..."
+                                  : "No budget codes found."}
+                              </CommandEmpty>
+                              <CommandGroup>
+                                {filteredBudgetCodes.map((code) => (
+                                  <CommandItem
+                                    key={code.id}
+                                    value={code.fullLabel}
+                                    onSelect={() =>
+                                      handleBudgetCodeSelect(item.id, code)
+                                    }
+                                  >
+                                    {code.fullLabel}
+                                  </CommandItem>
+                                ))}
+                              </CommandGroup>
+                              <CommandSeparator />
+                              <CommandGroup>
+                                <CommandItem
+                                  onSelect={() => {
+                                    setOpenBudgetCodePopover(null);
+                                    setShowCreateBudgetCodeModal(true);
+                                  }}
+                                  className="text-blue-600"
+                                >
+                                  <Plus className="mr-2 h-4 w-4" />
+                                  Create New Budget Code
+                                </CommandItem>
+                              </CommandGroup>
+                            </CommandList>
+                          </Command>
+                        </PopoverContent>
+                      </Popover>
                     </td>
                     <td className="px-4 py-3">
                       <Input
@@ -1035,6 +1343,143 @@ export function ContractForm({
           </Button>
         </div>
       </div>
+
+      {/* Create Budget Code Modal */}
+      <Dialog open={showCreateBudgetCodeModal} onOpenChange={setShowCreateBudgetCodeModal}>
+        <DialogContent className="sm:max-w-[500px]">
+          <DialogHeader>
+            <DialogTitle>Create New Budget Code</DialogTitle>
+            <DialogDescription>
+              Add a new budget code that can be used for line items in this
+              project.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-4 py-4">
+            <div className="grid gap-2">
+              <Label htmlFor="costCode">Cost Code*</Label>
+              {loadingCostCodes ? (
+                <div className="border rounded-md p-3 text-sm text-muted-foreground">
+                  Loading cost codes...
+                </div>
+              ) : (
+                <div className="border rounded-md max-h-[400px] overflow-y-auto">
+                  {Object.entries(groupedCostCodes)
+                    .sort(([a], [b]) => a.localeCompare(b))
+                    .map(([division]) => (
+                      <div key={division} className="border-b last:border-b-0">
+                        <button
+                          type="button"
+                          onClick={() => toggleDivision(division)}
+                          className="w-full flex items-center justify-between px-3 py-2 text-left hover:bg-muted transition-colors"
+                        >
+                          <span className="text-sm font-semibold text-foreground">
+                            {division}
+                          </span>
+                          {expandedDivisions.has(division) ? (
+                            <ChevronDown className="w-4 h-4 text-muted-foreground" />
+                          ) : (
+                            <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                          )}
+                        </button>
+
+                        {expandedDivisions.has(division) && (
+                          <div className="bg-muted/50">
+                            {groupedCostCodes[division].map((costCode) => (
+                              <button
+                                key={costCode.id}
+                                type="button"
+                                onClick={() =>
+                                  setNewBudgetCodeData({
+                                    ...newBudgetCodeData,
+                                    costCodeId: costCode.id,
+                                  })
+                                }
+                                className={`w-full text-left px-6 py-2 text-sm hover:bg-muted transition-colors ${
+                                  newBudgetCodeData.costCodeId === costCode.id
+                                    ? "bg-blue-50 text-blue-700 font-medium"
+                                    : "text-foreground"
+                                }`}
+                              >
+                                {costCode.division_title || costCode.id} -{" "}
+                                {costCode.title}
+                              </button>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                </div>
+              )}
+              <p className="text-sm text-muted-foreground">
+                Click on a division to expand and select a cost code
+              </p>
+            </div>
+            <div className="grid gap-2">
+              <Label htmlFor="costType">Cost Type*</Label>
+              <Select
+                value={newBudgetCodeData.costType}
+                onValueChange={(value) =>
+                  setNewBudgetCodeData({ ...newBudgetCodeData, costType: value })
+                }
+              >
+                <SelectTrigger>
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="R">R - Contract Revenue</SelectItem>
+                  <SelectItem value="E">E - Equipment</SelectItem>
+                  <SelectItem value="X">X - Expense</SelectItem>
+                  <SelectItem value="L">L - Labor</SelectItem>
+                  <SelectItem value="M">M - Material</SelectItem>
+                  <SelectItem value="S">S - Subcontract</SelectItem>
+                </SelectContent>
+              </Select>
+            </div>
+            <div className="p-3 bg-muted rounded-md">
+              <p className="text-sm font-medium text-foreground">Preview:</p>
+              <p className="text-sm text-foreground mt-1">
+                {newBudgetCodeData.costCodeId ? (
+                  <>
+                    {availableCostCodes.find(
+                      (cc) => cc.id === newBudgetCodeData.costCodeId,
+                    )?.division_title ||
+                      availableCostCodes.find(
+                        (cc) => cc.id === newBudgetCodeData.costCodeId,
+                      )?.id}
+                    .{newBudgetCodeData.costType} –{" "}
+                    {
+                      availableCostCodes.find(
+                        (cc) => cc.id === newBudgetCodeData.costCodeId,
+                      )?.title
+                    }{" "}
+                    – {getCostTypeLabel(newBudgetCodeData.costType)}
+                  </>
+                ) : (
+                  "Select cost code and cost type to see preview"
+                )}
+              </p>
+            </div>
+          </div>
+          <DialogFooter>
+            <Button
+              type="button"
+              variant="outline"
+              onClick={() => setShowCreateBudgetCodeModal(false)}
+            >
+              Cancel
+            </Button>
+            <Button
+              type="button"
+              onClick={handleCreateBudgetCode}
+              disabled={
+                isCreating || !newBudgetCodeData.costCodeId || !newBudgetCodeData.costType
+              }
+            >
+              {isCreating ? "Creating..." : "Create Budget Code"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Form>
   );
 }

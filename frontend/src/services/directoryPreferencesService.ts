@@ -154,7 +154,7 @@ export class DirectoryPreferencesService {
     const loaded = await this.loadPreferences(userId, projectId);
     const now = new Date().toISOString();
 
-    let savedFilters = [...loaded.directory.savedFilters];
+    const savedFilters = [...loaded.directory.savedFilters];
     let filter: DirectorySavedFilter;
 
     if (payload.id) {

@@ -21,6 +21,7 @@ import {
   SnapshotsTab,
   ChangeHistoryTab,
 } from "@/components/budget";
+import { InlineBudgetLineItemCreator, type InlineLineItemData } from "@/components/budget/InlineBudgetLineItemCreator";
 import { BudgetLineItemModalAnimated } from "@/components/budget/budget-line-item-modal-animated";
 import { BudgetModificationsModal } from "@/components/budget/modals/BudgetModificationsModal";
 import { ApprovedCOsModal } from "@/components/budget/modals/ApprovedCOsModal";
@@ -501,6 +502,44 @@ function BudgetPageContent() {
     }
   }, [projectId, handleLineItemSuccess]);
 
+  const handleInlineCreateMultipleLineItems = React.useCallback(async (lineItems: InlineLineItemData[]) => {
+    try {
+      // Map the inline data to API format
+      const payload = {
+        lineItems: lineItems.map((item) => {
+          const budgetCode = budgetData.find(b => b.id === item.budgetCodeId);
+          return {
+            costCodeId: budgetCode?.costCode || item.budgetCodeId,
+            costType: null,
+            qty: item.qty,
+            uom: item.uom,
+            unitCost: item.unitCost,
+            amount: item.amount,
+          };
+        })
+      };
+
+      const response = await fetch(`/api/projects/${projectId}/budget`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.error || 'Failed to create budget line items');
+      }
+
+      // Refresh the budget data
+      await handleLineItemSuccess();
+      toast.success(`Created ${lineItems.length} budget line item${lineItems.length > 1 ? 's' : ''}`);
+    } catch (error) {
+      throw error;
+    }
+  }, [projectId, budgetData, handleLineItemSuccess]);
+
   // Keyboard shortcuts
   React.useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -839,25 +878,34 @@ function BudgetPageContent() {
                     Loading budget data for project {projectId}...
                   </div>
                 ) : (
-                  <BudgetTable
-                    data={filteredData}
-                    grandTotals={grandTotals}
-                    isLocked={isLocked}
-                    onEditLineItem={handleEditLineItem}
-                    onSelectionChange={handleSelectionChange}
-                    onCreateLineItem={handleInlineCreateLineItem}
-                    projectId={projectId}
-                    showInlineCreate={showInlineCreate}
-                    onShowInlineCreateChange={setShowInlineCreate}
-                    onBudgetModificationsClick={handleBudgetModificationsClick}
-                    onApprovedCOsClick={handleApprovedCOsClick}
-                    onJobToDateCostDetailClick={handleJobToDateCostDetailClick}
-                    onDirectCostsClick={handleDirectCostsClick}
-                    onPendingChangesClick={handlePendingChangesClick}
-                    onCommittedCostsClick={handleCommittedCostsClick}
-                    onPendingCostChangesClick={handlePendingCostChangesClick}
-                    onForecastToCompleteClick={handleForecastToCompleteClick}
-                  />
+                  <>
+                    <BudgetTable
+                      data={filteredData}
+                      grandTotals={grandTotals}
+                      isLocked={isLocked}
+                      onEditLineItem={handleEditLineItem}
+                      onSelectionChange={handleSelectionChange}
+                      onCreateLineItem={handleInlineCreateLineItem}
+                      projectId={projectId}
+                      showInlineCreate={showInlineCreate}
+                      onShowInlineCreateChange={setShowInlineCreate}
+                      onBudgetModificationsClick={handleBudgetModificationsClick}
+                      onApprovedCOsClick={handleApprovedCOsClick}
+                      onJobToDateCostDetailClick={handleJobToDateCostDetailClick}
+                      onDirectCostsClick={handleDirectCostsClick}
+                      onPendingChangesClick={handlePendingChangesClick}
+                      onCommittedCostsClick={handleCommittedCostsClick}
+                      onPendingCostChangesClick={handlePendingCostChangesClick}
+                      onForecastToCompleteClick={handleForecastToCompleteClick}
+                    />
+                    <InlineBudgetLineItemCreator
+                      projectId={projectId}
+                      isOpen={showInlineCreate}
+                      onClose={() => setShowInlineCreate(false)}
+                      onCreate={handleInlineCreateMultipleLineItems}
+                      isLocked={isLocked}
+                    />
+                  </>
                 )}
               </Suspense>
             </div>
