@@ -15,7 +15,7 @@
 
 import { useState, useCallback, useMemo } from "react";
 import { useParams } from "next/navigation";
-import { ProjectToolPage } from "@/components/layout/project-tool-page";
+import { PageContainer, ProjectPageHeader } from "@/components/layout";
 import { TaskTable } from "@/components/scheduling/task-table";
 import { GanttChart } from "@/components/scheduling/gantt-chart";
 import { TaskEditModal } from "@/components/scheduling/task-edit-modal";
@@ -548,39 +548,47 @@ export default function ProjectSchedulePage() {
   // Loading state
   if (isLoading) {
     return (
-      <ProjectToolPage
-        title="Schedule"
-        description="Track project schedule tasks and milestones"
-        actions={headerActions}
-      >
-        <div className="flex items-center justify-center py-12">
-          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-        </div>
-      </ProjectToolPage>
+      <>
+        <ProjectPageHeader
+          title="Schedule"
+          description="Track project schedule tasks and milestones"
+          actions={headerActions}
+        />
+        <PageContainer>
+          <div className="flex items-center justify-center py-12">
+            <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          </div>
+        </PageContainer>
+      </>
     );
   }
 
   // Error state
   if (error) {
     return (
-      <ProjectToolPage
-        title="Schedule"
-        description="Track project schedule tasks and milestones"
-        actions={headerActions}
-      >
-        <div data-testid="error-state" className="text-center text-destructive bg-destructive/10 border border-destructive/20 rounded-md p-4">
-          Failed to load schedule data. Please try again.
-        </div>
-      </ProjectToolPage>
+      <>
+        <ProjectPageHeader
+          title="Schedule"
+          description="Track project schedule tasks and milestones"
+          actions={headerActions}
+        />
+        <PageContainer>
+          <div data-testid="error-state" className="text-center text-destructive bg-destructive/10 border border-destructive/20 rounded-md p-4">
+            Failed to load schedule data. Please try again.
+          </div>
+        </PageContainer>
+      </>
     );
   }
 
   return (
-    <ProjectToolPage
-      title="Schedule"
-      description="Track project schedule tasks and milestones"
-      actions={headerActions}
-    >
+    <>
+      <ProjectPageHeader
+        title="Schedule"
+        description="Track project schedule tasks and milestones"
+        actions={headerActions}
+      />
+      <PageContainer className="space-y-6">
       {/* Summary Cards */}
       {data?.summary && <SummaryCards summary={data.summary} />}
 
@@ -671,7 +679,8 @@ export default function ProjectSchedulePage() {
         onAction={handleContextMenuAction}
         hasCopiedTask={!!copiedTask}
       />
-    </ProjectToolPage>
+      </PageContainer>
+    </>
   );
 }
 
