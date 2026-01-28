@@ -477,25 +477,12 @@ function BudgetPageContent() {
         }
       }
 
-      // If still no cost code, try to fetch from cost_codes table directly
+      // If we still don't have a valid cost code, show helpful error
       if (!costCodeId) {
-        try {
-          const costCodesResponse = await fetch(`/api/cost-codes?limit=1`);
-          if (costCodesResponse.ok) {
-            const costCodesData = await costCodesResponse.json();
-            if (costCodesData.costCodes?.length > 0) {
-              costCodeId = costCodesData.costCodes[0].id;
-            }
-          }
-        } catch {
-          // Ignore - will handle below
-        }
-      }
-
-      // If we still don't have a valid cost code, show error
-      if (!costCodeId) {
-        toast.error("Please select a cost code. No cost codes are configured for this project.");
-        throw new Error("Cost code is required");
+        toast.error("A budget code is required. Use the Budget Code field in the panel below to select one, or create a new budget code first.", {
+          duration: 6000,
+        });
+        throw new Error("Budget code is required");
       }
 
       const payload = {
@@ -878,8 +865,8 @@ function BudgetPageContent() {
 
               {/* Selection action bar */}
               {selectedIds.length > 0 && (
-                <div className="flex items-center gap-4 px-4 py-2 mb-4 bg-blue-50 border border-blue-200 rounded-lg">
-                  <span className="text-sm text-blue-700 font-medium">
+                <div className="flex items-center gap-4 px-4 py-2 mb-4 bg-brand/5 border border-brand/20 rounded-lg">
+                  <span className="text-sm text-brand font-medium">
                     {selectedIds.length} item(s) selected
                   </span>
                   <Button
@@ -913,10 +900,7 @@ function BudgetPageContent() {
                       isLocked={isLocked}
                       onEditLineItem={handleEditLineItem}
                       onSelectionChange={handleSelectionChange}
-                      onCreateLineItem={handleInlineCreateLineItem}
                       projectId={projectId}
-                      showInlineCreate={showInlineCreate}
-                      onShowInlineCreateChange={setShowInlineCreate}
                       onBudgetModificationsClick={handleBudgetModificationsClick}
                       onApprovedCOsClick={handleApprovedCOsClick}
                       onJobToDateCostDetailClick={handleJobToDateCostDetailClick}

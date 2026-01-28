@@ -226,6 +226,8 @@ interface BudgetTableProps {
   projectId?: string;
   showInlineCreate?: boolean;
   onShowInlineCreateChange?: (show: boolean) => void;
+  /** Callback when the "Add Line Item" button is clicked in empty state */
+  onAddLineItemClick?: () => void;
 }
 
 function formatCurrency(value: number): string {
@@ -291,8 +293,8 @@ function EditableCurrencyCell({
         className={cn(
           "text-right cursor-pointer px-1 py-0.5 rounded transition-colors w-full",
           hasChildren
-            ? "hover:bg-blue-50 text-blue-600 hover:text-blue-700 font-semibold"
-            : "hover:bg-blue-50 text-blue-600 hover:text-blue-700 underline",
+            ? "hover:bg-brand/5 text-brand hover:text-brand/80 font-semibold"
+            : "hover:bg-brand/5 text-brand hover:text-brand/80 underline",
         )}
         onClick={onEdit}
       >
@@ -996,7 +998,7 @@ export function BudgetTable({
                           "bg-muted/80 hover:bg-muted/80 font-semibold",
                         !isGroupRow && "hover:bg-muted",
                         !isGroupRow && row.depth > 0 && "bg-muted",
-                        row.getIsSelected() && "bg-blue-50",
+                        row.getIsSelected() && "bg-brand/5",
                         !row.getIsSelected() && index % 2 === 1 && "bg-muted",
                       )}
                     >
@@ -1021,7 +1023,7 @@ export function BudgetTable({
 
             {/* Inline Create Row */}
             {!isLocked && showInlineCreate && (
-              <TableRow className="bg-blue-50 border-b border-border">
+              <TableRow className="bg-brand/5 border-b border-border">
                 <TableCell className="py-2 px-2">
                   {/* Empty checkbox cell */}
                 </TableCell>
