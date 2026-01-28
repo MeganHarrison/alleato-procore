@@ -63,7 +63,8 @@ test-results/
 user-data/
 
 # Documentation
-# Ignore docs but keep development documentation for developer onboarding
+# Ignore docs but keep development documentation and screenshots
 /docs/*
 !/docs/development/
+!/docs/screenshots/
 openai-cs-agents-demo/
