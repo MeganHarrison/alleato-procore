@@ -15,11 +15,11 @@ export default function MainLayout({
   children: React.ReactNode;
 }) {
   return (
-    <SidebarProvider defaultOpen={true}>
+    <SidebarProvider defaultOpen={false}>
       <AppSidebar />
-      <SidebarInset>
+      <SidebarInset className="overflow-hidden">
         <SiteHeader />
-        <main className="flex flex-1 flex-col gap-4 p-4">
+        <main className="flex flex-1 flex-col gap-4 pl-4 pt-4 pb-4 overflow-auto min-w-0">
           {children}
         </main>
         <Footer />

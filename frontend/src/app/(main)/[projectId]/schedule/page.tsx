@@ -107,7 +107,7 @@ function ViewModeTabs({
   onChange: (mode: ViewMode) => void;
 }) {
   return (
-    <div className="flex items-center gap-1 border-b">
+    <div className="flex items-center gap-1 border-b px-4 sm:px-6 lg:px-8">
       {viewModeConfig.map(({ mode: viewMode, label, icon: Icon }) => (
         <button
           key={viewMode}
@@ -198,7 +198,7 @@ export default function ProjectSchedulePage() {
   const projectId = params.projectId as string;
 
   // State
-  const [viewMode, setViewMode] = useState<ViewMode>("schedule");
+  const [viewMode, setViewMode] = useState<ViewMode>("grid");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [editingTask, setEditingTask] = useState<ScheduleTask | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -619,8 +619,8 @@ export default function ProjectSchedulePage() {
           description="Track project schedule tasks and milestones"
           actions={headerActions}
         />
+        <ViewModeTabs mode={viewMode} onChange={setViewMode} />
         <PageContainer>
-          <ViewModeTabs mode={viewMode} onChange={setViewMode} />
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
@@ -638,8 +638,8 @@ export default function ProjectSchedulePage() {
           description="Track project schedule tasks and milestones"
           actions={headerActions}
         />
+        <ViewModeTabs mode={viewMode} onChange={setViewMode} />
         <PageContainer>
-          <ViewModeTabs mode={viewMode} onChange={setViewMode} />
           <div data-testid="error-state" className="text-center text-destructive bg-destructive/10 border border-destructive/20 rounded-md p-4 mt-4">
             Failed to load schedule data. Please try again.
           </div>
@@ -668,13 +668,8 @@ export default function ProjectSchedulePage() {
         description="Track project schedule tasks and milestones"
         actions={headerActions}
       />
+      <ViewModeTabs mode={viewMode} onChange={setViewMode} />
       <PageContainer className="space-y-4">
-        {/* View Mode Tabs */}
-        <ViewModeTabs mode={viewMode} onChange={setViewMode} />
-
-        {/* Summary Cards */}
-        {data?.summary && <SummaryCards summary={data.summary} />}
-
         {/* Main Content */}
         <div className="flex-1 min-h-[600px]">
           {viewMode === "grid" && <ScheduleGridView {...viewProps} />}

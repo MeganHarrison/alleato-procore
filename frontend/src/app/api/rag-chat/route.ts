@@ -25,18 +25,22 @@ export async function POST(request: NextRequest) {
   let body: ChatRequestBody | null = null;
 
   try {
-    body = await request.json();
+    const rawBody = await request.json();
+    body = rawBody as ChatRequestBody;
 
-    if (!body.message?.trim()) {
+    if (!body || !body.message?.trim()) {
       return NextResponse.json(
         { error: "Message is required" },
         { status: 400 },
       );
     }
 
-    console.log("[RAG-Chat API] Incoming request:", {
-      message: body.message.substring(0, 100),
-      hasHistory: !!(body.history && body.history.length > 0),
+    const validBody = body as ChatRequestBody;
+
+    // Log incoming request for debugging
+    console.warn("[RAG-Chat API] Incoming request:", {
+      message: validBody.message.substring(0, 100),
+      hasHistory: !!(validBody.history && validBody.history.length > 0),
     });
 
     // Call the simple RAG chat endpoint (non-streaming)
@@ -44,8 +48,8 @@ export async function POST(request: NextRequest) {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        message: body.message,
-        history: body.history || [],
+        message: validBody.message,
+        history: validBody.history || [],
       }),
     });
 
@@ -60,8 +64,8 @@ export async function POST(request: NextRequest) {
       );
 
       const fallback = buildOfflineSimpleChatResponse(
-        body.message,
-        body.thread_id ?? null,
+        validBody.message,
+        validBody.thread_id ?? null,
       );
       fallback.diagnostics = {
         fallback_reason: `backend-status-${response.status}`,
@@ -75,12 +79,12 @@ export async function POST(request: NextRequest) {
 
     const data = await response.json();
 
-    console.log("[RAG-Chat API] Success in", elapsed, "ms");
+    console.warn("[RAG-Chat API] Success in", elapsed, "ms");
 
     return NextResponse.json({
       response: data.response,
       retrieved: data.retrieved || [],
-      thread_id: body.thread_id || null,
+      thread_id: validBody.thread_id || null,
     });
   } catch (error: unknown) {
     const elapsed = Date.now() - startTime;

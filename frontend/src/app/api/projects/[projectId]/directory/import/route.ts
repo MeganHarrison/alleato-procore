@@ -51,9 +51,9 @@ export async function POST(request: NextRequest, { params }: RouteParams) {
       hasHeaders: formData.get("hasHeaders") !== "false",
       skipDuplicates: formData.get("skipDuplicates") === "true",
       updateExisting: formData.get("updateExisting") === "true",
-      defaultCompanyId: formData.get("defaultCompanyId") || undefined,
+      defaultCompanyId: (formData.get("defaultCompanyId") as string | null) || undefined,
       defaultPermissionTemplateId:
-        formData.get("defaultPermissionTemplateId") || undefined,
+        (formData.get("defaultPermissionTemplateId") as string | null) || undefined,
     };
 
     const buffer = await file.arrayBuffer();

@@ -169,7 +169,7 @@ export function ImportBudgetModal({
       const result: ImportResult = await response.json();
 
       if (!response.ok) {
-        throw new Error(result.error || "Failed to import budget");
+        throw new Error(result.errors?.[0] || result.message || "Failed to import budget");
       }
 
       // Store the result for display

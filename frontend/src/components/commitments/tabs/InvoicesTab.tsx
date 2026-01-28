@@ -62,7 +62,7 @@ export function InvoicesTab({ commitmentId }: InvoicesTabProps) {
             ? payload
             : [];
 
-        const normalizedInvoices: Invoice[] = rawInvoices.map((invoice) => {
+        const normalizedInvoices: Invoice[] = rawInvoices.map((invoice: unknown) => {
           const record = invoice as Record<string, unknown>;
 
           const statusValue =

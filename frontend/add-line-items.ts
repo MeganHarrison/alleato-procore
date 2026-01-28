@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js';
 
 const SUPABASE_URL = 'https://lgveqfnpkxvzbnnwuled.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_ecZLO3VnRlZEGEuwBOP6jg_DP3LZQ_F';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxndmVxZm5wa3h2emJubnd1bGVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUyNTQxNjYsImV4cCI6MjA3MDgzMDE2Nn0.g56kDPUokoJpWY7vXd3GTMXpOc4WFOU0hDVWfGMZtO8';
 
 const CONTRACT_ID = '33f9bb5c-23d0-4a7d-8f1c-35d4f0585bf3';
 

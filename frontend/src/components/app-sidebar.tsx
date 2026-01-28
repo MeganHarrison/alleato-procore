@@ -72,7 +72,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     return {
       name: displayName,
       email: userEmail,
-      avatar: avatarSrc,
+      avatar: avatarSrc || "",
     }
   }, [user])
 

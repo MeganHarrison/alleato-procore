@@ -17,6 +17,11 @@ import { Inline } from "@/components/ui/inline";
 import { Heading } from "@/components/ui/heading";
 import { Text } from "@/components/ui/text";
 
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
 interface PageHeaderProps {
   // Content
   title: string;
@@ -27,6 +32,9 @@ interface PageHeaderProps {
   variant?: "default" | "executive" | "compact" | "budget";
   actions?: React.ReactNode;
   className?: string;
+
+  // Navigation
+  breadcrumbs?: BreadcrumbItem[];
 
   // Project context
   showProjectName?: boolean;
@@ -81,6 +89,7 @@ export function PageHeader({
   variant = "default",
   actions,
   className,
+  breadcrumbs,
   showProjectName = false,
   preHeading,
   statusBadge,
@@ -89,6 +98,10 @@ export function PageHeader({
   onExportPDF,
   exportLabel = "Export",
 }: PageHeaderProps) {
+  // Note: breadcrumbs are accepted for API compatibility but not yet rendered
+  // in the unified component. Pages using breadcrumbs should use the layout's
+  // breadcrumb component separately or this can be enhanced later.
+  void breadcrumbs;
   const { selectedProject, isLoading } = useProject();
 
   // Show project name by default for non-executive variants when in project context
@@ -152,8 +165,8 @@ export function PageHeader({
     <div className={cn(className)}>
       <div className="px-4 sm:px-6 lg:px-8">
         {/* Title and Actions */}
-        <div className="flex flex-col gap-4 py-4 md:flex-row md:items-center md:justify-between">
-          <div className="min-w-0 flex-1">
+        <div className="flex flex-col gap-4 py-4 md:flex-row md:items-center md:justify-between min-w-0">
+          <div className="min-w-0 flex-1 overflow-hidden">
             {/* Project Name */}
             {shouldShowProjectName && (
               <div className="mb-1">
@@ -192,7 +205,7 @@ export function PageHeader({
 
           {/* Actions */}
           {(actions || showExportButton) && (
-            <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row md:items-center">
+            <div className="flex w-full flex-col gap-3 md:w-auto md:flex-row md:items-center md:flex-shrink-0">
               {showExportButton && (onExportCSV || onExportPDF) && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>

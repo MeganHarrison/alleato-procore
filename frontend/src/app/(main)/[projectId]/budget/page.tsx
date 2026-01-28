@@ -21,7 +21,7 @@ import {
   SnapshotsTab,
   ChangeHistoryTab,
 } from "@/components/budget";
-import { InlineBudgetLineItemCreator, type InlineLineItemData } from "@/components/budget/InlineBudgetLineItemCreator";
+import { BudgetLineItemCreatorModal, type InlineLineItemData } from "@/components/budget/BudgetLineItemCreatorModal";
 import { BudgetLineItemModalAnimated } from "@/components/budget/budget-line-item-modal-animated";
 import { BudgetModificationsModal } from "@/components/budget/modals/BudgetModificationsModal";
 import { ApprovedCOsModal } from "@/components/budget/modals/ApprovedCOsModal";
@@ -839,7 +839,7 @@ function BudgetPageContent() {
         ) : (
           <div className="flex-1 overflow-x-auto">
             <div className="min-w-[1200px] pr-4 sm:pr-6 lg:pr-8">
-              <div className="flex items-center justify-between gap-4 mb-4">
+              <div className="flex items-center justify-between gap-4 mb-2">
                 <BudgetFilters
                   views={budgetViews}
                   snapshots={budgetSnapshots}
@@ -901,6 +901,7 @@ function BudgetPageContent() {
                       onEditLineItem={handleEditLineItem}
                       onSelectionChange={handleSelectionChange}
                       projectId={projectId}
+                      onAddLineItemClick={handleCreateClick}
                       onBudgetModificationsClick={handleBudgetModificationsClick}
                       onApprovedCOsClick={handleApprovedCOsClick}
                       onJobToDateCostDetailClick={handleJobToDateCostDetailClick}
@@ -909,13 +910,6 @@ function BudgetPageContent() {
                       onCommittedCostsClick={handleCommittedCostsClick}
                       onPendingCostChangesClick={handlePendingCostChangesClick}
                       onForecastToCompleteClick={handleForecastToCompleteClick}
-                    />
-                    <InlineBudgetLineItemCreator
-                      projectId={projectId}
-                      isOpen={showInlineCreate}
-                      onClose={() => setShowInlineCreate(false)}
-                      onCreate={handleInlineCreateMultipleLineItems}
-                      isLocked={isLocked}
                     />
                   </>
                 )}
@@ -942,6 +936,15 @@ function BudgetPageContent() {
         onOpenChange={setShowImportModal}
         projectId={projectId}
         onSuccess={handleLineItemSuccess}
+      />
+
+      {/* Add Budget Line Items Modal */}
+      <BudgetLineItemCreatorModal
+        projectId={projectId}
+        isOpen={showInlineCreate}
+        onClose={() => setShowInlineCreate(false)}
+        onCreate={handleInlineCreateMultipleLineItems}
+        isLocked={isLocked}
       />
 
       {/* Edit Original Budget Modal */}

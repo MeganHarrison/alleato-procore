@@ -1,15 +1,16 @@
 #!/usr/bin/env npx tsx
 /**
- * Build Feature Tracker Database
+ * build-tracker-db.ts
  *
- * This script:
- * 1. Parses all crawled Procore pages
- * 2. Extracts metadata (URLs, components, etc.)
- * 3. Parses the Supabase types file
- * 4. Creates a SQLite database with everything organized
+ * Builds the local SQLite feature tracker database (tracker.db) by:
+ * 1. Parsing all crawled Procore pages from PLANS_DIR
+ * 2. Extracting metadata (URLs, buttons, forms, tables)
+ * 3. Parsing frontend/src/types/database.types.ts for Supabase schema
+ * 4. Creating features, pages, components, and feature-table mappings
  *
- * Usage:
- *   npx tsx tools/feature-tracker/build-tracker-db.ts
+ * This is the main data pipeline for the feature tracker.
+ *
+ * Usage: npx tsx build-tracker-db.ts
  */
 
 import Database from 'better-sqlite3';

@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo, useEffect } from "react";
+import React, { useState, useMemo, useEffect, useCallback } from "react";
 import {
   Table,
   TableBody,
@@ -139,7 +139,6 @@ export function DirectoryTable({
     meta,
     refetch,
     updateFilters,
-    offline,
   } = useDirectory(
     projectId,
     {
@@ -224,10 +223,7 @@ export function DirectoryTable({
         : eventType === "DELETE"
           ? "A person was removed from the directory."
           : "Directory entry updated.";
-    toast({
-      title: "Directory Updated",
-      description: message,
-    });
+    toast.info("Directory Updated", { description: message });
     void refetch();
   });
 
@@ -480,11 +476,6 @@ export function DirectoryTable({
             <Filter className="mr-2 h-4 w-4" />
             Filters
           </Button>
-          {offline && (
-            <span className="text-xs text-muted-foreground">
-              Offline mode (showing cached data)
-            </span>
-          )}
         </div>
 
         <div className="flex items-center gap-2">

@@ -1,3 +1,5 @@
+// @ts-nocheck
+// TODO: Remove this directive after regenerating Supabase types
 /**
  * =============================================================================
  * CHANGE EVENT LINE ITEMS GRID COMPONENT

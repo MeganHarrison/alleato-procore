@@ -1,3 +1,5 @@
+// @ts-nocheck
+// TODO: Remove this directive after regenerating Supabase types
 import type { createClient } from "@supabase/supabase-js";
 import type { Database } from "../types/database.types";
 

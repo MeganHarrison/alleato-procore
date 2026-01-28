@@ -6,12 +6,18 @@
 import * as React from "react";
 import { PageHeader as UnifiedPageHeader } from "./page-header-unified";
 
+interface BreadcrumbItem {
+  label: string;
+  href?: string;
+}
+
 interface ProjectPageHeaderProps {
   title: string;
   titleContent?: React.ReactNode;
   description?: string;
   actions?: React.ReactNode;
   className?: string;
+  breadcrumbs?: BreadcrumbItem[];
   showProjectName?: boolean;
   showExportButton?: boolean;
   onExportCSV?: () => void;

@@ -1,10 +1,16 @@
 #!/usr/bin/env npx tsx
 /**
- * Query Feature Tracker Database
+ * query-tracker.ts
+ *
+ * CLI tool for querying the local SQLite feature tracker database.
+ * Supports listing features, pages, tables, and schema; viewing page
+ * details with Procore URLs and screenshot paths; and exporting to
+ * CSV or JSON.
  *
  * Usage:
  *   npx tsx query-tracker.ts features              # List all features
  *   npx tsx query-tracker.ts pages <feature>       # List pages for a feature
+ *   npx tsx query-tracker.ts view <feature> [page] # Full details with URLs
  *   npx tsx query-tracker.ts tables                # List all Supabase tables
  *   npx tsx query-tracker.ts schema <table>        # Show table schema
  *   npx tsx query-tracker.ts mapping               # Show feature-table mappings

@@ -1,6 +1,12 @@
 #!/usr/bin/env npx tsx
 /**
- * Import tracker data from SQLite into Supabase
+ * import-to-supabase.ts
+ *
+ * Syncs data from the local SQLite tracker database (tracker.db) into
+ * the remote Supabase procore_features and procore_pages tables.
+ * Upserts features by slug and replaces all pages on each run.
+ *
+ * Usage: npx tsx import-to-supabase.ts
  */
 
 import Database from 'better-sqlite3';
@@ -13,7 +19,7 @@ const __dirname = dirname(__filename);
 
 const DB_PATH = join(__dirname, 'tracker.db');
 const SUPABASE_URL = 'https://lgveqfnpkxvzbnnwuled.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_ecZLO3VnRlZEGEuwBOP6jg_DP3LZQ_F';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxndmVxZm5wa3h2emJubnd1bGVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUyNTQxNjYsImV4cCI6MjA3MDgzMDE2Nn0.g56kDPUokoJpWY7vXd3GTMXpOc4WFOU0hDVWfGMZtO8';
 
 interface SQLiteFeature {
   id: string;

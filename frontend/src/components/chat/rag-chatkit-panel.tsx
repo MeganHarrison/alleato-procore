@@ -77,9 +77,10 @@ export function RagChatKitPanel({
       retry: true,
     },
     // Event handlers
-    onThreadChange: ({ threadId }) => onThreadChange?.(threadId ?? null),
+    onThreadChange: ({ threadId }: { threadId: string | null }) => onThreadChange?.(threadId ?? null),
     onResponseEnd: () => onResponseEnd?.(),
-    onError: ({ error }) => {
+    onError: ({ error }: { error: Error }) => {
+      void error;
       },
   });
 

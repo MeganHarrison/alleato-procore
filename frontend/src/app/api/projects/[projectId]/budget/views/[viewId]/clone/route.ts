@@ -63,7 +63,7 @@ export async function POST(
     const viewWithSortedColumns = {
       ...clonedView,
       columns:
-        clonedView.columns?.sort((a, b) => a.display_order - b.display_order) ||
+        clonedView.columns?.sort((a: { display_order: number }, b: { display_order: number }) => a.display_order - b.display_order) ||
         [],
     };
 

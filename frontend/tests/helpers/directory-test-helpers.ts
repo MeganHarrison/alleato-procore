@@ -7,7 +7,7 @@ import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase client for tests
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://lgveqfnpkxvzbnnwuled.supabase.co';
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'sb_secret_fDpzY_Eu0StzNOZsVKegRQ_d-G5k-Jf'; // Service role for tests
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxndmVxZm5wa3h2emJubnd1bGVkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTI1NDE2NiwiZXhwIjoyMDcwODMwMTY2fQ.kIFo_ZSwO1uwpttYXxjSnYbBpUhwZhkW-ZGaiQLhKmA'; // Service role for tests
 
 if (!supabaseUrl || !supabaseKey) {
   throw new Error('Missing Supabase configuration for tests. Ensure NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY are set.');

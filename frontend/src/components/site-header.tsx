@@ -347,15 +347,15 @@ export function SiteHeader() {
   }, [pathname, currentProject]);
 
   return (
-    <header className="flex h-(--header-height) shrink-0 items-center gap-2 pt-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height)">
-      <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6">
+    <header className="flex h-(--header-height) shrink-0 items-center gap-2 pt-2 transition-[width,height] ease-linear group-has-data-[collapsible=icon]/sidebar-wrapper:h-(--header-height) overflow-hidden">
+      <div className="flex w-full items-center gap-1 px-4 lg:gap-2 lg:px-6 min-w-0">
         <SidebarTrigger className="-ml-1" />
         <Separator
           orientation="vertical"
           className="mx-2 data-[orientation=vertical]:h-4"
         />
         {/* Dynamic Breadcrumbs */}
-        <div className="flex items-center gap-1 text-sm font-medium">
+        <div className="flex items-center gap-1 text-sm font-medium min-w-0 overflow-hidden">
           {breadcrumbs.map((crumb, index) => (
             <span key={`${crumb.href}-${index}`} className="flex items-center gap-1">
               {index > 0 && (
@@ -374,7 +374,7 @@ export function SiteHeader() {
             </span>
           ))}
         </div>
-        <div className="ml-auto flex items-center gap-2">
+        <div className="ml-auto flex items-center gap-2 flex-shrink-0">
           {/* Company/Project Selector */}
           <Select
             value={projectId?.toString() || ""}
@@ -387,7 +387,7 @@ export function SiteHeader() {
             }}
             onOpenChange={(open) => open && fetchProjects()}
           >
-            <SelectTrigger className="h-8 w-[280px]">
+            <SelectTrigger className="h-8 w-[180px] lg:w-[280px]">
               <SelectValue placeholder="Select Project">
                 {currentProject ? (
                   <div className="flex items-center gap-2">

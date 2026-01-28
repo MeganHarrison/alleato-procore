@@ -1,8 +1,17 @@
+/**
+ * check-tables.ts
+ *
+ * Verifies that required Supabase tables (procore_features, procore_pages)
+ * exist and are accessible. Prints column names for procore_features.
+ *
+ * Usage: npx tsx check-tables.ts
+ */
+
 import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   'https://lgveqfnpkxvzbnnwuled.supabase.co',
-  'sb_publishable_ecZLO3VnRlZEGEuwBOP6jg_DP3LZQ_F'
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxndmVxZm5wa3h2emJubnd1bGVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUyNTQxNjYsImV4cCI6MjA3MDgzMDE2Nn0.g56kDPUokoJpWY7vXd3GTMXpOc4WFOU0hDVWfGMZtO8'
 );
 
 async function main() {

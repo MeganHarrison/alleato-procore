@@ -1,14 +1,13 @@
 #!/usr/bin/env npx tsx
 /**
- * Generate Schema Documentation
+ * generate-schema-docs.ts
  *
- * Creates a comprehensive markdown document comparing:
- * - Current Supabase schema
- * - Procore UI requirements (from crawled data)
- * - Recommended changes
+ * Reads the local SQLite tracker database and generates a comprehensive
+ * markdown document (SCHEMA-DOCUMENTATION.md) that compares the current
+ * Supabase schema against Procore UI requirements from crawled data.
+ * Includes calculated field recommendations and schema issue callouts.
  *
- * Usage:
- *   npx tsx generate-schema-docs.ts
+ * Usage: npx tsx generate-schema-docs.ts
  */
 
 import Database from 'better-sqlite3';

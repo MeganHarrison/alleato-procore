@@ -135,7 +135,7 @@ function PageHeader({
       {/* Eyebrow - Small uppercase label */}
       {eyebrow && (
         <p className={cn(
-          "text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase text-neutral-400",
+          "text-[10px] sm:text-[11px] font-semibold tracking-[0.2em] uppercase text-neutral-500",
           styles.eyebrow
         )}>
           {eyebrow}
@@ -147,7 +147,7 @@ function PageHeader({
         <div className="flex-1 min-w-0">
           {/* Title */}
           <h1 className={cn(
-            "font-light tracking-tight text-neutral-900 leading-[1.1]",
+            "font-light tracking-tight leading-[1.1]",
             styles.title
           )}>
             {title}

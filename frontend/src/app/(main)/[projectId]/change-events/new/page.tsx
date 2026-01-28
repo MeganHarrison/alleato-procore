@@ -28,9 +28,9 @@ export default function NewChangeEventPage() {
         number: data.number,
         title: data.title,
         status: data.status,
-        reason: data.changeReason || null,
-        scope: data.scope || null,
-        notes: data.notes || null,
+        reason: data.changeReason ?? undefined,
+        scope: data.scope || "TBD",
+        notes: data.notes ?? undefined,
       });
 
       if (!result) {

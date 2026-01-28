@@ -356,6 +356,535 @@ export type Database = {
           },
         ]
       }
+      app_capability_actions: {
+        Row: {
+          action_id: string
+          capability_id: string
+        }
+        Insert: {
+          action_id: string
+          capability_id: string
+        }
+        Update: {
+          action_id?: string
+          capability_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_capability_actions_action_id_fkey"
+            columns: ["action_id"]
+            isOneToOne: false
+            referencedRelation: "app_system_actions"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "app_capability_actions_capability_id_fkey"
+            columns: ["capability_id"]
+            isOneToOne: false
+            referencedRelation: "app_functional_capabilities"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_commands: {
+        Row: {
+          command_key: string
+          confidence_score: number | null
+          created_at: string | null
+          description: string | null
+          id: string
+          label: string | null
+          module: string
+          source_action_ids: string[] | null
+        }
+        Insert: {
+          command_key: string
+          confidence_score?: number | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          label?: string | null
+          module: string
+          source_action_ids?: string[] | null
+        }
+        Update: {
+          command_key?: string
+          confidence_score?: number | null
+          created_at?: string | null
+          description?: string | null
+          id?: string
+          label?: string | null
+          module?: string
+          source_action_ids?: string[] | null
+        }
+        Relationships: []
+      }
+      app_crawl_sessions: {
+        Row: {
+          completed_at: string | null
+          crawler_version: string | null
+          id: string
+          module: string
+          notes: string | null
+          source_app: string
+          started_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          crawler_version?: string | null
+          id?: string
+          module: string
+          notes?: string | null
+          source_app: string
+          started_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          crawler_version?: string | null
+          id?: string
+          module?: string
+          notes?: string | null
+          source_app?: string
+          started_at?: string
+        }
+        Relationships: []
+      }
+      app_functional_capabilities: {
+        Row: {
+          description: string | null
+          domain: string
+          id: string
+          name: string
+        }
+        Insert: {
+          description?: string | null
+          domain: string
+          id?: string
+          name: string
+        }
+        Update: {
+          description?: string | null
+          domain?: string
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      app_page_links: {
+        Row: {
+          from_page: string | null
+          id: string
+          link_text: string | null
+          to_url: string | null
+        }
+        Insert: {
+          from_page?: string | null
+          id?: string
+          link_text?: string | null
+          to_url?: string | null
+        }
+        Update: {
+          from_page?: string | null
+          id?: string
+          link_text?: string | null
+          to_url?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_page_links_from_page_fkey"
+            columns: ["from_page"]
+            isOneToOne: false
+            referencedRelation: "app_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_pages: {
+        Row: {
+          category: string | null
+          crawl_session_id: string | null
+          created_at: string | null
+          dom_path: string | null
+          h1: string | null
+          id: string
+          name: string
+          page_id: string
+          screenshot_path: string | null
+          title: string | null
+          url: string
+        }
+        Insert: {
+          category?: string | null
+          crawl_session_id?: string | null
+          created_at?: string | null
+          dom_path?: string | null
+          h1?: string | null
+          id?: string
+          name: string
+          page_id: string
+          screenshot_path?: string | null
+          title?: string | null
+          url: string
+        }
+        Update: {
+          category?: string | null
+          crawl_session_id?: string | null
+          created_at?: string | null
+          dom_path?: string | null
+          h1?: string | null
+          id?: string
+          name?: string
+          page_id?: string
+          screenshot_path?: string | null
+          title?: string | null
+          url?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_pages_crawl_session_id_fkey"
+            columns: ["crawl_session_id"]
+            isOneToOne: false
+            referencedRelation: "app_crawl_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_parity_checks: {
+        Row: {
+          compared_app: string | null
+          crawl_session_id: string | null
+          created_at: string | null
+          id: string
+          missing_actions: Json | null
+          missing_features: Json | null
+          module: string | null
+          parity_score: number | null
+        }
+        Insert: {
+          compared_app?: string | null
+          crawl_session_id?: string | null
+          created_at?: string | null
+          id?: string
+          missing_actions?: Json | null
+          missing_features?: Json | null
+          module?: string | null
+          parity_score?: number | null
+        }
+        Update: {
+          compared_app?: string | null
+          crawl_session_id?: string | null
+          created_at?: string | null
+          id?: string
+          missing_actions?: Json | null
+          missing_features?: Json | null
+          module?: string | null
+          parity_score?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_parity_checks_crawl_session_id_fkey"
+            columns: ["crawl_session_id"]
+            isOneToOne: false
+            referencedRelation: "app_crawl_sessions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_roles: {
+        Row: {
+          id: string
+          name: string
+        }
+        Insert: {
+          id?: string
+          name: string
+        }
+        Update: {
+          id?: string
+          name?: string
+        }
+        Relationships: []
+      }
+      app_schedule_bulk_operations: {
+        Row: {
+          command_key: string
+          executed_at: string | null
+          id: string
+          payload: Json | null
+          task_ids: string[]
+        }
+        Insert: {
+          command_key: string
+          executed_at?: string | null
+          id?: string
+          payload?: Json | null
+          task_ids: string[]
+        }
+        Update: {
+          command_key?: string
+          executed_at?: string | null
+          id?: string
+          payload?: Json | null
+          task_ids?: string[]
+        }
+        Relationships: []
+      }
+      app_schedule_task_hierarchy: {
+        Row: {
+          child_task_id: string | null
+          id: string
+          parent_task_id: string | null
+          sort_order: number
+        }
+        Insert: {
+          child_task_id?: string | null
+          id?: string
+          parent_task_id?: string | null
+          sort_order: number
+        }
+        Update: {
+          child_task_id?: string | null
+          id?: string
+          parent_task_id?: string | null
+          sort_order?: number
+        }
+        Relationships: []
+      }
+      app_state_transitions: {
+        Row: {
+          conditions: string | null
+          from_state: string | null
+          id: string
+          to_state: string | null
+          triggered_by_action: string | null
+        }
+        Insert: {
+          conditions?: string | null
+          from_state?: string | null
+          id?: string
+          to_state?: string | null
+          triggered_by_action?: string | null
+        }
+        Update: {
+          conditions?: string | null
+          from_state?: string | null
+          id?: string
+          to_state?: string | null
+          triggered_by_action?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_state_transitions_triggered_by_action_fkey"
+            columns: ["triggered_by_action"]
+            isOneToOne: false
+            referencedRelation: "app_system_actions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_system_actions: {
+        Row: {
+          action_type: string | null
+          affects_resource: string | null
+          created_at: string | null
+          endpoint: string | null
+          http_method: string | null
+          id: string
+          label: string | null
+          page_id: string | null
+          payload_schema: Json | null
+          permission_scope: string | null
+          response_schema: Json | null
+          source: string | null
+          trigger_type: string | null
+        }
+        Insert: {
+          action_type?: string | null
+          affects_resource?: string | null
+          created_at?: string | null
+          endpoint?: string | null
+          http_method?: string | null
+          id?: string
+          label?: string | null
+          page_id?: string | null
+          payload_schema?: Json | null
+          permission_scope?: string | null
+          response_schema?: Json | null
+          source?: string | null
+          trigger_type?: string | null
+        }
+        Update: {
+          action_type?: string | null
+          affects_resource?: string | null
+          created_at?: string | null
+          endpoint?: string | null
+          http_method?: string | null
+          id?: string
+          label?: string | null
+          page_id?: string | null
+          payload_schema?: Json | null
+          permission_scope?: string | null
+          response_schema?: Json | null
+          source?: string | null
+          trigger_type?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_system_actions_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "app_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_system_states: {
+        Row: {
+          description: string | null
+          id: string
+          resource: string
+          state: string
+        }
+        Insert: {
+          description?: string | null
+          id?: string
+          resource: string
+          state: string
+        }
+        Update: {
+          description?: string | null
+          id?: string
+          resource?: string
+          state?: string
+        }
+        Relationships: []
+      }
+      app_ui_components: {
+        Row: {
+          classes: string | null
+          component_type: string
+          created_at: string | null
+          html_tag: string | null
+          id: string
+          index_on_page: number | null
+          page_id: string | null
+          role: string | null
+          selector: string | null
+          text_content: string | null
+        }
+        Insert: {
+          classes?: string | null
+          component_type: string
+          created_at?: string | null
+          html_tag?: string | null
+          id?: string
+          index_on_page?: number | null
+          page_id?: string | null
+          role?: string | null
+          selector?: string | null
+          text_content?: string | null
+        }
+        Update: {
+          classes?: string | null
+          component_type?: string
+          created_at?: string | null
+          html_tag?: string | null
+          id?: string
+          index_on_page?: number | null
+          page_id?: string | null
+          role?: string | null
+          selector?: string | null
+          text_content?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_ui_components_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "app_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_ui_table_columns: {
+        Row: {
+          computed: boolean | null
+          editable: boolean | null
+          id: string
+          inferred_type: string | null
+          name: string
+          position: number | null
+          required: boolean | null
+          ui_table_id: string | null
+        }
+        Insert: {
+          computed?: boolean | null
+          editable?: boolean | null
+          id?: string
+          inferred_type?: string | null
+          name: string
+          position?: number | null
+          required?: boolean | null
+          ui_table_id?: string | null
+        }
+        Update: {
+          computed?: boolean | null
+          editable?: boolean | null
+          id?: string
+          inferred_type?: string | null
+          name?: string
+          position?: number | null
+          required?: boolean | null
+          ui_table_id?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_ui_table_columns_ui_table_id_fkey"
+            columns: ["ui_table_id"]
+            isOneToOne: false
+            referencedRelation: "app_ui_tables"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      app_ui_tables: {
+        Row: {
+          css_classes: string | null
+          html_id: string | null
+          id: string
+          name: string | null
+          page_id: string | null
+          row_count: number | null
+          table_index: number | null
+        }
+        Insert: {
+          css_classes?: string | null
+          html_id?: string | null
+          id?: string
+          name?: string | null
+          page_id?: string | null
+          row_count?: number | null
+          table_index?: number | null
+        }
+        Update: {
+          css_classes?: string | null
+          html_id?: string | null
+          id?: string
+          name?: string | null
+          page_id?: string | null
+          row_count?: number | null
+          table_index?: number | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "app_ui_tables_page_id_fkey"
+            columns: ["page_id"]
+            isOneToOne: false
+            referencedRelation: "app_pages"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       app_users: {
         Row: {
           avatar_url: string | null
@@ -1898,6 +2427,313 @@ export type Database = {
             columns: ["vendor_id"]
             isOneToOne: false
             referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      change_event_rfq_attachments: {
+        Row: {
+          file_name: string
+          file_path: string
+          file_size: number
+          id: string
+          mime_type: string
+          rfq_id: string | null
+          rfq_response_id: string | null
+          uploaded_at: string
+          uploaded_by: string
+        }
+        Insert: {
+          file_name: string
+          file_path: string
+          file_size: number
+          id?: string
+          mime_type: string
+          rfq_id?: string | null
+          rfq_response_id?: string | null
+          uploaded_at?: string
+          uploaded_by: string
+        }
+        Update: {
+          file_name?: string
+          file_path?: string
+          file_size?: number
+          id?: string
+          mime_type?: string
+          rfq_id?: string | null
+          rfq_response_id?: string | null
+          uploaded_at?: string
+          uploaded_by?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "change_event_rfq_attachments_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "change_event_rfqs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfq_attachments_rfq_response_id_fkey"
+            columns: ["rfq_response_id"]
+            isOneToOne: false
+            referencedRelation: "change_event_rfq_responses"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfq_attachments_uploaded_by_fkey"
+            columns: ["uploaded_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      change_event_rfq_responses: {
+        Row: {
+          created_at: string
+          created_by: string | null
+          extended_amount: number
+          id: string
+          line_item_id: string | null
+          notes: string | null
+          responder_company_id: string | null
+          responder_contact_id: string | null
+          rfq_id: string
+          status: string
+          submitted_at: string | null
+          unit_price: number
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          created_at?: string
+          created_by?: string | null
+          extended_amount?: number
+          id?: string
+          line_item_id?: string | null
+          notes?: string | null
+          responder_company_id?: string | null
+          responder_contact_id?: string | null
+          rfq_id: string
+          status?: string
+          submitted_at?: string | null
+          unit_price?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          created_at?: string
+          created_by?: string | null
+          extended_amount?: number
+          id?: string
+          line_item_id?: string | null
+          notes?: string | null
+          responder_company_id?: string | null
+          responder_contact_id?: string | null
+          rfq_id?: string
+          status?: string
+          submitted_at?: string | null
+          unit_price?: number
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "change_event_rfq_responses_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfq_responses_line_item_id_fkey"
+            columns: ["line_item_id"]
+            isOneToOne: false
+            referencedRelation: "change_event_line_items"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfq_responses_responder_company_id_fkey"
+            columns: ["responder_company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfq_responses_responder_contact_id_fkey"
+            columns: ["responder_contact_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfq_responses_rfq_id_fkey"
+            columns: ["rfq_id"]
+            isOneToOne: false
+            referencedRelation: "change_event_rfqs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfq_responses_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      change_event_rfqs: {
+        Row: {
+          assigned_company_id: string | null
+          assigned_contact_id: string | null
+          change_event_id: string
+          created_at: string
+          created_by: string
+          due_date: string
+          estimated_total_amount: number
+          id: string
+          include_attachments: boolean
+          notes: string | null
+          project_id: number
+          response_received_at: string | null
+          rfq_number: string
+          sent_at: string | null
+          status: string
+          title: string
+          updated_at: string
+          updated_by: string | null
+        }
+        Insert: {
+          assigned_company_id?: string | null
+          assigned_contact_id?: string | null
+          change_event_id: string
+          created_at?: string
+          created_by: string
+          due_date?: string
+          estimated_total_amount?: number
+          id?: string
+          include_attachments?: boolean
+          notes?: string | null
+          project_id: number
+          response_received_at?: string | null
+          rfq_number: string
+          sent_at?: string | null
+          status?: string
+          title: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Update: {
+          assigned_company_id?: string | null
+          assigned_contact_id?: string | null
+          change_event_id?: string
+          created_at?: string
+          created_by?: string
+          due_date?: string
+          estimated_total_amount?: number
+          id?: string
+          include_attachments?: boolean
+          notes?: string | null
+          project_id?: number
+          response_received_at?: string | null
+          rfq_number?: string
+          sent_at?: string | null
+          status?: string
+          title?: string
+          updated_at?: string
+          updated_by?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "change_event_rfqs_assigned_company_id_fkey"
+            columns: ["assigned_company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfqs_assigned_contact_id_fkey"
+            columns: ["assigned_contact_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfqs_change_event_id_fkey"
+            columns: ["change_event_id"]
+            isOneToOne: false
+            referencedRelation: "change_events"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfqs_change_event_id_fkey"
+            columns: ["change_event_id"]
+            isOneToOne: false
+            referencedRelation: "change_events_summary"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfqs_created_by_fkey"
+            columns: ["created_by"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfqs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_activity_view"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "change_event_rfqs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfqs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_health_dashboard_no_summary"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfqs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_issue_summary"
+            referencedColumns: ["project_id"]
+          },
+          {
+            foreignKeyName: "change_event_rfqs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "project_with_manager"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfqs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfqs_project_id_fkey"
+            columns: ["project_id"]
+            isOneToOne: false
+            referencedRelation: "submittal_project_dashboard"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "change_event_rfqs_updated_by_fkey"
+            columns: ["updated_by"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -7586,7 +8422,6 @@ export type Database = {
           state: string | null
           status: string | null
           updated_at: string | null
-          avatar_updated_at: string | null
           zip: string | null
         }
         Insert: {
@@ -7607,7 +8442,6 @@ export type Database = {
           state?: string | null
           status?: string | null
           updated_at?: string | null
-          avatar_updated_at?: string | null
           zip?: string | null
         }
         Update: {
@@ -7628,7 +8462,6 @@ export type Database = {
           state?: string | null
           status?: string | null
           updated_at?: string | null
-          avatar_updated_at?: string | null
           zip?: string | null
         }
         Relationships: [
@@ -7673,48 +8506,6 @@ export type Database = {
           updated_at?: string | null
         }
         Relationships: []
-      }
-      person_profile_photos: {
-        Row: {
-          person_id: string
-          content_type: string
-          data_base64: string
-          uploaded_by: string | null
-          created_at: string
-          updated_at: string
-        }
-        Insert: {
-          person_id: string
-          content_type?: string
-          data_base64: string
-          uploaded_by?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Update: {
-          person_id?: string
-          content_type?: string
-          data_base64?: string
-          uploaded_by?: string | null
-          created_at?: string
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "person_profile_photos_person_id_fkey"
-            columns: ["person_id"]
-            isOneToOne: true
-            referencedRelation: "people"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "person_profile_photos_uploaded_by_fkey"
-            columns: ["uploaded_by"]
-            isOneToOne: false
-            referencedRelation: "users"
-            referencedColumns: ["id"]
-          }
-        ]
       }
       prime_contract_change_orders: {
         Row: {
@@ -11307,6 +12098,80 @@ export type Database = {
           },
         ]
       }
+      schedule_deadlines: {
+        Row: {
+          created_at: string | null
+          deadline_date: string
+          deadline_type: string | null
+          id: string
+          task_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          deadline_date: string
+          deadline_type?: string | null
+          id?: string
+          task_id: string
+        }
+        Update: {
+          created_at?: string | null
+          deadline_date?: string
+          deadline_type?: string | null
+          id?: string
+          task_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "schedule_deadlines_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: true
+            referencedRelation: "schedule_tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      schedule_dependencies: {
+        Row: {
+          created_at: string | null
+          dependency_type: string
+          id: string
+          lag_days: number | null
+          predecessor_task_id: string
+          task_id: string
+        }
+        Insert: {
+          created_at?: string | null
+          dependency_type?: string
+          id?: string
+          lag_days?: number | null
+          predecessor_task_id: string
+          task_id: string
+        }
+        Update: {
+          created_at?: string | null
+          dependency_type?: string
+          id?: string
+          lag_days?: number | null
+          predecessor_task_id?: string
+          task_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "schedule_dependencies_predecessor_task_id_fkey"
+            columns: ["predecessor_task_id"]
+            isOneToOne: false
+            referencedRelation: "schedule_tasks"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "schedule_dependencies_task_id_fkey"
+            columns: ["task_id"]
+            isOneToOne: false
+            referencedRelation: "schedule_tasks"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       schedule_of_values: {
         Row: {
           approved_at: string | null
@@ -11372,192 +12237,69 @@ export type Database = {
           },
         ]
       }
-      schedule_progress_updates: {
-        Row: {
-          actual_finish: string | null
-          actual_hours: number | null
-          actual_start: string | null
-          id: number
-          notes: string | null
-          percent_complete: number | null
-          reported_at: string | null
-          reported_by: string | null
-          task_id: number
-        }
-        Insert: {
-          actual_finish?: string | null
-          actual_hours?: number | null
-          actual_start?: string | null
-          id?: number
-          notes?: string | null
-          percent_complete?: number | null
-          reported_at?: string | null
-          reported_by?: string | null
-          task_id: number
-        }
-        Update: {
-          actual_finish?: string | null
-          actual_hours?: number | null
-          actual_start?: string | null
-          id?: number
-          notes?: string | null
-          percent_complete?: number | null
-          reported_at?: string | null
-          reported_by?: string | null
-          task_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "schedule_progress_updates_task_id_fkey"
-            columns: ["task_id"]
-            isOneToOne: false
-            referencedRelation: "schedule_tasks"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      schedule_resources: {
-        Row: {
-          cost: number | null
-          created_at: string | null
-          id: number
-          rate: number | null
-          resource_id: string | null
-          resource_type: string | null
-          role: string | null
-          task_id: number
-          unit_type: string | null
-          units: number | null
-        }
-        Insert: {
-          cost?: number | null
-          created_at?: string | null
-          id?: number
-          rate?: number | null
-          resource_id?: string | null
-          resource_type?: string | null
-          role?: string | null
-          task_id: number
-          unit_type?: string | null
-          units?: number | null
-        }
-        Update: {
-          cost?: number | null
-          created_at?: string | null
-          id?: number
-          rate?: number | null
-          resource_id?: string | null
-          resource_type?: string | null
-          role?: string | null
-          task_id?: number
-          unit_type?: string | null
-          units?: number | null
-        }
-        Relationships: [
-          {
-            foreignKeyName: "schedule_resources_task_id_fkey"
-            columns: ["task_id"]
-            isOneToOne: false
-            referencedRelation: "schedule_tasks"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
-      schedule_task_dependencies: {
-        Row: {
-          dependency_type: string | null
-          id: number
-          predecessor_task_id: number
-          task_id: number
-        }
-        Insert: {
-          dependency_type?: string | null
-          id?: number
-          predecessor_task_id: number
-          task_id: number
-        }
-        Update: {
-          dependency_type?: string | null
-          id?: number
-          predecessor_task_id?: number
-          task_id?: number
-        }
-        Relationships: [
-          {
-            foreignKeyName: "schedule_task_dependencies_predecessor_task_id_fkey"
-            columns: ["predecessor_task_id"]
-            isOneToOne: false
-            referencedRelation: "schedule_tasks"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "schedule_task_dependencies_task_id_fkey"
-            columns: ["task_id"]
-            isOneToOne: false
-            referencedRelation: "schedule_tasks"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       schedule_tasks: {
         Row: {
+          constraint_date: string | null
+          constraint_type: string | null
           created_at: string | null
-          created_by: string | null
-          description: string | null
           duration_days: number | null
           finish_date: string | null
-          float_order: number | null
-          id: number
+          id: string
+          is_milestone: boolean | null
           name: string
-          parent_task_id: number | null
+          parent_task_id: string | null
           percent_complete: number | null
-          predecessor_ids: string | null
           project_id: number
-          schedule_id: number
-          sequence: number | null
+          sort_order: number | null
           start_date: string | null
-          task_type: string | null
+          status: string | null
           updated_at: string | null
+          wbs_code: string | null
         }
         Insert: {
+          constraint_date?: string | null
+          constraint_type?: string | null
           created_at?: string | null
-          created_by?: string | null
-          description?: string | null
           duration_days?: number | null
           finish_date?: string | null
-          float_order?: number | null
-          id?: number
+          id?: string
+          is_milestone?: boolean | null
           name: string
-          parent_task_id?: number | null
+          parent_task_id?: string | null
           percent_complete?: number | null
-          predecessor_ids?: string | null
           project_id: number
-          schedule_id: number
-          sequence?: number | null
+          sort_order?: number | null
           start_date?: string | null
-          task_type?: string | null
+          status?: string | null
           updated_at?: string | null
+          wbs_code?: string | null
         }
         Update: {
+          constraint_date?: string | null
+          constraint_type?: string | null
           created_at?: string | null
-          created_by?: string | null
-          description?: string | null
           duration_days?: number | null
           finish_date?: string | null
-          float_order?: number | null
-          id?: number
+          id?: string
+          is_milestone?: boolean | null
           name?: string
-          parent_task_id?: number | null
+          parent_task_id?: string | null
           percent_complete?: number | null
-          predecessor_ids?: string | null
           project_id?: number
-          schedule_id?: number
-          sequence?: number | null
+          sort_order?: number | null
           start_date?: string | null
-          task_type?: string | null
+          status?: string | null
           updated_at?: string | null
+          wbs_code?: string | null
         }
         Relationships: [
+          {
+            foreignKeyName: "schedule_tasks_parent_task_id_fkey"
+            columns: ["parent_task_id"]
+            isOneToOne: false
+            referencedRelation: "schedule_tasks"
+            referencedColumns: ["id"]
+          },
           {
             foreignKeyName: "schedule_tasks_project_id_fkey"
             columns: ["project_id"]
@@ -14257,11 +14999,13 @@ export type Database = {
           number: string | null
           origin: string | null
           project_id: number | null
+          rfq_count: number | null
           status: string | null
           title: string | null
           total_cost_rom: number | null
           total_non_committed_cost: number | null
           total_revenue_rom: number | null
+          total_rfq_amount: number | null
           type: string | null
         }
         Relationships: [

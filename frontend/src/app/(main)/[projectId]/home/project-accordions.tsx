@@ -47,7 +47,7 @@ export function ProjectAccordions({
   schedule = [],
   insights = [],
 }: ProjectAccordionsProps) {
-  const getStatusIcon = (status: string) => {
+  const getStatusIcon = (status: string | undefined) => {
     switch (status?.toLowerCase()) {
       case "completed":
       case "approved":

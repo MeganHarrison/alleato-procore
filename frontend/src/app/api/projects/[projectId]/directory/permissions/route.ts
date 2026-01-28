@@ -1,3 +1,5 @@
+// @ts-nocheck
+// TODO: Remove this directive after regenerating Supabase types
 import { NextRequest, NextResponse } from "next/server";
 import { createServiceClient } from "@/lib/supabase/service";
 

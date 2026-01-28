@@ -12,7 +12,7 @@ export async function PATCH(
 
     // Ensure team_members is properly formatted as an array of objects
     if (body.team_members && Array.isArray(body.team_members)) {
-      body.team_members = body.team_members.map(member => {
+      body.team_members = body.team_members.map((member: unknown) => {
         // If member is a string, try to parse it
         if (typeof member === 'string') {
           try {

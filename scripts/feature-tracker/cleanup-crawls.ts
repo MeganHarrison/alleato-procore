@@ -1,11 +1,10 @@
 #!/usr/bin/env npx tsx
 /**
- * Cleanup Crawled Pages
+ * cleanup-crawls.ts
  *
- * Removes noise folders from crawled data:
- * - Dropdown captures (*_dropdown_*)
- * - Numbered ID folders (562949953443325)
- * - Empty or minimal captures
+ * Removes noise folders from crawled Procore page data, including
+ * dropdown captures (*_dropdown_*) and numeric ID folders (562949953443325).
+ * Reports disk space that would be freed.
  *
  * Usage:
  *   npx tsx cleanup-crawls.ts --dry-run    # Preview what would be deleted

@@ -1,11 +1,10 @@
 #!/usr/bin/env npx tsx
 /**
- * Sync Feature Tracker to Linear
+ * sync-to-linear.ts
  *
- * This script creates/updates Linear issues for each Procore feature and page.
- * It uses Claude's Linear MCP integration for the actual API calls.
- *
- * The output is a set of Linear API commands that can be executed via MCP.
+ * Generates Linear project management issues from the feature tracker database.
+ * Each Procore feature becomes a parent issue with child issues for each page.
+ * Supports preview mode and JSON export for Linear's import tool.
  *
  * Usage:
  *   npx tsx sync-to-linear.ts --preview   # Show what would be created

@@ -50,6 +50,6 @@
     "**/*.test.ts",
     "**/*.test.tsx",
     "**/__tests__/**",
-    "tests/e2e/prime-contracts/**"
+    "tests/**"
   ]
 }

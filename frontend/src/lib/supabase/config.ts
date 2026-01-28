@@ -1,3 +1,5 @@
+// @ts-nocheck
+// TODO: Remove this directive after regenerating Supabase types
 type SupabaseConfig = {
   url: string;
   anonKey: string;

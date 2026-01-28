@@ -13,7 +13,7 @@ const __dirname = dirname(__filename);
 
 const DB_PATH = join(__dirname, 'tracker.db');
 const SUPABASE_URL = 'https://lgveqfnpkxvzbnnwuled.supabase.co';
-const SUPABASE_ANON_KEY = 'sb_publishable_ecZLO3VnRlZEGEuwBOP6jg_DP3LZQ_F';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxndmVxZm5wa3h2emJubnd1bGVkIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTUyNTQxNjYsImV4cCI6MjA3MDgzMDE2Nn0.g56kDPUokoJpWY7vXd3GTMXpOc4WFOU0hDVWfGMZtO8';
 
 interface SQLiteFeature {
   id: string;

@@ -54,7 +54,7 @@ export async function GET(
     const viewsWithSortedColumns = views?.map((view) => ({
       ...view,
       columns:
-        view.columns?.sort((a, b) => a.display_order - b.display_order) || [],
+        view.columns?.sort((a: { display_order: number }, b: { display_order: number }) => a.display_order - b.display_order) || [],
     }));
 
     return NextResponse.json({ views: viewsWithSortedColumns });

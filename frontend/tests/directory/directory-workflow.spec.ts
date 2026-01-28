@@ -3,7 +3,7 @@ import { createClient } from '@supabase/supabase-js';
 
 // Initialize Supabase client for test setup
 const supabaseUrl = 'https://lgveqfnpkxvzbnnwuled.supabase.co';
-const supabaseKey = 'sb_secret_fDpzY_Eu0StzNOZsVKegRQ_d-G5k-Jf';
+const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImxndmVxZm5wa3h2emJubnd1bGVkIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc1NTI1NDE2NiwiZXhwIjoyMDcwODMwMTY2fQ.kIFo_ZSwO1uwpttYXxjSnYbBpUhwZhkW-ZGaiQLhKmA';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 test.describe('Directory User Workflow', () => {

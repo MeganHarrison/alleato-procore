@@ -149,7 +149,7 @@ function SortableLineItemRow({
       className={cn(
         'group hover:bg-muted/50 transition-colors',
         isDragging && 'opacity-50',
-        errors && 'bg-destructive/5'
+        !!errors && 'bg-destructive/5'
       )}
       style={style}
     >
@@ -178,7 +178,7 @@ function SortableLineItemRow({
                 >
                   <SelectTrigger
                     className={cn(
-                      errors && typeof errors === 'object' && 'budget_code_id' in errors && 'border-destructive'
+                      !!errors && typeof errors === 'object' && errors !== null && 'budget_code_id' in errors && 'border-destructive'
                     )}
                   >
                     <SelectValue placeholder="Select budget code" />
@@ -264,7 +264,7 @@ function SortableLineItemRow({
                     onChange={(e) => field.onChange(Number(e.target.value))}
                     className={cn(
                       'w-16 text-center border-none bg-transparent focus-visible:ring-1',
-                      errors && typeof errors === 'object' && 'quantity' in errors && 'text-destructive'
+                      !!errors && typeof errors === 'object' && errors !== null && 'quantity' in errors && 'text-destructive'
                     )}
                   />
                   <Button
@@ -334,7 +334,7 @@ function SortableLineItemRow({
                     onChange={(e) => field.onChange(Number(e.target.value))}
                     className={cn(
                       'pl-6 border-none bg-transparent focus-visible:ring-1',
-                      errors && typeof errors === 'object' && 'unit_cost' in errors && 'border-destructive'
+                      !!errors && typeof errors === 'object' && errors !== null && 'unit_cost' in errors && 'border-destructive'
                     )}
                     placeholder="0.00"
                   />
@@ -464,7 +464,7 @@ export function LineItemsManager({
   const handleDragEnd = (event: DragEndEvent) => {
     const { active, over } = event
 
-    if (active.id !== over?.id) {
+    if (over && active.id !== over.id) {
       const oldIndex = items.findIndex(
         (_, index) => `line-item-${index}` === active.id
       )

@@ -71,9 +71,9 @@ export default function PortfolioPage() {
           // Map Supabase data to our Project interface
           const mappedProjects: Project[] = (result.data || []).map(
             (p: Record<string, unknown>) => ({
-              id: p.id.toString(),
-              name: p.name || "Untitled Project",
-              jobNumber: p["job number"] || p.id.toString(),
+              id: String(p.id),
+              name: String(p.name || "Untitled Project"),
+              jobNumber: String(p["job number"] || p.id),
               client: p.client || "",
               startDate: p["start date"] || null,
               state: p.state || "",
@@ -82,7 +82,7 @@ export default function PortfolioPage() {
               estProfit: p["est profit"] || null,
               category: p.category || "",
               // Legacy fields for backward compatibility
-              projectNumber: p["job number"] || p.id.toString(),
+              projectNumber: String(p["job number"] || p.id),
               address: p.address || "",
               city:
                 p.address && typeof p.address === "string"

@@ -1,6 +1,14 @@
 #!/usr/bin/env npx tsx
 /**
- * Apply the procore_pages migration directly to Supabase
+ * apply-migration.ts
+ *
+ * Checks whether the procore_pages table exists in Supabase and outputs
+ * the CREATE TABLE SQL if it doesn't. Also verifies that procore_features
+ * has all required columns (slug, priority, status, page_count).
+ *
+ * Requires SUPABASE_SERVICE_KEY env var.
+ *
+ * Usage: SUPABASE_SERVICE_KEY=... npx tsx apply-migration.ts
  */
 
 import { createClient } from '@supabase/supabase-js';

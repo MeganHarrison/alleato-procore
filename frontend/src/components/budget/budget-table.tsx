@@ -293,8 +293,8 @@ function EditableCurrencyCell({
         className={cn(
           "text-right cursor-pointer px-1 py-0.5 rounded transition-colors w-full",
           hasChildren
-            ? "hover:bg-brand/5 text-brand hover:text-brand/80 font-semibold"
-            : "hover:bg-brand/5 text-brand hover:text-brand/80 underline",
+            ? "hover:bg-muted/80 font-semibold underline decoration-muted-foreground/40 underline-offset-2 hover:decoration-foreground"
+            : "hover:bg-muted/80 underline decoration-muted-foreground/40 underline-offset-2 hover:decoration-foreground",
         )}
         onClick={onEdit}
       >
@@ -311,8 +311,8 @@ function EditableCurrencyCell({
 }
 
 const columnWidthClasses: Record<string, string> = {
-  select: "w-10 min-w-[40px]",
-  expander: "w-10 min-w-[40px]",
+  select: "w-6 min-w-[24px]",
+  expander: "w-6 min-w-[24px]",
   description: "w-[280px] min-w-[240px]",
   originalBudgetAmount: "w-[130px] min-w-[120px]",
   budgetModifications: "w-[130px] min-w-[120px]",
@@ -359,6 +359,7 @@ export function BudgetTable({
   projectId,
   showInlineCreate: showInlineCreateProp = false,
   onShowInlineCreateChange,
+  onAddLineItemClick,
 }: BudgetTableProps) {
   const [expanded, setExpanded] = React.useState<ExpandedState>({});
   const [rowSelection, setRowSelection] = React.useState<RowSelectionState>({});
@@ -459,7 +460,7 @@ export function BudgetTable({
         const hasChildren = Boolean(
           row.original.children && row.original.children.length > 0);
         if (hasChildren) {
-          return <div className="w-4" />;
+          return null;
         }
         return (
           <div onClick={(e) => e.stopPropagation()}>
@@ -472,7 +473,7 @@ export function BudgetTable({
           </div>
         );
       },
-      size: 40,
+      size: 24,
     },
     {
       id: "expander",
@@ -481,7 +482,7 @@ export function BudgetTable({
         const canExpand =
           row.original.children && row.original.children.length > 0;
         if (!canExpand) {
-          return <div className="w-6" />;
+          return <div className="w-4" />;
         }
         return (
           <button
@@ -490,7 +491,7 @@ export function BudgetTable({
               e.stopPropagation();
               row.toggleExpanded();
             }}
-            className="p-1 hover:bg-muted rounded"
+            className="p-0.5 hover:bg-muted rounded"
             aria-label={
               row.getIsExpanded()
                 ? `Collapse ${row.original.description}`
@@ -505,7 +506,7 @@ export function BudgetTable({
           </button>
         );
       },
-      size: 40,
+      size: 24,
     },
     {
       accessorKey: "description",
@@ -940,7 +941,13 @@ export function BudgetTable({
             <h3 className="text-sm font-medium text-gray-900">No budget line items</h3>
             <p className="text-sm text-gray-500">Get started by adding your first budget line item.</p>
             <Button
-              onClick={() => setShowInlineCreate(true)}
+              onClick={() => {
+                if (onAddLineItemClick) {
+                  onAddLineItemClick();
+                } else {
+                  setShowInlineCreate(true);
+                }
+              }}
               disabled={isLocked}
               className="mt-2 bg-brand hover:bg-brand/90"
               size="lg"
@@ -958,7 +965,7 @@ export function BudgetTable({
           {/* Hide scrollbar while maintaining scroll functionality */}
           <div className="flex-1 overflow-auto scrollbar-hide">
             <Table className="min-w-[1200px]">
-              <TableHeader className="sticky top-0 bg-muted/80 backdrop-blur-sm z-10">
+              <TableHeader className="sticky top-0 bg-muted/50 backdrop-blur-sm z-10">
                 {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow
                     key={headerGroup.id}
@@ -968,7 +975,12 @@ export function BudgetTable({
                       <TableHead
                         key={header.id}
                         className={cn(
-                          "text-xs font-semibold text-foreground py-3 px-2 bg-muted/80",
+                          "text-xs font-semibold text-foreground py-2 bg-muted/50",
+                          header.column.id === "select"
+                            ? "pl-3 pr-0.5"
+                            : header.column.id === "expander"
+                              ? "px-0.5"
+                              : "px-1.5",
                           getWidthClass(header.column.id),
                         )}
                       >
@@ -994,19 +1006,21 @@ export function BudgetTable({
                       key={row.id}
                       className={cn(
                         "border-b border-border transition-colors",
-                        isGroupRow &&
-                          "bg-muted/80 hover:bg-muted/80 font-semibold",
-                        !isGroupRow && "hover:bg-muted",
-                        !isGroupRow && row.depth > 0 && "bg-muted",
+                        isGroupRow && "bg-muted/50 hover:bg-muted/60 font-semibold",
+                        !isGroupRow && "hover:bg-muted/30",
                         row.getIsSelected() && "bg-brand/5",
-                        !row.getIsSelected() && index % 2 === 1 && "bg-muted",
                       )}
                     >
                       {row.getVisibleCells().map((cell) => (
                         <TableCell
                           key={cell.id}
                           className={cn(
-                            "py-3 px-2 text-sm",
+                            "py-2 text-sm",
+                            cell.column.id === "select"
+                              ? "pl-3 pr-0.5"
+                              : cell.column.id === "expander"
+                                ? "px-0.5"
+                                : "px-1.5",
                             row.depth > 0 && "text-foreground",
                             getWidthClass(cell.column.id),
                           )}
@@ -1024,10 +1038,10 @@ export function BudgetTable({
             {/* Inline Create Row */}
             {!isLocked && showInlineCreate && (
               <TableRow className="bg-brand/5 border-b border-border">
-                <TableCell className="py-2 px-2">
+                <TableCell className="py-2 pl-3 pr-0.5">
                   {/* Empty checkbox cell */}
                 </TableCell>
-                <TableCell className="py-2 px-2">
+                <TableCell className="py-2 px-0.5">
                   {/* Empty expander cell */}
                 </TableCell>
                 <TableCell className="py-2 px-2">
@@ -1129,8 +1143,8 @@ export function BudgetTable({
           <table className="w-full caption-bottom text-sm table-fixed">
             <tbody>
               <tr className="font-semibold bg-muted border-b transition-colors">
-                <td className={cn("py-3 px-2", getWidthClass("select"))} />
-                <td className={cn("py-3 px-2", getWidthClass("expander"))} />
+                <td className={cn("py-3 pl-3 pr-0.5", getWidthClass("select"))} />
+                <td className={cn("py-3 px-0.5", getWidthClass("expander"))} />
                 <td
                   className={cn(
                     "py-3 px-2 text-sm font-bold text-foreground",

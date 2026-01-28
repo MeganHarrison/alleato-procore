@@ -278,7 +278,7 @@ export default function ChangeEventDetailPage() {
             <Text size="2xl" weight="bold">
               {changeEvent.title}
             </Text>
-            <Badge variant={getStatusBadgeVariant(changeEvent.status)}>
+            <Badge variant={getStatusBadgeVariant(changeEvent.status ?? "")}>
               {getStatusDisplayName(changeEvent.status)}
             </Badge>
           </Inline>
@@ -305,7 +305,7 @@ export default function ChangeEventDetailPage() {
             <div>
               <CardTitle className="flex items-center gap-2">
                 Status:
-                <Badge variant={getStatusBadgeVariant(changeEvent.status)}>
+                <Badge variant={getStatusBadgeVariant(changeEvent.status ?? "")}>
                   {getStatusDisplayName(changeEvent.status)}
                 </Badge>
               </CardTitle>
@@ -405,31 +405,29 @@ export default function ChangeEventDetailPage() {
                 <div>
                   <label className="text-sm font-medium">Created By</label>
                   <p className="text-sm text-muted-foreground">
-                    {changeEvent.created_by?.full_name || "-"}
+                    {changeEvent.created_by || "-"}
                   </p>
                 </div>
                 <div>
                   <label className="text-sm font-medium">
-                    ROM Cost Impact
+                    Estimated Impact
                   </label>
                   <p className="text-sm text-muted-foreground">
-                    {changeEvent.rom_cost_impact
-                      ? formatCurrency(changeEvent.rom_cost_impact)
+                    {changeEvent.estimated_impact
+                      ? formatCurrency(changeEvent.estimated_impact)
                       : "-"}
                   </p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium">
-                    ROM Schedule Impact (days)
-                  </label>
+                  <label className="text-sm font-medium">Scope</label>
                   <p className="text-sm text-muted-foreground">
-                    {changeEvent.rom_schedule_impact || "-"}
+                    {changeEvent.scope || "-"}
                   </p>
                 </div>
                 <div>
-                  <label className="text-sm font-medium">Related Commitment</label>
+                  <label className="text-sm font-medium">Origin</label>
                   <p className="text-sm text-muted-foreground">
-                    {changeEvent.commitment?.number || "-"}
+                    {changeEvent.origin || "-"}
                   </p>
                 </div>
               </CardContent>
