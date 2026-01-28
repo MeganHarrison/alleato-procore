@@ -5,12 +5,18 @@
  * PROJECT SCHEDULE PAGE
  * =============================================================================
  *
- * Main scheduling page with:
- * - Split view: Task table + Gantt chart
+ * Main scheduling page with multiple view modes inspired by Microsoft Planner:
+ * - Grid: Detailed table view with all columns
+ * - Board: Kanban-style grouped by status
+ * - Schedule: Split view with task table + Gantt chart (original)
+ * - Timeline: Enhanced Gantt chart view
+ * - Calendar: Monthly calendar view
+ *
+ * Features:
  * - Task CRUD operations
  * - Hierarchy management (indent/outdent)
- * - View mode toggle (table/gantt/split)
  * - Summary statistics
+ * - Context menu actions
  */
 
 import { useState, useCallback, useMemo } from "react";
@@ -23,6 +29,12 @@ import {
   TaskContextMenu,
   useTaskContextMenu,
 } from "@/components/scheduling/task-context-menu";
+import {
+  ScheduleGridView,
+  ScheduleBoardView,
+  ScheduleCalendarView,
+  ScheduleTimelineView,
+} from "@/components/scheduling/schedule-views";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -30,6 +42,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  DropdownMenuSeparator,
 } from "@/components/ui/dropdown-menu";
 import {
   Plus,
@@ -46,6 +59,13 @@ import {
   Clock,
   AlertCircle,
   Flag,
+  LayoutGrid,
+  Kanban,
+  CalendarDays,
+  GanttChart as GanttIcon,
+  Filter,
+  Share2,
+  ChevronDown,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import {
@@ -61,7 +81,54 @@ import { useScheduleTasks } from "@/hooks/use-schedule-tasks";
 // TYPES
 // =============================================================================
 
-type ViewMode = "table" | "gantt" | "split";
+type ViewMode = "grid" | "board" | "schedule" | "timeline" | "calendar";
+
+// =============================================================================
+// VIEW MODE TABS (Microsoft Planner Style)
+// =============================================================================
+
+const viewModeConfig: {
+  mode: ViewMode;
+  label: string;
+  icon: typeof LayoutGrid;
+}[] = [
+  { mode: "grid", label: "Grid", icon: LayoutGrid },
+  { mode: "board", label: "Board", icon: Kanban },
+  { mode: "schedule", label: "Schedule", icon: Columns },
+  { mode: "timeline", label: "Timeline", icon: GanttIcon },
+  { mode: "calendar", label: "Calendar", icon: CalendarDays },
+];
+
+function ViewModeTabs({
+  mode,
+  onChange,
+}: {
+  mode: ViewMode;
+  onChange: (mode: ViewMode) => void;
+}) {
+  return (
+    <div className="flex items-center gap-1 border-b">
+      {viewModeConfig.map(({ mode: viewMode, label, icon: Icon }) => (
+        <button
+          key={viewMode}
+          onClick={() => onChange(viewMode)}
+          className={cn(
+            "flex items-center gap-2 px-4 py-2.5 text-sm font-medium transition-colors relative",
+            mode === viewMode
+              ? "text-primary"
+              : "text-muted-foreground hover:text-foreground"
+          )}
+        >
+          <Icon className="h-4 w-4" />
+          {label}
+          {mode === viewMode && (
+            <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary" />
+          )}
+        </button>
+      ))}
+    </div>
+  );
+}
 
 // =============================================================================
 // SUMMARY CARD COMPONENT
@@ -123,50 +190,6 @@ function SummaryCards({ summary }: { summary: { total_tasks: number; completed_t
 }
 
 // =============================================================================
-// VIEW MODE TOGGLE
-// =============================================================================
-
-function ViewModeToggle({
-  mode,
-  onChange,
-}: {
-  mode: ViewMode;
-  onChange: (mode: ViewMode) => void;
-}) {
-  return (
-    <div className="flex items-center border rounded-md">
-      <Button
-        variant={mode === "table" ? "secondary" : "ghost"}
-        size="sm"
-        className="rounded-r-none"
-        onClick={() => onChange("table")}
-        aria-label="Table view"
-      >
-        <Table2 className="h-4 w-4" />
-      </Button>
-      <Button
-        variant={mode === "split" ? "secondary" : "ghost"}
-        size="sm"
-        className="rounded-none border-x"
-        onClick={() => onChange("split")}
-        aria-label="Split view"
-      >
-        <Columns className="h-4 w-4" />
-      </Button>
-      <Button
-        variant={mode === "gantt" ? "secondary" : "ghost"}
-        size="sm"
-        className="rounded-l-none"
-        onClick={() => onChange("gantt")}
-        aria-label="Gantt view"
-      >
-        <BarChart3 className="h-4 w-4" />
-      </Button>
-    </div>
-  );
-}
-
-// =============================================================================
 // MAIN COMPONENT
 // =============================================================================
 
@@ -175,7 +198,7 @@ export default function ProjectSchedulePage() {
   const projectId = params.projectId as string;
 
   // State
-  const [viewMode, setViewMode] = useState<ViewMode>("split");
+  const [viewMode, setViewMode] = useState<ViewMode>("schedule");
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set());
   const [editingTask, setEditingTask] = useState<ScheduleTask | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -285,6 +308,8 @@ export default function ProjectSchedulePage() {
     setIsModalOpen(true);
   }, []);
 
+  const apiUrl = `/api/projects/${projectId}/scheduling/tasks`;
+
   const handleSaveTask = useCallback(
     async (taskData: ScheduleTaskCreate | ScheduleTaskUpdate) => {
       try {
@@ -324,16 +349,30 @@ export default function ProjectSchedulePage() {
         setEditingTask(null);
       } catch (err) {
         console.error("Failed to save task:", err);
-        toast.error(
-          err instanceof Error ? err.message : "Failed to save task"
-        );
+        const errorMessage = err instanceof Error ? err.message : "Failed to save task";
+
+        // Show informative toast based on error type
+        if (errorMessage.includes("permission") || errorMessage.includes("don't have")) {
+          toast.error("Permission Denied", {
+            description: errorMessage,
+            duration: 8000,
+          });
+        } else if (errorMessage.includes("logged in") || errorMessage.includes("sign in")) {
+          toast.error("Authentication Required", {
+            description: errorMessage,
+            duration: 8000,
+          });
+        } else {
+          toast.error("Error Saving Task", {
+            description: errorMessage,
+            duration: 6000,
+          });
+        }
         throw err;
       }
     },
-    [projectId, editingTask, refetch]
+    [apiUrl, editingTask, refetch]
   );
-
-  const apiUrl = `/api/projects/${projectId}/scheduling/tasks`;
 
   const handleUpdateTask = useCallback(
     async (taskId: string, updates: Partial<ScheduleTask>) => {
@@ -352,13 +391,15 @@ export default function ProjectSchedulePage() {
         refetch();
       } catch (err) {
         console.error("Failed to update task:", err);
-        toast.error(
-          err instanceof Error ? err.message : "Failed to update task"
-        );
+        const errorMessage = err instanceof Error ? err.message : "Failed to update task";
+        toast.error("Error Updating Task", {
+          description: errorMessage,
+          duration: 6000,
+        });
         throw err;
       }
     },
-    [projectId, refetch]
+    [apiUrl, refetch]
   );
 
   const handleDeleteTask = useCallback(
@@ -382,12 +423,14 @@ export default function ProjectSchedulePage() {
         });
       } catch (err) {
         console.error("Failed to delete task:", err);
-        toast.error(
-          err instanceof Error ? err.message : "Failed to delete task"
-        );
+        const errorMessage = err instanceof Error ? err.message : "Failed to delete task";
+        toast.error("Error Deleting Task", {
+          description: errorMessage,
+          duration: 6000,
+        });
       }
     },
-    [projectId, refetch]
+    [apiUrl, refetch]
   );
 
   const handleIndentTask = useCallback(
@@ -499,11 +542,27 @@ export default function ProjectSchedulePage() {
       refetch();
     } catch (err) {
       console.error("Failed to paste task:", err);
-      toast.error(
-        err instanceof Error ? err.message : "Failed to paste task"
-      );
+      const errorMessage = err instanceof Error ? err.message : "Failed to paste task";
+
+      // Show informative toast based on error type
+      if (errorMessage.includes("permission") || errorMessage.includes("don't have")) {
+        toast.error("Permission Denied", {
+          description: errorMessage,
+          duration: 8000,
+        });
+      } else if (errorMessage.includes("logged in") || errorMessage.includes("sign in")) {
+        toast.error("Authentication Required", {
+          description: errorMessage,
+          duration: 8000,
+        });
+      } else {
+        toast.error("Error Pasting Task", {
+          description: errorMessage,
+          duration: 6000,
+        });
+      }
     }
-  }, [projectId, copiedTask, refetch]);
+  }, [projectId, copiedTask, apiUrl, refetch]);
 
   const handleRefresh = useCallback(() => {
     refetch();
@@ -512,26 +571,25 @@ export default function ProjectSchedulePage() {
   // Actions for header
   const headerActions = (
     <div className="flex items-center gap-2">
-      <ViewModeToggle mode={viewMode} onChange={setViewMode} />
-
       <Button onClick={() => handleAddTask()} size="sm">
         <Plus className="h-4 w-4 mr-2" />
         Add Task
       </Button>
 
+      <Button variant="outline" size="sm">
+        <Filter className="h-4 w-4 mr-2" />
+        Filters
+      </Button>
+
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <Button variant="outline" size="sm">
-            <MoreHorizontal className="h-4 w-4" />
+            <Share2 className="h-4 w-4 mr-2" />
+            Share
+            <ChevronDown className="h-3 w-3 ml-1" />
           </Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
-          <DropdownMenuItem onClick={handleRefresh} disabled={isLoading}>
-            <RefreshCw
-              className={cn("h-4 w-4 mr-2", isLoading && "animate-spin")}
-            />
-            Refresh
-          </DropdownMenuItem>
           <DropdownMenuItem>
             <Upload className="h-4 w-4 mr-2" />
             Import Schedule
@@ -539,6 +597,13 @@ export default function ProjectSchedulePage() {
           <DropdownMenuItem>
             <Download className="h-4 w-4 mr-2" />
             Export Schedule
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem onClick={handleRefresh} disabled={isLoading}>
+            <RefreshCw
+              className={cn("h-4 w-4 mr-2", isLoading && "animate-spin")}
+            />
+            Refresh
           </DropdownMenuItem>
         </DropdownMenuContent>
       </DropdownMenu>
@@ -555,6 +620,7 @@ export default function ProjectSchedulePage() {
           actions={headerActions}
         />
         <PageContainer>
+          <ViewModeTabs mode={viewMode} onChange={setViewMode} />
           <div className="flex items-center justify-center py-12">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
           </div>
@@ -573,13 +639,27 @@ export default function ProjectSchedulePage() {
           actions={headerActions}
         />
         <PageContainer>
-          <div data-testid="error-state" className="text-center text-destructive bg-destructive/10 border border-destructive/20 rounded-md p-4">
+          <ViewModeTabs mode={viewMode} onChange={setViewMode} />
+          <div data-testid="error-state" className="text-center text-destructive bg-destructive/10 border border-destructive/20 rounded-md p-4 mt-4">
             Failed to load schedule data. Please try again.
           </div>
         </PageContainer>
       </>
     );
   }
+
+  // Shared view props
+  const viewProps = {
+    tasks: data?.tasks || [],
+    selectedIds,
+    onSelectionChange: setSelectedIds,
+    onTaskClick: handleTaskClick,
+    onAddTask: handleAddTask,
+    onEditTask: handleEditTask,
+    onDeleteTask: handleDeleteTask,
+    onUpdateTask: handleUpdateTask,
+    isLoading,
+  };
 
   return (
     <>
@@ -588,97 +668,77 @@ export default function ProjectSchedulePage() {
         description="Track project schedule tasks and milestones"
         actions={headerActions}
       />
-      <PageContainer className="space-y-6">
-      {/* Summary Cards */}
-      {data?.summary && <SummaryCards summary={data.summary} />}
+      <PageContainer className="space-y-4">
+        {/* View Mode Tabs */}
+        <ViewModeTabs mode={viewMode} onChange={setViewMode} />
 
-      {/* Main Content */}
-      <div className="flex-1 min-h-[600px]">
-        {viewMode === "table" && (
-          <TaskTable
-            tasks={data?.tasks || []}
-            selectedIds={selectedIds}
-            onSelectionChange={setSelectedIds}
-            onTaskClick={handleTaskClick}
-            onAddSubtask={handleAddTask}
-            onEditTask={handleEditTask}
-            onDeleteTask={handleDeleteTask}
-            onIndentTask={handleIndentTask}
-            onOutdentTask={handleOutdentTask}
-            onUpdateTask={handleUpdateTask}
-            onContextMenu={openContextMenu}
-            isLoading={isLoading}
-          />
-        )}
+        {/* Summary Cards */}
+        {data?.summary && <SummaryCards summary={data.summary} />}
 
-        {viewMode === "gantt" && (
-          <GanttChart
-            data={data?.ganttData || []}
-            onTaskClick={(taskId) => {
-              const fullTask = data?.tasks
-                ? findTaskById(data.tasks, taskId)
-                : null;
-              if (fullTask) {
-                handleEditTask(fullTask);
-              }
-            }}
-          />
-        )}
+        {/* Main Content */}
+        <div className="flex-1 min-h-[600px]">
+          {viewMode === "grid" && <ScheduleGridView {...viewProps} />}
 
-        {viewMode === "split" && (
-          <div className="grid grid-cols-2 gap-4 min-h-[600px]">
-            <div className="overflow-auto border rounded-lg">
-              <TaskTable
-                tasks={data?.tasks || []}
-                selectedIds={selectedIds}
-                onSelectionChange={setSelectedIds}
-                onTaskClick={handleTaskClick}
-                onAddSubtask={handleAddTask}
-                onEditTask={handleEditTask}
-                onDeleteTask={handleDeleteTask}
-                onIndentTask={handleIndentTask}
-                onOutdentTask={handleOutdentTask}
-                onUpdateTask={handleUpdateTask}
-                onContextMenu={openContextMenu}
-                isLoading={isLoading}
-              />
+          {viewMode === "board" && <ScheduleBoardView {...viewProps} />}
+
+          {viewMode === "calendar" && <ScheduleCalendarView {...viewProps} />}
+
+          {viewMode === "timeline" && <ScheduleTimelineView {...viewProps} />}
+
+          {viewMode === "schedule" && (
+            <div className="grid grid-cols-2 gap-4 min-h-[600px]">
+              <div className="overflow-auto border rounded-lg">
+                <TaskTable
+                  tasks={data?.tasks || []}
+                  selectedIds={selectedIds}
+                  onSelectionChange={setSelectedIds}
+                  onTaskClick={handleTaskClick}
+                  onAddSubtask={handleAddTask}
+                  onEditTask={handleEditTask}
+                  onDeleteTask={handleDeleteTask}
+                  onIndentTask={handleIndentTask}
+                  onOutdentTask={handleOutdentTask}
+                  onUpdateTask={handleUpdateTask}
+                  onContextMenu={openContextMenu}
+                  isLoading={isLoading}
+                />
+              </div>
+              <div className="overflow-auto border rounded-lg">
+                <GanttChart
+                  data={data?.ganttData || []}
+                  onTaskClick={(taskId) => {
+                    const fullTask = data?.tasks
+                      ? findTaskById(data.tasks, taskId)
+                      : null;
+                    if (fullTask) {
+                      handleEditTask(fullTask);
+                    }
+                  }}
+                />
+              </div>
             </div>
-            <div className="overflow-auto border rounded-lg">
-              <GanttChart
-                data={data?.ganttData || []}
-                onTaskClick={(taskId) => {
-                  const fullTask = data?.tasks
-                    ? findTaskById(data.tasks, taskId)
-                    : null;
-                  if (fullTask) {
-                    handleEditTask(fullTask);
-                  }
-                }}
-              />
-            </div>
-          </div>
-        )}
-      </div>
+          )}
+        </div>
 
-      {/* Task Edit Modal */}
-      <TaskEditModal
-        open={isModalOpen}
-        onOpenChange={setIsModalOpen}
-        task={editingTask}
-        parentTaskId={parentTaskIdForNew}
-        projectId={projectId}
-        availableTasks={flatTasks}
-        onSave={handleSaveTask}
-      />
+        {/* Task Edit Modal */}
+        <TaskEditModal
+          open={isModalOpen}
+          onOpenChange={setIsModalOpen}
+          task={editingTask}
+          parentTaskId={parentTaskIdForNew}
+          projectId={projectId}
+          availableTasks={flatTasks}
+          onSave={handleSaveTask}
+        />
 
-      {/* Context Menu */}
-      <TaskContextMenu
-        task={contextMenu.task}
-        position={contextMenu.position}
-        onClose={closeContextMenu}
-        onAction={handleContextMenuAction}
-        hasCopiedTask={!!copiedTask}
-      />
+        {/* Context Menu */}
+        <TaskContextMenu
+          task={contextMenu.task}
+          position={contextMenu.position}
+          onClose={closeContextMenu}
+          onAction={handleContextMenuAction}
+          hasCopiedTask={!!copiedTask}
+        />
       </PageContainer>
     </>
   );
