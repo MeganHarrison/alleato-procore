@@ -445,29 +445,57 @@ function BudgetPageContent() {
         ? parseFloat(lineItem.originalBudgetAmount)
         : lineItem.originalBudgetAmount;
 
-      // First, fetch available cost codes if we have a cost code string
-      let costCodeId = "01-000"; // Default fallback
+      // Fetch available cost codes to find or validate the cost code
+      let costCodeId: string | null = null;
 
-      if (lineItem.costCode) {
-        // Try to fetch cost codes and match by code string
-        try {
-          const codesResponse = await fetch(`/api/projects/${projectId}/budget-codes`);
-          if (codesResponse.ok) {
-            const codesData = await codesResponse.json();
-            const matchingCode = codesData.budgetCodes?.find(
-              (c: any) => c.code === lineItem.costCode || c.id === lineItem.costCode
+      try {
+        const codesResponse = await fetch(`/api/projects/${projectId}/budget-codes`);
+        if (codesResponse.ok) {
+          const codesData = await codesResponse.json();
+          const budgetCodes = codesData.budgetCodes || [];
+
+          if (lineItem.costCode) {
+            // User provided a cost code - try to match it
+            const matchingCode = budgetCodes.find(
+              (c: { code: string; id: string }) => c.code === lineItem.costCode || c.id === lineItem.costCode
             );
             if (matchingCode) {
               costCodeId = matchingCode.id;
             } else {
-              // If no match found, use the provided code as-is
+              // Try using the provided code directly (it might be a valid cost_code id)
               costCodeId = lineItem.costCode;
             }
+          } else if (budgetCodes.length > 0) {
+            // No cost code provided but budget codes exist - use the first one
+            costCodeId = budgetCodes[0].id;
           }
-        } catch (e) {
-          // If fetching codes fails, use the provided code as-is
+        }
+      } catch {
+        // If fetching budget codes fails and user provided one, use it directly
+        if (lineItem.costCode) {
           costCodeId = lineItem.costCode;
         }
+      }
+
+      // If still no cost code, try to fetch from cost_codes table directly
+      if (!costCodeId) {
+        try {
+          const costCodesResponse = await fetch(`/api/cost-codes?limit=1`);
+          if (costCodesResponse.ok) {
+            const costCodesData = await costCodesResponse.json();
+            if (costCodesData.costCodes?.length > 0) {
+              costCodeId = costCodesData.costCodes[0].id;
+            }
+          }
+        } catch {
+          // Ignore - will handle below
+        }
+      }
+
+      // If we still don't have a valid cost code, show error
+      if (!costCodeId) {
+        toast.error("Please select a cost code. No cost codes are configured for this project.");
+        throw new Error("Cost code is required");
       }
 
       const payload = {
@@ -773,7 +801,7 @@ function BudgetPageContent() {
 
       <BudgetTabs activeTab={activeTab} onTabChange={handleTabChange} />
 
-      <div className="flex flex-1 flex-col gap-4 pl-4 sm:pl-6 lg:pl-12 pt-4 pb-6 bg-muted/30">
+      <div className="flex flex-1 flex-col gap-4 pl-4 sm:pl-6 lg:pl-8 pt-2 pb-6 bg-muted/30">
         {activeTab === "settings" ? (
           <div className="flex-1 rounded-lg border bg-background shadow-sm">
             <VerticalMarkupSettings projectId={projectId} />
@@ -823,7 +851,7 @@ function BudgetPageContent() {
           </>
         ) : (
           <div className="flex-1 overflow-x-auto">
-            <div className="min-w-[1200px] pr-4 sm:pr-6 lg:pr-12">
+            <div className="min-w-[1200px] pr-4 sm:pr-6 lg:pr-8">
               <div className="flex items-center justify-between gap-4 mb-4">
                 <BudgetFilters
                   views={budgetViews}

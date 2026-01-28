@@ -87,7 +87,7 @@ export function BudgetPageHeader({
 
   const titleContent = (
     <div className="flex items-center gap-2">
-      <h1 className="text-2xl font-bold text-foreground">{title}</h1>
+      <h1 className="text-2xl sm:text-3xl lg:text-3xl font-semibold">{title}</h1>
       {isLocked && (
         <Badge variant="secondary" className="flex items-center gap-1">
           <Lock className="w-3 h-3" />
@@ -103,7 +103,7 @@ export function BudgetPageHeader({
       : undefined;
 
   const actionButtons = (
-    <div className="flex w-full gap-2">
+    <div className="flex w-full gap-2 min-w-0">
       {/* Mobile: Show primary actions and bundle others in dropdown */}
       <div className="flex flex-wrap gap-2 sm:hidden w-full">
         {/* Create Dropdown - Always visible */}
@@ -111,7 +111,7 @@ export function BudgetPageHeader({
           <DropdownMenuTrigger asChild>
             <Button
               size="sm"
-              className="bg-orange-500 hover:bg-orange-600 text-white flex-1 min-w-[100px]"
+              className="bg-brand hover:bg-brand/90 text-white flex-1 min-w-[100px]"
             >
               <Plus className="w-4 h-4 mr-1" />
               Create
@@ -179,13 +179,13 @@ export function BudgetPageHeader({
       </div>
 
       {/* Desktop: Show all buttons */}
-      <div className="hidden sm:flex gap-2 w-full justify-end items-center">
+      <div className="hidden sm:flex gap-2 flex-wrap justify-end items-center">
         {/* Create Dropdown */}
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button
               size="sm"
-              className="bg-orange-500 hover:bg-orange-600 text-white"
+              className="bg-brand hover:bg-brand/90 text-white"
             >
               <Plus className="w-4 h-4 mr-2" />
               Create

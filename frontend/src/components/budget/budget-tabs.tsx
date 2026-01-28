@@ -27,7 +27,7 @@ export function BudgetTabs({
   onTabChange,
 }: BudgetTabsProps) {
   return (
-    <div className="bg-background px-4 sm:px-6 lg:px-12">
+    <div className="bg-background px-4 sm:px-6 lg:px-8">
       <nav className="-mb-px flex space-x-8 border-b overflow-x-auto" aria-label="Budget tabs">
         {tabs.map((tab) => {
           const isActive = activeTab === tab.id;

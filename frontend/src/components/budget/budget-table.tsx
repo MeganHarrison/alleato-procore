@@ -940,7 +940,7 @@ export function BudgetTable({
             <Button
               onClick={() => setShowInlineCreate(true)}
               disabled={isLocked}
-              className="mt-2"
+              className="mt-2 bg-brand hover:bg-brand/90"
               size="lg"
             >
               <Plus className="w-4 h-4 mr-2" />
