@@ -454,8 +454,8 @@ export function BudgetTable({
       ),
       cell: ({ row }) => {
         // Only show checkbox for leaf nodes (no children)
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         if (hasChildren) {
           return <div className="w-4" />;
         }
@@ -509,8 +509,8 @@ export function BudgetTable({
       accessorKey: "description",
       header: "Description",
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         const isGroupRow = hasChildren;
 
         return (
@@ -541,8 +541,8 @@ export function BudgetTable({
         />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         const value = row.getValue("originalBudgetAmount") as number;
 
         return (
@@ -566,8 +566,8 @@ export function BudgetTable({
         <ColumnHeader columnKey="budgetModifications" lines={["Budget Mods"]} />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         return (
           <EditableCurrencyCell
             value={row.getValue("budgetModifications")}
@@ -591,8 +591,8 @@ export function BudgetTable({
         <ColumnHeader columnKey="approvedCOs" lines={["Approved COs"]} />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         return (
           <EditableCurrencyCell
             value={row.getValue("approvedCOs")}
@@ -616,8 +616,8 @@ export function BudgetTable({
         <ColumnHeader columnKey="revisedBudget" lines={["Revised Budget"]} />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         return (
           <EditableCurrencyCell
             value={row.getValue("revisedBudget")}
@@ -641,8 +641,8 @@ export function BudgetTable({
         />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         return (
           <EditableCurrencyCell
             value={row.getValue("jobToDateCostDetail")}
@@ -666,8 +666,8 @@ export function BudgetTable({
         <ColumnHeader columnKey="directCosts" lines={["Direct Costs"]} />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         return (
           <EditableCurrencyCell
             value={row.getValue("directCosts")}
@@ -694,8 +694,8 @@ export function BudgetTable({
         />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         return (
           <EditableCurrencyCell
             value={row.getValue("pendingChanges")}
@@ -722,8 +722,8 @@ export function BudgetTable({
         />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         return (
           <EditableCurrencyCell
             value={row.getValue("projectedBudget")}
@@ -744,8 +744,8 @@ export function BudgetTable({
         <ColumnHeader columnKey="committedCosts" lines={["Committed Costs"]} />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         return (
           <EditableCurrencyCell
             value={row.getValue("committedCosts")}
@@ -772,8 +772,8 @@ export function BudgetTable({
         />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         return (
           <EditableCurrencyCell
             value={row.getValue("pendingCostChanges")}
@@ -797,8 +797,8 @@ export function BudgetTable({
         <ColumnHeader columnKey="projectedCosts" lines={["Projected Costs"]} />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         return (
           <EditableCurrencyCell
             value={row.getValue("projectedCosts")}
@@ -822,8 +822,8 @@ export function BudgetTable({
         />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         return (
           <EditableCurrencyCell
             value={row.getValue("forecastToComplete")}
@@ -850,8 +850,8 @@ export function BudgetTable({
         />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         return (
           <EditableCurrencyCell
             value={row.getValue("estimatedCostAtCompletion")}
@@ -875,8 +875,8 @@ export function BudgetTable({
         />
       ),
       cell: ({ row }) => {
-        const hasChildren =
-          row.original.children && row.original.children.length > 0;
+        const hasChildren = Boolean(
+          row.original.children && row.original.children.length > 0);
         return (
           <EditableCurrencyCell
             value={row.getValue("projectedOverUnder")}
@@ -910,113 +910,114 @@ export function BudgetTable({
       !row.original.children || row.original.children.length === 0,
   });
 
+  // Check if table is empty (no rows and not showing inline create)
+  const isEmpty = !table.getRowModel().rows?.length && !showInlineCreate;
+
   return (
     <div className="flex flex-col h-full rounded-md overflow-hidden">
-      {/* Hide scrollbar while maintaining scroll functionality */}
-      <div className="flex-1 overflow-auto scrollbar-hide">
-        <Table className="min-w-[1200px]">
-          <TableHeader className="sticky top-0 bg-muted/80 backdrop-blur-sm z-10">
-            {table.getHeaderGroups().map((headerGroup) => (
-              <TableRow
-                key={headerGroup.id}
-                className="border-b border-border"
+      {/* Empty state - centered on page, outside of scrollable table */}
+      {isEmpty && (
+        <div className="flex-1 flex items-center justify-center py-16">
+          <div className="flex flex-col items-center justify-center gap-3">
+            <div className="text-muted-foreground mb-2">
+              <svg
+                className="mx-auto h-12 w-12 text-gray-400"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                aria-hidden="true"
               >
-                {headerGroup.headers.map((header) => (
-                  <TableHead
-                    key={header.id}
-                    className={cn(
-                      "text-xs font-semibold text-foreground py-3 px-2 bg-muted/80",
-                      getWidthClass(header.column.id),
-                    )}
-                  >
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
-                        )}
-                  </TableHead>
-                ))}
-              </TableRow>
-            ))}
-          </TableHeader>
-          <TableBody>
-            {table.getRowModel().rows?.length ? (
-              table.getRowModel().rows.map((row, index) => {
-                const hasChildren =
-                  row.original.children && row.original.children.length > 0;
-                const isGroupRow = hasChildren;
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1}
+                  d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
+                />
+              </svg>
+            </div>
+            <h3 className="text-sm font-medium text-gray-900">No budget line items</h3>
+            <p className="text-sm text-gray-500">Get started by adding your first budget line item.</p>
+            <Button
+              onClick={() => setShowInlineCreate(true)}
+              disabled={isLocked}
+              className="mt-2"
+              size="lg"
+            >
+              <Plus className="w-4 h-4 mr-2" />
+              Add Line Item
+            </Button>
+          </div>
+        </div>
+      )}
 
-                return (
+      {/* Table - only render when there's data or inline create is showing */}
+      {!isEmpty && (
+        <>
+          {/* Hide scrollbar while maintaining scroll functionality */}
+          <div className="flex-1 overflow-auto scrollbar-hide">
+            <Table className="min-w-[1200px]">
+              <TableHeader className="sticky top-0 bg-muted/80 backdrop-blur-sm z-10">
+                {table.getHeaderGroups().map((headerGroup) => (
                   <TableRow
-                    key={row.id}
-                    className={cn(
-                      "border-b border-border transition-colors",
-                      isGroupRow &&
-                        "bg-muted/80 hover:bg-muted/80 font-semibold",
-                      !isGroupRow && "hover:bg-muted",
-                      !isGroupRow && row.depth > 0 && "bg-muted",
-                      row.getIsSelected() && "bg-blue-50",
-                      !row.getIsSelected() && index % 2 === 1 && "bg-muted",
-                    )}
+                    key={headerGroup.id}
+                    className="border-b border-border"
                   >
-                    {row.getVisibleCells().map((cell) => (
-                      <TableCell
-                        key={cell.id}
+                    {headerGroup.headers.map((header) => (
+                      <TableHead
+                        key={header.id}
                         className={cn(
-                          "py-3 px-2 text-sm",
-                          row.depth > 0 && "text-foreground",
-                          getWidthClass(cell.column.id),
+                          "text-xs font-semibold text-foreground py-3 px-2 bg-muted/80",
+                          getWidthClass(header.column.id),
                         )}
                       >
-                        {flexRender(
-                          cell.column.columnDef.cell,
-                          cell.getContext(),
-                        )}
-                      </TableCell>
+                        {header.isPlaceholder
+                          ? null
+                          : flexRender(
+                              header.column.columnDef.header,
+                              header.getContext(),
+                            )}
+                      </TableHead>
                     ))}
                   </TableRow>
-                );
-              })
-            ) : !showInlineCreate ? (
-              // Empty state with prominent add button
-              <TableRow>
-                <TableCell
-                  colSpan={columns.length}
-                  className="h-48 text-center"
-                >
-                  <div className="flex flex-col items-center justify-center gap-3">
-                    <div className="text-muted-foreground mb-2">
-                      <svg
-                        className="mx-auto h-12 w-12 text-gray-400"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                        aria-hidden="true"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={1}
-                          d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z"
-                        />
-                      </svg>
-                    </div>
-                    <h3 className="text-sm font-medium text-gray-900">No budget line items</h3>
-                    <p className="text-sm text-gray-500">Get started by adding your first budget line item.</p>
-                    <Button
-                      onClick={() => setShowInlineCreate(true)}
-                      disabled={isLocked}
-                      className="mt-2"
-                      size="lg"
+                ))}
+              </TableHeader>
+              <TableBody>
+                {table.getRowModel().rows.map((row, index) => {
+                  const hasChildren =
+                    row.original.children && row.original.children.length > 0;
+                  const isGroupRow = hasChildren;
+
+                  return (
+                    <TableRow
+                      key={row.id}
+                      className={cn(
+                        "border-b border-border transition-colors",
+                        isGroupRow &&
+                          "bg-muted/80 hover:bg-muted/80 font-semibold",
+                        !isGroupRow && "hover:bg-muted",
+                        !isGroupRow && row.depth > 0 && "bg-muted",
+                        row.getIsSelected() && "bg-blue-50",
+                        !row.getIsSelected() && index % 2 === 1 && "bg-muted",
+                      )}
                     >
-                      <Plus className="w-4 h-4 mr-2" />
-                      Add Line Item
-                    </Button>
-                  </div>
-                </TableCell>
-              </TableRow>
-            ) : null}
+                      {row.getVisibleCells().map((cell) => (
+                        <TableCell
+                          key={cell.id}
+                          className={cn(
+                            "py-3 px-2 text-sm",
+                            row.depth > 0 && "text-foreground",
+                            getWidthClass(cell.column.id),
+                          )}
+                        >
+                          {flexRender(
+                            cell.column.columnDef.cell,
+                            cell.getContext(),
+                          )}
+                        </TableCell>
+                      ))}
+                    </TableRow>
+                  );
+                })}
 
             {/* Inline Create Row */}
             {!isLocked && showInlineCreate && (
@@ -1116,28 +1117,12 @@ export function BudgetTable({
               </TableRow>
             )}
 
-            {/* Add New Line Item Button Row */}
-            {!isLocked && !showInlineCreate && onCreateLineItem && (
-              <TableRow>
-                <TableCell colSpan={columns.length} className="py-2 px-4">
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => setShowInlineCreate(true)}
-                    className="text-blue-600 hover:text-blue-700 hover:bg-blue-50"
-                  >
-                    <Plus className="h-4 w-4 mr-2" />
-                    Add Line Item
-                  </Button>
-                </TableCell>
-              </TableRow>
-            )}
-          </TableBody>
-        </Table>
-      </div>
+              </TableBody>
+            </Table>
+          </div>
 
-      {/* Grand Totals Row - Fixed at bottom - Only show if there are rows */}
-      {table.getRowModel().rows?.length > 0 && (
+          {/* Grand Totals Row - Fixed at bottom - Only show if there are rows */}
+          {table.getRowModel().rows?.length > 0 && (
         <div className="border-t-2 border-border bg-muted sticky bottom-0">
           <table className="w-full caption-bottom text-sm table-fixed">
             <tbody>
@@ -1298,6 +1283,8 @@ export function BudgetTable({
             </tbody>
           </table>
         </div>
+          )}
+        </>
       )}
     </div>
   );

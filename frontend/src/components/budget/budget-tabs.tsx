@@ -1,12 +1,10 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import { AnimatedBackground } from "@/components/motion/animated-background";
 
 interface Tab {
   id: string;
   label: string;
-  href?: string;
 }
 
 interface BudgetTabsProps {
@@ -29,47 +27,28 @@ export function BudgetTabs({
   onTabChange,
 }: BudgetTabsProps) {
   return (
-    <div className="border-b bg-background">
-      <div className="px-4 sm:px-6 lg:px-12">
-        <nav className="flex py-3" aria-label="Budget tabs">
-          <div className="flex gap-1">
-            <AnimatedBackground
-              defaultValue={activeTab}
-              className="rounded-md bg-primary"
-              transition={{
-                ease: "easeInOut",
-                duration: 0.2,
-              }}
-              onValueChange={(value) => {
-                if (value) {
-                  onTabChange?.(value);
-                }
-              }}
+    <div className="bg-background px-4 sm:px-6 lg:px-12">
+      <nav className="-mb-px flex space-x-8 border-b overflow-x-auto" aria-label="Budget tabs">
+        {tabs.map((tab) => {
+          const isActive = activeTab === tab.id;
+          return (
+            <button
+              key={tab.id}
+              type="button"
+              onClick={() => onTabChange?.(tab.id)}
+              className={cn(
+                "inline-flex items-center border-b-2 py-4 px-1 text-sm font-medium transition-colors whitespace-nowrap",
+                isActive
+                  ? "border-brand text-brand"
+                  : "border-transparent text-muted-foreground hover:border-border hover:text-foreground"
+              )}
+              aria-current={isActive ? "page" : undefined}
             >
-              {tabs.map((tab) => {
-                const isActive = activeTab === tab.id;
-                return (
-                  <button
-                    key={tab.id}
-                    data-id={tab.id}
-                    type="button"
-                    aria-label={tab.label}
-                    className={cn(
-                      "inline-flex items-center justify-center px-4 py-2 text-sm font-medium transition-colors rounded-md",
-                      isActive
-                        ? "text-white"
-                        : "text-foreground dark:text-gray-200 hover:text-foreground dark:hover:text-white",
-                    )}
-                    aria-current={isActive ? "page" : undefined}
-                  >
-                    {tab.label}
-                  </button>
-                );
-              })}
-            </AnimatedBackground>
-          </div>
-        </nav>
-      </div>
+              {tab.label}
+            </button>
+          );
+        })}
+      </nav>
     </div>
   );
 }

@@ -773,7 +773,7 @@ function BudgetPageContent() {
 
       <BudgetTabs activeTab={activeTab} onTabChange={handleTabChange} />
 
-      <div className="flex flex-1 flex-col gap-4 px-4 sm:px-6 lg:px-12 py-6 bg-muted/30">
+      <div className="flex flex-1 flex-col gap-4 pl-4 sm:pl-6 lg:pl-12 pt-4 pb-6 bg-muted/30">
         {activeTab === "settings" ? (
           <div className="flex-1 rounded-lg border bg-background shadow-sm">
             <VerticalMarkupSettings projectId={projectId} />
@@ -822,50 +822,50 @@ function BudgetPageContent() {
             </div>
           </>
         ) : (
-          <>
-            <div className="flex items-center justify-between gap-4">
-              <BudgetFilters
-                views={budgetViews}
-                snapshots={budgetSnapshots}
-                groups={budgetGroups}
-                selectedView={selectedView}
-                selectedSnapshot={selectedSnapshot}
-                selectedGroup={selectedGroup}
-                onViewChange={setSelectedView}
-                onSnapshotChange={setSelectedSnapshot}
-                onGroupChange={setSelectedGroup}
-                onAddFilter={handleAddFilter}
-                onAnalyzeVariance={handleAnalyzeVariance}
-                onToggleFullscreen={handleToggleFullscreen}
-                onQuickFilterChange={handleQuickFilterChange}
-                activeQuickFilter={quickFilter}
-              />
-              <BudgetViewsManager
-                projectId={projectId}
-                currentViewId={currentViewId}
-                onViewChange={setCurrentViewId}
-              />
-            </div>
-
-            {/* Selection action bar */}
-            {selectedIds.length > 0 && (
-              <div className="flex items-center gap-4 px-4 py-2 bg-blue-50 border border-blue-200 rounded-lg">
-                <span className="text-sm text-blue-700 font-medium">
-                  {selectedIds.length} item(s) selected
-                </span>
-                <Button
-                  variant="destructive"
-                  size="sm"
-                  onClick={handleDeleteSelected}
-                  disabled={isLocked}
-                >
-                  <Trash2 className="w-4 h-4 mr-1" />
-                  Delete Selected
-                </Button>
+          <div className="flex-1 overflow-x-auto">
+            <div className="min-w-[1200px] pr-4 sm:pr-6 lg:pr-12">
+              <div className="flex items-center justify-between gap-4 mb-4">
+                <BudgetFilters
+                  views={budgetViews}
+                  snapshots={budgetSnapshots}
+                  groups={budgetGroups}
+                  selectedView={selectedView}
+                  selectedSnapshot={selectedSnapshot}
+                  selectedGroup={selectedGroup}
+                  onViewChange={setSelectedView}
+                  onSnapshotChange={setSelectedSnapshot}
+                  onGroupChange={setSelectedGroup}
+                  onAddFilter={handleAddFilter}
+                  onAnalyzeVariance={handleAnalyzeVariance}
+                  onToggleFullscreen={handleToggleFullscreen}
+                  onQuickFilterChange={handleQuickFilterChange}
+                  activeQuickFilter={quickFilter}
+                />
+                <BudgetViewsManager
+                  projectId={projectId}
+                  currentViewId={currentViewId}
+                  onViewChange={setCurrentViewId}
+                />
               </div>
-            )}
 
-            <div className="flex-1">
+              {/* Selection action bar */}
+              {selectedIds.length > 0 && (
+                <div className="flex items-center gap-4 px-4 py-2 mb-4 bg-blue-50 border border-blue-200 rounded-lg">
+                  <span className="text-sm text-blue-700 font-medium">
+                    {selectedIds.length} item(s) selected
+                  </span>
+                  <Button
+                    variant="destructive"
+                    size="sm"
+                    onClick={handleDeleteSelected}
+                    disabled={isLocked}
+                  >
+                    <Trash2 className="w-4 h-4 mr-1" />
+                    Delete Selected
+                  </Button>
+                </div>
+              )}
+
               <Suspense
                 fallback={
                   <div className="flex items-center justify-center h-full">
@@ -909,7 +909,7 @@ function BudgetPageContent() {
                 )}
               </Suspense>
             </div>
-          </>
+          </div>
         )}
       </div>
 
