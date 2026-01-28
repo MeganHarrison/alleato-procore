@@ -111,7 +111,7 @@ export default function ProjectDirectoryContactsPage() {
   const pathname = usePathname();
   const projectId = params.projectId as string;
 
-  const { contacts, isLoading, error, refetch } = useContacts();
+  const { contacts, isLoading, error, refetch } = useContacts({ projectId });
 
   const handleAddContact = () => {
     // TODO: Open add contact modal
