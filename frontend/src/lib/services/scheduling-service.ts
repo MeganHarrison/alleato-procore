@@ -513,7 +513,10 @@ export class SchedulingService {
       (t) => t.status === "not_started"
     ).length;
     const milestones_count = tasks.filter((t) => t.is_milestone).length;
-    const overdue_tasks = tasks.filter((t) => t.is_overdue).length;
+    const today = new Date().toISOString().split("T")[0];
+    const overdue_tasks = tasks.filter(
+      (t) => t.status !== "complete" && t.finish_date && t.finish_date < today
+    ).length;
 
     // Calculate weighted average percent complete
     const totalPercent = tasks.reduce(
@@ -566,13 +569,9 @@ export class SchedulingService {
       is_milestone: task.is_milestone || false,
       parent_task_id: task.parent_task_id,
       level: levelMap.get(task.id) || 0,
-      dependencies: (task.predecessors || []).map((p: { predecessor_task_id: string; dependency_type: string; lag_days: number }) => ({
-        predecessor_id: p.predecessor_task_id,
-        type: p.dependency_type,
-        lag_days: p.lag_days,
-      })),
-      deadline: task.deadline_date,
-      is_overdue: task.is_overdue || false,
+      dependencies: [],
+      deadline: undefined,
+      is_overdue: task.status !== "complete" && !!task.finish_date && task.finish_date < today,
     }));
   }
 

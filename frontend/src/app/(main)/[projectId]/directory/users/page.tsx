@@ -32,19 +32,16 @@ export default function ProjectDirectoryUsersPage() {
     refetch();
   };
 
-  const handleEditUser = (user: AuthUser) => {
+  const handleEditUser = (_user: AuthUser) => {
     // TODO: Open edit user modal with auth user data
-    console.log("Edit user:", user);
   };
 
-  const handleDeactivateUser = async (user: AuthUser) => {
+  const handleDeactivateUser = async (_user: AuthUser) => {
     // TODO: Implement deactivate auth user
-    console.log("Deactivate user:", user);
   };
 
-  const handleResendInvite = async (user: AuthUser) => {
+  const handleResendInvite = async (_user: AuthUser) => {
     // TODO: Implement resend invite for auth user
-    console.log("Resend invite:", user);
   };
 
   const tabs = getProjectDirectoryTabs(projectId, pathname);
@@ -153,6 +150,30 @@ export default function ProjectDirectoryUsersPage() {
         projectId={projectId}
         onSuccess={handleDialogSuccess}
       />
+
+      {/* Debug Banner */}
+      {process.env.NODE_ENV === "development" && (
+        <div className="fixed bottom-0 left-0 right-0 bg-zinc-900 text-zinc-300 text-xs px-4 py-2 font-mono border-t border-zinc-700">
+          <span className="text-zinc-500">Tables:</span>{" "}
+          <span className="text-blue-400">users_auth</span> →
+          <span className="text-green-400">people</span> →
+          <span className="text-yellow-400">project_directory_memberships</span>
+          <span className="mx-3 text-zinc-600">|</span>
+          <span className="text-zinc-500">Project:</span>{" "}
+          <span className="text-white">{projectId}</span>
+          <span className="mx-3 text-zinc-600">|</span>
+          <span className="text-zinc-500">Results:</span>{" "}
+          <span className={users.length > 0 ? "text-green-400" : "text-red-400"}>
+            {isLoading ? "loading..." : `${users.length} users`}
+          </span>
+          {error && (
+            <>
+              <span className="mx-3 text-zinc-600">|</span>
+              <span className="text-red-400">Error: {(error as Error).message}</span>
+            </>
+          )}
+        </div>
+      )}
     </>
   );
 }
